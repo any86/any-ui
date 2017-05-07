@@ -9,8 +9,8 @@ Vue.config.productionTip = false;
 // import Confirm from './packages/Confirm/index.js';
 // Vue.use(Confirm);
 // Vue.use(Alert);
-import Atom from './packages/index.js';
-Vue.use(Atom);
+// import Atom from './packages/index.js';
+// Vue.use(Atom);
 
 /* eslint-disable no-new */
 new Vue({

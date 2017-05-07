@@ -1,15 +1,16 @@
 <template>
   <div id="app">
     <Alert></Alert>
-    <Confirm></Confirm>
     <img src="./assets/logo.png">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import {Alert} from './packages/index.js';
 export default {
-  name: 'app'
+  name: 'app',
+  components: {Alert}
 }
 </script>
 
