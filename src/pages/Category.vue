@@ -1,19 +1,19 @@
 <template>
-  <h1 style="color:#69c;">Alert</h1>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+  </div>
 </template>
 
 <script>
+
 export default {
-  name: 'Alert',
-
-  mounted(){
-  },
-
+  name: 'Category',
   data () {
     return {
-      msg: '这是Alert!'
+      msg: '分类'
     }
-  }
+  },
+  components: {}
 }
 </script>
 

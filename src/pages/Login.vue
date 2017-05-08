@@ -1,19 +1,19 @@
 <template>
-  <h1 style="color:#69c;">Confirm</h1>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+  </div>
 </template>
 
 <script>
+
 export default {
-  name: 'Confirm',
-
-  mounted(){
-  },
-
+  name: 'hello',
   data () {
     return {
-      msg: '这是Confirm'
+      msg: '登陆页面'
     }
-  }
+  },
+  components: {}
 }
 </script>
 

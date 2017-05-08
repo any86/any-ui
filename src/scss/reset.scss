@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: '微软雅黑', 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$designWidth: 750px;
+@mixin adapt($min, $max, $designWidth) {
+    @media (min-width: $min) and (max-width: $max) {
+        html {
+            font-size: 100px * $max / $designWidth;
+        }
+    }
+}
+
+@include adapt(376px, 414px, $designWidth);
+@include adapt(361px, 375px, $designWidth);
+@include adapt(321px, 360px, $designWidth);
+@include adapt(0px, 320px, $designWidth);
+html {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    -webkit-text-size-adjust: none;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+li {
+    list-style: none;
+}
+
+input {
+    border: 0 none;
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a,
+p,
+td,
+div,
+span {
+    font-size: .14rem;
+}
+
+.clearfix {
+    clear: both;
+}
+
+
+/*  ::-webkit-scrollbar{background:#ccc;width: 4px;height: 2px;}
+::-webkit-scrollbar-thumb{background:#444; }
+::-moz-scrollbar{background:#ccc;width: 4px;height: 2px;}
+::-moz-scrollbar-thumb{background:#444; }
+::-ms-scrollbar{background:#ccc;width: 4px;height: 2px;}
+::-ms-scrollbar-thumb{background:#444; }*/
+
+[v-cloak] {
+    display: none;
+}
+
+
+/*动画*/
+
+.fade-left-enter-active {
+    animation: fade-left-in .5s;
+}
+
+.fade-left-leave-active {
+    animation: fade-left-out .5s;
+}
+
+@keyframes fade-left-in {
+    0% {
+        opacity: 0;
+        transform: translateX(15px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-left-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(15px);
+    }
+}

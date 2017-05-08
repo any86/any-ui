@@ -1,0 +1,40 @@
+// 主色
+$base: #1fbab1;
+
+// 浅灰
+$light: #ccc;
+$lighter: #ddd;
+$lightest: #eee;
+
+// 深灰
+$dark: #666;
+$darker: #333;
+$darkest: #000;
+
+// 彩色
+$default: #999;
+$primary: #3680bf;
+$success: #5cb85c;
+$warning: #f0ad4e;
+$danger: #d9534f;
+$info: #2db7f5;
+
+// 圆角
+$borderRadius: 4px;
+
+// z-index管理
+$tabBarZIndex: 10;
+$dropDownZIndex: 1986;
+$gutter: 10px;
+
+//字体大小
+$small: 12px;
+$normal: 14px;
+$big: 16px;
+$biger: 18px;
+$bigest: 20px;
+
+// 阴影
+$shadowUp: 1px -1px 3px rgba(0,0,0,.1);
+$shadowDown: 1px 1px 3px rgba(0,0,0,.1);
+
