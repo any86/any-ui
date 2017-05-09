@@ -20,5 +20,5 @@ export default {
 
 <style scoped lang="scss">
 .flex-box{display: box;display: flex-box; display: flex;}
-.vertical{box-orient: vertical;flex-direction: column;}
+.vertical{box-direction: normal;box-orient: vertical;flex-direction: column;}
 </style>
