@@ -1,15 +1,13 @@
 <template>
-  <div class="hello">
-    <h1>预售</h1>
-  </div>
+  <Spinner style="margin-top:20%;">loading</Spinner>
 </template>
 
 <script>
-
+import Spinner from '@/packages/Spinner/Spinner.vue'
 export default {
   name: 'Presale',
 
-  components: {}
+  components: {Spinner}
 }
 </script>
 

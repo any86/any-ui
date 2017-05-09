@@ -1,8 +1,11 @@
 // 主色
 $base: #1fbab1;
 
+// 背景色
+$background: #fff;
+
 // 浅灰
-$light: #ccc;
+$light: #aaa9ae;
 $lighter: #ddd;
 $lightest: #eee;
 
@@ -24,7 +27,11 @@ $borderRadius: 4px;
 
 // z-index管理
 $tabBarZIndex: 10;
-$dropDownZIndex: 1986;
+$dropDownZIndex: 20;
+$sideBarZIndex: 30;
+$modalZIndex: 1989;
+
+
 $gutter: 10px;
 
 //字体大小

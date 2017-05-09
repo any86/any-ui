@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import FlexItem from '@/packages/Static/FlexBox/FlexItem';
+import FlexItem from '@/packages/FlexBox/FlexItem';
 export default {
   name: 'TabBarItem',
 

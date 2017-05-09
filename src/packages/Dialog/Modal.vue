@@ -35,10 +35,11 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import '../../scss/theme.scss';
 .component-modal {
     position:fixed;
     background:rgba(#000, .5);
-    z-index: 1986;
+    z-index: $modalZIndex;
     top: 0;
     left: 0;
     width: 100%;

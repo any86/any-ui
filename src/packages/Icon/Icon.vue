@@ -16,5 +16,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
+@import '../../scss/theme.scss';
+.fa{color:$dark;}
 </style>

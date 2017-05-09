@@ -111,3 +111,31 @@ span {
         transform: translateX(15px);
     }
 }
+
+
+/*动画*/
+.slide-right-enter-active {
+    animation: slide-in-right .3s ease-in-out;
+}
+
+.slide-right-leave-active {
+    animation: slide-out-right .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes slide-in-right {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes slide-out-right {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
