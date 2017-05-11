@@ -1,58 +1,57 @@
 <template>
-    <StickyLayout :isShowSideBar.sync="isShowSideBar">
+    <div class="container">
+        <SideBar v-model="isShowSideBar">菜单/1/菜单/2</SideBar>
         
-        <!-- 侧边菜单 -->
-        <template slot="side-bar">
-            
-        </template>
-        <!-- 头部 -->
-        <FlexBox slot="header" class="header">
-            <Icon value="bars" @click.native="showSideBar"></Icon>
-            <FlexItem>
-                <img class="logo" src="../assets/logo.png">
-            </FlexItem>
-            <Icon value="search"></Icon>
-        </FlexBox>
+        <StickyLayout>
+            <!-- 头部 -->
+            <FlexBox slot="header" class="header">
+                <Icon value="bars" @click.native="showSideBar"></Icon>
+                <FlexItem>
+                    <img class="logo" src="../assets/logo.png">
+                </FlexItem>
+                <Icon value="search"></Icon>
+            </FlexBox>
 
-        <!-- 主体 -->
-        <transition name="fade-left" mode="out-in">
-            <router-view></router-view>
-        </transition>
+            <!-- 主体 -->
+            <transition name="fade-left" mode="out-in">
+                <router-view></router-view>
+            </transition>
 
-        <!-- 底部 -->
-        <FlexBox slot="footer" class="footer">
-            <FlexItem>
-                <router-link tag="span" to="/home/index" class="button">
-                    <Icon value="home"></Icon>
-                    <p>home</p>
-                </router-link>
-            </FlexItem>
-            <FlexItem>
-                <router-link tag="span" to="/home/presale" class="button">
-                    <Icon value="clock-o"></Icon>
-                    <p>presale</p>
-                </router-link>
-            </FlexItem>
-            <FlexItem>
-                <router-link tag="span" to="/home/category" class="button">
-                    <Icon value="compass"></Icon>
-                    <p>find</p>
-                </router-link>
-            </FlexItem>
-            <FlexItem>
-                <router-link tag="span" to="/home/shop-cart" class="button">
-                    <Icon value="shopping-bag"></Icon>
-                    <p>cart</p>
-                </router-link>
-            </FlexItem>
-            <FlexItem>
-                <router-link tag="span" to="/home/my" class="button">
-                    <Icon value="user-circle-o"></Icon>
-                    <p>my</p>
-                </router-link>
-            </FlexItem>
-        </FlexBox>
-    </StickyLayout>
+            <!-- 底部 -->
+            <FlexBox slot="footer" class="footer">
+                <FlexItem>
+                    <router-link tag="span" to="/home/index" class="button">
+                        <Icon value="home"></Icon>
+                        <p>home</p>
+                    </router-link>
+                </FlexItem>
+                <FlexItem>
+                    <router-link tag="span" to="/home/presale" class="button">
+                        <Icon value="clock-o"></Icon>
+                        <p>presale</p>
+                    </router-link>
+                </FlexItem>
+                <FlexItem>
+                    <router-link tag="span" to="/home/category" class="button">
+                        <Icon value="compass"></Icon>
+                        <p>find</p>
+                    </router-link>
+                </FlexItem>
+                <FlexItem>
+                    <router-link tag="span" to="/home/shop-cart" class="button">
+                        <Icon value="shopping-bag"></Icon>
+                        <p>cart</p>
+                    </router-link>
+                </FlexItem>
+                <FlexItem>
+                    <router-link tag="span" to="/home/my" class="button">
+                        <Icon value="user-circle-o"></Icon>
+                        <p>my</p>
+                    </router-link>
+                </FlexItem>
+            </FlexBox>
+        </StickyLayout>
+    </div>
 </template>
 <script>
 import StickyLayout from '@/packages/layout/Sticky';
@@ -63,18 +62,18 @@ export default {
 
     data() {
         return {
-            isShowSideBar: true
+            isShowSideBar: false
         }
     },
 
     methods: {
         showSideBar(){
-            this.isShowSideBar = true;
+            this.isShowSideBar = !this.isShowSideBar;
         }
     },
 
     components: {
-        StickyLayout
+        StickyLayout, SideBar
     }
 }
 </script>
