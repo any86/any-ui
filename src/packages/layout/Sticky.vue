@@ -1,12 +1,5 @@
 <template>
-    <FlexBox class="container" direction="vertical" @touchstart.native="touchStart" @touchmove.native="touchMove" @touchend.native="touchEnd">
-        <!-- <Modal :value="isShowSideBar" @input="closeModal"> -->
-            <!-- <transition name="slide-right"> -->
-                <div ref="sidebar" class="side-bar" :style="{transform: 'translateX('+translateX+')'}">
-                    <slot name="side-bar">12345678</slot>
-                </div>
-            <!-- </transition> -->
-        <!-- </Modal> -->
+    <FlexBox class="container" direction="vertical">
         <!-- 头部 -->
         <div ref="header" class="header-fixed">
             <slot name="header"></slot>
@@ -30,66 +23,26 @@ export default {
     name: 'StickyLayout',
 
     props: {
-        isShowSideBar: {
-            type: Boolean,
-            default: false
-        }
+       
     },
 
     data() {
         return {
-            containerWidth: 0,
-            translateX: '-100%',
-            sidebarWidth: 0,
-            toucheX: {
-                distance: 0,
-                start: 0,
-                now: 0
-            },
-            footerHeight: 0,
             headerHeight: 0,
-            modal: {
-                isShow: true
-            }
+            footerHeight: 0
         };
     },
 
     mounted() {
-        this.sidebarWidth   = this.$refs.sidebar.offsetWidth;
-        this.headerHeight   = this.$refs.header.offsetHeight;
-        this.footerHeight   = this.$refs.footer.offsetHeight;
-        this.containerWidth = this.$el.offsetWidth;
-
+        this.headerHeight = this.$refs.header.offsetHeight;
+        this.footerHeight = this.$refs.footer.offsetHeight;
     },
 
     methods: {
-        closeModal() {
-            this.$emit('update:isShowSideBar', false);
-        },
 
-        touchStart(e){
-             this.toucheX.start = e.touches[0].clientX;
-        },
-
-        touchMove(e){
-            this.toucheX.now = e.touches[0].clientX;
-            this.distance = this.toucheX.now - this.toucheX.start;
-            if(this.sidebarWidth > this.distance) {
-                this.translateX = 0 - this.sidebarWidth + this.toucheX.now - this.toucheX.start + 'px'
-            }
-        },
-
-        touchEnd(){
-            if(this.containerWidth / 2 > this.distance) {
-                this.translateX = 0 - this.sidebarWidth + 'px';
-            } else {
-                this.translateX = 0;
-            }
-        }
     },
 
     components: {
-        Modal,
         FlexBox,
         FlexItem
     }
@@ -102,16 +55,6 @@ export default {
     width: 100%;
     position: relative;
     overflow: hidden;
-    .side-bar {
-        box-shadow: $shadowDown;
-        z-index: $sideBarZIndex;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 80%;
-        background: $background;
-    }
     .header-fixed {
         position: fixed;
         z-index: $tabBarZIndex;
@@ -125,6 +68,9 @@ export default {
         bottom: 0;
         left: 0;
         width: 100%;
+    }
+    &-blur {
+        filter: blur(2px);
     }
 }
 </style>
