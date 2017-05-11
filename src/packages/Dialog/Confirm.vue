@@ -13,7 +13,7 @@
     </transition>
 </template>
 <script>
-import VButton from '../form/Button'
+import VButton from '../Button/Button'
 export default {
     name: 'Confirm',
 
@@ -23,7 +23,7 @@ export default {
         },
 
         width: {
-            default: '400px'
+            default: '90%'
         },
 
         text: {
@@ -78,6 +78,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+@import '../../scss/theme.scss';
 .component-confirm {
     border-radius: 4px;
     background: #fff;

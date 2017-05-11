@@ -6,13 +6,12 @@
             </div>
             <div class="body" v-html="text"></div>
             <div class="footer">
-                <v-button @click="ok" type="ghost" style="float: right;">{{btnOkText}}</v-button>
+                <a @click="ok" class="button-ok">{{btnOkText}}</a>
             </div>
         </div>
     </transition>
 </template>
 <script>
-import VButton from '../form/Button'
 export default {
     name: 'Alert',
 
@@ -22,7 +21,7 @@ export default {
         },
 
         width: {
-            default: '400px'
+            default: '90%'
         },
 
         text: {
@@ -97,15 +96,14 @@ export default {
 
             }
         }
-    },
-
-    components: {VButton}
+    }
 }
 </script>
 <style scoped lang="scss">
+@import '../../scss/theme.scss';
 .component-alert {
-    border-radius: 4px;
-    background: #fff;
+    border-radius: $borderRadius;
+    background: $background;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, .2);
     >.header {
         padding: 15px;
@@ -125,6 +123,7 @@ export default {
     >.footer {
         padding: 15px;
         overflow: hidden;
+        .button-ok{float: right;color: $base;font-size: 14px;}
     }
 }
 

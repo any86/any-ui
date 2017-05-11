@@ -1,4 +1,4 @@
-<template>
+   <template>
     <v-modal v-model="modal.show">
         <v-alert v-model="alert.show" :holdTime="alert.holdTime" :text="alert.text" @ok="alert.ok" @after-leave="alert.afterLeave" class="center">
         </v-alert>
