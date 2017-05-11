@@ -12,8 +12,10 @@
     "test": "npm run unit"
   },
   "dependencies": {
+    "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.5.2",
     "sass-loader": "^6.0.3",
+    "swiper": "^3.4.2",
     "vue": "^2.2.6",
     "vue-router": "^2.3.1"
   },
