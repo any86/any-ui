@@ -1,5 +1,22 @@
 <template>
-    <ScrollView>
+    <ScrollView class="page-index">
+        <Spinner slot="background"></Spinner>
+    
+        <Swiper>
+            <SwiperItem>
+                <div style="width:100%;height: 300px;background:#69c;">1</div>
+            </SwiperItem>
+
+            <SwiperItem>
+                <div style="width:100%;height: 300px;background:#99c;">2</div>
+            </SwiperItem>
+
+            <SwiperItem>
+                <div style="width:100%;height: 300px;background:#f21;">3</div>
+            </SwiperItem>
+            
+        </Swiper>
+
         <Tabs>
             <TabsItem title="标签1">
                 <ul class="list">
@@ -25,13 +42,20 @@
 <script>
 import Tabs from '@/packages/Tabs/Tabs';
 import TabsItem from '@/packages/Tabs/TabsItem';
+import Swiper from '@/packages/Swiper/Swiper'
+import SwiperItem from '@/packages/Swiper/SwiperItem'
+
 
 export default {
     name: 'Index',
 
+    data(){
+        return {acitve: 0};
+    },
+
     components: {
         Tabs,
-        TabsItem
+        TabsItem, Swiper, SwiperItem
     }
 }
 </script>
