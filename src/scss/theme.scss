@@ -17,23 +17,31 @@ $success: #5cb85c;
 $warning: #f0ad4e;
 $danger: #f44336;
 $info: #2db7f5;
+
+// 间隙
+$gutter: 5px;
+
 // 圆角
 $borderRadius: 2px;
+
 // z-index管理
 $tabBarZIndex: 10;
 $dropDownZIndex: 20;
 $modalZIndex: 1986;
 $sideBarZIndex: 1989;
-$gutter: 10px;
+
+
 //字体大小
 $small: 12px;
 $normal: 14px;
 $big: 16px;
-$biger: 18px;
-$bigest: 20px;
+$bigger: 18px;
+$biggest: 20px;
+$large: 22px;
 // 阴影
 $shadowUp: 1px -1px 3px rgba(0, 0, 0, .1);
 $shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
+
 .flex{
     display: flex;
 }
@@ -41,3 +49,32 @@ $shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
 .flex-item {
     flex: 1;
 }
+
+@mixin theme($type) {
+	@if 'default' == $type {
+		color: $dark;
+		background: $default;
+	} @else if 'success' == $type {
+		color: #fff;
+		background: $success;
+	} @else if 'info' == $type {
+		color: #fff;
+		background: $info;
+	} @else if 'warning' == $type {
+		color: #fff;
+		background: $warning;
+	} @else if 'danger' == $type {
+		color: #fff;
+		background: $danger;
+	} @else if 'primary' == $type {
+		color: #fff;
+		background: $primary;
+	}
+}
+
+h1{font-size: $large;}
+h2{font-size: $biggest;}
+h3{font-size: $bigger;}
+h4{font-size: $big;}
+h5{font-size: $normal;}
+h6{font-size: $small;}
