@@ -1,17 +1,22 @@
 <template>
     <li class="component-list-item">
         <div :class="{body:true, transition: 2 != touche.status}" :style="{transform: 'translateX('+ touche.distance +'px)'}">
+            
             <div class="content-bar" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
                 <slot></slot>
             </div>
+            <!-- 箭头 -->
+            <Icon value="angle-right" class="arrow"></Icon>
             <div ref="actionBar" class="action-bar" > 
                 <!-- <a class="button-edit">更多</a> -->
                 <a @click="remove" class="button-del">删除</a>
             </div>
+
         </div>
     </li>
 </template>
 <script>
+import Icon from '../Icon/Icon';
 export default {
     name: 'ListItem',
 
@@ -74,7 +79,7 @@ export default {
         }
     },
 
-    components: {}
+    components: {Icon}
 }
 </script>
 <style scoped lang="scss">
@@ -105,6 +110,8 @@ export default {
         }
     }
 }
+
+.arrow{font-size:3em;display: inline-block;}
 
 .transition {
     transition: all .2s ease;

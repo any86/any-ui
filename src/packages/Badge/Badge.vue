@@ -1,6 +1,6 @@
 <template>
-    <span :class="['component-badge', 'small', type]">
-        <slot>1</slot>
+    <span :class="['component-badge', size, type]">
+        <slot></slot>
     </span>
 </template>
 <script>
@@ -9,49 +9,53 @@ export default {
 
     data() {
         return {
-            type: 'default'
+            type: 'default',
+            size: 'big'
         };
     },
 
     mounted() {
-        this.type = this.$el.getAttribute('type') || 'default';
-        this.size = this.$el.getAttribute('size') || 'default';
+        var type = this.$el.getAttribute('type');
+        var size = this.$el.getAttribute('size')
+        if(undefined != type) {
+            this.type = type;
+        }
 
+        if(undefined != size) {
+            this.size = size;
+        }
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-badge {
+    display: inline-block;
     position: relative;
     overflow: hidden;
-    border-radius: $gutter*2;
-    width: 1rem;
 }
 
-.small{padding: 0 $gutter;}
-.default{padding: $gutter/4 $gutter;}
-.big{padding: $gutter/2 $gutter;}
-
-
+.small{width: $gutter; height: $gutter; border-radius: 100%;}
+.big{padding: $gutter / 6 3 * $gutter;border-radius: $gutter*2;}
 
 .default {
-    background: $default;
-    color: #fff;
+    @include theme('default');
 }
 
 .success {
-    background: $success;
-    color: #fff;
+    @include theme('success');
 }
 
 .warning {
-    background: $warning;
-    color: #fff;
+    @include theme('warning');
 }
 
 .danger {
-    background: $danger;
-    color: #fff;
+    @include theme('danger');
 }
+
+.info {
+    @include theme('info');
+}
+
 </style>
