@@ -72,9 +72,9 @@ $shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
 	}
 }
 
-h1{font-size: $large;}
-h2{font-size: $biggest;}
-h3{font-size: $bigger;}
-h4{font-size: $big;}
-h5{font-size: $normal;}
-h6{font-size: $small;}
+h1{font-size: $large;margin: $gutter 0;}
+h2{font-size: $biggest;margin: $gutter 0;}
+h3{font-size: $bigger;margin: $gutter 0;}
+h4{font-size: $big;margin: $gutter 0;}
+h5{font-size: $normal;margin: $gutter 0;}
+h6{font-size: $small;margin: $gutter 0;}

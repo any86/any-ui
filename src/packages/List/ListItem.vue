@@ -1,17 +1,22 @@
 <template>
     <li class="component-list-item">
-        <div :class="{body:true, transition: 2 != touche.status}" :style="{transform: 'translateX('+ touche.distance +'px)'}">
-            
-            <div class="content-bar" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+        <div :class="{flex: true, body:true, transition: 2 != touche.status}" :style="{transform: 'translateX('+ touche.distance +'px)'}">
+            <!-- 正文 -->
+            <div v-if="canRemove" ref="content" class="content flex-item" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+                <slot></slot>
+            </div>
+            <div v-else ref="content" class="content flex-item">
                 <slot></slot>
             </div>
             <!-- 箭头 -->
-            <Icon value="angle-right" class="arrow"></Icon>
-            <div ref="actionBar" class="action-bar" > 
-                <!-- <a class="button-edit">更多</a> -->
-                <a @click="remove" class="button-del">删除</a>
+            <div v-if="hasArrow" class="arrow">
+                <Icon class="icon" value="angle-right"></Icon>
             </div>
-
+            <!-- actions -->
+            <div v-if="canRemove" ref="actionBar" class="action-bar">
+                <!-- <a class="xbutton-edit">更多</a> -->
+                <a @click="remove" class="button-del">remove</a>
+            </div>
         </div>
     </li>
 </template>
@@ -21,7 +26,12 @@ export default {
     name: 'ListItem',
 
     props: {
-        actionShow: {
+        canRemove: {
+            type: Boolean,
+            default: false
+        },
+
+        hasArrow: {
             type: Boolean,
             default: false
         },
@@ -44,18 +54,22 @@ export default {
     },
 
     mounted() {
-        this.actionBar.width = this.$refs.actionBar.offsetWidth;
+        if (this.canRemove) {
+            this.actionBar.width = this.$refs.actionBar.offsetWidth;
+        }
     },
 
     methods: {
-        remove(){
-            this.$confirm('123').then(()=>{}).catch(()=>{});
+        remove() {
+            this.$emit('remove');
+            // this.$confirm('123').then(() => {}).catch(() => {});
         },
 
         touchStart(e) {
             this.touche.distance = 0;
             this.touche.status = 1;
             this.touche.start = e.touches[0].clientX;
+            // e.stopPropagation();
         },
 
         touchMove(e) {
@@ -70,7 +84,7 @@ export default {
         },
 
         touchEnd(e) {
-            if(0 - this.touche.distance > this.actionBar.width / 2) {
+            if (0 - this.touche.distance > this.actionBar.width / 2) {
                 this.touche.distance = 0 - this.actionBar.width;
             } else {
                 this.touche.distance = 0;
@@ -79,7 +93,9 @@ export default {
         }
     },
 
-    components: {Icon}
+    components: {
+        Icon
+    }
 }
 </script>
 <style scoped lang="scss">
@@ -92,26 +108,54 @@ export default {
         box-sizing: border-box;
         position: relative;
         width: 100%;
-
-        >.content-bar {
+        >.content {
             box-sizing: border-box;
             position: relative;
-            width: 100%;
+        }
+        >.arrow {
+            font-size: 3em;
+            .icon {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                padding: 0 2*$gutter;
+            }
         }
         >.action-bar {
-            transform:translateX(100%);
+            transform: translateX(100%);
             position: absolute;
-            top: 0;right:0;
+            top: 0;
+            right: 0;
             z-index: 2;
             height: 100%;
             display: flex;
-            .button-edit{position: relative;background: $default;color: #fff;height: 100%;display: flex; align-items: center;width: 100%;padding:0 3*$gutter;font-size: 14px;letter-spacing: 1px;}
-            .button-del{position: relative;background: $danger;color: #fff;height: 100%;display: flex; align-items: center;width: 100%;padding:0 3*$gutter;font-size: 14px;letter-spacing: 1px;}
+            .button-edit {
+                position: relative;
+                background: $default;
+                color: #fff;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: 0 3*$gutter;
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+            .button-del {
+                position: relative;
+                background: $danger;
+                color: #fff;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: 0 3*$gutter;
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
         }
     }
 }
-
-.arrow{font-size:3em;display: inline-block;}
 
 .transition {
     transition: all .2s ease;

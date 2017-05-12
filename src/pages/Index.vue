@@ -14,7 +14,6 @@
             <SwiperItem>
                 <div style="width:100%;height: 300px;background:#f21;">3</div>
             </SwiperItem>
-            
         </Swiper>
 
         <Tabs>
