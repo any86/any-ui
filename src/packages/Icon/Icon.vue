@@ -5,17 +5,25 @@
 export default {
     name: 'Icon',
 
-    data(){
-        return {value: ''};
+    data() {
+        return {
+            value: ''
+        };
     },
 
-    mounted(){
+    mounted() {
         var value = this.$el.getAttribute('value');
-        this.value = value.replace(' ', 'fa-');
+        // 判断是否没传值
+        if (null !== value) {
+            if (-1 !== value.indexOf(' ')) {
+                this.value = value.replace(' ', ' fa-');
+            } else {
+                this.value = value;
+            }
+        }
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.fa{color:$dark;}
 </style>

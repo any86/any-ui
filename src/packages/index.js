@@ -5,7 +5,7 @@ import Spinner from './Spinner/Spinner';
 import ScrollView from './ScrollView/ScrollView';
 import Flexbox from './Flexbox/FlexBox';
 import FlexItem from './Flexbox/FlexItem';
-
+import Badge from './Badge/Badge'
 
 var Atom = {};
 Atom.install = function(Vue) {
@@ -14,6 +14,10 @@ Atom.install = function(Vue) {
     Vue.component(ScrollView.name, ScrollView);
     Vue.component(Icon.name, Icon);
     Vue.component(Spinner.name, Spinner);
+    Vue.component(Badge.name, Badge);
+    
+
+
 
     // Vue.component('VPrompt', Prompt);
     // document.createDocumentFragment()

@@ -36,7 +36,7 @@ export default {
 }
 
 .small{width: $gutter; height: $gutter; border-radius: 100%;}
-.big{padding: $gutter / 6 3 * $gutter;border-radius: $gutter*2;}
+.big{padding: $gutter / 6 2 * $gutter;border-radius: $gutter*2;}
 
 .default {
     @include theme('default');

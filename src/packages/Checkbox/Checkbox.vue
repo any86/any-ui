@@ -60,8 +60,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-$color: #444;
-$disabled_color: #ccc;
+@import '../../scss/theme.scss';
+$color: $base;
+$disabled_color: $default;
 
 div.checkbox {
     display: inline-block;

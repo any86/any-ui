@@ -1,78 +1,66 @@
 <template>
-    <span :class="['com-button com-button-' + type, !!disabled && 'disabled']" @click="click" @mouseleave="mouseleave" @mouseenter="mouseenter">
+    <span :class="['com-button', type, !!disabled && 'disabled ', size, inline && 'inline', inline || 'block' ]" @click="click">
         <!-- 背景动画 -->
-        <v-icon v-if="icon" v-show="!loading" :value="icon"></v-icon>
-        <span v-show="openText">
-            <slot></slot>
-            <i v-show="loading" class="fa fa-spinner fa-spin"></i>
-        </span>
+        <Icon v-if="'' != icon" v-show="!loading" :value="icon"></Icon>
+        <slot></slot>
+        <Icon v-show="loading" value="spinner spin"></Icon>
     </span>
 </template>
 <script>
-import VIcon from '../Icon/Icon'
+import Icon from '@/packages/Icon/Icon'
 export default {
-    name: 'button',
+    name: 'Button',
 
     props: {
+        inline: {
+            type: Boolean
+        },
+
         loading: {
             type: Boolean
         },
 
-        showText: {
-            type: Boolean,
-            default () {
-                return true;
-            }
-        },
-
         disabled: {
-            type: Boolean
-        },
-
-        value: {
-
+            type: Boolean,
+            default: false
         }
     },
 
     data() {
         return {
+            size: 'small',
             icon: '',
-            type: 'default',
-            openText: this.showText
+            type: 'default'
         };
     },
 
     mounted() {
+        // 类型
         var type = this.$el.getAttribute('type');
-        if (!!type) {
+        if (null !== type) {
             this.type = type;
         }
-
+        // 图标
         var icon = this.$el.getAttribute('icon');
-        if (!!type) {
+        if (null !== type) {
             this.icon = icon;
+        }
+        // 尺寸
+        var size = this.$el.getAttribute('size');
+        if (null !== size) {
+            this.size = size;
         }
     },
 
     methods: {
-        mouseenter() {
-            if (!this.showText) {
-                this.openText = true;
-            }
-        },
-
-        mouseleave() {
-            if (!this.showText) {
-                this.openText = false;
-            }
-        },
-
         click() {
             this.$emit('click');
         }
     },
 
-    components: {VIcon}
+    components: {
+        Icon
+    }
 }
 </script>
 <style scoped lang="scss">
@@ -81,11 +69,23 @@ export default {
     background: $type;
     border-color: rgba($type, 1);
     color: #fff;
-    &:hover {
+    &:active {
         opacity: .7;
     }
-    &:active {}
 }
+
+.small {
+    padding: .1rem .2rem;
+    font-size: .2rem;
+}
+
+.big {
+    padding: .2rem .4rem;
+    font-size: .3rem;
+}
+
+.inline{display: inline-block;}
+.block{width: 100%;display: block;}
 
 .com-button {
     cursor: pointer;
@@ -93,9 +93,7 @@ export default {
     overflow: hidden;
     user-select: none;
     border-radius: 4px;
-    display: inline-block;
-    padding: 5px 15px;
-    font-size: 14px;
+    box-sizing: border-box;
     font-weight: 400;
     line-height: 1.42857143;
     text-align: center;
@@ -107,36 +105,35 @@ export default {
     border: 1px solid transparent;
 }
 
-
-.com-button-default {
+.default {
     @include button($default);
     color: $default;
     background: #fff;
 }
 
-.com-button-ghost {
+.ghost {
     @include button($base);
     color: $base;
     background: #fff;
 }
 
-.com-button-primary {
+.primary {
     @include button($primary);
 }
 
-.com-button-success {
+.success {
     @include button($success);
 }
 
-.com-button-warning {
+.warning {
     @include button($warning);
 }
 
-.com-button-danger {
+.danger {
     @include button($danger);
 }
 
-.com-button-info {
+.info {
     @include button($info);
 }
 

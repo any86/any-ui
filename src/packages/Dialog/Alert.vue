@@ -123,7 +123,8 @@ export default {
     >.footer {
         padding: 15px;
         overflow: hidden;
-        .button-ok{float: right;color: $base;font-size: 14px;}
+        border-top: 1px solid $lightest; 
+        .button-ok{width: 100%; text-align: center; display:block; color: $base;font-size: 14px;}
     }
 }
 

@@ -45,6 +45,7 @@
                 </FlexItem>
                 <FlexItem>
                     <router-link tag="span" to="/home/my" class="button">
+                        <Badge class="badge" type="danger">5</Badge>
                         <Icon value="user-circle-o"></Icon>
                         <p>my</p>
                     </router-link>
@@ -68,6 +69,7 @@ export default {
 
     methods: {
         showSideBar(){
+
             this.isShowSideBar = !this.isShowSideBar;
         }
     },
@@ -91,7 +93,9 @@ export default {
 
     .footer {
         box-shadow: $shadowUp;
+        .badge{position: absolute;top:5px;right:5px;}
         .button {
+            position: relative;
             color: $dark;
             position: relative;
             padding: $gutter / 2;
