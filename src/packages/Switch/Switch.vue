@@ -32,14 +32,13 @@ $size: 30px;
         height: $size;
         width: 1.8*$size;
         border-radius: $size;
-        background: #fff;
-        border: 1px solid #ccc;
+        border: 1px solid $lightest;
         overflow: hidden;
         input {
             display: none;
         }
         .checkbox {
-            width: 100%;height: 100%;transition: all .5s ease;
+            width: 100%;height: 100%;transition: all .5s ease;background: #69c;
             &:before {
                 content: " ";
                 display: block;
@@ -50,7 +49,7 @@ $size: 30px;
                 height: $size;
                 width: $size;
                 border-radius: $size;
-                transition: all .5s ease;
+                transition: all .3s ease;
                 background: #fff;
                 box-shadow: $shadowDown;
             }
@@ -62,13 +61,16 @@ $size: 30px;
                 top: 0;
                 right: 0;
                 height: $size;
-                width: $size;
+                width: 1.8*$size;
                 border-radius: $size;
-                transition: all .5s ease;
+                transition: all .3s ease;
+                transform:scale(1);background:#fff;
             }
         }
-        input:checked~.checkbox{background: #69c;}
-        input:checked~.checkbox:before {transform:translateX($size * 0.5);}
+        input:checked+.checkbox{}
+        input:checked+.checkbox:before{transform:translateX($size * 0.9);}
+        input:checked+.checkbox:after{transform:scale(0);}
+        
     }
 }
 </style>
