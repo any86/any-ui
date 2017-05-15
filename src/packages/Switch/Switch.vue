@@ -27,6 +27,7 @@ export default {
 @import '../../scss/theme.scss';
 $size: .5rem;
 .component-switch {
+    overflow: hidden;
     label {
         position: relative;
         display: inline-block;
