@@ -1,9 +1,8 @@
 <template>
     <div class="component-switch">
         <label>
-            <input type="checkbox">
-            <div class="checkbox">
-            </div>
+            <input :checked="value" @change="change" type="checkbox">
+            <div class="checkbox"></div>
         </label>
     </div>
 </template>
@@ -18,27 +17,33 @@ export default {
     },
 
     methods: {
-
+        change(e) {
+            this.$emit('input', e.target.checked);
+        }
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$size: 30px;
+$size: .5rem;
 .component-switch {
     label {
         position: relative;
         display: inline-block;
         height: $size;
-        width: 1.8*$size;
+        width: 1.8 * $size;
         border-radius: $size;
         border: 1px solid $lightest;
-        overflow: hidden;
         input {
             display: none;
         }
         .checkbox {
-            width: 100%;height: 100%;transition: all .5s ease;background: #69c;
+            border-radius: $size;
+            width: 100%;
+            height: 100%;
+            transition: all .5s ease;
+            background: $success;
+            // 圆
             &:before {
                 content: " ";
                 display: block;
@@ -61,16 +66,19 @@ $size: 30px;
                 top: 0;
                 right: 0;
                 height: $size;
-                width: 1.8*$size;
+                width: 1.8 * $size;
                 border-radius: $size;
                 transition: all .3s ease;
-                transform:scale(1);background:#fff;
+                transform: scale(1);
+                background: #fff;
             }
         }
-        input:checked+.checkbox{}
-        input:checked+.checkbox:before{transform:translateX($size * 0.9);}
-        input:checked+.checkbox:after{transform:scale(0);}
-        
+        input:checked+.checkbox:before {
+            transform: translateX($size * 0.8);
+        }
+        input:checked+.checkbox:after {
+            transform: scale(0);
+        }
     }
 }
 </style>
