@@ -28,6 +28,7 @@ $borderRadius: 2px;
 $tabBarZIndex: 10;
 $dropDownZIndex: 20;
 $modalZIndex: 1986;
+$dialogZIndex: 2000;
 $sideBarZIndex: 1989;
 
 
@@ -41,6 +42,10 @@ $large: 22px;
 // 阴影
 $shadowUp: 1px -1px 3px rgba(0, 0, 0, .1);
 $shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
+
+
+// 底部tab高度
+$bottomTabHeight: 60px;
 
 .flex{
     display: flex;
