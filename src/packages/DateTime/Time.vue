@@ -132,16 +132,14 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$width: 50px;
+$width: percentage(1/3);
 $itemHeight: 24px;
+
 .cell-time-panel {
-    background: #fff;
-    // ::-webkit-scrollbar{background:$light;width: 4px;height: 2px;}
-    // ::-webkit-scrollbar-thumb{background:#ccc;  border-radius: 20px;  }
+    background: $background;
     display: inline-block;
-    box-shadow: 1px 2px 3px rgba(0, 0, 0, .1), -1px -2px 3px rgba(0, 0, 0, .1);
     overflow: hidden;
-    width: $width * 3;
+    width: 100%;
     box-sizing: content-box;
     font-size: 0;
     >span {
@@ -162,7 +160,7 @@ $itemHeight: 24px;
             li {
                 box-sizing: border-box;
                 font-size: 12px;
-                width: $width; // 不设置宽度, 滚动条会挤宽度
+                width: 100%; // 不设置宽度, 滚动条会挤宽度
                 text-align: center;
                 height: $itemHeight;
                 line-height: $itemHeight;

@@ -129,7 +129,8 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$size: 40px;
+$height: 40px;
+$width: percentage(1/7);
 $fontSize: 12px;
 $gutter: 1px;
 $borderWidth: 1px;
@@ -144,9 +145,9 @@ $borderWidth: 1px;
         font-size: 0;
         width: 100%;
         .weekday {
-            width: percentage(1/7);
-            height: $size;
-            line-height: $size;
+            width: $width;
+            height: $height;
+            line-height: $height;
             display: inline-block;
             text-align: center;
             font-size: $fontSize;
@@ -160,9 +161,9 @@ $borderWidth: 1px;
         .day {
             box-sizing: border-box;
             transition: all .3s;
-            width: percentage(1/7);
-            height: $size;
-            line-height: $size;
+            width: $width;
+            height: $height;
+            line-height: $height;
             display: inline-block;
             text-align: center;
             font-size: $fontSize;
