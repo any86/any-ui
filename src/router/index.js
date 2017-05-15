@@ -28,6 +28,9 @@ const My = () => ({
 Vue.use(Router)
 export default new Router({
     routes: [{
+        path: '/',
+        redirect: '/home/index'
+    },{
         path: '/login',
         name: 'Login',
         component: Login
