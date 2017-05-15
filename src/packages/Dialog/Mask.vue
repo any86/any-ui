@@ -1,10 +1,10 @@
 <template>
-    <transition v-if="animate" name="modal" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="value" @click.self="close" class="component-modal">
+    <transition v-if="animate" name="mask" @after-leave="afterLeave" @after-enter="afterEnter">
+        <div v-show="value" @click.self="close" class="component-mask">
             <slot></slot>
         </div>
     </transition>
-    <div v-else v-show="value" @click.self="close" class="component-modal">
+    <div v-else v-show="value" @click.self="close" class="component-mask">
         <slot></slot>
     </div>
 </template>
@@ -48,10 +48,10 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-modal {
+.component-mask {
     position: fixed;
     background: rgba(#000, .5);
-    z-index: $modalZIndex;
+    z-index: $maskZIndex;
     top: 0;
     left: 0;
     width: 100%;
@@ -61,15 +61,15 @@ export default {
 
 /*动画*/
 
-.modal-enter-active {
-    animation: modal-in .5s;
+.mask-enter-active {
+    animation: mask-in .5s;
 }
 
-.modal-leave-active {
-    animation: modal-out .5s;
+.mask-leave-active {
+    animation: mask-out .5s;
 }
 
-@keyframes modal-in {
+@keyframes mask-in {
     0% {
         opacity: 0;
     }
@@ -78,7 +78,7 @@ export default {
     }
 }
 
-@keyframes modal-out {
+@keyframes mask-out {
     0% {
         opacity: 1;
     }
