@@ -1,21 +1,20 @@
 <template>
     <ScrollView class="page-index">
+
         <Spinner slot="background"></Spinner>
-    
+        <!-- 轮播 -->
         <Swiper>
             <SwiperItem>
                 <div style="width:100%;height: 300px;background:#69c;">1</div>
             </SwiperItem>
-
             <SwiperItem>
                 <div style="width:100%;height: 300px;background:#99c;">2</div>
             </SwiperItem>
-
             <SwiperItem>
                 <div style="width:100%;height: 300px;background:#f21;">3</div>
             </SwiperItem>
         </Swiper>
-
+        <!-- tabs -->
         <Tabs>
             <TabsItem title="标签1">
                 <ul class="list">
@@ -48,13 +47,17 @@ import SwiperItem from '@/packages/Swiper/SwiperItem'
 export default {
     name: 'Index',
 
-    data(){
-        return {acitve: 0};
+    data() {
+        return {
+            acitve: 0
+        };
     },
 
     components: {
         Tabs,
-        TabsItem, Swiper, SwiperItem
+        TabsItem,
+        Swiper,
+        SwiperItem
     }
 }
 </script>
