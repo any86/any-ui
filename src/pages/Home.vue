@@ -1,7 +1,6 @@
 <template>
     <div class="container">
         <SideBar v-model="isShowSideBar">菜单/1/菜单/2</SideBar>
-        
         <StickyLayout>
             <!-- 头部 -->
             <FlexBox slot="header" class="header">
@@ -11,42 +10,40 @@
                 </FlexItem>
                 <Icon value="search"></Icon>
             </FlexBox>
-
             <!-- 主体 -->
             <transition name="fade-left" mode="out-in">
                 <router-view></router-view>
             </transition>
-
             <!-- 底部 -->
             <FlexBox slot="footer" class="footer">
                 <FlexItem>
                     <router-link tag="span" to="/home/index" class="button">
-                        <Icon value="home"></Icon>
+                        <Icon class="icon" value="home"></Icon>
                         <p>home</p>
                     </router-link>
                 </FlexItem>
                 <FlexItem>
                     <router-link tag="span" to="/home/presale" class="button">
-                        <Icon value="clock-o"></Icon>
+                        <Icon class="icon" value="clock-o"></Icon>
                         <p>presale</p>
                     </router-link>
                 </FlexItem>
                 <FlexItem>
                     <router-link tag="span" to="/home/category" class="button">
-                        <Icon value="compass"></Icon>
+                        <Icon class="icon" value="compass"></Icon>
                         <p>find</p>
                     </router-link>
                 </FlexItem>
                 <FlexItem>
                     <router-link tag="span" to="/home/shop-cart" class="button">
-                        <Icon value="shopping-bag"></Icon>
+                        <Icon class="icon" value="shopping-bag"></Icon>
                         <p>cart</p>
                     </router-link>
                 </FlexItem>
                 <FlexItem>
                     <router-link tag="span" to="/home/my" class="button">
                         <Badge class="badge" type="danger">5</Badge>
-                        <Icon value="user-circle-o"></Icon>
+                        <Icon class="icon" value="user-circle-o"></Icon>
                         <p>my</p>
                     </router-link>
                 </FlexItem>
@@ -68,14 +65,15 @@ export default {
     },
 
     methods: {
-        showSideBar(){
+        showSideBar() {
 
             this.isShowSideBar = !this.isShowSideBar;
         }
     },
 
     components: {
-        StickyLayout, SideBar
+        StickyLayout,
+        SideBar
     }
 }
 </script>
@@ -85,19 +83,30 @@ export default {
     height: 100%;
     width: 100%;
     position: relative;
-
-    .header{box-shadow: $shadowDown;padding:10px 15px;background: #fff;
-        i{font-size: 20px;}
-        .logo{text-align: center;display: table;margin:auto;height: 20px;}
+    .header {
+        box-shadow: $shadowDown;
+        padding: 10px 15px;
+        background: #fff;
+        i {
+            font-size: 20px;
+        }
+        .logo {
+            text-align: center;
+            display: table;
+            margin: auto;
+            height: 20px;
+        }
     }
-
     .footer {
         box-shadow: $shadowUp;
-        .badge{position: absolute;top:5px;right:5px;}
+        .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
         .button {
             position: relative;
             color: $dark;
-            position: relative;
             padding: $gutter / 2;
             display: block;
             background: #fff;
@@ -110,8 +119,11 @@ export default {
             &:active {
                 background: $light;
             }
+            >.icon{height: 30px;display: block;};
         }
-        .router-link-active{background: $light;}
+        .router-link-active {
+            background: $light;
+        }
     }
 }
 </style>

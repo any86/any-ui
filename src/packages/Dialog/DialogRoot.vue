@@ -1,13 +1,13 @@
    <template>
-    <v-modal v-model="modal.show">
+    <v-mask v-model="mask.show">
         <v-alert v-model="alert.show" :holdTime="alert.holdTime" :text="alert.text" @ok="alert.ok" @after-leave="alert.afterLeave" class="center">
         </v-alert>
         <v-confirm v-model="confirm.show" :holdTime="alert.holdTime" :text="confirm.text" @ok="confirm.ok" @cancel="confirm.cancel" @after-leave="confirm.afterLeave" class="center">
         </v-confirm>
-    </v-modal>
+    </v-mask>
 </template>
 <script>
-import VModal from './Modal'
+import VMask from './Mask'
 import VAlert from './Alert'
 import VConfirm from './Confirm'
 
@@ -20,7 +20,7 @@ export default {
 
     data() {
         return {
-            modal: {
+            mask: {
                 show: false
             },
             alert: {
@@ -40,7 +40,7 @@ export default {
     },
 
     watch: {
-        ['modal.show'](value) {
+        ['mask.show'](value) {
             if (!value) {
                 this.alert.show = false;
                 this.confirm.show = false;
@@ -49,13 +49,13 @@ export default {
 
         ['alert.show'](value) {
             if (!value) {
-                this.modal.show = false;
+                this.mask.show = false;
             }
         },
 
         ['confirm.show'](value) {
             if (!value) {
-                this.modal.show = false;
+                this.mask.show = false;
             }
         }
     },
@@ -63,7 +63,7 @@ export default {
     components: {
         VAlert,
         VConfirm,
-        VModal
+        VMask
     }
 }
 </script>

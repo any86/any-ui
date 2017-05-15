@@ -1,6 +1,6 @@
 <template>
     <div class="component-side-bar">
-        <Modal v-model="isShow"></Modal>
+        <VMask v-model="isShow"></VMask>
         <transition name="side">
             <div v-show="isShow" class="side-bar">
                 <slot></slot>
@@ -9,7 +9,7 @@
     </div>
 </template>
 <script>
-import Modal from '../Dialog/Modal';
+import VMask from '../Dialog/Mask';
 
 export default {
     name: 'SideBar',
@@ -22,7 +22,7 @@ export default {
     },
 
     methods: {
-        closeModal() {
+        closeMask() {
             this.$emit('update:isShowSideBar', false);
         }
     },
@@ -40,7 +40,7 @@ export default {
     },
 
     components: {
-        Modal
+        VMask
     }
 }
 </script>

@@ -15,7 +15,6 @@
     </FlexBox>
 </template>
 <script>
-import Modal from '../Dialog/Modal';
 import FlexBox from '../Flexbox/FlexBox';
 import FlexItem from '../Flexbox/FlexItem';
 
