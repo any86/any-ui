@@ -17,11 +17,11 @@ export default {
     mounted() {
         var type = this.$el.getAttribute('type');
         var size = this.$el.getAttribute('size')
-        if(undefined != type) {
+        if (null != type) {
             this.type = type;
         }
 
-        if(undefined != size) {
+        if (null != size) {
             this.size = size;
         }
     }
@@ -35,8 +35,16 @@ export default {
     overflow: hidden;
 }
 
-.small{width: $gutter; height: $gutter; border-radius: 100%;}
-.big{padding: $gutter / 6 2 * $gutter;border-radius: $gutter*2;}
+.small {
+    width: $gutter*2;
+    height: $gutter*2;
+    border-radius: 100%;
+}
+
+.big {
+    padding: $gutter / 6 2 * $gutter;
+    border-radius: $gutter*2;
+}
 
 .default {
     @include theme('default');
@@ -57,5 +65,4 @@ export default {
 .info {
     @include theme('info');
 }
-
 </style>
