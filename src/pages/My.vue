@@ -8,8 +8,8 @@
         <div style="padding:15px;">
             <VPopup v-model="checked">
                 <h1 slot="header">Please Pickup Date</h1>
-                <VDate v-model="date"></VDate>
-                <!-- <VTime></VTime> -->
+                <!-- <VDate v-model="date"></VDate> -->
+                <VTime></VTime>
             </VPopup>
             <VSwitch v-model="checked"></VSwitch>
             <VButton type="ghost" icon="remove" :loading="false" :disabled="false" :inline="false">Ok</VButton>
@@ -31,7 +31,7 @@ export default {
     name: 'My',
     data() {
         return {
-            checked: false,
+            checked: true,
             date: '2017-01-01',
             time: '12:01:30'
         }
