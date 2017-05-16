@@ -2,21 +2,21 @@
     <div class="component-time">
         <div class="graticule"></div>
         <!-- 小时 -->
-        <span ref="hour" class="hour" @click="click" @touchstart="touchStart('hour',  $event)" @touchmove="touchMove('hour',  $event)" @touchend="touchEnd('hour',  $event)">
+        <span ref="hour" class="hour"  @touchstart="touchStart('hour',  $event)" @touchmove="touchMove('hour',  $event)" @touchend="touchEnd('hour',  $event)">
             <ul :style="{transform: 'translateY('+hour.translateYNew+'px)'}" :class="{transition: 3 == hour.status}">
-                <li v-for="h in 24">{{10 > h-1 && '0'+ (h - 1) || h - 1}} 点</li>
+                <li :class="{active: hour.value == h-1}" v-for="h in 24">{{10 > h-1 && '0'+ (h - 1) || h - 1}} 点</li>
             </ul>
         </span>
         <!-- 分钟 -->
         <span ref="minute" class="minute" @touchstart="touchStart('minute',  $event)" @touchmove="touchMove('minute',  $event)" @touchend="touchEnd('minute',  $event)">
             <ul :style="{transform: 'translateY('+minute.translateYNew+'px)'}" :class="{transition: 3 == minute.status}">
-                <li v-for="m in 60">{{10 > m-1 && '0'+ (m - 1) || m - 1}} 分</li>
+                <li :class="{active: minute.value == m-1}" v-for="m in 60">{{10 > m-1 && '0'+ (m - 1) || m - 1}} 分</li>
             </ul>
         </span>
         <!-- 秒 -->
         <span ref="seconds" class="seconds" @touchstart="touchStart('seconds',  $event)" @touchmove="touchMove('seconds',  $event)" @touchend="touchEnd('seconds',  $event)">
             <ul :style="{transform: 'translateY('+seconds.translateYNew+'px)'}" :class="{transition: 3 == seconds.status}">
-                <li v-for="s in 60">{{10 > s-1 && '0'+ (s - 1) || s - 1}} 分</li>
+                <li :class="{active: seconds.value == s-1}" v-for="s in 60">{{10 > s-1 && '0'+ (s - 1) || s - 1}} 分</li>
             </ul>
         </span>
     </div>
@@ -81,10 +81,8 @@ export default {
     },
 
     methods: {
-        click(e){
-            console.log(e)
-        },
         touchStart(who, e) {
+            // 开始拖拽
             this[who].status = 1;
             this[who].start = e.touches[0].clientY;
         },
@@ -101,6 +99,7 @@ export default {
         },
 
         touchEnd(who, e) {
+            // 结束拖拽
             this[who].status = 3;
             // 边界
             if (0 < this[who].translateYNew) {
@@ -183,12 +182,12 @@ $itemHeight: .6rem; // 上面js变量中也定义了, 修改需同步
                 &:active {
                     color: $base;
                 }
+                &.active {
+                    color: $base;
+                }
             }
         }
     }
-    .hour {}
-    .minute {}
-    .seconds {}
 }
 
 .transition {
