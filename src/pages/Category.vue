@@ -1,10 +1,10 @@
 <template>
     <div class="page-category">
-      <Menu></Menu>
+      <VMenu></VMenu>
     </div>
 </template>
 <script>
-import Menu from '@/packages/Menu/Menu'
+import VMenu from '@/packages/Menu/Menu'
 export default {
     name: 'Category',
     data() {
@@ -13,7 +13,7 @@ export default {
         }
     },
     components: {
-        Menu
+        VMenu
     }
 }
 </script>
