@@ -56,8 +56,6 @@ export default {
     methods: {
         moveLeft(){
             this.touch.x.translateNew-= 10;
-            // this.touch.x.translateOld-= 10;
-
         },
 
         moveRight(){
