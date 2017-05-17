@@ -19,7 +19,7 @@
 <script>
 import moment from 'moment'
 export default {
-    name: 'DatePanel',
+    name: 'Date',
 
     props: {
         format: {

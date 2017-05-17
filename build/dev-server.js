@@ -60,6 +60,14 @@ app.use(devMiddleware)
 // compilation error display
 app.use(hotMiddleware)
 
+
+
+// 假数据(Mock)
+require('./mock.js')(express, app);
+
+
+
+
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))

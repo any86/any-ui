@@ -2,37 +2,33 @@
     <div class="component-time">
         <div class="graticule"></div>
         <!-- 小时 -->
-        <span ref="hour" class="hour"  @touchstart="touchStart('hour',  $event)" @touchmove="touchMove('hour',  $event)" @touchend="touchEnd('hour',  $event)">
+        <span ref="hour" class="hour" @touchstart="touchStart('hour',  $event)" @touchmove="touchMove('hour',  $event)" @touchend="touchEnd('hour', 24, $event)">
             <ul :style="{transform: 'translateY('+hour.translateYNew+'px)'}" :class="{transition: 3 == hour.status}">
-                <li :class="{active: hour.value == h-1}" v-for="h in 24">{{10 > h-1 && '0'+ (h - 1) || h - 1}} 点</li>
+                <li :class="{active: hour.value == h-1}" v-for="h in 24">{{zeroize(h-1)}} 点</li>
             </ul>
         </span>
         <!-- 分钟 -->
-        <span ref="minute" class="minute" @touchstart="touchStart('minute',  $event)" @touchmove="touchMove('minute',  $event)" @touchend="touchEnd('minute',  $event)">
+        <span ref="minute" class="minute" @touchstart="touchStart('minute',  $event)" @touchmove="touchMove('minute',  $event)" @touchend="touchEnd('minute', 60,  $event)">
             <ul :style="{transform: 'translateY('+minute.translateYNew+'px)'}" :class="{transition: 3 == minute.status}">
-                <li :class="{active: minute.value == m-1}" v-for="m in 60">{{10 > m-1 && '0'+ (m - 1) || m - 1}} 分</li>
+                <li :class="{active: minute.value == m-1}" v-for="m in 60">{{zeroize(m-1)}} 分</li>
             </ul>
         </span>
         <!-- 秒 -->
-        <span ref="seconds" class="seconds" @touchstart="touchStart('seconds',  $event)" @touchmove="touchMove('seconds',  $event)" @touchend="touchEnd('seconds',  $event)">
+        <span ref="seconds" class="seconds" @touchstart="touchStart('seconds',  $event)" @touchmove="touchMove('seconds',  $event)" @touchend="touchEnd('seconds', 60, $event)">
             <ul :style="{transform: 'translateY('+seconds.translateYNew+'px)'}" :class="{transition: 3 == seconds.status}">
-                <li :class="{active: seconds.value == s-1}" v-for="s in 60">{{10 > s-1 && '0'+ (s - 1) || s - 1}} 分</li>
+                <li :class="{active: seconds.value == s-1}" v-for="s in 60">{{zeroize(s-1)}} 秒</li>
             </ul>
         </span>
     </div>
 </template>
 <script>
 export default {
-    name: 'TimePanel',
+    name: 'Time',
 
     props: {
-        format: {
-            type: String,
-            default: 'HH : ii : SS'
-        },
-
         value: {
-            type: String
+            type: String,
+            required: true
         }
     },
 
@@ -41,7 +37,7 @@ export default {
             itemHeight: '0', // 下面scss中也有定义, 修改需同步
             hour: {
                 status: 0, // touch状态
-                value: 2,
+                value: 5,
                 translateYOld: 0,
                 translateYNew: 0,
                 status: 0,
@@ -61,7 +57,7 @@ export default {
             },
             seconds: {
                 status: 0,
-                value: 5,
+                value: 2,
                 translateYOld: 0,
                 translateYNew: 0,
                 status: 0,
@@ -73,20 +69,30 @@ export default {
     },
 
     mounted() {
+        // 时间string转成json
+        this.parseValue();
         this.itemHeight = getComputedStyle(this.$el.querySelectorAll('li')[0], null).height;
         this.itemHeight = parseFloat(this.itemHeight);
-        this.hour.translateYNew = 0 - this.hour.value * this.itemHeight;
-        this.minute.translateYNew = 0 - this.minute.value * this.itemHeight;
-        this.seconds.translateYNew = 0 - this.seconds.value * this.itemHeight;
+        this.hour.translateYOld = this.hour.translateYNew = 0 - this.hour.value * this.itemHeight;
+        this.minute.translateYOld = this.minute.translateYNew = 0 - this.minute.value * this.itemHeight;
+        this.seconds.translateYOld = this.seconds.translateYNew = 0 - this.seconds.value * this.itemHeight;
     },
 
     methods: {
+        /**
+         * 开始拖拽
+         * @param  {String} who 哪一列
+         * @param  {[type]} e   event
+         */
         touchStart(who, e) {
-            // 开始拖拽
             this[who].status = 1;
             this[who].start = e.touches[0].clientY;
         },
-
+        /**
+         * 拖拽中
+         * @param  {String} who 哪一列
+         * @param  {[type]} e   event
+         */
         touchMove(who, e) {
             this[who].status = 2;
             // 算移动距离
@@ -97,36 +103,56 @@ export default {
                 this[who].translateYNew = this[who].translateYOld + this[who].distance;
             }
         },
-
-        touchEnd(who, e) {
+        /**
+         * 拖拽结束
+         * @param  {String} who 哪一列
+         * @param  {Number} rowCount 共多少列
+         * @param  {[type]} e   event
+         */
+        touchEnd(who, rowCount, e) {
             // 结束拖拽
             this[who].status = 3;
             // 边界
             if (0 < this[who].translateYNew) {
                 this[who].translateYNew = 0;
-            } else if (0 - this.itemHeight * 23 > this[who].translateYNew) {
-                this[who].translateYNew = 0 - this.itemHeight * 23
+            } else if (0 - this.itemHeight * (rowCount - 1) > this[who].translateYNew) {
+                this[who].translateYNew = 0 - this.itemHeight * (rowCount - 1)
             }
 
-            // 对准
-            this[who].value = Math.ceil((0 - this[who].translateYNew) / this.itemHeight);
+            // 对准(四舍五入)
+            this[who].value = Math.round((0 - this[who].translateYNew) / this.itemHeight);
             this[who].translateYNew = 0 - this[who].value * this.itemHeight;
 
             // 记录本次位移
             this[who].translateYOld = this[who].translateYNew;
+
+            // 同步v-model
+            this.$emit('input', [this.zeroize(this.hour.value), this.zeroize(this.minute.value), this.zeroize(this.seconds.value)].join(' : '));
         },
 
-        convert() {
-            [this.hour, this.minute, this.seconds] = this.value.split(':');
-            this.hour = parseInt(this.hour);
-            this.minute = parseInt(this.minute);
-            this.seconds = parseInt(this.seconds);
+        parseValue() {
+            [this.hour.value, this.minute.value, this.seconds.value] = this.value.split(':');
+            this.hour.value = parseInt(this.hour.value);
+            this.minute.value = parseInt(this.minute.value);
+            this.seconds.value = parseInt(this.seconds.value);
+        },
+        /**
+         * 个位补0, 只支持100以内的数字
+         * @param  {Number} number
+         * @return {String} 0开头的数字
+         */
+        zeroize(number) {
+            return ('0' + number).substr(-2);
         }
     },
 
     watch: {
         value(time) {
-            // this.convert();
+            // 时间string转成json
+            this.parseValue();
+            this.hour.translateYOld = this.hour.translateYNew = 0 - this.hour.value * this.itemHeight;
+            this.minute.translateYOld = this.minute.translateYNew = 0 - this.minute.value * this.itemHeight;
+            this.seconds.translateYOld = this.seconds.translateYNew = 0 - this.seconds.value * this.itemHeight;
         }
     },
 

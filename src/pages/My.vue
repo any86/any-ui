@@ -1,5 +1,5 @@
 <template>
-    <div class="page-my">
+    <ScrollView class="page-my" :pullable="false">
         <div class="box">
             <div class="circle">
                 <img src="https://avatars0.githubusercontent.com/u/8264787?v=3&s=460">
@@ -8,16 +8,23 @@
         <div style="padding:15px;">
             <VPopup v-model="checked">
                 <h1 slot="header">Please Pickup Date</h1>
-                <!-- <VDate v-model="date"></VDate> -->
-                <VTime></VTime>
+                <VDate v-model="date"></VDate>
+                <!-- <VTime v-model="time"></VTime> -->
             </VPopup>
+            <input type="text" v-model="date">
             <VSwitch v-model="checked"></VSwitch>
             <VButton type="ghost" icon="remove" :loading="false" :disabled="false" :inline="false">Ok</VButton>
             <Checkbox v-model="checked"></Checkbox>
+
+            <ImageTools></ImageTools>
         </div>
-    </div>
+    </ScrollView>
 </template>
 <script>
+import ImageTools from '@/packages/ImageTools/ImageTools'
+
+
+import axios from 'axios';
 import VPopup from '@/packages/Dialog/Popup'
 import VDate from '@/packages/DateTime/Date'
 import VTime from '@/packages/DateTime/Time'
@@ -25,15 +32,18 @@ import VTime from '@/packages/DateTime/Time'
 import VButton from '@/packages/Button/Button'
 import Checkbox from '@/packages/Checkbox/Checkbox'
 import VSwitch from '@/packages/Switch/Switch'
-
+import Upload from '@/packages/Upload/Upload'
 
 export default {
     name: 'My',
+    mounted(){
+        axios.get('./mock/success')
+    },
     data() {
         return {
-            checked: true,
+            checked: false,
             date: '2017-01-01',
-            time: '12:01:30'
+            time: '12:00:00'
         }
     },
     components: {
@@ -42,7 +52,7 @@ export default {
         VSwitch,
         VPopup,
         VDate,
-        VTime
+        VTime,Upload,ImageTools
     }
 }
 </script>
