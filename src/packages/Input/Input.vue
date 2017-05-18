@@ -1,93 +1,157 @@
 <template>
-    <div class="com-input" :class="{'input-group': opts.icon}">
-        <transition>
-            <div class="warning" v-show="warning">
-                {{warningText}}
-            </div>
+    <div class="component-input">
+        <span class="label"><slot></slot></span>
+        <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
+        <!-- border -->
+        <div class="border"></div>
+        <transition name="fadeLeft">
+            <Icon v-show="isShowEmpty" @click.native="empty" class="button-close" value="remove"></Icon>
         </transition>
-        <span v-if="undefined != opts.icon" class="input-group-addon"><i :class="['fa', 'fa-'+opts.icon]"></i></span>
-        <input v-if="opts.disabled" disabled @blur="blur" @keyup="keyup" @keydown="keydown" @focus="selectAll" :value="value" @input="input" class="form-control" :placeholder="opts.placeholder" :type="opts.type">
-        <input v-else @blur="blur" @keyup="keyup" @keydown="keydown" @focus="selectAll" :value="value" @input="input" class="form-control" :placeholder="opts.placeholder" :type="opts.type">
     </div>
 </template>
 <script>
+import Icon from '@/packages/Icon/Icon'
 export default {
-    name: 'input',
+    name: 'Input',
 
     props: {
-        opts: {
-            type: Object
+        disabled: {
+            type: Boolean
+        },
+
+        maxlength: {
+            type: Number
         },
 
         value: {
-
+            required: true
         }
+    },
+
+    mounted() {
+        // 自定义属性同步到data
+        ['type', 'placeholder'].forEach(prop=>{
+            var propValue = this.$el.getAttribute('type');
+            if (null != propValue) {
+                this[prop] = propValue;
+            }
+        });
     },
 
     data() {
         return {
-            warningText: '',
-            warning: false
+            label: '',
+            type: 'text',
+            placeholder: '',
+            isShowEmpty: false
         };
     },
 
     methods: {
-        _validate() {
-            if (undefined != this.opts.validate) {
-                if (this.opts.validate.require) {
-                    if ('' == this.value) {
-                        this.warning = true;
-                        this.warningText = '必填项';
-                    } else {
-                        this.warning = false;
-                    }
-                }
-            }
-        },
-
         input(e) {
             this.$emit('input', e.target.value);
         },
 
-        selectAll(e) {
-            e.target.select();
+        focus(e) {
+            if ('' != this.value) {
+                this.isShowEmpty = true;
+            }
         },
 
-        blur(e) {
-            this._validate();
-            this.$emit('blur', e);
+        blur() {
+            this.isShowEmpty = false;
         },
 
         keyup(e) {
-            this._validate();
-            this.$emit('keyup', e);
+            var value = e.target.value;
+            if ('bankCode' == this.type) {
+                value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
+            } else if ('phone' == this.type) {
+                value = value.replace(/\D/g, '').substring(0, 11);
+                const valueLen = value.length;
+                if (valueLen > 3 && valueLen < 8) {
+                    value = `${value.substr(0, 3)} ${value.substr(3)}`;
+                } else if (valueLen >= 8) {
+                    value = `${value.substr(0, 3)} ${value.substr(3, 4)} ${value.substr(7)}`;
+                }
+            } else if ('number' == this.type) {
+                value = value.replace(/\D/g, '');
+            }
+            this.$emit('input', value);
         },
 
-        keydown(e) {
-            this._validate();
-            this.$emit('keydown', e);
+        empty() {
+            this.$emit('input', '');
+            this.$refs.input.focus();
+
         }
+    },
+
+    watch: {
+        value(value) {
+            if ('' == value) {
+                this.isShowEmpty = false;
+            } else {
+                this.isShowEmpty = true;
+            }
+        }
+    },
+
+    components: {
+        Icon
     }
 }
 </script>
 <style scoped lang="scss">
-.com-input {
+@import '../../scss/theme.scss';
+.component-input {
+    height: $gutter*6 + 1px;
     position: relative;
-    .warning {
-        font-size: 12px;
-        padding: 5px 15px;
-        border-radius: 4px;
-        color: #fff;
-        background: rgba(#000, .6);
-        box-shadow: 1px 2px 3px rgba(#000, .1);
+    display: flex;
+
+    .label {height: $gutter*6;line-height: $gutter*6;font-size: 14px;}
+
+    input {
+        font-size: 14px;
+        flex: 1;
+        box-sizing: border-box;
+        padding: 0 2*$gutter;
+        border: 0 none;
+        outline: none;
+        width: 100%;
+        height: $gutter*6;
+        line-height: $gutter*6;
+    }
+    input:focus + .border {
+        border-color: $base;
+    }
+
+    .border {
         position: absolute;
-        bottom: 35px;
+        z-index: -1;
+        top: 0;
+        left: 0;
         right: 0;
+        bottom: 0;
+        border-bottom: 1px solid $lighter;
+        transition: all .3s;
     }
-    .text-danger {
-        margin-left: 5px;
-        font-size: 12px;
-        visibility: hidden;
+
+    .button-close {
+        margin: $gutter;
+        text-align: center;
+        width: $gutter*4;
+        height: $gutter*4;
+        line-height: $gutter*4;
+        border-radius: 100%;
+        background: $lighter;
+        color: #fff;
     }
+}
+
+.disabled {
+    // @include disabled;
+    // input{@include disabled;}
+    // .button-close{@include disabled;}
 }
 </style>
