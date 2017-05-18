@@ -62,7 +62,11 @@ div,
 span {
     font-size: .14rem;
 }
-img{display: block;}
+
+img {
+    display: block;
+}
+
 .clearfix {
     clear: both;
 }
@@ -113,7 +117,40 @@ img{display: block;}
 }
 
 
+/*fadeLeft*/
+.fadeLeft-enter-active {
+    animation: fadeLeftIn .3s ease-in-out;
+}
+
+.fadeLeft-leave-active {
+    animation: fadeLeftOut .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes fadeLeftIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-10%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+@keyframes fadeLeftOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-10%);
+    }
+}
+
+
 /*动画*/
+
 .slide-right-enter-active {
     animation: slide-in-right .3s ease-in-out;
 }
