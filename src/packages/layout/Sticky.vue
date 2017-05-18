@@ -1,22 +1,20 @@
 <template>
-    <FlexBox class="container" direction="vertical">
+    <div class="container" direction="vertical">
         <!-- 头部 -->
         <div ref="header" class="header-fixed">
             <slot name="header"></slot>
         </div>
         <!-- 主体 -->
-        <FlexItem class="body" :style="{paddingBottom:footerHeight + 'px', paddingTop:headerHeight + 'px'}">
+        <div class="body" :style="{paddingBottom:footerHeight + 'px', paddingTop:headerHeight + 'px'}">
             <slot></slot>
-        </FlexItem>
+        </div>
         <!-- 底部 -->
         <div ref="footer" class="footer-fixed">
             <slot name="footer"></slot>
         </div>
-    </FlexBox>
+    </div>
 </template>
 <script>
-import FlexBox from '../Flexbox/FlexBox';
-import FlexItem from '../Flexbox/FlexItem';
 
 export default {
     name: 'StickyLayout',
@@ -42,8 +40,6 @@ export default {
     },
 
     components: {
-        FlexBox,
-        FlexItem
     }
 }
 </script>
@@ -61,6 +57,9 @@ export default {
         left: 0;
         width: 100%;
     }
+    
+    .body{height: 100%;width: 100%;position: relative;box-sizing: border-box;}
+
     .footer-fixed {
         position: fixed;
         z-index: $tabBarZIndex;
