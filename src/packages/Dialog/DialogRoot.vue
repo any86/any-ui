@@ -40,6 +40,7 @@ export default {
     },
 
     watch: {
+        
         ['mask.show'](value) {
             if (!value) {
                 this.alert.show = false;

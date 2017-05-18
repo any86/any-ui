@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-    name: 'Modal',
+    name: 'Mask',
 
     props: {
         value: {

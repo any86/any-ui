@@ -11,7 +11,6 @@
             <!-- 阈值触发 -->
             <slot name="threshold"></slot>
         </div>
-        
     </div>
 </template>
 <script>

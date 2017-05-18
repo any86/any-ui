@@ -70,7 +70,9 @@ Atom.install = function(Vue) {
         });
     };
 
-
+    Vue.prototype.$mask = (options = {}) => {
+        vm.mask.show = true;
+    };
 
 };
 export default Atom;
