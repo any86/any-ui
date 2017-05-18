@@ -1,5 +1,7 @@
 // 主色
 $base: #1fbab1;
+$disabled: #ccc;
+
 // 背景色
 $background: #fff;
 // 浅灰
@@ -75,6 +77,11 @@ $bottomTabHeight: 60px;
 		color: #fff;
 		background: $primary;
 	}
+}
+
+@mixin disabled(){
+	background: $lighter;
+	color: $light;
 }
 
 h1{font-size: $large;margin: $gutter 0;}
