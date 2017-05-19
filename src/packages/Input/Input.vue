@@ -56,10 +56,12 @@ export default {
             if ('' != this.value) {
                 this.isShowEmpty = true;
             }
+            this.$emit('focus');
         },
 
         blur() {
             this.isShowEmpty = false;
+            this.$emit('blur');
         },
 
         keyup(e) {
@@ -78,12 +80,13 @@ export default {
                 value = value.replace(/\D/g, '');
             }
             this.$emit('input', value);
+            this.$emit('keyup');
         },
 
         empty() {
             this.$emit('input', '');
             this.$refs.input.focus();
-
+            this.$emit('empty');
         }
     },
 
@@ -128,8 +131,7 @@ export default {
 
     .border {
         position: absolute;
-        z-index: -1;
-        top: 0;
+        height: 0;
         left: 0;
         right: 0;
         bottom: 0;
