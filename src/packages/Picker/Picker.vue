@@ -124,7 +124,12 @@ export default {
 
             // 同步value
             this.value.splice(index, 1, this.active.value);
-            this.$emit('change', {index, value: this.value[index]});
+
+            this.$emit('change', {
+                index,
+                value: this.value[index]
+            });
+
             this.$emit('input', this.value);
         }
     },

@@ -15,6 +15,8 @@ Vue.use(Atom);
 
 // 关闭错误提示
 Vue.config.productionTip = false;
+Vue.config.performance = true;
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

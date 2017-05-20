@@ -17,9 +17,9 @@
         </ScrollView>
         <VPopup v-model="checked">
             <h1 slot="header">Please Pickup Date</h1>
-            <VInput style="margin:15px;" v-model="pickerValue[0]" placeholder="请输入" type="text" :disabled="false" >年</VInput>
+            <VInput style="margin:15px;" v-model="pickerValue[0]" placeholder="请输入" type="text" :disabled="false">年</VInput>
             <VInput style="margin:15px;" v-model="pickerValue[1]" placeholder="请输入" type="text" :disabled="false">月</VInput>
-            <Picker v-model="pickerValue" :dataSource="picker"></Picker>
+            <Picker v-model="pickerValue" :dataSource="picker" @change="changPicker"></Picker>
             <!-- <VDate v-model="date"></VDate> -->
             <!-- <VTime v-model="time"></VTime> -->
         </VPopup>
@@ -42,8 +42,6 @@ export default {
     name: 'My',
     mounted() {
 
-        axios.get('./mock/success')
-
     },
     data() {
         return {
@@ -57,13 +55,13 @@ export default {
                 [{
                     label: '2013年',
                     value: 2013
-                },{
+                }, {
                     label: '2014年',
                     value: 2014
-                },{
+                }, {
                     label: '2015年',
                     value: 2015
-                },{
+                }, {
                     label: '2016年',
                     value: 2016
                 }, {
@@ -126,6 +124,26 @@ export default {
             this.$mask({
                 VButton
             }, '<VButton></VButton>')
+        },
+
+        changPicker({
+            index,
+            value
+        }) {
+            if (0 == index) {
+
+                axios.get('./mock/success').then(res => {
+                    this.picker[index + 1] = [];
+                    // this.picker[index + 1].push({
+                    //     label: '13月',
+                    //     value: 13
+                    // })
+                    this.pickerValue[1] = 13;
+                    console.log(this.picker[index + 1])
+                })
+
+
+            }
         }
     },
     components: {

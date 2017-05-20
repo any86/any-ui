@@ -12,7 +12,7 @@
     </div>
 </template>
 <script>
-import FileAPI from 'fileapi'
+// import FileAPI from 'fileapi'
 export default {
     name: 'Upload',
 
