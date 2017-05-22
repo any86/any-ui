@@ -6,7 +6,7 @@
                     <img src="https://avatars0.githubusercontent.com/u/8264787?v=3&s=460">
                 </div>
             </div>
-            <div style="padding:15px;">
+            <div style="padding:15px 0;">
                 <VInput v-model="date" placeholder="请输入" type="text" :disabled="false" :maxlength="2">日期</VInput>
                 <input type="text" v-model="date">
                 <VSwitch v-model="checked"></VSwitch>
@@ -17,8 +17,10 @@
         </ScrollView>
         <VPopup v-model="checked">
             <h1 slot="header">Please Pickup Date</h1>
-            <VInput style="margin:15px;" v-model="pickerValue[0]" placeholder="请输入" type="text" :disabled="false">年</VInput>
-            <VInput style="margin:15px;" v-model="pickerValue[1]" placeholder="请输入" type="text" :disabled="false">月</VInput>
+            <Range :min="10" :max="200" v-model="rangeValue"></Range>
+            <VInput v-model="rangeValue" placeholder="请输入" type="text" :disabled="false">音量</VInput>
+            <VInput v-model="pickerValue[0]" placeholder="请输入" type="text" :disabled="false">年</VInput>
+            <VInput v-model="pickerValue[1]" placeholder="请输入" type="text" :disabled="false">月</VInput>
             <Picker v-model="pickerValue" :dataSource="picker" @change="changPicker"></Picker>
             <!-- <VDate v-model="date"></VDate> -->
             <!-- <VTime v-model="time"></VTime> -->
@@ -37,6 +39,8 @@ import VSwitch from '@/packages/Switch/Switch'
 import Upload from '@/packages/Upload/Upload'
 import VInput from '@/packages/Input/Input'
 import Picker from '@/packages/Picker/Picker'
+import Range from '@/packages/Range/Range'
+
 
 export default {
     name: 'My',
@@ -48,7 +52,7 @@ export default {
             checked: true,
             date: '2017-01-01',
             time: '12:00:00',
-
+            rangeValue: 15,
             pickerValue: [2017, 3],
 
             picker: [
@@ -131,18 +135,13 @@ export default {
             value
         }) {
             if (0 == index) {
-
                 axios.get('./mock/success').then(res => {
-                    this.picker[index + 1] = [];
-                    // this.picker[index + 1].push({
-                    //     label: '13月',
-                    //     value: 13
-                    // })
-                    this.pickerValue[1] = 13;
-                    console.log(this.picker[index + 1])
-                })
-
-
+                    this.picker[index + 1].splice(0, this.picker[index + 1].length, {
+                        label: '13月',
+                        value: 13
+                    })
+                    this.pickerValue.splice(index + 1, 1, 13);
+                });
             }
         }
     },
@@ -156,7 +155,7 @@ export default {
         Upload,
         VInput,
         ImageTools,
-        Picker
+        Picker, Range
     }
 }
 </script>

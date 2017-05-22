@@ -43,7 +43,6 @@ import TabsItem from '@/packages/Tabs/TabsItem';
 import Swiper from '@/packages/Swiper/Swiper'
 import SwiperItem from '@/packages/Swiper/SwiperItem'
 
-
 export default {
     name: 'Index',
 

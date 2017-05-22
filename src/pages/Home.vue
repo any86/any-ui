@@ -106,7 +106,7 @@ export default {
         }
         .button {
             position: relative;
-            color: $dark;
+            color: $darker;
             padding: $gutter / 2;
             display: block;
             background: #fff;
@@ -119,7 +119,11 @@ export default {
             &:active {
                 background: $light;
             }
-            >.icon{height: 30px;display: block;};
+            >.icon {
+                height: 30px;
+                display: block;
+            }
+            ;
         }
         .router-link-active {
             background: $light;
