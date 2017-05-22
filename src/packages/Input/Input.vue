@@ -107,12 +107,15 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+$height : $gutter*8;
 .component-input {
-    height: $gutter*6 + 1px;
+    width: 100%;
+    box-sizing: border-box;
+    height: $height + 1px;
     position: relative;
     display: flex;
-
-    .label {height: $gutter*6;line-height: $gutter*6;font-size: 14px;}
+    padding: 0 $gutter;
+    .label {height: $height;line-height: $height;font-size: 14px;}
 
     input {
         font-size: 14px;
@@ -122,8 +125,8 @@ export default {
         border: 0 none;
         outline: none;
         width: 100%;
-        height: $gutter*6;
-        line-height: $gutter*6;
+        height: $height;
+        line-height: $height;
     }
     input:focus + .border {
         border-color: $base;
@@ -140,11 +143,11 @@ export default {
     }
 
     .button-close {
-        margin: $gutter;
+        margin: $height*0.25;
         text-align: center;
-        width: $gutter*4;
-        height: $gutter*4;
-        line-height: $gutter*4;
+        width: $height*0.5;
+        height: $height*0.5;
+        line-height: $height*0.5;
         border-radius: 100%;
         background: $lighter;
         color: #fff;
