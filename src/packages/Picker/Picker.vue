@@ -44,7 +44,7 @@ export default {
         this.itemHeight = parseFloat(this.itemHeight);
 
         // 初始化默认值
-        this._value2UI();
+        this._syncPosition();
     },
 
     data() {
@@ -57,9 +57,10 @@ export default {
 
     methods: {
         /**
-         * 同步value到UI
+         * 滚动UI到默认值位置
          */
-        _value2UI() {
+        _syncPosition() {
+
             this.value.forEach((value, index) => {
                 // 寻找当前值在所在列中的索引
                 var i = this.dataSource[index].findIndex(item => {
@@ -135,9 +136,10 @@ export default {
     },
 
     watch: {
-        value() {
+        value(value) {
+            
             // 初始化默认值
-            this._value2UI();
+            this._syncPosition();
         }
     }
 }
@@ -173,8 +175,9 @@ $itemHeight: 7 * $gutter;
             display: block;
             text-align: center;
             font-size: $big;
+            color: $dark;
             &.active {
-                color: $base;
+                color: $darkest;
             }
         }
         &.transition {
