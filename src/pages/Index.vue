@@ -5,18 +5,19 @@
         <!-- 轮播 -->
         <Swiper>
             <SwiperItem>
-                <div style="width:100%;height: 300px;background:#69c;">1</div>
+                <div style="width:100%;height: 300px;background:#ddd;font-size: 32px;line-height: 200px;text-align: center;">1</div>
             </SwiperItem>
             <SwiperItem>
-                <div style="width:100%;height: 300px;background:#99c;">2</div>
+                <div style="width:100%;height: 300px;background:#ddd;font-size: 32px;line-height: 200px;text-align: center;">2</div>
             </SwiperItem>
             <SwiperItem>
-                <div style="width:100%;height: 300px;background:#f21;">3</div>
+                <div style="width:100%;height: 300px;background:#ddd;font-size: 32px;line-height: 200px;text-align: center;">3</div>
             </SwiperItem>
+
         </Swiper>
         <!-- tabs -->
         <Tabs>
-            <TabsItem title="标签1">
+            <TabsItem title="tab1">
                 <ul class="list">
                     <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/F/J/FJ1107.png"></li>
                     <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB146.png"></li>
@@ -32,8 +33,14 @@
                     <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/D/Y/DY1053.png"></li>
                 </ul>
             </TabsItem>
-            <TabsItem title="标签2">2222</TabsItem>
-            <TabsItem title="标签3">33333</TabsItem>
+            <TabsItem title="tab2">2222</TabsItem>
+            <TabsItem title="tab3">33333</TabsItem>
+            <TabsItem title="tab4tab4">4444</TabsItem>
+            <TabsItem title="tab5">5555</TabsItem>
+            <TabsItem title="tab6">666</TabsItem>
+            <TabsItem title="tab7">777</TabsItem>
+
+
         </Tabs>
     </ScrollView>
 </template>

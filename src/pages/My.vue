@@ -7,9 +7,8 @@
                 </div>
             </div>
             <div style="padding:15px 0;">
+            <VTextarea v-model="textarea" :maxLength="102"></VTextarea>
                 <Stepper :disabled="false" style="width:40%;margin:auto" v-model="stepper"></Stepper>
-
-
                 <VInput v-model="date" placeholder="请输入" type="text" :disabled="false" :maxlength="2">日期</VInput>
                 <input type="text" v-model="date">
                 <VSwitch v-model="checked"></VSwitch>
@@ -19,7 +18,8 @@
             </div>
         </ScrollView>
         <VPopup v-model="checked">
-            <h1 slot="header">Please Pickup Date</h1> {{radio}}
+            <h1 slot="header">Please Pickup Date</h1> 
+            
             <Radio v-model="radio" :selfValue="1"></Radio>
             <Radio v-model="radio" :selfValue="2"></Radio>
             <Range :min="0" :max="100" v-model="rangeValue"></Range>
@@ -34,6 +34,8 @@
 </template>
 <script>
 import ImageTools from '@/packages/ImageTools/ImageTools'
+import VTextarea from '@/packages/Textarea/Textarea'
+
 import axios from 'axios';
 import VPopup from '@/packages/Dialog/Popup'
 import VDate from '@/packages/DateTime/Date'
@@ -56,6 +58,7 @@ export default {
     },
     data() {
         return {
+            textarea: '这都是测试数据',
             stepper: 3,
             checked: true,
             radio: true,
@@ -166,7 +169,9 @@ export default {
         ImageTools,
         Picker,
         Range,
-        Radio,Stepper,
+        Radio,
+        Stepper,
+        VTextarea,
     }
 }
 </script>
