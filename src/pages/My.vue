@@ -7,6 +7,9 @@
                 </div>
             </div>
             <div style="padding:15px 0;">
+                <Stepper :disabled="false" style="width:40%;margin:auto" v-model="stepper"></Stepper>
+
+
                 <VInput v-model="date" placeholder="请输入" type="text" :disabled="false" :maxlength="2">日期</VInput>
                 <input type="text" v-model="date">
                 <VSwitch v-model="checked"></VSwitch>
@@ -16,8 +19,10 @@
             </div>
         </ScrollView>
         <VPopup v-model="checked">
-            <h1 slot="header">Please Pickup Date</h1>
-            <Range :min="10" :max="200" v-model="rangeValue"></Range>
+            <h1 slot="header">Please Pickup Date</h1> {{radio}}
+            <Radio v-model="radio" :selfValue="1"></Radio>
+            <Radio v-model="radio" :selfValue="2"></Radio>
+            <Range :min="0" :max="100" v-model="rangeValue"></Range>
             <VInput v-model="rangeValue" placeholder="请输入" type="text" :disabled="false">音量</VInput>
             <VInput v-model="pickerValue[0]" placeholder="请输入" type="text" :disabled="false">年</VInput>
             <VInput v-model="pickerValue[1]" placeholder="请输入" type="text" :disabled="false">月</VInput>
@@ -40,6 +45,8 @@ import Upload from '@/packages/Upload/Upload'
 import VInput from '@/packages/Input/Input'
 import Picker from '@/packages/Picker/Picker'
 import Range from '@/packages/Range/Range'
+import Radio from '@/packages/Radio/Radio'
+import Stepper from '@/packages/Stepper/Stepper'
 
 
 export default {
@@ -49,7 +56,9 @@ export default {
     },
     data() {
         return {
+            stepper: 3,
             checked: true,
+            radio: true,
             date: '2017-01-01',
             time: '12:00:00',
             rangeValue: 15,
@@ -155,7 +164,9 @@ export default {
         Upload,
         VInput,
         ImageTools,
-        Picker, Range
+        Picker,
+        Range,
+        Radio,Stepper,
     }
 }
 </script>
