@@ -92,6 +92,8 @@ export default {
             } else {
                 this.touch.translateXNew = translateXNew;
             }
+            e.preventDefault();
+            e.stopPropagation();
         },
 
         touchend(e) {
@@ -141,7 +143,7 @@ $height: 30px;
             left: 0;
             transform: translateY(-50%);
             background: $light;
-            height: 1px;
+            height: 2px;
             width: 100%;
         }
         .progress {
@@ -150,7 +152,7 @@ $height: 30px;
             left: 0;
             transform: translateY(-50%);
             background: $base;
-            height: 1px;
+            height: 2px;
             width: 0;
         }
         .handle {
