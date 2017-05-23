@@ -1,5 +1,5 @@
 <template>
-    <i :class="['fa', 'fa-' + value]"></i>
+    <i @click="click" :class="['fa', 'fa-' + value]"></i>
 </template>
 <script>
 export default {
@@ -20,6 +20,12 @@ export default {
             } else {
                 this.value = value;
             }
+        }
+    },
+
+    methods: {
+        click(){
+            this.$emit('click');
         }
     }
 }
