@@ -96,6 +96,8 @@ export default {
             this.active.current = e.touches[0].clientY;
             this.active.distance = this.active.current - this.active.start;
             this.active.translateYNew = this.active.translateYOld + this.active.distance;
+            e.preventDefault();
+            e.stopPropagation();
         },
 
         /**

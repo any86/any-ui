@@ -64,8 +64,8 @@ export default {
             this.touche.status = 2;
             this.touche.current = e.touches[0].clientX;
             this.touche.distance = this.touche.current - this.touche.start;
-            // e.preventDefault();
-            // e.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
         },
 
         touchEnd(e) {
