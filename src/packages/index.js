@@ -75,4 +75,5 @@ Atom.install = function(Vue) {
     };
 
 };
+
 export default Atom;
