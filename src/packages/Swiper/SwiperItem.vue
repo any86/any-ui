@@ -38,9 +38,7 @@ export default {
         this.width = this.$el.offsetWidth;
         this.index = this.$parent.count;
         this.$parent.count++;
-    },
-
-    components: {}
+    }
 }
 </script>
 <style scoped lang=scss>

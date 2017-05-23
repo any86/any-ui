@@ -69,7 +69,7 @@ export default {
             this.touche.distance = 0;
             this.touche.status = 1;
             this.touche.start = e.touches[0].clientX;
-            // e.stopPropagation();
+            e.stopPropagation();
         },
 
         touchMove(e) {

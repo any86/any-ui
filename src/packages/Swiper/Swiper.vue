@@ -46,7 +46,7 @@ export default {
             }, 2000);
         },
 
-        stop(){
+        stop() {
             clearInterval(this.timer);
         },
 
@@ -64,29 +64,29 @@ export default {
             this.touche.status = 2;
             this.touche.current = e.touches[0].clientX;
             this.touche.distance = this.touche.current - this.touche.start;
-            // e.preventDefault();
-            // e.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
         },
 
         touchEnd(e) {
             this.touche.status = 0;
             // 正向拖拽&反向拖拽
             if (0 > this.touche.distance) {
-                // 拖拽超过一半, 直接跳过; 否则返回.
+                // 拖拽超过1/4, 直接跳过; 否则返回.
                 // 最后一张无论如何拖拽都复位
-                if (0 - this.touche.distance > this.width / 2 && this.count - 1 != this.active) {
+                if (0 - this.touche.distance > this.width / 4 && this.count - 1 != this.active) {
                     this.active++;
                 }
             } else {
-                // 拖拽超过一半, 直接跳过; 否则返回.
+                // 拖拽超过1/4, 直接跳过; 否则返回.
                 // 如果当前是第一张无论如何拖拽都复位
-                if (this.touche.distance > this.width / 2 && 0 != this.active) {
+                if (this.touche.distance > this.width / 4 && 0 != this.active) {
                     this.active--;
                 }
             }
             // 重置移动距离
             this.touche.distance = 0;
-            this.$nextTick(()=>{
+            this.$nextTick(() => {
                 this.play();
             });
         }
@@ -113,10 +113,10 @@ export default {
             height: 12px;
             line-height: 12px;
             text-align: center;
-            background: #444;
+            background: $light;
             color: #fff;
             &.active {
-                background: #ccc;
+                background: $base;
             }
         }
     }

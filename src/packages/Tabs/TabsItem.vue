@@ -10,10 +10,14 @@ export default {
     mounted() {
         this.title = this.$el.getAttribute('title');
         this.$parent.titles.push(this.title);
+        this.$parent.count++;
     },
 
     data() {
-        return {title: '', isShow: false};
+        return {
+            title: '',
+            isShow: false
+        };
     },
 
     components: {}

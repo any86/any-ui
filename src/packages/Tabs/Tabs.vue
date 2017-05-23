@@ -1,9 +1,12 @@
 <template>
     <div class="component-tabs">
-        <div class="header">
-            <span :class="['button', i == active && 'active']" v-for="(title, i) in titles" @click="changeItem(i)">{{title}}</span>
+        <div ref="header" class="header">
+            <div ref="film" class="film" :style="{width: filmWidth+'px'}">
+                <span :class="['button', i == active && 'active']" v-for="(title, i) in titles" @click="changeItem(i)">{{title}}</span>
+            </div>
+            <div class="active-line" :style="{width: buttonWidth[active] + 'px', transform: 'translate3d(' + translateX + 'px,0,0)'}">
+            </div>
         </div>
-
         <div class="body">
             <slot></slot>
         </div>
@@ -19,18 +22,35 @@ export default {
 
     mounted() {
         this.$children[this.active].isShow = true;
+        // 等待v-for把所有按钮生成
+        this.$nextTick(() => {
+            // 计算每个按钮宽度
+            // 计算film宽度
+            var buttons = this.$refs.film.childNodes;
+            [].forEach.call(buttons, button => {
+                var width = Math.ceil(getComputedStyle(button, null).width.replace('px', ''));
+                this.buttonWidth.push(width);
+                this.filmWidth += button.offsetWidth;
+            })
+        });
     },
 
     data() {
-        return {titles: [], active: 0}
+        return {
+            filmWidth: 0,
+            count: 0,
+            buttonWidth: [],
+            titles: [],
+            active: 0
+        }
     },
 
     methods: {
-        changeItem(index){
+        changeItem(index) {
             this.active = index;
-            this.$children.forEach((item, i)=>{
+            this.$children.forEach((item, i) => {
                 item.isShow = false;
-                if(index == i) {
+                if (index == i) {
                     item.isShow = true;
                 } else {
                     item.isShow = false;
@@ -39,20 +59,53 @@ export default {
         }
     },
 
-    components: {}
+    computed: {
+        translateX(){
+            var translateX = 0;
+            for(var i = 0; i < this.active; i++) {
+                translateX+= this.buttonWidth[i];
+            }
+            return translateX;
+        }
+    }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-tabs{
-    .header{
-        box-shadow:$shadowDown;width: 100%;
-        .button{padding:$gutter 2*$gutter; display: inline-block;text-align: center;color:$darkest;font-size: $normal;
-            &.active{border-bottom:2px solid $base;}
+$height: 30px;
+.component-tabs {
+    .header {
+        position: relative;
+        width: 100%;
+        border-bottom: 1px solid $lightest;
+        overflow: hidden;
+        .film {
+            overflow: hidden;
+            &::after {
+                clear: both;
+            }
+            .button {
+                float: left;
+                display: block;
+                padding: 2*$gutter 4*$gutter;
+                text-align: center;
+                color: $darkest;
+                font-size: $normal;
+                &.active {
+                    color: $base;
+                }
+            }
+        }
+        .active-line {
+            position: absolute;
+            z-index: 2;
+            bottom: -1px;
+            left: 0;
+            height: 2px;
+            background: $base;
+            transition: all .3s;
         }
     }
-    .body{
-
-    }
+    .body {}
 }
 </style>
