@@ -28,9 +28,13 @@ export default {
             // 计算film宽度
             var buttons = this.$refs.film.childNodes;
             [].forEach.call(buttons, button => {
-                var width = Math.ceil(getComputedStyle(button, null).width.replace('px', ''));
+                var style = getComputedStyle(button, null);
+                // 向上取整
+                var width = Math.ceil(style.width.replace('px', ''));
+                var padding = ~~style.paddingLeft.replace('px', '');
+                width+= 2 * padding
                 this.buttonWidth.push(width);
-                this.filmWidth += button.offsetWidth;
+                this.filmWidth += width;
             })
         });
     },
@@ -87,7 +91,7 @@ $height: 30px;
             .button {
                 float: left;
                 display: block;
-                padding: 2*$gutter 4*$gutter;
+                padding: 2*$gutter 6*$gutter;
                 text-align: center;
                 color: $darkest;
                 font-size: $normal;
