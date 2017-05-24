@@ -77,9 +77,13 @@ export default {
             // 正向拖拽&反向拖拽
             if (0 > this.touche.distance) {
                 // 拖拽超过1/6
-                // 当前页不是最后一页 && this.count - 1 > this.active
                 if (0 - this.touche.distance > this.width / 6) {
-                    this.active++;
+                    // 当前页不是最后一页
+                    if(this.count - 1 > this.active) {
+                        this.active++;
+                    } else {
+                        this.active = 0;
+                    }
                 }
             } else {
                 // 拖拽超过1/6
@@ -124,6 +128,7 @@ export default {
     position: relative;
     >.pages {
         position: absolute;
+        z-index:3;
         left: 50%;
         bottom: 10%;
         transform: translateX(-50%);

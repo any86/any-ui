@@ -1,5 +1,5 @@
 <template>
-    <div class="component-swiper-item" :class="{transition: isAnimate}" :style="{transform: 'translate3d('+translateX+'px,0,0)' ,width: width + 'px', height: height + 'px'}">
+    <div class="component-swiper-item" :class="{transition: isAnimate, active: isActive}" :style="{transform: 'translate3d('+translateX+'px,0,0)' ,width: width + 'px', height: height + 'px'}">
         <slot></slot>
     </div>
 </template>
@@ -17,13 +17,34 @@ export default {
 
     computed: {
         translateX() {
-            return (this.index - this.$parent.active) * this.width + this.$parent.touche.distance;
+            // 右边界
+            if(this.$parent.count - 1 == this.$parent.active) {
+                // 如果: 当前index为0, 那么移动一个swiper宽度, 下一滑动显示
+                if(0 == this.index) {
+                    // 如果当前索引为0, 那么距离也为0
+                    if(0 == this.$parent.active) {
+                        return 0;
+                    } else {
+                        return this.width + this.$parent.touche.distance;
+                    }
+                } else {
+                    return (this.index - this.$parent.active) * this.width + this.$parent.touche.distance;
+                }
+            } else {
+                return (this.index - this.$parent.active) * this.width + this.$parent.touche.distance;
+            }
         },
 
         isAnimate() {
             if (0 == this.$parent.touche.status) {
                 return true;
+            } else {
+                return false;
             }
+        },
+
+        isActive(){
+            return this.index == this.$parent.active;
         }
     },
 
@@ -52,4 +73,6 @@ export default {
     &.transition{transition:all .5s;}
 
 }
+
+.active{z-index:2;}
 </style>
