@@ -8,19 +8,19 @@ export default {
     name: 'TabsItem',
 
     mounted() {
-        this.title = this.$el.getAttribute('title');
-        this.$parent.titles.push(this.title);
+        this.StringProps.title = this.$el.getAttribute('title');
+        this.$parent.titles.push(this.StringProps.title);
         this.$parent.count++;
     },
 
     data() {
         return {
-            title: '',
+            StringProps: {
+                title: '',
+            },
             isShow: false
         };
-    },
-
-    components: {}
+    }
 }
 </script>
 <style scoped lang="scss">

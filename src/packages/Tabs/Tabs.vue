@@ -1,14 +1,17 @@
 <template>
     <div class="component-tabs">
         <div ref="header" class="header">
-            <div ref="film" class="film" :style="{width: filmWidth+'px'}">
+            <div ref="film" class="film" :style="{width: header.filmWidth+'px'}">
                 <span :class="['button', i == active && 'active']" v-for="(title, i) in titles" @click="changeItem(i)">{{title}}</span>
             </div>
             <div class="active-line" :style="{width: buttonWidth[active] + 'px', transform: 'translate3d(' + translateX + 'px,0,0)'}">
+                <div class="core"></div>
             </div>
         </div>
         <div class="body">
-            <slot></slot>
+            <div class="item">
+                <slot></slot>
+            </div>
         </div>
     </div>
 </template>
@@ -32,16 +35,21 @@ export default {
                 // 向上取整
                 var width = Math.ceil(style.width.replace('px', ''));
                 var padding = ~~style.paddingLeft.replace('px', '');
-                width+= 2 * padding
+                width += 2 * padding
                 this.buttonWidth.push(width);
-                this.filmWidth += width;
+                this.header.filmWidth += width;
             })
         });
     },
 
     data() {
         return {
-            filmWidth: 0,
+            header: {
+                filmWidth: 0
+            },
+            body: {
+                filmWidth: 0
+            },
             count: 0,
             buttonWidth: [],
             titles: [],
@@ -64,10 +72,10 @@ export default {
     },
 
     computed: {
-        translateX(){
+        translateX() {
             var translateX = 0;
-            for(var i = 0; i < this.active; i++) {
-                translateX+= this.buttonWidth[i];
+            for (var i = 0; i < this.active; i++) {
+                translateX += this.buttonWidth[i];
             }
             return translateX;
         }
@@ -82,7 +90,6 @@ $height: 30px;
         position: relative;
         width: 100%;
         border-bottom: 1px solid $lightest;
-        overflow: hidden;
         .film {
             overflow: hidden;
             &::after {
@@ -91,7 +98,7 @@ $height: 30px;
             .button {
                 float: left;
                 display: block;
-                padding: 2*$gutter 6*$gutter;
+                padding: 2*$gutter 4*$gutter;
                 text-align: center;
                 color: $darkest;
                 font-size: $normal;
@@ -106,10 +113,20 @@ $height: 30px;
             bottom: -1px;
             left: 0;
             height: 2px;
-            background: $base;
-            transition: all .3s;
+            // background: $base;
+            transition: all .3s cubic-bezier(0.35, 0, 0.25, 1);
+            .core {
+                margin: 0 3*$gutter;
+                height: 2px;
+                background: $base;
+            }
         }
     }
-    .body {}
+    .body {
+        display: flex;
+        .item {
+            flex: 0 0 100%;
+        }
+    }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="component-swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
         <slot></slot>
-        <div class="page">
+        <div class="pages">
             <a v-for="n in count" :class="{active: n - 1 == active}" @click="chnageItem(n-1)"></a>
         </div>
     </div>
@@ -20,6 +20,7 @@ export default {
             active: 0,
             count: 0,
             width: 0,
+            height: 0,
             touche: {
                 status: 0,
                 start: 0,
@@ -30,8 +31,10 @@ export default {
     },
 
     mounted() {
-        this.width = this.$el.offsetWidth;
-        this.play();
+        var {width, height} = this.$el.getBoundingClientRect();
+        this.width = width;
+        this.height = height;
+        // this.play();
     },
 
     methods: {
@@ -64,6 +67,7 @@ export default {
             this.touche.status = 2;
             this.touche.current = e.touches[0].clientX;
             this.touche.distance = this.touche.current - this.touche.start;
+            this.touche.translateX = this.touche.distance
             e.preventDefault();
             e.stopPropagation();
         },
@@ -72,23 +76,41 @@ export default {
             this.touche.status = 0;
             // 正向拖拽&反向拖拽
             if (0 > this.touche.distance) {
-                // 拖拽超过1/4, 直接跳过; 否则返回.
-                // 最后一张无论如何拖拽都复位
-                if (0 - this.touche.distance > this.width / 4 && this.count - 1 != this.active) {
+                // 拖拽超过1/6
+                // 当前页不是最后一页 && this.count - 1 > this.active
+                if (0 - this.touche.distance > this.width / 6) {
                     this.active++;
                 }
             } else {
-                // 拖拽超过1/4, 直接跳过; 否则返回.
-                // 如果当前是第一张无论如何拖拽都复位
-                if (this.touche.distance > this.width / 4 && 0 != this.active) {
-                    this.active--;
-                }
+                // 拖拽超过1/6
+                // 当前是第一张
+                // if (this.touche.distance > this.width / 6 && 0 != this.active) {
+                //     this.active--;
+                // }
             }
+            // if(0 > this.active) {
+            //     this.active = this.count;
+            // } else if(this.count < this.active) {
+            //     this.active = 0;
+            // }
+
+
+
             // 重置移动距离
             this.touche.distance = 0;
             this.$nextTick(() => {
-                this.play();
+                // this.play();
             });
+        }
+    },
+
+    computed: {
+        translateX() {
+            if (2 == this.touche.status) {
+                return 0 - this.active * this.width + this.touche.distance;
+            } else {
+                return 0 - this.active * this.width;
+            }
         }
     }
 }
@@ -97,10 +119,10 @@ export default {
 @import '../../scss/theme.scss';
 .component-swiper {
     width: 100%;
-    height: 200px;
+    height: 100%;
     overflow: hidden;
     position: relative;
-    >.page {
+    >.pages {
         position: absolute;
         left: 50%;
         bottom: 10%;
