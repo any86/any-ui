@@ -13,6 +13,9 @@
             <SwiperItem>
                 <div style="width:100%;height: 4rem;background:#bbb;font-size: 32px;line-height: 4rem;text-align: center;">3</div>
             </SwiperItem>
+            <SwiperItem>
+                <div style="width:100%;height: 4rem;background:#69c;font-size: 32px;line-height: 4rem;text-align: center;">4</div>
+            </SwiperItem>
         </Swiper>
         <!-- tabs -->
         <Tabs>
