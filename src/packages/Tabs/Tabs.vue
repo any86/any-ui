@@ -8,11 +8,6 @@
                 <div class="core"></div>
             </div>
         </div>
-        <div class="body">
-            <div class="item">
-                <slot></slot>
-            </div>
-        </div>
     </div>
 </template>
 <script>
@@ -20,11 +15,12 @@ export default {
     name: 'Tabs',
 
     props: {
-        value: {}
+        value: {},
+
+        titles: {}
     },
 
     mounted() {
-        this.$children[this.active].isShow = true;
         // 等待v-for把所有按钮生成
         this.$nextTick(() => {
             // 计算每个按钮宽度
@@ -52,7 +48,6 @@ export default {
             },
             count: 0,
             buttonWidth: [],
-            titles: [],
             active: 0
         }
     },
@@ -60,14 +55,6 @@ export default {
     methods: {
         changeItem(index) {
             this.active = index;
-            this.$children.forEach((item, i) => {
-                item.isShow = false;
-                if (index == i) {
-                    item.isShow = true;
-                } else {
-                    item.isShow = false;
-                }
-            });
         }
     },
 
@@ -120,12 +107,6 @@ $height: 30px;
                 height: 2px;
                 background: $base;
             }
-        }
-    }
-    .body {
-        display: flex;
-        .item {
-            flex: 0 0 100%;
         }
     }
 }

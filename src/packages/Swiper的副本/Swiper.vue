@@ -1,18 +1,14 @@
 <template>
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
+    <div class="component-swiper" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+        <div ref="film" :class="['film']" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transition: `all ${filmSpeed}ms`}">
             <slot></slot>
         </div>
-        <!-- Add Pagination -->
-        <!-- <div class="swiper-pagination"></div> -->
-        <!-- Add Arrows -->
-<!--         <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div> -->
+        <div class="pages">
+            <a v-for="n in count" :class="{active: n - 1 == activeIndex}" @click="chnageItem(n-1)"></a>
+        </div>
     </div>
 </template>
 <script>
-import swiper from 'swiper'
-import 'swiper/dist/css/swiper.css'
 export default {
     name: 'Swiper',
 
@@ -56,15 +52,20 @@ export default {
     },
 
     mounted() {
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        slidesPerView: 1,
-        paginationClickable: true,
-        // spaceBetween: 30,
-        loop: true
-    });
+        var {
+            width,
+            height
+        } = this.$el.getBoundingClientRect();
+        this.width = width;
+        this.height = height;
+        this.play();
+
+        // 应该在main.js中判断下 是什么前缀
+        ['webkitTransitionEnd', 'transitionEnd'].forEach(eventName => {
+            this.$refs.film.addEventListener(eventName, () => {
+                this.isAnimate = false;
+            });
+        });
     },
 
     methods: {
@@ -137,11 +138,27 @@ export default {
     },
 
     watch: {
-
+        activeIndex() {
+            this.isAnimate = true;
+        }
     },
 
     computed: {
+        filmSpeed() {
+            if (1 >= this.touch.status) {
+                return this.speed;
+            } else {
+                return 0;
+            }
+        },
 
+        translateX() {
+            if (2 == this.touch.status) {
+                return 0 - this.activeIndex * this.width + this.touch.distance;
+            } else {
+                return 0 - this.activeIndex * this.width;
+            }
+        }
     }
 }
 </script>
