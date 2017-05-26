@@ -1,10 +1,10 @@
 <template>
     <div class="component-tabs">
         <div ref="header" class="header">
-            <div ref="film" class="film" :style="{width: header.filmWidth+'px'}">
-                <span :class="['button', i == active && 'active']" v-for="(title, i) in titles" @click="changeItem(i)">{{title}}</span>
+            <div ref="film" class="film" :style="{width: `${width}px`}">
+               <slot></slot>
             </div>
-            <div class="active-line" :style="{width: buttonWidth[active] + 'px', transform: 'translate3d(' + translateX + 'px,0,0)'}">
+            <div class="active-line" :style="{width: itemWidth[active] + 'px', transform: 'translate3d(' + translateX + 'px,0,0)'}">
                 <div class="core"></div>
             </div>
         </div>
@@ -15,54 +15,38 @@ export default {
     name: 'Tabs',
 
     props: {
-        value: {},
-
-        titles: {}
+        value: {
+            type: Number,
+            default: 0
+        }
     },
 
     mounted() {
-        // 等待v-for把所有按钮生成
-        this.$nextTick(() => {
-            // 计算每个按钮宽度
-            // 计算film宽度
-            var buttons = this.$refs.film.childNodes;
-            [].forEach.call(buttons, button => {
-                var style = getComputedStyle(button, null);
-                // 向上取整
-                var width = Math.ceil(style.width.replace('px', ''));
-                var padding = ~~style.paddingLeft.replace('px', '');
-                width += 2 * padding
-                this.buttonWidth.push(width);
-                this.header.filmWidth += width;
-            })
-        });
+
     },
 
     data() {
         return {
-            header: {
-                filmWidth: 0
-            },
-            body: {
-                filmWidth: 0
-            },
+            itemWidth: [],
+            width: -1,
             count: 0,
-            buttonWidth: [],
-            active: 0
-        }
-    },
-
-    methods: {
-        changeItem(index) {
-            this.active = index;
         }
     },
 
     computed: {
+        active: {
+            get(){
+                return this.value;
+            },
+
+            set(value){
+                this.$emit('input', value);
+            }
+        },
         translateX() {
             var translateX = 0;
             for (var i = 0; i < this.active; i++) {
-                translateX += this.buttonWidth[i];
+                translateX += this.itemWidth[i];
             }
             return translateX;
         }
@@ -80,18 +64,8 @@ $height: 30px;
         .film {
             overflow: hidden;
             &::after {
+                content: ' ';
                 clear: both;
-            }
-            .button {
-                float: left;
-                display: block;
-                padding: 2*$gutter 4*$gutter;
-                text-align: center;
-                color: $darkest;
-                font-size: $normal;
-                &.active {
-                    color: $base;
-                }
             }
         }
         .active-line {
