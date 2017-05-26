@@ -5,16 +5,18 @@
         <!-- 轮播 -->
         <Swiper style="height: 4rem;">
             <SwiperItem>
-                <div style="width:100%;height: 4rem;background:#ddd;font-size: 32px;line-height: 4rem;text-align: center;">1</div>
+                <div style="width:100%;height: 4rem;background:#ddd;font-size: 1rem;line-height: 4rem;text-align: center;">
+                    1
+                </div>
             </SwiperItem>
             <SwiperItem>
-                <div style="width:100%;height: 4rem;background:#ccc;font-size: 32px;line-height: 4rem;text-align: center;">2</div>
+                <div style="width:100%;height: 4rem;background:#ccc;font-size: 1rem;line-height: 4rem;text-align: center;">2</div>
             </SwiperItem>
             <SwiperItem>
-                <div style="width:100%;height: 4rem;background:#bbb;font-size: 32px;line-height: 4rem;text-align: center;">3</div>
+                <div style="width:100%;height: 4rem;background:#bbb;font-size: 1rem;line-height: 4rem;text-align: center;">3</div>
             </SwiperItem>
             <SwiperItem>
-                <div style="width:100%;height: 4rem;background:#69c;font-size: 32px;line-height: 4rem;text-align: center;">4</div>
+                <div style="width:100%;height: 4rem;background:#69c;font-size: 1rem;line-height: 4rem;text-align: center;">4</div>
             </SwiperItem>
         </Swiper>
         <!-- tabs -->

@@ -1,10 +1,10 @@
 <template>
-    <div class="component-swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-        <div :class="['film', 0 == touche.status && 'transition']" :style="{transform: `translate3d(${translateX}px, 0, 0)`}">
+    <div class="component-swiper" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+        <div ref="film" :class="['film']" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transition: `all ${filmSpeed}ms`}">
             <slot></slot>
         </div>
         <div class="pages">
-            <a v-for="n in count" :class="{active: n - 1 == active}" @click="chnageItem(n-1)"></a>
+            <a v-for="n in count" :class="{active: n - 1 == activeIndex}" @click="chnageItem(n-1)"></a>
         </div>
     </div>
 </template>
@@ -13,17 +13,32 @@ export default {
     name: 'Swiper',
 
     props: {
+        delay: {
+            type: Number,
+            default: 2000
+        },
+
+        speed: {
+            type: Number,
+            default: 1000
+        },
+
+        isLoop: {
+            type: Boolean,
+            default: false
+        }
 
     },
 
     data() {
         return {
+            isAnimate: false,
+            activeIndex: 0,
             timer: null,
-            active: 0, // 索引
             count: 0,
             width: 0,
             height: 0,
-            touche: {
+            touch: {
                 status: 0,
                 start: 0,
                 current: 0,
@@ -39,20 +54,21 @@ export default {
         } = this.$el.getBoundingClientRect();
         this.width = width;
         this.height = height;
+        this.play();
 
-        // this.play();
+        // 应该在main.js中判断下 是什么前缀
+        ['webkitTransitionEnd', 'transitionEnd'].forEach(eventName => {
+            this.$refs.film.addEventListener(eventName, () => {
+                this.isAnimate = false;
+            });
+        });
     },
 
     methods: {
         play() {
             this.timer = setInterval(() => {
-                // 右边界
-                if (this.count - 1 > this.active) {
-                    this.active++;
-                } else {
-                    this.active = 0;
-                }
-            }, 2000);
+                this.next();
+            }, this.delay);
         },
 
         stop() {
@@ -60,88 +76,83 @@ export default {
         },
 
         chnageItem(i) {
-            this.active = i;
+            this.activeIndex = i;
         },
 
-        touchStart(e) {
+        touchstart(e) {
             this.stop();
-            this.touche.status = 1;
-            this.touche.start = e.touches[0].clientX;
+            this.touch.status = 1;
+            this.touch.start = e.touches[0].clientX;
         },
 
-        touchMove(e) {
-            this.touche.status = 2;
-            this.touche.current = e.touches[0].clientX;
-            this.touche.distance = this.touche.current - this.touche.start;
+        touchmove(e) {
+            this.touch.status = 2;
+            this.touch.current = e.touches[0].clientX;
+            this.touch.distance = this.touch.current - this.touch.start;
             e.preventDefault();
             e.stopPropagation();
         },
 
-        touchEnd(e) {
-            this.touche.status = 0;
-            // 正向拖拽&反向拖拽
-            if (0 > this.touche.distance) {
-                // 拖拽超过1/6
-                if (0 - this.touche.distance > this.width / 6) {
-                    if (this.count > this.active) {
-                        this.active++;
-                    } else {
-                        this.active = 0;
-                    }
-                }
-            } else {
-                // 拖拽超过1/6
-                // 当前是第一张
-                if (this.touche.distance > this.width / 6) {
-                    if (0 == this.active) {
-                        this.active = this.count - 1;
-                    } else {
-                        this.active--;
-                    }
+        touchend(e) {
+            this.touch.status = 0;
+            // 拖拽超过1/6
+            if (Math.abs(this.touch.distance) > this.width / 6) {
+                if (0 > this.touch.distance) {
+                    this.next();
+                } else {
+                    this.previous();
                 }
             }
 
             // 重置移动距离
-            this.touche.distance = 0;
+            this.touch.distance = 0;
+
             this.$nextTick(() => {
-                // this.play();
+                this.play();
             });
+        },
+
+        next() {
+            if(this.count - 1 > this.activeIndex) {
+                this.activeIndex++;
+            } else {
+                this.activeIndex = 0;
+            }
+            
+        },
+
+        previous() {
+            if(0 < this.activeIndex) {
+                this.activeIndex--;
+            } else {
+                this.activeIndex = this.count - 1;
+            }
+            
+        }
+    },
+
+    watch: {
+        activeIndex() {
+            this.isAnimate = true;
         }
     },
 
     computed: {
-        order() {
-            // 生成矩阵
-            var array = [];
-            var last = this.count - 1;
-            for (var i = 0; i < this.count; i++) {
-                array.push(i);
+        filmSpeed() {
+            if (1 >= this.touch.status) {
+                return this.speed;
+            } else {
+                return 0;
             }
-
-            for (var k in array) {
-                if (this.active == array[k]) {
-                    k = ~~k;
-                    if (undefined == array[k + 1]) {
-                        array.push(array[0]);
-                        array.shift(0)
-                    } else if (undefined == array[k - 1]) {
-                        var last = array.length - 1;
-                        array.unshift(array[last]);
-                        array.pop();
-                    }
-                }
-            }
-            return array;
         },
 
         translateX() {
-            if (2 == this.touche.status) {
-                return 0 - this.active * this.width + this.touche.distance;
+            if (2 == this.touch.status) {
+                return 0 - this.activeIndex * this.width + this.touch.distance;
             } else {
-                return 0 - this.active * this.width;
+                return 0 - this.activeIndex * this.width;
             }
         }
-
     }
 }
 </script>
@@ -152,11 +163,6 @@ export default {
     height: 100%;
     overflow: hidden;
     position: relative;
-    >.film {
-        &.transition {
-            transition: all 1s;
-        }
-    }
     >.pages {
         position: absolute;
         z-index: 3;
