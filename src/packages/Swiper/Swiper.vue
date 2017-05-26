@@ -17,6 +17,11 @@ export default {
     name: 'Swiper',
 
     props: {
+        value: {
+            type: Number,
+            default: 0
+        },
+
         delay: {
             type: Number,
             default: 2000
@@ -27,7 +32,7 @@ export default {
             default: 1000
         },
 
-        isLoop: {
+        loop: {
             type: Boolean,
             default: false
         },
@@ -40,108 +45,40 @@ export default {
 
     data() {
         return {
-            isAnimate: false,
-            activeIndex: 0,
-            timer: null,
-            count: 0,
-            width: 0,
-            height: 0,
-            touch: {
-                status: 0,
-                start: 0,
-                current: 0,
-                distance: 0
-            }
+            swiper: {}
         };
     },
 
     mounted() {
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        slidesPerView: 1,
-        paginationClickable: true,
-        // spaceBetween: 30,
-        loop: true
-    });
+        this.swiper = new Swiper(this.$el, {
+            pagination: '.swiper-pagination',
+            nextButton: '.swiper-button-next',
+            prevButton: '.swiper-button-prev',
+            slidesPerView: 1,
+            paginationClickable: true,
+            loop: this.loop,
+            onSlideChangeEnd: swiper=>{
+                this.$emit('input', swiper.activeIndex);
+            }
+        });
     },
 
     methods: {
-        play() {
-            if (this.autoplay) {
-                this.timer = setInterval(() => {
-                    this.next();
-                }, this.delay);
-            }
-        },
 
-        stop() {
-            clearInterval(this.timer);
-        },
-
-        chnageItem(i) {
-            this.activeIndex = i;
-        },
-
-        touchstart(e) {
-            this.stop();
-            this.touch.status = 1;
-            this.touch.start = e.touches[0].clientX;
-        },
-
-        touchmove(e) {
-            this.touch.status = 2;
-            this.touch.current = e.touches[0].clientX;
-            this.touch.distance = this.touch.current - this.touch.start;
-            e.preventDefault();
-            e.stopPropagation();
-        },
-
-        touchend(e) {
-            this.touch.status = 0;
-            // 拖拽超过1/6
-            if (Math.abs(this.touch.distance) > this.width / 6) {
-                if (0 > this.touch.distance) {
-                    this.next();
-                } else {
-                    this.previous();
-                }
-            }
-
-            // 重置移动距离
-            this.touch.distance = 0;
-
-            this.$nextTick(() => {
-                this.play();
-            });
-        },
-
-        next() {
-            if (this.count - 1 > this.activeIndex) {
-                this.activeIndex++;
-            } else {
-                this.activeIndex = 0;
-            }
-
-        },
-
-        previous() {
-            if (0 < this.activeIndex) {
-                this.activeIndex--;
-            } else {
-                this.activeIndex = this.count - 1;
-            }
-
-        }
     },
 
     watch: {
-
+        value(value){
+            this.swiper.slideTo(value);
+        }
     },
 
     computed: {
 
+    },
+
+    destroy(){
+        this.swiper.destroy();
     }
 }
 </script>
