@@ -1,18 +1,23 @@
 <template>
-    <div class="component-swiper" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
-        <div ref="film" :class="['film']" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transition: `all ${filmSpeed}ms`}">
+    <div class="component-carousel" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+        <div ref="film" :class="['film']" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transition: `transform ${speed}ms`}">
             <slot></slot>
         </div>
-        <div class="pages">
+        <div v-if="hasNav" class="pages">
             <a v-for="n in count" :class="{active: n - 1 == activeIndex}" @click="chnageItem(n-1)"></a>
         </div>
     </div>
 </template>
 <script>
 export default {
-    name: 'Swiper',
+    name: 'Carousel',
 
     props: {
+        value: {
+            type: Number,
+            default: 0
+        },
+
         delay: {
             type: Number,
             default: 2000
@@ -20,7 +25,7 @@ export default {
 
         speed: {
             type: Number,
-            default: 1000
+            default: 300
         },
 
         isLoop: {
@@ -30,6 +35,11 @@ export default {
 
         autoplay: {
             type: Boolean,
+            default: true
+        },
+
+        hasNav: {
+            type: Boolean,
             default: false
         }
     },
@@ -37,7 +47,6 @@ export default {
     data() {
         return {
             isAnimate: false,
-            activeIndex: 0,
             timer: null,
             count: 0,
             width: 0,
@@ -52,12 +61,7 @@ export default {
     },
 
     mounted() {
-        var {
-            width,
-            height
-        } = this.$el.getBoundingClientRect();
-        this.width = width;
-        this.height = height;
+        this.width = this.$el.getBoundingClientRect().width;
         this.play();
 
         // 应该在main.js中判断下 是什么前缀
@@ -101,8 +105,8 @@ export default {
 
         touchend(e) {
             this.touch.status = 0;
-            // 拖拽超过1/6
-            if (Math.abs(this.touch.distance) > this.width / 6) {
+            // 拖拽超过10px
+            if (Math.abs(this.touch.distance) > 10) {
                 if (0 > this.touch.distance) {
                     this.next();
                 } else {
@@ -122,7 +126,9 @@ export default {
             if (this.count - 1 > this.activeIndex) {
                 this.activeIndex++;
             } else {
-                this.activeIndex = 0;
+                if (this.loop) {
+                    this.activeIndex = 0;
+                }
             }
 
         },
@@ -131,25 +137,23 @@ export default {
             if (0 < this.activeIndex) {
                 this.activeIndex--;
             } else {
-                this.activeIndex = this.count - 1;
+                if (this.loop) {
+                    this.activeIndex = this.count - 1;
+                }
             }
-
-        }
-    },
-
-    watch: {
-        activeIndex() {
-            this.isAnimate = true;
         }
     },
 
     computed: {
-        filmSpeed() {
-            if (1 >= this.touch.status) {
-                return this.speed;
-            } else {
-                return 0;
-            }
+        activeIndex: {
+            get() {
+                return this.value;
+            },
+
+            set(index) {
+                this.isAnimate = true;
+                this.$emit('input', index);
+            },
         },
 
         translateX() {
@@ -164,11 +168,15 @@ export default {
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
-.component-swiper {
+.component-carousel {
     width: 100%;
-    height: 100%;
     overflow: hidden;
     position: relative;
+    >.film {
+        display: flex;
+        position: relative;
+        width: 100%;
+    }
     >.pages {
         position: absolute;
         z-index: 3;

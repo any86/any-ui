@@ -30,6 +30,7 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-badge {
+    &.absolute{position: absolute;right: 0;top:0;}
     display: inline-block;
     position: relative;
     overflow: hidden;
@@ -42,7 +43,7 @@ export default {
 }
 
 .big {
-    padding: $gutter / 6 2 * $gutter;
+    padding: $gutter / 8 2 * $gutter;
     border-radius: $gutter*2;
 }
 

@@ -29,7 +29,7 @@
                     </router-link>
                 </FlexItem>
                 <FlexItem>
-                    <router-link tag="span" to="/home/category" class="button">
+                    <router-link tag="span" to="/home/find" class="button">
                         <Icon class="icon" value="compass"></Icon>
                         <p>find</p>
                     </router-link>

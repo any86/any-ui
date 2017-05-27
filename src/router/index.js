@@ -5,15 +5,15 @@ const Login = () => ({
     component: import ('@/pages/Login')
 });
 
-import Home from '@/pages/Home'
+import Home from '@/pages/HomeFrame'
 import Index from '@/pages/Index'
 
 const Presale = () => ({
     component: import ('@/pages/Presale')
 });
 
-const Category = () => ({
-    component: import ('@/pages/Category')
+const Find = () => ({
+    component: import ('@/pages/Find')
 });
 
 const ShopCart = () => ({
@@ -47,9 +47,9 @@ export default new Router({
             name: 'Presale',
             component: Presale
         }, {
-            path: 'category',
-            name: 'Category',
-            component: Category
+            path: 'find',
+            name: 'Find',
+            component: Find
         }, {
             path: 'shop-cart',
             name: 'ShopCart',
