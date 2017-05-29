@@ -23,8 +23,12 @@
        
         <Tabs v-model="tabSelect">
             <TabsItem>tab1a</TabsItem>
-            <TabsItem>tab2b<Badge type="danger">3</Badge></TabsItem>
-            <TabsItem>tab3c</TabsItem>
+            <TabsItem>tab2b</TabsItem>
+            <TabsItem>tab5</TabsItem>
+            <TabsItem>tab6</TabsItem>
+            <TabsItem>longtab3</TabsItem>
+            <TabsItem>longlonglonglonglonglongtab4</TabsItem>
+            
         </Tabs>
 
 

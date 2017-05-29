@@ -107,7 +107,7 @@ export default {
             this.touch.status = 0;
             // 拖拽超过10px
             if (Math.abs(this.touch.distance) > 10) {
-                if (0 > this.touch.distance) {
+                if (30 > this.touch.distance) {
                     this.next();
                 } else {
                     this.previous();

@@ -15,9 +15,9 @@ export default {
     mounted(){
         this.index = this.$parent.count;
         this.$parent.count++;
-        this.width = this.$el.offsetWidth + 1;
+        this.width = this.$el.scrollWidth + 1;
         this.$parent.itemWidth.push(this.width);
-        this.$parent.width+= this.width;
+        this.$parent.filmWidth+= this.width;
     },
 
     methods: {
@@ -29,11 +29,17 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: 30px;
 .component-tabs-item {
-    float: left;
+    // 有剩余空间是否自动占满
+    flex-grow:1;
+    // 空间不够是否缩小
+    flex-shrink:0;
+    // 默认尺寸
+    flex-basis:auto;
+    
     display: block;
-    padding: 2*$gutter 4*$gutter;
+    box-sizing: border-box;
+    padding: 2*$gutter 3*$gutter;
     text-align: center;
     color: $darkest;
     font-size: $normal;
