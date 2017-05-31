@@ -1,13 +1,19 @@
 <template>
     <li class="component-list-item">
-        <div :class="{flex: true, body:true, transition: 2 != touche.status}" :style="{transform: 'translateX('+ touche.distance +'px)'}">
+        <div :class="{body:true, transition: 2 != touche.status}" :style="{transform: 'translateX('+ touche.distance +'px)'}">
             <!-- 正文 -->
-            <div v-if="canRemove" ref="content" class="content flex-item" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+            <div v-if="canRemove" ref="left" class="left" @touchstart="touchStart" @touchmove.prevent="touchMove" @touchend="touchEnd">
                 <slot></slot>
             </div>
-            <div v-else ref="content" class="content flex-item">
+
+            <div v-else ref="left" class="left">
                 <slot></slot>
             </div>
+            
+            <div class="right">
+                <slot name="right"></slot>
+            </div>
+
             <!-- 箭头 -->
             <div v-if="hasArrow" class="arrow">
                 <Icon class="icon" value="angle-right"></Icon>
@@ -62,14 +68,12 @@ export default {
     methods: {
         remove() {
             this.$emit('remove');
-            // this.$confirm('123').then(() => {}).catch(() => {});
         },
 
         touchStart(e) {
             this.touche.distance = 0;
             this.touche.status = 1;
             this.touche.start = e.touches[0].clientX;
-            e.stopPropagation();
         },
 
         touchMove(e) {
@@ -105,12 +109,20 @@ export default {
     overflow: hidden;
     border-bottom: 1px solid $lightest;
     >.body {
+        display: flex;
         box-sizing: border-box;
         position: relative;
         width: 100%;
-        >.content {
+        overflow: hidden;
+        padding:2*$gutter;
+        >.left {
+            flex: 1;
             box-sizing: border-box;
             position: relative;
+            font-size: .3rem;
+        }
+        >.right{
+
         }
         >.arrow {
             font-size: 3em;

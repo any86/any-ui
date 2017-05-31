@@ -26,6 +26,9 @@ export default {
 @import '../../scss/theme.scss';
 .component-list {
    position: relative;
-   li:last-child{border-bottom: none;}
+   // border-color: $lightest;
+   // border-style: solid;
+   // border-width: 1px 0 1px 0;
+   >li:last-child{border-bottom: none;}
 }
 </style>
