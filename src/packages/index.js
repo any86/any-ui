@@ -53,11 +53,36 @@ Atom.install = function(Vue) {
         return new Promise((resolve, reject) => {
             vm.mask.show = true;
             vm.confirm = {
-                ...vm.alert,
+                ...vm.confirm,
                 ...options,
                 ok: () => {
                     vm.mask.show = false;
                     resolve();
+                },
+                cancel: () => {
+                    vm.mask.show = false;
+                    reject();
+                },
+                show: true,
+                text
+            };
+
+        });
+    };
+
+
+    // =================================================
+    // ==============组件内调用: this.$prompt============
+    // =================================================
+    Vue.prototype.$input = Vue.prototype.$prompt = (text = '', options = {}) => {
+        return new Promise((resolve, reject) => {
+            vm.mask.show = true;
+            vm.prompt = {
+                ...vm.prompt,
+                ...options,
+                ok: () => {
+                    vm.mask.show = false;
+                    resolve(vm.prompt.value);
                 },
                 cancel: () => {
                     vm.mask.show = false;

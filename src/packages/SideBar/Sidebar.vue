@@ -59,11 +59,11 @@ export default {
 }
 
 .side-enter-active {
-    animation: side-in .5s;
+    animation: side-in .3s;
 }
 
 .side-leave-active {
-    animation: side-out .5s;
+    animation: side-out .3s;
 }
 
 @keyframes side-in {

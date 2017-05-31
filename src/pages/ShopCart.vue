@@ -1,13 +1,14 @@
 <template>
     <ScrollView class="page-cart">
+        <Spinner slot="background"></Spinner>
         <ListView class="cart-list">
             <ListItem :canRemove="true">
                 <div class="flex">
-                    <div class="cover">
+                    <router-link :to="{path: '/home/my'}" tag="h5" class="cover">
                         <img src="https://avatars0.githubusercontent.com/u/8264787?v=3&s=460">
-                    </div>
+                    </router-link>
                     <div class="info flex-item">
-                        <router-link :to="{path: '/home/my'}" tag="h5" class="title">soufeelsoufeeleelsoufeel</router-link>
+                        <h5 class="title">soufeelsoufeeleelsoufeel</h5>
                         <Badge type="success">free</Badge>
                     </div>
                 </div>
@@ -58,7 +59,7 @@
     </ScrollView>
 </template>
 <script>
-import ListView from '@/packages/List/ListView'
+import ListView from '@/packages/List/List'
 import ListItem from '@/packages/List/ListItem'
 import Badge from '@/packages/Badge/Badge'
 

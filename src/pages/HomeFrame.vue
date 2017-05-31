@@ -1,19 +1,33 @@
 <template>
     <div class="container">
-        <SideBar v-model="isShowSideBar">菜单/1/菜单/2</SideBar>
+        <SideBar v-model="isShowSideBar">
+            <ul class="sidebar-menu">
+                <li>What's New</li>
+                <li>Personalized Name Necklace</li>
+                <li>New Arrivals</li>
+                <li>All Personalized</li>
+                <li>Personalized</li>
+            </ul>        
+        </SideBar>
+
         <StickyLayout>
             <!-- 头部 -->
             <FlexBox slot="header" class="header">
                 <Icon value="bars" @click.native="showSideBar"></Icon>
+                <Icon value="search" style="margin-left:15px;"></Icon>
                 <FlexItem>
                     <img class="logo" src="../assets/logo.png">
                 </FlexItem>
-                <Icon value="search"></Icon>
+                <Icon value="user" style="margin-right:15px;"></Icon>
+                <Icon value="shopping-bag"></Icon>
             </FlexBox>
             <!-- 主体 -->
+                
             <transition name="fade-left" mode="out-in">
                 <router-view></router-view>
             </transition>
+
+
             <!-- 底部 -->
             <FlexBox slot="footer" class="footer">
                 <FlexItem>
@@ -83,22 +97,30 @@ export default {
     height: 100%;
     width: 100%;
     position: relative;
+
+    .sidebar-menu{
+        li{
+            padding: 3*$gutter;display: block;border-bottom: 1px solid $lightest;
+        }
+    }
+
     .header {
-        box-shadow: $shadowDown;
         padding: 10px 15px;
         background: #fff;
+
         i {
             font-size: 20px;
+            line-height: 30px;
         }
-        .logo {
+        img.logo {
             text-align: center;
             display: table;
             margin: auto;
-            height: 20px;
+            height: 30px;
         }
     }
     .footer {
-        box-shadow: $shadowUp;
+        // box-shadow: $shadowUp;
         .badge {
             position: absolute;
             top: 5px;

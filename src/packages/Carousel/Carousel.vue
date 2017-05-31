@@ -99,15 +99,15 @@ export default {
             this.touch.status = 2;
             this.touch.current = e.touches[0].clientX;
             this.touch.distance = this.touch.current - this.touch.start;
-            e.preventDefault();
+            // e.preventDefault();
             e.stopPropagation();
         },
 
         touchend(e) {
             this.touch.status = 0;
             // 拖拽超过10px
-            if (Math.abs(this.touch.distance) > 10) {
-                if (30 > this.touch.distance) {
+            if (Math.abs(this.touch.distance) > 100) {
+                if (0 > this.touch.distance) {
                     this.next();
                 } else {
                     this.previous();
