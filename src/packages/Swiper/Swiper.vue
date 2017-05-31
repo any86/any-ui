@@ -61,6 +61,8 @@ export default {
                 this.$emit('input', swiper.activeIndex);
             }
         });
+
+        this.swiper.slideTo(this.value);
     },
 
     methods: {

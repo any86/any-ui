@@ -1,10 +1,11 @@
 <template>
-    <div class="component-switch">
-        <label>
+    <label class="component-switch">
+        <a v-if="!!this.$slots.default" class="title"><slot></slot></a>
+        <div class="control">
             <input :checked="value" @change="change" type="checkbox">
             <div class="checkbox"></div>
-        </label>
-    </div>
+        </div>
+    </label>
 </template>
 <script>
 export default {
@@ -26,11 +27,13 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 $size: .5rem;
-.component-switch {
-    overflow: hidden;
-    label {
+label.component-switch {
+    display: flex;
+    >.title{font-size: $big;line-height: $size; display: block;flex:1;}
+
+    >.control {
         position: relative;
-        display: inline-block;
+        display: block;
         height: $size;
         width: 1.8 * $size;
         border-radius: $size;
@@ -43,7 +46,7 @@ $size: .5rem;
             width: 100%;
             height: 100%;
             transition: all .5s ease;
-            background: $success;
+            background: $base;
             // 圆
             &:before {
                 content: " ";
@@ -59,7 +62,7 @@ $size: .5rem;
                 background: #fff;
                 box-shadow: $shadowDown;
             }
-            &:after {
+           &:after{
                 content: " ";
                 display: block;
                 position: absolute;
