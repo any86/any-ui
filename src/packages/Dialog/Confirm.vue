@@ -6,14 +6,13 @@
             </div>
             <div class="body" v-html="text"></div>
             <div class="footer">
-                <v-button @click="ok" type="ghost" style="float: right;margin-left: 5px;">确定</v-button>
-                <v-button @click="cancel" type="default" style="float: right;">取消</v-button>
+                <a class="button" @click="cancel">取消</a>
+                <a class="button" @click="ok">确定</a>
             </div>
         </div>
     </transition>
 </template>
 <script>
-import VButton from '../Button/Button'
 export default {
     name: 'Confirm',
 
@@ -71,9 +70,6 @@ export default {
                 this.$emit('input', isShow);
             }
         }
-    },
-    components: {
-        VButton
     }
 }
 </script>
@@ -94,8 +90,13 @@ export default {
         padding: 15px;
     }
     >.footer {
-        padding: 15px;
         overflow: hidden;
+        display: flex;
+        border-top:1px solid $lightest;
+        .button{flex:1;line-height: 40px;text-align: center;}
+        .button:first-child{border-right: 1px solid $lightest;}
+        .button:last-child{color: $base;}
+
     }
 }
 
