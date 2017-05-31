@@ -15,7 +15,7 @@
                 <div style="width:100%;height: 4rem;background:#bbb;font-size: 1rem;line-height: 4rem;text-align: center;">3</div>
             </SwiperItem>
             <SwiperItem>
-                <div style="width:100%;height: 4rem;background:#69c;font-size: 1rem;line-height: 4rem;text-align: center;">4</div>
+                 <div style="width:100%;height: 4rem;background:#69c;font-size: 1rem;line-height: 4rem;text-align: center;">4</div>
             </SwiperItem>
         </Swiper>
 
