@@ -103,9 +103,10 @@ $height: .5rem;
                 display: block;
                 margin: auto;
                 transform: rotate(-45deg);
-                transition: all .3s;
+                transition: transform .3s;
             }
             >input:checked+.icon {
+                transform:scale(1.1) rotate(-45deg);
                 border-color: $base;
             }
         }
