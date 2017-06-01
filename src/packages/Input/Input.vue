@@ -3,7 +3,7 @@
         <span class="label"><slot></slot></span>
         <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
         <!-- border -->
-        <div class="border"></div>
+        <!-- <div class="border"></div> -->
         <transition name="fadeLeft">
             <Icon v-show="isShowEmpty" @click.native="empty" class="button-close" value="remove"></Icon>
         </transition>
@@ -115,7 +115,7 @@ $height : $gutter*8;
     position: relative;
     display: flex;
     padding: 0 $gutter;
-    .label {height: $height;line-height: $height;font-size: 14px;}
+    .label {height: $height;line-height: $height;font-size: 14px;margin-right: 5%;}
 
     input {
         font-size: 14px;

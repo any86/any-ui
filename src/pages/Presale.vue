@@ -38,10 +38,16 @@
                     <list-item>
                         <VRadio v-model="radioV":selfValue="2">单选2</VRadio>
                     </list-item>
+                    <list-item><Slider v-model="rangeV">音量</Slider></list-item>
+                        
+                    <list-item><Stepper v-model="StepperV">数量</Stepper></list-item>
 
+                    <list-item><VInput v-model="rangeV">标题</VInput></list-item>
+                        
                     <list-item :hasArrow="true">纯文字菜单1</list-item>
                     <list-item :hasArrow="true">纯文字菜单2</list-item>
                     <list-item :hasArrow="true">纯文字菜单3</list-item>
+                       
 
                 </list>
             </SwiperItem>
@@ -57,8 +63,9 @@ import List from '@/packages/List/List.vue'
 import ListItem from '@/packages/List/ListItem.vue'
 import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
-
-
+import Slider from '@/packages/Slider/Slider'
+import Stepper from '@/packages/Stepper/Stepper'
+import VInput from '@/packages/Input/Input'
 
 import Spinner from '@/packages/Spinner/Spinner.vue'
 import Tabs from '@/packages/Tabs/Tabs';
@@ -71,6 +78,9 @@ export default {
 
     data() {
         return {
+            inputV: '',
+            StepperV: 3,
+            rangeV: 10,
             radioV: 1,
             bool: true,
             tabSelect: 1,
@@ -80,7 +90,7 @@ export default {
     },
 
     components: {
-        List,
+        List,Stepper,
         ListItem,
         VRadio,
         VSwitch,
@@ -89,7 +99,7 @@ export default {
         TabsItem,
         Badge,
         Swiper,
-        SwiperItem,
+        SwiperItem,Slider,Stepper,VInput,
     }
 }
 </script>

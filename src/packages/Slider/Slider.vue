@@ -150,6 +150,20 @@ export default {
             // 同步value
             var value = this.min + (this.max - this.min) * (this.touch.translateXNew / this.maxDistance);
             this.$emit('input', Math.round(value));
+        },
+
+        value(value){
+            if(0 == this.touch.status) {
+                var newValue = value;
+                if(this.min > value) {
+                    newValue = this.min;
+                } else if(this.max > value) {
+                    newValue = this.max;
+                }
+                syslog(value)
+                this.touch.translateXNew = (newValue - this.min) / (this.max - this.min) * this.maxDistance;
+                this.touch.translateXOld = this.touch.translateXNew;               
+            }
         }
     }
 }
