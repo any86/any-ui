@@ -106,10 +106,22 @@ $height: .5rem;
                 transition: transform .3s;
             }
             >input:checked+.icon {
-                transform:scale(1.1) rotate(-45deg);
+                // transform: scale(1.2) rotate(-45deg);
                 border-color: $base;
+                animation: zoom-in .5s;
             }
         }
+    }
+}
+
+@keyframes zoom-in {
+    0% {
+        opacity: 0;
+        transform: scale(1.5) rotate(-45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(-45deg);
     }
 }
 </style>
