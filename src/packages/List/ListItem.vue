@@ -108,6 +108,7 @@ export default {
     position: relative;
     overflow: hidden;
     border-bottom: 1px solid $lightest;
+    min-height: .5rem;
     >.body {
         display: flex;
         box-sizing: border-box;
