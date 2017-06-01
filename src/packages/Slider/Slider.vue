@@ -1,12 +1,17 @@
 <template>
     <div class="component-range">
-        <span class="min">{{min}}</span>
-        <span class="content">
-            <div ref="runway" class="runway"></div>
-            <div :style="{width: touch.translateXNew + 'px'}" :class="['progress', 0 == touch.status && 'transition']"></div>
-            <div ref="handle" :style="{transform: 'translate3d(' + touch.translateXNew + 'px, 0, 0)'}" :class="['handle', 0 == touch.status && 'transition']" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend"></div>
+        <span class="title">
+            <slot></slot>
         </span>
-        <span class="max">{{max}}</span>
+        <span class="control">
+            <span class="min">{{min}}</span>
+            <span class="content" @click="slideTo">
+                <div ref="runway" class="runway"></div>
+                <div :style="{width: touch.translateXNew + 'px'}" :class="['progress', 0 == touch.status && 'transition']"></div>
+                <div ref="handle" :style="{transform: 'translate3d(' + touch.translateXNew + 'px, 0, 0)'}" :class="['handle', 0 == touch.status && 'transition']" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend"></div>
+            </span>
+            <span class="max">{{max}}</span>
+        </span>
     </div>
 </template>
 <script>
@@ -30,7 +35,8 @@ export default {
         },
 
         step: {
-            type: Number
+            type: Number,
+            default: 1
         },
 
         value: {
@@ -67,6 +73,18 @@ export default {
         _default() {
             this.touch.translateXNew = (this.value - this.min) / (this.max - this.min) * this.maxDistance;
             this.touch.translateXOld = this.touch.translateXNew;
+        },
+
+        slideTo(e) {
+            var translateXNew = e.offsetX;
+            if(this.maxDistance <= translateXNew) {
+                translateXNew = this.maxDistance;
+            }
+
+            if(e.target != this.$refs.handle) {
+                this.touch.translateXNew = translateXNew;
+                this.touch.translateXOld = this.touch.translateXNew;                
+            }
         },
 
         touchstart(e) {
@@ -121,59 +139,72 @@ export default {
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
-$height: 30px;
+$height: .5rem;
 .component-range {
     position: relative;
     display: flex;
-    .min {
-        padding: 0 $gutter;
+    /*标题*/
+    >.title {
         font-size: $big;
         line-height: $height;
         flex: 1;
+        display: block;
+        word-break: keep-all;
+        margin-right: 10%;
     }
-    .content {
-        position: relative;
-        height: $height;
+    /*控制*/
+    >.control {
+        display: flex;
         width: 100%;
-        padding: 0 $gutter;
-        box-sizing: border-box;
-        .runway {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            background: $light;
-            height: 2px;
-            width: 100%;
+        .min {
+            padding: 0 $gutter;
+            font-size: $big;
+            line-height: $height;
+            flex: 1;
         }
-        .progress {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            background: $base;
-            height: 2px;
-            width: 0;
-        }
-        .handle {
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            cursor: move;
-            display: block;
+        .content {
+            position: relative;
             height: $height;
-            width: $height;
-            border-radius: 100%;
-            background: #fff;
-            box-shadow: $shadowDown, $shadowUp;
+            width: 100%;
+            box-sizing: border-box;
+            .runway {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                background: $light;
+                height: 2px;
+                width: 100%;
+            }
+            .progress {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                background: $base;
+                height: 2px;
+                width: 0;
+            }
+            .handle {
+                position: absolute;
+                z-index: 2;
+                top: 0;
+                left: 0;
+                cursor: move;
+                display: block;
+                height: $height;
+                width: $height;
+                border-radius: 100%;
+                background: $base;
+                box-shadow: $shadowDown, $shadowUp;
+            }
         }
-    }
-    .max {
-        padding: 0 $gutter;
-        font-size: $big;
-        line-height: $height;
-        flex: 1;
+        .max {
+            padding: 0 $gutter;
+            font-size: $big;
+            line-height: $height;
+            flex: 1;
+        }
     }
 }
 
