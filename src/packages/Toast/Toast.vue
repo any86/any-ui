@@ -1,197 +1,137 @@
 <template>
-    <div class="component-toast">
-        <!-- 按钮 -->
-        <label class="btn btn-default">
-            <input name="upload" class="input-upload" type="file" multiple>
-        </label>
-        <!-- 预览 -->
-        <ul class="previews">
-            <li>
-            </li>
-        </ul>
-    </div>
+    <transition name="toast">
+        <div v-if="isShow" :class="['component-toast', position]">
+            <div v-if="'default' != type" class="icon">
+                <Icon v-if="'success' == type" :key="1" value="check"></Icon>
+                <Icon v-else-if="'error' == type" :key="2" value="remove"></Icon>
+            </div>
+            <p>{{text}}</p>
+        </div>
+    </transition>
 </template>
 <script>
-// import FileAPI from 'fileapi'
+import Icon from '@/packages/Icon/Icon'
 export default {
-    name: 'Upload',
-
-    props: {
-        opts: {},
-
-        value: {
-            default () {
-                return [];
-            }
-        }
-    },
+    name: 'Toast',
 
     data() {
         return {
-            previews: []
+            timer: null,
+            text: '',
+            isShow: false,
+            delay: 2000,
+            position: 'center',
+            type: 'default'
         };
     },
 
     mounted() {
 
-        // 监听上传事件
-        FileAPI.event.on(this.$refs[this.opts.name], 'change', (evt) => {
-            var files = FileAPI.getFiles(evt);
-
-            // 遍历文件,进行文件类型判断
-            files.forEach(file => {
-                // 初始化一个文件
-                // 创建块作用域,  防止循环覆盖值
-                let preview = {
-                    id: '',
-                    cover: '', // 缩略图
-                    progress: 0, // 进度条
-                    fileName: file.name, // 文件名
-                    type: 'file', // 文件类型
-                    url: '', // 上传后的资源地址
-                    file: file,
-                    status: 1
-                };
-
-                // 如果是图片, 转base64
-                if (/^image/.test(file.type)) {
-                    preview.type = 'image';
-
-                    // 转base64, 作为cover
-                    this.file2base64(file).then(base64 => {
-                        preview.cover = base64;
-                        this.upload(file, base64, progress => {
-                            preview.progress = progress;
-                        }, response => {
-                            preview.status = response.status;
-                            if (1 == response.status) {
-                                preview.url = response.data.url;
-                                preview.id = response.data.id;
-                            }
-                        });
-                    })
-
-                } else {
-                    this.upload(file, '', progress => {
-                        preview.progress = progress;
-                    }, response => {
-                        preview.status = response.status;
-                        if (1 == response.status) {
-                            preview.url = response.data.url;
-                            preview.id = response.data.id;
-                        }
-                    });
-                }
-                this.previews.push(preview);
-            });
-        });
     },
 
-    destroyed() {
-        this.previews = null;
-    },
+    destroyed() {},
 
     methods: {
-        /**
-         * 重新上传
-         * @param  {Number} index 当前操作预览索引
-         */
-        retry(index) {
-            var preview = this.previews[index];
-            this.upload(preview.file, preview.cover, progress => {
-                preview.status = 1;
-                preview.progress = progress;
-            }, response => {
-                preview.status = response.status;
-                if (1 == response.status) {
-                    preview.url = response.data.url;
-                    preview.id = response.data.id;
-                }
-            });
-        },
-
-        /**
-         * 生成缩略图
-         * file转base64
-         * 压缩尺寸到100px
-         * @param  {Object} file      
-         */
-        file2base64(file) {
-            return new Promise((resolve, reject) => {
-                FileAPI.Image(file).preview(100).get((err, img) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(img.toDataURL());
-                    }
-                });
-            });
-        },
-        /**
-         * 上传
-         * @param  {Object}   file     文件对象
-         * @param  {String}   cover    缩略图
-         * @param  {Function} progress 进度回调函数
-         * @param  {Function} done     完成对调函数
-         */
-        upload(file, cover = '', progress = () => {}, done = () => {}) {
-            FileAPI.upload({
-                url: this.opts.url.upload,
-                // 未来会解耦
-                headers: {
-                    'Access-Token': this.$store.state.loginModule.accessToken
-                },
-
-                data: {
-                    cover,
-                    ...this.$route.query
-                },
-
-                progress: (evt) => {
-                    progress(Math.floor(evt.loaded / evt.total * 100));
-                },
-
-                files: {
-                    file
-                },
-
-                complete: (err, xhr, file, options) => {
-                    done(JSON.parse(xhr.response));
-
-                }
-            });
-        },
-        /**
-         * 删除列表中的文件
-         * @param  {Number} index 当前预览索引
-         * @param  {Number} id    预览对应的文件id
-         */
-        remove(index, id) {
-            axios.delete(this.opts.url.del, {
-                params: {
-                    id
-                }
-            }).then(response => {
-                this.previews.splice(index, 1);
-            }).catch((error) => {
-                syslog(error);
-            });
+        delayClose() {
+            if (-1 != this.delay) {
+                this.timer = setTimeout(() => {
+                    this.isShow = false;
+                }, this.delay);
+            }
         }
     },
 
     watch: {
-        previews(value) {
-            this.$emit('input', value);
+        isShow(value) {
+            if (value) {
+                this.delayClose();
+            }
         }
+    },
+
+    components: {
+        Icon
     }
 }
 </script>
 <style scoped lang="scss">
-.component-upload {
+@import '../../scss/theme.scss';
+$height: $minHeight;
+.component-toast {
+    position: fixed;
+    background: rgba(0, 0, 0, .7);
+    color: #fff;
+    border-radius: $borderRadius;
+    box-shadow: $shadowUp, $shadowDown;
     overflow: hidden;
-    .input-upload {
-        display: none;
+    padding: 3*$gutter 5*$gutter;
+    // word-break: keep-all;
+    // white-space:nowrap;
+    &.top {
+        z-index: $toastZIndex;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transform-style: preserve-3d;
     }
-    ul.previews {}
+    &.center {
+        z-index: $toastZIndex;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transform-style: preserve-3d;
+    }
+    &.bottom {
+        z-index: $toastZIndex;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transform-style: preserve-3d;
+    }
+    .icon {
+        width: 2*$height;
+        height: 2*$height;
+        margin: 0 auto;
+        text-align: center;
+        i {
+            font-size: 1rem;
+            line-height: 2*$height;
+        }
+    }
+    >p {
+        text-align: center;
+        font-size: $big;
+    }
+}
+
+// 动画
+.toast-enter-active {
+    animation: toast-in .3s;
+}
+
+.toast-leave-active {
+    animation: toast-out .3s;
+}
+
+@keyframes toast-in {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes toast-out {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
 }
 </style>
