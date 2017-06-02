@@ -29,8 +29,11 @@ $info: #2db7f5;
 // 间隙
 $gutter: 5px;
 
+// 最小高度
+$minHeight: .5rem;
+
 // 圆角
-$borderRadius: 2px;
+$borderRadius: 5px;
 
 // z-index管理
 $tabBarZIndex: 10;
@@ -38,7 +41,7 @@ $dropDownZIndex: 20;
 $maskZIndex: 1986;
 $dialogZIndex: 2000;
 $sideBarZIndex: 1989;
-
+$toastZIndex: 2010;
 
 //字体大小
 $small: 12px;

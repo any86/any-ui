@@ -1,5 +1,5 @@
 import DialogRoot from './Dialog/DialogRoot'
-
+import Toast from '@/packages/Toast/Toast'
 import Icon from './Icon/Icon';
 import Spinner from './Spinner/Spinner';
 import ScrollView from './ScrollView/ScrollView';
@@ -97,6 +97,32 @@ Atom.install = function(Vue) {
 
     Vue.prototype.$mask = (options = {}) => {
         vm.mask.show = true;
+    };
+
+    // ==========================================toast==================================
+
+
+
+    Vue.prototype.$toast = (text = '', options = {}) => {
+
+
+        // ** 每次创建新toast实例 **
+        var ToastComponent = Vue.extend(Toast);
+        // 创建一个挂载点
+        var node = document.createElement('div');
+        // 起个不重复的名字
+        node.id = '_app-toast-' + Math.ceil(Math.random());
+        document.body.appendChild(node);
+        // 挂载
+        var toastVM = new ToastComponent().$mount('#' + node.id);
+
+
+
+        toastVM.type = options.type || 'default';
+        toastVM.position = options.position || 'center';
+
+        toastVM.isShow = true;
+        toastVM.text = text;
     };
 
 };
