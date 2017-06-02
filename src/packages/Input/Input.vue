@@ -1,6 +1,6 @@
 <template>
     <div class="component-input">
-        <span class="label"><slot></slot></span>
+        <span class="title"><slot></slot></span>
         <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
         <!-- border -->
         <!-- <div class="border"></div> -->
@@ -114,8 +114,7 @@ $height : $gutter*8;
     height: $height + 1px;
     position: relative;
     display: flex;
-    padding: 0 $gutter;
-    .label {height: $height;line-height: $height;font-size: 14px;margin-right: 5%;}
+    .title {height: $height;line-height: $height;font-size: $big;margin-right: 5%;}
 
     input {
         font-size: 14px;
