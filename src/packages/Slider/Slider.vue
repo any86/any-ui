@@ -7,8 +7,9 @@
             <span @click="slideToMin" class="min">{{min}}</span>
             <span class="content" @click="slideTo">
                 <div ref="runway" class="runway"></div>
-                <div :style="{width: touch.translateXNew + 'px'}" :class="['progress', 0 == touch.status && 'transition']"></div>
-                <div ref="handle" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}" :class="['handle', 0 == touch.status && 'transition']" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+                <div :style="{width: touch.translateXNew + 'px'}" :class="['progress', 2 > touch.status && 'transition']">
+                </div>
+                <div ref="handle" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}" :class="['handle', 2 > touch.status && 'transition']" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
                     <a v-show="0 < touch.status">{{value}}</a>
                 </div>
             </span>
@@ -75,6 +76,7 @@ export default {
          * 滑动到最小值
          */
         slideToMin() {
+            this.touch.status = 1;
             this.touch.translateXNew = 0;
             this.touch.translateXOld = this.touch.translateXNew;
         },
@@ -82,6 +84,7 @@ export default {
          * 滑动到最大值
          */
         slideToMax() {
+            this.touch.status = 1;
             this.touch.translateXNew = this.maxDistance;
             this.touch.translateXOld = this.touch.translateXNew;
         },
@@ -90,6 +93,7 @@ export default {
          * @param  {Object} e 
          */
         slideTo(e) {
+            this.touch.status = 0;
             var translateXNew = e.offsetX;
             if (this.maxDistance <= translateXNew) {
                 translateXNew = this.maxDistance;
@@ -136,7 +140,7 @@ export default {
          */
         touchend(e) {
             this.touch.status = 0;
-            
+
             if (0 > this.touch.translateXNew) {
                 this.touch.translateXNew = 0;
             }
@@ -152,17 +156,10 @@ export default {
             this.$emit('input', Math.round(value));
         },
 
-        value(value){
-            if(0 == this.touch.status) {
-                var newValue = value;
-                if(this.min > value) {
-                    newValue = this.min;
-                } else if(this.max > value) {
-                    newValue = this.max;
-                }
-                syslog(value)
-                this.touch.translateXNew = (newValue - this.min) / (this.max - this.min) * this.maxDistance;
-                this.touch.translateXOld = this.touch.translateXNew;               
+        value(value) {
+            if (0 == this.touch.status) {
+                this.touch.translateXNew = (value - this.min) / (this.max - this.min) * this.maxDistance;
+                this.touch.translateXOld = this.touch.translateXNew;
             }
         }
     }
