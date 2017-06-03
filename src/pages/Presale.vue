@@ -11,28 +11,11 @@
         </Tabs>
         <Swiper v-model="tabSelect" :autoplay="false">
             <SwiperItem>
-                
-
-                <LazyLoad src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/F/J/FJ1107.png">
-                </LazyLoad>
-
-
-
-
-                <div @click="move" class="box" :style="{left: left + 'px', top: top + 'px'}">1</div>
+                <div @click="move" class="box" :style="{left: left + 'px', top: top + 'px'}"></div>
                 <ul @click="reset" class="list">
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/F/J/FJ1107.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB146.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB1008_2.jpg"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/D/Y/DY1053.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/F/J/FJ1107.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB146.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB1008_2.jpg"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/D/Y/DY1053.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/F/J/FJ1107.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB146.png"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB1008_2.jpg"></li>
-                    <li><img src="http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/D/Y/DY1053.png"></li>
+                    <li v-for="item in imgs">
+                        <LazyLoad :isLoad="isLoad" width="100%" height="4rem" :src="item"></LazyLoad>
+                    </li>
                 </ul>
             </SwiperItem>
             <SwiperItem>
@@ -63,8 +46,6 @@
             <SwiperItem>
                 <DateTime v-model="date"></DateTime>
             </SwiperItem>
-
-
         </Swiper>
         <Spinner style="margin-top:20%;">loading</Spinner>
     </ScrollView>
@@ -95,7 +76,10 @@ export default {
 
     data() {
         return {
-            top: 200, left: 0,
+            isLoad: false,
+            imgs: ['http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/F/J/FJ1107.png', 'http://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB146.png', 'http://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/Y/B/YB1008_2.jpg', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/R/0/R087.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/R/0/R079_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/R/0/R031B.jpg', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/R/0/R033D_1.jpg', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/R/1/R147_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/R/1/R146.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/r/0/r035_1.jpg', 'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/product/product-view-tab1.jpg'],
+            top: 200,
+            left: 0,
             date: '2017-01-01',
             inputV: '',
             StepperV: 3,
@@ -109,17 +93,20 @@ export default {
     },
 
     methods: {
-        move(){
+        move() {
+            this.isLoad = true;
             this.top = 500;
             this.left = 500;
         },
 
-        reset(){
+        reset() {
+            this.isLoad = false;
             this.top = 200;
             this.left = 0;
         },
 
         click() {
+
             this.$toast('操作成功!', {
                 type: 'success'
             });
@@ -145,7 +132,8 @@ export default {
         SwiperItem,
         Slider,
         Stepper,
-        VInput, LazyLoad
+        VInput,
+        LazyLoad
     }
 }
 </script>
@@ -159,7 +147,7 @@ export default {
         border-radius: 100%;
         position: fixed;
         z-index: 1000000;
-        transition: 1s left linear, 1s top cubic-bezier(0.44,-0.64, 1, 1);
+        transition: 1s left linear, 1s top cubic-bezier(0.44, -0.64, 1, 1);
     }
     .list {
         display: block;

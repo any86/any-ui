@@ -17,9 +17,8 @@ export default {
         return {}
     },
 
-    methods: {},
+    methods: {}
 
-    components: {}
 }
 </script>
 <style scoped lang="scss">
