@@ -109,18 +109,19 @@ export default {
     overflow: hidden;
     border-bottom: 1px solid $lightest;
     min-height: .5rem;
+    margin: 0 2*$gutter;
     >.body {
         display: flex;
         box-sizing: border-box;
         position: relative;
         width: 100%;
         overflow: hidden;
-        padding:2*$gutter;
+        padding:2*$gutter 0;
         >.left {
             flex: 1;
             box-sizing: border-box;
             position: relative;
-            font-size: .3rem;
+            font-size: .24rem;
         }
         >.right{
 

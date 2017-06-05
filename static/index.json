@@ -1,0 +1,27 @@
+{
+    "category-thumbs": [{
+        "name": "Photo Series",
+        "img": "https://static.soufeel.com/media/catalog/category/C021.png",
+        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+    },{
+        "name": "Name Necklaces",
+        "img": "https://static.soufeel.com/media/catalog/category/S-ZNL.png",
+        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+    },{
+        "name": "Soufeel Rings",
+        "img": "https://static.soufeel.com/media/catalog/category/R141.png",
+        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+    },{
+        "name": "You",
+        "img": "https://static.soufeel.com/media/catalog/category/FJ1107.png",
+        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+    },{
+        "name": "Pets",
+        "img": "https://static.soufeel.com/media/catalog/category/C045_1.png",
+        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+    },{
+        "name": "Mom",
+        "img": "https://static.soufeel.com/media/catalog/category/YB146.png",
+        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+    }]
+}
