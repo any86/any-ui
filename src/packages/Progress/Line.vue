@@ -1,6 +1,6 @@
 <template>
     <div class="component-progress-line">
-        <div class="body" :style="{width: progress + '%', transition: 'width ' + this.time + 'ms linear'}"></div>
+        <div class="body" :style="{width: value + '%', transition: 'width ' + this.time + 'ms linear'}"></div>
     </div>
 </template>
 <script>
@@ -13,33 +13,23 @@ export default {
         },
 
         time: {
-            type: [Number, String]
+            type: [Number, String],
+            default: 300
         }
-    },
-
-    data() {
-        return {
-            progress: 0
-        };
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            this.progress = this.value;
-        })
-
     }
 }
 </script>
 <style scoped lang="scss">
+@import '../../scss/theme.scss';
 .component-progress-line {
-    height: 1px;
+    background: $lighter;
+    height: 2px;
     position: relative;
     overflow: hidden;
     .body {
         width: 0;
         height: 2px;
-        background: #ccc;
+        background: $base;
     }
 }
 </style>
