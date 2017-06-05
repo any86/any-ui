@@ -1,5 +1,5 @@
 <template>
-    <div class="component-accordion">
+    <div class="component-collapse">
         <header @click="toggle">
             <span class="title">
                 <slot name="header"></slot>
@@ -14,7 +14,7 @@
 <script>
 import Icon from '@/packages/Icon/Icon'
 export default {
-    name: 'Accordion',
+    name: 'Collapse',
 
     props: {
         value: {
@@ -24,13 +24,12 @@ export default {
     },
 
     data() {
-        return {
-        };
+        return {};
     },
 
     methods: {
-        toggle(){
-            this.$emit('input' ,!this.value);
+        toggle() {
+            this.$emit('input', !this.value);
         }
     },
 
@@ -41,14 +40,23 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-accordion{
+.component-collapse {
     position: relative;
-
-    >header{
-        font-size: .3rem;display: flex;padding: 2*$gutter;border-bottom:1px solid $lighter;
-        >.title{font-size: inherit; line-height: .3rem;flex:1}
+    >header {
+        display: flex;
+        padding: 2*$gutter;
+        border-bottom: 1px solid $lighter;
+        >.title {
+            font-size: .12rem;
+            line-height: .3rem;
+            flex: 1;
+        }
     }
-
-    >main{padding: 2*$gutter 4*$gutter;border-bottom: 1px solid $lighter;font-size: .3rem;line-height: 1.5;transition: all 1s;height: 100%;}
+    >main {
+        border-bottom: 1px solid $lighter;
+        line-height: 1.5;
+        transition: all 1s;
+        height: 100%;
+    }
 }
 </style>

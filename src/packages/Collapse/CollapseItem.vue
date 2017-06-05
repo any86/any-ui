@@ -86,27 +86,29 @@ export default {
 .component-accordion-item {
     position: relative;
     >header {
-        font-size: .3rem;
+        font-size: .26rem;
         display: flex;
         padding: 3*$gutter;
         border-bottom: 1px solid $lighter;
-        >.angle {
-            transition: all .3s ease-in-out;
-            &.down {
-                transform: rotate(90deg);
-            }
-        }
         >.title {
             margin-left: .15rem;
             font-size: inherit;
             line-height: .3rem;
             flex: 1
         }
+
+        >.angle {
+            font-size: inherit;
+            transition: all .3s ease-in-out;
+            &.down {
+                transform: rotate(90deg);
+            }
+        }
     }
     >.body {
         will-change: transform;
         overflow: hidden;
-        font-size: .3rem;
+        font-size: $normal;
         line-height: 1.5;
         height: 100%;
         transition-property: height;
@@ -116,7 +118,6 @@ export default {
             border-bottom: 1px solid $lighter;
         }
         >.content {
-            padding: 2*$gutter 4*$gutter;
             will-change: transform;
         }
     }
