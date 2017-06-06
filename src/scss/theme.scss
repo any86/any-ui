@@ -48,9 +48,9 @@ $toastZIndex: 2010;
 $small: 12px;
 $normal: 14px;
 $big: 16px;
-$bigger: 18px;
-$biggest: 20px;
-$large: 22px;
+$bigger: .3rem;
+$biggest: .4rem;
+$large: .5rem;
 // 阴影
 $shadowUp: 1px -1px 3px rgba(0, 0, 0, .1);
 $shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
@@ -94,11 +94,11 @@ $bottomTabHeight: 60px;
 	color: $light;
 }
 
-h1{font-size: $large;margin: $gutter 0;}
-h2{font-size: $biggest;margin: $gutter 0;}
-h3{font-size: $bigger;margin: $gutter 0;}
-h4{font-size: $big;margin: $gutter 0;}
-h5{font-size: $normal;margin: $gutter 0;}
-h6{font-size: $small;margin: $gutter 0;}
+h1{font-size: $large;margin: $gutter 0;font-weight: 600;color: #000;}
+h2{font-size: $biggest;margin: $gutter 0;font-weight: 600;color: #000;}
+h3{font-size: $bigger;margin: $gutter 0;font-weight: 600;color: #000;}
+h4{font-size: $big;margin: $gutter 0;font-weight: 600;color: #000;}
+h5{font-size: $normal;margin: $gutter 0;font-weight: 600;color: #000;}
+h6{font-size: $small;margin: $gutter 0;font-weight: 600;color: #000;}
 
 

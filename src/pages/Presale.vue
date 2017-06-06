@@ -34,7 +34,7 @@
                 <TabsItem>顶部弹出菜单</TabsItem>
                 <TabsItem>longlonglonglonglonglongtab4</TabsItem>
             </Tabs>
-            <Swiper v-model="tabSelect" :autoplay="false">
+            <Swiper v-model="tabSelect" :autoplay="0">
                 <SwiperItem>
                     <div @click="move" class="box" :style="{left: left + 'px', top: top + 'px'}"></div>
                     <ul @click="reset" class="list">

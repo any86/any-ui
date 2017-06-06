@@ -171,6 +171,9 @@ img {
     }
 }
 
+.swiper-pagination-bullet{border:1px solid #000;background: rgba(0,0,0,0);opacity: 1;}
+.swiper-pagination-bullet-active{background:#000;}
+
 @keyframes slide-out-right {
     0% {
         transform: translateX(0%);

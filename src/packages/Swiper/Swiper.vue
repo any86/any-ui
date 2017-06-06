@@ -3,15 +3,11 @@
         <div class="swiper-wrapper">
             <slot></slot>
         </div>
-        <!-- Add Pagination -->
-        <!-- <div class="swiper-pagination"></div> -->
-        <!-- Add Arrows -->
-<!--         <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div> -->
+        <slot name="addon"></slot>
     </div>
 </template>
 <script>
-import swiper from 'swiper'
+import Swiper from 'swiper'
 import 'swiper/dist/css/swiper.css'
 export default {
     name: 'Swiper',
@@ -34,35 +30,37 @@ export default {
 
         loop: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         autoplay: {
-            type: Boolean,
-            default: false
+            type: Number,
+            default: 1000
         }
     },
 
     data() {
         return {
-            swiper: {}
+            swiper: {},
         };
     },
 
     mounted() {
+        // 生成实例
         this.swiper = new Swiper(this.$el, {
-            pagination: '.swiper-pagination',
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
+            initialSlide: this.value,
             slidesPerView: 1,
-            paginationClickable: true,
             loop: this.loop,
-            onSlideChangeEnd: swiper=>{
-                this.$emit('input', swiper.activeIndex);
+            autoplay: 1000,
+            onSlideChangeStart: swiper => {
+                syslog(swiper.activeIndex)
+                    // this.$emit('input', swiper.activeIndex);
+                    // this.$emit('update:realIndex', swiper.realIndex);
+            },
+            onSlideChangeEnd: swiper => {
+
             }
         });
-
-        this.swiper.slideTo(this.value);
     },
 
     methods: {
@@ -70,8 +68,9 @@ export default {
     },
 
     watch: {
-        value(value){
-            this.swiper.slideTo(value);
+        value(value) {
+            console.log(value)
+                // this.swiper.slideTo(value);
         }
     },
 
@@ -79,8 +78,9 @@ export default {
 
     },
 
-    destroy(){
-        this.swiper.destroy();
+    destroy() {
+        // this.swiper.destroy();
+        // this.swiper = null;
     }
 }
 </script>

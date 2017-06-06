@@ -1,7 +1,7 @@
 <template>
     <div class="component-lazyload" :lazy="statusString" :style="{width, height}">
         <img v-if="0 == status" src="./loading.gif">
-        <transition name="alert">
+        <transition name="lazy">
             <img v-if="1 == status" :src="src">
         </transition>
     </div>
@@ -127,33 +127,22 @@ $height: $gutter*8;
 }
 
 // 动画
-.alert-enter-active {
-    animation: alert-in 1s;
+.lazy-enter-active {
+    animation: lazy-in 1s;
 }
 
-.alert-leave-active {
-    animation: alert-out 1s;
+.lazy-leave-active {
+    animation: lazy-out 1s;
 }
 
-@keyframes alert-in {
+@keyframes lazy-in {
     0% {
         opacity: 0;
-        transform: scale(.9) translateY(5px);
+        transform: scale(.9) translateY(-5px);
     }
     100% {
         opacity: 1;
         transform: scale(1);
-    }
-}
-
-@keyframes alert-out {
-    0% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(1.1) translateY(15px);
     }
 }
 </style>

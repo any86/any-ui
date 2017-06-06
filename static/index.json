@@ -1,27 +1,35 @@
 {
     "category-thumbs": [{
-        "name": "Photo Series",
+        "title": "Photo Series",
         "img": "https://static.soufeel.com/media/catalog/category/C021.png",
         "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
-    },{
-        "name": "Name Necklaces",
+    }, {
+        "title": "Name Necklaces",
         "img": "https://static.soufeel.com/media/catalog/category/S-ZNL.png",
         "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
-    },{
-        "name": "Soufeel Rings",
+    }, {
+        "title": "Soufeel Rings",
         "img": "https://static.soufeel.com/media/catalog/category/R141.png",
         "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
-    },{
-        "name": "You",
+    }, {
+        "title": "You",
         "img": "https://static.soufeel.com/media/catalog/category/FJ1107.png",
         "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
-    },{
-        "name": "Pets",
+    }, {
+        "title": "Pets",
         "img": "https://static.soufeel.com/media/catalog/category/C045_1.png",
         "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
-    },{
-        "name": "Mom",
+    }, {
+        "title": "Mom",
         "img": "https://static.soufeel.com/media/catalog/category/YB146.png",
         "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
-    }]
+    }],
+
+    "looks": {
+        "breadcrumb": ["Sweet", "Workplacet", "Partyt", "Travelt", "Holiday"],
+        "img": [
+            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Sweet-01.jpg", 
+            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Holiday-01.jpg", 
+            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Sweet-01.jpg"]
+    }
 }

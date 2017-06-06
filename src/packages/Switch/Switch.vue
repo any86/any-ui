@@ -29,6 +29,7 @@ export default {
 $size: .5rem;
 label.component-switch {
     display: flex;
+   
     >.title{font-size: $big;line-height: $size; display: block;flex:1;}
 
     >.control {

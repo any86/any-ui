@@ -109,7 +109,7 @@ export default {
         background: #fff;
 
         i {
-            font-size: 20px;
+            font-size: $big;
             line-height: 30px;
         }
         img.logo {
@@ -121,6 +121,7 @@ export default {
     }
     .footer {
         // box-shadow: $shadowUp;
+        border-top:1px solid $lightest;
         .badge {
             position: absolute;
             top: 5px;
@@ -133,7 +134,7 @@ export default {
             display: block;
             background: #fff;
             text-align: center;
-            font-size: 24px;
+            font-size: $large;
             transition: all .3s;
             &.active {
                 background: $light;
@@ -145,7 +146,7 @@ export default {
                 height: 30px;
                 display: block;
             }
-            ;
+            p{font-size: $normal;}
         }
         .router-link-active {
             background: $light;
