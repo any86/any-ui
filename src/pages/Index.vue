@@ -2,8 +2,7 @@
     <ScrollView class="page-index">
         <Spinner slot="background"></Spinner>
         <!-- 轮播 -->
-        <VInput v-model="swiperIndex">swiperIndex</VInput>
-        <Swiper v-model="swiperIndex" :autoplay="3000" :realIndex.sync="swiperRealIndex" :loop="true" class="swiper">
+        <Swiper v-model="swiperIndex" :realIndex.sync="swiperRealIndex" :loop="true" :autoplay="3000" class="swiper">
             <SwiperItem>
                 <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/new-soufeel-2017/home-new-soufeel-2017-mobile.jpg');"></div>
             </SwiperItem>
@@ -31,8 +30,13 @@
         <div class="row-looks">
             <h3 class="title">SHOP THESE LOOKS</h3>
             <div class="breadcrumb">
-                <a v-for="(item, i) in looks.breadcrumb" :class="{active: looks.activeIndex == i}">{{item}}</a>
+                <a v-for="(item, i) in looks.breadcrumb" @click="looks.activeIndex = i" :class="{active: looks.activeIndex == i}">{{item}}</a>
             </div>
+            <Swiper v-if="looks.imgs" class="swiper" v-model="looks.activeIndex" :options="{onlyExternal: true}">
+                <SwiperItem v-for="img in looks.imgs" :key="img">
+                    <img :src="img" width="60%">
+                </SwiperItem>
+            </Swiper>
         </div>
     </ScrollView>
 </template>
@@ -191,6 +195,8 @@ export default {
                 }
             }
         }
+
+        .swiper{background:#fff;}
     }
 }
 </style>

@@ -30,15 +30,20 @@ export default {
 
         loop: {
             type: Boolean,
-            default: true
+            default: false
+
         },
 
         autoplay: {
             type: Number,
-            default: 3000
+            default: 0
         },
 
-        page: {}
+        realIndex: {
+
+        },
+
+        options: {}
     },
 
     data() {
@@ -54,12 +59,13 @@ export default {
             slidesPerView: 1,
             loop: this.loop,
             autoplay: this.autoplay,
-            onSlideChangeStart: swiper => {
-
-            },
             onSlideChangeEnd: swiper => {
                 this.$emit('input', swiper.activeIndex);
-            }
+                if (undefined != this.realIndex) {
+                    this.$emit('update:realIndex', swiper.realIndex);
+                }
+            },
+            ...this.options
         });
     },
 
@@ -82,8 +88,8 @@ export default {
     },
 
     destroy() {
-        // this.swiper.destroy();
-        // this.swiper = null;
+        this.swiper.destroy();
+        this.swiper = null;
     }
 }
 </script>

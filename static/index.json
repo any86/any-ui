@@ -27,9 +27,9 @@
 
     "looks": {
         "breadcrumb": ["Sweet", "Workplacet", "Partyt", "Travelt", "Holiday"],
-        "img": [
+        "imgs": [
             "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Sweet-01.jpg", 
             "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Holiday-01.jpg", 
-            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Sweet-01.jpg"]
+            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Travel-01.jpg"]
     }
 }
