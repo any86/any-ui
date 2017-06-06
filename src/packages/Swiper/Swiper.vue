@@ -14,7 +14,7 @@ export default {
 
     props: {
         value: {
-            type: Number,
+            type: [Number, String],
             default: 0
         },
 
@@ -35,8 +35,10 @@ export default {
 
         autoplay: {
             type: Number,
-            default: 1000
-        }
+            default: 3000
+        },
+
+        page: {}
     },
 
     data() {
@@ -51,14 +53,12 @@ export default {
             initialSlide: this.value,
             slidesPerView: 1,
             loop: this.loop,
-            autoplay: 1000,
+            autoplay: this.autoplay,
             onSlideChangeStart: swiper => {
-                syslog(swiper.activeIndex)
-                    // this.$emit('input', swiper.activeIndex);
-                    // this.$emit('update:realIndex', swiper.realIndex);
+
             },
             onSlideChangeEnd: swiper => {
-
+                this.$emit('input', swiper.activeIndex);
             }
         });
     },
@@ -69,8 +69,11 @@ export default {
 
     watch: {
         value(value) {
-            console.log(value)
-                // this.swiper.slideTo(value);
+            this.swiper.stopAutoplay();
+            this.$nextTick(() => {
+                this.swiper.slideTo(value);
+                this.swiper.startAutoplay();
+            });
         }
     },
 
