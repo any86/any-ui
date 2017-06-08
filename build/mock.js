@@ -79,7 +79,7 @@ module.exports = function(express, app) {
         if (page > pageCount) {
             var data = { status: 0, message: "没数据了!" };
         } else {
-            var data = { status: 1, data: array };
+            var data = { status: 1, content: array };
         }
 
         setTimeout(() => {

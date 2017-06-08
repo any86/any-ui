@@ -1,9 +1,3 @@
-export const APP_CONFIRM = 'confirm'
-export const APP_NOTIFY = 'notify'
-export const APP_PROMPT = 'prompt'
-export const APP_ALERT = 'alert'
-
-export const SAVE_ACCESS_TOKEN = 'saveAccessToken'
-// export const GET_ACCESS_TOKEN = 'getAccessToken'
-export const SAVE_USER_NAME = 'saveUserName'
-export const EXIT = 'exit'
+export const INIT_GOODS_LIST = 'INIT_GOODS_LIST'
+export const APPEND_TO_GOODS_LIST = 'APPEND_TO_GOODS_LIST'
+export const PREPEND_TO_GOODS_LIST = 'PREPEND_TO_GOODS_LIST'

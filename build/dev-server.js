@@ -74,6 +74,24 @@ app.use(staticPath, express.static('./static'))
 
 var uri = 'http://localhost:' + port
 
+
+
+//---获取局域网ip
+var os=require('os'),
+        iptable={},
+        ifaces=os.networkInterfaces();
+    for (var dev in ifaces) {
+        ifaces[dev].forEach(function(details,alias){
+            if ((details.family=='IPv4') && (details.internal == false)) {
+                // iptable[dev+(alias?':'+alias:'')]=details.address;
+                iptable['localIP'] = details.address;
+            }
+        });
+    }
+uri = 'http://' + iptable.localIP + ':8080';
+//---获取局域网ip
+
+
 var _resolve
 var readyPromise = new Promise(resolve => {
   _resolve = resolve

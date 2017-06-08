@@ -29,16 +29,18 @@
             <li @click="showPopup(1)">category</li>
             <li @click="showPopup(2)">sort</li>
         </ul>
-        <ScrollView ref="scroll" @bottom-out="getMore">
+        <ScrollView ref="scroll" class="scroll-view" @bottom-out="getMore">
             <ul class="list">
-                <li v-for="item in list.data">
+                <li v-for="item in list">
                     <VLazyLoad class="img" :element="$refs.scroll.$el" :src="item.img" width="3rem" height="3rem"></VLazyLoad>
                     <h5 align="center">{{item.title}}</h5>
                     <h6 align="center"><span>$</span>{{item.price}}</h6>
                 </li>
             </ul>
-            <Spinner v-if="-1 == list.status" style="margin:30px auto;"></Spinner>
-            <p v-else-if="0 == list.status" class="empty">there is nothing</p>
+
+            <p  v-if="isEnd" class="empty">there is nothing</p>
+            <Spinner v-else style="margin:30px auto;"></Spinner>
+           
         </ScrollView>
     </div>
 </template>
@@ -51,34 +53,26 @@ import VListItem from '@/packages/List/ListItem.vue'
 import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
 
-
 export default {
     name: 'List',
 
     data() {
         return {
-            trend: 2,
             bool: true,
             status: -1,
-            isLoading: false,
+            isLoading: true,
             popupIndex: -1,
             isPopupShow: false,
-            list: {
-                status: -1,
-                data: []
-            },
+            isEnd: false,
+            list: [],
+            trend: 2,
             page: 1,
             limit: 10,
         };
     },
 
     mounted() {
-        this.getList(this.page, this.limit, this.trend).then(data => {
-            this.list.status = data.status;
-            if (1 == data.status) {
-                this.list.data.push(...data.data);
-            }
-        });
+        this.refresh();
     },
 
     methods: {
@@ -87,49 +81,41 @@ export default {
             this.isPopupShow = true;
         },
 
-        getList(page, limit, trend) {
-            return new Promise((resolve, reject) => {
-                if (0 != this.list.status && !this.isLoading) {
-                    this.list.status = -1;
-                    this.isLoading = true;
-                    this.$axios.get('./mock/imgs', {
-                        params: {
-                            page,
-                            limit,
-                            trend
-                        }
-                    }).then(response => {
-                        this.isLoading = false;
-                        resolve(response.data);
-                    }).catch(error => {
-                        reject(error);
-                    });
+        refresh(){
+            this.isEnd = false;
+             this.list = [];
+            const params = {page: this.page, limit: this.limit, trend: this.trend};
+            this.$api.getGoodsList(params).then(response=>{
+                if(0 == response.data.status) {
+                    this.isEnd = true;
+                } else {
+                    this.list = response.data.content;
+                    this.isLoading = false;
                 }
             });
         },
 
         getMore() {
-            this.page++;
-            this.getList(this.page, this.limit, this.trend).then(data => {
-                this.list.status = data.status;
-                if (1 == data.status) {
-                    this.list.data.push(...data.data);
-                }
-            });
+            if(!this.isLoading) {
+                this.isLoading = true;
+                this.page++;
+                const params = {page: this.page, limit: this.limit, trend: this.trend};
+                this.$api.getGoodsList(params).then(response=>{
+                    if(0 == response.data.status) {
+                        this.isEnd = true;
+                    } else {
+                        this.list.push(...response.data.content);
+                        this.isLoading = false;
+                    }
+                });
+            }
         }
     },
 
     watch: {
         trend() {
             this.isPopupShow = false;
-            this.list.data = [];
-            this.list.status = -1;
-            this.getList(this.page, this.limit, this.trend).then(data => {
-                this.list.status = data.status;
-                if (1 == data.status) {
-                    this.list.data = data.data;
-                }
-            });
+            this.refresh();
         }
     },
 
@@ -170,19 +156,22 @@ export default {
             }
         }
     }
-    ul.list {
+    .scroll-view{
         flex: 1;
-        display: flex;
-        flex-flow: row wrap;
-        >li {
-            flex: 0 0 50%;
-            >.img {
-                width: 100%;
-                display: flex;
-                margin: auto;
+        ul.list {
+            display: flex;
+            flex-flow: row wrap;
+            >li {
+                flex: 0 0 50%;
+                >.img {
+                    width: 100%;
+                    display: flex;
+                    margin: auto;
+                }
             }
         }
     }
+
     .empty {
         text-align: center;
         font-size: .3rem;
