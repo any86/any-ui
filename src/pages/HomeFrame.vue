@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="home">
         <SideBar v-model="isShowSideBar">
             <ul class="sidebar-menu">
                 <li>What's New</li>
@@ -7,61 +7,45 @@
                 <li>New Arrivals</li>
                 <li>All Personalized</li>
                 <li>Personalized</li>
-            </ul>        
+            </ul>
         </SideBar>
-
         <StickyLayout>
             <!-- 头部 -->
-            <FlexBox slot="header" class="header">
+            <header slot="header">
                 <Icon value="bars" @click.native="showSideBar"></Icon>
                 <Icon value="search" style="margin-left:15px;"></Icon>
-                <FlexItem>
-                    <img class="logo" src="../assets/logo.png">
-                </FlexItem>
+                <img class="logo" src="../assets/logo.png">
                 <Icon value="user" style="margin-right:15px;"></Icon>
                 <Icon value="shopping-bag"></Icon>
-            </FlexBox>
+            </header>
             <!-- 主体 -->
-                
             <transition name="fade-left" mode="out-in">
                 <router-view></router-view>
             </transition>
-
-
             <!-- 底部 -->
-            <FlexBox slot="footer" class="footer">
-                <FlexItem>
-                    <router-link tag="span" to="/home/index" class="button">
-                        <Icon class="icon" value="home"></Icon>
-                        <p>home</p>
-                    </router-link>
-                </FlexItem>
-                <FlexItem>
-                    <router-link tag="span" to="/home/presale" class="button">
-                        <Icon class="icon" value="clock-o"></Icon>
-                        <p>presale</p>
-                    </router-link>
-                </FlexItem>
-                <FlexItem>
-                    <router-link tag="span" to="/home/find" class="button">
-                        <Icon class="icon" value="compass"></Icon>
-                        <p>find</p>
-                    </router-link>
-                </FlexItem>
-                <FlexItem>
-                    <router-link tag="span" to="/home/shop-cart" class="button">
-                        <Icon class="icon" value="shopping-bag"></Icon>
-                        <p>cart</p>
-                    </router-link>
-                </FlexItem>
-                <FlexItem>
-                    <router-link tag="span" to="/home/my" class="button">
-                        <Badge class="badge" type="danger">5</Badge>
-                        <Icon class="icon" value="user-circle-o"></Icon>
-                        <p>my</p>
-                    </router-link>
-                </FlexItem>
-            </FlexBox>
+            <footer slot="footer">
+                <router-link tag="span" to="/home/index" class="button">
+                    <Icon class="icon" value="home"></Icon>
+                    <p>home</p>
+                </router-link>
+                <router-link tag="span" to="/home/presale" class="button">
+                    <Icon class="icon" value="clock-o"></Icon>
+                    <p>presale</p>
+                </router-link>
+                <router-link tag="span" to="/home/find" class="button">
+                    <Icon class="icon" value="compass"></Icon>
+                    <p>find</p>
+                </router-link>
+                <router-link tag="span" to="/home/shop-cart" class="button">
+                    <Icon class="icon" value="shopping-bag"></Icon>
+                    <p>cart</p>
+                </router-link>
+                <router-link tag="span" to="/home/my" class="button">
+                    <Badge class="badge" type="danger">5</Badge>
+                    <Icon class="icon" value="user-circle-o"></Icon>
+                    <p>my</p>
+                </router-link>
+            </footer>
         </StickyLayout>
     </div>
 </template>
@@ -93,21 +77,21 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
-.container {
+.home {
     height: 100%;
     width: 100%;
     position: relative;
-
-    .sidebar-menu{
-        li{
-            padding: 3*$gutter;display: block;border-bottom: 1px solid $lightest;
+    .sidebar-menu {
+        li {
+            padding: 3*$gutter;
+            display: block;
+            border-bottom: 1px solid $lightest;
         }
     }
-
-    .header {
+    header {
+        display: flex;
         padding: 10px 15px;
         background: #fff;
-
         i {
             font-size: $big;
             line-height: 30px;
@@ -119,15 +103,17 @@ export default {
             height: 30px;
         }
     }
-    .footer {
+    footer {
+        display: flex;
         // box-shadow: $shadowUp;
-        border-top:1px solid $lightest;
+        border-top: 1px solid $lightest;
         .badge {
             position: absolute;
             top: 5px;
             right: 5px;
         }
         .button {
+            flex: 1;
             position: relative;
             color: $darker;
             padding: $gutter / 2;
@@ -146,7 +132,9 @@ export default {
                 height: 30px;
                 display: block;
             }
-            p{font-size: $normal;}
+            p {
+                font-size: $normal;
+            }
         }
         .router-link-active {
             background: $light;

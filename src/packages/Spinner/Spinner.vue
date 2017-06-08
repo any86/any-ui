@@ -5,7 +5,7 @@
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
-        <p align="center"><slot>处理中...</slot></p>
+        <p align="center"><slot></slot></p>
     </div>
 </template>
 <script>

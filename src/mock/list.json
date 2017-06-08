@@ -1,0 +1,8 @@
+{
+    "status": 1,
+    "data|10": [{
+        "id": "@guid",
+        "title": "@title",
+        "img": "@image('200x200', '@color')"
+    }]
+}

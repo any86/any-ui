@@ -2,34 +2,76 @@
     "category-thumbs": [{
         "title": "Photo Series",
         "img": "https://static.soufeel.com/media/catalog/category/C021.png",
-        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+        "path": "list",
+        "query": { "category": 1 }
     }, {
         "title": "Name Necklaces",
         "img": "https://static.soufeel.com/media/catalog/category/S-ZNL.png",
-        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+        "path": "list",
+        "query": { "category": 2 }
     }, {
         "title": "Soufeel Rings",
         "img": "https://static.soufeel.com/media/catalog/category/R141.png",
-        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+        "path": "list",
+        "query": { "category": 3 }
     }, {
         "title": "You",
         "img": "https://static.soufeel.com/media/catalog/category/FJ1107.png",
-        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+        "path": "list",
+        "query": { "category": 4 }
     }, {
         "title": "Pets",
         "img": "https://static.soufeel.com/media/catalog/category/C045_1.png",
-        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+        "path": "list",
+        "query": { "category": 5 }
     }, {
         "title": "Mom",
         "img": "https://static.soufeel.com/media/catalog/category/YB146.png",
-        "path": "https://www.soufeel.com/personalized-jewelry/photo-charms"
+        "path": "list",
+        "query": { "category": 6 }
     }],
 
     "looks": {
         "breadcrumb": ["Sweet", "Workplacet", "Partyt", "Travelt", "Holiday"],
-        "imgs": [
-            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Sweet-01.jpg", 
-            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Holiday-01.jpg", 
-            "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Travel-01.jpg"]
+        "swiper": [
+            [{
+                "src": "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Sweet-01.jpg",
+                "width": "3.6rem",
+                "height": "5.7rem",
+                "top": "0",
+                "left": "0",
+                "delay": "300"
+            }, {
+                "src": "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Sweet-02.png",
+                "width": "2rem",
+                "height": "1rem",
+                "top": "2rem",
+                "left": "3rem",
+                "delay": "600"
+            }, {
+                "text": "hello world",
+                "top": "1rem",
+                "left": "3rem",
+                "delay": "900"
+            }],
+
+            [{
+                "src": "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Holiday-01.jpg",
+                "width": "3.6rem",
+                "height": "5.7rem",
+                "top": "0",
+                "left": "0",
+                "delay": "300"
+            }],
+
+            [{
+                "src": "https://static.soufeel.com/skin/frontend/smartwave/default/images/home/home-Travel-01.jpg",
+                "width": "3.6rem",
+                "height": "5.7rem",
+                "top": "0",
+                "left": "0",
+                "delay": "300"
+            }]
+        ]
     }
 }

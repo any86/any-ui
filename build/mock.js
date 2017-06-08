@@ -41,6 +41,56 @@ module.exports = function(express, app) {
         });
     });
 
+
+    /**
+     * 图片列表
+     */
+
+
+    app.get('/mock/imgs', function(req, res) {
+        var string = fs.readFileSync('./static/imgs.json', 'utf8');
+        var imgs = JSON.parse(string).imgs;
+
+        var page = req.query.page;
+        var limit = req.query.limit;
+
+
+        var array = [];
+        var length = imgs.length;
+
+        var start = length - 1 - ((page - 1) * limit);
+        var end = start - limit;
+
+        for (var i = start; i > end; i--) {
+            if (!!imgs[i]) {
+                array.push({
+                    id: i,
+                    img: imgs[i],
+                    title: Mock.mock('@title(1, 2)'),
+                    price: Mock.mock('@float(30, 1000, 2)')
+                });
+            } else {
+                break;
+            }
+        }
+
+        var pageCount = Math.ceil(length / limit);
+
+        if (page > pageCount) {
+            var data = { status: 0, message: "没数据了!" };
+        } else {
+            var data = { status: 1, data: array };
+        }
+
+        setTimeout(() => {
+            res.send(data);
+        }, 1000);
+    });
+
+
+
+
+
     /**
      * 自动解析mock模板
      */
@@ -56,6 +106,7 @@ module.exports = function(express, app) {
                 app.all('/mock/' + name, (req, res) => {
                     var string = fs.readFileSync('./src/mock/' + file, 'utf8');
                     var obj = JSON.parse(string);
+                    obj = Mock.mock(obj);
                     setTimeout(() => {
                         res.send(obj);
                     }, obj.delay || 300);

@@ -1,6 +1,5 @@
 <template>
     <ScrollView class="page-index">
-        <Spinner slot="background"></Spinner>
         <!-- 轮播 -->
         <Swiper v-model="swiperIndex" :realIndex.sync="swiperRealIndex" :loop="true" :autoplay="3000" class="swiper">
             <SwiperItem>
@@ -32,9 +31,16 @@
             <div class="breadcrumb">
                 <a v-for="(item, i) in looks.breadcrumb" @click="looks.activeIndex = i" :class="{active: looks.activeIndex == i}">{{item}}</a>
             </div>
-            <Swiper v-if="looks.imgs" class="swiper" v-model="looks.activeIndex" :options="{onlyExternal: true}">
-                <SwiperItem v-for="img in looks.imgs" :key="img">
-                    <img :src="img" width="60%">
+            <Swiper v-if="looks.swiper" class="swiper" v-model="looks.activeIndex" :realIndex.sync="looks.realIndex">
+                <SwiperItem v-for="(swiperItem, i) in looks.swiper" :key="i" style="height: 6rem;">
+                    <transition-group name="fade" tag="div" @before-enter="beforeEnter" @enter="enter" :css="false">
+                        <template v-for="item in swiperItem">
+                            <!-- 图片 -->
+                            <img v-if="undefined != item.src" v-show="i == looks.realIndex" :key="item" :src="item.src" :style="{width: item.width, height: item.height, top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay"/>
+                            <!-- 文字 -->
+                            <h4 v-else-if="undefined != item.text" v-show="i == looks.realIndex" :key="item" :style="{top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay">{{item.text}}</h4>
+                        </template>
+                    </transition-group>
                 </SwiperItem>
             </Swiper>
         </div>
@@ -62,11 +68,11 @@ export default {
             categoryThumbs: [],
 
             looks: {
-                activeIndex: 0
+                activeIndex: 0,
+                realIndex: 0
             },
 
             tabSelect: 0,
-            titles: ['tab1', 'tab2', 'tab3', 'tab4'],
             acitve: 0
         };
     },
@@ -82,6 +88,8 @@ export default {
                 ...this.looks,
                 ...response.data['looks']
             };
+
+
         });
     },
 
@@ -92,7 +100,19 @@ export default {
             }).catch((e) => {
                 alert(e)
             });
-        }
+        },
+
+        beforeEnter(el){
+            el.style.opacity = 0;
+            el.style.transition = 'all 1s';
+        },
+
+        enter(el){
+            setTimeout(()=>{
+                el.style.opacity = 1;
+            }, el.dataset.delay)
+        },
+
     },
 
     components: {
@@ -195,8 +215,40 @@ export default {
                 }
             }
         }
+        .swiper {
+            background: #fff;
+            img{}
+            .cover {
+                width: 4rem;
+            }
+        }
+    }
+}
 
-        .swiper{background:#fff;}
+// 动画
+.fade-enter-active {
+    animation: fade-in .5s;
+}
+
+.fade-leave-active {
+    animation: fade-out .5s;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
 </style>

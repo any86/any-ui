@@ -3,7 +3,7 @@
         <div class="swiper-wrapper">
             <slot></slot>
         </div>
-        <slot name="addon"></slot>
+        <slot name="addon"></slot>    
     </div>
 </template>
 <script>
@@ -121,5 +121,6 @@ export default {
             }
         }
     }
+    .addon{position: absolute;top:0;left:0;right: 0;bottom: 0;z-index: 10;}
 }
 </style>

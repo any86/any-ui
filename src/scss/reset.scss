@@ -28,9 +28,6 @@ html {
 }
 
 body {
-    
-
-
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -38,12 +35,6 @@ body {
     -webkit-text-size-adjust: none;
 }
 
-#app {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-}
 
 li {
     list-style: none;
@@ -56,6 +47,7 @@ input {
 
 a {
     text-decoration: none;
+    -webkit-touch-callout: none;
 }
 
 a,
@@ -74,13 +66,35 @@ img {
     clear: both;
 }
 
+// ::-webkit-scrollbar {
+//     background: #fff;
+//     width: 0;
+//     height: 0;
+// }
 
-/*  ::-webkit-scrollbar{background:#ccc;width: 4px;height: 2px;}
-::-webkit-scrollbar-thumb{background:#444; }
-::-moz-scrollbar{background:#ccc;width: 4px;height: 2px;}
-::-moz-scrollbar-thumb{background:#444; }
-::-ms-scrollbar{background:#ccc;width: 4px;height: 2px;}
-::-ms-scrollbar-thumb{background:#444; }*/
+// ::-webkit-scrollbar-thumb {
+//     background: #fff;
+// }
+
+// ::-moz-scrollbar {
+//     background: #fff;
+//     width: 0;
+//     height: 0;
+// }
+
+// ::-moz-scrollbar-thumb {
+//     background: #fff;
+// }
+
+// ::-ms-scrollbar {
+//     background: #fff;
+//     width: 0;
+//     height: 0;
+// }
+
+// ::-ms-scrollbar-thumb {
+//     background: #fff;
+// }
 
 [v-cloak] {
     display: none;
@@ -90,17 +104,17 @@ img {
 /*动画*/
 
 .fade-left-enter-active {
-    animation: fade-left-in .5s;
+    animation: fade-left-in .2s;
 }
 
 .fade-left-leave-active {
-    animation: fade-left-out .5s;
+    animation: fade-left-out .2s;
 }
 
 @keyframes fade-left-in {
     0% {
         opacity: 0;
-        transform: translateX(15px);
+        transform: translateX(5px);
     }
     100% {
         opacity: 1;
@@ -115,12 +129,13 @@ img {
     }
     100% {
         opacity: 0;
-        transform: translateX(15px);
+        transform: translateX(5px);
     }
 }
 
 
 /*fadeLeft*/
+
 .fadeLeft-enter-active {
     animation: fadeLeftIn .3s ease-in-out;
 }
@@ -171,8 +186,15 @@ img {
     }
 }
 
-.swiper-pagination-bullet{border:1px solid #000;background: rgba(0,0,0,0);opacity: 1;}
-.swiper-pagination-bullet-active{background:#000;}
+.swiper-pagination-bullet {
+    border: 1px solid #000;
+    background: rgba(0, 0, 0, 0);
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+    background: #000;
+}
 
 @keyframes slide-out-right {
     0% {

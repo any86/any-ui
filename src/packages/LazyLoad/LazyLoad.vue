@@ -1,10 +1,10 @@
 <template>
-    <div class="component-lazyload" :lazy="statusString" :style="{width, height}">
+    <span class="component-lazyload" :lazy="statusString" :style="{width, height}">
         <img v-if="0 == status" src="./loading.gif">
         <transition name="lazy">
             <img v-if="1 == status" :src="src">
         </transition>
-    </div>
+    </span>
 </template>
 <script>
 export default {
@@ -113,13 +113,8 @@ export default {
 @import '../../scss/theme.scss';
 $height: $gutter*8;
 .component-lazyload {
-    // display: flex;
-    // align-items: center;
+    display: block;
     overflow: hidden;
-    // >svg {
-    //     margin: auto;
-    //     stroke: $light;
-    // }
     >img {
         width: 100%;
         display: block;

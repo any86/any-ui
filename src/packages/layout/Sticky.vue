@@ -1,74 +1,47 @@
 <template>
-    <div class="container" direction="vertical">
+    <div class="container">
         <!-- 头部 -->
-        <div ref="header" class="header-fixed">
+        <header>
             <slot name="header"></slot>
-        </div>
+        </header>
         <!-- 主体 -->
-        <div class="body" :style="{paddingBottom:footerHeight + 'px', paddingTop:headerHeight + 'px'}">
+        <main>
             <slot></slot>
-        </div>
+        </main>
         <!-- 底部 -->
-        <div ref="footer" class="footer-fixed">
+        <footer>
             <slot name="footer"></slot>
-        </div>
+        </footer>
     </div>
 </template>
 <script>
-
 export default {
-    name: 'StickyLayout',
+    name: 'Sticky'
 
-    props: {
-       
-    },
-
-    data() {
-        return {
-            headerHeight: 0,
-            footerHeight: 0
-        };
-    },
-
-    mounted() {
-        this.headerHeight = this.$refs.header.offsetHeight;
-        this.footerHeight = this.$refs.footer.offsetHeight;
-    },
-
-    methods: {
-
-    },
-
-    components: {
-    }
 }
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
 .container {
-    height: 100%;
     width: 100%;
+    height: 100%;
     position: relative;
-    overflow: hidden;
-    .header-fixed {
-        position: fixed;
-        z-index: $tabBarZIndex;
-        top: 0;
-        left: 0;
-        width: 100%;
+    display: flex;
+    flex-direction: column;
+    header {
+        overflow: hidden;
     }
-    
-    .body{height: 100%;width: 100%;position: relative;box-sizing: border-box;}
-
-    .footer-fixed {
-        position: fixed;
-        z-index: $tabBarZIndex;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+    main {
+        flex: 1;
+        position: relative;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
-    &-blur {
-        filter: blur(2px);
+    footer {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
     }
 }
 </style>

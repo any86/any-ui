@@ -10,6 +10,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+// vuex
+import store from './store/'
+
 // ajax
 import axios from 'axios'
 Vue.prototype.$axios = axios;
@@ -30,6 +33,7 @@ Vue.config.performance = true;
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 });

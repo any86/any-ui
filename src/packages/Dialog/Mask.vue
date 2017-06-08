@@ -1,10 +1,10 @@
 <template>
     <transition v-if="animate" name="mask" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="value" @click.self="close" class="component-mask">
+        <div v-show="value" @click.self="close" class="component-mask" :style="{position}">
             <slot></slot>
         </div>
     </transition>
-    <div v-else v-show="value" @click.self="close" class="component-mask">
+    <div v-else v-show="value" @click.self="close" class="component-mask" :style="{position}">
         <slot></slot>
     </div>
 </template>
@@ -25,6 +25,11 @@ export default {
         animate: {
             type: Boolean,
             default: true
+        },
+
+        isFixed: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -42,6 +47,12 @@ export default {
                 this.$emit('input', false);
             }
         }
+    },
+
+    computed: {
+        position(){
+            return this.isFixed ? 'fixed' : 'absolute';
+        }
     }
 
 };
@@ -49,7 +60,6 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-mask {
-    position: fixed;
     background: rgba(#000, .5);
     z-index: $maskZIndex;
     top: 0;

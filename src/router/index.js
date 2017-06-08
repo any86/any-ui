@@ -7,6 +7,8 @@ const Login = () => ({
 
 import Home from '@/pages/HomeFrame'
 import Index from '@/pages/Index'
+import List from '@/pages/List'
+import Detail from '@/pages/Detail'
 
 const Presale = () => ({
     component: import ('@/pages/Presale')
@@ -30,7 +32,7 @@ export default new Router({
     routes: [{
         path: '/',
         redirect: '/home/index'
-    },{
+    }, {
         path: '/login',
         name: 'Login',
         component: Login
@@ -42,6 +44,14 @@ export default new Router({
             path: 'index',
             name: 'Index',
             component: Index
+        }, {
+            path: 'list',
+            name: 'List',
+            component: List
+        }, {
+            path: 'detail',
+            name: 'Detail',
+            component: Detail
         }, {
             path: 'presale',
             name: 'Presale',
