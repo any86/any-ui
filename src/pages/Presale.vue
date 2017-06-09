@@ -27,7 +27,6 @@
         <ScrollView ref="scroll">
             <!-- tabs -->
             <Tabs v-model="tabSelect">
-                <TabsItem>图片懒加载</TabsItem>
                 <TabsItem>表单示例</TabsItem>
                 <TabsItem>日历</TabsItem>
                 <TabsItem>进度条</TabsItem>
@@ -35,14 +34,6 @@
                 <TabsItem>longlonglonglonglonglongtab4</TabsItem>
             </Tabs>
             <Swiper v-model="tabSelect">
-                <SwiperItem>
-                    <div @click="move" class="box" :style="{left: left + 'px', top: top + 'px'}"></div>
-                    <ul @click="reset" class="list">
-                        <li v-for="item in imgs">
-                            <LazyLoad :element="element" :event="'scroll'" :isLoad="isLoad" width="100%" height="4rem" :src="item"></LazyLoad>
-                        </li>
-                    </ul>
-                </SwiperItem>
                 <SwiperItem>
                     <list>
                         <list-item>

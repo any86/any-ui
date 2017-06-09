@@ -95,31 +95,31 @@ $height: 1rem;
     position: relative;
     height: $height;
     width: 100%;
-    &:before {
-        pointer-events: none;
-        position: absolute;
-        top: 0;
-        left:0;
-        display: block;
-        width: 1.18rem;
-        height: 100%;
-        content: " ";
-        z-index: 10;
-        background: -webkit-gradient(linear,0 0,100% 0,from(#fff),to(hsla(0,0%,100%,0)));
-    }
+    // &:before {
+    //     pointer-events: none;
+    //     position: absolute;
+    //     top: 0;
+    //     left:0;
+    //     display: block;
+    //     width: 1.18rem;
+    //     height: 100%;
+    //     content: " ";
+    //     z-index: 10;
+    //     background: -webkit-gradient(linear,0 0,100% 0,from(#fff),to(hsla(0,0%,100%,0)));
+    // }
 
-    &:after {
-        pointer-events: none;
-        position: absolute;
-        top: 0;
-        right:0;
-        display: block;
-        width: 1.18rem;
-        height: 100%;
-        content: " ";
-        z-index: 10;
-        background: -webkit-gradient(linear,100% 0,0 0,from(#fff),to(hsla(0,0%,100%,0)));
-    }
+    // &:after {
+    //     pointer-events: none;
+    //     position: absolute;
+    //     top: 0;
+    //     right:0;
+    //     display: block;
+    //     width: 1.18rem;
+    //     height: 100%;
+    //     content: " ";
+    //     z-index: 10;
+    //     background: -webkit-gradient(linear,100% 0,0 0,from(#fff),to(hsla(0,0%,100%,0)));
+    // }
     .film {
         display: flex;
         align-items: center;

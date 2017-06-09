@@ -1,27 +1,28 @@
 <template>
-    <span class="component-lazyload" :lazy="statusString" :style="{width, height}">
-        <img v-if="0 == status" src="./loading.gif">
-        <transition name="lazy">
-            <img v-if="1 == status" :src="src">
-        </transition>
-    </span>
+    <img :src="url" class="component-lazyload" :lazy="statusString">
 </template>
 <script>
 export default {
     name: 'LazyLoad',
 
     props: {
-        element: {
-            required: true
-        },
-
         event: {
             type: String,
             default: 'scroll'
         },
 
+        threshold: {
+            type: Number,
+            default: 500
+        },
+
         src: {
             type: String,
+        },
+
+        placeholder: {
+            type: String,
+            default: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
         },
 
         attempt: {
@@ -33,25 +34,28 @@ export default {
     data() {
         return {
             status: 0,
+            viewNode: null,
+            url: '',
             top: 0,
             bottom: 0,
             width: '0',
             height: '0',
-            loadTime: 0,
-            placeholder: ''
+            loadTime: 0
         };
     },
 
     mounted() {
+        // 找最近的scroll父节点
+        var _parentNode = this.$el.parentNode;
+        while ('scroll' != getComputedStyle(_parentNode, null).overflow) {
+            _parentNode = _parentNode.parentNode;
+        }
+        this.viewNode = _parentNode;
 
-        this.height = this.$el.getAttribute('height');
-        this.width = this.$el.getAttribute('width');
+        this.url = this.placeholder;
 
-        // 等待style生效, 组件尺寸生效占位后才能获取到实际top
-        this.$nextTick(() => {
-            this.loadImg();
-            this.element.addEventListener(this.event, this.loadImg /*, {once: true}*/ );
-        });
+        this.loadImg();
+        this.viewNode.addEventListener(this.event, this.loadImg /*, {once: true}*/ );
     },
 
     methods: {
@@ -59,18 +63,17 @@ export default {
             var obj = this.$el.getBoundingClientRect();
             this.top = obj.top;
             this.bottom = obj.bottom;
-            this.height = obj.height + 'px';
 
-            if (this.top < window.screen.height) {
+            if (this.top - this.threshold < window.screen.height) {
                 // if(img.compulet);
-                // const DEFAULT_URL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-                // const DEFAULT_EVENTS = ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'touchmove']
+
                 let img = new Image();
                 img.src = this.src;
 
                 // 加载成功
                 img.onload = e => {
                     this.status = 1;
+                    this.url = this.src;
                     this.loadTime = e.timeStamp;
                     // img = null;
                 }
@@ -81,18 +84,12 @@ export default {
                     syslog(e);
                 }
 
-                this.element.removeEventListener(this.event, this.loadImg);
+                // this.viewNode.removeEventListener(this.event, this.loadImg);
             }
         }
     },
 
     computed: {
-        isInView() {
-            // return window.screen.height;
-            return window.screen.height;
-
-        },
-
         statusString() {
             switch (this.status) {
                 case -1:
@@ -111,7 +108,6 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: $gutter*8;
 .component-lazyload {
     display: block;
     overflow: hidden;
@@ -119,25 +115,6 @@ $height: $gutter*8;
         width: 100%;
         display: block;
     }
-}
-
-// 动画
-.lazy-enter-active {
-    animation: lazy-in 1s;
-}
-
-.lazy-leave-active {
-    animation: lazy-out 1s;
-}
-
-@keyframes lazy-in {
-    0% {
-        opacity: 0;
-        transform: scale(.9) translateY(-5px);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+    >img[lazy="loading"] {}
 }
 </style>

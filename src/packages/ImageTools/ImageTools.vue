@@ -4,7 +4,7 @@
             <div :class="['image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
                 <img src="../../assets/avator.jpeg">
             </div>
-            <div class="mask"><img src="../../assets/C022.png"></div>
+            <div class="mask" ref="mask"><img src="../../assets/C022.png"></div>
         </div>
         <div class="tools-bar">
             <span class="button" @click="moveLeft"><Icon value="arrow-left"></Icon></span>
@@ -31,6 +31,7 @@ export default {
 
     data() {
         return {
+            maskHeight: -1,
             scale: 1,
             rotate: 0,
             touch: {
@@ -51,6 +52,10 @@ export default {
                 }
             }
         };
+    },
+
+    mounted(){
+        this.maskHeight = this.$refs.mask.offsetHeight;
     },
 
     methods: {
@@ -132,13 +137,13 @@ export default {
     padding: $gutter*3 $gutter*3 0 $gutter*3;
     box-sizing: border-box;
     position: relative;
-    // background: $lightest;
+    overflow: hidden;
+    background: #f7f8f9;
     width: 100%;
     // box-shadow: $shadowUp $shadowDown;
     >.preview {
         position: relative;
         overflow: hidden;
-        height: 5rem;
         width: 100%;
         >.image {
             position: absolute;
@@ -151,11 +156,12 @@ export default {
             }
         }
         >.mask {
-            position: absolute;
+            position: relative;
             z-index: 2;
             top: 0;
+            bottom: 0;
+            right: 0;
             left: 0;
-            height: 100%;width:100%;
             >img {
                 display: block;
                 width: 100%;

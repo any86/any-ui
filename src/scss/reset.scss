@@ -1,7 +1,13 @@
+@import './theme.scss';
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Microsoft Yahei', 'PingFang SC', 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: 'Microsoft Yahei',
+        'PingFang SC',
+        'Avenir',
+        Helvetica,
+        Arial,
+        sans-serif;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -35,7 +41,6 @@ body {
     -webkit-text-size-adjust: none;
 }
 
-
 li {
     list-style: none;
 }
@@ -50,11 +55,7 @@ a {
     -webkit-touch-callout: none;
 }
 
-a,
-p,
-td,
-div,
-span {
+a, p, td, div, span {
     font-size: .14rem;
 }
 
@@ -66,40 +67,83 @@ img {
     clear: both;
 }
 
+.flex {
+    display: flex;
+}
+
+.flex-item {
+    flex: 1;
+}
+
+h1 {
+    font-size: $large;
+    margin: $gutter 0;
+    font-weight: 600;
+    color: #000;
+}
+
+h2 {
+    font-size: $biggest;
+    margin: $gutter 0;
+    font-weight: 600;
+    color: #000;
+}
+
+h3 {
+    font-size: $bigger;
+    margin: $gutter 0;
+    font-weight: 600;
+    color: #000;
+}
+
+h4 {
+    font-size: $big;
+    margin: $gutter 0;
+    font-weight: 600;
+    color: #000;
+}
+
+h5 {
+    font-size: $normal;
+    margin: $gutter 0;
+    font-weight: 600;
+    color: #000;
+}
+
+h6 {
+    font-size: $small;
+    margin: $gutter 0;
+    font-weight: 600;
+    color: #000;
+}
+
 // ::-webkit-scrollbar {
-//     background: #fff;
-//     width: 0;
-//     height: 0;
+//     background: #ccc;
+//     width: 4px;
+//     height: 4px;
 // }
-
 // ::-webkit-scrollbar-thumb {
-//     background: #fff;
+//     background: #f10;
 // }
-
 // ::-moz-scrollbar {
 //     background: #fff;
 //     width: 0;
 //     height: 0;
 // }
-
 // ::-moz-scrollbar-thumb {
 //     background: #fff;
 // }
-
 // ::-ms-scrollbar {
 //     background: #fff;
 //     width: 0;
 //     height: 0;
 // }
-
 // ::-ms-scrollbar-thumb {
 //     background: #fff;
 // }
-
 [v-cloak] {
     display: none;
 }
-
 
 /*动画*/
 
@@ -133,7 +177,6 @@ img {
     }
 }
 
-
 /*fadeLeft*/
 
 .fadeLeft-enter-active {
@@ -165,7 +208,6 @@ img {
         transform: translateX(-10%);
     }
 }
-
 
 /*动画*/
 
@@ -202,5 +244,40 @@ img {
     }
     100% {
         transform: translateX(-100%);
+    }
+}
+
+
+// 动画
+@keyframes zoom {
+    0% {
+        opacity: .9;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// 动画
+@keyframes fadeInUp {
+    0% {
+        opacity: .9;
+        transform: translateY(15%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// 动画
+@keyframes fadeIn {
+    0% {
+        opacity: .4;
+    }
+    100% {
+        opacity: 1;
     }
 }

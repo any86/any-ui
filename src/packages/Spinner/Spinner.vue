@@ -1,5 +1,5 @@
 <template>
-    <div class="com-spinner">
+    <div class="component-spinner">
         <div class="loading">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
@@ -15,10 +15,11 @@ export default {
 </script>
 
 <style scoped lang=scss>
+@import '../../scss/theme.scss';
 @mixin loading() {
     .loading {
         overflow: hidden;
-        margin:auto;
+        margin: .5rem auto;
         width: 150px;
         text-align: center;
         > div {
@@ -66,12 +67,12 @@ export default {
     }
 }
 
-.com-spinner {
+.component-spinner {
     @include loading;
     p {
-        margin-top: 5px;
-        font-size: 13px;
-        color: #ccc;
+        margin-top: $gutter;
+        font-size: $normal;
+        color: $light;
     }
 }
 </style>

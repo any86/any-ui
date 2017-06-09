@@ -22,7 +22,7 @@
         <div class="row-category-thumbs" ref="categoryThumbs">
             <router-link v-for="item in categoryThumbs" :key="item.title" :to="{path: item.path}" tag="span" class="item">
                 <p>{{item.title}}</p>
-                <LazyLoad class="img" :element="$refs.categoryThumbs" width="100%" height="1.5rem" :src="item.img"></LazyLoad>
+                <LazyLoad class="img" :src="item.img" :placeholder="'../../static/loading.gif'"></LazyLoad>
             </router-link>
         </div>
         <!-- shop these looks -->
@@ -36,7 +36,7 @@
                     <transition-group name="fade" tag="div" @before-enter="beforeEnter" @enter="enter" :css="false">
                         <template v-for="item in swiperItem">
                             <!-- 图片 -->
-                            <img v-if="undefined != item.src" v-show="i == looks.realIndex" :key="item" :src="item.src" :style="{width: item.width, height: item.height, top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay"/>
+                            <img v-if="undefined != item.src" v-show="i == looks.realIndex" :key="item" :src="item.src" :style="{width: item.width, height: item.height, top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay" />
                             <!-- 文字 -->
                             <h4 v-else-if="undefined != item.text" v-show="i == looks.realIndex" :key="item" :style="{top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay">{{item.text}}</h4>
                         </template>
@@ -102,13 +102,13 @@ export default {
             });
         },
 
-        beforeEnter(el){
+        beforeEnter(el) {
             el.style.opacity = 0;
             el.style.transition = 'all 1s';
         },
 
-        enter(el){
-            setTimeout(()=>{
+        enter(el) {
+            setTimeout(() => {
                 el.style.opacity = 1;
             }, el.dataset.delay)
         },
@@ -182,9 +182,14 @@ export default {
                 font-size: $normal;
             }
             .img {
-                flex: 1;
                 margin: auto;
                 box-sizing: border-box;
+                width: 1.4rem;
+                height: 1.4rem;
+            }
+            .img[lazy="loading"] {}
+            .img[lazy="done"] {
+                animation: zoom 1s;
             }
             &:nth-child(2n+1) {
                 border-right-width: 1px;
@@ -217,7 +222,7 @@ export default {
         }
         .swiper {
             background: #fff;
-            img{}
+            img {}
             .cover {
                 width: 4rem;
             }

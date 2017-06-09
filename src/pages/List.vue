@@ -29,18 +29,16 @@
             <li @click="showPopup(1)">category</li>
             <li @click="showPopup(2)">sort</li>
         </ul>
-        <ScrollView ref="scroll" class="scroll-view" @bottom-out="getMore">
+        <ScrollView  class="scroll-view" @bottom-out="getMore">
             <ul class="list">
-                <li v-for="item in list">
-                    <VLazyLoad class="img" :element="$refs.scroll.$el" :src="item.img" width="3rem" height="3rem"></VLazyLoad>
+                <router-link v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
+                    <VLazyLoad class="img" :src="item.img" :placeholder="'../../static/loading.gif'"></VLazyLoad>
                     <h5 align="center">{{item.title}}</h5>
                     <h6 align="center"><span>$</span>{{item.price}}</h6>
-                </li>
+                </router-link>
             </ul>
-
-            <p  v-if="isEnd" class="empty">there is nothing</p>
-            <Spinner v-else style="margin:30px auto;"></Spinner>
-           
+            <p v-if="isEnd" class="empty">there is nothing</p>
+            <Spinner class="spinner"></Spinner>
         </ScrollView>
     </div>
 </template>
@@ -67,7 +65,7 @@ export default {
             list: [],
             trend: 2,
             page: 1,
-            limit: 10,
+            limit: 20,
         };
     },
 
@@ -81,12 +79,17 @@ export default {
             this.isPopupShow = true;
         },
 
-        refresh(){
+        refresh() {
             this.isEnd = false;
-             this.list = [];
-            const params = {page: this.page, limit: this.limit, trend: this.trend};
-            this.$api.getGoodsList(params).then(response=>{
-                if(0 == response.data.status) {
+            this.list = [];
+            const params = {
+                page: this.page,
+                limit: this.limit,
+                trend: this.trend
+            };
+            this.$api.getGoodsList(params).then(response => {
+
+                if (0 == response.data.status) {
                     this.isEnd = true;
                 } else {
                     this.list = response.data.content;
@@ -96,12 +99,17 @@ export default {
         },
 
         getMore() {
-            if(!this.isLoading) {
+
+            if (!this.isLoading) {
                 this.isLoading = true;
                 this.page++;
-                const params = {page: this.page, limit: this.limit, trend: this.trend};
-                this.$api.getGoodsList(params).then(response=>{
-                    if(0 == response.data.status) {
+                const params = {
+                    page: this.page,
+                    limit: this.limit,
+                    trend: this.trend
+                };
+                this.$api.getGoodsList(params).then(response => {
+                    if (0 == response.data.status) {
                         this.isEnd = true;
                     } else {
                         this.list.push(...response.data.content);
@@ -156,27 +164,36 @@ export default {
             }
         }
     }
-    .scroll-view{
+    .scroll-view {
         flex: 1;
-        ul.list {
+        .list {
             display: flex;
             flex-flow: row wrap;
-            >li {
+            >.item {
                 flex: 0 0 50%;
                 >.img {
-                    width: 100%;
-                    display: flex;
+                    overflow: hidden;
                     margin: auto;
+                    width: 3rem;
+                    height: 3rem;
+                }
+                >.img[lazy="loading"] {
+
+                }
+                >.img[lazy="done"]{
+                    animation: zoom 1s;
                 }
             }
         }
-    }
-
-    .empty {
-        text-align: center;
-        font-size: .3rem;
-        color: $light;
-        margin: 30px auto;
+        .spinner {
+            // margin: 30px auto;
+        }
+        .empty {
+            text-align: center;
+            font-size: .3rem;
+            color: $light;
+            margin: 30px auto;
+        }
     }
 }
 </style>

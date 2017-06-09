@@ -2,7 +2,6 @@
 // $base: #1fbab1;
 $base: #ed4949;
 
-
 // 辅色
 $sub: #fff;
 
@@ -55,50 +54,37 @@ $large: .5rem;
 $shadowUp: 1px -1px 3px rgba(0, 0, 0, .1);
 $shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
 
-
 // 底部tab高度
 $bottomTabHeight: 60px;
-
-.flex{
-    display: flex;
-}
-
-.flex-item {
-    flex: 1;
-}
 
 @mixin theme($type) {
 	@if 'default' == $type {
 		color: $dark;
 		background: $default;
-	} @else if 'success' == $type {
+	}
+	@else if 'success' == $type {
 		color: #fff;
 		background: $success;
-	} @else if 'info' == $type {
+	}
+	@else if 'info' == $type {
 		color: #fff;
 		background: $info;
-	} @else if 'warning' == $type {
+	}
+	@else if 'warning' == $type {
 		color: #fff;
 		background: $warning;
-	} @else if 'danger' == $type {
+	}
+	@else if 'danger' == $type {
 		color: #fff;
 		background: $danger;
-	} @else if 'primary' == $type {
+	}
+	@else if 'primary' == $type {
 		color: #fff;
 		background: $primary;
 	}
 }
 
-@mixin disabled(){
+@mixin disabled() {
 	background: $lighter;
 	color: $light;
 }
-
-h1{font-size: $large;margin: $gutter 0;font-weight: 600;color: #000;}
-h2{font-size: $biggest;margin: $gutter 0;font-weight: 600;color: #000;}
-h3{font-size: $bigger;margin: $gutter 0;font-weight: 600;color: #000;}
-h4{font-size: $big;margin: $gutter 0;font-weight: 600;color: #000;}
-h5{font-size: $normal;margin: $gutter 0;font-weight: 600;color: #000;}
-h6{font-size: $small;margin: $gutter 0;font-weight: 600;color: #000;}
-
-

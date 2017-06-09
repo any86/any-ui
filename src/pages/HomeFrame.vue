@@ -11,19 +11,22 @@
         </SideBar>
         <StickyLayout>
             <!-- 头部 -->
-            <header slot="header">
+            <div slot="header" class="header">
                 <Icon value="bars" @click.native="showSideBar"></Icon>
                 <Icon value="search" style="margin-left:15px;"></Icon>
                 <img class="logo" src="../assets/logo.png">
                 <Icon value="user" style="margin-right:15px;"></Icon>
                 <Icon value="shopping-bag"></Icon>
-            </header>
+            </div>
+
             <!-- 主体 -->
             <transition name="fade-left" mode="out-in">
                 <router-view></router-view>
             </transition>
+
+
             <!-- 底部 -->
-            <footer slot="footer">
+            <div slot="footer" class="footer">
                 <router-link tag="span" to="/home/index" class="button">
                     <Icon class="icon" value="home"></Icon>
                     <p>home</p>
@@ -45,7 +48,7 @@
                     <Icon class="icon" value="user-circle-o"></Icon>
                     <p>my</p>
                 </router-link>
-            </footer>
+            </div>
         </StickyLayout>
     </div>
 </template>
@@ -86,9 +89,10 @@ export default {
             padding: 3*$gutter;
             display: block;
             border-bottom: 1px solid $lightest;
+            font-size: $normal;
         }
     }
-    header {
+    .header {
         display: flex;
         padding: 10px 15px;
         background: #fff;
@@ -103,7 +107,10 @@ export default {
             height: 30px;
         }
     }
-    footer {
+    
+    .main{}
+
+    .footer {
         display: flex;
         // box-shadow: $shadowUp;
         border-top: 1px solid $lightest;

@@ -1,14 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Home from '@/pages/HomeFrame'
+
 const Login = () => ({
     component: import ('@/pages/Login')
 });
 
-import Home from '@/pages/HomeFrame'
-import Index from '@/pages/Index'
-import List from '@/pages/List'
-import Detail from '@/pages/Detail'
+
+
+const Index = () => ({
+    component: import ('@/pages/Index')
+});
+
+const List = () => ({
+    component: import ('@/pages/List')
+});
+
+const Detail = () => ({
+    component: import ('@/pages/Detail')
+});
 
 const Presale = () => ({
     component: import ('@/pages/Presale')
