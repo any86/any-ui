@@ -29,7 +29,7 @@
             <li @click="showPopup(1)">category</li>
             <li @click="showPopup(2)">sort</li>
         </ul>
-        <ScrollView  class="scroll-view" @bottom-out="getMore">
+        <ScrollView  class="scroll-list" @bottom-out="getMore">
             <ul class="list">
                 <router-link v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
                     <VLazyLoad class="img" :src="item.img" :placeholder="'../../static/loading.gif'"></VLazyLoad>
@@ -164,8 +164,12 @@ export default {
             }
         }
     }
-    .scroll-view {
-        flex: 1;
+    .scroll-list {
+        border:10px solid #50c;
+        box-sizing:border-box;
+        flex-basis: 100%;
+        flex-shrink:1;
+        flex-grow:1;
         .list {
             display: flex;
             flex-flow: row wrap;

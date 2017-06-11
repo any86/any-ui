@@ -45,11 +45,15 @@ export default {
     },
 
     mounted() {
-        // 找最近的scroll父节点
+        // 找最近的overflowY == scroll 或者overflowX == scroll的父节点
         var _parentNode = this.$el.parentNode;
-        while ('scroll' != getComputedStyle(_parentNode, null).overflow) {
+        var style = getComputedStyle(_parentNode, null);
+        // 不能等于document, document.nodeType == null 
+        while (9 != _parentNode.nodeType && 'scroll' != style.overflowY && 'scroll' != style.overflowX) {
             _parentNode = _parentNode.parentNode;
+            style = getComputedStyle(_parentNode, null);
         }
+        
         this.viewNode = _parentNode;
 
         this.url = this.placeholder;

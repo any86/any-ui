@@ -32,9 +32,12 @@ export default {
         overflow: hidden;
     }
     main {
-        flex: 1;
+        flex-basis: 100%;
+        flex-shrink:0;
+        flex-grow:1;
+        height:100%;
+        
         position: relative;
-        height: 100%;
         width: 100%;
         box-sizing: border-box;
         overflow: hidden;

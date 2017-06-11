@@ -1,6 +1,6 @@
 <template>
-    <div class="scroll-view" @scroll="scroll">
-        <div ref="content" class="content">
+    <div class="scroll-view" @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend">
+        <div ref="content" class="content" :style="{transform: `translate3d(0, ${touch.translateYNew}px, 0)`}">
             <slot></slot>
         </div>
     </div>
@@ -19,11 +19,35 @@ export default {
     data() {
         return {
             timer: null,
-            isEnd: false
+            isEnd: false,
+            touch: {
+                status: 0,
+                start: 0,
+                distance: 0,
+                translateYOld: 0,
+                translateYNew: 0,
+            }
         };
     },
-
     methods: {
+        touchstart(e){
+            this.touch.status = 0;
+            this.touch.start = e.touches[0].clientY;
+           syslog(e.touches[0].clientY, this.touch.start)
+        },
+        
+        touchmove(e){
+            this.touch.status = 1;
+            this.touch.distance = e.touches[0].clientY - this.touch.start;
+             syslog(e.touches[0].clientY, this.touch.start)
+            this.touch.translateYNew = this.touch.translateYOld + this.touch.distance;
+        },
+        
+        touchend(e){
+            this.touch.status = 2;
+            this.touch.translateYOld = this.touch.translateYNew;
+        },
+        
         scroll() {
             if (!this.isEnd) {
                 clearTimeout(this.timer);
@@ -65,12 +89,9 @@ export default {
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden;
     >.content {
         position: relative;
-        z-index: 1;
-        overflow: hidden;
     }
     >.touch-end {
         /*松手的时候才能加动画, touch-start的时候加拖拉会因为动画不流畅*/

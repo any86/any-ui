@@ -117,14 +117,14 @@ h6 {
     color: #000;
 }
 
-// ::-webkit-scrollbar {
-//     background: #ccc;
-//     width: 4px;
-//     height: 4px;
-// }
-// ::-webkit-scrollbar-thumb {
-//     background: #f10;
-// }
+::-webkit-scrollbar {
+    background: #ccc;
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-thumb {
+    background: #f10;
+}
 // ::-moz-scrollbar {
 //     background: #fff;
 //     width: 0;
