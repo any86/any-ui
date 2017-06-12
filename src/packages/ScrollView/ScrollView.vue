@@ -1,6 +1,6 @@
 <template>
     <div class="scroll-view" @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend">
-        <div ref="content" class="content" :style="{transform: `translate3d(0, ${touch.translateYNew}px, 0)`}">
+        <div ref="content" class="content" :class="{'auto-shrink': 2 == touch.status}" :style="{transform: `translate3d(0, ${touch.translateYNew}px, 0)`, 'transition-duration': `${duration}ms`}">
             <slot></slot>
         </div>
     </div>
@@ -18,57 +18,82 @@ export default {
 
     data() {
         return {
+            viewHeight: -1,
+            contentHeight: -1,
+            duration: 0,
             timer: null,
             isEnd: false,
             touch: {
                 status: 0,
                 start: 0,
+                startTime: 0,
+                costTime: 0,
                 distance: 0,
                 translateYOld: 0,
                 translateYNew: 0,
             }
         };
     },
+
+    mounted() {
+        this.viewHeight = this.$el.scrollHeight;
+    },
+
     methods: {
-        touchstart(e){
+        touchstart(e) {
+            if (e.target.tagName.match(/input|textarea|select/i)) {
+                return
+            }
+            // 关于其他元素的排除还没写完
+
             this.touch.status = 0;
+            this.duration = 0;
+            this.touch.startTime = e.timeStamp;
             this.touch.start = e.touches[0].clientY;
-           syslog(e.touches[0].clientY, this.touch.start)
+            this.contentHeight = this.$refs.content.scrollHeight;
+
         },
-        
-        touchmove(e){
+
+        touchmove(e) {
             this.touch.status = 1;
             this.touch.distance = e.touches[0].clientY - this.touch.start;
-             syslog(e.touches[0].clientY, this.touch.start)
             this.touch.translateYNew = this.touch.translateYOld + this.touch.distance;
+
         },
-        
-        touchend(e){
+
+        touchend(e) {
             this.touch.status = 2;
+            this.touch.costTime = e.timeStamp - this.touch.startTime;
+            this.duration = 800;
+            // 模拟加速度
+            // 稍后用js做精准动画控制 or tween.js
+            if (200 > this.touch.costTime) {
+                var additional = Math.abs(this.touch.distance) * 10;
+                //向上拖拽
+                if (0 < this.touch.distance) {
+                    var translateYNew = this.touch.translateYNew + additional;
+                    if (0 < translateYNew) {
+                        this.touch.translateYNew = 0;
+                        this.$emit('reach-top');
+                    } else {
+                        this.touch.translateYNew += additional;
+                    }
+                    // 向下拖拽    
+                } else {
+                    // maxDistance 为负
+                    const maxDistance = this.viewHeight - this.contentHeight;
+                    var translateYNew = this.touch.translateYNew - additional;
+
+                    if (maxDistance > translateYNew) {
+                        this.touch.translateYNew = maxDistance;
+                        this.$emit('reach-bottom');
+                    } else {
+                        this.touch.translateYNew -= additional;
+                    }
+                }
+            }
             this.touch.translateYOld = this.touch.translateYNew;
         },
-        
-        scroll() {
-            if (!this.isEnd) {
-                clearTimeout(this.timer);
-
-                this.timer = setTimeout(() => {
-                    // 组件高度
-                    var viewHeight = this.$el.offsetHeight;
-                    // 内容高度
-                    var contentHeight = this.$refs.content.scrollHeight;
-                    // 滚动条高度
-                    var scrollTop = this.$el.scrollTop;
-
-                    this.$emit('update:scrollTop', scrollTop);
-
-                    // 距离底部threshold就触发
-                    if (scrollTop + viewHeight + this.threshold > contentHeight) {
-                        this.$emit('bottom-out');
-                    }
-                }, 200);
-            }
-        }
     },
 
     watch: {
@@ -93,9 +118,11 @@ export default {
     >.content {
         position: relative;
     }
-    >.touch-end {
+    >.auto-shrink {
         /*松手的时候才能加动画, touch-start的时候加拖拉会因为动画不流畅*/
-        transition: all .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        /*transition: transform .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);*/
+        /*transition: transform cubic-bezier(0.4, 0, 0.2, 1);*/
+        transition: transform cubic-bezier(0, 0.97, 0.58, 1);
     }
 }
 </style>

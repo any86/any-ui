@@ -1,51 +1,52 @@
 <template>
     <div class="container">
         <!-- 头部 -->
-        <header>
-            <slot name="header"></slot>
-        </header>
+        <slot name="header"></slot>
+        
         <!-- 主体 -->
         <main>
             <slot></slot>
         </main>
+
         <!-- 底部 -->
-        <footer>
-            <slot name="footer"></slot>
-        </footer>
+        <slot name="footer"></slot>
     </div>
 </template>
 <script>
 export default {
-    name: 'Sticky'
+    name: 'Sticky',
+
+    props: {
+        threshold: {
+            type: Number,
+            default: 50
+        }
+    },
+
+    data() {
+        return {
+            timer: null,
+        };
+    },
+
+    methods: {
+    }
 
 }
 </script>
-<style scoped lang=scss>
+<style scoped lang="scss">
 @import '../../scss/theme.scss';
 .container {
+    position: relative;
     width: 100%;
     height: 100%;
-    position: relative;
     display: flex;
     flex-direction: column;
-    header {
-        overflow: hidden;
-    }
+    // 主要内容
     main {
-        flex-basis: 100%;
-        flex-shrink:0;
-        flex-grow:1;
-        height:100%;
-        
-        position: relative;
-        width: 100%;
-        box-sizing: border-box;
-        overflow: hidden;
-    }
-    footer {
+        flex:1;
         position: relative;
         overflow: hidden;
-        width: 100%;
     }
 }
 </style>

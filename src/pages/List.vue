@@ -24,18 +24,19 @@
             <h2 v-else-if="1 == popupIndex" slot="header">Please Pickup trend</h2>
             <h2 v-else-if="2 == popupIndex" slot="header">Please Pickup sort</h2>
         </VPopup>
-        <ul class="bar">
-            <li @click="showPopup(0)">trend</li>
-            <li @click="showPopup(1)">category</li>
-            <li @click="showPopup(2)">sort</li>
-        </ul>
-        <ScrollView  class="scroll-list" @bottom-out="getMore">
+        <div class="bar">
+            <span @click="showPopup(0)">trend</span>
+            <span @click="showPopup(1)">category</span>
+            <span @click="showPopup(2)">sort</span>
+        </div>
+        <ScrollView class="scroll-list" @reach-bottom="getMore">
             <ul class="list">
-                <router-link v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
-                    <VLazyLoad class="img" :src="item.img" :placeholder="'../../static/loading.gif'"></VLazyLoad>
+                <a v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
+                    <!-- <img :src="item.img"  class="img"> -->
+                    <VLazyLoad class="img" :src="item.img" :isLoad="false" :placeholder="'../../static/loading.gif'"></VLazyLoad>
                     <h5 align="center">{{item.title}}</h5>
                     <h6 align="center"><span>$</span>{{item.price}}</h6>
-                </router-link>
+                </a>
             </ul>
             <p v-if="isEnd" class="empty">there is nothing</p>
             <Spinner class="spinner"></Spinner>
@@ -50,6 +51,7 @@ import VList from '@/packages/List/List.vue'
 import VListItem from '@/packages/List/ListItem.vue'
 import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
+
 
 export default {
     name: 'List',
@@ -99,7 +101,6 @@ export default {
         },
 
         getMore() {
-
             if (!this.isLoading) {
                 this.isLoading = true;
                 this.page++;
@@ -141,9 +142,11 @@ export default {
 <style scoped lang="scss">
 @import '../scss/theme.scss';
 .page-list {
-    position: relative;
-    height: 100%;
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -151,7 +154,7 @@ export default {
         height: .8rem;
         width: 100%;
         display: flex;
-        >li {
+        >span {
             flex: 1;
             font-size: $big;
             line-height: .8rem;
@@ -165,11 +168,11 @@ export default {
         }
     }
     .scroll-list {
-        border:10px solid #50c;
-        box-sizing:border-box;
+        height: 100%;
+        position: relative;
         flex-basis: 100%;
-        flex-shrink:1;
-        flex-grow:1;
+        flex-shrink: 1;
+        flex-grow: 1;
         .list {
             display: flex;
             flex-flow: row wrap;
@@ -181,10 +184,8 @@ export default {
                     width: 3rem;
                     height: 3rem;
                 }
-                >.img[lazy="loading"] {
-
-                }
-                >.img[lazy="done"]{
+                >.img[lazy="loading"] {}
+                >.img[lazy="done"] {
                     animation: zoom 1s;
                 }
             }

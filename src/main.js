@@ -10,6 +10,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
+
+
 import api from './api/'
 Vue.prototype.$api = api;
 // vuex

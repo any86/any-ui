@@ -28,6 +28,11 @@ export default {
         attempt: {
             type: Number,
             default: 1
+        },
+
+        isLoad: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -46,20 +51,20 @@ export default {
 
     mounted() {
         // 找最近的overflowY == scroll 或者overflowX == scroll的父节点
-        var _parentNode = this.$el.parentNode;
-        var style = getComputedStyle(_parentNode, null);
-        // 不能等于document, document.nodeType == null 
-        while (9 != _parentNode.nodeType && 'scroll' != style.overflowY && 'scroll' != style.overflowX) {
-            _parentNode = _parentNode.parentNode;
-            style = getComputedStyle(_parentNode, null);
-        }
+        // var _parentNode = this.$el.parentNode;
+        // var style = getComputedStyle(_parentNode, null);
+        // // 不能等于document, document.nodeType == null 
+        // while (9 != _parentNode.nodeType && 'scroll' != style.overflowY && 'scroll' != style.overflowX) {
+        //     _parentNode = _parentNode.parentNode;
+        //     style = getComputedStyle(_parentNode, null);
+        // }
         
-        this.viewNode = _parentNode;
+        // this.viewNode = _parentNode;
 
         this.url = this.placeholder;
 
-        this.loadImg();
-        this.viewNode.addEventListener(this.event, this.loadImg /*, {once: true}*/ );
+        // this.loadImg();
+        // this.viewNode.addEventListener(this.event, this.loadImg /*, {once: true}*/ );
     },
 
     methods: {
@@ -89,6 +94,14 @@ export default {
                 }
 
                 // this.viewNode.removeEventListener(this.event, this.loadImg);
+            }
+        }
+    },
+
+    watch: {
+        isLoad(value){
+            if(value) {
+                this.loadImg();
             }
         }
     },

@@ -9,24 +9,22 @@
                 <li>Personalized</li>
             </ul>
         </SideBar>
+        <!-- 主体 -->
         <StickyLayout>
             <!-- 头部 -->
-            <div slot="header" class="header">
+            <header slot="header">
                 <Icon value="bars" @click.native="showSideBar"></Icon>
                 <Icon value="search" style="margin-left:15px;"></Icon>
                 <img class="logo" src="../assets/logo.png">
                 <Icon value="user" style="margin-right:15px;"></Icon>
                 <Icon value="shopping-bag"></Icon>
-            </div>
-
-            <!-- 主体 -->
+            </header>
+            <!-- 主要信息内容 -->
             <transition name="fade-left" mode="out-in">
                 <router-view></router-view>
             </transition>
-
-
             <!-- 底部 -->
-            <div slot="footer" class="footer">
+            <footer slot="footer">
                 <router-link tag="span" to="/home/index" class="button">
                     <Icon class="icon" value="home"></Icon>
                     <p>home</p>
@@ -48,7 +46,7 @@
                     <Icon class="icon" value="user-circle-o"></Icon>
                     <p>my</p>
                 </router-link>
-            </div>
+            </footer>
         </StickyLayout>
     </div>
 </template>
@@ -92,7 +90,8 @@ export default {
             font-size: $normal;
         }
     }
-    .header {
+    // 头部
+    header {
         display: flex;
         padding: 10px 15px;
         background: #fff;
@@ -107,11 +106,10 @@ export default {
             height: 30px;
         }
     }
-    
-    .main{}
-
-    .footer {
+    // 底部
+    footer {
         display: flex;
+        min-height: 60px;
         // box-shadow: $shadowUp;
         border-top: 1px solid $lightest;
         .badge {
@@ -127,20 +125,22 @@ export default {
             display: block;
             background: #fff;
             text-align: center;
-            font-size: $large;
-            transition: all .3s;
+            
             &.active {
                 background: $light;
             }
             &:active {
                 background: $light;
             }
-            >.icon {
+            .icon {
+                font-size: $large;
                 height: 30px;
                 display: block;
             }
             p {
                 font-size: $normal;
+                line-height: 30px;
+                height: 30px;
             }
         }
         .router-link-active {
