@@ -23,15 +23,17 @@
 
         <LayoutLooks :dataSource="looks"></LayoutLooks>
 
+        
 
-        <Swiper :loop="true" class="swiper">
-            <SwiperItem>
+        <!-- 底部 -->
+        <Swiper :loop="true" :options="{spaceBetween: 30}" class="swiper">
+            <SwiperItem  style="width:40%;">
                 <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/new-soufeel-2017/home-new-soufeel-2017-mobile.jpg');"></div>
             </SwiperItem>
-            <SwiperItem>
-                <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/after-mothers-day-2017/home-after-mothers-day-2017-mobile.jpg');"></div>
+            <SwiperItem  style="width:40%;">
+                <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/after-mothers-day-2017/home-after-mothers-day-2017-mobile.jpg'); "></div>
             </SwiperItem>
-            <SwiperItem>
+            <SwiperItem style="width:40%;">
                 <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/presale/152/home-pre-sale-mobile.jpg');"></div>
             </SwiperItem>
         </Swiper>
