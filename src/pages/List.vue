@@ -2,9 +2,16 @@
     <div class="page-list">
         <!-- <Spinner v-if="-1 == status" style="margin-top:20%;">loading</Spinner> -->
         <!-- 页面 -->
-        <VPopup from="up" v-model="isPopupShow">
+
+        <div class="bar">
+            <span @click="showPopup(0)">trend</span>
+            <span @click="showPopup(1)">category</span>
+            <span @click="showPopup(2)">sort</span>
+        </div>
+        <ScrollView v-model="scrollY" class="scroll-list" @reach-bottom="getMore">
+
+        <VPopup :isFixed="false" from="up" v-model="isPopupShow">
             <template v-if="0 == popupIndex">
-                <h2 slot="header">Please Pickup trend</h2>
                 <v-list-item>
                     <v-radio v-model="trend" :selfValue="1">time</v-radio>
                 </v-list-item>
@@ -24,16 +31,10 @@
             <h2 v-else-if="1 == popupIndex" slot="header">Please Pickup trend</h2>
             <h2 v-else-if="2 == popupIndex" slot="header">Please Pickup sort</h2>
         </VPopup>
-        <div class="bar">
-            <span @click="showPopup(0)">trend</span>
-            <span @click="showPopup(1)">category</span>
-            <span @click="showPopup(2)">sort</span>
-        </div>
-        <ScrollView class="scroll-list" @reach-bottom="getMore">
+        
             <ul class="list">
                 <a v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
-                    <!-- <img :src="item.img"  class="img"> -->
-                    <VLazyLoad class="img" :src="item.img" :isLoad="false" :placeholder="'../../static/loading.gif'"></VLazyLoad>
+                    <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
                     <h5 align="center">{{item.title}}</h5>
                     <h6 align="center"><span>$</span>{{item.price}}</h6>
                 </a>
@@ -58,6 +59,7 @@ export default {
 
     data() {
         return {
+            scrollY: 0,
             bool: true,
             status: -1,
             isLoading: true,
@@ -151,13 +153,14 @@ export default {
     display: flex;
     flex-direction: column;
     .bar {
+        position: relative;
         height: .8rem;
         width: 100%;
         display: flex;
         >span {
             flex: 1;
             font-size: $big;
-            line-height: .8rem;
+            line-height: .7rem;
             text-align: center;
             border-color: $lightest;
             border-style: solid;

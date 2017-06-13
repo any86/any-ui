@@ -117,14 +117,14 @@ h6 {
     color: #000;
 }
 
-::-webkit-scrollbar {
-    background: #ccc;
-    width: 4px;
-    height: 4px;
-}
-::-webkit-scrollbar-thumb {
-    background: #f10;
-}
+// ::-webkit-scrollbar {
+//     background: #ccc;
+//     width: 4px;
+//     height: 4px;
+// }
+// ::-webkit-scrollbar-thumb {
+//     background: #f10;
+// }
 // ::-moz-scrollbar {
 //     background: #fff;
 //     width: 0;
@@ -279,5 +279,34 @@ h6 {
     }
     100% {
         opacity: 1;
+    }
+}
+
+
+
+// 动画
+.fade-enter-active {
+    animation: fade-in .5s;
+}
+
+.fade-leave-active {
+    animation: fade-out .5s;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }
