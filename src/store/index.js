@@ -9,7 +9,7 @@ import mutations from "./mutations.js";
 // 模块
 // import goodsModule from './modules/goods.js'
 const state = {
-    goodsList: []
+  goodsList: []
 };
 
 Vue.use(Vuex);

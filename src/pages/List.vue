@@ -32,10 +32,11 @@
         <ScrollView class="scroll-list" @reach-bottom="getMore">
             <ul class="list">
                 <a v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
-                    <!-- <img :src="item.img"  class="img"> -->
+                     <!--<img :src="item.img"  class="img"> -->
                     <VLazyLoad class="img" :src="item.img" :isLoad="false" :placeholder="'../../static/loading.gif'"></VLazyLoad>
                     <h5 align="center">{{item.title}}</h5>
-                    <h6 align="center"><span>$</span>{{item.price}}</h6>
+                    <h6 align="center">
+                        <span>$</span>{{item.price}}</h6>
                 </a>
             </ul>
             <p v-if="isEnd" class="empty">there is nothing</p>
@@ -51,7 +52,6 @@ import VList from '@/packages/List/List.vue'
 import VListItem from '@/packages/List/ListItem.vue'
 import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
-
 
 export default {
     name: 'List',
