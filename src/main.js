@@ -14,6 +14,7 @@ import VueScroller from 'vue-scroller'
 Vue.use(VueScroller)
 
 
+
 import api from './api/'
 Vue.prototype.$api = api;
 // vuex

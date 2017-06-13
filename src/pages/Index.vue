@@ -1,5 +1,5 @@
 <template>
-    <ScrollView class="page-index">
+    <ScrollView v-model="scrollY" class="page-index">
         <!-- 轮播 -->
         <Swiper v-model="swiperIndex" :realIndex.sync="swiperRealIndex" :loop="true" :autoplay="3000" class="swiper">
             <SwiperItem>
@@ -18,32 +18,29 @@
                 <span :class="{active: 2 == swiperRealIndex}" @click="swiperIndex = 3"></span>
             </div>
         </Swiper>
-        <!-- 第二行 -->
-        <div class="row-category-thumbs" ref="categoryThumbs">
-            <router-link v-for="item in categoryThumbs" :key="item.title" :to="{path: item.path}" tag="span" class="item">
-                <p>{{item.title}}</p>
-                <LazyLoad class="img" :src="item.img" :placeholder="'../../static/loading.gif'"></LazyLoad>
-            </router-link>
-        </div>
-        <!-- shop these looks -->
-        <div class="row-looks">
-            <h3 class="title">SHOP THESE LOOKS</h3>
-            <div class="breadcrumb">
-                <a v-for="(item, i) in looks.breadcrumb" @click="looks.activeIndex = i" :class="{active: looks.activeIndex == i}">{{item}}</a>
-            </div>
-            <Swiper v-if="looks.swiper" class="swiper" v-model="looks.activeIndex" :realIndex.sync="looks.realIndex">
-                <SwiperItem v-for="(swiperItem, i) in looks.swiper" :key="i" style="height: 6rem;">
-                    <transition-group name="fade" tag="div" @before-enter="beforeEnter" @enter="enter" :css="false">
-                        <template v-for="item in swiperItem">
-                            <!-- 图片 -->
-                            <img v-if="undefined != item.src" v-show="i == looks.realIndex" :key="item" :src="item.src" :style="{width: item.width, height: item.height, top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay" />
-                            <!-- 文字 -->
-                            <h4 v-else-if="undefined != item.text" v-show="i == looks.realIndex" :key="item" :style="{top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay">{{item.text}}</h4>
-                        </template>
-                    </transition-group>
-                </SwiperItem>
-            </Swiper>
-        </div>
+
+        <LayoutCategoryThumb :dataSource="categoryThumbs"></LayoutCategoryThumb>
+
+        <LayoutLooks :dataSource="looks"></LayoutLooks>
+
+        
+
+        <!-- 底部 -->
+        <Swiper :loop="true" :options="{spaceBetween: 30}" class="swiper">
+            <SwiperItem  style="width:40%;">
+                <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/new-soufeel-2017/home-new-soufeel-2017-mobile.jpg');"></div>
+            </SwiperItem>
+            <SwiperItem  style="width:40%;">
+                <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/after-mothers-day-2017/home-after-mothers-day-2017-mobile.jpg'); "></div>
+            </SwiperItem>
+            <SwiperItem style="width:40%;">
+                <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/presale/152/home-pre-sale-mobile.jpg');"></div>
+            </SwiperItem>
+        </Swiper>
+
+
+
+
     </ScrollView>
 </template>
 <script>
@@ -56,24 +53,21 @@ import SwiperItem from '@/packages/Swiper/SwiperItem'
 import Badge from '@/packages/Badge/Badge'
 import VButton from '@/packages/Button/Button'
 import LazyLoad from '@/packages/LazyLoad/LazyLoad'
+// 布局
+import LayoutCategoryThumb from './Index/CategoryThumb'
+import LayoutLooks from './Index/Looks'
+
 
 export default {
     name: 'Index',
 
     data() {
         return {
+            scrollY: 0,
             swiperIndex: 0,
             swiperRealIndex: 0,
-
             categoryThumbs: [],
-
-            looks: {
-                activeIndex: 0,
-                realIndex: 0
-            },
-
-            tabSelect: 0,
-            acitve: 0
+            looks: {},
         };
     },
 
@@ -102,16 +96,7 @@ export default {
             });
         },
 
-        beforeEnter(el) {
-            el.style.opacity = 0;
-            el.style.transition = 'all 1s';
-        },
 
-        enter(el) {
-            setTimeout(() => {
-                el.style.opacity = 1;
-            }, el.dataset.delay)
-        },
 
     },
 
@@ -123,7 +108,7 @@ export default {
         SwiperItem,
         VButton,
         VInput,
-        LazyLoad
+        LazyLoad,LayoutCategoryThumb, LayoutLooks,
     }
 }
 </script>
@@ -132,6 +117,11 @@ export default {
 .page-index {
     box-sizing: border-box;
     padding: 0 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     .swiper {
         background: #eee;
         .swiper-item {
@@ -160,100 +150,7 @@ export default {
             }
         }
     }
-    .row-category-thumbs {
-        margin-top: 15px;
-        overflow: hidden;
-        // border-top:1px solid $lightest;
-        >.item {
-            box-sizing: border-box;
-            border-style: solid;
-            border-color: $lightest;
-            border-width: 0;
-            border-bottom-width: 1px;
-            display: flex;
-            float: left;
-            width: 50%;
-            justify-content: space-between;
-            p {
-                width: 1rem;
-                display: flex;
-                margin: auto .2rem;
-                box-sizing: border-box;
-                font-size: $normal;
-            }
-            .img {
-                margin: auto;
-                box-sizing: border-box;
-                width: 1.4rem;
-                height: 1.4rem;
-            }
-            .img[lazy="loading"] {}
-            .img[lazy="done"] {
-                animation: zoom 1s;
-            }
-            &:nth-child(2n+1) {
-                border-right-width: 1px;
-            }
-        }
-    }
-    .row-looks {
-        overflow: hidden;
-        .title {
-            margin: .3rem auto;
-            text-align: center;
-            display: block;
-        }
-        // 面包屑
-        .breadcrumb {
-            text-align: center;
-            a {
-                display: inline-block;
-                &.active {
-                    color: $base;
-                }
-            }
-            a:not(:last-of-type) {
-                &:after {
-                    color: #000;
-                    content: '/';
-                    margin: auto 5px;
-                }
-            }
-        }
-        .swiper {
-            background: #fff;
-            img {}
-            .cover {
-                width: 4rem;
-            }
-        }
-    }
+
 }
 
-// 动画
-.fade-enter-active {
-    animation: fade-in .5s;
-}
-
-.fade-leave-active {
-    animation: fade-out .5s;
-}
-
-@keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes fade-out {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
 </style>

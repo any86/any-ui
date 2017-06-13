@@ -1,6 +1,6 @@
 <template>
     <div class="swiper-slide">
-        <slot v-if="ready"></slot>
+        <slot></slot>
     </div>
 </template>
 <script>
