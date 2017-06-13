@@ -56,7 +56,7 @@ export default {
         // 生成实例
         this.swiper = new Swiper(this.$el, {
             initialSlide: this.value,
-            slidesPerView: 1,
+            slidesPerView: 'auto',
             loop: this.loop,
             autoplay: this.autoplay,
             onSlideChangeEnd: swiper => {
