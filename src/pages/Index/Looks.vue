@@ -1,9 +1,18 @@
 <template>
-    <div class="row-looks">
-        <h3 class="title">SHOP THESE LOOKS</h3>
-        <div class="breadcrumb">
-            <a v-for="(item, i) in dataSource.breadcrumb" @click="activeIndex = i" :class="{active: activeIndex == i}">{{item}}</a>
-        </div>
+    <section class="row-looks">
+        <header>
+            <div class="background">
+                <p>FASHION TREND</p>
+            </div>
+            <div class="foreground">
+                <h3 class="title">SHOP THESE LOOKS</h3>
+                <div class="breadcrumb">
+                    <a v-for="(item, i) in dataSource.breadcrumb" @click="activeIndex = i" :class="{active: activeIndex == i}">{{item}}
+                        <span class="triangle"></span>
+                    </a>
+                </div>
+            </div>
+        </header>
         <Swiper v-if="dataSource.swiper" class="swiper" v-model="activeIndex" :realIndex.sync="realIndex" :options="swiperOptions">
             <SwiperItem v-for="(swiperItem, i) in dataSource.swiper" :key="i" class="swiper-item">
                 <transition-group class="item-img" name="fade" tag="div" @before-enter="beforeEnter" @enter="enter" :css="false">
@@ -14,13 +23,13 @@
                         <h4 class="transition" v-else-if="undefined != item.text" v-show="i == realIndex" :key="item" :style="{top: item.top, left: item.left, position: 'absolute', 'font-size': item.fontSize}" :data-delay="item.delay">{{item.text}}</h4>
                     </template>
                 </transition-group>
-                <ul class="list">
+                <ul class="list swiper-no-swiping">
                     <li><img :src="dataSource.goodsImg[2*i]"></li>
                     <li><img :src="dataSource.goodsImg[2*i+1]"></li>
                 </ul>
             </SwiperItem>
         </Swiper>
-    </div>
+    </section>
 </template>
 <script>
 import Swiper from '@/packages/Swiper/Swiper'
@@ -68,26 +77,63 @@ export default {
 @import '../../scss/theme.scss';
 .row-looks {
     overflow: hidden;
-    .title {
-        margin: .3rem auto;
-        text-align: center;
-        display: block;
-    }
-    // 面包屑
-    .breadcrumb {
-        text-align: center;
-        a {
-            font-size: $normal;
-            display: inline-block;
-            &.active {
-                color: $base;
+    header {
+        position: relative;
+        height: 1.69rem;
+        .background {
+            bottom: .45rem;
+            left: 0;
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            p {
+                text-align: center;
+                font-size: .72rem;
+                color: #eee;
             }
         }
-        a:not(:last-of-type) {
-            &:after {
-                color: #000;
-                content: '/';
-                margin: auto 5px;
+        .foreground {
+            top: 0;
+            left: 0;
+            position: relative;
+            z-index: 2;
+            .title {
+                margin: .3rem auto;
+                text-align: center;
+                display: block;
+            }
+            // 面包屑
+            .breadcrumb {
+                text-align: center;
+                a {
+                    position: relative;
+                    font-size: $big;
+                    display: inline-block;
+                    .triangle {
+                        display: none;
+                    }
+                    &.active {
+                        color: $base;
+                        .triangle {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            bottom: -15px;
+                            margin: auto;
+                            transform:translateX(-10px);                            
+                            display: block;
+                        }
+                    }
+                }
+                a:not(:last-of-type) {
+                    &:after {
+                        color: #000;
+                        content: '/';
+                        width: 20px;
+                        text-align: center;
+                        display: inline-block;
+                    }
+                }
             }
         }
     }
@@ -120,10 +166,6 @@ export default {
                 }
             }
         }
-        .cover {
-            width: 4rem;
-        }
     }
-    // .transition{transition:all 1s;}
 }
 </style>

@@ -2,36 +2,33 @@
     <div class="page-list">
         <!-- <Spinner v-if="-1 == status" style="margin-top:20%;">loading</Spinner> -->
         <!-- 页面 -->
-
         <div class="bar">
             <span @click="showPopup(0)">trend</span>
             <span @click="showPopup(1)">category</span>
             <span @click="showPopup(2)">sort</span>
         </div>
         <ScrollView v-model="scrollY" class="scroll-list" @reach-bottom="getMore">
-
-        <VPopup :isFixed="false" from="up" v-model="isPopupShow">
-            <template v-if="0 == popupIndex">
-                <v-list-item>
-                    <v-radio v-model="trend" :selfValue="1">time</v-radio>
-                </v-list-item>
-                <v-list-item>
-                    <v-radio v-model="trend" :selfValue="2">sale</v-radio>
-                </v-list-item>
-                <v-list-item>
-                    <v-radio v-model="trend" :selfValue="3">store</v-radio>
-                </v-list-item>
-                <v-list-item>
-                    <v-radio v-model="trend" :selfValue="4">age</v-radio>
-                </v-list-item>
-                <v-list-item>
-                    <v-switch v-model="bool">remember</v-switch>
-                </v-list-item>
-            </template>
-            <h2 v-else-if="1 == popupIndex" slot="header">Please Pickup trend</h2>
-            <h2 v-else-if="2 == popupIndex" slot="header">Please Pickup sort</h2>
-        </VPopup>
-        
+            <VPopup :isFixed="false" from="up" v-model="isPopupShow">
+                <template v-if="0 == popupIndex">
+                    <v-list-item>
+                        <v-radio v-model="trend" :selfValue="1">time</v-radio>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-radio v-model="trend" :selfValue="2">sale</v-radio>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-radio v-model="trend" :selfValue="3">store</v-radio>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-radio v-model="trend" :selfValue="4">age</v-radio>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-switch v-model="bool">remember</v-switch>
+                    </v-list-item>
+                </template>
+                <h2 v-else-if="1 == popupIndex" slot="header">Please Pickup trend</h2>
+                <h2 v-else-if="2 == popupIndex" slot="header">Please Pickup sort</h2>
+            </VPopup>
             <ul class="list">
                 <a v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
                     <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
