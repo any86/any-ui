@@ -1,151 +1,101 @@
 <template>
-    <div v-if="disabled" class="checkbox">
-        <i class="box box-disabled" :style="{width: size, height: size}">
-            <transition>
-            <div v-show="value" :class="[half && 'dot-half' || 'dot']"></div>
-            </transition>
-        </i>
-        <a class="text text-disabled">
-            <slot></slot>
-        </a>
-    </div>
-
-    <div v-else @click="select(opts)" class="checkbox">
-        <i class="box" :style="{width: size, height: size}">
-            <transition>
-            <div v-show="value" :class="[half && 'dot-half' || 'dot']"></div>
-            </transition>
-        </i>
-        <a class="text">
-            <slot></slot>
-        </a>
-    </div>
-
+    <label :class="['component-checkbox', disabled && 'disabled']">
+        <input v-model="checked" :true-value="trueValue" :false-value="falseValue" type="checkbox">
+        <span class="circle"></span>
+    </label>
 </template>
 <script>
 export default {
     name: 'Checkbox',
 
     props: {
-        half: {
-            type: Boolean,
-            default: false
-        },
-
-        opts: {
-            type: Object
-        },
-
         disabled: {
             type: Boolean,
             default: false
         },
 
-        size: {
-            type: String,
-            default () {
-                return '16px';
-            }
+        'true-value': {
+            default: true
+        },
+
+        'false-value': {
+            default: false
         },
 
         value: {
-            type: Boolean
+            required: false
         }
     },
-    methods: {
-        select: function() {
-            this.$emit('input', !this.value);
+
+    data() {
+        return {
+            checked: false
+        };
+    },
+
+    mounted() {
+        this.checked = this.value;
+    },
+
+    watch: {
+        value(value) {
+            this.checked = value;
         }
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$color: $base;
-$disabled_color: $default;
-
-div.checkbox {
-    display: inline-block;
+$height: .5rem;
+label.component-checkbox {
+    height: $height;
+    width: $height;
+    display: block;
     overflow: hidden;
-    padding: 0;
-    margin: 0 0 0 0;
-    cursor: pointer;
-    i.box {
-        display: inline-block;
-        vertical-align: top;
-        border: 1px solid $color;
-        box-sizing: content-box;
-        border-radius: 2px;
-        div.dot {
-            border-radius: 2px;
-            box-sizing: border-box;
-            background: $color;
-            height: 50%;
-            width: 50%;
-            margin: 25%;
-            border-radius: 1px;
-        }
-        div.dot-half{
-            border-radius: 2px;
-            box-sizing: border-box;
-            background: $color;
-            height: 20%;
-            width: 50%;
-            margin: 40% 25%;
-            border-radius: 1px;
-        }
+    >input {
+        display: none;
+        opacity: 0;
     }
-    
-    i.box-disabled{
-        border: 1px solid $disabled_color;
-        div.dot {
-            background: $disabled_color;
+    >.circle {
+        border: 1px solid $dark;
+        box-sizing: border-box;
+        width: $height;
+        height: $height;
+        background: $sub;
+        border-radius: 100%;
+        display: flex;
+        // justify-content: center;
+        // align-items: center;
+        &:after {
+            content: ' ';
+            height: .25*$height;
+            width: .5*$height;
+            margin: .26*$height auto;
+            border-style: solid;
+            border-color: $sub;
+            border-width: 0 0 2px 2px;
+            display: block;
+            overflow: hidden;
+            transform: rotate(-45deg);
         }
     }
-
-    a.text {
-        font-size: 14px;
-        color: $color;
-        display: inline-block;
-        vertical-align: top;
-        line-height: 1.4;
-        margin-left: 5px;
-        text-decoration: none;
+    >input:checked+.circle {
+        background: $base;
+        border: 1px solid $base;
+        &:after {
+            animation: zoom-in .5s;
+        }
     }
-
-    a.text-disabled {
-        color: $disabled_color;
-    }
-
 }
 
-.v-enter-active {
-    animation: zoomIn .3s;
-}
-
-.v-leave-active {
-    animation: zoomOut .3s;
-}
-
-@keyframes zoomIn {
+@keyframes zoom-in {
     0% {
         opacity: 0;
-        transform: scale(2);
+        transform: scale(1.5) rotate(-45deg);
     }
     100% {
         opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes zoomOut {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(2);
+        transform: scale(1) rotate(-45deg);
     }
 }
 </style>
