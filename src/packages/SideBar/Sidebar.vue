@@ -2,14 +2,14 @@
     <div class="component-side-bar">
         <VMask v-model="isShow"></VMask>
         <transition name="side">
-            <div v-show="isShow" class="side-bar">
+            <main v-show="isShow" class="side-bar">
                 <slot></slot>
-            </div>
+            </main>
         </transition>
     </div>
 </template>
 <script>
-import VMask from '../Dialog/Mask';
+import VMask from '@/packages/Dialog/Mask'
 
 export default {
     name: 'SideBar',
@@ -46,7 +46,7 @@ export default {
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
-.side-bar {
+main.side-bar {
     box-shadow: $shadowDown;
     z-index: $sideBarZIndex;
     position: absolute;
