@@ -35,7 +35,7 @@
 import Swiper from '@/packages/Swiper/Swiper'
 import SwiperItem from '@/packages/Swiper/SwiperItem'
 export default {
-    name: 'CategoryThumb',
+    name: 'LooksLayout',
 
     props: {
         dataSource: {

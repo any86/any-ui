@@ -28,7 +28,7 @@
 <script>
 import LazyLoad from '@/packages/LazyLoad/LazyLoad'
 export default {
-    name: 'CategoryThumb',
+    name: 'CategoryThumbLayout',
 
     props: {
         dataSource: {

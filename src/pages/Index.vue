@@ -18,9 +18,6 @@
                 <span :class="{active: 2 == swiperRealIndex}" @click="swiperIndex = 3"></span>
             </div>
         </Swiper>
-
-
-
         <LayoutCategoryThumb style="margin-top:.3rem" :dataSource="categoryThumbs"></LayoutCategoryThumb>
         <LayoutLooks style="margin-top:.7rem" :dataSource="looks"></LayoutLooks>
         <!-- INSTAGRAM -->
@@ -108,7 +105,8 @@ export default {
         VInput,
         LazyLoad,
         LayoutCategoryThumb,
-        LayoutLooks,VCheckbox
+        LayoutLooks,
+        VCheckbox
     }
 }
 </script>

@@ -2,12 +2,13 @@
     <div class="page-list">
         <!-- <Spinner v-if="-1 == status" style="margin-top:20%;">loading</Spinner> -->
         <!-- 页面 -->
-        <div class="bar">
-            <span @click="showPopup(0)">trend</span>
-            <span @click="showPopup(1)">category</span>
-            <span @click="showPopup(2)">sort</span>
-        </div>
         <ScrollView v-model="scrollY" class="scroll-list" @reach-bottom="getMore">
+            <SwiperLayout></SwiperLayout>
+            <div class="bar">
+                <span @click="showPopup(0)">trend</span>
+                <span @click="showPopup(1)">category</span>
+                <span @click="showPopup(2)">sort</span>
+            </div>
             <VPopup :isFixed="false" from="up" v-model="isPopupShow">
                 <template v-if="0 == popupIndex">
                     <v-list-item>
@@ -49,6 +50,8 @@ import VList from '@/packages/List/List.vue'
 import VListItem from '@/packages/List/ListItem.vue'
 import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
+// 布局
+import SwiperLayout from './List/Swiper.layout'
 
 
 export default {
@@ -124,6 +127,10 @@ export default {
         trend() {
             this.isPopupShow = false;
             this.refresh();
+        },
+
+        scrollY(){
+            // this.$store.state.isShowHeader = false;
         }
     },
 
@@ -134,7 +141,8 @@ export default {
         VLazyLoad,
         VPopup,
         VRadio,
-        VSwitch
+        VSwitch,
+        SwiperLayout
     }
 }
 </script>

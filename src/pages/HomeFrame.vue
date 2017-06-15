@@ -10,7 +10,7 @@
             </ul>
         </SideBar>
         <!-- 主体 -->
-        <StickyLayout>
+        <StickyLayout :isShowHeader="$store.state.isShowHeader" :isShowFooter="$store.state.isShowFooter">
             <!-- 头部 -->
             <header slot="header">
                 <Icon value="bars" @click.native="showSideBar"></Icon>
@@ -125,7 +125,6 @@ export default {
             display: block;
             background: #fff;
             text-align: center;
-            
             &.active {
                 background: $light;
             }

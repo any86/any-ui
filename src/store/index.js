@@ -9,15 +9,16 @@ import mutations from "./mutations.js";
 // 模块
 // import goodsModule from './modules/goods.js'
 const state = {
-    goodsList: []
+    isShowHeader: true,
+    isShowFooter: true,
 };
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-  state,
-  actions,
-  mutations
-  // modules: {
-  //     goodsModule
-  // }
+    state,
+    actions,
+    mutations
+    // modules: {
+    //     goodsModule
+    // }
 });
