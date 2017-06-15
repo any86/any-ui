@@ -1,10 +1,10 @@
 <template>
     <transition v-if="animate" name="mask" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="value" @click.self="close" class="component-mask" :style="{position}">
+        <div v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position}">
             <slot></slot>
         </div>
     </transition>
-    <div v-else v-show="value" @click.self="close" class="component-mask" :style="{position}">
+    <div v-else v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position}">
         <slot></slot>
     </div>
 </template>
@@ -50,7 +50,7 @@ export default {
     },
 
     computed: {
-        position(){
+        position() {
             return this.isFixed ? 'fixed' : 'absolute';
         }
     }

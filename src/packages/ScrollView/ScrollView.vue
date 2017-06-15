@@ -1,5 +1,5 @@
 <template>
-    <div class="scroll-view" @scroll="scroll">
+    <div :class="['scroll-view', ovh && 'ovh']" @scroll="scroll">
         <div ref="content" class="content">
             <slot></slot>
         </div>
@@ -14,8 +14,15 @@ export default {
             type: Number,
             default: 1.3
         },
-        value: {
 
+        ovh: {
+            type: Boolean,
+            default: false
+        },
+
+        value: {
+            type: Number,
+            default: 0
         }
     },
 
@@ -66,5 +73,7 @@ export default {
         /*松手的时候才能加动画, touch-start的时候加拖拉会因为动画不流畅*/
         transition: all .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     }
+
+    &.ovh{overflow: hidden;}
 }
 </style>
