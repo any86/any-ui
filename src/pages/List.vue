@@ -1,46 +1,48 @@
 <template>
-    <div class="page-list">
-        <!-- <Spinner v-if="-1 == status" style="margin-top:20%;">loading</Spinner> -->
-        <!-- 页面 -->
-        <ScrollView v-model="scrollY" class="scroll-list" @reach-bottom="getMore">
-            <SwiperLayout></SwiperLayout>
-            <div class="bar">
+    <section class="page-list">
+        <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
+            <!-- 轮播图 -->
+            <SwiperLayout ref="swiper"></SwiperLayout>
+            <div class="filter">
                 <span @click="showPopup(0)">trend</span>
                 <span @click="showPopup(1)">category</span>
                 <span @click="showPopup(2)">sort</span>
             </div>
-            <VPopup :isFixed="false" from="up" v-model="isPopupShow">
-                <template v-if="0 == popupIndex">
-                    <v-list-item>
-                        <v-radio v-model="trend" :selfValue="1">time</v-radio>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-radio v-model="trend" :selfValue="2">sale</v-radio>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-radio v-model="trend" :selfValue="3">store</v-radio>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-radio v-model="trend" :selfValue="4">age</v-radio>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-switch v-model="bool">remember</v-switch>
-                    </v-list-item>
-                </template>
-                <h2 v-else-if="1 == popupIndex" slot="header">Please Pickup trend</h2>
-                <h2 v-else-if="2 == popupIndex" slot="header">Please Pickup sort</h2>
-            </VPopup>
-            <ul class="list">
-                <a v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
-                    <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
-                    <h5 align="center">{{item.title}}</h5>
-                    <h6 align="center"><span>$</span>{{item.price}}</h6>
-                </a>
-            </ul>
-            <p v-if="isEnd" class="empty">there is nothing</p>
-            <Spinner class="spinner"></Spinner>
+            <!-- 列表和筛选条件 -->
+            <div class="content">
+                <VPopup :isFixed="false" from="up" v-model="isPopupShow">
+                    <template v-if="0 == popupIndex">
+                        <v-list-item>
+                            <v-radio v-model="trend" :selfValue="1">time</v-radio>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-radio v-model="trend" :selfValue="2">sale</v-radio>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-radio v-model="trend" :selfValue="3">store</v-radio>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-radio v-model="trend" :selfValue="4">age</v-radio>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-switch v-model="bool">remember</v-switch>
+                        </v-list-item>
+                    </template>
+                    <h2 v-else-if="1 == popupIndex" slot="header">Please Pickup trend</h2>
+                    <h2 v-else-if="2 == popupIndex" slot="header">Please Pickup sort</h2>
+                </VPopup>
+                <ul class="list">
+                    <a v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
+                        <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
+                        <h5 align="center">{{item.title}}</h5>
+                        <h6 align="center"><span>$</span>{{item.price}}</h6>
+                    </a>
+                </ul>
+                <Spinner></Spinner>
+                <p v-if="isEnd" class="empty">there is nothing</p>
+            </div>
         </ScrollView>
-    </div>
+    </section>
 </template>
 <script>
 import VPopup from '@/packages/Dialog/Popup'
@@ -50,16 +52,24 @@ import VList from '@/packages/List/List.vue'
 import VListItem from '@/packages/List/ListItem.vue'
 import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
-// 布局
-import SwiperLayout from './List/Swiper.layout'
 
+
+// 公共头尾
+import LayoutHeader from './List/Header'
+// 布局
+import SwiperLayout from './List/Swiper'
 
 export default {
     name: 'List',
 
     data() {
         return {
-            scrollY: 0,
+            isShowSpinner: true,
+            ovh: false,
+            scrollY: 100,
+            swiperHeight: -1,
+
+
             bool: true,
             status: -1,
             isLoading: true,
@@ -79,8 +89,12 @@ export default {
 
     methods: {
         showPopup(index) {
+            // var style = getComputedStyle(this.$refs.swiper.$el, null);
+            // dir(style)
+            this.$refs.scroll.$el.scrollTop = this.$refs.swiper.$el.scrollHeight + 1;
             this.popupIndex = index;
             this.isPopupShow = true;
+
         },
 
         refresh() {
@@ -129,8 +143,12 @@ export default {
             this.refresh();
         },
 
-        scrollY(){
+        scrollY() {
             // this.$store.state.isShowHeader = false;
+        },
+
+        isPopupShow(value) {
+            this.ovh = value;
         }
     },
 
@@ -142,7 +160,8 @@ export default {
         VPopup,
         VRadio,
         VSwitch,
-        SwiperLayout
+        SwiperLayout,
+        LayoutHeader,
     }
 }
 </script>
@@ -157,55 +176,65 @@ export default {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    .bar {
-        position: relative;
-        height: .8rem;
-        width: 100%;
-        display: flex;
-        >span {
-            flex: 1;
-            font-size: $big;
-            line-height: .7rem;
-            text-align: center;
-            border-color: $lightest;
-            border-style: solid;
-            border-width: 1px 1px 1px 0;
-            &:last-child {
-                border-right-width: 0;
-            }
-        }
-    }
     .scroll-list {
         height: 100%;
         position: relative;
         flex-basis: 100%;
         flex-shrink: 1;
         flex-grow: 1;
-        .list {
+        .filter {
+            background: #fff;
+            position: relative;
+            height: 1rem;
+            width: 100%;
             display: flex;
-            flex-flow: row wrap;
-            >.item {
-                flex: 0 0 50%;
-                >.img {
-                    overflow: hidden;
-                    margin: auto;
-                    width: 3rem;
-                    height: 3rem;
-                }
-                >.img[lazy="loading"] {}
-                >.img[lazy="done"] {
-                    animation: zoom 1s;
+            &.fixed {
+                position: fixed;
+                top: 0;left:0;
+                z-index: 10;
+            }
+            >span {
+                flex: 1;
+                font-size: $big;
+                line-height: .9rem;
+                text-align: center;
+                border-color: $lightest;
+                border-style: solid;
+                border-width: 1px 1px 1px 0;
+                &:last-child {
+                    border-right-width: 0;
                 }
             }
         }
-        .spinner {
-            // margin: 30px auto;
-        }
-        .empty {
-            text-align: center;
-            font-size: .3rem;
-            color: $light;
-            margin: 30px auto;
+        .content {
+            position: relative;
+            overflow: hidden;
+            .list {
+                display: flex;
+                flex-flow: row wrap;
+                >.item {
+                    flex: 0 0 50%;
+                    >.img {
+                        overflow: hidden;
+                        margin: auto;
+                        width: 3rem;
+                        height: 3rem;
+                    }
+                    >.img[lazy="loading"] {}
+                    >.img[lazy="done"] {
+                        animation: zoom 1s;
+                    }
+                }
+            }
+            .spinner {
+                // margin: 30px auto;
+            }
+            .empty {
+                text-align: center;
+                font-size: .3rem;
+                color: $light;
+                margin: 30px auto;
+            }
         }
     }
 }
