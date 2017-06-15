@@ -1,9 +1,10 @@
 <template>
     <section class="page-list">
+        <LayoutHeader ref="header"></LayoutHeader>
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
             <!-- 轮播图 -->
             <SwiperLayout ref="swiper"></SwiperLayout>
-            <div class="filter">
+            <div ref="filter" :class="{filter: true, fixed: filter.isFixed}" :style="{top:`${filter.top}px`}">
                 <span @click="showPopup(0)">trend</span>
                 <span @click="showPopup(1)">category</span>
                 <span @click="showPopup(2)">sort</span>
@@ -68,7 +69,14 @@ export default {
             ovh: false,
             scrollY: 100,
             swiperHeight: -1,
-
+            filter: {
+                offsetTop: -1,
+                isFixed: false,
+                top:-1,
+            },
+            header: {
+                height: -1,
+            },
 
             bool: true,
             status: -1,
@@ -85,13 +93,15 @@ export default {
 
     mounted() {
         this.refresh();
+        this.filter.offsetTop = this.$refs.filter.offsetTop;
+        this.header.height = this.$refs.header.$el.offsetHeight;
     },
 
     methods: {
         showPopup(index) {
             // var style = getComputedStyle(this.$refs.swiper.$el, null);
             // dir(style)
-            this.$refs.scroll.$el.scrollTop = this.$refs.swiper.$el.scrollHeight + 1;
+            this.$refs.scroll.$el.scrollTop = this.$refs.swiper.$el.offsetHeight;
             this.popupIndex = index;
             this.isPopupShow = true;
 
@@ -114,6 +124,8 @@ export default {
                     this.isLoading = false;
                 }
             });
+
+
         },
 
         getMore() {
@@ -143,8 +155,14 @@ export default {
             this.refresh();
         },
 
-        scrollY() {
-            // this.$store.state.isShowHeader = false;
+        scrollY(value) {
+            this.filter.isFixed = this.filter.offsetTop < value;
+            if(this.filter.isFixed){
+                this.filter.top = this.header.height;
+            } else {
+                this.filter.top = 0;
+            }
+
         },
 
         isPopupShow(value) {
@@ -176,36 +194,38 @@ export default {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    .filter {
+        border-top: 1px solid $lightest;
+        background: #fff;
+        position: relative;
+        height: 1rem;
+        width: 100%;
+        display: flex;
+        &.fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        >span {
+            flex: 1;
+            font-size: $big;
+            line-height: .9rem;
+            text-align: center;
+            border-color: $lightest;
+            border-style: solid;
+            border-width: 1px 1px 1px 0;
+            &:last-child {
+                border-right-width: 0;
+            }
+        }
+    }
     .scroll-list {
         height: 100%;
         position: relative;
         flex-basis: 100%;
         flex-shrink: 1;
         flex-grow: 1;
-        .filter {
-            background: #fff;
-            position: relative;
-            height: 1rem;
-            width: 100%;
-            display: flex;
-            &.fixed {
-                position: fixed;
-                top: 0;left:0;
-                z-index: 10;
-            }
-            >span {
-                flex: 1;
-                font-size: $big;
-                line-height: .9rem;
-                text-align: center;
-                border-color: $lightest;
-                border-style: solid;
-                border-width: 1px 1px 1px 0;
-                &:last-child {
-                    border-right-width: 0;
-                }
-            }
-        }
         .content {
             position: relative;
             overflow: hidden;

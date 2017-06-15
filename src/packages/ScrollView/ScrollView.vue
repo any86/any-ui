@@ -1,6 +1,6 @@
 <template>
     <div :class="['scroll-view', ovh && 'ovh']" @scroll="scroll">
-        <div ref="content" class="content">
+        <div ref="content" class="scroll-content">
             <slot></slot>
         </div>
     </div>
@@ -43,7 +43,6 @@ export default {
     methods: {
         scroll() {
             clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
                 // 滚动条高度
                 const scrollTop = this.$el.scrollTop;
                 this.$emit('input', scrollTop);
@@ -53,7 +52,6 @@ export default {
                 if (this.preLoad * (scrollTop + this.viewHeight) > contentHeight) {
                     this.$emit('reach-bottom');
                 }
-            }, 200);
         }
     }
 }
@@ -67,7 +65,7 @@ export default {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     
-    .content{position: relative;}
+    .scroll-content{position: relative;}
 
     .touch-end {
         /*松手的时候才能加动画, touch-start的时候加拖拉会因为动画不流畅*/
