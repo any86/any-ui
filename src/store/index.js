@@ -11,6 +11,7 @@ import mutations from "./mutations.js";
 const state = {
     isShowHeader: true,
     isShowFooter: true,
+    isShowSideBar: false
 };
 
 Vue.use(Vuex);
