@@ -1,0 +1,37 @@
+<template>
+    <header>
+        <Icon class="icon" value="bars" @click.native="showSideBar"></Icon>
+        <span>personalize</span>
+        <Icon class="icon" value="search" ></Icon>
+    </header>
+</template>
+<script>
+import * as types from "@/store/mutation-types";
+export default {
+    name: 'Header',
+
+    methods: {
+        showSideBar(){
+            this.$store.commit(types.SHOW_SIDE_BAR);
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+@import '../../scss/theme.scss';
+$height: 1.2rem;
+header {
+	box-sizing: border-box;
+    display: flex;
+    padding: 0 3*$gutter;
+    background: $background;
+    height: $height;
+    width: 100%;
+    >.icon {
+        font-size: .4rem;
+        line-height: $height - .2rem;
+    }
+    >span{line-height: $height - .2rem;font-size: $bigger;flex:1;text-align: center;}
+
+}
+</style>
