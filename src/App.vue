@@ -9,7 +9,7 @@
                 <li>Personalized</li>
             </ul>
         </VSideBar>
-        <transition name="fade-left" mode="out-in">
+        <transition name="fadeInRight" mode="out-in">
             <router-view></router-view>
         </transition>
     </div>

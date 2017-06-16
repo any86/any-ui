@@ -11,7 +11,7 @@
             </div>
             <!-- 列表和筛选条件 -->
             <div class="content">
-                <VPopup :isFixed="false" from="up" v-model="isPopupShow">
+                <VPopup :isFixed="false" from="up" v-model="isPopupShow" @after-leave="afterPopupLeave">
                     <template v-if="0 == popupIndex">
                         <v-list-item>
                             <v-radio v-model="trend" :selfValue="1">time</v-radio>
@@ -39,7 +39,9 @@
                         <h6 align="center"><span>$</span>{{item.price}}</h6>
                     </a>
                 </ul>
-                <Spinner></Spinner>
+                
+                <Spinner v-show="isShowSpinner"></Spinner>
+
                 <p v-if="isEnd" class="empty">there is nothing</p>
             </div>
         </ScrollView>
@@ -104,7 +106,12 @@ export default {
             this.$refs.scroll.$el.scrollTop = this.$refs.swiper.$el.offsetHeight;
             this.popupIndex = index;
             this.isPopupShow = true;
+            this.isShowSpinner = false;
 
+        },
+
+        afterPopupLeave(){
+            this.isShowSpinner = true;
         },
 
         refresh() {

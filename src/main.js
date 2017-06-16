@@ -22,7 +22,8 @@ Vue.prototype.$axios = axios;
 
 //全局样式
 import '@/scss/reset.scss'
-import '@/scss/theme.scss'
+import '@/scss/animate.scss'
+
 
 // UI
 import Atom from './packages/index.js';
