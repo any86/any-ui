@@ -1,7 +1,7 @@
 <template>
     <div class="component-side-bar">
         <VMask v-model="isShow"></VMask>
-        <transition name="side">
+        <transition>
             <main v-show="isShow" class="side-bar">
                 <slot></slot>
             </main>
@@ -47,6 +47,8 @@ export default {
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
 main.side-bar {
+    overflow-y: auto;
+    overflow-x: hidden;
     box-shadow: $shadowDown;
     z-index: $sideBarZIndex;
     position: absolute;
@@ -55,32 +57,32 @@ main.side-bar {
     height: 100%;
     width: 80%;
     background: $background;
-    transform: translateX(0);
+    transform: none;
 }
 
-.side-enter-active {
-    animation: side-in .3s;
+.v-enter-active {
+    animation: in .3s;
 }
 
-.side-leave-active {
-    animation: side-out .3s;
+.v-leave-active {
+    animation: out .3s;
 }
 
-@keyframes side-in {
+@keyframes in {
     0% {
-        transform: translateX(-100%);
+        transform: translate3d(-100%, 0, 0);
     }
     100% {
-        transform: translateX(0);
+        transform: none;
     }
 }
 
-@keyframes side-out {
+@keyframes out {
     0% {
-        transform: translateX(0);
+        transform: none;
     }
     100% {
-        transform: translateX(-100%);
+        transform: translate3d(-100%, 0, 0);
     }
 }
 </style>

@@ -1,17 +1,17 @@
 @import './theme.scss';
 $speed: 300ms;
 
-/*fadeInLeft*/
+/*fadeLeft*/
 
-.fadeInLeft-enter-active {
-    animation: fadeInLeft $speed ease-in-out;
+.fadeLeft-enter-active {
+    animation: fadeLeftIn $speed ease-in-out;
 }
 
-.fadeOutLeft-leave-active {
-    animation: fadeOutLeft $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
+.fadeLeft-leave-active {
+    animation: fadeLeftOut $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
-@keyframes fadeInLeft {
+@keyframes fadeLeftIn {
     0% {
         opacity: 0;
         transform: translate3d(-10%, 0, 0);
@@ -22,7 +22,7 @@ $speed: 300ms;
     }
 }
 
-@keyframes fadeOutLeft {
+@keyframes fadeLeftOut {
     0% {
         opacity: 1;
         transform: none;
@@ -34,17 +34,17 @@ $speed: 300ms;
 }
 
 
-/*fadeInRight*/
+/*fadeRight*/
 
-.fadeInRight-enter-active {
-    animation: fadeInRight $speed ease-in-out;
+.fadeRight-enter-active {
+    animation: fadeRightIn $speed ease-in-out;
 }
 
-.fadeOutRight-leave-active {
-    animation: fadeOutRight $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
+.fadeRight-leave-active {
+    animation: fadeRightOut $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
-@keyframes fadeInRight {
+@keyframes fadeRightIn {
     0% {
         opacity: 0;
         transform: translate3d(10%, 0, 0);
@@ -55,7 +55,7 @@ $speed: 300ms;
     }
 }
 
-@keyframes fadeOutRight {
+@keyframes fadeRightOut {
     0% {
         opacity: 1;
         transform: none;
@@ -67,16 +67,17 @@ $speed: 300ms;
 }
 
 
-/*fadeInUp*/
-.fadeInUp-enter-active {
-    animation: fadeInUp $speed ease-in-out;
+/*fadeUp*/
+
+.fadeUp-enter-active {
+    animation: fadeUpIn $speed ease-in-out;
 }
 
-.fadeOutUp-leave-active {
-    animation: fadeOutUp $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
+.fadeUp-leave-active {
+    animation: fadeUpOut $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
-@keyframes fadeInUp {
+@keyframes fadeUpIn {
     0% {
         opacity: 0;
         transform: translate3d(0, -10%, 0);
@@ -87,7 +88,7 @@ $speed: 300ms;
     }
 }
 
-@keyframes fadeOutUp {
+@keyframes fadeUpOut {
     0% {
         opacity: 1;
         transform: none;
@@ -98,16 +99,18 @@ $speed: 300ms;
     }
 }
 
-/*fadeInDown*/
-.fadeInDown-enter-active {
-    animation: fadeInDown $speed ease-in-out;
+
+/*fadeDown*/
+
+.fadeDown-enter-active {
+    animation: fadeDownIn $speed ease-in-out;
 }
 
-.fadeOutDown-leave-active {
-    animation: fadeOutDown $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
+.fadeDown-leave-active {
+    animation: fadeDownOut $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
-@keyframes fadeInDown {
+@keyframes fadeDownIn {
     0% {
         opacity: 0;
         transform: translate3d(0, 10%, 0);
@@ -118,7 +121,7 @@ $speed: 300ms;
     }
 }
 
-@keyframes fadeOutDown {
+@keyframes fadeDownOut {
     0% {
         opacity: 1;
         transform: none;
@@ -130,12 +133,12 @@ $speed: 300ms;
 }
 
 
-/*fadeIn*/
-.fadeIn-enter-active {
+/*fade*/
+.fade-enter-active {
     animation: fadeIn $speed ease-in-out;
 }
 
-.fadeOut-leave-active {
+.fade-leave-active {
     animation: fadeOut $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
@@ -158,12 +161,13 @@ $speed: 300ms;
 }
 
 
-/*zoomIn*/
-.zoomIn-enter-active {
+/*zoom*/
+
+.zoom-enter-active {
     animation: zoomIn $speed ease-in-out;
 }
 
-.zoomOut-leave-active {
+.zoom-leave-active {
     animation: zoomOut $speed cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 

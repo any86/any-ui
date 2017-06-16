@@ -5,7 +5,7 @@
                 <div class="header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </div>
-                <div class="body" :style="{maxHeight: height * 0.6 + 'px'}">
+                <div class="body" :style="{maxHeight: height * 0.618 + 'px'}">
                     <slot></slot>
                 </div>
                 <div class="footer" v-if="undefined != $slots.footer">
@@ -91,7 +91,7 @@ export default {
     }
     .body {
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
     .footer {
         box-sizing: border-box;

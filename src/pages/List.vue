@@ -11,7 +11,7 @@
             </div>
             <!-- 列表和筛选条件 -->
             <div class="content">
-                <VPopup :isFixed="false" from="up" v-model="isPopupShow" @after-leave="afterPopupLeave" :style="{top: `${filter.height}px`}">
+                <VPopup :isFixed="false" from="up" v-model="isPopupShow" @after-leave="afterPopupLeave" :style="{top: `${filter.isFixed ? filter.height : 0}px`}">
                     <template v-if="0 == popupIndex">
                         <v-list-item>
                             <v-radio v-model="trend" :selfValue="1">time</v-radio>
@@ -43,6 +43,11 @@
                 <p v-if="isEnd" class="empty">there is nothing</p>
             </div>
         </ScrollView>
+        <transition name="fadeDown">
+            <div v-show="isScrollUp" class="footer-fixed">
+                <LayoutFooter></LayoutFooter>
+            </div>
+        </transition>
     </section>
 </template>
 <script>
@@ -56,6 +61,8 @@ import VRadio from '@/packages/Radio/Radio.vue'
 
 // 公共头尾
 import LayoutHeader from './List/Header'
+import LayoutFooter from '@/components/Footer'
+
 // 布局
 import SwiperLayout from './List/Swiper'
 
@@ -78,7 +85,8 @@ export default {
                 height: -1,
             },
             isEnd: false,
-
+            isScrollUp: false,
+            isScrollDown: false,
 
 
             bool: true,
@@ -121,12 +129,11 @@ export default {
             this.isEnd = false;
             this.list = [];
             const params = {
-                page: this.page,
+                page: 1,
                 limit: this.limit,
                 trend: this.trend
             };
             this.$api.getGoodsList(params).then(response => {
-
                 if (0 == response.data.status) {
                     this.isEnd = true;
                 } else {
@@ -134,8 +141,6 @@ export default {
                     this.isLoading = false;
                 }
             });
-
-
         },
 
         getMore() {
@@ -165,13 +170,21 @@ export default {
             this.refresh();
         },
 
-        scrollY(value) {
-            this.filter.isFixed = this.filter.offsetTop < value;
+        scrollY(newValue, oldValue) {
+            this.filter.isFixed = this.filter.offsetTop < newValue;
             if (this.filter.isFixed) {
                 this.filter.top = this.header.height;
             } else {
                 this.filter.top = 0;
             }
+            if (newValue >= oldValue) {
+                this.isScrollDown = true;
+                this.isScrollUp = false;
+            } else {
+                this.isScrollDown = false;
+                this.isScrollUp = true;
+            }
+
 
         },
 
@@ -190,6 +203,7 @@ export default {
         VSwitch,
         SwiperLayout,
         LayoutHeader,
+        LayoutFooter
     }
 }
 </script>
@@ -266,6 +280,12 @@ export default {
                 margin: 30px auto;
             }
         }
+    }
+    .footer-fixed {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
     }
 }
 </style>
