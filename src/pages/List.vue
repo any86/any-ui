@@ -11,7 +11,7 @@
             </div>
             <!-- 列表和筛选条件 -->
             <div class="content">
-                <VPopup :isFixed="false" from="up" v-model="isPopupShow" @after-leave="afterPopupLeave">
+                <VPopup :isFixed="false" from="up" v-model="isPopupShow" @after-leave="afterPopupLeave" :style="{top: `${filter.height}px`}">
                     <template v-if="0 == popupIndex">
                         <v-list-item>
                             <v-radio v-model="trend" :selfValue="1">time</v-radio>
@@ -39,9 +39,7 @@
                         <h6 align="center"><span>$</span>{{item.price}}</h6>
                     </a>
                 </ul>
-                
-                <Spinner v-show="isShowSpinner"></Spinner>
-
+                <Spinner v-show="isShowSpinner && !isEnd"></Spinner>
                 <p v-if="isEnd" class="empty">there is nothing</p>
             </div>
         </ScrollView>
@@ -55,7 +53,6 @@ import VList from '@/packages/List/List.vue'
 import VListItem from '@/packages/List/ListItem.vue'
 import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
-
 
 // 公共头尾
 import LayoutHeader from './List/Header'
@@ -74,18 +71,22 @@ export default {
             filter: {
                 offsetTop: -1,
                 isFixed: false,
-                top:-1,
+                top: -1,
+                height: -1
             },
             header: {
                 height: -1,
             },
+            isEnd: false,
+
+
 
             bool: true,
             status: -1,
             isLoading: true,
             popupIndex: -1,
             isPopupShow: false,
-            isEnd: false,
+
             list: [],
             trend: 2,
             page: 1,
@@ -96,21 +97,23 @@ export default {
     mounted() {
         this.refresh();
         this.filter.offsetTop = this.$refs.filter.offsetTop;
+        this.filter.height = this.$refs.filter.offsetHeight;
         this.header.height = this.$refs.header.$el.offsetHeight;
     },
 
     methods: {
         showPopup(index) {
+            this.isShowSpinner = false;
+            this.$nextTick(() => {
+                this.$refs.scroll.$el.scrollTop = this.$refs.swiper.$el.offsetHeight;
+                this.popupIndex = index;
+                this.isPopupShow = true;
+            });
             // var style = getComputedStyle(this.$refs.swiper.$el, null);
             // dir(style)
-            this.$refs.scroll.$el.scrollTop = this.$refs.swiper.$el.offsetHeight;
-            this.popupIndex = index;
-            this.isPopupShow = true;
-            this.isShowSpinner = false;
-
         },
 
-        afterPopupLeave(){
+        afterPopupLeave() {
             this.isShowSpinner = true;
         },
 
@@ -164,7 +167,7 @@ export default {
 
         scrollY(value) {
             this.filter.isFixed = this.filter.offsetTop < value;
-            if(this.filter.isFixed){
+            if (this.filter.isFixed) {
                 this.filter.top = this.header.height;
             } else {
                 this.filter.top = 0;
@@ -249,7 +252,7 @@ export default {
                     }
                     >.img[lazy="loading"] {}
                     >.img[lazy="done"] {
-                        animation: zoom 1s;
+                        animation: zoomIn 1s;
                     }
                 }
             }

@@ -65,7 +65,7 @@ export default {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     
-    .scroll-content{position: relative;}
+    .scroll-content{position: relative;min-height: 100%;}
 
     .touch-end {
         /*松手的时候才能加动画, touch-start的时候加拖拉会因为动画不流畅*/
