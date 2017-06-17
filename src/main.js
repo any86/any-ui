@@ -10,15 +10,26 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-
+// API
 import api from './api/'
-Vue.prototype.$api = api;
+Object.defineProperty(Vue.prototype, '$api', {
+    value: api,
+    writable: false,
+    enumerable: false,
+    configurable: false
+});
+
 // vuex
 import store from './store/'
 
-// ajax
+// AJAX
 import axios from 'axios'
-Vue.prototype.$axios = axios;
+Object.defineProperty(Vue.prototype, '$axios', {
+    value: axios,
+    writable: false,
+    enumerable: false,
+    configurable: false
+});
 
 //全局样式
 import '@/scss/reset.scss'
@@ -35,9 +46,9 @@ Vue.config.performance = true;
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  store,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    store,
+    template: '<App/>',
+    components: { App }
 });

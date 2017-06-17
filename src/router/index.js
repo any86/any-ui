@@ -25,8 +25,8 @@ const Find = () => ({
     component: import ("@/pages/Find")
 });
 
-const ShopCart = () => ({
-    component: import ("@/pages/ShopCart")
+const Bag = () => ({
+    component: import ("@/pages/Bag")
 });
 
 const My = () => ({
@@ -50,5 +50,9 @@ export default new Router({
         path: "/list",
         name: "List",
         component: List
+    }, {
+        path: "/bag",
+        name: "Bag",
+        component: Bag
     }]
 });

@@ -80,8 +80,8 @@ label.component-checkbox {
         }
     }
     >input:checked+.circle {
-        background: $base;
-        border: 1px solid $base;
+        background: $darkest;
+        border: 1px solid $darkest;
         &:after {
             animation: zoom-in .5s;
         }

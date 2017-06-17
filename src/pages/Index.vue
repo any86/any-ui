@@ -39,8 +39,6 @@ export default {
                 ...this.looks,
                 ...response.data['looks']
             };
-
-
         });
     },
 
@@ -81,7 +79,7 @@ export default {
     }
     .scroll-view {
         flex: 1;
-        padding: 0  .3rem .3rem .3rem;
+        padding: 0 .3rem .3rem .3rem;
     }
 }
 </style>

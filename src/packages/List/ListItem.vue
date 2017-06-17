@@ -2,7 +2,7 @@
     <li class="component-list-item">
         <div :class="{body:true, transition: 2 != touche.status}" :style="{transform: 'translateX('+ touche.distance +'px)'}">
             <!-- 正文 -->
-            <div v-if="canRemove" ref="left" class="left" @touchstart="touchStart" @touchmove.prevent="touchMove" @touchend="touchEnd">
+            <div v-if="pullable" ref="left" class="left" @touchstart="touchStart" @touchmove.prevent="touchMove" @touchend="touchEnd">
                 <slot></slot>
             </div>
 
@@ -19,7 +19,7 @@
                 <Icon class="icon" value="angle-right"></Icon>
             </div>
             <!-- actions -->
-            <div v-if="canRemove" ref="actionBar" class="action-bar">
+            <div v-if="pullable" ref="actionBar" class="action-bar">
                 <!-- <a class="xbutton-edit">更多</a> -->
                 <a @click="remove" class="button-del">remove</a>
             </div>
@@ -32,7 +32,7 @@ export default {
     name: 'ListItem',
 
     props: {
-        canRemove: {
+        pullable: {
             type: Boolean,
             default: false
         },
@@ -60,7 +60,7 @@ export default {
     },
 
     mounted() {
-        if (this.canRemove) {
+        if (this.pullable) {
             this.actionBar.width = this.$refs.actionBar.offsetWidth;
         }
     },
@@ -106,20 +106,21 @@ export default {
 @import '../../scss/theme.scss';
 .component-list-item {
     position: relative;
+    background: $background;
     overflow: hidden;
     border-bottom: 1px solid $lightest;
-    min-height: .5rem;
-    margin: 0 2*$gutter;
     >.body {
         display: flex;
         box-sizing: border-box;
         position: relative;
         width: 100%;
         overflow: hidden;
-        padding:2*$gutter 0;
+        padding:2*$gutter;
+        
         >.left {
+            // display: flex;
+            // align-items:center;
             flex: 1;
-            box-sizing: border-box;
             position: relative;
             font-size: .24rem;
         }

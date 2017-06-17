@@ -72,7 +72,7 @@ export default {
             slidesPerView: 'auto',
             touchRatio: .3,
             slideToClickedSlide: true,
-            onlyExternal: true,
+            // onlyExternal: true,
             onTap(swiper){
                 galleryTop.slideTo(swiper.clickedIndex);
             }

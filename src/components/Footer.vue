@@ -12,7 +12,7 @@
             <Icon class="icon" value="compass"></Icon>
             <p>find</p>
         </router-link>
-        <router-link tag="span" to="/shop-cart" class="button">
+        <router-link tag="span" to="/bag" class="button">
             <Icon class="icon" value="shopping-bag"></Icon>
             <p>cart</p>
         </router-link>

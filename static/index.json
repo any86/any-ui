@@ -6,7 +6,7 @@
         "small": [{
             "title": "Photo Series",
             "img": "https://static.soufeel.com/media/catalog/category/C021.png",
-            "path": "list",
+            "path": "list"  ,
             "query": { "category": 1 }
         }, {
             "title": "Name Necklaces",
