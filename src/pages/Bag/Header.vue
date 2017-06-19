@@ -1,6 +1,6 @@
 <template>
     <header>
-        <Icon class="icon" value="angle-left"></Icon>
+        <Icon @click.native="$router.back()" class="icon" value="angle-left"></Icon>
         <span class="title">{{title}}</span>
         <span class="button-edit">EDIT</span>
     </header>

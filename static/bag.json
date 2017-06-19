@@ -1,6 +1,7 @@
 {
     "title": "Bag",
     "goodsList": [{
+        "isOpen": false,
         "id": 6,
         "title": "Photo Series",
         "info": "SIZE 50",
@@ -10,6 +11,7 @@
         "path": "list",
         "query": { "category": 1 }
     }, {
+        "isOpen": false,
         "id": 1,
         "title": "Name Necklaces",
         "info": "SIZE 60",
@@ -19,6 +21,7 @@
         "path": "list",
         "query": { "category": 2 }
     }, {
+        "isOpen": false,
         "id": 2,
         "title": "Soufeel Rings",
         "info": "SIZE 51",
@@ -28,6 +31,7 @@
         "path": "list",
         "query": { "category": 3 }
     }, {
+        "isOpen": false,
         "id": 3,
         "title": "You",
         "info": "SIZE 20",
@@ -37,6 +41,7 @@
         "path": "list",
         "query": { "category": 4 }
     }, {
+        "isOpen": true,
         "id": 4,
         "title": "Pets",
         "info": "SIZE 30",

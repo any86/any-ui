@@ -8,19 +8,22 @@
                 <p class="text">Buy Two Save One</p>
                 <p class="btn-piece-togethe">piece togethe > </p>
             </VListItem>
-            <VListItem v-for="item in static.goodsList" :key="item.id" class="item">
+            <VSwiperOut v-model="item.isOpen" v-for="item in static.goodsList" :key="item.id" class="item" @touchstart="closeOther">
                 <span class="checkbox"><VCheckbox class="ui"></VCheckbox></span>
                 <VLazyLoad class="img" :src="item.img" :watch="scrollY">
                 </VLazyLoad>
                 <span class="info-1">
-                        <h4>{{item.title}}</h4>
-                        <p>{{item.info}}</p>
-                    </span>
+                    <h4>{{item.title}}</h4>
+                    <p>{{item.info}}</p>
+                </span>
                 <span class="info-2">
-                        <p>{{item.price}}</p>
-                        <p>x{{item.count}}</p>
-                    </span>
-            </VListItem>
+                    <p>{{item.price}}</p>
+                    <p>x{{item.count}}</p>
+                </span>
+                <template slot="actions">
+                    <VSwiperOutButton class="btn-del">删除</VSwiperOutButton>
+                </template>
+            </VSwiperOut>
         </VListView>
         <!-- 礼品 -->
         <VListView class="row-gifts">
@@ -46,6 +49,9 @@
     </ScrollView>
 </template>
 <script>
+import VSwiperOut from '@/packages/SwiperOut/SwiperOut'
+import VSwiperOutButton from '@/packages/SwiperOut/SwiperOutButton'
+
 import LayoutHeader from './Bag/Header'
 import VListView from '@/packages/List/List'
 import VListItem from '@/packages/List/ListItem'
@@ -53,9 +59,7 @@ import VBadge from '@/packages/Badge/Badge'
 import VCheckbox from '@/packages/Checkbox/Checkbox'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 
-
 import LayoutGiftMore from './Bag/GiftMore'
-
 
 export default {
     name: 'Bag',
@@ -80,6 +84,14 @@ export default {
         });
     },
 
+    methods: {
+        closeOther() {
+            this.static.goodsList.forEach((item, i) => {
+                this.static.goodsList[i].isOpen = false;
+            });
+        }
+    },
+
     components: {
         VListView,
         VListItem,
@@ -89,6 +101,9 @@ export default {
         VLazyLoad,
 
         LayoutGiftMore,
+
+        VSwiperOut,
+        VSwiperOutButton
     }
 }
 </script>
@@ -113,6 +128,7 @@ export default {
                 color: $base;
             }
             .text {
+                font-size: $big;
                 display: block;
                 float: left;
                 margin-left: 2*$gutter;
@@ -127,6 +143,7 @@ export default {
         }
         .item {
             overflow: hidden;
+            border-bottom: 1px solid $lightest;
             .checkbox {
                 width: .8rem;
                 height: 100%;
@@ -159,6 +176,11 @@ export default {
                 p {
                     font-size: $big;
                 }
+            }
+            .btn-del {
+                background: $darkest;
+                color: $sub;
+                padding: 0 3*$gutter;
             }
         }
     }
@@ -209,6 +231,5 @@ export default {
             }
         }
     }
-
 }
 </style>
