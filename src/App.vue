@@ -9,7 +9,7 @@
                 <li>Personalized</li>
             </ul>
         </VSideBar>
-        <transition name="fadeLeft" mode="out-in">
+        <transition name="app">
             <router-view></router-view>
         </transition>
     </div>
@@ -52,5 +52,24 @@ export default {
         border-bottom: 1px solid $lightest;
         font-size: $big;
     }
+}
+
+.app-enter {
+    transform: translate3d(100%, 0, 0);
+}
+
+.app-enter-active {
+    will-change: transform;
+    transition: transform 500ms ease;
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+.app-leave-active {
+    will-change: transform;
+    transform: translate3d(-100%, 0, 0);
+    transition: transform 500ms ease;
+    backface-visibility: hidden;
+    perspective: 1000;
 }
 </style>
