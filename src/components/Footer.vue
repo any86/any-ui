@@ -33,7 +33,6 @@ export default {
 footer {
     display: flex;
     min-height: 60px;
-    // box-shadow: $shadowUp;
     border-top: 1px solid $lightest;
     .badge {
         position: absolute;
@@ -46,13 +45,13 @@ footer {
         color: $darker;
         padding: $gutter / 2;
         display: block;
-        background: #fff;
+        background: $background;
         text-align: center;
         &.active {
-            background: $light;
+            color: $base;
         }
         &:active {
-            background: $light;
+            color: $base;
         }
         .icon {
             font-size: $large;
@@ -66,7 +65,7 @@ footer {
         }
     }
     .router-link-active {
-        background: $light;
+        color: $base;
     }
 }
 </style>
