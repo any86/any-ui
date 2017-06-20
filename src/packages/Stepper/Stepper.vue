@@ -1,20 +1,19 @@
 <template>
     <div class="component-stepper">
-        <a v-if="!!$slots.default" class="title">
-            <slot></slot>
-        </a>
         <!-- 禁用 -->
-        <span class="control" v-if="disabled">
+        <template v-if="disabled">
             <Icon class="button disabled" value="minus"></Icon>
             <span class="content disabled">{{value}}</span>
-        <Icon class="button disabled" value="plus"></Icon>
-        </span>
+            <Icon class="button disabled" value="plus"></Icon>
+        </template>
         <!-- 非禁用 -->
-        <span class="control" v-else>
-            <Icon :class="['button', min == value && 'disabled']" value="minus" @click="minus"></Icon>
+        <template v-else>
+            <Icon :class="['button', 'button-minus', min == value && 'disabled']" value="minus" @click="minus">
+            </Icon>
             <span class="content">{{value}}</span>
-        <Icon :class="['button', max == value && 'disabled']" value="plus" @click="plus"></Icon>
-        </span>
+            <Icon :class="['button', 'button-plus', max == value && 'disabled']" value="plus" @click="plus">
+            </Icon>
+        </template>
     </div>
 </template>
 <script>
@@ -35,7 +34,7 @@ export default {
 
         max: {
             type: Number,
-            default: 10
+            default: 99
         },
 
         step: {
@@ -51,7 +50,7 @@ export default {
     methods: {
         minus() {
             if (this.min < this.value) {
-                this.$emit('input', this.value - 1);
+                this.$emit('input', parseInt(this.value) - 1);
             } else {
                 this.$emit('reachMin');
             }
@@ -60,7 +59,7 @@ export default {
 
         plus() {
             if (this.max > this.value) {
-                this.$emit('input', this.value + 1);
+                this.$emit('input', parseInt(this.value) + 1);
             } else {
                 this.$emit('reachMax');
             }
@@ -77,44 +76,41 @@ export default {
 $height: .5rem;
 .component-stepper {
     position: relative;
-    display: flex;
-    width: 100%;
-    
-    >.title {flex:1;font-size: $big;}
-
-    >.control {
-        .button {
-            height: $height;
-            line-height: $height + 0.05rem;
-            width: $height;
-            border-radius: $borderRadius;
-            border-width: 1px;
-            border-style: solid;
-            border-color: $darker;
-            color: $darker;
-            font-size: $bigger;
-            text-align: center;
-            &.disabled {
-                border-color: $disabled;
-                color: $disabled;
-            }
-            &:not(.disabled):active {
-                border-color: $base;
-                color: $base;
-            }
+    display: inline-block;
+    border: 1px solid $lighter;
+    height: $height;
+    overflow: hidden;
+    >.button {
+        height: $height;
+        line-height: $height;
+        width: $height;
+        color: $darkest;
+        font-size: $bigger;
+        text-align: center;
+        &.disabled {
+            border-color: $disabled;
+            color: $disabled;
         }
-        .content {
-            display: inline-block;
-            width: $height;
-            height: $height;
-            line-height: $height;
-            color: $darker;
-            font-size: $bigger;
-            text-align: center;
-            position: relative;
-            &.disabled {
-                color: $disabled;
-            }
+        &:not(.disabled):active {
+            color: $base;
+        }
+        &.button-minus {
+            border-right: 1px solid $lighter;
+        }
+        &.button-plus {
+            border-left: 1px solid $lighter;
+        }
+    }
+    >.content {
+        display: inline-block;
+        padding: 0 $gutter;
+        min-width: $height * 1.2;
+        color: $darkest;
+        font-size: $bigger;
+        text-align: center;
+        position: relative;
+        &.disabled {
+            color: $disabled;
         }
     }
 }
