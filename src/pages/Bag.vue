@@ -2,29 +2,7 @@
     <ScrollView v-model="scrollY" class="page-bag">
         <LayoutHeader :title="static.title"></LayoutHeader>
         <!-- 购物车 -->
-        <VListView class="row-goods">
-            <VListItem class="header">
-                <Icon class="icon" value="line-chart"></Icon>
-                <p class="text">Buy Two Save One</p>
-                <p class="btn-piece-togethe">piece togethe > </p>
-            </VListItem>
-            <VSwiperOut v-model="item.isOpen" v-for="item in static.goodsList" :key="item.id" class="item" @touchstart="closeOther">
-                <span class="checkbox"><VCheckbox class="ui"></VCheckbox></span>
-                <VLazyLoad class="img" :src="item.img" :watch="scrollY">
-                </VLazyLoad>
-                <span class="info-1">
-                    <h4>{{item.title}}</h4>
-                    <p>{{item.info}}</p>
-                </span>
-                <span class="info-2">
-                    <p>{{item.price}}</p>
-                    <p>x{{item.count}}</p>
-                </span>
-                <template slot="actions">
-                    <VSwiperOutButton class="btn-del">删除</VSwiperOutButton>
-                </template>
-            </VSwiperOut>
-        </VListView>
+        <LayoutGoodsList v-if="0 < static.goodsList.length" :dataSource="static.goodsList" :scrollY="scrollY"></LayoutGoodsList>
         <!-- 礼品 -->
         <VListView class="row-gifts">
             <VListItem class="header">
@@ -40,7 +18,7 @@
                     </span>
                 <span class="info-2">
                         <p>FREE</p>
-                        <p>x{{item.count}}</p>
+                        <p>{{item.count}}</p>
                     </span>
             </VListItem>
         </VListView>
@@ -49,10 +27,11 @@
     </ScrollView>
 </template>
 <script>
-import VSwiperOut from '@/packages/SwiperOut/SwiperOut'
-import VSwiperOutButton from '@/packages/SwiperOut/SwiperOutButton'
-
 import LayoutHeader from './Bag/Header'
+import LayoutGoodsList from './Bag/GoodsList'
+
+
+
 import VListView from '@/packages/List/List'
 import VListItem from '@/packages/List/ListItem'
 import VBadge from '@/packages/Badge/Badge'
@@ -85,9 +64,11 @@ export default {
     },
 
     methods: {
-        closeOther() {
+        closeOther(selfIndex) {
             this.static.goodsList.forEach((item, i) => {
-                this.static.goodsList[i].isOpen = false;
+                if (i != selfIndex) {
+                    this.static.goodsList[i].isOpen = false;
+                }
             });
         }
     },
@@ -96,14 +77,11 @@ export default {
         VListView,
         VListItem,
         VBadge,
-        VCheckbox,
         LayoutHeader,
         VLazyLoad,
 
         LayoutGiftMore,
-
-        VSwiperOut,
-        VSwiperOutButton
+        LayoutGoodsList,
     }
 }
 </script>
@@ -116,74 +94,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    .row-goods {
-        .header {
-            display: flex;
-            height: .8rem;
-            overflow: hidden;
-            .icon {
-                font-size: .4rem;
-                display: block;
-                float: left;
-                color: $base;
-            }
-            .text {
-                font-size: $big;
-                display: block;
-                float: left;
-                margin-left: 2*$gutter;
-            }
-            .btn-piece-togethe {
-                display: block;
-                float: right;
-                text-align: right;
-                font-size: $big;
-                color: $base;
-            }
-        }
-        .item {
-            overflow: hidden;
-            border-bottom: 1px solid $lightest;
-            .checkbox {
-                width: .8rem;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                float: left;
-            }
-            .img {
-                display: block;
-                width: 1.6rem;
-                height: 1.6rem;
-                margin-left: $gutter;
-                float: left;
-            }
-            .info-1 {
-                flex: 1;
-                margin-left: 3*$gutter;
-                float: left;
-                h4,
-                p {
-                    font-size: $big;
-                }
-            }
-            .info-2 {
-                display: block;
-                font-size: $big;
-                width: 50px;
-                text-align: right;
-                float: right;
-                p {
-                    font-size: $big;
-                }
-            }
-            .btn-del {
-                background: $darkest;
-                color: $sub;
-                padding: 0 3*$gutter;
-            }
-        }
-    }
+
     .row-gifts {
         margin: 3*$gutter auto 0;
         .header {
