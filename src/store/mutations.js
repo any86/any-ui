@@ -21,4 +21,11 @@ export default {
         state.isShowSideBar = false;
     },
 
+    [types.SET_CURRENCY](state, currency) {
+        state.currency = currency;
+    },
+
+    [types.SET_LANGUAGE](state, language) {
+        state.language = language;
+    }
 };
