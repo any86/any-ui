@@ -54,5 +54,13 @@ export default new Router({
         path: "/bag",
         name: "Bag",
         component: Bag
+    }, {
+        path: "/find",
+        name: "Find",
+        component: Find
+    }, {
+        path: "/detail",
+        name: "Detail",
+        component: Detail
     }]
 });
