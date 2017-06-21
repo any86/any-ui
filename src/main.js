@@ -52,3 +52,21 @@ new Vue({
     template: '<App/>',
     components: { App }
 });
+
+
+
+    // var startX = 0, startY = 0;
+    // document.addEventListener('touchstart', e => {
+    //     startX = e.touches[0].clientX;
+    //     startY = e.touches[0].clientY;
+
+    // });
+
+    // document.addEventListener('touchmove', e => {
+    //     var distanceX = e.touches[0].clientX - startX;
+    //     var distanceY = e.touches[0].clientY - startY;
+
+    //     if (distanceX < distanceY) {
+    //         e.preventDefault();
+    //     }
+    // });

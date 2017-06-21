@@ -50,7 +50,7 @@ export default {
     methods: {
         minus() {
             if (this.min < this.value) {
-                this.$emit('input', parseInt(this.value) - 1);
+                this.$emit('input', this.value - 1);
             } else {
                 this.$emit('reachMin');
             }
@@ -59,7 +59,7 @@ export default {
 
         plus() {
             if (this.max > this.value) {
-                this.$emit('input', parseInt(this.value) + 1);
+                this.$emit('input', this.value + 1);
             } else {
                 this.$emit('reachMax');
             }

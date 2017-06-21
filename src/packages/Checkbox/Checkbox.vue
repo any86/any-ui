@@ -57,7 +57,7 @@ label.component-checkbox {
         opacity: 0;
     }
     >.circle {
-        border: 1px solid $dark;
+        border: 1px solid $light;
         box-sizing: border-box;
         width: $height;
         height: $height;

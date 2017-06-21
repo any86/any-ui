@@ -2,10 +2,10 @@
     <section class="row-goods-list">
         <header>
             <Icon class="icon" value="line-chart"></Icon>
-            <p class="text">Buy Two Save One</p>
-            <p class="btn-piece-togethe">piece togethe > </p>
+            <p class="text">{{dataSource.title}}</p>
+            <p class="btn-piece-togethe">{{dataSource.linkText}}</p>
         </header>
-        <VSwiperOut v-model="item.isOpen" v-for="(item, i) in goodsList" :key="item.id" @touchstart="closeOther(i)">
+        <VSwiperOut v-model="isCheckedList[i]" v-for="(item, i) in dataSource.children" :key="item.id" @touchstart="closeOther(i)">
             <section class="item-container">
                 <VCheckbox class="checkbox"></VCheckbox>
                 <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="row-2">
                     <p class="info">{{item.info}}</p>
-                    <VStepper class="steppr" v-model="item.count"></VStepper>
+                    <VStepper class="steppr" v-model="countList[i]"></VStepper>
                 </div>
                 </span>
             </section>
@@ -48,19 +48,23 @@ export default {
 
     data() {
         return {
-            goodsList: []
+            countList: [],
+            isCheckedList: []
         };
     },
 
-    mounted() {
-        this.goodsList = JSON.parse(JSON.stringify(this.dataSource));
+    created() {
+        this.dataSource.children.forEach(item => {
+            this.countList.push(~~item.count);
+            this.isCheckedList.push(false);
+        })
     },
 
     methods: {
         closeOther(selfIndex) {
-            this.goodsList.forEach((item, i) => {
+            this.isCheckedList.forEach((item, i) => {
                 if (i != selfIndex) {
-                    this.goodsList[i].isOpen = false;
+                    this.isCheckedList[i] = false;
                 }
             });
         }
@@ -76,17 +80,18 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+$headerHeight: .88rem;
 .row-goods-list {
     background: $background;
     header {
-        height: .88rem;
+        height: $headerHeight;
         width: 100%;
         overflow: hidden;
         border-bottom: 1px solid $lightest;
         padding: 0 3*$gutter;
         .icon {
-            line-height: .88rem;
-            font-size: .4rem;
+            line-height: $headerHeight;
+            font-size: $biggest;
             display: block;
             float: left;
             color: $base;
@@ -96,7 +101,7 @@ export default {
             display: block;
             float: left;
             margin-left: 2*$gutter;
-            line-height: .88rem;
+            line-height: $headerHeight;
         }
         .btn-piece-togethe {
             display: block;
@@ -104,7 +109,7 @@ export default {
             text-align: right;
             font-size: $big;
             color: $base;
-            line-height: .88rem;
+            line-height: $headerHeight;
         }
     }
     .item-container {
@@ -127,7 +132,7 @@ export default {
         .info {
             flex: 1;
             min-width: 0;
-            align-self:center;
+            align-self: center;
             .row-1 {
                 height: .5rem;
                 display: flex;
@@ -148,8 +153,15 @@ export default {
                 }
             }
             .row-2 {
-                display: flex;height: .5rem;margin-top: .1rem;
-                .info {font-size: $big;color: $light;flex:1;line-height: .5rem;}
+                display: flex;
+                height: .5rem;
+                margin-top: .1rem;
+                .info {
+                    font-size: $big;
+                    color: $light;
+                    flex: 1;
+                    line-height: .5rem;
+                }
                 .steppr {}
             }
         }

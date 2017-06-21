@@ -2,8 +2,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 
-        'PingFang SC',
+    font-family: 'PingFang SC',
         'Microsoft Yahei',
         'Avenir',
         Helvetica,
@@ -14,7 +13,7 @@
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
     -webkit-touch-callout: none;
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
 }
 // 设计稿宽度
 // $designWidth: 750px;
@@ -82,28 +81,24 @@ img {
 
 h1 {
     font-size: $large;
-    margin: $gutter 0;
     font-weight: 600;
     color: #333;
 }
 
 h2 {
     font-size: $biggest;
-    margin: $gutter 0;
     font-weight: 600;
     color: #333;
 }
 
 h3 {
     font-size: $bigger;
-    margin: $gutter 0;
     font-weight: 600;
     color: #333;
 }
 
 h4 {
     font-size: $big;
-    margin: $gutter 0;
     font-weight: 600;
     color: #333;
 }
@@ -117,7 +112,6 @@ h5 {
 
 h6 {
     font-size: $small;
-    margin: $gutter 0;
     font-weight: 600;
     color: #333;
 }
@@ -156,4 +150,21 @@ h6 {
     border-left: .1rem solid transparent;
     border-right: .1rem solid transparent;
     border-top: .1rem solid $base;
+}
+
+.list {
+    > header {
+        border-bottom: 1px solid $light;
+    }
+    > section {
+        border-bottom: 1px solid $light;
+    }
+}
+
+
+// 懒加载动画
+img[lazy="loading"] {
+}
+img[lazy="done"] {
+    animation: zoomIn 1s;
 }

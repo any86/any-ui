@@ -87,7 +87,9 @@ export default {
                 }
             // 当前打开状态
             } else {
+
                 if (0 < this.touch.distanceX) {
+
                     if(this.touch.distanceX <= this.actions.width) {
                         this.touch.translateX = (0 - this.actions.width) + this.touch.distanceX;
                     } else  {
@@ -105,7 +107,7 @@ export default {
 
         touchEnd(e) {
             this.touch.status = 0;
-            if (0 - this.touch.distanceX > this.actions.width / 2) {
+            if (0 - this.touch.translateX > this.actions.width / 2) {
                 this.touch.translateX = 0 - this.actions.width;
                 this.$emit('input', true);
             } else {
