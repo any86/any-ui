@@ -1,10 +1,10 @@
 <template>
-    <transition v-if="animate" name="mask" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position}">
+    <transition v-if="animate" name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
+        <div v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position, background}">
             <slot></slot>
         </div>
     </transition>
-    <div v-else v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position}">
+    <div v-else v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position, background}">
         <slot></slot>
     </div>
 </template>
@@ -15,6 +15,11 @@ export default {
     props: {
         value: {
             type: Boolean
+        },
+
+        background: {
+            type: String,
+            default: 'rgba(0,0,0, .5)'
         },
 
         lock: {
@@ -54,46 +59,15 @@ export default {
             return this.isFixed ? 'fixed' : 'absolute';
         }
     }
-
 };
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-mask {
-    background: rgba(#000, .5);
     z-index: $maskZIndex;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-}
-
-
-/*动画*/
-
-.mask-enter-active {
-    animation: mask-in .5s;
-}
-
-.mask-leave-active {
-    animation: mask-out .5s;
-}
-
-@keyframes mask-in {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes mask-out {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
 }
 </style>
