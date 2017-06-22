@@ -128,7 +128,6 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-swiper-out {
-    position: relative;
     background: $background;
     overflow: hidden;
     >.scroll-body {
