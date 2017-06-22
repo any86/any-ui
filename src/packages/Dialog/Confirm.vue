@@ -1,6 +1,6 @@
 <template>
-    <transition name="confirm" @after-leave="afterLeave">
-        <div v-show="value" class="component-confirm" :style="{width: width}">
+    <transition name="fadeUp" @after-leave="afterLeave">
+        <div v-show="value" class="component-confirm" :style="{width}">
             <div class="header">
                 <h1 class="title" v-html="title"></h1>
             </div>
@@ -77,57 +77,35 @@ export default {
 @import '../../scss/theme.scss';
 .component-confirm {
     border-radius: 4px;
-    background: #fff;
+    background: $background;
     box-shadow: 1px 2px 5px rgba(0, 0, 0, .2);
     >.header {
-        padding: 15px;
+        padding: 2*$gutter;
         >.title {
             margin: 0;
-            font-size: 16px;
+            font-size: $bigger;
         }
     }
     >.body {
-        padding: 15px;
+        padding: 4*$gutter;
+        font-size: $big;
     }
     >.footer {
-        overflow: hidden;
         display: flex;
-        border-top:1px solid $lightest;
-        .button{flex:1;line-height: 40px;text-align: center;}
-        .button:first-child{border-right: 1px solid $lightest;}
-        .button:last-child{color: $base;}
-
-    }
-}
-
-// 动画
-.confirm-enter-active {
-    animation: confirm-in .5s;
-}
-
-.confirm-leave-active {
-    animation: confirm-out .5s;
-}
-
-@keyframes confirm-in {
-    0% {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes confirm-out {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(15px);
+        overflow: hidden;
+        border-top: 1px solid $lightest;
+        .button {
+            flex: 1;
+            line-height: 40px;
+            text-align: center;
+            font-size: $big;
+        }
+        .button:first-child {
+            border-right: 1px solid $lightest;
+        }
+        .button:last-child {
+            color: $base;
+        }
     }
 }
 </style>
