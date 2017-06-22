@@ -2,25 +2,23 @@
     <div class="row-category-thumbs" ref="categoryThumbs">
         <!-- 第一行 -->
         <div class="first-part">
-        <router-link :to="{path: 'list'}" tag="span" class="item big-item">
+            <router-link :to="{path: 'list'}" tag="span" class="item big-item">
                 <div>
                     <h4>CHARM</h4>
                     <h4>BRACELETS</h4>
                     <img v-if="dataSource.big" :src="dataSource.big.src" />
                 </div>
             </router-link>
-            
             <router-link v-if="1 >= i" v-for="(item, i) in dataSource.small" :key="item.title" :to="{path: item.path}" tag="span" class="item">
                 <h4>{{item.title}}</h4>
-                <LazyLoad class="img" :src="item.img"></LazyLoad>
+                <LazyLoad class="img" :src="item.img" :watch="scrollY"></LazyLoad>
             </router-link>
-
         </div>
         <!-- 普通行 -->
         <div class="other-part">
             <router-link v-if="1 < i" v-for="(item, i) in dataSource.small" :key="item.title" :to="{path: item.path}" tag="span" class="item">
                 <h4>{{item.title}}</h4>
-                <LazyLoad class="img" :src="item.img"></LazyLoad>
+                <LazyLoad class="img" :src="item.img" :watch="scrollY"></LazyLoad>
             </router-link>
         </div>
     </div>
@@ -32,6 +30,10 @@ export default {
 
     props: {
         dataSource: {
+            required: true
+        },
+
+        scrollY: {
             required: true
         }
     },

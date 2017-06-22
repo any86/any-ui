@@ -23,7 +23,7 @@
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 
 export default {
-    name: 'GoodsList',
+    name: 'GiftList',
 
     props: {
         dataSource: {

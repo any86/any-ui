@@ -1,8 +1,8 @@
 <template>
     <ScrollView v-if="1 === status" v-model="scrollY" class="page-bag">
-        <LayoutHeader :title="content.title"></LayoutHeader>
+        <LayoutHeader :title="content.title" ></LayoutHeader>
         <!-- 购物车列表 -->
-        <LayoutGoodsList :dataSource="content.goodsList" :scrollY="scrollY"></LayoutGoodsList>
+        <LayoutGoodsList :dataSource="content.goodsList" :scrollY="scrollY" @remove-goods="refreshLazyLoad"></LayoutGoodsList>
         <!-- 礼品列表 -->
         <LayoutGiftList :dataSource="content.giftList" :scrollY="scrollY"></LayoutGiftList>
         <!-- 更多礼品 -->
@@ -47,6 +47,13 @@ export default {
     },
 
     methods: {
+        refreshLazyLoad(){
+            this.scrollY+= 1;
+            this.$nextTick(()=>{
+                this.scrollY-= 1;
+            });
+        },
+
         closeOther(selfIndex) {
             this.content.goodsList.forEach((item, i) => {
                 if (i != selfIndex) {

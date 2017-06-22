@@ -33,11 +33,11 @@
                     <h2 v-else-if="2 == popupIndex" slot="header">Please Pickup sort</h2>
                 </VPopup>
                 <ul class="list">
-                    <a v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
+                    <router-link v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.id}}" :key="item.id">
                         <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
                         <h5 align="center">{{item.title}}</h5>
                         <h6 align="center"><span>$</span>{{item.price}}</h6>
-                    </a>
+                    </router-link>
                 </ul>
                 <Spinner v-show="isShowSpinner && !isEnd"></Spinner>
                 <p v-if="isEnd" class="empty">there is nothing</p>
@@ -51,6 +51,8 @@
     </section>
 </template>
 <script>
+import Drawer from '@/packages/Drawer/Drawer'
+
 import VPopup from '@/packages/Dialog/Popup'
 import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
@@ -71,6 +73,10 @@ export default {
 
     data() {
         return {
+            isShowSide: false,
+
+
+
             isShowSpinner: true,
             ovh: false,
             scrollY: 100,
@@ -203,7 +209,7 @@ export default {
         VSwitch,
         SwiperLayout,
         LayoutHeader,
-        LayoutFooter
+        LayoutFooter,Drawer
     }
 }
 </script>

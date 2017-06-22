@@ -6,12 +6,14 @@
         <main class="container">
             <section class="scroll-body">
                 <span class="item" v-for="item in dataSource.children">
-                    <span class="button-add">
-                        <Icon value="plus"></Icon>
-                    </span>
-                    <VLazyLoad class="img" :src="item.img"></VLazyLoad>
-                    <h4 class="title">{{item.title}}</h4>
-                    <p class="price">{{item.price}}</p>
+                    <div class="body">
+                        <span class="button-add">
+                            <Icon value="plus"></Icon>
+                        </span>
+                <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
+                <h4 class="title">{{item.title}}</h4>
+                <p class="price">{{item.price}}</p>
+                </div>
                 </span>
             </section>
         </main>
@@ -67,34 +69,40 @@ $headerHeight: .88rem;
             >.item {
                 position: relative;
                 flex: 0 0 50%;
-                >.button-add {
-                    position: absolute;
-                    top: .1rem;
-                    right: .1rem;
-                    background: $darkest;
-                    height: .5rem;
-                    line-height: .5rem;
-                    width: .5rem;
-                    text-align: center;
-                    border-radius: 100%;
-                    color: $sub;
-                    font-size: $big;overflow: hidden;
-                }
-                >.img {
-                    display: block;
+                >.body {
+                    position: relative;
                     width: 3rem;
-                    height: 3rem;
-                    margin: auto;
-                }
-                >.title {
-                    text-align: center;
-                    color: $dark;
-                    height: .5rem;
-                }
-                >.price {
-                    text-align: center;
-                    color: $darkest;
-                    height: .5rem;font-size: $bigger;
+                        margin: auto;
+                    >.button-add {
+                        position: absolute;
+                        top: .1rem;
+                        right: .1rem;
+                        background: $darkest;
+                        height: .5rem;
+                        line-height: .5rem;
+                        width: .5rem;
+                        text-align: center;
+                        border-radius: 100%;
+                        color: $sub;
+                        font-size: $big;
+                        overflow: hidden;
+                    }
+                    >.img {
+                        display: block;
+                        width: 3rem;
+                        height: 3rem;
+                    }
+                    >.title {
+                        text-align: center;
+                        color: $dark;
+                        height: .5rem;
+                    }
+                    >.price {
+                        text-align: center;
+                        color: $darkest;
+                        height: .5rem;
+                        font-size: $bigger;
+                    }
                 }
             }
         }

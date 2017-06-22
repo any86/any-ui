@@ -13,11 +13,11 @@
             <p>find</p>
         </router-link>
         <router-link tag="span" to="/bag" class="button">
+            <Badge class="badge" type="danger">5</Badge>
             <Icon class="icon" value="shopping-bag"></Icon>
             <p>cart</p>
         </router-link>
         <router-link tag="span" to="/my" class="button">
-            <Badge class="badge" type="danger">5</Badge>
             <Icon class="icon" value="user-circle-o"></Icon>
             <p>my</p>
         </router-link>

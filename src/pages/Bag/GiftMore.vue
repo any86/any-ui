@@ -17,7 +17,7 @@
 <script>
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 export default {
-    name: 'Header',
+    name: 'GiftMore',
 
     props: {
         dataSource: {

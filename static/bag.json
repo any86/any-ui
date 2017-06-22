@@ -141,7 +141,7 @@
         "recommend": {
             "title": "We Also Recommend",
             "children": [
-                { "title": "111", "img": "https://static.soufeel.com/media/catalog/category/C021.png", "price": "10" },
+                { "title": "111", "img": "http://jer.soufeel.org/media/catalog/product/D/Y/DY1057.png", "price": "10" },
                 { "title": "222", "img": "https://static.soufeel.com/media/catalog/category/S-ZNL.png", "price": "10" }
             ]
         }

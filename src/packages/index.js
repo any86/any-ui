@@ -74,7 +74,7 @@ Atom.install = function(Vue) {
     // =================================================
     // ==============组件内调用: this.$prompt============
     // =================================================
-    Vue.prototype.$input = Vue.prototype.$prompt = (text = '', options = {}) => {
+    Vue.prototype.$prompt = Vue.prototype.$input = (text = '', options = {}) => {
         return new Promise((resolve, reject) => {
             vm.mask.show = true;
             vm.prompt = {
