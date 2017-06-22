@@ -33,10 +33,12 @@ export default {
 
         preLoad: {
             type: Number,
-            default: 1.3
+            default: 1
         },
 
-        watch: {}
+        watch: {
+            required: true
+        }
     },
 
     data() {
@@ -68,7 +70,7 @@ export default {
     methods: {
         isInView() {
             this.rect = this.$el.getBoundingClientRect();
-            return this.rect.top < window.innerHeight * this.preLoad;
+            return this.rect.top <= window.innerHeight * this.preLoad;
         },
 
         loadImg() {
@@ -96,7 +98,9 @@ export default {
 
     watch: {
         watch() {
-            -2 == this.status && this.isInView() && this.loadImg();
+            if (-2 == this.status && this.isInView()) {
+                this.loadImg();
+            }
         }
     },
 
@@ -126,6 +130,5 @@ export default {
         width: 100%;
         display: block;
     }
-    >img[lazy="loading"] {}
 }
 </style>
