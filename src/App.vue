@@ -1,28 +1,27 @@
 <template>
-    <div class="home">
-        <VSideBar v-model="isShowSideBar">
-            <ul class="menu">
-                <li>What's New</li>
-                <li>Personalized Name Necklace</li>
-                <li>New Arrivals</li>
-                <li>All Personalized</li>
-                <li>Personalized</li>
-            </ul>
-        </VSideBar>
+    <VDrawer v-model="isShowSide" class="home">
+        <ul class="menu" slot="side">
+            <li>What's New</li>
+            <li>Personalized Name Necklace</li>
+            <li>New Arrivals</li>
+            <li>All Personalized</li>
+            <li>Personalized</li>
+        </ul>
         <transition name="app">
             <router-view></router-view>
         </transition>
-    </div>
+    </VDrawer>
 </template>
 <script>
 import * as types from "@/store/mutation-types";
-import VSideBar from '@/packages/SideBar/SideBar'
-
+import VDrawer from '@/packages/Drawer/Drawer'
 export default {
     name: 'App',
 
     data() {
-        return {};
+        return {
+            isShowSide: false
+        };
     },
 
     computed: {
@@ -38,7 +37,7 @@ export default {
     },
 
     components: {
-        VSideBar
+        VDrawer
     }
 
 }
@@ -46,6 +45,7 @@ export default {
 <style lang="scss" scoped>
 @import './scss/theme.scss';
 .menu {
+    display: block;
     li {
         padding: 3*$gutter;
         display: block;
