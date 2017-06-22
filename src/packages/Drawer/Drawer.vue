@@ -1,193 +1,178 @@
 <template>
-    <div class="component-drawer">
-        <span class="sidebar">
-            
-        </span>
-        <span>
-            
-        </span>
+    <div class="component-drawer" :style="{height}" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+        <div class="scroll-body" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`, 'transition-duration': 2 == touch.status ? '200ms' : '0ms'}">
+            <span class="side" ref="side">
+                <slot name="side"></slot>
+            </span>
+            <main>
+                <slot></slot>
+                <VMask :animate="false" :fixed="false" :value="isShowMask"></VMask>
+            </main>
+        </div>
     </div>
 </template>
 <script>
+import VMask from '@/packages/Dialog/Mask'
 export default {
     name: 'Drawer',
 
     props: {
-        opts: {},
+        height: {
+            default: '100%'
+        },
+
+        sensitivity: {
+            type: Number,
+            default: 0
+        },
 
         value: {
-            default () {
-                return [];
-            }
+            type: Boolean,
+            default: false
         }
     },
 
     data() {
         return {
-            previews: []
+            isShowMask: false,
+            screenHeight: -1,
+            sideWidth: -1,
+            touch: {
+                status: 0,
+                startX: 0,
+                translateXOld: 0,
+                translateXNew: 0,
+                distanceX: 0,
+                distanceY: 0,
+            }
         };
     },
 
     mounted() {
-
-        // 监听上传事件
-        FileAPI.event.on(this.$refs[this.opts.name], 'change', (evt) => {
-            var files = FileAPI.getFiles(evt);
-
-            // 遍历文件,进行文件类型判断
-            files.forEach(file => {
-                // 初始化一个文件
-                // 创建块作用域,  防止循环覆盖值
-                let preview = {
-                    id: '',
-                    cover: '', // 缩略图
-                    progress: 0, // 进度条
-                    fileName: file.name, // 文件名
-                    type: 'file', // 文件类型
-                    url: '', // 上传后的资源地址
-                    file: file,
-                    status: 1
-                };
-
-                // 如果是图片, 转base64
-                if (/^image/.test(file.type)) {
-                    preview.type = 'image';
-
-                    // 转base64, 作为cover
-                    this.file2base64(file).then(base64 => {
-                        preview.cover = base64;
-                        this.upload(file, base64, progress => {
-                            preview.progress = progress;
-                        }, response => {
-                            preview.status = response.status;
-                            if (1 == response.status) {
-                                preview.url = response.data.url;
-                                preview.id = response.data.id;
-                            }
-                        });
-                    })
-
-                } else {
-                    this.upload(file, '', progress => {
-                        preview.progress = progress;
-                    }, response => {
-                        preview.status = response.status;
-                        if (1 == response.status) {
-                            preview.url = response.data.url;
-                            preview.id = response.data.id;
-                        }
-                    });
-                }
-                this.previews.push(preview);
-            });
-        });
-    },
-
-    destroyed() {
-        this.previews = null;
+        this.screenHeight = window.screen.height;
+        this.sideWidth = this.$refs.side.offsetWidth;
     },
 
     methods: {
-        /**
-         * 重新上传
-         * @param  {Number} index 当前操作预览索引
-         */
-        retry(index) {
-            var preview = this.previews[index];
-            this.upload(preview.file, preview.cover, progress => {
-                preview.status = 1;
-                preview.progress = progress;
-            }, response => {
-                preview.status = response.status;
-                if (1 == response.status) {
-                    preview.url = response.data.url;
-                    preview.id = response.data.id;
-                }
-            });
+        touchStart(e) {
+            this.touch.status = 0;
+            this.touch.startX = e.touches[0].clientX;
+            this.touch.startY = e.touches[0].clientY;
+
         },
 
-        /**
-         * 生成缩略图
-         * file转base64
-         * 压缩尺寸到100px
-         * @param  {Object} file      
-         */
-        file2base64(file) {
-            return new Promise((resolve, reject) => {
-                FileAPI.Image(file).preview(100).get((err, img) => {
-                    if (err) {
-                        reject(err);
+        touchMove(e) {
+            this.touch.status = 1;
+            this.touch.distanceX = e.touches[0].clientX - this.touch.startX;
+            this.touch.distanceY = e.touches[0].clientY - this.touch.startY;
+
+            const translateXNew = this.touch.translateXOld + this.touch.distanceX;
+
+            if (this.sensitivity < Math.abs(this.touch.distanceX) - Math.abs(this.touch.distanceY)) {
+                // 如果是关闭状态, 且是正向拖拽, 那么打开mask
+                if(!this.value && 0 < this.touch.distanceX) {
+                    this.isShowMask = true;
+                }
+                
+                if (this.sideWidth >= translateXNew && 0 <= translateXNew) {
+                    this.touch.translateXNew = translateXNew;
+                } else if (this.sideWidth < translateXNew) {
+                    this.touch.translateXNew = this.sideWidth;
+                } else {
+                    this.touch.translateXNew = 0;
+                }
+
+                // 如果X轴拖拽, 禁止页面滚动
+                if (Math.abs(this.touch.distanceY) < Math.abs(this.touch.distanceX)) {
+                    e.preventDefault();
+                }
+            }
+
+        },
+
+        touchEnd(e) {
+            this.touch.status = 2;
+            if (this.sensitivity < Math.abs(this.touch.distanceX) - Math.abs(this.touch.distanceY)) {
+                // 侧边栏展开状态
+                if (this.value) {
+                    if (this.sideWidth * 0.2 < 0 - this.touch.distanceX) {
+                        this.touch.translateXNew = 0;
+                        this.isShowMask = false;
+                        this.$emit('input', false);
                     } else {
-                        resolve(img.toDataURL());
+                        this.touch.translateXNew = this.sideWidth;
                     }
-                });
-            });
-        },
-        /**
-         * 上传
-         * @param  {Object}   file     文件对象
-         * @param  {String}   cover    缩略图
-         * @param  {Function} progress 进度回调函数
-         * @param  {Function} done     完成对调函数
-         */
-        upload(file, cover = '', progress = () => {}, done = () => {}) {
-            FileAPI.upload({
-                url: this.opts.url.upload,
-                // 未来会解耦
-                headers: {
-                    'Access-Token': this.$store.state.loginModule.accessToken
-                },
-
-                data: {
-                    cover,
-                    ...this.$route.query
-                },
-
-                progress: (evt) => {
-                    progress(Math.floor(evt.loaded / evt.total * 100));
-                },
-
-                files: {
-                    file
-                },
-
-                complete: (err, xhr, file, options) => {
-                    done(JSON.parse(xhr.response));
-
+                } else {
+                    if (this.sideWidth * 0.2 < this.touch.distanceX) {
+                        this.touch.translateXNew = this.sideWidth;
+                        this.$emit('input', true);
+                    } else {
+                        this.touch.translateXNew = 0;
+                    }
                 }
-            });
+                this.touch.translateXOld = this.touch.translateXNew;
+            }
+
         },
-        /**
-         * 删除列表中的文件
-         * @param  {Number} index 当前预览索引
-         * @param  {Number} id    预览对应的文件id
-         */
-        remove(index, id) {
-            axios.delete(this.opts.url.del, {
-                params: {
-                    id
-                }
-            }).then(response => {
-                this.previews.splice(index, 1);
-            }).catch((error) => {
-                syslog(error);
-            });
-        }
     },
 
     watch: {
-        previews(value) {
-            this.$emit('input', value);
-        }
+
+    },
+
+    components: {
+        VMask
     }
 }
 </script>
 <style scoped lang="scss">
-.component-upload {
+@import '../../scss/theme.scss';
+.component-drawer {
+    position: relative;
     overflow: hidden;
-    .input-upload {
-        display: none;
+    .scroll-body {
+        position: relative;
+        display: flex;
+        height: 100%;
+        transition-duration: 0ms;
+        transition-timing-function: ease-in-out;
+        transition-property: transform;
+        main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            flex: 1 0 100%;
+            min-width: 0;
+            height: 100%;
+        }
+        .side {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: $background;
+            display: block;
+            overflow: hidden;
+            max-width: 80%;
+            height: 100%;
+            transform: translateX(-100%);
+        }
+        // main {
+        //     position: relative;
+        //     padding: 0;
+        //     flex: 1 0 100%;
+        //     min-width: 0;
+        // }
+        // aside {
+        //     position: absolute;
+        //     right: 0;
+        //     top: 0;
+        //     background: $base;
+        //     display: block;
+        //     transform: translateX(100%);
+        // }
     }
-    ul.previews {}
 }
 </style>
