@@ -33,7 +33,7 @@ export default {
 
         preLoad: {
             type: Number,
-            default: 1
+            default: 1.3
         },
 
         watch: {
