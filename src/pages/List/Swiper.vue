@@ -51,6 +51,8 @@ export default {
         var galleryTop = new Swiper('.gallery-top', {
             spaceBetween: 0,
             slidesPerView: 1,
+            autoplay:3000,
+            autoplayDisableOnInteraction: false,
             onSlideChangeStart(swiper) {
                 slideIndex = swiper.realIndex;
                 [].forEach.call(galleryThumbs.slides, (slide, index)=>{
@@ -69,6 +71,7 @@ export default {
             spaceBetween: 10,
             visibilityFullFit: true,
             // centeredSlides: true,
+            autoplayDisableOnInteraction: false,
             slidesPerView: 'auto',
             touchRatio: .3,
             slideToClickedSlide: true,
