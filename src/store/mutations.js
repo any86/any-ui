@@ -13,12 +13,20 @@ export default {
         state.list.splice(0, 0, ...list);
     },
 
-    [types.SHOW_SIDE_BAR](state) {
-        state.isShowSideBar = true;
+    [types.SHOW_SIDE](state) {
+        state.isShowSide = true;
     },
 
-    [types.HIDE_SIDE_BAR](state) {
-        state.isShowSideBar = false;
+    [types.HIDE_SIDE](state) {
+        state.isShowSide = false;
+    },
+
+    [types.SHOW_LOADING](state) {
+        state.isShowLoading = true;
+    },
+
+    [types.HIDE_LOADING](state) {
+        state.isShowLoading = false;
     },
 
     [types.SET_CURRENCY](state, currency) {
