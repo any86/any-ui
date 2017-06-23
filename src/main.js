@@ -54,19 +54,29 @@ new Vue({
 });
 
 
+import * as types from "@/store/mutation-types";
+router.beforeEach(function(to, from, next) {
+    store.commit(types.SHOW_LOADING);
+    next();
+})
 
-    // var startX = 0, startY = 0;
-    // document.addEventListener('touchstart', e => {
-    //     startX = e.touches[0].clientX;
-    //     startY = e.touches[0].clientY;
+router.afterEach(function(to) {
+    store.commit(types.HIDE_LOADING);
+});
 
-    // });
 
-    // document.addEventListener('touchmove', e => {
-    //     var distanceX = e.touches[0].clientX - startX;
-    //     var distanceY = e.touches[0].clientY - startY;
+// var startX = 0, startY = 0;
+// document.addEventListener('touchstart', e => {
+//     startX = e.touches[0].clientX;
+//     startY = e.touches[0].clientY;
 
-    //     if (distanceX < distanceY) {
-    //         e.preventDefault();
-    //     }
-    // });
+// });
+
+// document.addEventListener('touchmove', e => {
+//     var distanceX = e.touches[0].clientX - startX;
+//     var distanceY = e.touches[0].clientY - startY;
+
+//     if (distanceX < distanceY) {
+//         e.preventDefault();
+//     }
+// });

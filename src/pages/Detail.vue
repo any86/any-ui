@@ -1,5 +1,5 @@
 <template>
-    <ScrollView ref="scroll" class="page-detail">
+    <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
         <div class="breadcrumb">
             <a>HOME</a>
             <a>CHARMS</a>
@@ -23,11 +23,11 @@
             
             <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
 
-            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :placeholder="'../../static/loading.gif'"></v-lazy-load>
+            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
 
-            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_04-mobile.jpg'" :placeholder="'../../static/loading.gif'"></v-lazy-load>
+            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_04-mobile.jpg'" :watch="scrollY"></v-lazy-load>
 
-            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_01-mobile.jpg'" :placeholder="'../../static/loading.gif'"></v-lazy-load>
+            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_01-mobile.jpg'" :watch="scrollY"></v-lazy-load>
         </div>
         <div v-show="1 == tabsIndex" class="reviews">
             Reviews
@@ -53,6 +53,7 @@ export default {
 
     data() {
         return {
+            scrollY: 0,
             container: null,
             tabsIndex: 0
         };
@@ -110,6 +111,7 @@ export default {
         .img {
             margin: $gutter * 3 auto;
             width: 100%;
+            min-height: 7rem;
             overflow: hidden;
         }
         .img[lazy="done"] {

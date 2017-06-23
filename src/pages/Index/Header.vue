@@ -1,6 +1,6 @@
 <template>
     <header>
-        <Icon value="bars" @click.native="showSideBar"></Icon>
+        <Icon value="bars" @touchstart.native.stop="showSide"></Icon>
         <Icon value="search" style="margin-left:15px;"></Icon>
         <img class="logo" src="../../assets/logo.png">
         <Icon value="user" style="margin-right:15px;"></Icon>
@@ -13,8 +13,10 @@ export default {
     name: 'Header',
 
     methods: {
-        showSideBar(){
-            this.$store.commit(types.SHOW_SIDE_BAR);
+        showSide() {
+            if (!this.$store.state.isShowSide) {
+                this.$store.commit(types.SHOW_SIDE);
+            }
         }
     }
 }
@@ -23,7 +25,7 @@ export default {
 @import '../../scss/theme.scss';
 $height: 1.2rem;
 header {
-	box-sizing: border-box;
+    box-sizing: border-box;
     // position: fixed;
     // top: 0;
     // left: 0;

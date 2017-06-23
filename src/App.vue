@@ -7,6 +7,7 @@
             <li>All Personalized</li>
             <li>Personalized</li>
         </ul>
+        <VLoading v-model="$store.state.isShowLoading"></VLoading>
         <transition name="app">
             <router-view></router-view>
         </transition>
@@ -15,29 +16,31 @@
 <script>
 import * as types from "@/store/mutation-types";
 import VDrawer from '@/packages/Drawer/Drawer'
+import VLoading from '@/packages/Loading/Loading'
+
 export default {
     name: 'App',
 
     data() {
         return {
-            isShowSide: false
         };
     },
 
     computed: {
-        isShowSideBar: {
+        isShowSide: {
             get() {
-                return this.$store.state.isShowSideBar;
+                return this.$store.state.isShowSide;
             },
 
             set(value) {
-                this.$store.commit(value ? types.SHOW_SIDE_BAR : types.HIDE_SIDE_BAR);
+                this.$store.commit(value ? types.SHOW_SIDE : types.HIDE_SIDE);
             }
         }
     },
 
     components: {
-        VDrawer
+        VDrawer,
+        VLoading
     }
 
 }
@@ -54,6 +57,7 @@ export default {
     }
 }
 
+//切换动画, 未完, 还没有判断进入和离开方向
 .app-enter {
     transform: translate3d(100%, 0, 0);
 }

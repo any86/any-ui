@@ -1,6 +1,6 @@
 <template>
     <header>
-        <Icon class="icon" value="bars" @click.native="showSideBar"></Icon>
+        <Icon class="icon" value="bars" @click.native="showSide"></Icon>
         <span>personalize</span>
         <Icon class="icon" value="search" ></Icon>
     </header>
@@ -11,8 +11,8 @@ export default {
     name: 'Header',
 
     methods: {
-        showSideBar(){
-            this.$store.commit(types.SHOW_SIDE_BAR);
+        showSide(){
+            this.$store.commit(types.SHOW_SIDE);
         }
     }
 }
