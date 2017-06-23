@@ -58,6 +58,7 @@ export default {
             initialSlide: this.value,
             slidesPerView: 'auto',
             loop: this.loop,
+            autoplayDisableOnInteraction: false,
             autoplay: this.autoplay,
             onSlideChangeEnd: swiper => {
                 this.$emit('input', swiper.activeIndex);
