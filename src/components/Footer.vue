@@ -32,7 +32,6 @@ export default {
 @import '../scss/theme.scss';
 footer {
     display: flex;
-    min-height: 60px;
     border-top: 1px solid $lightest;
     .badge {
         position: absolute;
@@ -43,7 +42,7 @@ footer {
         flex: 1;
         position: relative;
         color: $darker;
-        padding: $gutter / 2;
+        padding: $gutter;
         display: block;
         background: $background;
         text-align: center;
@@ -60,8 +59,6 @@ footer {
         }
         p {
             font-size: $normal;
-            line-height: 30px;
-            height: 30px;
         }
     }
     .router-link-active {
