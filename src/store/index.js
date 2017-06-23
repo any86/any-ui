@@ -12,7 +12,8 @@ const state = {
 	currency: '',
     isShowHeader: true,
     isShowFooter: true,
-    isShowSideBar: false
+    isShowSide: false,
+    isShowLoading: false,
 };
 
 Vue.use(Vuex);
