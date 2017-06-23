@@ -71,7 +71,7 @@ export default {
     @include loading;
     p {
         margin-top: $gutter;
-        font-size: $normal;
+        font-size: $biggest;
         color: $light;
     }
 }

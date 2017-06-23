@@ -43,11 +43,11 @@
                 <p v-if="isEnd" class="empty">there is nothing</p>
             </div>
         </ScrollView>
-        <transition name="fadeDown">
+<!--         <transition name="fadeDown">
             <div v-show="isScrollUp" class="footer-fixed">
                 <LayoutFooter></LayoutFooter>
             </div>
-        </transition>
+        </transition> -->
     </section>
 </template>
 <script>

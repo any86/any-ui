@@ -20,6 +20,7 @@
     </div>
 </template>
 <script>
+import FileAPI from 'fileapi'
 export default {
     name: 'ImageTool',
 
@@ -56,6 +57,8 @@ export default {
 
     mounted(){
         this.maskHeight = this.$refs.mask.offsetHeight;
+
+        
     },
 
     methods: {

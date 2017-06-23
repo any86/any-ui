@@ -49,7 +49,7 @@ import VTabsItem from '@/packages/Tabs/TabsItem'
 
 import ImageTools from '@/packages/ImageTools/ImageTools'
 export default {
-    name: 'List',
+    name: 'Detail',
 
     data() {
         return {
