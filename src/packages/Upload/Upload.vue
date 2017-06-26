@@ -48,7 +48,7 @@ export default {
                 this.$emit('update:progress', progress);
             }, done => {
                 // 上传成功
-                // this.$emit('update:status', 'success');
+                this.$emit('update:status', 'success');
             });
         });
     },

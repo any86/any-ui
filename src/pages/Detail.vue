@@ -37,9 +37,10 @@
         <!-- 上传进度 -->
         <VMask :value="'upload' == upload.status">
             <VCircle style="width:3rem;margin:2rem auto 0" v-model="upload.progress"></VCircle>
-            <Spinner>please wait upload...</Spinner>
+            <Spinner v-show="100 > upload.progress">{{upload.text}}</Spinner>
+            <p v-show="100 == upload.progress" class="text-success">{{upload.textCongratulation}}</p>
         </VMask>
-        <VUpload :url="upload.url" class="button-upload" :progress.sync="upload.progress" :status.sync="upload.status">
+        <VUpload :url="upload.url" class="button-upload" :progress.sync="upload.progress" @update:status="updateUploadStatus">
             Upload
         </VUpload>
     </ScrollView>
@@ -57,15 +58,14 @@ import VMask from '@/packages/Dialog/Mask'
 import VCircle from '@/packages/Progress/Circle'
 import VToast from '@/packages/Toast/Toast'
 
-
-
-
 export default {
     name: 'Detail',
 
     data() {
         return {
             upload: {
+                textCongratulation: 'congratulation!',
+                text: 'please wait upload...',
                 url: './mock/upload',
                 progress: 0,
                 status: 'wait',
@@ -80,8 +80,14 @@ export default {
     },
 
     methods: {
-        getUploadDone() {
-
+        updateUploadStatus(status) {
+            if ('success' == status) {
+                setTimeout(() => {
+                    this.upload.status = status;
+                }, 1000);
+            } else {
+                this.upload.status = status;
+            }
         }
     },
 
@@ -124,6 +130,11 @@ export default {
         position: fixed;
         bottom: 0;
         left: 0;
+    }
+    .text-success {
+        text-align: center;
+        color: $dark;
+        font-size: $biggest;
     }
     .info-base {
         padding: 3*$gutter;

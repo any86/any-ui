@@ -63,7 +63,7 @@ $height: $minHeight;
     color: $sub;
     border-radius: $borderRadius;
     box-shadow: $shadowUp, $shadowDown;
-    overflow: hidden;
+    // overflow: hidden;
     padding: 3*$gutter 5*$gutter;
     // word-break: keep-all;
     // white-space:nowrap;
