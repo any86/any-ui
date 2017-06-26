@@ -1,115 +1,59 @@
 <template>
-    <div class="component-upload">
-        <!-- 按钮 -->
-        <label class="btn btn-default">
-            <input name="upload" class="input-upload" type="file" multiple>
-        </label>
-        <!-- 预览 -->
-        <ul class="previews">
-            <li>
-            </li>
-        </ul>
-    </div>
+    <label class="component-upload">
+        <input ref="upload" name="upload" class="input-upload" type="file"> Upload
+    </label>
 </template>
 <script>
-// import FileAPI from 'fileapi'
+import FileAPI from 'fileapi'
 export default {
     name: 'Upload',
 
     props: {
-        opts: {},
+        progress: {
+            default: 0
+        },
 
-        value: {
+        status: {
+            type: String,
+            default: 'ready'
+        },
+
+        url: {
+            type: String,
+            required: true
+        },
+
+        params: {
+            type: Object,
             default () {
-                return [];
+                return {};
+            }
+        },
+
+        headers: {
+            type: Object,
+            default () {
+                return {};
             }
         }
     },
 
-    data() {
-        return {
-            previews: []
-        };
-    },
-
     mounted() {
-
         // 监听上传事件
-        FileAPI.event.on(this.$refs[this.opts.name], 'change', (evt) => {
+        FileAPI.event.on(this.$refs.upload, 'change', (evt) => {
             var files = FileAPI.getFiles(evt);
-
-            // 遍历文件,进行文件类型判断
-            files.forEach(file => {
-                // 初始化一个文件
-                // 创建块作用域,  防止循环覆盖值
-                let preview = {
-                    id: '',
-                    cover: '', // 缩略图
-                    progress: 0, // 进度条
-                    fileName: file.name, // 文件名
-                    type: 'file', // 文件类型
-                    url: '', // 上传后的资源地址
-                    file: file,
-                    status: 1
-                };
-
-                // 如果是图片, 转base64
-                if (/^image/.test(file.type)) {
-                    preview.type = 'image';
-
-                    // 转base64, 作为cover
-                    this.file2base64(file).then(base64 => {
-                        preview.cover = base64;
-                        this.upload(file, base64, progress => {
-                            preview.progress = progress;
-                        }, response => {
-                            preview.status = response.status;
-                            if (1 == response.status) {
-                                preview.url = response.data.url;
-                                preview.id = response.data.id;
-                            }
-                        });
-                    })
-
-                } else {
-                    this.upload(file, '', progress => {
-                        preview.progress = progress;
-                    }, response => {
-                        preview.status = response.status;
-                        if (1 == response.status) {
-                            preview.url = response.data.url;
-                            preview.id = response.data.id;
-                        }
-                    });
-                }
-                this.previews.push(preview);
+            this.$emit('update:progress', 0);
+            this.$emit('update:status', 'upload');
+            this.upload(files[0], progress => {
+                this.$emit('update:progress', progress);
+            }, done => {
+                // 上传成功
+                // this.$emit('update:status', 'success');
             });
         });
     },
 
-    destroyed() {
-        this.previews = null;
-    },
-
     methods: {
-        /**
-         * 重新上传
-         * @param  {Number} index 当前操作预览索引
-         */
-        retry(index) {
-            var preview = this.previews[index];
-            this.upload(preview.file, preview.cover, progress => {
-                preview.status = 1;
-                preview.progress = progress;
-            }, response => {
-                preview.status = response.status;
-                if (1 == response.status) {
-                    preview.url = response.data.url;
-                    preview.id = response.data.id;
-                }
-            });
-        },
-
         /**
          * 生成缩略图
          * file转base64
@@ -134,18 +78,13 @@ export default {
          * @param  {Function} progress 进度回调函数
          * @param  {Function} done     完成对调函数
          */
-        upload(file, cover = '', progress = () => {}, done = () => {}) {
+        upload(file, progress = () => {}, done = () => {}) {
             FileAPI.upload({
-                url: this.opts.url.upload,
-                // 未来会解耦
-                headers: {
-                    'Access-Token': this.$store.state.loginModule.accessToken
-                },
+                url: this.url,
 
-                data: {
-                    cover,
-                    ...this.$route.query
-                },
+                headers: this.headers,
+
+                data: this.params,
 
                 progress: (evt) => {
                     progress(Math.floor(evt.loaded / evt.total * 100));
@@ -161,37 +100,29 @@ export default {
                 }
             });
         },
-        /**
-         * 删除列表中的文件
-         * @param  {Number} index 当前预览索引
-         * @param  {Number} id    预览对应的文件id
-         */
-        remove(index, id) {
-            axios.delete(this.opts.url.del, {
-                params: {
-                    id
-                }
-            }).then(response => {
-                this.previews.splice(index, 1);
-            }).catch((error) => {
-                syslog(error);
-            });
-        }
+
     },
 
     watch: {
-        previews(value) {
-            this.$emit('input', value);
-        }
-    }
+
+    },
+
+    destroyed() {}
 }
 </script>
 <style scoped lang="scss">
+@import '../../scss/theme.scss';
 .component-upload {
     overflow: hidden;
+    width: 100%;
+    text-align: center;
+    height: 1rem;
+    line-height: 1rem;
+    background: $base;
+    color: $sub;
+    font-size: $big;
     .input-upload {
         display: none;
     }
-    ul.previews {}
 }
 </style>
