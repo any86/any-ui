@@ -2,12 +2,7 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'PingFang SC',
-        'Microsoft Yahei',
-        'Avenir',
-        Helvetica,
-        Arial,
-        sans-serif;
+    font-family: 'PingFang SC', 'Microsoft Yahei', 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -15,9 +10,9 @@
     -webkit-touch-callout: none;
     -webkit-appearance: none;
 }
+
 // 设计稿宽度
 // $designWidth: 750px;
-
 // @mixin adapt($min, $max, $designWidth) {
 //     @media (min-width: $min) and (max-width: $max) {
 //         html {
@@ -25,7 +20,6 @@
 //         }
 //     }
 // }
-
 // @include adapt(376px, 414px, $designWidth);
 // @include adapt(361px, 375px, $designWidth);
 // @include adapt(321px, 360px, $designWidth);
@@ -59,7 +53,11 @@ a {
     -webkit-touch-callout: none;
 }
 
-a, p, td, div, span {
+a,
+p,
+td,
+div,
+span {
     font-size: .14rem;
 }
 
@@ -116,6 +114,13 @@ h6 {
     color: #333;
 }
 
+button {
+    -webkit-appearance: none;
+    outline: none;
+    border:0 none;
+    font-size: $big;
+}
+
 // ::-webkit-scrollbar {
 //     background: #ccc;
 //     width: 4px;
@@ -161,10 +166,9 @@ h6 {
     }
 }
 
-
 // 懒加载动画
-img[lazy="loading"] {
-}
+img[lazy="loading"] {}
+
 img[lazy="done"] {
     animation: zoomIn 1s;
 }
