@@ -58,6 +58,8 @@ export default {
 </script>
 <style scoped lang=scss>
 .scroll-view {
+    /*暂时关闭x轴拖动 pinch-zoom*/
+    touch-action: pan-y;
     position: relative;
     width: 100%;
     height: 100%;
