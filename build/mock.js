@@ -29,14 +29,23 @@ module.exports = function(express, app) {
                 console.log('parse error: ' + err);
                 res.send("写文件操作失败。");
             } else {
-                var result = {
-                    status: 1,
-                    data: {
-                        url: files.file[0].path,
-                        id: Mock.Random.natural()
+                if (!!files.file[0]) {
+                    var result = {
+                        status: 1,
+                        data: {
+                            url: files.file[0].path,
+                            id: Mock.Random.natural()
+                        }
+                    };
+
+                } else {
+                    var result = {
+                        status: 0,
+                        message: '错误了啊!'
                     }
-                };
+                }
                 res.json(result);
+
             }
         });
     });
