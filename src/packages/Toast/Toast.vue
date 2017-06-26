@@ -60,7 +60,7 @@ $height: $minHeight;
 .component-toast {
     position: fixed;
     background: rgba(0, 0, 0, .7);
-    color: #fff;
+    color: $sub;
     border-radius: $borderRadius;
     box-shadow: $shadowUp, $shadowDown;
     overflow: hidden;
@@ -69,7 +69,7 @@ $height: $minHeight;
     // white-space:nowrap;
     &.top {
         z-index: $toastZIndex;
-        top:50%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         transform-style: preserve-3d;
