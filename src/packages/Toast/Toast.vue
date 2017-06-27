@@ -1,5 +1,5 @@
 <template>
-    <transition name="toast">
+    <transition name="fade">
         <div v-if="isShow" :class="['component-toast', position]">
             <div v-if="'default' != type" class="icon">
                 <Icon v-if="'success' == type" :key="1" value="check"></Icon>

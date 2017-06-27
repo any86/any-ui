@@ -1,6 +1,7 @@
 <template>
     <label class="component-upload">
-        <input ref="upload" name="upload" class="input-upload" type="file"> Upload
+        <input ref="upload" name="upload" class="input-upload" type="file">
+        <slot></slot>
     </label>
 </template>
 <script>
@@ -39,11 +40,15 @@ export default {
     },
 
     mounted() {
+
         // 监听上传事件
         FileAPI.event.on(this.$refs.upload, 'change', (evt) => {
             var files = FileAPI.getFiles(evt);
+            this.$emit('update:file', null);
+            this.$emit('update:file', files[0]);
             this.$emit('update:progress', 0);
             this.$emit('update:status', 'upload');
+
             this.upload(files[0], progress => {
                 this.$emit('update:progress', progress);
             }, done => {
@@ -54,23 +59,6 @@ export default {
     },
 
     methods: {
-        /**
-         * 生成缩略图
-         * file转base64
-         * 压缩尺寸到100px
-         * @param  {Object} file      
-         */
-        file2base64(file) {
-            return new Promise((resolve, reject) => {
-                FileAPI.Image(file).preview(100).get((err, img) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(img.toDataURL());
-                    }
-                });
-            });
-        },
         /**
          * 上传
          * @param  {Object}   file     文件对象
@@ -87,7 +75,7 @@ export default {
                 data: this.params,
 
                 progress: (evt) => {
-                    progress(Math.floor(evt.loaded / evt.total * 100));
+                    progress(Math.floor(evt.loaded / evt.total * 100), file);
                 },
 
                 files: {
@@ -95,19 +83,20 @@ export default {
                 },
 
                 complete: (err, xhr, file, options) => {
-                    done(JSON.parse(xhr.response));
-
+                    if (err) {
+                        done(err);
+                    } else {
+                        done(JSON.parse(xhr.response), file);
+                    }
                 }
             });
         },
 
     },
 
-    watch: {
-
-    },
-
-    destroyed() {}
+    destroyed() {
+        // FileAPI = null;
+    }
 }
 </script>
 <style scoped lang="scss">

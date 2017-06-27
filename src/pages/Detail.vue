@@ -6,7 +6,8 @@
             <a>PHOTO CHARMS</a>
             <a>SHELL LOCKET</a>
         </div>
-        <ImageTools></ImageTools>
+        <img width="100%" :src="overlaidBase64">
+        <ImageTools :file="upload.file"></ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
             <h4>$80.00</h4>
@@ -40,9 +41,12 @@
             <Spinner v-show="100 > upload.progress">{{upload.text}}</Spinner>
             <p v-show="100 == upload.progress" class="text-success">{{upload.textCongratulation}}</p>
         </VMask>
-        <VUpload :url="upload.url" class="button-upload" :progress.sync="upload.progress" @update:status="updateUploadStatus">
-            Upload
-        </VUpload>
+
+
+
+        <!-- 底部上传按钮 -->
+        <LayoutFooterUpload :dataSource="static.footerUpload" :position="upload.position" @loaded="pictureLoaded" @overlaid="overlaid">
+        </LayoutFooterUpload>
     </ScrollView>
 </template>
 <script>
@@ -51,6 +55,8 @@ import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
+
+import LayoutFooterUpload from './Detail/FooterUpload'
 
 import ImageTools from '@/packages/ImageTools/ImageTools'
 import VUpload from '@/packages/Upload/Upload'
@@ -63,7 +69,18 @@ export default {
 
     data() {
         return {
+            overlaidBase64: '',
+            static: {
+                footerUpload: {
+                    url: './mock/upload',
+                    headers: {},
+                    params: {},
+                    overlay: './static/C022.png',
+                },
+            },
             upload: {
+                file: null,
+                position: {},
                 textCongratulation: 'congratulation!',
                 text: 'please wait upload...',
                 url: './mock/upload',
@@ -80,14 +97,23 @@ export default {
     },
 
     methods: {
+        pictureLoaded(file){
+            this.upload.file = file;
+        },
+
         updateUploadStatus(status) {
             if ('success' == status) {
                 setTimeout(() => {
                     this.upload.status = status;
+                    this.upload.isFirst = false;
                 }, 1000);
             } else {
                 this.upload.status = status;
             }
+        },
+
+        overlaid(base64){
+            this.overlaidBase64 = base64;
         }
     },
 
@@ -101,6 +127,7 @@ export default {
         VMask,
         VCircle,
         VToast,
+        LayoutFooterUpload
 
     }
 }
@@ -125,11 +152,6 @@ export default {
                 margin: auto 5px;
             }
         }
-    }
-    .button-upload {
-        position: fixed;
-        bottom: 0;
-        left: 0;
     }
     .text-success {
         text-align: center;

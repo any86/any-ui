@@ -104,8 +104,6 @@ Atom.install = function(Vue) {
 
 
     Vue.prototype.$toast = (text = '', options = {}) => {
-
-
         // ** 每次创建新toast实例 **
         var ToastComponent = Vue.extend(Toast);
         // 创建一个挂载点
@@ -116,15 +114,14 @@ Atom.install = function(Vue) {
         // 挂载
         var toastVM = new ToastComponent().$mount('#' + node.id);
 
-
-
         toastVM.type = options.type || 'default';
         toastVM.position = options.position || 'center';
 
         toastVM.isShow = true;
         toastVM.text = text;
+        toastVM.delay = options.delay;
+        return toastVM;
     };
-
 };
 
 export default Atom;

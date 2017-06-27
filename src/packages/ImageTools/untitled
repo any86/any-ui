@@ -2,7 +2,7 @@
     <div class="component-image-tool">
         <div class="preview" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
             <div :class="['image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
-                <img width="100%" v-if="null != file" :src="dataUrl">
+                <img v-if="null != file" :src="dataUrl">
             </div>
             <div class="mask" ref="mask"><img src="../../assets/C022.png"></div>
         </div>
@@ -134,7 +134,6 @@ export default {
 
     watch: {
         file(file) {
-            this.refresh();
             FileAPI.readAsDataURL(file, evt => {
                 if (evt.type == 'load') {
                     // Success
