@@ -6,8 +6,8 @@
             <a>PHOTO CHARMS</a>
             <a>SHELL LOCKET</a>
         </div>
-        <img width="100%" :src="overlaidBase64">
-        <ImageTools :file="upload.file"></ImageTools>
+        <img style="padding:15px 15px 0 15px" width="100%" :src="overlaidBase64">
+        <ImageTools :file="upload.file" @change="reOverlay"></ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
             <h4>$80.00</h4>
@@ -45,7 +45,7 @@
 
 
         <!-- 底部上传按钮 -->
-        <LayoutFooterUpload :dataSource="static.footerUpload" :position="upload.position" @loaded="pictureLoaded" @overlaid="overlaid">
+        <LayoutFooterUpload :overlayData="overlayData" :dataSource="static.footerUpload" :position="upload.position" @loaded="pictureLoaded" @overlaid="overlaid">
         </LayoutFooterUpload>
     </ScrollView>
 </template>
@@ -69,6 +69,9 @@ export default {
 
     data() {
         return {
+            overlayData: {
+                x: 0, y: 0, scale: 1, rotate: 0
+            },
             overlaidBase64: '',
             static: {
                 footerUpload: {
@@ -97,6 +100,10 @@ export default {
     },
 
     methods: {
+        reOverlay(overlayData){
+            this.overlayData = overlayData;
+        },
+
         pictureLoaded(file){
             this.upload.file = file;
         },

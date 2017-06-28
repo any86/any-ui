@@ -1,12 +1,11 @@
 <template>
     <div class="component-image-tool">
-        <div class="view" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-            <div :class="['upload-image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
+        <div class="preview" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+            <div :class="['image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
                 <img width="100%" v-if="null != file" :src="dataUrl">
             </div>
-            <div class="overlay"><img src="../../assets/C022.png"></div>
+            <div class="mask" ref="mask"><img src="../../assets/C022.png"></div>
         </div>
-        <!-- 工具条 -->
         <div class="tools-bar">
             <span class="button" @click="moveLeft"><Icon value="arrow-left"></Icon></span>
             <span class="button" @click="moveRight"><Icon value="arrow-right"></Icon></span>
@@ -34,6 +33,7 @@ export default {
     data() {
         return {
             dataUrl: null,
+            maskHeight: -1,
             scale: 1,
             rotate: 0,
             touch: {
@@ -56,47 +56,41 @@ export default {
         };
     },
 
-    mounted() {},
+    mounted() {
+        this.maskHeight = this.$refs.mask.offsetHeight;
+    },
 
     methods: {
         moveLeft() {
             this.touch.x.translateNew -= 10;
-            this._emit();
         },
 
         moveRight() {
             this.touch.x.translateNew += 10;
-            this._emit();
         },
 
         moveUp() {
             this.touch.y.translateNew -= 10;
-            this._emit();
         },
 
         moveDown() {
             this.touch.y.translateNew += 10;
-            this._emit();
         },
 
         rotateLeft() {
             this.rotate -= 10;
-            this._emit();
         },
 
         rotateRight() {
             this.rotate += 10;
-            this._emit();
         },
 
         addScale() {
-            this.scale += 0.1;
-            this._emit();
+            this.scale = this.scale + 0.1;
         },
 
         minusScale() {
-            this.scale -= 0.1;
-            this._emit();
+            this.scale = this.scale - 0.1;
         },
 
         refresh() {
@@ -104,7 +98,6 @@ export default {
             this.rotate = 0;
             this.touch.x.translateNew = 0;
             this.touch.y.translateNew = 0;
-            this._emit();
         },
 
         touchStart(e) {
@@ -136,16 +129,6 @@ export default {
             this.touch.status = 3;
             this.touch.x.translateOld = this.touch.x.translateNew;
             this.touch.y.translateOld = this.touch.y.translateNew;
-            this._emit();
-        },
-
-        _emit() {
-            this.$emit('change', {
-                x: this.touch.x.translateNew,
-                y: this.touch.y.translateNew,
-                rotate: this.rotate,
-                scale: this.scale
-            });
         }
     },
 
@@ -172,28 +155,28 @@ export default {
 @import '../../scss/theme.scss';
 .component-image-tool {
     padding: $gutter*3 $gutter*3 0 $gutter*3;
+    box-sizing: border-box;
     position: relative;
     overflow: hidden;
     background: #f7f8f9;
     width: 100%;
-    >.view {
+    // box-shadow: $shadowUp $shadowDown;
+    >.preview {
         position: relative;
         overflow: hidden;
         width: 100%;
-        >.upload-image {
+        >.image {
             position: absolute;
             z-index: 1;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
             transform-origin: 0 0;
             >img {
                 display: block;
                 max-width: 100%;
             }
         }
-        >.overlay {
+        >.mask {
             position: relative;
             z-index: 2;
             top: 0;
@@ -208,6 +191,7 @@ export default {
     }
     >.tools-bar {
         padding: $gutter*2 0;
+        box-sizing: border-box;
         display: flex;
         border-top: 1px solid $lighter;
         >.button {
