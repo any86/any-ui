@@ -7,7 +7,7 @@
             <a>SHELL LOCKET</a>
         </div>
         <img style="padding:15px 15px 0 15px" width="100%" :src="overlaidBase64">
-        <ImageTools :file="upload.file" @change="reOverlay"></ImageTools>
+        <ImageTools :file="upload.file" @change="reOverlay" @overlaid="overlaid"></ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
             <h4>$80.00</h4>
@@ -42,11 +42,8 @@
             <p v-show="100 == upload.progress" class="text-success">{{upload.textCongratulation}}</p>
         </VMask>
 
-
-
         <!-- 底部上传按钮 -->
-        <LayoutFooterUpload :overlayData="overlayData" :dataSource="static.footerUpload" :position="upload.position" @loaded="pictureLoaded" @overlaid="overlaid">
-        </LayoutFooterUpload>
+        <LayoutFooterUpload :dataSource="static.footerUpload" @loaded="imageLoaded" ></LayoutFooterUpload>
     </ScrollView>
 </template>
 <script>
@@ -104,7 +101,7 @@ export default {
             this.overlayData = overlayData;
         },
 
-        pictureLoaded(file){
+        imageLoaded(file){
             this.upload.file = file;
         },
 

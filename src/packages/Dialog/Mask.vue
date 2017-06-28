@@ -19,7 +19,7 @@ export default {
 
         background: {
             type: String,
-            default: 'rgba(255,255,255, 0.92)'
+            default: 'rgba(0,0,0, 0.5)'
         },
 
         lock: {

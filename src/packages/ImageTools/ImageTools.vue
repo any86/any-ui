@@ -61,42 +61,42 @@ export default {
     methods: {
         moveLeft() {
             this.touch.x.translateNew -= 10;
-            this._emit();
+            this._overlay();
         },
 
         moveRight() {
             this.touch.x.translateNew += 10;
-            this._emit();
+            this._overlay();
         },
 
         moveUp() {
             this.touch.y.translateNew -= 10;
-            this._emit();
+            this._overlay();
         },
 
         moveDown() {
             this.touch.y.translateNew += 10;
-            this._emit();
+            this._overlay();
         },
 
         rotateLeft() {
             this.rotate -= 10;
-            this._emit();
+            this._overlay();
         },
 
         rotateRight() {
             this.rotate += 10;
-            this._emit();
+            this._overlay();
         },
 
         addScale() {
             this.scale += 0.1;
-            this._emit();
+            this._overlay();
         },
 
         minusScale() {
             this.scale -= 0.1;
-            this._emit();
+            this._overlay();
         },
 
         refresh() {
@@ -104,7 +104,7 @@ export default {
             this.rotate = 0;
             this.touch.x.translateNew = 0;
             this.touch.y.translateNew = 0;
-            this._emit();
+            this._overlay();
         },
 
         touchStart(e) {
@@ -136,34 +136,69 @@ export default {
             this.touch.status = 3;
             this.touch.x.translateOld = this.touch.x.translateNew;
             this.touch.y.translateOld = this.touch.y.translateNew;
-            this._emit();
+            this._overlay();
         },
 
-        _emit() {
-            this.$emit('change', {
-                x: this.touch.x.translateNew,
-                y: this.touch.y.translateNew,
-                rotate: this.rotate,
-                scale: this.scale
-            });
-        }
+        _overlay() {
+
+            // const toast = this.$toast('loading...', {
+            //     delay: -1
+            // });
+
+            var rate = 1280 / 384;
+            // 处理用户图
+            FileAPI.Image(this.file)
+                .rotate(this.rotate)
+                .crop(0 - this.touch.x.translateNew * rate, 0 - this.touch.y.translateNew * rate, 384 * rate, 307 * rate)
+                .resize(384 * this.scale, 240 * this.scale)
+                .get((err, img) => {
+                    if (err) {
+                        this.$alert('请重传0!');
+                    } else {
+                        this.$emit('overlaid', img.toDataURL());
+                        // toast.isShow = false;
+
+                        // 合并前景图
+                        // FileAPI.Image(img)
+                        //     .overlay([{
+                        //         x: 0,
+                        //         y: 0,
+                        //         w: 384,
+                        //         h: 307,
+                        //         src: this.dataSource.overlay
+                        //     }])
+                        //     .crop(0, 0, 384, 307)
+                        //     .get((err, img1) => {
+                        //         if (err) {
+                        //             this.$alert('请重传1!');
+                        //         } else {
+                        //             this.overlayBase64 = img1.toDataURL();
+                        //             this.$emit('overlaid', this.overlayBase64);
+                        //         }
+                        //     });
+                    }
+                });
+
+        },
     },
 
     watch: {
         file(file) {
-            this.refresh();
-            FileAPI.readAsDataURL(file, evt => {
-                if (evt.type == 'load') {
-                    // Success
-                    var dataURL = evt.result;
-                    this.dataUrl = dataURL;
-                } else if (evt.type == 'progress') {
-                    var pr = evt.loaded / evt.total * 100;
-                } else {
-                    // Error
-                }
-            })
-
+            // this.refresh();
+            // 转换上传的图片为base64, 方便预览拖拽
+            if (null != file) {
+                FileAPI.readAsDataURL(file, evt => {
+                    if (evt.type == 'load') {
+                        // Success
+                        var dataURL = evt.result;
+                        this.dataUrl = dataURL;
+                    } else if (evt.type == 'progress') {
+                        var pr = evt.loaded / evt.total * 100;
+                    } else {
+                        // Error
+                    }
+                })
+            }
         }
     }
 }

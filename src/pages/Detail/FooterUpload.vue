@@ -19,17 +19,13 @@ export default {
     name: 'FooterUpload',
 
     props: {
-        dataSource: {},
-
-        overlayData: {}
-
+        dataSource: {}
     },
 
     data() {
         return {
             isFirst: true,
-            file: null,
-            overlayBase64: '',
+            file: null
         };
     },
 
@@ -39,49 +35,10 @@ export default {
             this.file = FileAPI.getFiles(evt)[0];
             this.isFirst = false;
             this.$emit('loaded', this.file);
-            this.overlay();
         });
     },
 
     methods: {
-        overlay() {
-            const toast = this.$toast('loading...', {
-                delay: -1
-            });
-
-            var rate = 1280 / 384;
-            // 合成前景和用户图
-            FileAPI.Image(this.file)
-                .rotate(this.overlayData.rotate)
-                .crop(0 - this.overlayData.x * rate, 0 - this.overlayData.y * rate, 384 * rate, 307 * rate)
-                .resize(384 * this.overlayData.scale, 240 * this.overlayData.scale, 'min')
-                .get((err, img) => {
-                    if (err) {
-                        this.$alert('请重传!');
-                    } else {
-                        toast.isShow = false;
-
-                        FileAPI.Image(img)
-                            .overlay([{
-                                x: 0,
-                                y: 0,
-                                w: 384,
-                                h: 307,
-                                src: this.dataSource.overlay
-                            }])
-                            .crop(0, 0, 384, 307)
-                            .get((err, img1) => {
-                                if (err) {
-                                    this.$alert('请重传!');
-                                } else {
-                                    this.overlayBase64 = img1.toDataURL();
-                                    this.$emit('overlaid', this.overlayBase64);
-                                }
-                            });
-                    }
-                });
-        },
-
         /**
          * 上传
          * @param  {Function} progress 进度回调函数
@@ -115,13 +72,6 @@ export default {
                 }
             });
         },
-    },
-
-    watch: {
-        overlayData(value) {
-            dir(value)
-            this.overlay();
-        }
     }
 }
 </script>
