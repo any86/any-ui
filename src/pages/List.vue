@@ -1,14 +1,12 @@
 <template>
     <section class="page-list">
         <LayoutHeader ref="header"></LayoutHeader>
+        <div class="filter">
+            <span @click="showPopup(0)">trend</span>
+            <span @click="showPopup(1)">category</span>
+            <span @click="showPopup(2)">sort</span>
+        </div>
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
-            <!-- 轮播图 -->
-            <SwiperLayout ref="swiper"></SwiperLayout>
-            <div ref="filter" :class="{filter: true, fixed: filter.isFixed}" :style="{top:`${filter.top}px`}">
-                <span @click="showPopup(0)">trend</span>
-                <span @click="showPopup(1)">category</span>
-                <span @click="showPopup(2)">sort</span>
-            </div>
             <!-- 列表和筛选条件 -->
             <div class="content">
                 <VPopup :isFixed="false" from="up" v-model="isPopupShow" @after-leave="afterPopupLeave" :style="{top: `${filter.isFixed ? filter.height : 0}px`}">
@@ -43,7 +41,7 @@
                 <p v-if="isEnd" class="empty">there is nothing</p>
             </div>
         </ScrollView>
-<!--         <transition name="fadeDown">
+        <!--         <transition name="fadeDown">
             <div v-show="isScrollUp" class="footer-fixed">
                 <LayoutFooter></LayoutFooter>
             </div>
@@ -65,8 +63,6 @@ import VRadio from '@/packages/Radio/Radio.vue'
 import LayoutHeader from './List/Header'
 import LayoutFooter from '@/components/Footer'
 
-// 布局
-import SwiperLayout from './List/Swiper'
 
 export default {
     name: 'List',
@@ -74,7 +70,6 @@ export default {
     data() {
         return {
             isShowSide: false,
-
 
 
             isShowSpinner: true,
@@ -110,8 +105,6 @@ export default {
 
     mounted() {
         this.refresh();
-        this.filter.offsetTop = this.$refs.filter.offsetTop;
-        this.filter.height = this.$refs.filter.offsetHeight;
         this.header.height = this.$refs.header.$el.offsetHeight;
     },
 
@@ -119,7 +112,6 @@ export default {
         showPopup(index) {
             this.isShowSpinner = false;
             this.$nextTick(() => {
-                this.$refs.scroll.$el.scrollTop = this.$refs.swiper.$el.offsetHeight;
                 this.popupIndex = index;
                 this.isPopupShow = true;
             });
@@ -207,9 +199,9 @@ export default {
         VPopup,
         VRadio,
         VSwitch,
-        SwiperLayout,
         LayoutHeader,
-        LayoutFooter,Drawer
+        LayoutFooter,
+        Drawer
     }
 }
 </script>
@@ -231,12 +223,6 @@ export default {
         height: 1rem;
         width: 100%;
         display: flex;
-        &.fixed {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 10;
-        }
         >span {
             flex: 1;
             font-size: $big;
