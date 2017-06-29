@@ -14,6 +14,8 @@
   "dependencies": {
     "axios": "^0.16.1",
     "body-parser": "^1.17.1",
+    "cropperjs": "^1.0.0-rc.2",
+    "fabric": "^1.7.14",
     "fileapi": "^2.0.21",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.18.1",
@@ -88,6 +90,7 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8",
-    "iOS >= 7", "Android >= 4.1"
+    "iOS >= 7",
+    "Android >= 4.1"
   ]
 }

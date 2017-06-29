@@ -29,6 +29,11 @@ const Bag = () => ({
     component: import ("@/pages/Bag")
 });
 
+const Checkout = () => ({
+    component: import ("@/pages/Checkout")
+});
+
+
 const My = () => ({
     component: import ("@/pages/My")
 });
@@ -54,6 +59,10 @@ export default new Router({
         path: "/bag",
         name: "Bag",
         component: Bag
+    }, {
+        path: "/checkout",
+        name: "Checkout",
+        component: Checkout
     }, {
         path: "/find",
         name: "Find",
