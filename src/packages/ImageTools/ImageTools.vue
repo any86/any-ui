@@ -1,5 +1,8 @@
 <template>
     <div class="component-image-tool">
+        <!-- <canvas id="canvas" width="300" height="300"></canvas> -->
+
+
         <div class="view" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
             <div :class="['upload-image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
                 <img width="100%" v-if="null != file" :src="dataUrl">
@@ -22,13 +25,15 @@
 </template>
 <script>
 import FileAPI from 'fileapi'
+import fabric from 'fabric'
 export default {
     name: 'ImageTool',
 
     props: {
         file: {
 
-        }
+        },
+        dataSource: {}
     },
 
     data() {
@@ -56,7 +61,24 @@ export default {
         };
     },
 
-    mounted() {},
+    mounted() {
+// create a wrapper around native canvas element (with id="c")
+// var canvas = new fabric.Canvas('canvas');
+
+// // create a rectangle object
+// var rect = new fabric.Rect({
+//   left: 100,
+//   top: 100,
+//   fill: 'red',
+//   width: 20,
+//   height: 20
+// });
+
+// "add" rectangle onto canvas
+// canvas.add(rect);
+
+
+    },
 
     methods: {
         moveLeft() {
@@ -140,46 +162,27 @@ export default {
         },
 
         _overlay() {
+            FileAPI.getInfo(this.file, (err, info) => {
+                var zoom = 3;
+                // 处理用户图
+                FileAPI.Image(this.file)
+                    .crop(0, 0, info.width * zoom, info.height * zoom)
+                    .rotate(this.rotate)
+                    .get((err, img) => {
+                        FileAPI.Image(img).get((err, img1) => {
+                            this.overlayBase64 = img1.toDataURL();
+                            this.$emit('overlaid', this.overlayBase64);
+                        });
+                    });
+
+            });
 
             // const toast = this.$toast('loading...', {
             //     delay: -1
             // });
 
-            var rate = 1280 / 384;
-            // 处理用户图
-            FileAPI.Image(this.file)
-                .rotate(this.rotate)
-                .crop(0 - this.touch.x.translateNew * rate, 0 - this.touch.y.translateNew * rate, 384 * rate, 307 * rate)
-                .resize(384 * this.scale, 240 * this.scale)
-                .get((err, img) => {
-                    if (err) {
-                        this.$alert('请重传0!');
-                    } else {
-                        this.$emit('overlaid', img.toDataURL());
-                        // toast.isShow = false;
-
-                        // 合并前景图
-                        // FileAPI.Image(img)
-                        //     .overlay([{
-                        //         x: 0,
-                        //         y: 0,
-                        //         w: 384,
-                        //         h: 307,
-                        //         src: this.dataSource.overlay
-                        //     }])
-                        //     .crop(0, 0, 384, 307)
-                        //     .get((err, img1) => {
-                        //         if (err) {
-                        //             this.$alert('请重传1!');
-                        //         } else {
-                        //             this.overlayBase64 = img1.toDataURL();
-                        //             this.$emit('overlaid', this.overlayBase64);
-                        //         }
-                        //     });
-                    }
-                });
-
         },
+
     },
 
     watch: {
@@ -229,6 +232,7 @@ export default {
             }
         }
         >.overlay {
+            // opacity: 0;
             position: relative;
             z-index: 2;
             top: 0;

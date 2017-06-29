@@ -7,7 +7,7 @@
             <a>SHELL LOCKET</a>
         </div>
         <img style="padding:15px 15px 0 15px" width="100%" :src="overlaidBase64">
-        <ImageTools :file="upload.file" @change="reOverlay" @overlaid="overlaid"></ImageTools>
+        <ImageTools :dataSource="static.imageTools" :file="upload.file" @change="reOverlay" @overlaid="overlaid"></ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
             <h4>$80.00</h4>
@@ -71,11 +71,13 @@ export default {
             },
             overlaidBase64: '',
             static: {
+                imageTools: {
+                    overlay: './static/C022.png',
+                },
                 footerUpload: {
                     url: './mock/upload',
                     headers: {},
                     params: {},
-                    overlay: './static/C022.png',
                 },
             },
             upload: {
