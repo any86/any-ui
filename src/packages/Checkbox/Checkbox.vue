@@ -1,5 +1,8 @@
 <template>
-    <label :class="['component-checkbox', disabled && 'disabled']">
+    <label :style="{width: !!this.$slots.default && '100%'}" :class="[disabled && 'disabled']" class="component-checkbox">
+        <span v-if="!!this.$slots.default" class="title">
+                <slot></slot>
+            </span>
         <input v-model="checked" :true-value="trueValue" :false-value="falseValue" type="checkbox">
         <span class="circle"></span>
     </label>
@@ -48,17 +51,19 @@ export default {
 @import '../../scss/theme.scss';
 $height: .5rem;
 label.component-checkbox {
-    height: $height;
-    width: $height;
-    display: block;
+    display: flex;
+    // height: $height;
+    // width: $height;
     overflow: hidden;
+    .title {
+        flex: 1;
+    }
     >input {
         display: none;
         opacity: 0;
     }
     >.circle {
         border: 1px solid $light;
-        box-sizing: border-box;
         width: $height;
         height: $height;
         background: $sub;

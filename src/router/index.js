@@ -33,6 +33,10 @@ const Checkout = () => ({
     component: import ("@/pages/Checkout")
 });
 
+const BillingAddress = () => ({
+    component: import ("@/pages/BillingAddress")
+});
+
 
 const My = () => ({
     component: import ("@/pages/My")
@@ -41,36 +45,40 @@ const My = () => ({
 Vue.use(Router);
 export default new Router({
     routes: [{
-        path: "/",
-        redirect: "/index"
-    }, {
-        path: "/login",
-        name: "Login",
-        component: Login
-    }, {
-        path: "/index",
-        name: "Index",
-        component: Index
-    }, {
-        path: "/list",
-        name: "List",
-        component: List
-    }, {
-        path: "/bag",
-        name: "Bag",
-        component: Bag
-    }, {
-        path: "/checkout",
-        name: "Checkout",
-        component: Checkout
-    }, {
-        path: "/find",
-        name: "Find",
-        component: Find
-    }, {
-        path: "/detail",
-        name: "Detail",
-        component: Detail
-    }]
+            path: "/",
+            redirect: "/index"
+        }, {
+            path: "/login",
+            name: "Login",
+            component: Login
+        }, {
+            path: "/index",
+            name: "Index",
+            component: Index
+        }, {
+            path: "/list",
+            name: "List",
+            component: List
+        }, {
+            path: "/bag",
+            name: "Bag",
+            component: Bag
+        }, {
+            path: "/checkout",
+            name: "Checkout",
+            component: Checkout
+        }, {
+            path: "/find",
+            name: "Find",
+            component: Find
+        }, {
+            path: "/detail",
+            name: "Detail",
+            component: Detail
+        }, {
+            path: "/billingAddress",
+            name: "BillingAddress",
+            component: BillingAddress
+        },
+    ]
 });
-
