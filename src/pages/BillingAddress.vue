@@ -20,14 +20,15 @@
         <VCell class="item item-dark">
             <VSwitch v-model="dataSource.isShipSame">Ship The Same Address</VSwitch>
         </VCell>
-        <button class="button-save">SAVE</button>
+        <button @click="save" class="button-save">SAVE</button>
         <VPopup v-model="isShowSelect">
-            <VPicker :dataSource="picker" v-model="dataSource.pickerValue" @change="changePicker"></VPicker>
+            <VPicker :dataSource="zones" v-model="dataSource.zone" @change="changePicker"></VPicker>
         </VPopup>
     </ScrollView>
 </template>
 <script>
 import LayoutHeader from './BillingAddress/Header'
+
 import VCell from '@/packages/Cell/Cell'
 import VInput from '@/packages/Input/Input'
 import VSwitch from '@/packages/Switch/Switch'
@@ -46,17 +47,21 @@ export default {
                 zip: '',
                 email: '',
                 tel: '',
-                pickerValue: [0, 0],
+                zone: [0, 0, 0],
                 isShipSame: false
             },
 
-            picker: [
+            zones: [
                 [{
-                    label: '请先选择年',
+                    label: '请先选择省',
                     value: '0'
                 }],
                 [{
-                    label: '请先选择月',
+                    label: '请先选择市',
+                    value: '0'
+                }],
+                [{
+                    label: '请先选择区',
                     value: '0'
                 }]
             ]
@@ -66,9 +71,9 @@ export default {
     methods: {
         selectZone() {
             this.isShowSelect = !this.isShowSelect;
-            this.$api.getZoneLevel1().then(response => {
-                this.picker[0].splice(0, this.picker[0].length);
-                this.picker[0].push(...response.data);
+            this.$api.getZone(1, {}).then(response => {
+                this.zones[0].splice(0, this.zones[0].length);
+                this.zones[0].push(...response.data);
             }).catch(err => {
 
             });
@@ -78,13 +83,33 @@ export default {
             index,
             value
         }) {
+            if (this.zones.length - 1 > index) {
+                // 清空后面已选
+                this.zones.forEach((item, i) => {
+                    if (index < i) {
+                        this.zones[i].splice(0, this.zones[i].length);
+                        this.zones[i].push({
+                            value: 0,
+                            label: '...'
+                        });
+                        this.dataSource.zone.splice(i, 1, 0);
+                    }
+                });
 
-            this.$api.getZone(index + 1, {}).then(response => {
-                this.picker[index + 1].splice(0, this.picker[index + 1].length);
-                this.picker[index + 1].push(...response.data);
-                this.dataSource.pickerValue[indx+1] = 0;
-            }).catch(err => {
+                // 给下一级填充数据
+                this.$api.getZone(index + 2, {}).then(response => {
+                    this.zones[index + 1].splice(0, this.zones[index + 1].length);
+                    this.zones[index + 1].push(...response.data);
+                    this.dataSource.zone.splice(index + 1, 1, this.zones[index + 1][0].value);
+                }).catch(err => {
 
+                });
+            }
+        },
+
+        save() {
+            this.$api.saveAddress(this.dataSource).then(response => {
+                this.$alert(response.data.message);
             });
         }
     },
