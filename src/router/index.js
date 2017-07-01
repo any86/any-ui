@@ -37,6 +37,15 @@ const BillingAddress = () => ({
     component: import ("@/pages/BillingAddress")
 });
 
+const Payment = () => ({
+    component: import ("@/pages/Payment")
+});
+
+
+const Category = () => ({
+    component: import ("@/pages/Category")
+});
+
 
 const My = () => ({
     component: import ("@/pages/My")
@@ -79,6 +88,14 @@ export default new Router({
             path: "/billingAddress",
             name: "BillingAddress",
             component: BillingAddress
+        }, {
+            path: "/payment",
+            name: "Payment",
+            component: Payment
+        }, {
+            path: "/category",
+            name: "Category",
+            component: Category
         },
     ]
 });
