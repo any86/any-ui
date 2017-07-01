@@ -19,7 +19,6 @@ import LayoutSelectCard from './Checkout/SelectCard'
 import LayoutCouponCode from './Checkout/CouponCode'
 import LayoutCheckoutReview from './Checkout/CheckoutReview'
 
-
 export default {
     name: 'Checkout',
 

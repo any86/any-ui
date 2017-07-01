@@ -1,7 +1,7 @@
 <template>
     <header>
         <Icon @click="goBack" class="icon" value="angle-left"></Icon>
-        <span>BILLING ADDRESS</span>
+        <span>CATEGORY</span>
         <Icon class="icon" value="search"></Icon>
     </header>
 </template>
