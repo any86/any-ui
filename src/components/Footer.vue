@@ -4,9 +4,9 @@
             <Icon class="icon" value="home"></Icon>
             <p>home</p>
         </router-link>
-        <router-link tag="span" to="/presale" class="button">
+        <router-link tag="span" to="/category" class="button">
             <Icon class="icon" value="clock-o"></Icon>
-            <p>presale</p>
+            <p>category</p>
         </router-link>
         <router-link tag="span" to="/find" class="button">
             <Icon class="icon" value="compass"></Icon>
