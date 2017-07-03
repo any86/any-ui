@@ -28,7 +28,6 @@ export default {
 
     data() {
         return {
-            timer: null,
             viewHeight: -1,
         };
     },
@@ -42,16 +41,15 @@ export default {
 
     methods: {
         scroll() {
-            clearTimeout(this.timer);
-                // 滚动条高度
-                const scrollTop = this.$el.scrollTop;
-                this.$emit('input', scrollTop);
-                // 内容高度
-                var contentHeight = this.$refs.content.offsetHeight;
-                // 滚动条高度 + 可是区高度 + 偏移量 > 内容高度
-                if (this.preLoad * (scrollTop + this.viewHeight) > contentHeight) {
-                    this.$emit('reach-bottom');
-                }
+            // 滚动条高度
+            const scrollTop = this.$el.scrollTop;
+            this.$emit('input', scrollTop);
+            // 内容高度
+            var contentHeight = this.$refs.content.offsetHeight;
+            // 滚动条高度 + 可是区高度 + 偏移量 > 内容高度
+            if (this.preLoad * (scrollTop + this.viewHeight) > contentHeight) {
+                this.$emit('reach-bottom');
+            }
         }
     }
 }
@@ -67,13 +65,17 @@ export default {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     overflow-scrolling: touch;
-    .scroll-content{position: relative;min-height: 100%;}
-
+    .scroll-content {
+        position: relative;
+        min-height: 100%;
+        width: 100%;
+    }
     .touch-end {
         /*松手的时候才能加动画, touch-start的时候加拖拉会因为动画不流畅*/
         transition: all .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
     }
-
-    &.ovh{overflow: hidden;}
+    &.ovh {
+        overflow: hidden;
+    }
 }
 </style>
