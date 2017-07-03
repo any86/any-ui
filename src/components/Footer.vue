@@ -8,9 +8,9 @@
             <Icon class="icon" value="clock-o"></Icon>
             <p>category</p>
         </router-link>
-        <router-link tag="span" to="/find" class="button">
+        <router-link tag="span" to="/explore" class="button">
             <Icon class="icon" value="compass"></Icon>
-            <p>find</p>
+            <p>explore</p>
         </router-link>
         <router-link tag="span" to="/bag" class="button">
             <Badge class="badge" type="danger">5</Badge>
