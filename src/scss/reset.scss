@@ -79,45 +79,50 @@ img {
 
 h1 {
     font-size: $large;
-    font-weight: 600;
+    font-weight: 400;
     color: #333;
 }
 
 h2 {
     font-size: $biggest;
-    font-weight: 600;
+    font-weight: 400;
     color: #333;
 }
 
 h3 {
     font-size: $bigger;
-    font-weight: 600;
+    font-weight: 400;
     color: #333;
 }
 
 h4 {
     font-size: $big;
-    font-weight: 600;
+    font-weight: 400;
     color: #333;
 }
 
 h5 {
     font-size: $normal;
     margin: $gutter 0;
-    font-weight: 600;
+    font-weight: 400;
     color: #333;
 }
 
 h6 {
     font-size: $small;
-    font-weight: 600;
+    font-weight: 400;
     color: #333;
+}
+
+small {
+    color: $dark;
+    font-size: $small;
 }
 
 button {
     -webkit-appearance: none;
     outline: none;
-    border:0 none;
+    border: 0 none;
     font-size: $big;
 }
 
@@ -171,4 +176,10 @@ img[lazy="loading"] {}
 
 img[lazy="done"] {
     animation: zoomIn 1s;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
