@@ -17,6 +17,9 @@ const Detail = () => ({
     component: import ("@/pages/Detail")
 });
 
+const PresaleDetail = () => ({
+    component: import ("@/pages/PresaleDetail")
+});
 
 const Explore = () => ({
     component: import ("@/pages/Explore")
@@ -38,19 +41,17 @@ const Payment = () => ({
     component: import ("@/pages/Payment")
 });
 
-
 const Category = () => ({
     component: import ("@/pages/Category")
 });
 
-
-const Personalized = ()=>({
+const Personalized = () => ({
     component: import ("@/pages/Personalized")
-})
+});
 
 const My = () => ({
     component: import ("@/pages/My")
-})
+});
 
 Vue.use(Router);
 export default new Router({
@@ -101,5 +102,13 @@ export default new Router({
         path: "/personalized",
         name: "Personalized",
         component: Personalized
+    }, {
+        path: "/presaleDetail",
+        name: "PresaleDetail",
+        component: PresaleDetail
+    }, {
+        path: "/my",
+        name: "My",
+        component: My
     }]
 });

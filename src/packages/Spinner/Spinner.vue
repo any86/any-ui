@@ -72,7 +72,7 @@ export default {
     p {
         margin-top: $gutter;
         font-size: $biggest;
-        color: $dark;
+        color: $lightest;
     }
 }
 </style>

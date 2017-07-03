@@ -171,6 +171,14 @@ button {
     }
 }
 
+.full-screen {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 // 懒加载动画
 img[lazy="loading"] {}
 

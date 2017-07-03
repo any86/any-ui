@@ -4,7 +4,7 @@
         <main>
             <h2>Collection UK Rings</h2>
             <section v-for="n in 10">
-                <div class="img"></div>
+                <router-link tag="div" :to="{path: 'presaleDetail', query: {id: n}}" class="img"></router-link>
                 <div class="info">
                     <h3 class="ellipsis">order-xxxx-{{n}}</h3>
                     <small class="ellipsis">UK123123213222123123-UK123123213222123123-{{n}}</small>
@@ -72,7 +72,7 @@ main {
         height: 4rem;
         padding: 3*$gutter;
         border-bottom: 1px solid $lightest;
-        &:first-child {
+        &:first-of-type {
             border-top: 1px solid $lightest;
         }
         >.img {

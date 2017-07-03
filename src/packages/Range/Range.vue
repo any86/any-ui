@@ -1,11 +1,25 @@
 <template>
-    <div class="component-range">
-        range
+    <div class="component-slider">
+        <span class="title">
+            <slot></slot>
+        </span>
+        <main class="control">
+            <span @click="slideToMin" class="min">{{min}}</span>
+            <span class="content" @click="slideTo">
+                <div ref="runway" class="runway"></div>
+                <div :style="{width: touch.translateXNew + 'px'}" :class="['progress', 2 > touch.status && 'transition']">
+                </div>
+                <div ref="handle" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}" :class="['handle', 2 > touch.status && 'transition']" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+                    <a v-show="0 < touch.status">{{value}}</a>
+                </div>
+            </span>
+            <span @click="slideToMax" class="max">{{max}}</span>
+        </main>
     </div>
 </template>
 <script>
 export default {
-    name: 'Range',
+    name: 'Slider',
 
     props: {
         disabled: {
@@ -38,9 +52,9 @@ export default {
         return {
             maxDistance: 0, // 滑道可用宽度
             touch: {
+                status: 0,
                 translateXOld: 0,
                 translateXNew: 0,
-                status: 0,
                 start: 0,
                 current: 0,
                 distance: 0
@@ -49,29 +63,58 @@ export default {
     },
 
     mounted() {
+        // 滑道宽度 - 把手宽度
+        this.maxDistance = this.$refs.runway.offsetWidth - this.$refs.handle.offsetWidth;
+        // 默认值
+        this.touch.translateXNew = (this.value - this.min) / (this.max - this.min) * this.maxDistance;
+        this.touch.translateXOld = this.touch.translateXNew;
+
     },
 
     methods: {
         /**
-         * 滑动把手到默认值位置
+         * 滑动到最小值
          */
-        _default() {
-            this.touch.translateXNew = (this.value - this.min) / (this.max - this.min) * this.maxDistance;
+        slideToMin() {
+            this.touch.status = 1;
+            this.touch.translateXNew = 0;
             this.touch.translateXOld = this.touch.translateXNew;
         },
-
-        slideTo(x, e) {
-            syslog([e.offsetX, e.srcElement])
-            this.touch.translateXNew = x;
+        /**
+         * 滑动到最大值
+         */
+        slideToMax() {
+            this.touch.status = 1;
+            this.touch.translateXNew = this.maxDistance;
             this.touch.translateXOld = this.touch.translateXNew;
         },
+        /**
+         * 活动到鼠标位置
+         * @param  {Object} e 
+         */
+        slideTo(e) {
+            this.touch.status = 0;
+            var translateXNew = e.offsetX;
+            if (this.maxDistance <= translateXNew) {
+                translateXNew = this.maxDistance;
+            }
 
+            if (e.target != this.$refs.handle) {
+                this.touch.translateXNew = translateXNew;
+                this.touch.translateXOld = this.touch.translateXNew;
+            }
+        },
+        /**
+         * 点击handle
+         */
         touchstart(e) {
             this.touch.status = 1;
             this.touch.start = e.touches[0].clientX;
 
         },
-
+        /**
+         * 拖动
+         */
         touchmove(e) {
             this.touch.status = 2;
             this.touch.current = e.touches[0].clientX;
@@ -92,26 +135,32 @@ export default {
             e.preventDefault();
             e.stopPropagation();
         },
-
+        /**
+         * 松手
+         */
         touchend(e) {
             this.touch.status = 0;
+
             if (0 > this.touch.translateXNew) {
                 this.touch.translateXNew = 0;
             }
-
-            // 更新滑动位置
+            // 记住滑动位置
             this.touch.translateXOld = this.touch.translateXNew;
-
-            // 同步value
-            var value = this.min + (this.max - this.min) * (this.touch.translateXNew / this.maxDistance);
-            this.$emit('input', Math.round(value));
         }
     },
 
     watch: {
-        value() {
-            // 滑动把手到默认值位置
-            this._default();
+        ['touch.translateXNew']() {
+            // 同步value
+            var value = this.min + (this.max - this.min) * (this.touch.translateXNew / this.maxDistance);
+            this.$emit('input', Math.round(value));
+        },
+
+        value(value) {
+            if (0 == this.touch.status) {
+                this.touch.translateXNew = (value - this.min) / (this.max - this.min) * this.maxDistance;
+                this.touch.translateXOld = this.touch.translateXNew;
+            }
         }
     }
 }
@@ -119,32 +168,29 @@ export default {
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
 $height: .5rem;
-.component-range {
+.component-slider {
     position: relative;
     display: flex;
     /*标题*/
     >.title {
+        display: block;
         font-size: $big;
         line-height: $height;
-        flex: 1;
-        display: block;
-        word-break: keep-all;
-        margin-right: 10%;
+        margin-right: 5%;
     }
     /*控制*/
     >.control {
         display: flex;
-        width: 100%;
+        flex: 1;
         .min {
             padding: 0 $gutter;
             font-size: $big;
             line-height: $height;
-            flex: 1;
         }
         .content {
+            flex: 1;
             position: relative;
             height: $height;
-            width: 100%;
             box-sizing: border-box;
             .runway {
                 position: absolute;
@@ -172,7 +218,10 @@ $height: .5rem;
                 cursor: move;
                 display: block;
                 height: $height;
+                line-height: $height;
                 width: $height;
+                text-align: center;
+                color: $sub;
                 border-radius: 100%;
                 background: $base;
                 box-shadow: $shadowDown, $shadowUp;
@@ -182,7 +231,6 @@ $height: .5rem;
             padding: 0 $gutter;
             font-size: $big;
             line-height: $height;
-            flex: 1;
         }
     }
 }

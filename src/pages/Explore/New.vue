@@ -38,7 +38,7 @@ section {
     >h3 {}
     >small {
         color: $light;
-        font-size: $big;
+        font-size: $normal;
     }
 }
 </style>
