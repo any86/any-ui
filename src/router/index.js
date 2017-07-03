@@ -17,12 +17,9 @@ const Detail = () => ({
     component: import ("@/pages/Detail")
 });
 
-const Presale = () => ({
-    component: import ("@/pages/Presale")
-});
 
-const Find = () => ({
-    component: import ("@/pages/Find")
+const Explore = () => ({
+    component: import ("@/pages/Explore")
 });
 
 const Bag = () => ({
@@ -47,55 +44,62 @@ const Category = () => ({
 });
 
 
+const Personalized = ()=>({
+    component: import ("@/pages/Personalized")
+})
+
 const My = () => ({
     component: import ("@/pages/My")
-});
+})
 
 Vue.use(Router);
 export default new Router({
     routes: [{
-            path: "/",
-            redirect: "/index"
-        }, {
-            path: "/login",
-            name: "Login",
-            component: Login
-        }, {
-            path: "/index",
-            name: "Index",
-            component: Index
-        }, {
-            path: "/list",
-            name: "List",
-            component: List
-        }, {
-            path: "/bag",
-            name: "Bag",
-            component: Bag
-        }, {
-            path: "/checkout",
-            name: "Checkout",
-            component: Checkout
-        }, {
-            path: "/find",
-            name: "Find",
-            component: Find
-        }, {
-            path: "/detail",
-            name: "Detail",
-            component: Detail
-        }, {
-            path: "/billingAddress",
-            name: "BillingAddress",
-            component: BillingAddress
-        }, {
-            path: "/payment",
-            name: "Payment",
-            component: Payment
-        }, {
-            path: "/category",
-            name: "Category",
-            component: Category
-        },
-    ]
+        path: "/",
+        redirect: "/index"
+    }, {
+        path: "/login",
+        name: "Login",
+        component: Login
+    }, {
+        path: "/index",
+        name: "Index",
+        component: Index
+    }, {
+        path: "/list",
+        name: "List",
+        component: List
+    }, {
+        path: "/bag",
+        name: "Bag",
+        component: Bag
+    }, {
+        path: "/checkout",
+        name: "Checkout",
+        component: Checkout
+    }, {
+        path: "/explore",
+        name: "Explore",
+        component: Explore
+    }, {
+        path: "/detail",
+        name: "Detail",
+        component: Detail
+    }, {
+        path: "/billingAddress",
+        name: "BillingAddress",
+        component: BillingAddress
+    }, {
+        path: "/payment",
+        name: "Payment",
+        component: Payment
+    }, {
+        path: "/category",
+        name: "Category",
+        component: Category
+    }, {
+        path: "/personalized",
+        name: "Personalized",
+        component: Personalized
+    }]
 });
