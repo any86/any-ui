@@ -5,22 +5,23 @@
 </template>
 <script>
 export default {
-    name: 'Slider',
+    name: 'SliderItem',
 
     props: {
         value: {
-            type: Number,
+            type: [Number, String],
             default: 0
         }
     },
 
     data() {
         return {
-
+            index: 0,
         };
     },
 
     mounted() {
+        this.index = this.$parent.count;
         this.$parent.count++;
     },
 
