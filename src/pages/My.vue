@@ -1,16 +1,16 @@
 <template>
     <div class="page-my">
-        <VSlider v-model="index">
-            <VSliderItem v-for="n in 5" :key="n">
-                <p class="page">{{n}}</p>
-            </VSliderItem>
-        </VSlider>
+        <VCarousel v-model="index">
+            <VCarouselItem v-for="n in 2" :key="n">
+                <p class="page">{{n-1}}</p>
+            </VCarouselItem>
+        </VCarousel>
         <VInput v-model="index"></VInput>
     </div>
 </template>
 <script>
-import VSlider from '@/packages/Slider/Slider'
-import VSliderItem from '@/packages/Slider/SliderItem'
+import VCarousel from '@/packages/Carousel2/Carousel'
+import VCarouselItem from '@/packages/Carousel2/CarouselItem'
 import VInput from '@/packages/Input/Input'
 
 export default {
@@ -22,7 +22,7 @@ export default {
 
     data() {
         return {
-            index : 1,
+            index : 0,
         }
     },
 
@@ -31,8 +31,8 @@ export default {
     },
 
     components: {
-        VSlider,
-        VSliderItem,
+        VCarousel,
+        VCarouselItem,
         VInput
     }
 }

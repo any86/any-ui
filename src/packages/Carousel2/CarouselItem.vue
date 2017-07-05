@@ -31,7 +31,12 @@ export default {
 
     computed: {
         isPrevious() {
-            return this.$parent.previousIndex == this.index;
+            if(this.$parent.isMoveToRight) {
+                return this.$parent.previousIndex == this.index;
+            } else {
+                return this.$parent.isMoveToRight;
+            }
+            
         },
 
         isActive() {
@@ -39,7 +44,11 @@ export default {
         },
 
         isNext() {
-            return this.$parent.nextIndex == this.index;
+            if(this.$parent.isMoveToLeft) {
+                return this.$parent.nextIndex == this.index;
+            } else {
+                return this.$parent.isMoveToLeft;
+            }
         }
     }
 }

@@ -23,6 +23,8 @@ export default {
 
     data() {
         return {
+            isMoveToRight: false,
+            isMoveToLeft: false,
             isMove: false,
             viewWidth: 0,
             activeIndex: 0,
@@ -65,10 +67,14 @@ export default {
         touchmove(e) {
             if (!this.isMove) {
                 this.distanceX = e.touches[0].clientX - this.startX;
-                // const translateXNew = this.translateXOld + this.distanceX;
-                // if(0 > translateXNew && this.viewWidth * (this.count - 1) > 0 - translateXNew) {
                 this.translateXNew = this.translateXOld + this.distanceX;
-                // }
+                if (10 < 0 - this.distanceX) {
+                    this.isMoveToLeft = true;
+                    this.isMoveToRight = false;
+                } else if (10 < this.distanceX) {
+                    this.isMoveToLeft = false;
+                    this.isMoveToRight = true;
+                }
             }
         },
 

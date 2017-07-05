@@ -64,7 +64,7 @@ export default {
             this.status = 1;
             this.viewWidth = this.$el.offsetWidth;
             this.distanceX = e.touches[0].clientX - this.startX;
-            const translateXNew = this.translateXOld + this.distanceX;
+            // const translateXNew = this.translateXOld + this.distanceX;
             // if(0 > translateXNew && this.viewWidth * (this.count - 1) > 0 - translateXNew) {
             this.translateXNew = this.translateXOld + this.distanceX;
             // }
