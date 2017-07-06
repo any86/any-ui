@@ -31,11 +31,10 @@ export default {
 
     computed: {
         isPrevious() {
-            // 如果count == 2, 默认把第二页放在active页后面, active页通过offset偏移定位到当前位置, 防止只有2页的情况下next/previous指代不清
-            if(2 < this.$parent.count) {
+            if (2 < this.$parent.count) {
                 return this.$parent.previousIndex == this.index;
             } else if (2 == this.$parent.count) {
-                if(this.$parent.isMoveToRight) {
+                if (this.$parent.isMoveToRight) {
                     return this.$parent.previousIndex == this.index;
                 } else {
                     return false;
@@ -48,7 +47,15 @@ export default {
         },
 
         isNext() {
-            return this.$parent.nextIndex == this.index;
+            if (2 < this.$parent.count) {
+                return this.$parent.nextIndex == this.index;
+            } else if (2 == this.$parent.count) {
+                if (this.$parent.isMoveToLeft) {
+                    return this.$parent.nextIndex == this.index;
+                } else {
+                    return false;
+                }
+            }
         },
 
         isOffset() {

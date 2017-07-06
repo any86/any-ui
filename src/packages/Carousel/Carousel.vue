@@ -3,6 +3,9 @@
         <div class="carousel-body" :style="{'transition-duration': `${duration}ms`, transform: `translate3d(${translateXNew}px, 0, 0)`}" @transitionend="transitionend">
             <slot></slot>
         </div>
+        <div v-if="!!$slots.overlay" class="overlay">
+            <slot name="overlay"></slot>
+        </div>
     </div>
 </template>
 <script>
@@ -10,7 +13,7 @@ export default {
     name: 'Carousel',
 
     props: {
-        value: {
+        initPage: {
             type: [Number, String],
             default: 0
         },
@@ -44,17 +47,19 @@ export default {
     },
 
     mounted() {
-        this.activeIndex = this.value;
+        this.activeIndex = this.initPage;
         this.viewWidth = this.$el.offsetWidth;
-        this.slideTo(this.value, 0);
+        this.slideTo(this.initPage, 0);
     },
 
     methods: {
         slideTo(index, speed) {
             this.duration = speed;
-            this.translateXNew = 0 - this.viewWidth * (index + 1);
+            this.activeIndex = index;
+            this.translateXNew = 0 - this.viewWidth;
             this.translateXOld = this.translateXNew;
         },
+
 
         touchstart(e) {
             if (!this.isMove) {
@@ -67,7 +72,7 @@ export default {
         touchmove(e) {
             if (!this.isMove) {
                 this.distanceX = e.touches[0].clientX - this.startX;
-                if(0 < this.distanceX) {
+                if (0 < this.distanceX) {
                     this.isMoveToRight = true;
                     this.isMoveToLeft = false;
                 } else {
@@ -108,22 +113,25 @@ export default {
         },
 
         transitionend() {
-            this.duration = 0;
-            this.isMove = false;
-            // 已经进入下一幅
-            if (this.translateXNew == 0 - this.viewWidth * 2) {
-                this.activeIndex = this.nextIndex;
-            } else if (this.translateXNew == 0) {
-                this.activeIndex = this.previousIndex;
-            }
-            this.translateXNew = 0 - this.viewWidth;
-            this.translateXOld = this.translateXNew;
+            this.$nextTick(() => {
+                this.duration = 0;
+                this.isMove = false;
+                // 已经进入下一幅
+                if (this.translateXNew == 0 - this.viewWidth * 2) {
+                    this.activeIndex = this.nextIndex;
+                } else if (this.translateXNew == 0) {
+                    this.activeIndex = this.previousIndex;
+                }
+                this.translateXNew = 0 - this.viewWidth;
+                this.translateXOld = this.translateXNew;
+                this.$emit('change', this.activeIndex);
+            });
         }
     },
 
     computed: {
         nextIndex() {
-            const nextIndex = this.activeIndex + 1;
+            const nextIndex = ~~this.activeIndex + 1;
             if (this.count > nextIndex) {
                 return nextIndex;
             } else {
@@ -132,17 +140,12 @@ export default {
         },
 
         previousIndex() {
-            if (0 < this.activeIndex) {
-                return this.activeIndex - 1;
+            const activeIndex = ~~this.activeIndex;
+            if (0 < activeIndex) {
+                return activeIndex - 1;
             } else {
                 return this.count - 1;
             }
-        }
-    },
-
-    watch: {
-        value(value) {
-            this.slideTo(value, this.speed);
         }
     }
 }
@@ -159,6 +162,13 @@ $height: .5rem;
         transition-duration: 0;
         transition-property: transform;
         transition-timing-function: ease-in-out;
+    }
+    >.overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 }
 </style>

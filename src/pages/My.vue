@@ -1,9 +1,12 @@
 <template>
     <div class="page-my">
-        <VCarousel style="width:200px;margin:auto;" v-model="index">
+        <VCarousel :initPage="index" @change="change">
             <VCarouselItem v-for="n in 3" :key="n">
                 <p class="page">{{n-1}}</p>
             </VCarouselItem>
+            <ul slot="overlay">
+                <li>{{index}}</li>
+            </ul>
         </VCarousel>
         <VInput v-model="index"></VInput>
     </div>
@@ -22,12 +25,14 @@ export default {
 
     data() {
         return {
-            index : 0,
+            index: 1,
         }
     },
 
     methods: {
-
+        change(page) {
+            this.index = page;
+        }
     },
 
     components: {
