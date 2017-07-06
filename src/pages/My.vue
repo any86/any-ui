@@ -1,7 +1,7 @@
 <template>
     <div class="page-my">
-        <VCarousel v-model="index">
-            <VCarouselItem v-for="n in 2" :key="n">
+        <VCarousel style="width:200px;margin:auto;" v-model="index">
+            <VCarouselItem v-for="n in 3" :key="n">
                 <p class="page">{{n-1}}</p>
             </VCarouselItem>
         </VCarousel>
@@ -9,8 +9,8 @@
     </div>
 </template>
 <script>
-import VCarousel from '@/packages/Carousel2/Carousel'
-import VCarouselItem from '@/packages/Carousel2/CarouselItem'
+import VCarousel from '@/packages/Carousel/Carousel'
+import VCarouselItem from '@/packages/Carousel/CarouselItem'
 import VInput from '@/packages/Input/Input'
 
 export default {
