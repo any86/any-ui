@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-const Login = () => ({
-    component: import ("@/pages/Login")
+const Entrance = () => ({
+    component: import ("@/pages/Entrance")
 });
 
 const Index = () => ({
@@ -53,15 +53,19 @@ const My = () => ({
     component: import ("@/pages/My")
 });
 
+const Forget = () => ({
+    component: import ("@/pages/Forget")
+});
+
 Vue.use(Router);
 export default new Router({
     routes: [{
         path: "/",
         redirect: "/index"
     }, {
-        path: "/login",
-        name: "Login",
-        component: Login
+        path: "/entrance",
+        name: "Entrance",
+        component: Entrance
     }, {
         path: "/index",
         name: "Index",
@@ -103,12 +107,12 @@ export default new Router({
         name: "Personalized",
         component: Personalized
     }, {
-        path: "/presaleDetail",
-        name: "PresaleDetail",
-        component: PresaleDetail
-    }, {
         path: "/my",
         name: "My",
         component: My
+    }, {
+        path: "/forget",
+        name: "Forget",
+        component: Forget
     }]
 });
