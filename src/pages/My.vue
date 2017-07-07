@@ -1,20 +1,28 @@
 <template>
-    <div class="page-my">
-        <VCarousel :initPage="index" @change="change">
-            <VCarouselItem v-for="n in 3" :key="n">
-                <p class="page">{{n-1}}</p>
-            </VCarouselItem>
-            <ul slot="overlay">
-                <li>{{index}}</li>
-            </ul>
-        </VCarousel>
-        <VInput v-model="index"></VInput>
+    <div class="page-my full-screen">
+        <ScrollView v-model="scrollY" class="content">
+            <LayoutCard></LayoutCard>
+            <VCell class="section">
+                My Order
+                <VBadge class="badge" type="danger">10</VBadge>
+            </VCell>
+            <section class="section">
+                <VCell class="item">SHIPPING ADDRESS</VCell>
+                <VCell class="item">PNEDING PAYMENT</VCell>
+                <VCell class="item">SHIPPED</VCell>
+                <VCell class="item">FEEDBACK&FAQ</VCell>
+            </section>
+        </ScrollView>
+        <LayoutFooter></LayoutFooter>
     </div>
 </template>
 <script>
-import VCarousel from '@/packages/Carousel/Carousel'
-import VCarouselItem from '@/packages/Carousel/CarouselItem'
 import VInput from '@/packages/Input/Input'
+import VCell from '@/packages/Cell/Cell'
+import VBadge from '@/packages/Badge/Badge'
+
+import LayoutCard from './My/Card'
+import LayoutFooter from '@/components/Footer'
 
 export default {
     name: 'My',
@@ -26,6 +34,7 @@ export default {
     data() {
         return {
             index: 1,
+            scrollY: 0
         }
     },
 
@@ -36,22 +45,34 @@ export default {
     },
 
     components: {
-        VCarousel,
-        VCarouselItem,
-        VInput
+        VInput,
+        LayoutCard,
+        LayoutFooter,
+        VCell,
+        VBadge
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
 .page-my {
-    .page {
-        background: $dark;
-        text-align: center;
-        height: 5rem;
-        line-height: 5rem;
-        color: $sub;
-        font-size: 1rem;
+    background: #efefef;
+    display: flex;
+    flex-direction: column;
+    .content {
+        flex: 1;
+        .section {
+            margin-top: $gutter * 3;
+            .badge {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+            }
+            >.item {
+                border-bottom: 1px solid $lightest;
+            }
+        }
     }
 }
 </style>
