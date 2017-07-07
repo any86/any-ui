@@ -107,13 +107,14 @@ $height : $gutter*8;
 .component-input {
     width: 100%;
     box-sizing: border-box;
-    height: $height + 1px;
+    height: $height;
+    padding-bottom: 1px;
     position: relative;
     display: flex;
     .title {height: $height;line-height: $height;font-size: $big;margin-right: 5%;}
 
     input {
-        font-size: 14px;
+        font-size: $big;
         flex: 1;
         box-sizing: border-box;
         border: 0 none;
