@@ -61,6 +61,7 @@ router.beforeEach(function(to, from, next) {
 })
 
 router.afterEach(function(to) {
+    document.title = to.name;
     store.commit(types.HIDE_LOADING);
 });
 
