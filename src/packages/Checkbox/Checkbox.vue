@@ -94,8 +94,8 @@ label.component-checkbox {
         }
     }
     >input:checked+.circle {
-        background: $darkest;
-        border: 1px solid $darkest;
+        background: $base;
+        border: 1px solid $base;
         &:after {
             animation: zoom-in .5s;
         }
