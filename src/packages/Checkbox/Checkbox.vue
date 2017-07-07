@@ -1,6 +1,6 @@
 <template>
     <label :style="{width: !!this.$slots.default && '100%'}" :class="[disabled && 'disabled']" class="component-checkbox">
-        <span v-if="!!this.$slots.default" class="title">
+        <span v-if="!!this.$slots.default" class="title" :class="{reverse}">
                 <slot></slot>
             </span>
         <input v-model="checked" :true-value="trueValue" :false-value="falseValue" type="checkbox">
@@ -22,6 +22,11 @@ export default {
         },
 
         'false-value': {
+            default: false
+        },
+
+        reverse: {
+            type: Boolean,
             default: false
         },
 
@@ -52,11 +57,15 @@ export default {
 $height: .5rem;
 label.component-checkbox {
     display: flex;
-    // height: $height;
-    // width: $height;
+    align-items: center;
     overflow: hidden;
     .title {
         flex: 1;
+        font-size: $big;
+        &.reverse {
+            order: 1;
+            padding-left: $gutter*2;
+        }
     }
     >input {
         display: none;
