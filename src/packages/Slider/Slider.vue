@@ -50,6 +50,7 @@ export default {
     methods: {
         slideTo(index, speed) {
             this.duration = speed;
+            this.activeIndex = index;
             this.translateXNew = 0 - this.viewWidth * index;
             this.translateXOld = this.translateXNew;
         },
@@ -75,7 +76,6 @@ export default {
             this.duration = this.speed;
             const costTime = e.timeStamp - this.startTime;
             const dragSpeedX = this.distanceX / costTime;
-            syslog(dragSpeedX)
             const offset = this.translateXNew % this.viewWidth;
             if (this.distanceX > this.viewWidth / 4 || 0.3 <= dragSpeedX) {
                 if (0 < this.activeIndex) {
@@ -88,6 +88,7 @@ export default {
             }
             this.translateXNew = 0 - this.activeIndex * this.viewWidth;
             this.translateXOld = this.translateXNew;
+            this.$emit('input', this.activeIndex);
         },
     },
 
