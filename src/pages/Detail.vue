@@ -6,6 +6,10 @@
             <a>PHOTO CHARMS</a>
             <a>SHELL LOCKET</a>
         </div>
+        <h1>{{overlayData}}</h1>
+        
+
+
         <img style="padding:15px 15px 0 15px" width="100%" :src="overlaidBase64">
         <ImageTools :dataSource="static.imageTools" :file="upload.file" @change="reOverlay" @overlaid="overlaid"></ImageTools>
         <div class="info-base">

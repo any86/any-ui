@@ -1,8 +1,5 @@
 <template>
     <div class="component-image-tool">
-        <!-- <canvas id="canvas" width="300" height="300"></canvas> -->
-
-
         <div class="view" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
             <div :class="['upload-image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
                 <img width="100%" v-if="null != file" :src="dataUrl">
@@ -25,7 +22,6 @@
 </template>
 <script>
 import FileAPI from 'fileapi'
-import fabric from 'fabric'
 export default {
     name: 'ImageTool',
 
@@ -62,63 +58,48 @@ export default {
     },
 
     mounted() {
-// create a wrapper around native canvas element (with id="c")
-// var canvas = new fabric.Canvas('canvas');
-
-// // create a rectangle object
-// var rect = new fabric.Rect({
-//   left: 100,
-//   top: 100,
-//   fill: 'red',
-//   width: 20,
-//   height: 20
-// });
-
-// "add" rectangle onto canvas
-// canvas.add(rect);
-
 
     },
 
     methods: {
         moveLeft() {
-            this.touch.x.translateNew -= 10;
-            this._overlay();
+            this.touch.x.translateNew -= 5;
+            this._emit();
         },
 
         moveRight() {
-            this.touch.x.translateNew += 10;
-            this._overlay();
+            this.touch.x.translateNew += 5;
+            this._emit();
         },
 
         moveUp() {
-            this.touch.y.translateNew -= 10;
-            this._overlay();
+            this.touch.y.translateNew -= 5;
+            this._emit();
         },
 
         moveDown() {
-            this.touch.y.translateNew += 10;
-            this._overlay();
+            this.touch.y.translateNew += 5;
+            this._emit();
         },
 
         rotateLeft() {
-            this.rotate -= 10;
-            this._overlay();
+            this.rotate -= 5;
+            this._emit();
         },
 
         rotateRight() {
-            this.rotate += 10;
-            this._overlay();
+            this.rotate += 5;
+            this._emit();
         },
 
         addScale() {
-            this.scale += 0.1;
-            this._overlay();
+            this.scale = (this.scale * 10 + 1) / 10;
+            this._emit();
         },
 
         minusScale() {
-            this.scale -= 0.1;
-            this._overlay();
+            this.scale = (this.scale * 10 - 1) / 10;
+            this._emit();
         },
 
         refresh() {
@@ -126,7 +107,7 @@ export default {
             this.rotate = 0;
             this.touch.x.translateNew = 0;
             this.touch.y.translateNew = 0;
-            this._overlay();
+            this._emit();
         },
 
         touchStart(e) {
@@ -158,24 +139,25 @@ export default {
             this.touch.status = 3;
             this.touch.x.translateOld = this.touch.x.translateNew;
             this.touch.y.translateOld = this.touch.y.translateNew;
-            this._overlay();
+            this._emit();
         },
 
-        _overlay() {
-            FileAPI.getInfo(this.file, (err, info) => {
-                var zoom = 3;
-                // 处理用户图
-                FileAPI.Image(this.file)
-                    .crop(0, 0, info.width * zoom, info.height * zoom)
-                    .rotate(this.rotate)
-                    .get((err, img) => {
-                        FileAPI.Image(img).get((err, img1) => {
-                            this.overlayBase64 = img1.toDataURL();
-                            this.$emit('overlaid', this.overlayBase64);
-                        });
-                    });
+        _emit() {
+            this.$emit('change', {top: this.touch.y.translateNew, left: this.touch.x.translateNew, rotate: this.rotate, scale: this.scale});
+            // FileAPI.getInfo(this.file, (err, info) => {
+            //     var zoom = 3;
+            //     // 处理用户图
+            //     FileAPI.Image(this.file)
+            //         .crop(0, 0, info.width * zoom, info.height * zoom)
+            //         .rotate(this.rotate)
+            //         .get((err, img) => {
+            //             FileAPI.Image(img).get((err, img1) => {
+            //                 this.overlayBase64 = img1.toDataURL();
+            //                 this.$emit('overlaid', this.overlayBase64);
+            //             });
+            //         });
 
-            });
+            // });
 
             // const toast = this.$toast('loading...', {
             //     delay: -1

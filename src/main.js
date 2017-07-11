@@ -20,7 +20,7 @@ Object.defineProperty(Vue.prototype, '$api', {
 });
 
 // vuex
-import store from './store/'
+import store from './store'
 
 // AJAX
 import axios from 'axios'
@@ -30,6 +30,9 @@ Object.defineProperty(Vue.prototype, '$axios', {
     enumerable: false,
     configurable: false
 });
+
+
+
 
 //全局样式
 import '@/scss/reset.scss'

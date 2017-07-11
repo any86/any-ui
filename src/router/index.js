@@ -57,6 +57,11 @@ const Forget = () => ({
     component: import ("@/pages/Forget")
 });
 
+
+const Canvas = () => ({
+    component: import ("@/pages/Canvas")
+});
+
 Vue.use(Router);
 export default new Router({
     routes: [{
@@ -114,5 +119,9 @@ export default new Router({
         path: "/forget",
         name: "Forget",
         component: Forget
+    }, {
+        path: "/canvas",
+        name: "Canvas",
+        component: Canvas
     }]
 });

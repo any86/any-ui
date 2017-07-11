@@ -2,12 +2,12 @@
     <main class="page-index">
         <LayoutHeader class="header"></LayoutHeader>
         <ScrollView v-model="scrollY" class="scroll-view">
+            
             <LayoutHeadSwiper></LayoutHeadSwiper>
             <LayoutCategoryThumb style="margin-top:.3rem" :dataSource="categoryThumbs" :scrollY="scrollY"></LayoutCategoryThumb>
             <LayoutLooks style="margin-top:.7rem" :dataSource="looks"></LayoutLooks>
             <LayoutShopInstagram></LayoutShopInstagram>
         </ScrollView>
-        <LayoutFooter class="footer"></LayoutFooter>
     </main>
 </template>
 <script>
@@ -16,7 +16,6 @@ import LayoutHeadSwiper from './Index/HeadSwiper'
 import LayoutCategoryThumb from './Index/CategoryThumb'
 import LayoutLooks from './Index/Looks'
 import LayoutShopInstagram from './Index/ShopInstagram'
-import LayoutFooter from '@/components/Footer'
 export default {
     name: 'Index',
 
@@ -60,26 +59,24 @@ export default {
         LayoutCategoryThumb,
         LayoutLooks,
         LayoutShopInstagram,
-        LayoutFooter
+
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
 .page-index {
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // right: 0;
-    // bottom: 0;
-    position: relative;
-    height: 100%;
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // position: relative;
+    // height: 100%;
+    // width: 100%;
     display: flex;
     flex-direction: column;
-    header {
-        height: 1.2rem;
-    }
+
     .scroll-view {
         flex: 1;
         padding: 0 .3rem .3rem .3rem;

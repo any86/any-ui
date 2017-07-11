@@ -6,7 +6,6 @@
         </VTabs>
         <LayoutNew v-show="0 == tabsActiveIndex" class="tabs-content"></LayoutNew>
         <LayoutPresale v-show="1 == tabsActiveIndex" class="tabs-content"></LayoutPresale>
-        <LayoutFooter></LayoutFooter>
     </div>
 </template>
 <script>
@@ -15,7 +14,6 @@ import VTabsItem from '@/packages/Tabs/TabsItem'
 
 import LayoutNew from './Explore/New'
 import LayoutPresale from './Explore/Presale'
-import LayoutFooter from '@/components/Footer'
 export default {
     name: 'Explore',
 
@@ -35,7 +33,6 @@ export default {
         VTabs,
         VTabsItem,
         LayoutNew,LayoutPresale,
-        LayoutFooter
     }
 }
 </script>

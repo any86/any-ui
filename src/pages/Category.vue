@@ -18,12 +18,10 @@
                     <h1>Earrings</h1></li>
             </ul>
         </ScrollView>
-        <LayoutFooter></LayoutFooter>
     </main>
 </template>
 <script>
 import LayoutHeader from './Category/Header'
-import LayoutFooter from '@/components/Footer'
 
 export default {
     name: 'Category',
@@ -40,7 +38,6 @@ export default {
 
     components: {
         LayoutHeader,
-        LayoutFooter
     }
 }
 </script>

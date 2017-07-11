@@ -1,11 +1,10 @@
 <template>
     <transition name="fade">
         <div class="component-loading">
-            <VMask :value="value" class="mask" :background="'rgba(255,255,255,.8)'">
+            <VMask :value="value" class="mask" :background="'rgba(0,0,0,0)'">
                 <div class="dialog">
-                    <VSpinner class="spinner">
-                        loading
-                    </VSpinner>
+                    <img src="../../assets/heart.svg" class="heart">
+                    <p>LOADING</p>
                 </div>
             </VMask>
         </div>
@@ -57,12 +56,36 @@ export default {
             min-height: 2.4rem;
             align-self: center;
             background: rgba(#000, .5);
-            display: inline-flex;
-            justify-content: center;
-            .spinner {
-                align-self: center;
+            padding: 3*$gutter 6*$gutter;
+            >img{display: block;width: 100%;}
+            >p {
+                text-align: center;color: $sub;font-size: $big;margin-top: $gutter*3;
             }
         }
     }
 }
+
+.heart {
+    animation: heart 1200ms ease-in-out infinite;
+}
+
+@keyframes heart {
+    0% {
+        opacity: .6;
+        // transform:translateY(5px) scale(1);
+    }
+
+
+    50% {
+        opacity: 1;
+        // transform:translateY(0) scale(1);
+    }
+
+    100% {
+        opacity: .6;
+        // transform:translateY(5px) scale(1);
+    }
+}
+
+
 </style>

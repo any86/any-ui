@@ -13,7 +13,6 @@
                 <VCell class="item">FEEDBACK&FAQ</VCell>
             </section>
         </ScrollView>
-        <LayoutFooter></LayoutFooter>
     </div>
 </template>
 <script>
@@ -22,7 +21,6 @@ import VCell from '@/packages/Cell/Cell'
 import VBadge from '@/packages/Badge/Badge'
 
 import LayoutCard from './My/Card'
-import LayoutFooter from '@/components/Footer'
 
 export default {
     name: 'My',
@@ -47,7 +45,6 @@ export default {
     components: {
         VInput,
         LayoutCard,
-        LayoutFooter,
         VCell,
         VBadge
     }

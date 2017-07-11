@@ -1,30 +1,46 @@
 <template>
     <VDrawer v-model="isShowSide" class="home">
         <ul class="menu" slot="side">
-            <li>What's New</li>
+            <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
             <li>Personalized Name Necklace</li>
             <li>New Arrivals</li>
             <li>All Personalized</li>
             <li>Personalized</li>
+            <canvas id="canvas"></canvas>
         </ul>
         <VLoading v-model="$store.state.isShowLoading"></VLoading>
-        <transition name="app">
-            <router-view></router-view>
-        </transition>
+        <div class="main">
+            <div class="body">
+                <transition name="fadeLeft">
+                    <router-view></router-view>
+                </transition>
+            </div>
+            <LayoutFooter v-show="-1 != ['/index', '/category', '/explore', '/bag', '/my'].indexOf($route.path)">
+            </LayoutFooter>
+        </div>
     </VDrawer>
 </template>
 <script>
 import * as types from "@/store/mutation-types";
 import VDrawer from '@/packages/Drawer/Drawer'
 import VLoading from '@/packages/Loading/Loading'
-
+import LayoutFooter from '@/components/Footer'
+import QRCode from 'qrcode'
 export default {
     name: 'App',
 
     data() {
         return {
-            
+            show: true,
+            qrcode: ''
         };
+    },
+
+    mounted() {
+        var canvas = document.getElementById('canvas')
+        QRCode.toCanvas(canvas, window.location.href, function(error) {
+            if (error) console.error(error)
+        })
     },
 
     computed: {
@@ -41,7 +57,8 @@ export default {
 
     components: {
         VDrawer,
-        VLoading
+        VLoading,
+        LayoutFooter
     }
 
 }
@@ -55,6 +72,24 @@ export default {
         display: block;
         border-bottom: 1px solid $lightest;
         font-size: $big;
+    }
+}
+
+.main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    // position: relative;
+    // height: 100%;
+    // width: 100%;
+    display: flex;
+    flex-direction: column;
+    .body {
+        position: relative;
+        flex: 1;
+        height: 100%;
     }
 }
 
