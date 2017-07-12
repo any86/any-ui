@@ -9,7 +9,7 @@
                 Change Picture
                 <input ref="upload" name="upload" class="input-upload" type="file">
             </label>
-            <button @click="upload" class="button-confirm">Confirm</button>
+            <button @click="confirm" class="button-confirm">Confirm</button>
         </template>
     </footer>
 </template>
@@ -19,26 +19,105 @@ export default {
     name: 'FooterUpload',
 
     props: {
-        dataSource: {}
+        dataSource: {},
+
+        overlayData: {}
     },
 
     data() {
         return {
+            uploadImg: null,
+            overlayImg: null,
+            overlayCanvas: null,
+            overlayWidth: -1,
+            overlayHeight: -1,
+            canvas: null,
+            context: null,
+            width: -1,
+            height: -1,
             isFirst: true,
             file: null
         };
     },
 
     mounted() {
-        // 监听上传事件
+        // 前景图
+        // 500 * 400 尺寸
+        FileAPI.Image('./static/C022.png').get((err, canvas) => {
+            this.overlayCanvas = canvas;
+            this.overlayWidth = canvas.width;
+            this.overlayHeight = canvas.height;
+            // this.$emit('confirm', canvas.toDataURL());
+        });
+
+
+
+
+
+        // 需要做个交互锁定/loading, 前景图加载完毕才能执行合成操作
+        // 用户图
+        // 监听上传事件, 单文件上传
         FileAPI.event.on(this.$refs.upload, 'change', evt => {
             this.file = FileAPI.getFiles(evt)[0];
             this.isFirst = false;
-            this.$emit('loaded', this.file);
+            FileAPI.Image(this.file).get((err, canvas) => {
+                this.$emit('loaded', canvas.toDataURL());
+            });
         });
     },
 
     methods: {
+        _loadImage(src) {
+            return new Promise((resolve, reject) => {
+                var img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = src;
+                img.onload = () => {
+                    resolve(img);
+                };
+
+                img.onerror = (error) => {
+                    reject(error);
+                };
+            });
+        },
+
+        confirm() {
+            FileAPI.Image(this.file).get((err, canvas) => {
+
+
+
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const centerX = width / 2;
+                const centerY = height / 2;
+
+
+                const viewWidth = 381;
+                const viewHeight = 305;
+
+                const SCALE_BACKGROUND = width / viewWidth;
+
+
+                // 空白canvas
+                const _canvas = document.createElement('canvas');
+                const _context = _canvas.getContext('2d');
+                _canvas.width = width;
+                _canvas.height = height;
+
+                _context.save();
+                _context.translate(centerX, centerY);
+                _context.rotate(Math.PI / 180 * this.overlayData.rotate);
+                _context.translate(0 - centerX, 0 - centerY);
+
+                _context.translate(this.overlayData.left * SCALE_BACKGROUND, this.overlayData.top * SCALE_BACKGROUND);
+                _context.drawImage(canvas, 0, 0, width, height);
+                _context.restore();
+                this.$emit('confirm', _canvas.toDataURL());
+            });
+        },
+
         /**
          * 上传
          * @param  {Function} progress 进度回调函数

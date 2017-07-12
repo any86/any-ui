@@ -2,7 +2,7 @@
     <div class="component-image-tool">
         <div class="view" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
             <div :class="['upload-image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
-                <img width="100%" v-if="null != file" :src="dataUrl">
+                <img width="100%" v-if="null != dataURL" :src="dataURL">
             </div>
             <div class="overlay"><img src="../../assets/C022.png"></div>
         </div>
@@ -26,9 +26,10 @@ export default {
     name: 'ImageTool',
 
     props: {
-        file: {
-
+        dataURL: {
+            type: String
         },
+        
         dataSource: {}
     },
 
@@ -58,7 +59,7 @@ export default {
     },
 
     mounted() {
-
+        dir(this.dataSource)
     },
 
     methods: {
@@ -207,14 +208,14 @@ export default {
             left: 0;
             right: 0;
             bottom: 0;
-            transform-origin: 0 0;
+            transform-origin: center center 0px;
             >img {
                 display: block;
                 max-width: 100%;
             }
         }
         >.overlay {
-            // opacity: 0;
+            opacity: 0;
             position: relative;
             z-index: 2;
             top: 0;

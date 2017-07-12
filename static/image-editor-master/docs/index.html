@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+
+		<title>ImageEditor Demo</title>
+
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				font-family: arial;
+			}
+			.center {
+				width: 240px;
+				margin: auto;
+				padding: 20px;
+			}
+			#editor {
+				margin-top: 20px;
+				border: 1px solid black;
+			}
+			.tool-control {
+				display: flex;
+				margin-top: 10px;
+			}
+			.flex-1 {
+				flex: 1;
+			}
+			.flex-2 {
+				flex: 2;
+			}
+			.flex-3 {
+				flex: 3;
+			}
+			.flex-4 {
+				flex: 4;
+			}
+			#frameList > li {
+				display: inline-block;
+			}
+			.pri-btn {
+				padding: 10px;
+				border-radius: 5px;
+				margin-right: 20px;
+			}
+			#outputs {
+				margin-top: 40px;
+				border-top: 1px dashed grey;
+			}
+		</style>
+
+		<script src='assets/js/jquery.js'></script>
+		<script src="assets/js/hammer.min.js"></script>
+		<script src='assets/js/ImageEditor.js'></script>
+		<script>
+			var editor = null;
+			$(document).ready(function() {
+				editor = $('#editor').ImageEditor({
+					imageUrls: [
+						'assets/images/pic-2.jpg',
+						'assets/images/background-1.png',
+						'assets/images/mustache.png'
+					],
+					removeIcon: 'assets/images/delete.png',
+					width: 400,
+					height: 300,
+					onInitCompleted: function() {
+						editor.selectImage(2);
+					}
+				});
+			});
+
+			function confirmImage() {
+				var cvs = editor.mergeImage(),
+					$img = $('<img>');
+
+				$img.attr('src', cvs.toDataURL());
+				//$('#outputs').append($img);
+				$('#outputs').append($(cvs));
+			}
+
+		</script>
+	</head>
+
+	<body>
+		<div class='center'>
+			<h1 id="title">ImageEditor Demo</h1>
+			<div id='editor'></div>
+			<div class='tool-control'>
+				<input class='flex-4' type='text' id='picUrl' placeholder='image url' />
+				<button class='flex-1' onclick='editor.setImage($("#picUrl").val(), 0)'>Change Picture</button>
+			</div>
+			<div class='tool-control'>
+				<ul id='frameList'>
+					<li>
+						<img height='60'
+							src='assets/images/background-1.png'
+							onclick='editor.setImage(this.src, 1);' />
+					</li>
+					<li>
+						<img height='60'
+							src='assets/images/background-2.png'
+							onclick='editor.setImage(this.src, 1);' />
+					</li>
+					<li>
+						<img height='60'
+							src='assets/images/background-3.png'
+							onclick='editor.setImage(this.src, 1);' />
+					</li>
+					<li>
+						<img height='60'
+							src='assets/images/background-4.png'
+							onclick='editor.setImage(this.src, 1);' />
+					</li>
+				</ul>
+			</div>
+			<div class='tool-control'>
+				<label class='flex-1'>ROTATE</label>
+				<input class='flex-2'
+					type='range'
+					min='-180'
+					max='180'
+					id='rotateControl'
+					oninput='editor.rotateImage(this.value);' />
+			</div>
+			<div class='tool-control'>
+				<label class='flex-1'>SCALE</label>
+				<input class='flex-2'
+					type='range'
+					id='scaleControl'
+					min='0.1'
+					max='2.0'
+					step='0.05'
+					oninput='editor.scaleImage(this.value, this.value);' />
+			</div>
+			<div class='tool-control'>
+				<button class='pri-btn' onclick='confirmImage()'>Confirm</button>
+			</div>
+			<div id='outputs'>
+			</div>
+		</div>
+
+	</body>
+</html>

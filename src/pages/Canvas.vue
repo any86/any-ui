@@ -66,7 +66,6 @@ export default {
             img.crossOrigin = "anonymous";
             img.src = './static/bg.jpg'
             img.onload = () => {
-
                 dir(img.width)
                     // ctx.save();
                 ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, WIDTH, HEIGTH / img.width * img.height);
@@ -85,11 +84,11 @@ export default {
             img1.onload = () => {
                 ctx.save();
                 ctx.translate(150, 150);
-                ctx.rotate(parseInt(this.rotate) * Math.PI / 180);
+                // ctx.rotate(`parseInt(this.rotate) * Math.PI / 180);
                 ctx.translate(-150, -150);
                 syslog(img1.width, img1.height)
-                ctx.drawImage(img1, 0, 0, img1.width, img1.height, this.aa - img1.width / 2 * scale, this.aa - img1.height / 2 * scale, img1.width * scale, img1.height * scale);
-
+                // ctx.drawImage(img1, 0, 0, img1.width, img1.height, this.aa - img1.width / 2 * scale, this.aa - img1.height / 2 * scale, img1.width * scale, img1.height * scale);
+                ctx.drawImage(img1, 0, 0, img1.width, img1.height, 0, 0, 300, 300);
                 var dataURL = this.canvas.toDataURL();
                 this.src = dataURL
                 ctx.restore();

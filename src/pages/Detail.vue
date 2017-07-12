@@ -7,11 +7,12 @@
             <a>SHELL LOCKET</a>
         </div>
         <h1>{{overlayData}}</h1>
-        
-
-
-        <img style="padding:15px 15px 0 15px" width="100%" :src="overlaidBase64">
-        <ImageTools :dataSource="static.imageTools" :file="upload.file" @change="reOverlay" @overlaid="overlaid"></ImageTools>
+        <LayoutResult :dataSource="imgData"></LayoutResult>
+        <div style="padding: 0.3rem 0.3rem 0 0.3rem;">
+            <img style="box-shadow:1px 2px 10px #666;" width="100%" :src="overlaidBase64">
+        </div>
+        <ImageTools v-if="'' !=upload.dataURL" :dataSource="static.imageTools" :dataURL="upload.dataURL" @change="reOverlay" @overlaid="overlaid">
+        </ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
             <h4>$80.00</h4>
@@ -45,9 +46,8 @@
             <Spinner v-show="100 > upload.progress">{{upload.text}}</Spinner>
             <p v-show="100 == upload.progress" class="text-success">{{upload.textCongratulation}}</p>
         </VMask>
-
         <!-- 底部上传按钮 -->
-        <LayoutFooterUpload :dataSource="static.footerUpload" @loaded="imageLoaded" ></LayoutFooterUpload>
+        <LayoutFooterUpload :dataSource="static.footerUpload" :overlayData="overlayData" @loaded="imageLoaded" @confirm="imageConfirm"></LayoutFooterUpload>
     </ScrollView>
 </template>
 <script>
@@ -57,7 +57,9 @@ import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
 
+import LayoutResult from './Detail/Result'
 import LayoutFooterUpload from './Detail/FooterUpload'
+
 
 import ImageTools from '@/packages/ImageTools/ImageTools'
 import VUpload from '@/packages/Upload/Upload'
@@ -70,8 +72,12 @@ export default {
 
     data() {
         return {
+            imgData: '',
             overlayData: {
-                x: 0, y: 0, scale: 1, rotate: 0
+                x: 0,
+                y: 0,
+                scale: 1,
+                rotate: 0
             },
             overlaidBase64: '',
             static: {
@@ -79,13 +85,14 @@ export default {
                     overlay: './static/C022.png',
                 },
                 footerUpload: {
+                    overlay: './static/C022.png',
                     url: './mock/upload',
                     headers: {},
                     params: {},
                 },
             },
             upload: {
-                file: null,
+                dataURL: '',
                 position: {},
                 textCongratulation: 'congratulation!',
                 text: 'please wait upload...',
@@ -103,12 +110,16 @@ export default {
     },
 
     methods: {
-        reOverlay(overlayData){
+        imageConfirm(dataURL) {
+            this.overlaidBase64 = dataURL;
+        },
+
+        reOverlay(overlayData) {
             this.overlayData = overlayData;
         },
 
-        imageLoaded(file){
-            this.upload.file = file;
+        imageLoaded(dataURL) {
+            this.upload.dataURL = dataURL;
         },
 
         updateUploadStatus(status) {
@@ -122,7 +133,7 @@ export default {
             }
         },
 
-        overlaid(base64){
+        overlaid(base64) {
             this.overlaidBase64 = base64;
         }
     },
@@ -137,7 +148,8 @@ export default {
         VMask,
         VCircle,
         VToast,
-        LayoutFooterUpload
+        LayoutFooterUpload,
+        LayoutResult
 
     }
 }
