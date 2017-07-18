@@ -346,7 +346,6 @@
             };
 
         this.images.push(image);
-        
         $img.on('load', function() {
           image.$imgWrapper = $('<span>').append($(this));
           image.img = this;

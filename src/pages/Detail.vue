@@ -1,54 +1,56 @@
 <template>
-    <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
-        <div class="breadcrumb">
-            <a>HOME</a>
-            <a>CHARMS</a>
-            <a>PHOTO CHARMS</a>
-            <a>SHELL LOCKET</a>
-        </div>
-        <h1>{{overlayData}}</h1>
-        <LayoutResult :dataSource="imgData"></LayoutResult>
-        <div style="padding: 0.3rem 0.3rem 0 0.3rem;">
-            <img style="box-shadow:1px 2px 10px #666;" width="100%" :src="overlaidBase64">
-        </div>
-        <ImageTools v-if="'' !=upload.dataURL" :dataSource="static.imageTools" :dataURL="upload.dataURL" @change="reOverlay" @overlaid="overlaid">
-        </ImageTools>
-        <div class="info-base">
-            <h3>Shell Locket Photo Charm</h3>
-            <h4>$80.00</h4>
-            <h5>Fits all major brands of bracelets</h5>
-            <h5>This item requires 1-3 days to handcraft.</h5>
-        </div>
-        <v-tabs v-model="tabsIndex">
-            <v-tabs-item>Details</v-tabs-item>
-            <v-tabs-item>Reviews</v-tabs-item>
-            <v-tabs-item>Information</v-tabs-item>
-            <v-tabs-item>Shipping</v-tabs-item>
-        </v-tabs>
-        <div v-show="0 == tabsIndex" class="info-detail">
-            <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
-            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
-            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_04-mobile.jpg'" :watch="scrollY"></v-lazy-load>
-            <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_01-mobile.jpg'" :watch="scrollY"></v-lazy-load>
-        </div>
-        <div v-show="1 == tabsIndex" class="reviews">
-            Reviews
-        </div>
-        <div v-show="2 == tabsIndex" class="information">
-            Information
-        </div>
-        <div v-show="3 == tabsIndex" class="shipping">
-            Shipping
-        </div>
-        <!-- 上传进度 -->
-        <VMask :value="'upload' == upload.status">
-            <VCircle style="width:3rem;margin:2rem auto 0" v-model="upload.progress"></VCircle>
-            <Spinner v-show="100 > upload.progress">{{upload.text}}</Spinner>
-            <p v-show="100 == upload.progress" class="text-success">{{upload.textCongratulation}}</p>
-        </VMask>
-        <!-- 底部上传按钮 -->
-        <LayoutFooterUpload :dataSource="static.footerUpload" :overlayData="overlayData" @loaded="imageLoaded" @confirm="imageConfirm"></LayoutFooterUpload>
-    </ScrollView>
+  <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
+    <div class="breadcrumb">
+      <a>HOME</a>
+      <a>CHARMS</a>
+      <a>PHOTO CHARMS</a>
+      <a>SHELL LOCKET</a>
+    </div>
+    <h1>{{overlayData}}</h1>
+    <LayoutResult :dataSource="imgData"></LayoutResult>
+    <button @click="getCoords">GET</button>
+    <div style="padding: 0.3rem 0.3rem 0 0.3rem;">
+      <canvas id="c" width="381" height="202"></canvas>
+      <!-- <img style="box-shadow:1px 2px 10px #666;" width="100%" :src="overlaidBase64"> -->
+    </div>
+    <ImageTools :dataSource="static.imageTools" :dataURL="upload.dataURL" @change="reOverlay" @overlaid="overlaid">
+    </ImageTools>
+    <div class="info-base">
+      <h3>Shell Locket Photo Charm</h3>
+      <h4>$80.00</h4>
+      <h5>Fits all major brands of bracelets</h5>
+      <h5>This item requires 1-3 days to handcraft.</h5>
+    </div>
+    <v-tabs v-model="tabsIndex">
+      <v-tabs-item>Details</v-tabs-item>
+      <v-tabs-item>Reviews</v-tabs-item>
+      <v-tabs-item>Information</v-tabs-item>
+      <v-tabs-item>Shipping</v-tabs-item>
+    </v-tabs>
+    <div v-show="0 == tabsIndex" class="info-detail">
+      <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
+      <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
+      <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_04-mobile.jpg'" :watch="scrollY"></v-lazy-load>
+      <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_01-mobile.jpg'" :watch="scrollY"></v-lazy-load>
+    </div>
+    <div v-show="1 == tabsIndex" class="reviews">
+      Reviews
+    </div>
+    <div v-show="2 == tabsIndex" class="information">
+      Information
+    </div>
+    <div v-show="3 == tabsIndex" class="shipping">
+      Shipping
+    </div>
+    <!-- 上传进度 -->
+    <VMask :value="'upload' == upload.status">
+      <VCircle style="width:3rem;margin:2rem auto 0" v-model="upload.progress"></VCircle>
+      <Spinner v-show="100 > upload.progress">{{upload.text}}</Spinner>
+      <p v-show="100 == upload.progress" class="text-success">{{upload.textCongratulation}}</p>
+    </VMask>
+    <!-- 底部上传按钮 -->
+    <LayoutFooterUpload :dataSource="static.footerUpload" :overlayData="overlayData" @loaded="imageLoaded" @confirm="imageConfirm"></LayoutFooterUpload>
+  </ScrollView>
 </template>
 <script>
 import VPopup from '@/packages/Dialog/Popup'
@@ -67,137 +69,216 @@ import VMask from '@/packages/Dialog/Mask'
 import VCircle from '@/packages/Progress/Circle'
 import VToast from '@/packages/Toast/Toast'
 
+import {
+  fabric
+} from 'fabric'
+
 export default {
-    name: 'Detail',
+  name: 'Detail',
 
-    data() {
-        return {
-            imgData: '',
-            overlayData: {
-                x: 0,
-                y: 0,
-                scale: 1,
-                rotate: 0
-            },
-            overlaidBase64: '',
-            static: {
-                imageTools: {
-                    overlay: './static/C022.png',
-                },
-                footerUpload: {
-                    overlay: './static/C022.png',
-                    url: './mock/upload',
-                    headers: {},
-                    params: {},
-                },
-            },
-            upload: {
-                dataURL: '',
-                position: {},
-                textCongratulation: 'congratulation!',
-                text: 'please wait upload...',
-                url: './mock/upload',
-                progress: 0,
-                status: 'wait',
-            },
-            scrollY: 0,
-            tabsIndex: 0
-        };
+  data() {
+    return {
+      canvas: null,
+      oImg: null,
+      imgData: '',
+      overlayData: {
+        top: 0,
+        left: 0,
+        scale: 1,
+        rotate: 0
+      },
+      overlaidBase64: '',
+      static: {
+        imageTools: {
+          overlay: './static/C022.png',
+        },
+        footerUpload: {
+          overlay: './static/C022.png',
+          url: './mock/upload',
+          headers: {},
+          params: {},
+        },
+      },
+      upload: {
+        dataURL: '',
+        position: {},
+        textCongratulation: 'congratulation!',
+        text: 'please wait upload...',
+        url: './mock/upload',
+        progress: 0,
+        status: 'wait',
+      },
+      scrollY: 0,
+      tabsIndex: 0
+    };
+  },
+
+  mounted() {
+
+
+    // this.canvas = new fabric.Canvas('c');
+    // var rect = new fabric.Rect({
+    //   width: 100,
+    //   height: 100,
+    //   top: 0,
+    //   left: 0,
+    //   fill: 'rgba(255,0,0,0.5)'
+    // });
+    // this.oImg = rect;
+    // this.canvas.add(rect);
+
+
+    this.canvas = new fabric.Canvas('c');
+    fabric.Image.fromURL('./static/bg.jpg', (oImg) => {
+      this.oImg = oImg;
+      dir(this.overlayData)
+      this.oImg.set({
+        width: 381,
+        height: 202,
+        left: 0,
+        top: 0
+        // left: this.overlayData.x,
+        // top: this.overlayData.y,
+        // scaleX: this.overlayData.scale,
+        // scaleY: this.overlayData.scale
+      });
+      this.canvas.add(oImg);
+    });
+  },
+
+  methods: {
+    getCoords() {
+      syslog(this.oImg.getLeft(), this.oImg.getTop(), this.oImg.getAngle())
     },
 
-    mounted() {
-
+    imageConfirm(dataURL) {
+      this.overlaidBase64 = dataURL;
     },
 
-    methods: {
-        imageConfirm(dataURL) {
-            this.overlaidBase64 = dataURL;
-        },
-
-        reOverlay(overlayData) {
-            this.overlayData = overlayData;
-        },
-
-        imageLoaded(dataURL) {
-            this.upload.dataURL = dataURL;
-        },
-
-        updateUploadStatus(status) {
-            if ('success' == status) {
-                setTimeout(() => {
-                    this.upload.status = status;
-                    this.upload.isFirst = false;
-                }, 1000);
-            } else {
-                this.upload.status = status;
-            }
-        },
-
-        overlaid(base64) {
-            this.overlaidBase64 = base64;
-        }
+    reOverlay(overlayData) {
+      this.overlayData = overlayData;
     },
 
-    components: {
-        ImageTools,
-        Spinner,
-        VLazyLoad,
-        VTabs,
-        VTabsItem,
-        VUpload,
-        VMask,
-        VCircle,
-        VToast,
-        LayoutFooterUpload,
-        LayoutResult
+    imageLoaded(dataURL) {
+      this.upload.dataURL = dataURL;
+    },
 
+    updateUploadStatus(status) {
+      if ('success' == status) {
+        setTimeout(() => {
+          this.upload.status = status;
+          this.upload.isFirst = false;
+        }, 1000);
+      } else {
+        this.upload.status = status;
+      }
+    },
+
+    overlaid(base64) {
+      this.overlaidBase64 = base64;
     }
+  },
+
+  components: {
+    ImageTools,
+    Spinner,
+    VLazyLoad,
+    VTabs,
+    VTabsItem,
+    VUpload,
+    VMask,
+    VCircle,
+    VToast,
+    LayoutFooterUpload,
+    LayoutResult
+  },
+
+  watch: {
+    ['overlayData.left'](newValue, oldValue) {
+      const moveToLeft = newValue > oldValue;
+      this.$nextTick(() => {
+        if (undefined != newValue) {
+          if (moveToLeft) {
+            this.oImg.setLeft(this.oImg.getLeft() + 5);
+          } else {
+            this.oImg.setLeft(this.oImg.getLeft() - 5);
+          }
+          this.canvas.renderAll();
+        }
+      });
+    },
+
+    ['overlayData.top'](newValue, oldValue) {
+      const moveToLeft = newValue > oldValue;
+      this.$nextTick(() => {
+        if (undefined != newValue) {
+          if (moveToLeft) {
+            this.oImg.setTop(this.oImg.getTop() + 5);
+          } else {
+            this.oImg.setTop(this.oImg.getTop() - 5);
+          }
+          this.canvas.renderAll();
+        }
+      });
+    },
+
+    ['overlayData.rotate'](value) {
+      this.$nextTick(() => {
+        if (undefined != value) {
+          this.oImg.setAngle(value);
+          this.canvas.renderAll();
+        }
+      });
+    }
+  }
 }
+
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
 .page-detail {
-    // 面包屑
-    .breadcrumb {
-        margin: $gutter * 3;
-        a {
-            font-size: $small;
-            display: inline-block;
-            &.active {
-                color: $base;
-            }
-        }
-        a:not(:last-of-type) {
-            &:after {
-                color: #000;
-                content: '>';
-                margin: auto 5px;
-            }
-        }
+  // 面包屑
+  .breadcrumb {
+    margin: $gutter * 3;
+    a {
+      font-size: $small;
+      display: inline-block;
+      &.active {
+        color: $base;
+      }
     }
-    .text-success {
-        text-align: center;
-        color: $dark;
-        font-size: $biggest;
+    a:not(:last-of-type) {
+      &:after {
+        color: #000;
+        content: '>';
+        margin: auto 5px;
+      }
     }
-    .info-base {
-        padding: 3*$gutter;
+  }
+  .text-success {
+    text-align: center;
+    color: $dark;
+    font-size: $biggest;
+  }
+  .info-base {
+    padding: 3*$gutter;
+  }
+  .info-detail {
+    padding: 15px;
+    p {
+      line-height: 1.5;
+      font-size: $normal;
     }
-    .info-detail {
-        padding: 15px;
-        p {
-            line-height: 1.5;
-            font-size: $normal;
-        }
-        .img {
-            margin: $gutter * 3 auto;
-            width: 100%;
-            min-height: 7rem;
-            overflow: hidden;
-        }
-        .img[lazy="done"] {
-            animation: fadeIn 1s;
-        }
+    .img {
+      margin: $gutter * 3 auto;
+      width: 100%;
+      min-height: 7rem;
+      overflow: hidden;
     }
+    .img[lazy="done"] {
+      animation: fadeIn 1s;
+    }
+  }
 }
+
 </style>

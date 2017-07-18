@@ -83,39 +83,42 @@ export default {
         },
 
         confirm() {
-            FileAPI.Image(this.file).get((err, canvas) => {
+
+                
 
 
 
+            // FileAPI.Image(this.file).get((err, canvas) => {
+            //     const startCenterX = 0;
+            //     const startCenterY = 0;
+            //     const width = canvas.width;
+            //     const height = canvas.height;
+            //     const centerX = startCenterX + width / 2 + this.overlayData.left;
+            //     const centerY = startCenterY + height / 2 + this.overlayData.top;
+            //     const viewWidth = 380.91;
+            //     const viewHeight = 304.72;
+            //     syslog(centerX, centerY, width, height);
 
-                const width = canvas.width;
-                const height = canvas.height;
-                const centerX = width / 2;
-                const centerY = height / 2;
+            //     const SCALE_BACKGROUND = width / viewWidth;
+            //     // const SCALE_BACKGROUND = 1;
+            //     // 空白canvas
+            //     const _canvas = document.createElement('canvas');
+            //     const _context = _canvas.getContext('2d');
+            //     _canvas.width = width;
+            //     _canvas.height = height;
 
+            //     _context.save();
+            //     _context.translate(centerX, centerY);
+            //     _context.rotate(Math.PI / 180 * this.overlayData.rotate);
+            //     _context.translate(0 - centerX, 0 - centerY);
 
-                const viewWidth = 381;
-                const viewHeight = 305;
+            //     // _context.scale(this.overlayData.scale, this.overlayData.scale);
 
-                const SCALE_BACKGROUND = width / viewWidth;
-
-
-                // 空白canvas
-                const _canvas = document.createElement('canvas');
-                const _context = _canvas.getContext('2d');
-                _canvas.width = width;
-                _canvas.height = height;
-
-                _context.save();
-                _context.translate(centerX, centerY);
-                _context.rotate(Math.PI / 180 * this.overlayData.rotate);
-                _context.translate(0 - centerX, 0 - centerY);
-
-                _context.translate(this.overlayData.left * SCALE_BACKGROUND, this.overlayData.top * SCALE_BACKGROUND);
-                _context.drawImage(canvas, 0, 0, width, height);
-                _context.restore();
-                this.$emit('confirm', _canvas.toDataURL());
-            });
+            //     // _context.translate(this.overlayData.left * SCALE_BACKGROUND, this.overlayData.top * SCALE_BACKGROUND);
+            //     _context.drawImage(canvas, centerX - width / 2, centerY - width / 2, width / SCALE_BACKGROUND, height / SCALE_BACKGROUND);
+            //     _context.restore();
+            //     this.$emit('confirm', _canvas.toDataURL());
+            // });
         },
 
         /**

@@ -1,9 +1,7 @@
 <template>
     <div class="component-image-tool">
         <div class="view" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-            <div :class="['upload-image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
-                <img width="100%" v-if="null != dataURL" :src="dataURL">
-            </div>
+            <img :class="['upload-image', 2 != touch.status && 'transition']"  width="100%" v-if="null != dataURL" :src="dataURL" :style="{transform: `translate3d(${touch.x.translateNew}px, ${touch.y.translateNew}px, 0) scale(${scale}) rotate(${rotate}deg)`}">
             <div class="overlay"><img src="../../assets/C022.png"></div>
         </div>
         <!-- 工具条 -->
@@ -29,7 +27,7 @@ export default {
         dataURL: {
             type: String
         },
-        
+
         dataSource: {}
     },
 
@@ -59,7 +57,6 @@ export default {
     },
 
     mounted() {
-        dir(this.dataSource)
     },
 
     methods: {
@@ -144,28 +141,13 @@ export default {
         },
 
         _emit() {
-            this.$emit('change', {top: this.touch.y.translateNew, left: this.touch.x.translateNew, rotate: this.rotate, scale: this.scale});
-            // FileAPI.getInfo(this.file, (err, info) => {
-            //     var zoom = 3;
-            //     // 处理用户图
-            //     FileAPI.Image(this.file)
-            //         .crop(0, 0, info.width * zoom, info.height * zoom)
-            //         .rotate(this.rotate)
-            //         .get((err, img) => {
-            //             FileAPI.Image(img).get((err, img1) => {
-            //                 this.overlayBase64 = img1.toDataURL();
-            //                 this.$emit('overlaid', this.overlayBase64);
-            //             });
-            //         });
-
-            // });
-
-            // const toast = this.$toast('loading...', {
-            //     delay: -1
-            // });
-
+            this.$emit('change', {
+                top: this.touch.y.translateNew,
+                left: this.touch.x.translateNew,
+                rotate: this.rotate,
+                scale: this.scale
+            });
         },
-
     },
 
     watch: {
@@ -208,7 +190,7 @@ export default {
             left: 0;
             right: 0;
             bottom: 0;
-            transform-origin: center center 0px;
+            // transform-origin: center center 0px;
             >img {
                 display: block;
                 max-width: 100%;
