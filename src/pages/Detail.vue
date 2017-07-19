@@ -6,13 +6,8 @@
       <a>PHOTO CHARMS</a>
       <a>SHELL LOCKET</a>
     </div>
-    <h1>{{overlayData}}</h1>
-    <LayoutResult :dataSource="imgData"></LayoutResult>
-    <button @click="getCoords">GET</button>
-    <div style="padding: 0.3rem 0.3rem 0 0.3rem;">
-      <canvas id="c" width="381" height="202"></canvas>
-      <!-- <img style="box-shadow:1px 2px 10px #666;" width="100%" :src="overlaidBase64"> -->
-    </div>
+
+
     <ImageTools :dataSource="static.imageTools" :dataURL="upload.dataURL" @change="reOverlay" @overlaid="overlaid">
     </ImageTools>
     <div class="info-base">
@@ -69,9 +64,7 @@ import VMask from '@/packages/Dialog/Mask'
 import VCircle from '@/packages/Progress/Circle'
 import VToast from '@/packages/Toast/Toast'
 
-import {
-  fabric
-} from 'fabric'
+
 
 export default {
   name: 'Detail',
@@ -128,22 +121,7 @@ export default {
     // this.canvas.add(rect);
 
 
-    this.canvas = new fabric.Canvas('c');
-    fabric.Image.fromURL('./static/bg.jpg', (oImg) => {
-      this.oImg = oImg;
-      dir(this.overlayData)
-      this.oImg.set({
-        width: 381,
-        height: 202,
-        left: 0,
-        top: 0
-        // left: this.overlayData.x,
-        // top: this.overlayData.y,
-        // scaleX: this.overlayData.scale,
-        // scaleY: this.overlayData.scale
-      });
-      this.canvas.add(oImg);
-    });
+
   },
 
   methods: {
@@ -194,6 +172,19 @@ export default {
   },
 
   watch: {
+    ['overlayData.scale'](newValue, oldValue) {
+      this.$nextTick(() => {
+        if (undefined != newValue) {
+          // const pos = this.oImg.getCenterPoint();
+          // this.oImg.setTop(pos.top);
+          // this.oImg.setLeft(pos.left);
+
+          this.oImg.setScaleX(newValue).setScaleY(newValue).setCoords();
+          this.canvas.renderAll();
+        }
+      });
+    },
+
     ['overlayData.left'](newValue, oldValue) {
       const moveToLeft = newValue > oldValue;
       this.$nextTick(() => {
