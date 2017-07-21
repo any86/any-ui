@@ -1,18 +1,4 @@
 {
-    "status": 1,
-    "data": {
-        "list": [
-            { "title": "", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1062_1.jpg" },
-            { "title": "", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1070.jpg" },
-            { "title": "FJ1074_1", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1074_1.jpg" },
-            { "title": "FJ1092", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1092.jpg" },
-            { "title": "FJ1093", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1093.jpg" },
-            { "title": "FJ1094A", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1094A.jpg" },
-            { "title": "FJ1094B", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1094B.jpg" },
-            { "title": "FJ1094C", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1094C.jpg" },
-            { "title": "FJ1094D", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1094D.jpg" },
-            { "title": "FJ1094E", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1094E.jpg" },
-            { "title": "FJ1094F", "img": "http://jer.soufeel.org/media/catalog/product/F/J/FJ1094F.jpg" }
-        ]
-    }
+    "text_simple": "",
+    "text_design": "Design Your Own"
 }

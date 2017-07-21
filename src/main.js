@@ -24,6 +24,7 @@ import store from './store'
 
 // AJAX
 import axios from 'axios'
+axios.create();
 Object.defineProperty(Vue.prototype, '$axios', {
     value: axios,
     writable: false,

@@ -51,6 +51,12 @@ export default {
                 this.$emit('reach-bottom');
             }
         }
+    },
+
+    watch: {
+        value(value){
+            this.$el.scrollTop = value;
+        }
     }
 }
 </script>

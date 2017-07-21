@@ -1,8 +1,7 @@
 <template>
-    <main class="page-index">
+    <main v-if="1 == status" class="page-index">
         <LayoutHeader class="header"></LayoutHeader>
         <ScrollView v-model="scrollY" class="scroll-view">
-            
             <LayoutHeadSwiper></LayoutHeadSwiper>
             <LayoutCategoryThumb style="margin-top:.3rem" :dataSource="categoryThumbs" :scrollY="scrollY"></LayoutCategoryThumb>
             <LayoutLooks style="margin-top:.7rem" :dataSource="looks"></LayoutLooks>
@@ -21,6 +20,7 @@ export default {
 
     data() {
         return {
+            status: -1,
             scrollY: 0,
             categoryThumbs: [],
             looks: {},
@@ -29,6 +29,8 @@ export default {
 
     mounted() {
         this.$axios.get('./static/index.json').then(response => {
+            this.status = 1;
+
             this.categoryThumbs = {
                 ...this.categoryThumbs,
                 ...response.data['category-thumbs']

@@ -13,7 +13,7 @@
       <span class="button" @click="addScale"><Icon value="plus"></Icon></span>
       <span class="button" @click="rotateLeft"><Icon value="rotate-left"></Icon></span>
       <span class="button" @click="rotateRight"><Icon value="rotate-right"></Icon></span>
-      <span class="button" @click="refresh"><Icon value="refresh"></Icon></span>
+      <span class="button" @click="reset"><Icon value="refresh"></Icon></span>
     </div>
   </div>
 </template>
@@ -40,72 +40,115 @@ export default {
       image: null,
       dataUrl: null,
       scale: 1,
-      rotate: 0,
+      angle: 0,
       top: 0,
       left: 0
     };
   },
 
   mounted() {
-    this.viewWidth = this.$refs.view.offsetWidth;
-    this.canvas = new fabric.Canvas('c');
-    this.canvas.setWidth(this.viewWidth);
-    this.canvas.setHeight(this.viewWidth / 5 * 4);
+    const overlayImageUrl = './static/C022.png';
+    const overlayImage = new Image();
+    overlayImage.src = overlayImageUrl;
+    overlayImage.onload = () => {
+      this.viewWidth = this.$refs.view.offsetWidth;
+      this.canvas = new fabric.Canvas('c');
+      this.canvas.setWidth(this.viewWidth);
+      this.canvas.setHeight(this.viewWidth / overlayImage.width * overlayImage.height);
 
-    fabric.Image.fromURL('./static/bg.jpg', (image) => {
-      this.image = image;
-
-      this.image.set({
-        width: this.viewWidth,
-        height: this.viewWidth / this.image.width * this.image.height,
-        left: 0,
-        top: 0,
-        hasControls: false,
-        centeredScaling: true,
-        // left: this.overlayData.x,
-        // top: this.overlayData.y,
-        // scaleX: this.overlayData.scale,
-        // scaleY: this.overlayData.scale
+      fabric.Image.fromURL('./static/bg.jpg', (image) => {
+        this.image = image;
+        this.image.set({
+          width: this.viewWidth,
+          height: this.viewWidth / this.image.width * this.image.height,
+          left: 0,
+          top: 0,
+          hasControls: false,
+          centeredScaling: true,
+        });
+        this.canvas.add(image);
+        this.canvas.setOverlayImage(overlayImageUrl, this.canvas.renderAll.bind(this.canvas), { width: this.viewWidth, height: this.viewWidth / overlayImage.width * overlayImage.height });
+        this.canvas.renderAll();
       });
-      this.canvas.add(image);
-      this.canvas.setOverlayImage('./static/C022.png', this.canvas.renderAll.bind(this.canvas), { width: 381, height: 300 });
-      this.canvas.renderAll();
-    });
+    };
+
+    overlayImage.onerror = () => {
+      this.$alert('网络问题, 请重试!');
+    };
   },
 
   methods: {
     moveLeft() {
-
+      this.left = this.image.getLeft();
+      this.left -= 5;
+      this.image.setLeft(this.left);
+      this.canvas.renderAll();
     },
 
-    moveRight() {},
+    moveRight() {
+      this.left = this.image.getLeft();
+      this.left += 5;
+      this.image.setLeft(this.left);
+      this.canvas.renderAll();
+    },
 
     moveUp() {
-
+      this.top = this.image.getTop();
+      this.top -= 5;
+      this.image.setTop(this.top);
+      this.canvas.renderAll();
     },
 
     moveDown() {
-
+      this.top = this.image.getTop();
+      this.top += 5;
+      this.image.setTop(this.top);
+      this.canvas.renderAll();
     },
 
     rotateLeft() {
+      this.angle -= 5;
+      this.image.rotate(this.angle);
+      this.canvas.renderAll();
+      this.top = this.image.getTop();
+      this.left = this.image.getLeft();
 
     },
 
     rotateRight() {
+      this.angle += 5;
+      this.image.rotate(this.angle);
+      this.canvas.renderAll();
+      this.top = this.image.getTop();
+      this.left = this.image.getLeft();
 
     },
 
     addScale() {
-
+      this.scale += 0.1;
+      this.image.scale(this.scale);
+      this.canvas.renderAll();
     },
 
     minusScale() {
-
+      this.scale -= 0.1;
+      this.image.scale(this.scale);
+      this.canvas.renderAll();
     },
 
-    refresh() {
-
+    reset() {
+      this.top = 0;
+      this.left = 0;
+      this.angle = 0;
+      this.scale = 1;
+      this.image.set({
+        top: this.top,
+        left: this.left,
+        angle: this.angle,
+        scaleX: this.scale,
+        scaleY: this.scale
+      });
+      this.canvas.renderAll();
     },
 
   },

@@ -71,9 +71,6 @@ export default {
 
   data() {
     return {
-      canvas: null,
-      oImg: null,
-      imgData: '',
       overlayData: {
         top: 0,
         left: 0,
@@ -108,27 +105,9 @@ export default {
 
   mounted() {
 
-
-    // this.canvas = new fabric.Canvas('c');
-    // var rect = new fabric.Rect({
-    //   width: 100,
-    //   height: 100,
-    //   top: 0,
-    //   left: 0,
-    //   fill: 'rgba(255,0,0,0.5)'
-    // });
-    // this.oImg = rect;
-    // this.canvas.add(rect);
-
-
-
   },
 
   methods: {
-    getCoords() {
-      syslog(this.oImg.getLeft(), this.oImg.getTop(), this.oImg.getAngle())
-    },
-
     imageConfirm(dataURL) {
       this.overlaidBase64 = dataURL;
     },
@@ -172,55 +151,7 @@ export default {
   },
 
   watch: {
-    ['overlayData.scale'](newValue, oldValue) {
-      this.$nextTick(() => {
-        if (undefined != newValue) {
-          // const pos = this.oImg.getCenterPoint();
-          // this.oImg.setTop(pos.top);
-          // this.oImg.setLeft(pos.left);
 
-          this.oImg.setScaleX(newValue).setScaleY(newValue).setCoords();
-          this.canvas.renderAll();
-        }
-      });
-    },
-
-    ['overlayData.left'](newValue, oldValue) {
-      const moveToLeft = newValue > oldValue;
-      this.$nextTick(() => {
-        if (undefined != newValue) {
-          if (moveToLeft) {
-            this.oImg.setLeft(this.oImg.getLeft() + 5);
-          } else {
-            this.oImg.setLeft(this.oImg.getLeft() - 5);
-          }
-          this.canvas.renderAll();
-        }
-      });
-    },
-
-    ['overlayData.top'](newValue, oldValue) {
-      const moveToLeft = newValue > oldValue;
-      this.$nextTick(() => {
-        if (undefined != newValue) {
-          if (moveToLeft) {
-            this.oImg.setTop(this.oImg.getTop() + 5);
-          } else {
-            this.oImg.setTop(this.oImg.getTop() - 5);
-          }
-          this.canvas.renderAll();
-        }
-      });
-    },
-
-    ['overlayData.rotate'](value) {
-      this.$nextTick(() => {
-        if (undefined != value) {
-          this.oImg.setAngle(value);
-          this.canvas.renderAll();
-        }
-      });
-    }
   }
 }
 
