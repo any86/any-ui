@@ -35,7 +35,7 @@ export default {
     login() {
       var encrypt = new JSEncrypt();
       encrypt.setPublicKey(this.publicKey);
-      var encrypted = encrypt.encrypt(this.email);
+      var encrypted = encrypt.encrypt(123456);
       this.$api.login({
         password: encrypted,
         username: this.email

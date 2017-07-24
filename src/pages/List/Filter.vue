@@ -1,17 +1,20 @@
 <template>
   <section class="filter" :class="{fixed: isFixed}" :style="{top: isFixed ? `${fixedDistance}px` : 0}">
     <ul class="menu">
-      <li @click="change(0)">Price</li>
-      <li @click="change(1)">Default</li>
-      <li @click="change(2)">Newest</li>
+      <li v-for="(item, i) in dataSource" @click="expandMenu(i)" :class="{active: i == activeIndex[0]}">
+        {{item[0].title}}
+        <Icon v-if="1 < item.length" value="chevron-down" class="icon"></Icon>
+      </li>
     </ul>
-    <ul v-show="isShow" class="dropdown">
-      <li v-for="item in dataSource[activeIndex]">{{item}}</li>
+    <!-- 菜单选项 -->
+    <ul v-if=" -1 < expandIndex && 1 < dataSource[expandIndex].length" v-show="isShow" class="dropdown">
+      <li v-for="(item, i) in dataSource[expandIndex]" @click="change(expandIndex, i)" :class="{active: i == activeIndex[1]}">
+        {{item.title}}
+      </li>
     </ul>
   </section>
 </template>
 <script>
-import VPopup from '@/packages/Dialog/Popup'
 export default {
   name: 'FilterLayout',
 
@@ -24,20 +27,21 @@ export default {
     isShow: {
       type: Boolean,
       default: false
-    }
+    },
   },
 
   data() {
     return {
       dataSource: [
-        ['Hight To Low', 'Low To Hight'],
-        ['Default', 'Best Selling', 'Recomond'],
-        ['Newest']
+        [{ title: 'Hight To Low', value: 0 }, { title: 'Low To Hight', value: 1 }],
+        [{ title: 'Default', value: 2 }, { title: 'Best Selling', value: 3 }, { title: 'Recomond', value: 4 }],
+        [{ title: 'Newest', value: 5 }]
       ],
-      activeIndex: -1,
       isFixed: false,
       offsetTop: 0, // 距离父容器顶部距离
-      fixedDistance: 0
+      fixedDistance: 0,
+      activeIndex: [0, 0],
+      expandIndex: -1,
     };
   },
 
@@ -48,16 +52,20 @@ export default {
   },
 
   methods: {
-    change(index) {
-      this.activeIndex = index;
-      this.$emit('change', index);
+    expandMenu(index) {
+      this.expandIndex = index;
+      this.$emit('expand-menu', index);
+    },
+
+    change(tabsIndex, optionsIndex) {
+      this.activeIndex = [tabsIndex, optionsIndex];
+      syslog(tabsIndex, optionsIndex)
     }
   },
 
   watch: {
     scrollY(value) {
-      // this.isFixed = value >= this.offsetTop;
-      if (value >= this.offsetTop) {
+      if (value > this.offsetTop) {
         this.isFixed = true;
       } else {
         this.isFixed = false;
@@ -65,9 +73,6 @@ export default {
       }
     }
   },
-
-  components: { VPopup }
-
 }
 
 </script>
@@ -80,6 +85,7 @@ $height:1rem;
   background: $background;
   width: 100%;
   &.fixed {
+    // transition:all .2s;
     position: fixed;
     z-index: 10;
     top: 1.2rem;
@@ -97,9 +103,17 @@ $height:1rem;
       text-align: center;
       border-color: $lightest;
       border-style: solid;
-      border-width: 1px 1px 1px 0;
+      border-width: 1px 0 1px 0;
       &:last-child {
         border-right-width: 0;
+      }
+
+      >.icon {
+        transition: all .6s;
+        &.active {
+          // transform: rotate(180deg);
+          color: $base;
+        }
       }
     }
   }
@@ -111,6 +125,10 @@ $height:1rem;
     li {
       padding: 3*$gutter;
       border-bottom: 1px solid $lightest;
+      font-size: $big;
+      &.active {
+        color: $base;
+      }
     }
   }
 }

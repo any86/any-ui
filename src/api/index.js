@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const getGoodsList = params => axios.get('/api/catalog/product?___store=default&category=7', { params });
-const getGoodsList = params => axios.get('./static/imgs.json', { params });
+const getGoodsList = params => axios.get('/api/catalog/product?___store=default&category=7', { params });
+// const getGoodsList = params => axios.get('./static/imgs.json', { params });
 
 
 const getBagPage = params => axios.get('./static/bag.json', { params });

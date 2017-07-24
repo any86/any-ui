@@ -23,7 +23,7 @@ export default {
 
     sensitivity: {
       type: Number,
-      default: 0
+      default: 30
     },
 
     value: {
@@ -84,7 +84,6 @@ export default {
           e.preventDefault();
         }
       }
-
     },
 
     touchend(e) {

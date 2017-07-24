@@ -6,35 +6,39 @@
       <!-- 列表和筛选条件 -->
       <div class="content">
         <!-- 筛选条件 -->
-        <LayoutFilter :scrollY="scrollY" @change="changFilter" :isShow="isPopupShow"></LayoutFilter>
+        <LayoutFilter :scrollY="scrollY" @expand-menu="expandFilterPanel" :isShow="isPopupShow" :activeIndex="activeIndex">
+        </LayoutFilter>
         <ul class="list">
-          <VMask v-model="isPopupShow" :isFixed="false" :zIndex="9" ></VMask>
-          <router-link v-for="item in list" class="item" tag="li" :to="{path: 'detail', query: {id: item.entity_id}}" :key="item.id">
-            <VLazyLoad class="img" :src="item.image_url" :watch="scrollY"></VLazyLoad>
+          <VMask v-model="isPopupShow" :isFixed="false" :zIndex="5"></VMask>
+          <li v-for="item in list" class="item" :key="item.id">
+            <router-link :to="{path: 'detail', query: {id: item.entity_id}}" tag="a">
+              <VLazyLoad class="img" :src="item.image_url" :watch="scrollY"></VLazyLoad>
+            </router-link>
             <h5 align="center">{{item.title}}</h5>
             <div class="price">
               <span class="final">${{item.final_price_with_tax}}</span>
               <span class="regular">${{item.regular_price_with_tax}}</span>
             </div>
-            <a class="button-buy">buy</a>
-          </router-link>
+            <span v-if="'simple' == item.type_id" @click="addToCart" class="button-buy">Add To Cart</span>
+            <span v-else class="button-buy">Design Your Own</span>
+          </li>
         </ul>
         <Spinner v-show="isShowSpinner && !isEnd"></Spinner>
         <p v-if="isEnd" class="empty">there is nothing</p>
       </div>
     </ScrollView>
+    <VGoTop v-show="0 < scrollY" @click.native="gotop"></VGoTop>
   </section>
 </template>
 <script>
 import Drawer from '@/packages/Drawer/Drawer'
 import VMask from '@/packages/Dialog/Mask'
-
+import VGoTop from '@/components/GoTop'
 import VPopup from '@/packages/Dialog/Popup'
 import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VList from '@/packages/List/List.vue'
 import VListItem from '@/packages/List/ListItem.vue'
-import VSwitch from '@/packages/Switch/Switch.vue'
 import VRadio from '@/packages/Radio/Radio.vue'
 
 // 公共头尾
@@ -42,39 +46,27 @@ import LayoutHeader from './List/Header'
 import LayoutFilter from './List/Filter'
 import LayoutFooter from '@/components/Footer'
 
-
 export default {
   name: 'List',
 
   data() {
     return {
+      status: -1,
       isShowSide: false,
       isShowSpinner: true,
       ovh: false,
       scrollY: 0,
-      swiperHeight: -1,
-      filter: {
-        offsetTop: -1,
-        isFixed: false,
-        top: -1,
-        height: -1
-      },
-      header: {
-        height: -1,
-      },
       isEnd: false,
       isScrollUp: false,
       isScrollDown: false,
-
-
-      bool: true,
-      status: -1,
       isLoading: true,
-      popupIndex: -1,
       isPopupShow: false,
-
+      //过滤
+      activeIndex: [0,0],
+      // 列表
       list: [],
-      trend: 2,
+      order: 2,
+      dir: 'desc',
       page: 1,
       limit: 20,
     };
@@ -82,22 +74,19 @@ export default {
 
   mounted() {
     this.refresh();
-    this.header.height = this.$refs.header.$el.offsetHeight;
   },
 
   methods: {
-    changFilter() {
-      this.isPopupShow = true;
-
+    addToCart(){
+      console.log(1)
     },
-    showPopup(index) {
-      this.isShowSpinner = false;
-      this.$nextTick(() => {
-        this.popupIndex = index;
-        this.isPopupShow = true;
-      });
-      // var style = getComputedStyle(this.$refs.swiper.$el, null);
-      // dir(style)
+
+    gotop() {
+      this.scrollY = 0;
+    },
+
+    expandFilterPanel() {
+      this.isPopupShow = true;
     },
 
     afterPopupLeave() {
@@ -150,20 +139,6 @@ export default {
     },
 
     scrollY(newValue, oldValue) {
-      this.filter.isFixed = this.filter.offsetTop < newValue;
-      if (this.filter.isFixed) {
-        this.filter.top = this.header.height;
-      } else {
-        this.filter.top = 0;
-      }
-      if (newValue >= oldValue) {
-        this.isScrollDown = true;
-        this.isScrollUp = false;
-      } else {
-        this.isScrollDown = false;
-        this.isScrollUp = true;
-      }
-
 
     },
 
@@ -179,12 +154,12 @@ export default {
     VLazyLoad,
     VPopup,
     VRadio,
-    VSwitch,
     LayoutHeader,
     LayoutFilter,
     LayoutFooter,
     Drawer,
-    VMask
+    VMask,
+    VGoTop
   }
 }
 
@@ -198,39 +173,48 @@ export default {
   right: 0;
   bottom: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   .scroll-list {
+    flex: 1;
     position: relative;
-
     .content {
       position: relative;
       overflow: hidden;
       .list {
         position: relative;
+        overflow: hidden;
         margin-top: 1rem;
         display: flex;
         flex-flow: row wrap;
         >.item {
-          padding: .01rem;
+          padding: .1rem;
           flex: 0 0 50%;
-          >.img {
-            overflow: hidden;
-            margin: auto;
-            width: 3rem;
-            height: 3rem;
+          overflow: hidden;
+          >a {
+            display: block;
+            width: 100%;
+            >.img {
+              overflow: hidden;
+              margin: auto;
+              width: 3rem;
+              height: 3rem;
+            }
+            >.img[lazy="loading"] {}
+            >.img[lazy="done"] {
+              animation: zoomIn 1s;
+            }
           }
-          >.img[lazy="loading"] {}
-          >.img[lazy="done"] {
-            animation: zoomIn 1s;
-          }
-
           .price {
             display: table;
             margin: auto;
             .final {
               padding: .1rem;
+              font-szie: $big;
             }
             .regular {
               padding: .1rem;
+              font-szie: $big;
               color: $light;
               text-decoration: line-through;
             }
@@ -241,15 +225,17 @@ export default {
             width: 100%;
             height: .8rem;
             line-height: .8rem;
-            background: $base;
+            background: $base; // border:1px solid $base;
+            border-radius: 4px;
             color: $sub;
             display: block;
             margin-top: .3rem;
+            font-size: $big;
           }
         }
       }
       .spinner {
-        // margin: 30px auto;
+        margin: 30px auto;
       }
       .empty {
         text-align: center;

@@ -33,8 +33,7 @@ export default {
     },
 
     zIndex: {
-      type: Number,
-      default: 1
+      type: Number
     },
 
     isFixed: {
@@ -76,5 +75,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
 </style>

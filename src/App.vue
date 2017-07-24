@@ -15,8 +15,8 @@
                     <router-view></router-view>
                 </transition>
             </div>
-            <LayoutFooter v-show="-1 != ['/index', '/category', '/explore', '/bag', '/my'].indexOf($route.path)">
-            </LayoutFooter>
+<!--             <LayoutFooter v-show="-1 != ['/index', '/category', '/explore', '/bag', '/my'].indexOf($route.path)">
+            </LayoutFooter> -->
         </div>
     </VDrawer>
 </template>
@@ -38,7 +38,8 @@ export default {
 
     mounted() {
         var canvas = document.getElementById('canvas')
-        QRCode.toCanvas(canvas, window.location.href, function(error) {
+        QRCode.toCanvas(canvas, window.location.href, function
+(error) {
             if (error) console.error(error)
         })
     },
@@ -81,9 +82,6 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    // position: relative;
-    // height: 100%;
-    // width: 100%;
     display: flex;
     flex-direction: column;
     .body {
