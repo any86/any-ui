@@ -1,9 +1,9 @@
 <template>
   <section class="filter" :class="{fixed: isFixed}" :style="{top: isFixed ? `${fixedDistance}px` : 0}">
     <ul class="menu">
-      <li v-for="(item, i) in dataSource" @click="expandMenu(i)" :class="{active: i == activeIndex[0]}">
-        {{item[0].title}}
-        <Icon v-if="1 < item.length" value="chevron-down" class="icon"></Icon>
+      <li v-for="(item, i) in dataSource" @click="switchPanel(i)" :class="{active: i == activeIndex[0]}">
+        {{1 < item.length ? item[activeIndex[1]].title : item[0].title}} <Icon v-if="1 < item.length" :class="{rotate: i == expandIndex}" value="chevron-up" class="icon">
+          </Icon>
       </li>
     </ul>
     <!-- 菜单选项 -->
@@ -33,8 +33,12 @@ export default {
   data() {
     return {
       dataSource: [
-        [{ title: 'Hight To Low', value: 0 }, { title: 'Low To Hight', value: 1 }],
-        [{ title: 'Default', value: 2 }, { title: 'Best Selling', value: 3 }, { title: 'Recomond', value: 4 }],
+        [{ title: 'Default', value: 0 },
+          { title: 'Recomond', value: 1 },
+          { title: 'Hight To Low', value: 2 },
+          { title: 'Low To Hight', value: 3 }
+        ],
+        [{ title: 'Best Selling', value: 4 }],
         [{ title: 'Newest', value: 5 }]
       ],
       isFixed: false,
@@ -52,14 +56,21 @@ export default {
   },
 
   methods: {
-    expandMenu(index) {
+    switchPanel(index) {
       this.expandIndex = index;
-      this.$emit('expand-menu', index);
+      if (1 < this.dataSource[index].length) {
+        this.$emit('expand-menu', { index, isMulti: true });
+      } else {
+        this.activeIndex = [index, 0];
+        this.$emit('change', { index, optionsIndex: 0 })
+        this.$emit('expand-menu', { index, isMulti: false });
+      }
     },
 
     change(tabsIndex, optionsIndex) {
+      this.expandIndex = -1;
       this.activeIndex = [tabsIndex, optionsIndex];
-      syslog(tabsIndex, optionsIndex)
+      this.$emit('change', { tabsIndex, optionsIndex })
     }
   },
 
@@ -110,10 +121,13 @@ $height:1rem;
 
       >.icon {
         transition: all .6s;
-        &.active {
-          // transform: rotate(180deg);
-          color: $base;
+        &.rotate {
+          transform: rotate(180deg);
         }
+      }
+
+      &.active {
+        color: $base;
       }
     }
   }

@@ -6,7 +6,7 @@
       <!-- 列表和筛选条件 -->
       <div class="content">
         <!-- 筛选条件 -->
-        <LayoutFilter :scrollY="scrollY" @expand-menu="expandFilterPanel" :isShow="isPopupShow" :activeIndex="activeIndex">
+        <LayoutFilter :scrollY="scrollY" @expand-menu="expandFilterPanel" @change="changeFilter" :isShow="isPopupShow" :activeIndex="activeIndex">
         </LayoutFilter>
         <ul class="list">
           <VMask v-model="isPopupShow" :isFixed="false" :zIndex="5"></VMask>
@@ -19,8 +19,8 @@
               <span class="final">${{item.final_price_with_tax}}</span>
               <span class="regular">${{item.regular_price_with_tax}}</span>
             </div>
-            <span v-if="'simple' == item.type_id" @click="addToCart" class="button-buy">Add To Cart</span>
-            <span v-else class="button-buy">Design Your Own</span>
+            <span v-if="'simple' == item.type_id" @click="addToCart" class="button-buy">{{lang.ADD_TO_CART}}</span>
+            <span v-else class="button-buy">{{lang.DESIGN_YOUR_OWN}}</span>
           </li>
         </ul>
         <Spinner v-show="isShowSpinner && !isEnd"></Spinner>
@@ -51,6 +51,7 @@ export default {
 
   data() {
     return {
+      lang: {},
       status: -1,
       isShowSide: false,
       isShowSpinner: true,
@@ -62,7 +63,7 @@ export default {
       isLoading: true,
       isPopupShow: false,
       //过滤
-      activeIndex: [0,0],
+      activeIndex: [0, 0],
       // 列表
       list: [],
       order: 2,
@@ -73,20 +74,33 @@ export default {
   },
 
   mounted() {
+    this.$api.getListPage().then(response => {
+      this.lang = response.data
+    });
+
     this.refresh();
   },
 
   methods: {
-    addToCart(){
-      console.log(1)
+    addToCart() {
+      console.log(1);
     },
 
     gotop() {
       this.scrollY = 0;
     },
 
-    expandFilterPanel() {
-      this.isPopupShow = true;
+    expandFilterPanel({ index, isMulti }) {
+      if (isMulti) {
+        this.isPopupShow = true;
+      } else {
+        this.isPopupShow = false;
+      }
+    },
+
+    changeFilter({ tabsIndex, optionsIndex }) {
+      this.isPopupShow = false;
+      syslog(tabsIndex, optionsIndex)
     },
 
     afterPopupLeave() {

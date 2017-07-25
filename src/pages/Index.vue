@@ -44,9 +44,7 @@ export default {
     },
 
     methods: {
-        showSideBar() {
-            this.$store.commit(types.SHOW_SIDE_BAR);
-        }
+
     },
 
     watch: {

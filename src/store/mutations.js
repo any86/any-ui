@@ -35,5 +35,9 @@ export default {
 
     [types.SET_LANGUAGE](state, language) {
         state.language = language;
+    },
+
+    [types.SET_CUSTOMER](state, customer) {
+        state.customer = customer;
     }
 };
