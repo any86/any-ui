@@ -89,7 +89,7 @@ $height: .5rem;
     height: $height;
     line-height: $height;
     width: $height;
-    color: $darkest;
+    color: $darker;
     font-size: $bigger;
     text-align: center;
     &.disabled {

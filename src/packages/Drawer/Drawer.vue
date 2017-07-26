@@ -87,13 +87,12 @@ export default {
     },
 
     touchend(e) {
+
       this.touch.status = 2;
-      if (10 < this.touch.distanceX) {
-        if (this.sideWidth * 0.2 < this.touch.translateXNew && !this.value) {
-          this.$emit('input', true);
-        } else {
-          this.$emit('input', false);
-        }
+      if (this.sideWidth * 0.2 < this.touch.translateXNew && !this.value) {
+        this.$emit('input', true);
+      } else {
+        this.$emit('input', false);
       }
       this.touch.translateXOld = this.touch.translateXNew;
     },
@@ -102,13 +101,13 @@ export default {
       this.isShowMask = false;
       this.touch.translateXNew = 0;
       this.$emit('input', false);
-
     },
 
   },
 
   watch: {
     value(value) {
+      syslog(value)
       if (value) {
         this.isShowMask = true;
         this.touch.translateXNew = this.sideWidth;

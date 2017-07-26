@@ -44,8 +44,8 @@ export default {
       isFixed: false,
       offsetTop: 0, // 距离父容器顶部距离
       fixedDistance: 0,
-      activeIndex: [0, 0],
-      expandIndex: -1,
+      activeIndex: [0, 0], // 选中值的索引
+      expandIndex: -1,  // 当前打开的tabs
     };
   },
 
@@ -62,7 +62,7 @@ export default {
         this.$emit('expand-menu', { index, isMulti: true });
       } else {
         this.activeIndex = [index, 0];
-        this.$emit('change', { index, optionsIndex: 0 })
+        this.$emit('change', { tabsIndex: index, optionsIndex: 0 })
         this.$emit('expand-menu', { index, isMulti: false });
       }
     },

@@ -4,7 +4,7 @@
             <Icon class="icon" value="gift"></Icon>
             <p class="text">{{dataSource.title}}</p>
         </header>
-        <section v-for="item in dataSource.children" class="item">
+<!--         <section v-for="item in dataSource.children" class="item">
             <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
             <span class="info">
                 <div class="row-1">
@@ -16,7 +16,7 @@
                 <p class="count">x{{item.count}}</p>
             </div>
             </span>
-        </section>
+        </section> -->
     </section>
 </template>
 <script>

@@ -107,7 +107,7 @@ $height : $gutter*8;
 .component-input {
     width: 100%;
     box-sizing: border-box;
-    height: $height;
+    // height: $height;
     padding-bottom: 1px;
     position: relative;
     display: flex;
