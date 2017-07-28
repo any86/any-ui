@@ -3,10 +3,10 @@
     <header>
       {{dataSource.title}}
     </header>
-    <VSwiper>
-      <VSwiperItem v-for="(item, i) in dataSource.children" :key="item" :options="{slidesPerView: 3, spaceBetween: 30}" class="item">
-        <span @click="addToCart(item, i)" class="button-add">
-            <Icon value="plus"></Icon>
+    <VSwiper v-if="0 < list.length" :options="{slidesPerView: 'auto', spaceBetween: 30}">
+      <VSwiperItem v-for="(item, i) in list" :key="i" class="item">
+        <span @click="addToCart(item)" class="button-add">
+          <Icon value="plus"></Icon>
         </span>
         <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
         <h4 class="title">{{item.title}}</h4>
@@ -33,13 +33,23 @@ export default {
     }
   },
 
+  created() {
+    this.$api.getCartRecommend().then(response => {
+      if (200 == response.status) {
+        this.list = response.data;
+      }
+    });
+  },
+
   data() {
-    return { removeIds: [] };
+    return { list: [] };
   },
 
   methods: {
-    addToCart(goods, index) {
-      this.$emit('add-goods', {goods, index});
+    addToCart(goods) {
+      this.$store.dispatch('addGoodsToCart', goods).then(response => {
+        this.$toast('ok')
+      });
     }
   },
 
@@ -58,19 +68,17 @@ $headerHeight: .88rem;
   margin-top: $gutter*3;
   background: $background;
   header {
-    font-size: $big;
+    font-size: $big;text-align: center;
     height: $headerHeight;
     line-height: $headerHeight;
     width: 100%;
     overflow: hidden;
     padding: 0 3*$gutter;
-    border-bottom: 1px solid $lightest;
   }
 
   .item {
     position: relative;
-    width: 2.6rem;
-    border-right: 1px solid $lightest;
+    width:2.6rem;
     &:last-child {
       border-right: none;
     }
@@ -107,5 +115,4 @@ $headerHeight: .88rem;
     }
   }
 }
-
 </style>

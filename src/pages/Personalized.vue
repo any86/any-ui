@@ -42,8 +42,7 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    // padding-bottom: 3*$gutter;
+    bottom: 0; // padding-bottom: 3*$gutter;
     .grid {
         display: flex;
         flex-wrap: wrap;
@@ -70,7 +69,7 @@ export default {
                 text-align: center;
                 margin: .2rem auto;
                 height: 0.8rem;
-                padding:0 .2rem;
+                padding: 0 .2rem;
                 text-overflow: -o-ellipsis-lastline;
                 overflow: hidden;
                 text-overflow: ellipsis;

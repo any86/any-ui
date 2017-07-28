@@ -25,8 +25,8 @@ const Explore = () => ({
     component: import ("@/pages/Explore")
 });
 
-const Bag = () => ({
-    component: import ("@/pages/Bag")
+const Cart = () => ({
+    component: import ("@/pages/Cart")
 });
 
 const Checkout = () => ({
@@ -80,9 +80,9 @@ export default new Router({
         name: "List",
         component: List
     }, {
-        path: "/bag",
-        name: "Bag",
-        component: Bag
+        path: "/cart",
+        name: "Cart",
+        component: Cart
     }, {
         path: "/checkout",
         name: "Checkout",

@@ -119,7 +119,7 @@ Atom.install = function(Vue) {
 
         toastVM.isShow = true;
         toastVM.text = text;
-        toastVM.delay = options.delay;
+        toastVM.delay = options.delay || toastVM.delay;
         return toastVM;
     };
 };

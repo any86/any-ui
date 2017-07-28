@@ -1,5 +1,5 @@
 <template>
-    <Swiper v-model="swiperIndex" :realIndex.sync="swiperRealIndex" :loop="true" :autoplay="3000" :options="{           slidesPerView:1}" class="row-swiper">
+    <Swiper class="row-swiper">
         <SwiperItem>
             <div class="swiper-item" style="background-image: url('https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/new-soufeel-2017/home-new-soufeel-2017-mobile.jpg');"></div>
         </SwiperItem>

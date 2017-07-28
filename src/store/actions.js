@@ -1,9 +1,10 @@
-var getGoodsList = ({ commit, state }, params) => {
+import Api from '../api/';
+import * as type from './mutation-types';
+var getGoodsListOfCart = ({ commit, state }, params) => {
   return new Promise((resolve, reject) => {
-    axios
-      .get('./mock/imgs', { params })
+    Api.getCartGoodsList({ params })
       .then(response => {
-        resolve(response.data);
+        commit(type.SET_CART_LIST, response.data);
       })
       .catch(error => {
         reject(error);
@@ -12,5 +13,5 @@ var getGoodsList = ({ commit, state }, params) => {
 };
 
 export default {
-  getGoodsList
+  getGoodsListOfCart
 };

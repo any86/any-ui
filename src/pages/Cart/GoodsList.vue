@@ -1,14 +1,14 @@
 <template>
   <section class="row-goods-list">
     <transition-group name="list-complete" tag="main">
-      <section v-if="!removeList[i]" v-model="isCheckedList[i]" v-for="(item, i) in dataSource.children" :key="item.id" class="item">
+      <section v-for="(item, i) in $store.state.cart.goodsList" :key="item.id" class="item">
         <!-- <VCheckbox class="checkbox"></VCheckbox> -->
         <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
         <main class="info">
           <!-- 标题 & 删除按钮-->
           <div class="row-1">
             <a class="title">{{item.title}}</a>
-            <img @click="removeGoods(i)" class="icon-remove" src="../../assets/close.svg">
+            <img @click="removeGoods(item.id)" class="icon-remove" src="../../assets/close.svg">
           </div>
           <div class="row-2"></div>
           <!-- 其他信息 -->
@@ -18,7 +18,7 @@
               <span>{{item.price}}</span>
               <span>{{item.price}}</span>
             </div>
-            <VStepper class="steppr" v-model="countList[i]" @clickResult="changeCount(i)"></VStepper>
+            <VStepper class="steppr" v-model="item.count" @change="inputCount(i)"></VStepper>
           </div>
         </main>
       </section>
@@ -26,8 +26,6 @@
   </section>
 </template>
 <script>
-import VSwiperOut from '@/packages/SwiperOut/SwiperOut'
-import VSwiperOutButton from '@/packages/SwiperOut/SwiperOutButton'
 import VStepper from '@/packages/Stepper/Stepper'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VCheckbox from '@/packages/Checkbox/Checkbox'
@@ -36,10 +34,6 @@ export default {
   name: 'GoodsList',
 
   props: {
-    dataSource: {
-      required: true
-    },
-
     scrollY: {
       required: true
     }
@@ -47,35 +41,29 @@ export default {
 
   data() {
     return {
-      removeList: [],
-      countList: [],
-      isCheckedList: []
+      goodsList: []
     };
   },
 
   created() {
-    this.dataSource.children.forEach(item => {
-      this.countList.push(~~item.count);
-      this.isCheckedList.push(false);
-      this.removeList.push(false);
-    })
+    // 获取购物车商品列表
+    this.$store.dispatch('getGoodsListOfCart');
   },
 
   methods: {
-    changeCount(index) {
+    inputCount(index) {
       this.$prompt('数量', {
-        value: this.countList[index]
+        value: this.goodsList[index].count
       }).then(input => {
-        this.countList.splice(index, 1, input);
+        this.goodsList[index].count = input;
       }).catch(e => {
 
       });
     },
 
-    removeGoods(index) {
+    removeGoods(id) {
       this.$confirm('是否删除').then(response => {
-        this.removeList.splice(index, 1, true);
-        this.$emit('remove-goods');
+        this.$store.commit('REMOVE_GOODS_FROM_CART', id);
       }).catch(e => {
 
       });
@@ -83,18 +71,13 @@ export default {
   },
 
   watch: {
-    ['dataSource.children.length'](){
-      const length = this.dataSource.children.length;
-      this.countList.push(this.dataSource.children[length-1].count);
-      this.isCheckedList.push(false);
-      this.removeList.push(false);
+    goodsAppend() {
+      
     }
   },
 
   components: {
     VLazyLoad,
-    VSwiperOut,
-    VSwiperOutButton,
     VCheckbox,
     VStepper,
   }
@@ -186,8 +169,10 @@ $headerHeight: .88rem;
 
 .list-complete-enter,
 .list-complete-leave-active {
+  overflow: hidden;
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(-30px);
+
 }
 
 .list-complete-leave-active {
