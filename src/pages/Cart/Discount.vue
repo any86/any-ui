@@ -4,7 +4,9 @@
       <VSwitch v-model="isUsed">
         <p>
           <Icon value="map" class="icon"></Icon>
-          you have <span>100</span> points available, can be used as <span>$10</span>
+          you have
+          <span>100</span> points available, can be used as
+          <span>$10</span>
         </p>
       </VSwitch>
     </div>
@@ -13,7 +15,7 @@
         <Icon value="map" class="icon"></Icon>coupon-code</a>
       <div class="input-code">
         <VInput v-model="couponCode" class="input"></VInput>
-        <span class="button-apply"><a>Apply Coupon</a></span>
+        <span class="button-apply">Apply Coupon</span>
       </div>
     </div>
   </section>
@@ -53,8 +55,6 @@ export default {
 @import '../../scss/theme.scss';
 .row-discount {
   background: $background;
-  height: 5rem;
-
   .row-ponits {
     display: flex;
     padding: 3*$gutter;
@@ -73,22 +73,33 @@ export default {
     }
   }
 
-  .row-coupon-code {
+  .row-coupon-code {overflow: hidden;
     .icon {
       margin: 3*$gutter;
       color: $base;
     }
     .input-code {
-      display: flex;align-items:center;
+      
+      margin: $gutter;
+      display: flex;
+      height: 1rem;
+      align-items: center;
+      border: 1px solid $lightest;
       .input {
+        padding-left:$gutter * 2;
         flex: 1;
-        border: 1px solid $lightest;
       }
 
-      .button-apply{background: $base;color: $sub;display: block; align-self: stretch;
+      .button-apply {
+        background: $base;
+        color: $sub;
+        display: block;
+        line-height: 1rem;
+        padding: 0 3 * $gutter;
+        color: $sub;
+        font-size: $big;
       }
     }
   }
 }
-
 </style>

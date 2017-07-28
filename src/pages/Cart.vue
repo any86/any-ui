@@ -4,13 +4,19 @@
         <!-- 购物车列表 -->
         <LayoutGoodsList :scrollY="scrollY" @remove-goods="removeGoods">
         </LayoutGoodsList>
-        <!-- 礼品列表 -->
-        <LayoutGiftList :dataSource="content.giftList" :scrollY="scrollY"></LayoutGiftList>
+    
         <!-- 推荐 -->
         <LayoutRecommend :dataSource="content.recommend" :scrollY="scrollY" @add-goods="addRecommendGoodsToCart">
         </LayoutRecommend>
+    
+        <!-- 礼品列表 -->
+        <LayoutGiftList :dataSource="content.giftList" :scrollY="scrollY"></LayoutGiftList>
+    
         <!-- 优惠券和点券 -->
         <LayoutDiscount></LayoutDiscount>
+
+        <!--结果-->
+        <LayoutResult></LayoutResult>
     </ScrollView>
 </template>
 <script>
@@ -22,6 +28,8 @@ import LayoutGoodsList from './Cart/GoodsList'
 import LayoutGiftList from './Cart/GiftList'
 import LayoutRecommend from './Cart/Recommend'
 import LayoutDiscount from './Cart/Discount'
+import LayoutResult from './Cart/Result'
+
 
 
 export default {
@@ -77,7 +85,8 @@ export default {
         LayoutGoodsList,
         LayoutGiftList,
         LayoutRecommend,
-        LayoutDiscount
+        LayoutDiscount,
+        LayoutResult
     }
 }
 
