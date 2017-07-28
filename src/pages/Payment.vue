@@ -1,5 +1,5 @@
 <template>
-    <ScrollView  v-model="scrollY" class="page-payment">
+    <ScrollView v-model="scrollY" class="page-payment">
         <LayoutHeader></LayoutHeader>
         <LayoutCard></LayoutCard>
         <LayoutShippingMethod :shippingMethods.sync="shippingMethods"></LayoutShippingMethod>
@@ -8,16 +8,11 @@
 </template>
 <script>
 import * as types from "@/store/mutation-types";
-
 // 模块
 import LayoutHeader from './Payment/Header'
 import LayoutCard from './Payment/Card'
 import LayoutShippingMethod from './Payment/ShippingMethod'
 import LayoutCheckoutReview from './Payment/CheckoutReview'
-
-
-
-
 export default {
     name: 'Payment',
 
@@ -38,7 +33,7 @@ export default {
     },
 
     components: {
-        LayoutHeader,LayoutCard,LayoutShippingMethod, LayoutCheckoutReview
+        LayoutHeader, LayoutCard, LayoutShippingMethod, LayoutCheckoutReview
     }
 }
 </script>

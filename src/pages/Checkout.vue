@@ -4,7 +4,7 @@
         <main>
             <LayoutUserInfo :isSameAddress.sync="isSameAddress"></LayoutUserInfo>
             <LayoutShippingMethod :shippingMethods.sync="shippingMethods"></LayoutShippingMethod>
-            <LayoutSelectCard></LayoutSelectCard>
+            <LayoutPaymentMethods></LayoutPaymentMethods>
             <LayoutCouponCode></LayoutCouponCode>
             <LayoutCheckoutReview></LayoutCheckoutReview>
         </main>
@@ -15,7 +15,7 @@
 import LayoutHeader from './Checkout/Header'
 import LayoutUserInfo from './Checkout/UserInfo'
 import LayoutShippingMethod from './Checkout/ShippingMethod'
-import LayoutSelectCard from './Checkout/SelectCard'
+import LayoutPaymentMethods from './Checkout/PaymentMethods'
 import LayoutCouponCode from './Checkout/CouponCode'
 import LayoutCheckoutReview from './Checkout/CheckoutReview'
 
@@ -43,7 +43,7 @@ export default {
         LayoutHeader,
         LayoutUserInfo,
         LayoutShippingMethod,
-        LayoutSelectCard,
+        LayoutPaymentMethods,
         LayoutCouponCode,
         LayoutCheckoutReview
 

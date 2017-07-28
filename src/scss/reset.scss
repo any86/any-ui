@@ -197,3 +197,9 @@ img[lazy="done"] {
   overflow: hidden;
   white-space: nowrap;
 }
+
+
+.text-success{color:$success;font-size: inherit;}
+.text-warning{color:$warning;font-size: inherit;}
+.text-danger{color:$danger;font-size: inherit;}
+.text-info{color:$info;font-size: inherit;}

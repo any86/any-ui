@@ -34,7 +34,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../../scss/theme.scss';
-.row-checkout-review {
+.row-CheckoutReview {
     background: $background;
     margin-top: $gutter * 3;
     >header {
