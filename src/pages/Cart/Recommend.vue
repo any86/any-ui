@@ -4,19 +4,21 @@
       {{dataSource.title}}
     </header>
     <VSwiper v-if="0 < list.length" :options="{slidesPerView: 'auto', spaceBetween: 30}">
-      <VSwiperItem v-for="(item, i) in list" :key="i" class="item">
-        <span @click="addToCart(item)" class="button-add">
+      <VSwiperItem v-for="(goods, i) in list" :key="goods.entity_id" class="item">
+        <span @click="addToCart(goods)" class="button-add">
           <Icon value="plus"></Icon>
         </span>
-        <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
-        <h4 class="title">{{item.title}}</h4>
-        <p class="price">{{item.price}}</p>
+        <VLazyLoad class="img" :src="goods.image_small_url" :watch="scrollY"></VLazyLoad>
+        <h4 class="title">{{goods.name}}</h4>
+        <p class="price">{{goods.final_price_with_tax}}</p>
       </VSwiperItem>
     </VSwiper>
+    <VSpinner v-else class="spinner"></VSpinner>
   </section>
 </template>
 <script>
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
+import VSpinner from '@/packages/Spinner/Spinner'
 import VSwiper from '@/packages/Swiper/Swiper'
 import VSwiperItem from '@/packages/Swiper/SwiperItem'
 
@@ -35,7 +37,7 @@ export default {
 
   created() {
     this.$api.getCartRecommend().then(response => {
-      if (200 == response.status) {
+      if (SUCCESS_CODE == response.status) {
         this.list = response.data;
       }
     });
@@ -47,14 +49,22 @@ export default {
 
   methods: {
     addToCart(goods) {
-      this.$store.dispatch('addGoodsToCart', goods).then(response => {
-        this.$toast('ok')
+      const data = {
+        product: goods.entity_id,
+        options: {
+          1631: "9240"
+        }
+      };
+      this.$store.dispatch('addGoodsToCart', data).then(response => {
+        this.$toast('ok');
+        this.$store.dispatch('getGoodsListOfCart');
       });
     }
   },
 
   components: {
     VLazyLoad,
+    VSpinner,
     VSwiper,
     VSwiperItem
   }
@@ -68,7 +78,8 @@ $headerHeight: .88rem;
   margin-top: $gutter*3;
   background: $background;
   header {
-    font-size: $big;text-align: center;
+    font-size: $big;
+    text-align: center;
     height: $headerHeight;
     line-height: $headerHeight;
     width: 100%;
@@ -78,7 +89,7 @@ $headerHeight: .88rem;
 
   .item {
     position: relative;
-    width:2.6rem;
+    width: 2.6rem;
     &:last-child {
       border-right: none;
     }
@@ -97,8 +108,8 @@ $headerHeight: .88rem;
       overflow: hidden;
     }
     .img {
-      display: block;
-      width: 80%;
+      display: block; // width: 80%;
+      width: 1rem;
       margin: auto;
     }
     .title {
@@ -113,6 +124,9 @@ $headerHeight: .88rem;
       height: .5rem;
       font-size: $normal;
     }
+  }
+  .spinner {
+    padding: 3*$gutter 0;
   }
 }
 </style>

@@ -5,7 +5,7 @@
                 <slot></slot>
             </a>
             <span class="radio">
-                <input :disabled="disabled" :value="selfValue" :checked="isChecked" @change="change" type="radio">
+                <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" type="radio">
                 <span class="icon"></span>
             </span>
         </label>
@@ -23,10 +23,6 @@ export default {
         disabled: {
             type: Boolean,
             default: false
-        },
-
-        selfValue: {
-            required: true
         },
 
         value: {

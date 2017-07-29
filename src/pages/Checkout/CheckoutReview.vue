@@ -15,7 +15,7 @@
                 <span>$10.00</span>
             </li>
         </ul>
-
+    
         <a class="btn btn-place">
             $20 | PLACE HOLDER
         </a>
@@ -34,7 +34,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../../scss/theme.scss';
-.row-CheckoutReview {
+.row-checkout-review {
+    height: 10rem;
     background: $background;
     margin-top: $gutter * 3;
     >header {
@@ -53,6 +54,15 @@ export default {
         }
     }
 
-    >.btn-place{height: 1rem;line-height: 1rem;text-align: center; width: 100%;background: $base;color:$sub;display: block;font-size: $big;}
+    >.btn-place {
+        height: 1rem;
+        line-height: 1rem;
+        text-align: center;
+        width: 100%;
+        background: $base;
+        color: $sub;
+        display: block;
+        font-size: $big;
+    }
 }
 </style>

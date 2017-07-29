@@ -1,4 +1,7 @@
 import axios from 'axios';
+// axios.conifg()
+
+
 
 const getCartPage = params => axios.get('./static/cart.json', { params });
 
@@ -16,13 +19,12 @@ const getIndexPage = params => axios.get('./static/index.json', { params });
 // 列表页
 const getListPage = params => axios.get('./static/list.json', { params });
 // 购物车相关
-const getCartGoodsList = params => axios.get('./static/cartGoodsList.json', { params });
-const getCartRecommend = params => axios.get('./static/cartRecommend.json', { params });
+// const getGoodsListOfCart = params => axios.get('./static/cartGoodsList.json', { params });
+const getGoodsListOfCart = params => axios.get('/api/rest/cart/item?___store=default', { params });
+const getCartRecommend = params => axios.get('/api/rest/catalog/product?skus[]=YB1353&skus[]=YB1264&skus[]=XS1386&skus[]=XS1325&skus[]=YB1384&___store=default', { params });
 const getCartGiftList = params => axios.get('./static/cartGoodsList.json', { params });
-
-const addGoodsToCart = params => axios.get('./static/success.json', { params });
-
-
+const addGoodsToCart = data => axios.post('/api/rest/cart/item?___store=default', data);
+const removeGoodsFromCart = data => axios.delete('/api/rest/cart/item?___store=default', {data});
 export default {
   getGoodsList,
   getCartPage,
@@ -32,5 +34,8 @@ export default {
   login,
   getIndexPage,
   getListPage,
-  getCartGoodsList,getCartRecommend,addGoodsToCart
+  getGoodsListOfCart,
+  getCartRecommend,
+  addGoodsToCart,
+  removeGoodsFromCart
 };

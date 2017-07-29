@@ -15,17 +15,18 @@ const state = {
 
 // getters
 const getters = {
-  count: state => state.goodsList.length
+  cartGoodsCount: state => state.goodsList.length
 }
 
 // actions
 const actions = {
   getGoodsListOfCart({ commit, state }, params) {
     return new Promise((resolve, reject) => {
-      Api.getCartGoodsList({ params })
+      Api.getGoodsListOfCart({ params })
         .then(response => {
-          if (200 == response.status) {
+          if (SUCCESS_CODE == response.status) {
             commit(SET_CART_LIST, response.data);
+            resolve(response);
           }
         })
         .catch(error => {
@@ -36,10 +37,23 @@ const actions = {
 
   addGoodsToCart({ commit, state }, goods) {
     return new Promise((resolve, reject) => {
-      Api.addGoodsToCart({ id: goods.id })
+      Api.addGoodsToCart(goods)
         .then(response => {
           commit(ADD_GOODS_TO_CART, goods);
           resolve(goods);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+
+  removeGoodsFromCart({ commit, state }, id) {
+    return new Promise((resolve, reject) => {
+      Api.removeGoodsFromCart(id)
+        .then(response => {
+          commit(REMOVE_GOODS_FROM_CART, id);
+          resolve(id);
         })
         .catch(error => {
           reject(error);

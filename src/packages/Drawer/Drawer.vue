@@ -2,8 +2,8 @@
   <div class="component-drawer" :style="{height}" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
     <div class="scroll-body" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`, 'transition-duration': 1 != touch.status ? '300ms' : '0ms'}">
       <span class="side" ref="side">
-            <slot name="side"></slot>
-        </span>
+        <slot name="side"></slot>
+      </span>
       <main>
         <slot></slot>
         <VMask :fixed="false" :value="isShowMask" @touchstart.native="close"></VMask>
@@ -87,7 +87,6 @@ export default {
     },
 
     touchend(e) {
-
       this.touch.status = 2;
       if (this.sideWidth * 0.2 < this.touch.translateXNew && !this.value) {
         this.$emit('input', true);
@@ -98,11 +97,10 @@ export default {
     },
 
     close() {
-      this.isShowMask = false;
-      this.touch.translateXNew = 0;
-      this.$emit('input', false);
+        this.isShowMask = false;
+        this.touch.translateXNew = 0;
+        this.$emit('input', false);
     },
-
   },
 
   watch: {
@@ -177,5 +175,4 @@ export default {
     // }
   }
 }
-
 </style>

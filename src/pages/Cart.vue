@@ -14,8 +14,7 @@
     
         <!-- 优惠券和点券 -->
         <LayoutDiscount></LayoutDiscount>
-
-        <!--结果-->
+      <!--结果-->
         <LayoutResult></LayoutResult>
     </ScrollView>
 </template>

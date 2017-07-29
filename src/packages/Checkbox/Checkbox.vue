@@ -48,6 +48,10 @@ export default {
     watch: {
         value(value) {
             this.checked = value;
+        },
+
+        checked(value){
+            this.$emit('input', value);
         }
     }
 }

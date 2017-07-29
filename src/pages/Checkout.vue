@@ -5,7 +5,6 @@
             <LayoutUserInfo :isSameAddress.sync="isSameAddress"></LayoutUserInfo>
             <LayoutShippingMethod :shippingMethods.sync="shippingMethods"></LayoutShippingMethod>
             <LayoutPaymentMethods></LayoutPaymentMethods>
-            <LayoutCouponCode></LayoutCouponCode>
             <LayoutCheckoutReview></LayoutCheckoutReview>
         </main>
         <footer></footer>
@@ -16,7 +15,6 @@ import LayoutHeader from './Checkout/Header'
 import LayoutUserInfo from './Checkout/UserInfo'
 import LayoutShippingMethod from './Checkout/ShippingMethod'
 import LayoutPaymentMethods from './Checkout/PaymentMethods'
-import LayoutCouponCode from './Checkout/CouponCode'
 import LayoutCheckoutReview from './Checkout/CheckoutReview'
 
 export default {
@@ -44,7 +42,6 @@ export default {
         LayoutUserInfo,
         LayoutShippingMethod,
         LayoutPaymentMethods,
-        LayoutCouponCode,
         LayoutCheckoutReview
 
     }

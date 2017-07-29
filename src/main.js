@@ -1,7 +1,9 @@
 window.syslog = (...val) => console.log.apply(null, val);
 window.dir = (...val) => console.dir.apply(null, val);
 
-
+window.SUCCESS_CODE = 200;
+window.FAIL_CODE = 400;
+window.LOADING_CODE = -1;
 
 
 // The Vue build version to load with the `import` command

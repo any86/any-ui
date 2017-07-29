@@ -1,35 +1,37 @@
 <template>
   <section class="row-goods-list">
-    <transition-group name="list-complete" tag="main">
-      <section v-for="(item, i) in $store.state.cart.goodsList" :key="item.id" class="item">
+    <transition-group v-if="-1 != $store.state.cart.status" name="list-complete" tag="main">
+      <section v-for="(goods, i) in $store.state.cart.goodsList" :key="goods.item_id" class="goods">
         <!-- <VCheckbox class="checkbox"></VCheckbox> -->
-        <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
+        <VLazyLoad class="img" :src="goods.image" :watch="scrollY"></VLazyLoad>
         <main class="info">
           <!-- 标题 & 删除按钮-->
           <div class="row-1">
-            <a class="title">{{item.title}}</a>
-            <img @click="removeGoods(item.id)" class="icon-remove" src="../../assets/close.svg">
+            <a class="title">{{goods.name}}</a>
+            <img @click="removeGoods(goods.item_id)" class="icon-remove" src="../../assets/close.svg">
           </div>
           <div class="row-2"></div>
           <!-- 其他信息 -->
           <div class="row-3">
-            <!-- <p class="info">{{item.info}}</p> -->
+            <!-- <p class="info">{{goods.info}}</p> -->
             <div class="price">
-              <span>{{item.price}}</span>
-              <span>{{item.price}}</span>
+              <span>{{goods.calculation_price}}</span>
+              <span>{{goods.info}}</span>
             </div>
-            <VStepper class="steppr" v-model="item.count" @change="inputCount(i)"></VStepper>
+            <VStepper class="steppr" v-model="goods.qty" @change="inputCount(i)"></VStepper>
           </div>
         </main>
       </section>
     </transition-group>
+    <VSpinner v-else class="spinner"></VSpinner>
   </section>
 </template>
 <script>
+import {SET_CART_STATUS} from '../../store/mutation-types.js'
 import VStepper from '@/packages/Stepper/Stepper'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VCheckbox from '@/packages/Checkbox/Checkbox'
-
+import VSpinner from '@/packages/Spinner/Spinner'
 export default {
   name: 'GoodsList',
 
@@ -47,7 +49,9 @@ export default {
 
   created() {
     // 获取购物车商品列表
-    this.$store.dispatch('getGoodsListOfCart');
+    this.$store.dispatch('getGoodsListOfCart').then(response=> {
+        this.$store.commit(SET_CART_STATUS, SUCCESS_CODE);
+    });
   },
 
   methods: {
@@ -63,7 +67,10 @@ export default {
 
     removeGoods(id) {
       this.$confirm('是否删除').then(response => {
-        this.$store.commit('REMOVE_GOODS_FROM_CART', id);
+        // this.$store.commit('REMOVE_GOODS_FROM_CART', id);
+        this.$store.dispatch('removeGoodsFromCart', [id]).then(response=>{
+          this.$store.dispatch('getGoodsListOfCart')
+        });
       }).catch(e => {
 
       });
@@ -72,14 +79,14 @@ export default {
 
   watch: {
     goodsAppend() {
-      
+
     }
   },
 
   components: {
     VLazyLoad,
     VCheckbox,
-    VStepper,
+    VStepper, VSpinner
   }
 }
 
@@ -165,6 +172,7 @@ $headerHeight: .88rem;
       }
     }
   }
+  .spinner{padding: 3*$gutter 0;}
 }
 
 .list-complete-enter,
@@ -172,11 +180,9 @@ $headerHeight: .88rem;
   overflow: hidden;
   opacity: 0;
   transform: translateY(-30px);
-
 }
 
 .list-complete-leave-active {
   position: absolute;
 }
-
 </style>

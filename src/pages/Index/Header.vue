@@ -4,7 +4,7 @@
         <Icon value="search" style="margin-left:15px;"></Icon>
         <img class="logo" src="../../assets/logo.png">
         <Icon value="user" style="margin-right:15px;"></Icon>
-        <Icon value="shopping-bag"></Icon>
+        <router-link :to="{path: '/cart'}"><Icon value="shopping-bag"></Icon></router-link>
     </header>
 </template>
 <script>
