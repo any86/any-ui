@@ -1,5 +1,6 @@
 import DialogRoot from './Dialog/DialogRoot'
 import Toast from '@/packages/Toast/Toast'
+import Loading from '@/packages/Loading/Loading'
 import Icon from './Icon/Icon';
 import Spinner from './Spinner/Spinner';
 import ScrollView from './ScrollView/ScrollView';
@@ -8,7 +9,7 @@ import FlexItem from './Flexbox/FlexItem';
 import Badge from './Badge/Badge'
 
 var Atom = {};
-Atom.install = function(Vue) {
+Atom.install = function (Vue) {
     Vue.component(Flexbox.name, Flexbox);
     Vue.component(FlexItem.name, FlexItem);
     Vue.component(ScrollView.name, ScrollView);
@@ -94,15 +95,28 @@ Atom.install = function(Vue) {
 
         });
     };
-
+    // ========================================== mask ==================================
     Vue.prototype.$mask = (options = {}) => {
         vm.mask.show = true;
     };
 
+    // ========================================== loading ==================================
+    Vue.prototype.$loading = (options = { isShow: true}) => {
+        // ** 每次创建新toast实例 **
+        var LoadingComponent = Vue.extend(Loading);
+        // 创建一个挂载点
+        var node = document.createElement('div');
+        // 起个不重复的名字
+        node.id = '_app-loading-' + Math.ceil(Math.random());
+        document.body.appendChild(node);
+        // 挂载
+        const LoadingVM = new LoadingComponent().$mount('#' + node.id);
+
+        LoadingVM.isShow = options.isShow;
+        return LoadingVM;
+    };
+
     // ==========================================toast==================================
-
-
-
     Vue.prototype.$toast = (text = '', options = {}) => {
         // ** 每次创建新toast实例 **
         var ToastComponent = Vue.extend(Toast);
