@@ -10,7 +10,7 @@
     <template v-else>
       <Icon :class="['button', 'button-minus', min == value && 'disabled']" value="minus" @click="minus">
       </Icon>
-      <span class="content" @click="change">{{value}}</span>
+      <span class="content" @click="click">{{value}}</span>
       <Icon :class="['button', 'button-plus', max == value && 'disabled']" value="plus" @click="plus">
       </Icon>
     </template>
@@ -29,7 +29,7 @@ export default {
 
     min: {
       type: Number,
-      default: 0
+      default: 1
     },
 
     max: {
@@ -48,8 +48,8 @@ export default {
   },
 
   methods: {
-    change() {
-      this.$emit('change');
+    click() {
+      this.$emit('click');
     },
 
     minus() {
@@ -121,5 +121,4 @@ $height: .5rem;
     }
   }
 }
-
 </style>

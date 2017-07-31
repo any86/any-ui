@@ -4,8 +4,6 @@ window.dir = (...val) => console.dir.apply(null, val);
 window.SUCCESS_CODE = 200;
 window.FAIL_CODE = 400;
 window.LOADING_CODE = -1;
-
-
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'

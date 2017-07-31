@@ -3,22 +3,30 @@
         <header>PAYMENT METHODS</header>
         <ul>
             <li>
-                <VCheckbox v-model="paymentType">PayPal</VCheckbox>
+                <VRadio v-model="paymentType" :selfValue="0">PayPal</VRadio>
             </li>
             <li>
-                <VCheckbox v-model="paymentType">CREDIT CARD</VCheckbox>
+                <VRadio v-model="paymentType" :selfValue="1">CREDIT CARD</VRadio>
                 <div v-show="paymentType" class="creadit-card-detail-panel">
-                    <VInput v-model="card" class="input" :placeholder="'card number'"></VInput>
-                    <VInput v-model="expireDate" class="input" :placeholder="'expire date'"></VInput>
+                    <VInput v-model="card" type="bankCode" class="input" :placeholder="'card number'"></VInput>
+                    <VInput :value="expireDate" class="input" :placeholder="'expire date'" @focus="isShowDatePicker=true">
+                    </VInput>
                     <VInput v-model="secureCode" class="input" :placeholder="'secure code'"></VInput>
                 </div>
             </li>
         </ul>
+        <VPopup v-model="isShowDatePicker">
+            <VPicker v-model="pickerValue" :dataSource="pickerDataSource"></VPicker>
+        </VPopup>
+        
     </section>
 </template>
 <script>
-import VCheckbox from '@/packages/Checkbox/Checkbox'
+import VPicker from '@/packages/Picker/Picker'
+import VRadio from '@/packages/Radio/Radio'
 import VInput from '@/packages/Input/Input'
+import VPopup from '@/packages/Dialog/Popup'
+
 
 export default {
     name: 'paymentMethods',
@@ -31,14 +39,26 @@ export default {
 
     data() {
         return {
+            isShowDatePicker: false,
             card: '',
-            expireDate: '',
             secureCode: '',
-            paymentType: 0
+            paymentType: 1,
+            pickerValue: [2018, '01'],
+            pickerDataSource: [
+                [{label:2018, value: 2018}, {label:2017, value:2017}],
+                [{label: '01', value: '01'}, {label:'02', value:'02'}, {label:'03', value:'03'}]
+            ]
         };
     },
 
-    components: { VCheckbox, VInput }
+    computed: {
+        expireDate(){
+            const pickerValue = [...this.pickerValue];
+            return pickerValue.reverse().join(' / ');
+        }
+    },
+
+    components: { VPicker, VInput, VRadio, VPopup }
 }
 </script>
 <style lang="scss" scoped>

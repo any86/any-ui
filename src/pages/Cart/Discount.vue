@@ -15,7 +15,7 @@
         <Icon value="map" class="icon"></Icon>coupon-code</a>
       <div class="input-code">
         <VInput v-model="couponCode" class="input"></VInput>
-        <span class="button-apply">Apply Coupon</span>
+        <span @click="useCoupon" class="button-apply">Apply Coupon</span>
       </div>
     </div>
   </section>
@@ -42,6 +42,16 @@ export default {
       isUsed: false,
       couponCode: ''
     };
+  },
+
+  methods: {
+    useCoupon() {
+      const $loading = this.$loading();
+      this.$store.dispatch('useCoupon', this.couponCode).then(Response => {
+        $loading.close();
+        syslog(Response)
+      });
+    }
   },
 
   components: {
@@ -73,20 +83,21 @@ export default {
     }
   }
 
-  .row-coupon-code {overflow: hidden;
+  .row-coupon-code {
+    overflow: hidden;
     .icon {
       margin: 3*$gutter;
       color: $base;
     }
     .input-code {
-      
+
       margin: $gutter;
       display: flex;
       height: 1rem;
       align-items: center;
       border: 1px solid $lightest;
       .input {
-        padding-left:$gutter * 2;
+        padding-left: $gutter * 2;
         flex: 1;
       }
 

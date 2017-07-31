@@ -34,6 +34,7 @@ export default {
 
   data() {
     return {
+      isFromEdge: false,
       isShowMask: false,
       screenHeight: -1,
       sideWidth: -1,
@@ -58,48 +59,54 @@ export default {
       this.touch.status = 0;
       this.touch.startX = e.touches[0].clientX;
       this.touch.startY = e.touches[0].clientY;
+      // 判断是否从边缘开始拖拽
+      this.isFromEdge = 100 > this.touch.startX || this.sideWidth - 100 < this.touch.startX;
     },
 
     touchmove(e) {
-      this.touch.status = 1;
-      this.touch.distanceX = e.touches[0].clientX - this.touch.startX;
-      this.touch.distanceY = e.touches[0].clientY - this.touch.startY;
-      // 关闭状态 && 正向拖拽
-      if (!this.value && 0 < this.touch.distanceX) {
-        // 新位置
-        const translateXNew = this.touch.translateXOld + this.touch.distanceX;
-        // 如果X轴拖拽, 或者打开状态,  禁止页面滚动
-        if (this.sensitivity < Math.abs(this.touch.distanceX) - Math.abs(this.touch.distanceY) || this.value) {
-          this.isShowMask = true;
-          // 合法范围内
-          if (this.sideWidth >= translateXNew && 0 <= translateXNew) {
-            this.touch.translateXNew = translateXNew;
-            // 超过最大距离
-          } else if (this.sideWidth < translateXNew) {
-            this.touch.translateXNew = this.sideWidth;
-            // 反向超过最小距离
-          } else {
-            this.touch.translateXNew = 0;
+      if (this.isFromEdge) {
+        this.touch.status = 1;
+        this.touch.distanceX = e.touches[0].clientX - this.touch.startX;
+        this.touch.distanceY = e.touches[0].clientY - this.touch.startY;
+        // 关闭状态 && 正向拖拽
+        if (!this.value && 0 < this.touch.distanceX) {
+          // 新位置
+          const translateXNew = this.touch.translateXOld + this.touch.distanceX;
+          // 如果X轴拖拽, 或者打开状态,  禁止页面滚动
+          if (this.sensitivity < Math.abs(this.touch.distanceX) - Math.abs(this.touch.distanceY) || this.value) {
+            this.isShowMask = true;
+            // 合法范围内
+            if (this.sideWidth >= translateXNew && 0 <= translateXNew) {
+              this.touch.translateXNew = translateXNew;
+              // 超过最大距离
+            } else if (this.sideWidth < translateXNew) {
+              this.touch.translateXNew = this.sideWidth;
+              // 反向超过最小距离
+            } else {
+              this.touch.translateXNew = 0;
+            }
+            e.preventDefault();
           }
-          e.preventDefault();
         }
       }
     },
 
     touchend(e) {
-      this.touch.status = 2;
-      if (this.sideWidth * 0.2 < this.touch.translateXNew && !this.value) {
-        this.$emit('input', true);
-      } else {
-        this.$emit('input', false);
+      if (this.isFromEdge) {
+        this.touch.status = 2;
+        if (this.sideWidth * 0.2 < this.touch.translateXNew && !this.value) {
+          this.$emit('input', true);
+        } else {
+          this.$emit('input', false);
+        }
+        this.touch.translateXOld = this.touch.translateXNew;
       }
-      this.touch.translateXOld = this.touch.translateXNew;
     },
 
     close() {
-        this.isShowMask = false;
-        this.touch.translateXNew = 0;
-        this.$emit('input', false);
+      this.isShowMask = false;
+      this.touch.translateXNew = 0;
+      this.$emit('input', false);
     },
   },
 

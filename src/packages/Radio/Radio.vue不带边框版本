@@ -1,10 +1,10 @@
 <template>
     <div :class="['component-radio', disabled && 'disabled']">
         <label>
-            <span v-if="!!$slots.default" class="title">
+            <a v-if="!!$slots.default" class="title">
                 <slot></slot>
-            </span>
-            <span v-show="selfValue == value" class="radio">
+            </a>
+            <span class="radio">
                 <input :disabled="disabled" :value="selfValue" :checked="isChecked" @change="change" type="radio">
                 <span class="icon"></span>
             </span>
@@ -74,9 +74,10 @@ $height: .5rem;
     } // 正常
     >label {
         display: flex;
-        align-items: center;
-        >.title {
+        >a.title {
             flex: 1;
+            height: $height;
+            line-height: $height;
             font-size: $big;
             &.active {
                 color: $base;
@@ -86,7 +87,7 @@ $height: .5rem;
             position: relative;
             width: $height;
             height: $height;
-            
+
             >input {
                 display: none;
             }

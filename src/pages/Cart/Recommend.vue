@@ -49,6 +49,7 @@ export default {
 
   methods: {
     addToCart(goods) {
+      const $loading = this.$loading();
       const data = {
         product: goods.entity_id,
         options: {
@@ -56,8 +57,9 @@ export default {
         }
       };
       this.$store.dispatch('addGoodsToCart', data).then(response => {
-        this.$toast('ok');
-        this.$store.dispatch('getGoodsListOfCart');
+        this.$store.dispatch('getGoodsListOfCart').then(() => {
+          $loading.close();
+        });
       });
     }
   },

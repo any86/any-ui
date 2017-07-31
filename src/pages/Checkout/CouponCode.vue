@@ -1,12 +1,24 @@
 <template>
     <section class="row-coupon-code">
-        <span>COUPON CODE</span>
+        <span>COUPON CODE11</span>
         <Icon class="icon" value="angle-right"></Icon>
     </section>
 </template>
 <script>
 export default {
     name: 'CouponCode',
+
+    data(){
+        return {code: ''};
+    },
+
+    methods: {
+        useCoupon(){
+            this.$store.dispatch('useCoupon', this.code).then(Response=>{
+
+            });
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>

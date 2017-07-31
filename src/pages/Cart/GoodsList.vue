@@ -18,7 +18,7 @@
               <span>{{goods.calculation_price}}</span>
               <span>{{goods.info}}</span>
             </div>
-            <VStepper class="steppr" v-model="goods.qty" @change="inputCount(i)"></VStepper>
+            <VStepper :value="goods.qty" @input="changeCount($event, goods)" @click="showCountDialog(i)" class="steppr"></VStepper>
           </div>
         </main>
       </section>
@@ -27,7 +27,7 @@
   </section>
 </template>
 <script>
-import {SET_CART_STATUS} from '../../store/mutation-types.js'
+import { SET_CART_STATUS } from '../../store/mutation-types.js'
 import VStepper from '@/packages/Stepper/Stepper'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VCheckbox from '@/packages/Checkbox/Checkbox'
@@ -49,17 +49,46 @@ export default {
 
   created() {
     // 获取购物车商品列表
-    this.$store.dispatch('getGoodsListOfCart').then(response=> {
-        this.$store.commit(SET_CART_STATUS, SUCCESS_CODE);
+    this.$store.dispatch('getGoodsListOfCart').then(response => {
+      this.$store.commit(SET_CART_STATUS, SUCCESS_CODE);
     });
   },
 
   methods: {
-    inputCount(index) {
+    changeCount(count, goods) {
+      const $loading = this.$loading();
+      this.$store.dispatch('editGoodsOfCart', {
+        id: goods.item_id,
+        qty: count,
+        "options": {
+          "1631": "9240"
+        }
+      }).then(response => {
+        this.$store.dispatch('getGoodsListOfCart').then(() => {
+          $loading.close();
+        })
+      })
+    },
+
+    showCountDialog(index) {
+      const goods = this.$store.state.cart.goodsList[index];
+      
       this.$prompt('数量', {
-        value: this.goodsList[index].count
+        value: goods.qty
       }).then(input => {
-        this.goodsList[index].count = input;
+        const $loading = this.$loading();
+        this.$store.dispatch('editGoodsOfCart', {
+          id: goods.item_id,
+          qty: input,
+          "options": {
+            "1631": "9240"
+          }
+        }).then(response => {
+          syslog(response)
+          this.$store.dispatch('getGoodsListOfCart').then(() => {
+            $loading.close();
+          })
+        })
       }).catch(e => {
 
       });
@@ -68,7 +97,7 @@ export default {
     removeGoods(id) {
       this.$confirm('是否删除').then(response => {
         // this.$store.commit('REMOVE_GOODS_FROM_CART', id);
-        this.$store.dispatch('removeGoodsFromCart', [id]).then(response=>{
+        this.$store.dispatch('removeGoodsFromCart', [id]).then(response => {
           this.$store.dispatch('getGoodsListOfCart')
         });
       }).catch(e => {
@@ -172,7 +201,9 @@ $headerHeight: .88rem;
       }
     }
   }
-  .spinner{padding: 3*$gutter 0;}
+  .spinner {
+    padding: 3*$gutter 0;
+  }
 }
 
 .list-complete-enter,

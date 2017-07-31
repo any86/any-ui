@@ -16,7 +16,7 @@ const state = {
   isShowHeader: true,
   isShowFooter: true,
   isShowSide: false,
-  isShowLoading: false
+  isShowLoading: false,
 };
 
 Vue.use(Vuex);

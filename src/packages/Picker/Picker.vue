@@ -60,7 +60,6 @@ export default {
          * 滚动UI到默认值位置
          */
         _syncPosition() {
-
             this.value.forEach((value, index) => {
                 // 寻找当前值在所在列中的索引
                 var i = this.dataSource[index].findIndex(item => {
@@ -139,7 +138,7 @@ export default {
 
     watch: {
         value(value) {
-            
+
             // 初始化默认值
             this._syncPosition();
         }
