@@ -5,7 +5,7 @@
                 <slot></slot>
             </a>
             <span class="radio">
-                <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" type="radio">
+                <input :disabled="disabled" :value="selfValue" :checked="isChecked" @change="change" type="radio">
                 <span class="icon"></span>
             </span>
         </label>
@@ -27,7 +27,12 @@ export default {
 
         value: {
             required: true
-        }
+        },
+
+        selfValue: {
+            required: true
+        },
+
     },
     methods: {
         change() {
@@ -66,8 +71,7 @@ $height: .5rem;
                 }
             }
         }
-    }
-    // 正常
+    } // 正常
     >label {
         display: flex;
         >a.title {
