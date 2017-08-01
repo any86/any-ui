@@ -1,18 +1,30 @@
+import store from '@/store'
 import Axios from 'axios';
 const axios = Axios.create({
-  // baseURL: 'https://some-domain.com/api/',
-  // timeout: 1000,
-  headers: {
-    'api-store': 'default',
-    'api-cache': 1,
-    'api-currency': 'USD'
-  }
+    headers: {
+        'api-store': 'default',
+        'api-cache': 1,
+    }
 });
 
+// 拦截request
+axios.interceptors.request.use(function (config) {
+    config.headers = {
+        ...config.headers,
+        ...{
+            'api-currency': store.state.currency
+        }
+    };
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+// 购物车页面
 const getCartPage = params => axios.get('./static/cart.json', { params });
-
+// 存储收获地址
 const saveAddress = params => axios.post('./mock/success', params);
-
+// 商品列表
 const getGoodsList = params => axios.get('/api/rest/catalog/product?category=7', { params });
 // const getGoodsList = params => axios.get('./static/imgs.json', { params });
 const getGoodsListBySku = params => axios.get('/api/rest/catalog/product', { params });
@@ -32,20 +44,21 @@ const editGoodsOfCart = data => axios.put('/api/rest/cart/item', data);
 const removeGoodsFromCart = data => axios.delete('/api/rest/cart/item', { data });
 const getTotalOfCart = params => axios.get('/api/rest/cart/total', { params });
 
-
 // 优惠券
 const useCoupon = data => axios.post('/api/rest/cart/coupon', data);
+const restoreCoupon = data => axios.delete('/api/rest/cart/coupon');
 
 export default {
-  getGoodsList,
-  getCartPage,
-  saveAddress,
-  getGoodsListBySku,
-  login,
-  getIndexPage,
-  getListPage,
-  getGoodsListOfCart,
-  getCartRecommend,
-  addGoodsToCart, editGoodsOfCart,
-  removeGoodsFromCart, useCoupon, getTotalOfCart
+    getGoodsList,
+    getCartPage,
+    saveAddress,
+    getGoodsListBySku,
+    login,
+    getIndexPage,
+    getListPage,
+    getGoodsListOfCart,
+    getCartRecommend,
+    addGoodsToCart, editGoodsOfCart,
+    removeGoodsFromCart, useCoupon, getTotalOfCart,
+    useCoupon, restoreCoupon
 };
