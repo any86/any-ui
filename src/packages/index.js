@@ -58,11 +58,11 @@ Atom.install = function (Vue) {
                 ...options,
                 ok: () => {
                     vm.mask.show = false;
-                    resolve();
+                    resolve(true);
                 },
                 cancel: () => {
                     vm.mask.show = false;
-                    reject();
+                    reject(false);
                 },
                 show: true,
                 text
@@ -101,7 +101,7 @@ Atom.install = function (Vue) {
     };
 
     // ========================================== loading ==================================
-    Vue.prototype.$loading = (options = { isShow: true}) => {
+    Vue.prototype.$loading = (options = { isShow: true }) => {
         // ** 每次创建新toast实例 **
         var LoadingComponent = Vue.extend(Loading);
         // 创建一个挂载点
@@ -112,7 +112,7 @@ Atom.install = function (Vue) {
         // 挂载
         const LoadingVM = new LoadingComponent().$mount('#' + node.id);
 
-        LoadingVM.isShow = options.isShow;
+        LoadingVM.value = options.isShow;
         return LoadingVM;
     };
 
