@@ -1,14 +1,14 @@
 <template>
     <section class="row-result">
-        <VSpinner v-if="0 >= dataSource.length"></VSpinner>
+        <VSpinner v-if="0 >= $store.state.cart.totalInfo.length"></VSpinner>
         <section v-else>
             <router-link tag="a" to="/index">&lt; continue shoping </router-link>
             <div class="info">
                 <ul class="title-group">
-                    <li v-for="item in dataSource">{{item.title}}</li>
+                    <li v-for="item in $store.state.cart.totalInfo">{{item.title}}</li>
                 </ul>
                 <ul class="content-group">
-                    <li v-for="item in dataSource">
+                    <li v-for="item in $store.state.cart.totalInfo">
                         <span class="danger">{{item.value}}</span>
                     </li>
                 </ul>
@@ -27,22 +27,6 @@
 import VSpinner from '@/packages/Spinner/Spinner'
 export default {
     name: 'Result',
-
-    data() {
-        return {
-            dataSource: []
-        };
-    },
-
-    mounted() {
-        this.$store.dispatch('getTotalOfCart').then(response => {
-            this.dataSource = [...response.data];
-        });
-    },
-
-    methods: {
-
-    },
 
     components: {
         VSpinner
