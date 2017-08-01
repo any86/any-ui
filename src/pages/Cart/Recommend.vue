@@ -48,19 +48,21 @@ export default {
   },
 
   methods: {
-    addToCart(goods) {
-      const $loading = this.$loading();
+    /**
+     * 添加商品到购物车
+     * @param {any} goods 
+     */
+    async addToCart(goods) {
+      this.$store.commit('SHOW_LOADING');
       const data = {
         product: goods.entity_id,
         options: {
           1631: "9240"
         }
       };
-      this.$store.dispatch('addGoodsToCart', data).then(response => {
-        this.$store.dispatch('getGoodsListOfCart').then(() => {
-          $loading.close();
-        });
-      });
+      await this.$store.dispatch('addGoodsToCart', data);
+      await this.$store.dispatch('getGoodsListOfCart');
+      this.$store.commit('HIDE_LOADING');
     }
   },
 
