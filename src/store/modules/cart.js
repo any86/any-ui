@@ -1,16 +1,24 @@
+/**
+ * 购物车模块
+ */
 import {
     SET_CART_LIST,
     SET_CART_COUNT,
     ADD_GOODS_TO_CART,
     REMOVE_GOODS_FROM_CART,
     SET_CART_STATUS,
+    SET_CART_MESSAGE,
+    SHOW_LOADING,
+    HIDE_LOADING, SET_TOTAL_INFO
 } from '../mutation-types.js'
+
 import Api from '../../api/';
 
 // state
 const state = {
-    status: -1,
-    goodsList: []
+    message: '',
+    goodsList: [],
+    totalInfo: []
 };
 
 // getters
@@ -27,10 +35,14 @@ const actions = {
      */
     async getGoodsListOfCart({ commit, state }, params) {
         try {
-            const response = await Api.getGoodsListOfCart();
+            const response = await Api.getGoodsListOfCart(params);
             if (SUCCESS_CODE == response.status) {
                 commit(SET_CART_LIST, response.data);
             }
+            // 获取总计信息
+            const totalInfo = await Api.getTotalOfCart();
+            commit(SET_TOTAL_INFO, totalInfo.data);
+
         } catch (error) {
             console.log(error);
         }
@@ -44,7 +56,10 @@ const actions = {
         const response = await Api.addGoodsToCart(goods);
         if (SUCCESS_CODE == response.status) {
             commit(ADD_GOODS_TO_CART, goods);
+        } else {
+            commit(SET_CART_MESSAGE, response);
         }
+        return response;
     },
     /**
      * 修改商品属性, 比如数量/尺寸等
@@ -54,75 +69,62 @@ const actions = {
      * @returns 
      */
     async editGoodsOfCart({ commit, state }, editInfo) {
-        const response = await Api.editGoodsOfCart(editInfo);
+        try {
+            await Api.editGoodsOfCart(editInfo);
+        } catch (error) {
+
+        }
+
     },
     /**
      * 开始拖拽
      * @param  {Number} index 当前列表索引
      * @param  {Object} e     event
      */
-    removeGoodsFromCart({ commit, state }, id) {
-        return new Promise((resolve, reject) => {
-            Api.removeGoodsFromCart(id)
-                .then(response => {
-                    commit(REMOVE_GOODS_FROM_CART, id);
-                    resolve(id);
-                })
-                .catch(error => {
-                    reject(error);
-                });
-        });
+    async removeGoodsFromCart({ commit, state }, id) {
+        try {
+            const response = await Api.removeGoodsFromCart(id);
+        } catch (error) {
+            syslog(error);
+        }
     },
     /**
      * 使用优惠券
      * @param {object} { commit, state } 
      * @param {string} code 
      */
-    useCoupon({ commit, state }, code) {
-        return new Promise((resolve, reject) => {
-            Api.useCoupon({ code })
-                .then(response => {
-                    resolve(response);
-                })
-                .catch(error => {
-                    reject(error);
-                });
-        });
+    async useCoupon({ commit, state }, code) {
+        try {
+            const response = await Api.useCoupon(code);
+        } catch (error) {
+            syslog(error);
+        }
     },
-    /**
-     * 获取购物车小计
-     * @param {object} { commit, state } 
-     */
-    getTotalOfCart({ commit, state }) {
-        return new Promise((resolve, reject) => {
-            Api.getTotalOfCart()
-                .then(response => {
-                    if (SUCCESS_CODE == response.status) {
-                        resolve(response);
-                    }
-                })
-                .catch(error => {
-                    reject(error);
-                });
-        });
-    },
-
 };
 
 // mutations
 const mutations = {
     /**
-     * 获取购物车商品列表
+     * 填充购物车列表
+     * @param {any} state 
+     * @param {any} goodsList 
      */
     [SET_CART_LIST](state, goodsList) {
         state.goodsList = goodsList;
     },
-
+    /**
+     * 设置购物车总数
+     * @param {any} state 
+     * @param {any} count 
+     */
     [SET_CART_COUNT](state, count) {
         state.count = count;
     },
-    /*
+    /**
      * 添加商品到购物车
+     * 
+     * @param {any} state 
+     * @param {any} goods 
      */
     [ADD_GOODS_TO_CART](state, goods) {
         var isExits = false;
@@ -141,6 +143,8 @@ const mutations = {
     },
     /**
      * 删除购物车指定id商品
+     * @param {any} state 
+     * @param {int} goods_id 
      */
     [REMOVE_GOODS_FROM_CART](state, goods_id) {
         state.goodsList = state.goodsList.filter(goods => {
@@ -148,8 +152,12 @@ const mutations = {
         });
     },
 
-    [SET_CART_STATUS](state, code) {
-        state.status = code;
+    [SET_CART_MESSAGE](state, message) {
+        state.message = message;
+    },
+
+    [SET_TOTAL_INFO](state, totalInfo) {
+        state.totalInfo = totalInfo;
     }
 };
 
