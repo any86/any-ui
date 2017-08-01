@@ -16,8 +16,8 @@
             </router-link>
             <h5 align="center">{{item.title}}</h5>
             <div class="price">
-              <span class="final">${{item.final_price_with_tax}}</span>
-              <span class="regular">${{item.regular_price_with_tax}}</span>
+              <span class="final">{{item.final_price_with_tax}}</span>
+              <span class="regular">{{item.regular_price_with_tax}}</span>
             </div>
             <span v-if="'simple' == item.type_id" @click="addToCart" class="button-buy">{{lang.ADD_TO_CART}}</span>
             <span v-else class="button-buy">{{lang.DESIGN_YOUR_OWN}}</span>
@@ -100,7 +100,6 @@ export default {
 
     changeFilter({ tabsIndex, optionsIndex }) {
       this.isPopupShow = false;
-      syslog(tabsIndex, optionsIndex)
     },
 
     afterPopupLeave() {
@@ -144,6 +143,10 @@ export default {
   },
 
   watch: {
+    ['$store.state.currency'](){
+      this.refresh();
+    },
+
     trend() {
       this.isPopupShow = false;
       this.refresh();

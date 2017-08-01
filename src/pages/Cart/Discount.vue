@@ -16,6 +16,8 @@
       <div class="input-code">
         <VInput v-model="couponCode" class="input"></VInput>
         <span @click="useCoupon" class="button-apply">Apply Coupon</span>
+        <span @click="restoreCoupon" class="button-apply">Restore Coupon</span>
+  
       </div>
     </div>
   </section>
@@ -45,13 +47,28 @@ export default {
   },
 
   methods: {
-    useCoupon() {
-      const $loading = this.$loading();
-      this.$store.dispatch('useCoupon', this.couponCode).then(Response => {
-        $loading.close();
-        syslog(Response)
-      });
-    }
+    async useCoupon() {
+      try {
+        this.$store.commit('SHOW_LOADING');
+        await this.$store.dispatch('useCoupon', this.couponCode);
+        await this.$store.dispatch('getTotalOfCart');
+        this.$store.commit('HIDE_LOADING');
+      } catch (error) {
+
+      }
+    },
+
+    async restoreCoupon() {
+      try {
+        this.$store.commit('SHOW_LOADING');
+        await this.$store.dispatch('restoreCoupon', this.couponCode);
+        await this.$store.dispatch('getTotalOfCart');
+        this.$store.commit('HIDE_LOADING');
+      } catch (error) {
+
+      }
+    },
+
   },
 
   components: {

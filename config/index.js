@@ -29,13 +29,13 @@ module.exports = {
         assetsPublicPath: "/",
         proxyTable: {
             "/api": {
-                // target: "http://113.6.252.23:3000",
-                target: "http://192.168.2.247:3000",
+                target: "http://113.6.252.23:3000",
+                // target: "http://192.168.2.247:3000",
                 changeOrigin: true
             },
             "/oauth": {
-                // target: "http://113.6.252.23:3000",
-                target: "http://192.168.2.247:3000",
+                target: "http://113.6.252.23:3000",
+                // target: "http://192.168.2.247:3000",
                 changeOrigin: true
             }
         },

@@ -1,19 +1,17 @@
 <template>
     <section class="row-result">
+        <router-link tag="a" to="/index">&lt; continue shoping </router-link>
         <VSpinner v-if="0 >= $store.state.cart.totalInfo.length"></VSpinner>
-        <section v-else>
-            <router-link tag="a" to="/index">&lt; continue shoping </router-link>
-            <div class="info">
-                <ul class="title-group">
-                    <li v-for="item in $store.state.cart.totalInfo">{{item.title}}</li>
-                </ul>
-                <ul class="content-group">
-                    <li v-for="item in $store.state.cart.totalInfo">
-                        <span class="danger">{{item.value}}</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
+        <div v-else class="info">
+            <ul class="title-group">
+                <li v-for="item in $store.state.cart.totalInfo">{{item.title}}</li>
+            </ul>
+            <ul class="content-group">
+                <li v-for="item in $store.state.cart.totalInfo">
+                    <span class="danger">{{item.value}}</span>
+                </li>
+            </ul>
+        </div>
         <p class="tip">You Order Qualifiles For Free Shipping</p>
         <div class="button button-checkout-width-paypal">Checkout With ...</div>
         <p>OR</p>
@@ -40,36 +38,34 @@ export default {
     margin-top: $gutter * 3;
     padding: $gutter*3;
     background: $white;
-    >section:nth-child(1) {
+    a {
+        font-size: $big;
+        display: block;
+    }
+    .info {
         display: flex;
-        a {
+        .title-group {
             flex: 1;
-            font-size: $big;
-        }
-        .info {
-            align-self: right;
-            .danger {
-                color: $danger;
+            margin-right: $gutter;
+            display: block;
+            width: 2rem;
+            li {
                 font-size: $big;
+                text-align: right;
             }
+        }
+        .content-group {
+            display: block;
+            width: 2rem;
+            li {
+                font-size: $big;
+                text-align: right;
+            }
+        }
 
-            .title-group {
-                margin-right: $gutter;
-                display: inline-block;
-                width: 2rem;
-                li {
-                    font-size: $big;
-                    text-align: right;
-                }
-            }
-            .content-group {
-                display: inline-block;
-                width: 2rem;
-                li {
-                    font-size: $big;
-                    text-align: right;
-                }
-            }
+        .danger {
+            color: $danger;
+            font-size: $big;
         }
     }
 

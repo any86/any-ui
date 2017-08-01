@@ -12,7 +12,7 @@ import cart from './modules/cart.js'
 
 const state = {
   customer: { entity_id: '', email: '', firstname: '', lastname: '' },
-  currency: '',
+  currency: 'USD',
   isShowHeader: true,
   isShowFooter: true,
   isShowSide: false,

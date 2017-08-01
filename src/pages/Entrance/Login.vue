@@ -1,12 +1,12 @@
 <template>
     <section class="log-in">
-        <VLoading v-model="islogining"></VLoading>
+        <v-loading v-model="islogining"></v-loading>
         <div class="row">
-            <VInput v-model="email" :placeholder="'Email'" @blur="checkEmail"></VInput>
+            <v-input v-model="email" :placeholder="'Email'" @blur="checkEmail"></v-input>
         </div>
         <p :class="{showError: isEmailError}" class="tip">{{isEmailEmpty ? emailEmptyText : emailErrorText}}</p>
         <div class="row">
-            <VInput v-model="password" :type="'password'" :placeholder="'Password'" @blur="checkPassword"></VInput>
+            <v-input v-model="password" :type="'password'" :placeholder="'Password'" @blur="checkPassword"></v-input>
         </div>
         <p :class="{showError: isPasswordEmpty}" class="tip">{{passwordEmptyext}}</p>
         <button class="button-block login" @click="login">LOGIN</button>
@@ -44,23 +44,6 @@ export default {
             isPasswordEmpty: false,
             passwordEmptyext: 'password is not empty!'
         }
-    },
-
-
-    mounted() {
-        function timeout(ms) {
-            return new Promise((resolve) => {
-                setTimeout(resolve, ms);
-            });
-        }
-
-        async function asyncPrint(value, ms) {
-            await timeout(ms);
-            console.log(value);
-        }
-
-        asyncPrint('hello world', 50);
-
     },
 
     methods: {

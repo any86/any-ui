@@ -48,6 +48,7 @@ export default {
 
     created() {
         // 获取购物车商品列表
+        // 已经联动获取总计
         this.$store.dispatch('getGoodsListOfCart');
     },
 
@@ -107,8 +108,10 @@ export default {
     },
 
     watch: {
-        goodsAppend() {
-
+        async ['$store.state.currency'](){
+            this.$store.commit('SHOW_LOADING');
+            await this.$store.dispatch('getGoodsListOfCart');
+            this.$store.commit('HIDE_LOADING');
         }
     },
 

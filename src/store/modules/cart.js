@@ -12,7 +12,7 @@ import {
     HIDE_LOADING, SET_TOTAL_INFO
 } from '../mutation-types.js'
 
-import Api from '../../api/';
+import Api from '@/api/';
 
 // state
 const state = {
@@ -42,11 +42,21 @@ const actions = {
             // 获取总计信息
             const totalInfo = await Api.getTotalOfCart();
             commit(SET_TOTAL_INFO, totalInfo.data);
-
         } catch (error) {
             console.log(error);
         }
     },
+
+    async getTotalOfCart({ commit, state }, params) {
+        try {
+            // 获取总计信息
+            const totalInfo = await Api.getTotalOfCart();
+            commit(SET_TOTAL_INFO, totalInfo.data);
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
     /**
      * 添加商品到购物车
      * @param {any} { commit, state } 
@@ -77,7 +87,7 @@ const actions = {
 
     },
     /**
-     * 开始拖拽
+     * 删除商品从购物车
      * @param  {Number} index 当前列表索引
      * @param  {Object} e     event
      */
@@ -89,13 +99,25 @@ const actions = {
         }
     },
     /**
+     * 还原优惠券
+     * @param {object} { commit, state } 
+     * @param {string} code 
+     */
+    async restoreCoupon({ commit, state }, code) {
+        try {
+            const response = await Api.restoreCoupon({ code });
+        } catch (error) {
+            syslog(error);
+        }
+    },
+    /**
      * 使用优惠券
      * @param {object} { commit, state } 
      * @param {string} code 
      */
     async useCoupon({ commit, state }, code) {
         try {
-            const response = await Api.useCoupon(code);
+            const response = await Api.useCoupon({ code });
         } catch (error) {
             syslog(error);
         }

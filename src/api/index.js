@@ -46,7 +46,7 @@ const getTotalOfCart = params => axios.get('/api/rest/cart/total', { params });
 
 // 优惠券
 const useCoupon = data => axios.post('/api/rest/cart/coupon', data);
-const restoreCoupon = data => axios.delete('/api/rest/cart/coupon');
+const restoreCoupon = data => axios.delete('/api/rest/cart/coupon', { data });
 
 export default {
     getGoodsList,

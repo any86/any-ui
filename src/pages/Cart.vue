@@ -58,7 +58,7 @@ export default {
          * 从推荐列表中移除
          */
         addRecommendGoodsToCart({ goods, index }) {
-
+            
             this.goodsListFromRecommend.push(goods);
         },
 
