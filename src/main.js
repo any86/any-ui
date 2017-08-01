@@ -3,15 +3,14 @@ window.dir = (...val) => console.dir.apply(null, val);
 
 window.SUCCESS_CODE = 200;
 window.FAIL_CODE = 400;
-window.LOADING_CODE = -1;
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
-import router from './router'
+import App from '@/App'
+import router from '@/router'
 
 // API
-import api from './api/'
+import api from '@/api'
 Object.defineProperty(Vue.prototype, '$api', {
     value: api,
     writable: false,
@@ -20,17 +19,17 @@ Object.defineProperty(Vue.prototype, '$api', {
 });
 
 // vuex
-import store from './store'
+import store from '@/store'
 
 // AJAX
-import axios from 'axios'
-axios.create();
-Object.defineProperty(Vue.prototype, '$axios', {
-    value: axios,
-    writable: false,
-    enumerable: false,
-    configurable: false
-});
+// import axios from 'axios'
+// axios.create();
+// Object.defineProperty(Vue.prototype, '$axios', {
+//     value: axios,
+//     writable: false,
+//     enumerable: false,
+//     configurable: false
+// });
 
 
 
@@ -41,7 +40,7 @@ import '@/scss/animate.scss'
 
 
 // UI
-import Atom from './packages/index.js';
+import Atom from '@/packages/index.js';
 Vue.use(Atom);
 
 // 关闭错误提示
