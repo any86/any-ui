@@ -107,7 +107,7 @@ export default {
       this.isShowSpinner = true;
     },
 
-    refresh() {
+    async refresh() {
       this.isEnd = false;
       this.list = [];
       const params = {
@@ -115,14 +115,11 @@ export default {
         limit: this.limit,
         trend: this.trend
       };
-      this.$api.getGoodsList(params).then(response => {
-        if (200 == response.status) {
-          this.list.push(...response.data);
-          this.isLoading = false;
-        } else {
-          this.isEnd = true;
-        }
-      });
+
+      const response = await this.$api.getGoodsList(params);
+      if (200 == response.status) {
+        this.list.push(...response.data);
+      }
     },
 
     getMore() {
@@ -266,5 +263,4 @@ export default {
     width: 100%;
   }
 }
-
 </style>
