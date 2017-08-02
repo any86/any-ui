@@ -1,5 +1,5 @@
 <template>
-    <main v-if="1 == status" class="page-index">
+    <main v-if="200 == status" class="page-index">
         <LayoutHeader class="header"></LayoutHeader>
         <ScrollView v-model="scrollY" class="scroll-view">
             <LayoutHeadSwiper></LayoutHeadSwiper>
@@ -27,20 +27,11 @@ export default {
         };
     },
 
-    mounted() {
-        this.$axios.get('./static/index.json').then(response => {
-            this.status = 1;
-
-            this.categoryThumbs = {
-                ...this.categoryThumbs,
-                ...response.data['category-thumbs']
-            };
-
-            this.looks = {
-                ...this.looks,
-                ...response.data['looks']
-            };
-        });
+    async mounted() {
+        const response = await this.$api.getIndexPage();
+        this.status = response.status;
+        this.categoryThumbs =  response.data['category-thumbs'];
+        this.looks = response.data['looks'];
     },
 
     methods: {
