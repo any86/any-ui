@@ -31,15 +31,11 @@
   </section>
 </template>
 <script>
-import Drawer from '@/packages/Drawer/Drawer'
 import VMask from '@/packages/Dialog/Mask'
 import VGoTop from '@/components/GoTop'
 import VPopup from '@/packages/Dialog/Popup'
 import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
-import VList from '@/packages/List/List.vue'
-import VListItem from '@/packages/List/ListItem.vue'
-import VRadio from '@/packages/Radio/Radio.vue'
 
 // 公共头尾
 import LayoutHeader from './List/Header'
@@ -107,6 +103,7 @@ export default {
     },
 
     async refresh() {
+      this.isLoading = true;
       this.isEnd = false;
       this.list = [];
       const params = {
@@ -116,12 +113,14 @@ export default {
       };
 
       const response = await this.$api.getGoodsList(params);
+      this.isLoading = false;
       if (200 == response.status) {
         this.list.push(...response.data);
       }
     },
 
     getMore() {
+
       if (!this.isLoading) {
         this.isLoading = true;
         this.page++;
@@ -143,7 +142,7 @@ export default {
   },
 
   watch: {
-    ['$store.state.currency'](){
+    ['$store.state.currency']() {
       this.refresh();
     },
 
@@ -162,16 +161,12 @@ export default {
   },
 
   components: {
-    VList,
-    VListItem,
     Spinner,
     VLazyLoad,
     VPopup,
-    VRadio,
     LayoutHeader,
     LayoutFilter,
     LayoutFooter,
-    Drawer,
     VMask,
     VGoTop
   }
