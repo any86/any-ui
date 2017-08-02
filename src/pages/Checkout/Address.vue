@@ -1,15 +1,19 @@
 <template>
     <section class="row-user-info">
-        <div class="info">
-            <div class="contact">
-                <span class="name">Seven</span>
-                <span class="mobile">13813877821</span>
-            </div>
-            <div class="address">
-                <p>118 xjkljqw adssdlfjk #405</p>
-                <p>LA USA UK AK CK</p>
-            </div>
-        </div>
+        <header class="header-title">Ship Address</header>
+        <!--<div class="info">
+                <div class="contact">
+                    <span class="name">Seven</span>
+                    <span class="mobile">13813877821</span>
+                </div>
+                <div class="address">
+                    <p>118 xjkljqw adssdlfjk #405</p>
+                    <p>LA USA UK AK CK</p>
+                </div>
+            </div>-->
+        <v-cell :to="{path: 'billingAddress'}" :hasArrow="true">
+            Add Shipping Address
+        </v-cell>
         <div class="is-same-address">
             <VSwitch :value="isSameAddress" @input="change">Ship The Same Address</VSwitch>
         </div>
@@ -17,6 +21,8 @@
 </template>
 <script>
 import VSwitch from '@/packages/Switch/Switch'
+import VCell from '@/packages/Cell/Cell'
+
 export default {
     name: 'UserInfo',
 
@@ -33,7 +39,7 @@ export default {
     },
 
     components: {
-        VSwitch
+        VSwitch, VCell
     }
 }
 </script>

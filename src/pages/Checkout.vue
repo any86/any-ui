@@ -2,7 +2,7 @@
     <ScrollView v-model="scrollY" class="page-checkout">
         <LayoutHeader></LayoutHeader>
         <main>
-            <LayoutUserInfo :isSameAddress.sync="isSameAddress"></LayoutUserInfo>
+            <LayoutAddress :isSameAddress.sync="isSameAddress"></LayoutAddress>
             <LayoutShippingMethod :shippingMethods.sync="shippingMethods"></LayoutShippingMethod>
             <LayoutPaymentMethods></LayoutPaymentMethods>
             <LayoutCheckoutReview></LayoutCheckoutReview>
@@ -12,7 +12,7 @@
 </template>
 <script>
 import LayoutHeader from './Checkout/Header'
-import LayoutUserInfo from './Checkout/UserInfo'
+import LayoutAddress from './Checkout/Address'
 import LayoutShippingMethod from './Checkout/ShippingMethod'
 import LayoutPaymentMethods from './Checkout/PaymentMethods'
 import LayoutCheckoutReview from './Checkout/CheckoutReview'
@@ -39,7 +39,7 @@ export default {
 
     components: {
         LayoutHeader,
-        LayoutUserInfo,
+        LayoutAddress,
         LayoutShippingMethod,
         LayoutPaymentMethods,
         LayoutCheckoutReview
