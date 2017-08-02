@@ -203,3 +203,5 @@ img[lazy="done"] {
 .text-warning{color:$warning;font-size: inherit;}
 .text-danger{color:$danger;font-size: inherit;}
 .text-info{color:$info;font-size: inherit;}
+
+.header-title{border-bottom: 1px solid $lightest;padding:$gutter * 3;font-size: $big;color: $darkest;}
