@@ -19,6 +19,10 @@ axios.interceptors.request.use(function (config) {
 }, function (error) {
     return Promise.reject(error);
 });
+// 首页
+const getIndexPage = params => axios.get('./static/index.json', { params });
+// 列表页
+const getListPage = params => axios.get('./static/list.json', { params });
 
 // 购物车页面
 const getCartPage = params => axios.get('./static/cart.json', { params });
@@ -30,10 +34,6 @@ const getGoodsList = params => axios.get('/api/rest/catalog/product?category=7',
 const getGoodsListBySku = params => axios.get('/api/rest/catalog/product', { params });
 // 登录页
 const login = params => axios.post('/oauth/login', params);
-// 首页
-const getIndexPage = params => axios.get('./static/index.json', { params });
-// 列表页
-const getListPage = params => axios.get('./static/list.json', { params });
 // 购物车相关
 // const getGoodsListOfCart = params => axios.get('./static/cartGoodsList.json', { params });
 const getGoodsListOfCart = params => axios.get('/api/rest/cart/item', { params });
@@ -43,12 +43,18 @@ const addGoodsToCart = data => axios.post('/api/rest/cart/item', data);
 const editGoodsOfCart = data => axios.put('/api/rest/cart/item', data);
 const removeGoodsFromCart = data => axios.delete('/api/rest/cart/item', { data });
 const getTotalOfCart = params => axios.get('/api/rest/cart/total', { params });
-
 // 优惠券
 const useCoupon = data => axios.post('/api/rest/cart/coupon', data);
 const restoreCoupon = data => axios.delete('/api/rest/cart/coupon', { data });
 
+// 国家 / 省(洲) / 市
+const getCountry = () => axios.get('/api/rest/directory/country');
+const getProvince = param => axios.get('', { params });
+const getCity = param => axios.get('', { params });
+
+// 暴露
 export default {
+    getCountry, getProvince, getCity,
     getGoodsList,
     getCartPage,
     saveAddress,
@@ -58,7 +64,11 @@ export default {
     getListPage,
     getGoodsListOfCart,
     getCartRecommend,
-    addGoodsToCart, editGoodsOfCart,
-    removeGoodsFromCart, useCoupon, getTotalOfCart,
-    useCoupon, restoreCoupon
+    addGoodsToCart,
+    editGoodsOfCart,
+    removeGoodsFromCart,
+    useCoupon,
+    getTotalOfCart,
+    useCoupon,
+    restoreCoupon
 };
