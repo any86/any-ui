@@ -2,33 +2,38 @@
     <ScrollView v-model="scrollY" class="page-billing-address">
         <LayoutHeader></LayoutHeader>
         <VCell class="item">
-            <VInput v-model="dataSource.firstName" :placeholder="'First Name'"></VInput>
+            <VInput v-model="form.firstName" :placeholder="'First Name'"></VInput>
         </VCell>
         <VCell class="item">
-            <VInput v-model="dataSource.lastName" :placeholder="'Last Name'"></VInput>
+            <VInput v-model="form.lastName" :placeholder="'Last Name'"></VInput>
         </VCell>
-        <VCell class="item" :hasArrow="true" @click.native="selectZone">select one</VCell>
+        <VCell class="item" :hasArrow="true" @click.native="selectZone(0)">Country</VCell>
         <VCell class="item">
-            <VInput v-model="dataSource.zip" :placeholder="'Zip Code'"></VInput>
-        </VCell>
-        <VCell class="item">
-            <VInput v-model="dataSource.email" :placeholder="'Email Address'"></VInput>
+            <VInput v-model="form.zip" :placeholder="'Zip Code'"></VInput>
         </VCell>
         <VCell class="item">
-            <VInput v-model="dataSource.tel" :placeholder="'Telphone'"></VInput>
+            <VInput v-model="form.email" :placeholder="'Email Address'"></VInput>
+        </VCell>
+        <VCell class="item">
+            <VInput v-model="form.tel" :placeholder="'Telphone'"></VInput>
         </VCell>
         <VCell class="item item-dark">
-            <VSwitch v-model="dataSource.isShipSame">Ship The Same Address</VSwitch>
+            <VSwitch v-model="form.isShipSame">Ship The Same Address</VSwitch>
         </VCell>
         <button @click="save" class="button-save">SAVE</button>
-        <VPopup v-model="isShowSelect">
-            <VPicker :dataSource="zones" v-model="dataSource.zone" @change="changePicker"></VPicker>
+    
+        <!--选择区域-->
+        <VPopup v-model="isShowSelect" class="popup">
+            <header>
+                <span class="button button-cancel" @click="cancelPopup">cancel</span>
+                <span class="button button-ok" @click="okPopup">ok</span>
+            </header>
+            <VPicker :dataSource="zones" :value="form.zone" @change="changePicker"></VPicker>
         </VPopup>
     </ScrollView>
 </template>
 <script>
 import LayoutHeader from './BillingAddress/Header'
-
 import VCell from '@/packages/Cell/Cell'
 import VInput from '@/packages/Input/Input'
 import VSwitch from '@/packages/Switch/Switch'
@@ -41,76 +46,59 @@ export default {
         return {
             scrollY: 0,
             isShowSelect: false,
-            dataSource: {
+            form: {
                 firstName: '',
                 lastName: '',
                 zip: '',
                 email: '',
                 tel: '',
-                zone: [0, 0, 0],
+                zone: [null],
                 isShipSame: false
             },
-
-            zones: [
-                [{
-                    label: '请先选择省',
-                    value: '0'
-                }],
-                [{
-                    label: '请先选择市',
-                    value: '0'
-                }],
-                [{
-                    label: '请先选择区',
-                    value: '0'
-                }]
-            ]
+            zones: [[{}]],
+            tempZones: [],
         }
     },
 
     methods: {
-        selectZone() {
-            this.isShowSelect = !this.isShowSelect;
-            this.$api.getZone(1, {}).then(response => {
-                this.zones[0].splice(0, this.zones[0].length);
-                this.zones[0].push(...response.data);
-            }).catch(err => {
-
-            });
-        },
-
-        changePicker({
-            index,
-            value
-        }) {
-            if (this.zones.length - 1 > index) {
-                // 清空后面已选
-                this.zones.forEach((item, i) => {
-                    if (index < i) {
-                        this.zones[i].splice(0, this.zones[i].length);
-                        this.zones[i].push({
-                            value: 0,
-                            label: '...'
-                        });
-                        this.dataSource.zone.splice(i, 1, 0);
-                    }
-                });
-
-                // 给下一级填充数据
-                this.$api.getZone(index + 2, {}).then(response => {
-                    this.zones[index + 1].splice(0, this.zones[index + 1].length);
-                    this.zones[index + 1].push(...response.data);
-                    this.dataSource.zone.splice(index + 1, 1, this.zones[index + 1][0].value);
-                }).catch(err => {
-
-                });
+        /**
+         * 区域选择
+         * @param {Number} index 层级
+         */
+        async selectZone(index) {
+            try {
+                this.$store.commit('SHOW_LOADING');
+                const response = await this.$api.getCountry();
+                this.zones[index].splice(0, this.zones[0].length);
+                this.zones[index].push(...response.data);
+                this.$store.commit('HIDE_LOADING');
+                // 显示区域选择面板
+                this.isShowSelect = true;
+            } catch (error) {
+                this.$alert(error);
             }
         },
+        /**
+         * 选择一个区域
+         */
+        changePicker({ index, value }) {
+            this.tempZones[index] = value;
+        },
 
-        save() {
-            this.$api.saveAddress(this.dataSource).then(response => {
-                this.$alert(response.data.message);
-            });
+        /**
+         * 保存
+         */
+        async save() {
+            const response = await this.$api.saveAddress(this.form);
+            this.$alert(response.data.message);
+        },
+
+        cancelPopup() {
+
+        },
+
+        okPopup() {
+            this.form.zone = [...this.tempZones];
         }
     },
 
@@ -128,6 +116,30 @@ export default {
 @import '../scss/theme.scss';
 .page-billing-address {
     background: $lightest;
+
+    .popup {
+        header {
+            display: flex; // border-bottom: 1px solid $lightest;
+            .button {
+                padding: $gutter * 3;
+                font-size: $bigger;
+                flex: 1;
+                display: block;
+                &:active {}
+            }
+            .button-cancel {
+                text-align: left;
+                color: $light;
+            }
+
+            .button-ok {
+                color: $base;
+                text-align: right;
+            }
+        }
+    }
+
+
     .item {
         background: $background;
         border-bottom: 1px solid $lightest;
