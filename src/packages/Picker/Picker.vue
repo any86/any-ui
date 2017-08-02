@@ -2,7 +2,7 @@
     <div class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
         <ul v-for="(list, i) in dataSource" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
-            <li v-for="item in list" :class="{active: item.value == value[i]}" :style="{height: `${itemHeight}px`}">{{item.label}}</li>
+            <li v-for="item in list" :class="{active: item.value == newValue[i]}" :style="{height: `${itemHeight}px`}">{{item.label}}</li>
         </ul>
     </div>
 </template>
@@ -22,6 +22,15 @@ export default {
         }
     },
 
+    data() {
+        return {
+            active: {}, // 当前拖拽列表
+            itemHeight: 36,
+            touchStatusList: [],
+            newValue: []
+        };
+    },
+
     created() {
         // 构造列表结构
         this.dataSource.forEach(() => {
@@ -38,20 +47,7 @@ export default {
     },
 
     mounted() {
-        // 计算item高度, 后续处理边界用
-        // getComputedStyle计算结构精准到小数位
-        // this.itemHeight = getComputedStyle(this.$el.querySelectorAll('li')[0], null).height;
-        // this.itemHeight = parseFloat(this.itemHeight);
-        // 初始化默认值
         this._syncPosition();
-    },
-
-    data() {
-        return {
-            active: {}, // 当前拖拽列表
-            itemHeight: 36,
-            touchStatusList: []
-        };
     },
 
     methods: {
@@ -64,6 +60,13 @@ export default {
                 var i = this.dataSource[index].findIndex(item => {
                     return item.value == value;
                 });
+
+                // 如果默认值没有被传递或者为null, 那么默认选取第一项
+                if (-1 == i) {
+                    i = 0;
+                }
+                this.newValue[index] = this.dataSource[index][i].value;
+                // 移动选项到适合位置
                 this.touchStatusList[index].translateYNew = 0 - i * this.itemHeight;
                 this.touchStatusList[index].translateYOld = this.touchStatusList[index].translateYNew;
             });
@@ -122,15 +125,16 @@ export default {
             //同步当前位置
             this.active.translateYOld = this.active.translateYNew;
 
-            // 同步value
-            this.value.splice(index, 1, this.active.value);
+            this.newValue = this.value.map((item, i) => {
+                return i == index ? this.active.value : item;
+            });
 
             this.$emit('change', {
                 index,
-                value: this.value[index]
+                value: this.active.value
             });
 
-            this.$emit('input', this.value);
+            this.$emit('input', this.newValue);
         }
     },
 
