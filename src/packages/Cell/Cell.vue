@@ -1,6 +1,15 @@
 <template>
-    <div class="component-cell">
-        <span><slot></slot></span>
+    <router-link v-if="undefined != to" :to="to" tag="div" class="component-cell">
+        <span>
+            <slot></slot>
+        </span>
+        <Icon v-if="hasArrow" class="icon" value="angle-right"></Icon>
+    </router-link>
+    
+    <div v-else class="component-cell">
+        <span>
+            <slot></slot>
+        </span>
         <Icon v-if="hasArrow" class="icon" value="angle-right"></Icon>
     </div>
 </template>
@@ -9,6 +18,10 @@ export default {
     name: 'Cell',
 
     props: {
+        to: {
+            type: Object
+        },
+
         hasArrow: {
             type: Boolean,
             default: false
@@ -27,8 +40,8 @@ export default {
         flex: 1;
         position: relative;
         align-self: center;
-        font-size: $big;
-        color: $dark;
+        font-size: $normal;
+        color: $darkest;
     }
     >.icon {
         align-self: center;
