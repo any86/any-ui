@@ -1,8 +1,8 @@
 <template>
     <div class="component-picker">
-        <div class="graticule"></div>
-        <ul v-for="(list, i) in dataSource" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
-            <li v-for="item in list" :class="{active: item.value == value[i]}">{{item.label}}</li>
+        <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
+        <ul v-for="(list, i) in dataSource" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
+            <li v-for="item in list" :class="{active: item.value == value[i]}" :style="{height: `${itemHeight}px`}">{{item.label}}</li>
         </ul>
     </div>
 </template>
@@ -40,9 +40,8 @@ export default {
     mounted() {
         // 计算item高度, 后续处理边界用
         // getComputedStyle计算结构精准到小数位
-        this.itemHeight = getComputedStyle(this.$el.querySelectorAll('li')[0], null).height;
-        this.itemHeight = parseFloat(this.itemHeight);
-
+        // this.itemHeight = getComputedStyle(this.$el.querySelectorAll('li')[0], null).height;
+        // this.itemHeight = parseFloat(this.itemHeight);
         // 初始化默认值
         this._syncPosition();
     },
@@ -50,7 +49,7 @@ export default {
     data() {
         return {
             active: {}, // 当前拖拽列表
-            itemHeight: 0,
+            itemHeight: 36,
             touchStatusList: []
         };
     },
@@ -65,7 +64,6 @@ export default {
                 var i = this.dataSource[index].findIndex(item => {
                     return item.value == value;
                 });
-
                 this.touchStatusList[index].translateYNew = 0 - i * this.itemHeight;
                 this.touchStatusList[index].translateYOld = this.touchStatusList[index].translateYNew;
             });
@@ -137,8 +135,12 @@ export default {
     },
 
     watch: {
-        value(value) {
+        value() {
+            // 初始化默认值
+            this._syncPosition();
+        },
 
+        dataSource() {
             // 初始化默认值
             this._syncPosition();
         }
@@ -152,10 +154,9 @@ $itemHeight: 7 * $gutter;
     position: relative;
     overflow: hidden;
     display: flex;
-    overflow: hidden;
-    height: 7 * $itemHeight;
+    overflow: hidden; // height: 7 * $itemHeight;
     .graticule {
-        height: $itemHeight;
+        // height: $itemHeight;
         position: absolute;
         top: 0;
         left: 0;
@@ -166,8 +167,7 @@ $itemHeight: 7 * $gutter;
     }
     ul {
         flex: 1;
-        box-sizing: border-box;
-        padding: 3 * $itemHeight 0;
+        box-sizing: border-box; // padding: 3 * $itemHeight 0;
         li {
             box-sizing: border-box;
             width: 100%;
