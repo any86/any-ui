@@ -8,10 +8,10 @@
       <div class="foreground">
         <h3 class="title">{{dataSource.title}}</h3>
         <div class="breadcrumb">
-          <a v-for="(item, i) in dataSource.content" @click="activeIndex = i" :class="{active: activeIndex == i}">
-                {{item.title}}
-                <span class="triangle"></span>
-            </a>
+          <a v-for="(item, i) in dataSource.content" :key="i" @click="activeIndex = i" :class="{active: activeIndex == i}">
+            {{item.title}}
+            <span class="triangle"></span>
+          </a>
         </div>
       </div>
     </header>
@@ -190,5 +190,4 @@ export default {
     }
   }
 }
-
 </style>
