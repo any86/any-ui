@@ -23,7 +23,6 @@ axios.interceptors.request.use(function (config) {
 const getIndexPage = params => axios.get('./static/index.json', { params });
 // 列表页
 const getListPage = params => axios.get('./static/list.json', { params });
-
 // 购物车页面
 const getCartPage = params => axios.get('./static/cart.json', { params });
 // 存储收获地址
@@ -46,15 +45,14 @@ const getTotalOfCart = params => axios.get('/api/rest/cart/total', { params });
 // 优惠券
 const useCoupon = data => axios.post('/api/rest/cart/coupon', data);
 const restoreCoupon = data => axios.delete('/api/rest/cart/coupon', { data });
-
 // 国家 / 省(洲) / 市
 const getCountry = () => axios.get('/api/rest/directory/country');
-const getProvince = param => axios.get('', { params });
-const getCity = param => axios.get('', { params });
+const getProvince = params => axios.get('/api/rest/directory/region', { params });
+// const getCity = param => axios.get('', { params });
 
 // 暴露
 export default {
-    getCountry, getProvince, getCity,
+    getCountry, getProvince,
     getGoodsList,
     getCartPage,
     saveAddress,

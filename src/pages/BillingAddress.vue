@@ -7,7 +7,9 @@
         <VCell class="item">
             <VInput v-model="form.lastName" :placeholder="'Last Name'"></VInput>
         </VCell>
-        <VCell class="item" :hasArrow="true" @click.native="selectZone(0)">Country</VCell>
+        <VCell class="item" :hasArrow="true" @click.native="selectZone(0)">
+            <VInput :value="zoneLabel[0]" :hasRemove="false" :disabled="true" :placeholder="'country'"></VInput>
+        </VCell>
         <VCell class="item">
             <VInput v-model="form.zip" :placeholder="'Zip Code'"></VInput>
         </VCell>
@@ -18,17 +20,17 @@
             <VInput v-model="form.tel" :placeholder="'Telphone'"></VInput>
         </VCell>
         <VCell class="item item-dark">
-            <VSwitch v-model="form.isShipSame">Ship The Same Address</VSwitch>
+            <VSwitch v-model="form.isShipSameAddress">Ship The Same Address</VSwitch>
         </VCell>
         <button @click="save" class="button-save">SAVE</button>
     
         <!--选择区域-->
-        <VPopup v-model="isShowSelect" class="popup">
+        <VPopup v-model="isShowPicker" class="popup">
             <header>
                 <span class="button button-cancel" @click="cancelPopup">cancel</span>
                 <span class="button button-ok" @click="okPopup">ok</span>
             </header>
-            <VPicker :dataSource="zones" :value="form.zone" @change="changePicker"></VPicker>
+            <VPicker :dataSource="dataSource.zones" :value="form.zones" @change="changePicker"></VPicker>
         </VPopup>
     </ScrollView>
 </template>
@@ -45,18 +47,21 @@ export default {
     data() {
         return {
             scrollY: 0,
-            isShowSelect: false,
+            isShowPicker: false,
             form: {
-                firstName: '',
+                firstName: 'zhang',
                 lastName: '',
                 zip: '',
                 email: '',
                 tel: '',
-                zone: [null],
-                isShipSame: false
+                zones: [],
+                isShipSameAddress: false
             },
-            zones: [[{}]],
+            dataSource: {
+                zones: [[{}]]
+            },
             tempZones: [],
+            zoneLabel: []
         }
     },
 
@@ -68,37 +73,50 @@ export default {
         async selectZone(index) {
             try {
                 this.$store.commit('SHOW_LOADING');
-                const response = await this.$api.getCountry();
-                this.zones[index].splice(0, this.zones[0].length);
-                this.zones[index].push(...response.data);
-                this.$store.commit('HIDE_LOADING');
+                const response = await this.$api.getProvince({country: 'us'});
+                this.dataSource.zones[index].splice(0, this.dataSource.zones[0].length);
+                this.dataSource.zones[index].push(...response.data);
                 // 显示区域选择面板
-                this.isShowSelect = true;
+                this.isShowPicker = true;
             } catch (error) {
                 this.$alert(error);
             }
+            this.$store.commit('HIDE_LOADING');
         },
         /**
          * 选择一个区域
          */
-        changePicker({ index, value }) {
-            this.tempZones[index] = value;
+        changePicker({ index, value, label }) {
+            this.tempZones[index] = { value, label };
         },
 
         /**
          * 保存
          */
         async save() {
-            const response = await this.$api.saveAddress(this.form);
-            this.$alert(response.data.message);
+            try {
+                const response = await this.$api.saveAddress(this.form);
+                this.$alert(response.data.message);
+            } catch (error) {
+                this.$alert(error);
+            }
         },
-
+        /**
+         * 取消区域选择
+         */
         cancelPopup() {
-
+            this.isShowPicker = false;
         },
-
+        /** 
+         * 确定区域选择
+         */
         okPopup() {
-            this.form.zone = [...this.tempZones];
+            this.isShowPicker = false;
+
+            this.form.zones = this.tempZones.map((item, index) => {
+                this.zoneLabel[index] = item.label;
+                return item.value;
+            });
         }
     },
 
@@ -124,8 +142,7 @@ export default {
                 padding: $gutter * 3;
                 font-size: $bigger;
                 flex: 1;
-                display: block;
-                &:active {}
+                display: block; // &:active {}
             }
             .button-cancel {
                 text-align: left;

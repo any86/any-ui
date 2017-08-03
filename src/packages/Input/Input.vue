@@ -1,11 +1,13 @@
 <template>
     <div class="component-input">
-        <span class="title" v-if="!!$slots.default"><slot></slot></span>
-        <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
+        <span class="title" v-if="!!$slots.default">
+            <slot></slot>
+        </span>
+        <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
         <!-- border -->
         <!-- <div class="border"></div> -->
         <transition name="fadeLeft">
-            <Icon v-show="isShowEmpty" @click.native="empty" class="button-close" value="remove"></Icon>
+            <Icon v-if="hasRemove" v-show="isShowEmpty" @click.native="empty" class="button-close" value="remove"></Icon>
         </transition>
     </div>
 </template>
@@ -15,7 +17,16 @@ export default {
     name: 'Input',
 
     props: {
+        hasRemove: {
+            type: Boolean,
+            default: true
+        },
+
         disabled: {
+            type: Boolean
+        },
+
+        readonly: {
             type: Boolean
         },
 
@@ -103,15 +114,19 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height : $gutter*8;
+$height: $gutter*8;
 .component-input {
     width: 100%;
-    box-sizing: border-box;
-    // height: $height;
+    box-sizing: border-box; // height: $height;
     padding-bottom: 1px;
     position: relative;
     display: flex;
-    .title {height: $height;line-height: $height;font-size: $big;margin-right: 5%;}
+    .title {
+        height: $height;
+        line-height: $height;
+        font-size: $big;
+        margin-right: 5%;
+    }
 
     input {
         font-size: $big;
@@ -123,7 +138,7 @@ $height : $gutter*8;
         height: $height;
         line-height: $height;
     }
-    input:focus + .border {
+    input:focus+.border {
         border-color: $base;
     }
 
