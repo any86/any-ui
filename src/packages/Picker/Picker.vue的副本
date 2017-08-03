@@ -2,7 +2,7 @@
     <div class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
         <ul v-for="(list, i) in dataSource" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
-            <li v-for="item in list" :class="{active: item.value == touchStatusList[i].value}" :style="{height: `${itemHeight}px`}">{{item.label}}</li>
+            <li v-for="item in list" :class="{active: item.value == newValue[i]}" :style="{height: `${itemHeight}px`}">{{item.label}}</li>
         </ul>
     </div>
 </template>
@@ -26,7 +26,8 @@ export default {
         return {
             active: {}, // 当前拖拽列表
             itemHeight: 36,
-            touchStatusList: []
+            touchStatusList: [],
+            newValue: []
         };
     },
 
@@ -64,7 +65,7 @@ export default {
                 if (-1 == i) {
                     i = 0;
                 }
-                this.touchStatusList[index].value = this.dataSource[index][i].value;
+                this.newValue[index] = this.dataSource[index][i].value;
                 // 移动选项到适合位置
                 this.touchStatusList[index].translateYNew = 0 - i * this.itemHeight;
                 this.touchStatusList[index].translateYOld = this.touchStatusList[index].translateYNew;
@@ -119,26 +120,21 @@ export default {
             // 确定value
             var itemIndex = Math.round((0 - this.active.translateYNew) / this.itemHeight);
             this.active.value = this.dataSource[index][itemIndex].value;
-            this.active.label = this.dataSource[index][itemIndex].label;
             this.active.translateYNew = 0 - itemIndex * this.itemHeight;
 
             //同步当前位置
             this.active.translateYOld = this.active.translateYNew;
 
-            const newValue = [];
-            this.value.map((item, i) => {
-                newValue[i] = this.touchStatusList[index].value = i == index ? this.active.value : item;
+            this.newValue = this.value.map((item, i) => {
+                return i == index ? this.active.value : item;
             });
 
-            // 当前列表的变更状态
             this.$emit('change', {
                 index,
-                value: this.active.value,
-                label: this.active.label
+                value: this.active.value
             });
 
-            // 所有列表的总变更状态
-            this.$emit('input', newValue);
+            this.$emit('input', this.newValue);
         }
     },
 
