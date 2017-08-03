@@ -40,7 +40,7 @@ export default {
         flex: 1;
         position: relative;
         align-self: center;
-        font-size: $normal;
+        font-size: $big;
         color: $darkest;
     }
     >.icon {
