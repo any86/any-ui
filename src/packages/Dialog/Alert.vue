@@ -25,7 +25,7 @@ export default {
         },
 
         text: {
-            type: [String, Number]
+            
         },
 
         title: {
