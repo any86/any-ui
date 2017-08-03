@@ -1,120 +1,135 @@
 @import './theme.scss';
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Microsoft Yahei',
-        'PingFang SC',
-        'Avenir',
-        Helvetica,
-        Arial,
-        sans-serif;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  font-family: 'PingFang SC',
+  'Microsoft Yahei',
+  'Avenir',
+  Helvetica,
+  Arial,
+  sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-appearance: none;
 }
 
-$designWidth: 750px;
-@mixin adapt($min, $max, $designWidth) {
-    @media (min-width: $min) and (max-width: $max) {
-        html {
-            font-size: 100px * $max / $designWidth;
-        }
-    }
-}
-
-@include adapt(376px, 414px, $designWidth);
-@include adapt(361px, 375px, $designWidth);
-@include adapt(321px, 360px, $designWidth);
-@include adapt(0px, 320px, $designWidth);
+// 设计稿宽度
+// $designWidth: 750px;
+// @mixin adapt($min, $max, $designWidth) {
+//     @media (min-width: $min) and (max-width: $max) {
+//         html {
+//             font-size: 100px * $max / $designWidth;
+//         }
+//     }
+// }
+// @include adapt(376px, 414px, $designWidth);
+// @include adapt(361px, 375px, $designWidth);
+// @include adapt(321px, 360px, $designWidth);
+// @include adapt(0px, 320px, $designWidth);
 html {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    -webkit-text-size-adjust: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  -webkit-text-size-adjust: none;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
 
 input {
-    border: 0 none;
-    outline: none;
+  border: 0 none;
+  outline: none;
 }
 
 a {
-    text-decoration: none;
-    -webkit-touch-callout: none;
+  text-decoration: none;
+  -webkit-touch-callout: none;
+  color: $darkest;
 }
 
-a, p, td, div, span {
-    font-size: .14rem;
+a,
+p,
+td,
+div,
+span {
+  font-size: .14rem;
 }
 
 img {
-    display: block;
+  display: block;
 }
 
 .clearfix {
-    clear: both;
+  clear: both;
 }
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
 .flex-item {
-    flex: 1;
+  flex: 1;
 }
 
 h1 {
-    font-size: $large;
-    margin: $gutter 0;
-    font-weight: 600;
-    color: #000;
+  font-size: $large;
+  font-weight: 400;
+  color: #333;
 }
 
 h2 {
-    font-size: $biggest;
-    margin: $gutter 0;
-    font-weight: 600;
-    color: #000;
+  font-size: $biggest;
+  font-weight: 400;
+  color: #333;
 }
 
 h3 {
-    font-size: $bigger;
-    margin: $gutter 0;
-    font-weight: 600;
-    color: #000;
+  font-size: $bigger;
+  font-weight: 400;
+  color: #333;
 }
 
 h4 {
-    font-size: $big;
-    margin: $gutter 0;
-    font-weight: 600;
-    color: #000;
+  font-size: $big;
+  font-weight: 400;
+  color: #333;
 }
 
 h5 {
-    font-size: $normal;
-    margin: $gutter 0;
-    font-weight: 600;
-    color: #000;
+  font-size: $normal;
+  margin: $gutter 0;
+  font-weight: 400;
+  color: #333;
 }
 
 h6 {
-    font-size: $small;
-    margin: $gutter 0;
-    font-weight: 600;
-    color: #000;
+  font-size: $small;
+  font-weight: 400;
+  color: #333;
+}
+
+small {
+  color: $dark;
+  font-size: $small;
+}
+
+button {
+  -webkit-appearance: none;
+  outline: none;
+  border: 0 none;
+  font-size: $big;
 }
 
 // ::-webkit-scrollbar {
@@ -142,171 +157,51 @@ h6 {
 //     background: #fff;
 // }
 [v-cloak] {
-    display: none;
+  display: none;
 }
 
-/*动画*/
-
-.fade-left-enter-active {
-    animation: fade-left-in .2s;
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: .1rem solid transparent;
+  border-right: .1rem solid transparent;
+  border-top: .1rem solid $base;
 }
 
-.fade-left-leave-active {
-    animation: fade-left-out .2s;
+.list {
+  >header {
+    border-bottom: 1px solid $light;
+  }
+  >section {
+    border-bottom: 1px solid $light;
+  }
 }
 
-@keyframes fade-left-in {
-    0% {
-        opacity: 0;
-        transform: translateX(5px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.full-screen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
-@keyframes fade-left-out {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(5px);
-    }
+// 懒加载动画
+img[lazy="loading"] {}
+
+img[lazy="done"] {
+  animation: zoomIn 1s;
 }
 
-/*fadeLeft*/
-
-.fadeLeft-enter-active {
-    animation: fadeLeftIn .3s ease-in-out;
-}
-
-.fadeLeft-leave-active {
-    animation: fadeLeftOut .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-@keyframes fadeLeftIn {
-    0% {
-        opacity: 0;
-        transform: translateX(-10%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0%);
-    }
-}
-
-@keyframes fadeLeftOut {
-    0% {
-        opacity: 1;
-        transform: translateX(0%);
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(-10%);
-    }
-}
-
-/*动画*/
-
-.slide-right-enter-active {
-    animation: slide-in-right .3s ease-in-out;
-}
-
-.slide-right-leave-active {
-    animation: slide-out-right .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-@keyframes slide-in-right {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
-}
-
-.swiper-pagination-bullet {
-    border: 1px solid #000;
-    background: rgba(0, 0, 0, 0);
-    opacity: 1;
-}
-
-.swiper-pagination-bullet-active {
-    background: #000;
-}
-
-@keyframes slide-out-right {
-    0% {
-        transform: translateX(0%);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 
-// 动画
-@keyframes zoom {
-    0% {
-        opacity: .9;
-        transform: scale(1.1);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+.text-success{color:$success;font-size: inherit;}
+.text-warning{color:$warning;font-size: inherit;}
+.text-danger{color:$danger;font-size: inherit;}
+.text-info{color:$info;font-size: inherit;}
 
-// 动画
-@keyframes fadeInUp {
-    0% {
-        opacity: .9;
-        transform: translateY(15%);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-// 动画
-@keyframes fadeIn {
-    0% {
-        opacity: .4;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-
-
-// 动画
-.fade-enter-active {
-    animation: fade-in .5s;
-}
-
-.fade-leave-active {
-    animation: fade-out .5s;
-}
-
-@keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes fade-out {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
+.header-title{border-bottom: 1px solid $lightest;padding:$gutter * 3;font-size: $big;color: $darkest;}

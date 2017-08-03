@@ -1,84 +1,127 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-import Home from '@/pages/HomeFrame'
-
-const Login = () => ({
-    component: import ('@/pages/Login')
+const Entrance = () => ({
+    component: import ("@/pages/Entrance")
 });
 
-
-
 const Index = () => ({
-    component: import ('@/pages/Index')
+    component: import ("@/pages/Index")
 });
 
 const List = () => ({
-    component: import ('@/pages/List')
+    component: import ("@/pages/List")
 });
 
 const Detail = () => ({
-    component: import ('@/pages/Detail')
+    component: import ("@/pages/Detail")
 });
 
-const Presale = () => ({
-    component: import ('@/pages/Presale')
+const PresaleDetail = () => ({
+    component: import ("@/pages/PresaleDetail")
 });
 
-const Find = () => ({
-    component: import ('@/pages/Find')
+const Explore = () => ({
+    component: import ("@/pages/Explore")
 });
 
-const ShopCart = () => ({
-    component: import ('@/pages/ShopCart')
+const Cart = () => ({
+    component: import ("@/pages/Cart")
+});
+
+const Checkout = () => ({
+    component: import ("@/pages/Checkout")
+});
+
+const BillingAddress = () => ({
+    component: import ("@/pages/BillingAddress")
+});
+
+const Payment = () => ({
+    component: import ("@/pages/Payment")
+});
+
+const Category = () => ({
+    component: import ("@/pages/Category")
+});
+
+const Personalized = () => ({
+    component: import ("@/pages/Personalized")
 });
 
 const My = () => ({
-    component: import ('@/pages/My'),
+    component: import ("@/pages/My")
+});
+
+const Forget = () => ({
+    component: import ("@/pages/Forget")
 });
 
 
-Vue.use(Router)
+const Canvas = () => ({
+    component: import ("@/pages/Canvas")
+});
+
+Vue.use(Router);
 export default new Router({
     routes: [{
-        path: '/',
-        redirect: '/home/index'
+        path: "/",
+        redirect: "/index"
     }, {
-        path: '/login',
-        name: 'Login',
-        component: Login
+        path: "/entrance",
+        name: "Entrance",
+        component: Entrance
     }, {
-        path: '/home',
-        name: 'Home',
-        component: Home,
-        children: [{
-            path: 'index',
-            name: 'Index',
-            component: Index
-        }, {
-            path: 'list',
-            name: 'List',
-            component: List
-        }, {
-            path: 'detail',
-            name: 'Detail',
-            component: Detail
-        }, {
-            path: 'presale',
-            name: 'Presale',
-            component: Presale
-        }, {
-            path: 'find',
-            name: 'Find',
-            component: Find
-        }, {
-            path: 'shop-cart',
-            name: 'ShopCart',
-            component: ShopCart
-        }, {
-            path: 'my',
-            name: 'My',
-            component: My
-        }]
+        path: "/index",
+        name: "Index",
+        component: Index
+    }, {
+        path: "/list",
+        name: "List",
+        component: List
+    }, {
+        path: "/cart",
+        name: "Cart",
+        component: Cart
+    }, {
+        path: "/checkout",
+        name: "Checkout",
+        component: Checkout
+    }, {
+        path: "/explore",
+        name: "Explore",
+        component: Explore
+    }, {
+        path: "/detail",
+        name: "Detail",
+        component: Detail
+    }, {
+        path: "/billingAddress",
+        name: "BillingAddress",
+        component: BillingAddress
+    }, {
+        path: "/payment",
+        name: "Payment",
+        component: Payment
+    }, {
+        path: "/category",
+        name: "Category",
+        component: Category
+    }, {
+        path: "/personalized",
+        name: "Personalized",
+        component: Personalized
+    }, {
+        path: "/my",
+        name: "My",
+        component: My
+    }, {
+        path: "/forget",
+        name: "Forget",
+        component: Forget
+    }, {
+        path: "/canvas",
+        name: "Canvas",
+        component: Canvas
     }]
-})
+});

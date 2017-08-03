@@ -1,8 +1,8 @@
 <template>
     <div class="component-picker">
-        <div class="graticule"></div>
-        <ul v-for="(list, i) in dataSource" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
-            <li v-for="item in list" :class="{active: item.value == value[i]}">{{item.label}}</li>
+        <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
+        <ul v-for="(list, i) in dataSource" :key="i" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
+            <li v-for="(item, j) in list" :key="j" :class="{active: item.value == touchStatusList[i].value}" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}">{{item.label}}</li>
         </ul>
     </div>
 </template>
@@ -22,6 +22,14 @@ export default {
         }
     },
 
+    data() {
+        return {
+            active: {}, // 当前拖拽列表
+            itemHeight: 36,
+            touchStatusList: []
+        };
+    },
+
     created() {
         // 构造列表结构
         this.dataSource.forEach(() => {
@@ -38,21 +46,7 @@ export default {
     },
 
     mounted() {
-        // 计算item高度, 后续处理边界用
-        // getComputedStyle计算结构精准到小数位
-        this.itemHeight = getComputedStyle(this.$el.querySelectorAll('li')[0], null).height;
-        this.itemHeight = parseFloat(this.itemHeight);
-
-        // 初始化默认值
         this._syncPosition();
-    },
-
-    data() {
-        return {
-            active: {}, // 当前拖拽列表
-            itemHeight: 0,
-            touchStatusList: []
-        };
     },
 
     methods: {
@@ -60,14 +54,25 @@ export default {
          * 滚动UI到默认值位置
          */
         _syncPosition() {
+            this.dataSource.forEach((list, index) => {
+                let activeIndex;
+                // 如果存在值, 则查找相等项
+                // 如果不存在直接选取第一项为默认值
+                if (!!this.value[index]) {
+                    activeIndex = list.findIndex(item => {
+                        return this.value[index] == item.value;
+                    });
+                    // 如果找不到对应项, 那么默认取第一项
+                    // activeIndex = -1 == activeIndex && 0; 
+                } else {
+                    activeIndex = 0;
+                }
 
-            this.value.forEach((value, index) => {
-                // 寻找当前值在所在列中的索引
-                var i = this.dataSource[index].findIndex(item => {
-                    return item.value == value;
-                });
-
-                this.touchStatusList[index].translateYNew = 0 - i * this.itemHeight;
+                // 存储当前值
+                this.touchStatusList[index].value = this.dataSource[index][activeIndex].value;
+                this.touchStatusList[index].label = this.dataSource[index][activeIndex].label;
+                // 移动选项到适合位置
+                this.touchStatusList[index].translateYNew = 0 - activeIndex * this.itemHeight;
                 this.touchStatusList[index].translateYOld = this.touchStatusList[index].translateYNew;
             });
         },
@@ -120,27 +125,35 @@ export default {
             // 确定value
             var itemIndex = Math.round((0 - this.active.translateYNew) / this.itemHeight);
             this.active.value = this.dataSource[index][itemIndex].value;
+            this.active.label = this.dataSource[index][itemIndex].label;
             this.active.translateYNew = 0 - itemIndex * this.itemHeight;
 
             //同步当前位置
             this.active.translateYOld = this.active.translateYNew;
 
-            // 同步value
-            this.value.splice(index, 1, this.active.value);
-
-            this.$emit('change', {
-                index,
-                value: this.value[index]
+            const newValue = [];
+            this.value.map((item, i) => {
+                newValue[i] = this.touchStatusList[index].value = i == index ? this.active.value : item;
             });
 
-            this.$emit('input', this.value);
+            // 当前列表的变更状态
+            this.$emit('change', {
+                index,
+                value: this.active.value,
+                label: this.active.label
+            });
+
+            // 所有列表的总变更状态
+            this.$emit('input', newValue);
         }
     },
 
     watch: {
-        value(value) {
-            
-            // 初始化默认值
+        value() {
+            this._syncPosition();
+        },
+
+        dataSource() {
             this._syncPosition();
         }
     }
@@ -154,9 +167,7 @@ $itemHeight: 7 * $gutter;
     overflow: hidden;
     display: flex;
     overflow: hidden;
-    height: 7 * $itemHeight;
     .graticule {
-        height: $itemHeight;
         position: absolute;
         top: 0;
         left: 0;
@@ -168,12 +179,9 @@ $itemHeight: 7 * $gutter;
     ul {
         flex: 1;
         box-sizing: border-box;
-        padding: 3 * $itemHeight 0;
         li {
             box-sizing: border-box;
             width: 100%;
-            height: $itemHeight;
-            line-height: $itemHeight;
             display: block;
             text-align: center;
             font-size: $big;

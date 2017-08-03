@@ -1,10 +1,10 @@
 <template>
-    <div class="component-carousel" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
-        <div ref="film" :class="['film']" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transition: `transform ${speed}ms`}">
+    <div class="component-carousel" @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend">
+        <div class="carousel-body" :style="{'transition-duration': `${duration}ms`, transform: `translate3d(${translateXNew}px, 0, 0)`}" @transitionend="transitionend">
             <slot></slot>
         </div>
-        <div v-if="hasNav" class="pages">
-            <a v-for="n in count" :class="{active: n - 1 == activeIndex}" @click="chnageItem(n-1)"></a>
+        <div v-if="!!$slots.overlay" class="overlay">
+            <slot name="overlay"></slot>
         </div>
     </div>
 </template>
@@ -13,154 +13,138 @@ export default {
     name: 'Carousel',
 
     props: {
-        value: {
-            type: Number,
+        initPage: {
+            type: [Number, String],
             default: 0
-        },
-
-        delay: {
-            type: Number,
-            default: 2000
         },
 
         speed: {
             type: Number,
             default: 300
-        },
-
-        isLoop: {
-            type: Boolean,
-            default: false
-        },
-
-        autoplay: {
-            type: Boolean,
-            default: true
-        },
-
-        hasNav: {
-            type: Boolean,
-            default: false
         }
     },
 
     data() {
         return {
-            isAnimate: false,
-            timer: null,
+            isMove: false,
+            isMoveToLeft: false,
+            isMoveToRight: false,
+            viewWidth: 0,
+            activeIndex: 0,
             count: 0,
-            width: 0,
-            height: 0,
-            touch: {
-                status: 0,
-                start: 0,
-                current: 0,
-                distance: 0
-            }
+            status: 0,
+            startX: 0,
+            startY: 0,
+            startTime: 0,
+            distanceX: 0,
+            distanceY: 0,
+            translateXOld: 0,
+            translateXNew: 0,
+            translateYOld: 0,
+            translateYNew: 0,
+            duration: 0,
         };
     },
 
     mounted() {
-        this.width = this.$el.getBoundingClientRect().width;
-        this.play();
-
-        // 应该在main.js中判断下 是什么前缀
-        ['webkitTransitionEnd', 'transitionEnd'].forEach(eventName => {
-            this.$refs.film.addEventListener(eventName, () => {
-                this.isAnimate = false;
-            });
-        });
+        this.activeIndex = this.initPage;
+        this.viewWidth = this.$el.offsetWidth;
+        this.slideTo(this.initPage, 0);
     },
 
     methods: {
-        play() {
-            if (this.autoplay) {
-                this.timer = setInterval(() => {
-                    this.next();
-                }, this.delay);
-            }
+        slideTo(index, speed) {
+            this.duration = speed;
+            this.activeIndex = index;
+            this.translateXNew = 0 - this.viewWidth;
+            this.translateXOld = this.translateXNew;
         },
 
-        stop() {
-            clearInterval(this.timer);
-        },
-
-        chnageItem(i) {
-            this.activeIndex = i;
-        },
 
         touchstart(e) {
-            this.stop();
-            this.touch.status = 1;
-            this.touch.start = e.touches[0].clientX;
+            if (!this.isMove) {
+                this.duration = 0;
+                this.startX = e.touches[0].clientX;
+                this.startTime = e.timeStamp;
+            }
         },
 
         touchmove(e) {
-            this.touch.status = 2;
-            this.touch.current = e.touches[0].clientX;
-            this.touch.distance = this.touch.current - this.touch.start;
-            // e.preventDefault();
-            e.stopPropagation();
+            if (!this.isMove) {
+                this.distanceX = e.touches[0].clientX - this.startX;
+                if (0 < this.distanceX) {
+                    this.isMoveToRight = true;
+                    this.isMoveToLeft = false;
+                } else {
+                    this.isMoveToRight = false;
+                    this.isMoveToLeft = true;
+                }
+                // const translateXNew = this.translateXOld + this.distanceX;
+                // if(0 > translateXNew && this.viewWidth * (this.count - 1) > 0 - translateXNew) {
+                this.translateXNew = this.translateXOld + this.distanceX;
+                // }
+            }
         },
 
         touchend(e) {
-            this.touch.status = 0;
-            // 拖拽超过10px
-            if (Math.abs(this.touch.distance) > 100) {
-                if (0 > this.touch.distance) {
-                    this.next();
+            this.isMove = true;
+            this.duration = this.speed;
+            const costTime = e.timeStamp - this.startTime;
+            const dragSpeedX = this.distanceX / costTime;
+            const offset = this.translateXNew % this.viewWidth;
+            // 正向
+            if (0 > this.distanceX) {
+                if (0 - this.distanceX > this.viewWidth / 4 || -0.3 >= dragSpeedX) {
+                    this.translateXNew = 0 - this.viewWidth * 2;
                 } else {
-                    this.previous();
+                    // 复位
+                    this.translateXNew = 0 - this.viewWidth;
+                }
+                // 反向
+            } else {
+                if (this.distanceX > this.viewWidth / 4 || 0.3 <= dragSpeedX) {
+                    this.translateXNew = 0;
+                } else {
+                    // 复位
+                    this.translateXNew = 0 - this.viewWidth;
                 }
             }
+            this.translateXOld = this.translateXNew;
+        },
 
-            // 重置移动距离
-            this.touch.distance = 0;
-
+        transitionend() {
             this.$nextTick(() => {
-                this.play();
+                this.duration = 0;
+                this.isMove = false;
+                // 已经进入下一幅
+                if (this.translateXNew == 0 - this.viewWidth * 2) {
+                    this.activeIndex = this.nextIndex;
+                } else if (this.translateXNew == 0) {
+                    this.activeIndex = this.previousIndex;
+                }
+                this.translateXNew = 0 - this.viewWidth;
+                this.translateXOld = this.translateXNew;
+                this.$emit('change', this.activeIndex);
             });
-        },
-
-        next() {
-            if (this.count - 1 > this.activeIndex) {
-                this.activeIndex++;
-            } else {
-                if (this.loop) {
-                    this.activeIndex = 0;
-                }
-            }
-
-        },
-
-        previous() {
-            if (0 < this.activeIndex) {
-                this.activeIndex--;
-            } else {
-                if (this.loop) {
-                    this.activeIndex = this.count - 1;
-                }
-            }
         }
     },
 
     computed: {
-        activeIndex: {
-            get() {
-                return this.value;
-            },
-
-            set(index) {
-                this.isAnimate = true;
-                this.$emit('input', index);
-            },
+        nextIndex() {
+            const nextIndex = ~~this.activeIndex + 1;
+            if (this.count > nextIndex) {
+                return nextIndex;
+            } else {
+                return 0;
+            }
         },
 
-        translateX() {
-            if (2 == this.touch.status) {
-                return 0 - this.activeIndex * this.width + this.touch.distance;
+        previousIndex() {
+            const activeIndex = ~~this.activeIndex;
+            if (0 < activeIndex) {
+                return activeIndex - 1;
             } else {
-                return 0 - this.activeIndex * this.width;
+                return this.count - 1;
             }
         }
     }
@@ -168,35 +152,23 @@ export default {
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
+$height: .5rem;
 .component-carousel {
+    position: relative;
     width: 100%;
     overflow: hidden;
-    position: relative;
-    >.film {
+    >.carousel-body {
         display: flex;
-        position: relative;
-        width: 100%;
+        transition-duration: 0;
+        transition-property: transform;
+        transition-timing-function: ease-in-out;
     }
-    >.pages {
+    >.overlay {
         position: absolute;
-        z-index: 3;
-        left: 50%;
-        bottom: 10%;
-        transform: translateX(-50%);
-        >a {
-            margin-right: 5px;
-            border-radius: 100%;
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            line-height: 12px;
-            text-align: center;
-            background: $light;
-            color: #fff;
-            &.active {
-                background: $base;
-            }
-        }
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 }
 </style>

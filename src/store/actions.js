@@ -1,16 +1,13 @@
-var getGoodsList = ({ commit, state }, params) => {
-  return new Promise((resolve, reject) => {
-    axios
-      .get('./mock/imgs', { params })
-      .then(response => {
-        resolve(response.data);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
-};
+import Api from '../api/';
+import {SET_CUSTOMER} from './mutation-types';
 
 export default {
-  getGoodsList
+    async login({ commit, state }){
+        try {
+            const customer = await Api.login(param);
+            commit(SET_CUSTOMER, customer.data);
+        } catch (error) {
+            
+        }
+    }
 };

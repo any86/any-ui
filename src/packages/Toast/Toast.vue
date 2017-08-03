@@ -1,5 +1,5 @@
 <template>
-    <transition name="toast">
+    <transition name="fade">
         <div v-if="isShow" :class="['component-toast', position]">
             <div v-if="'default' != type" class="icon">
                 <Icon v-if="'success' == type" :key="1" value="check"></Icon>
@@ -60,16 +60,16 @@ $height: $minHeight;
 .component-toast {
     position: fixed;
     background: rgba(0, 0, 0, .7);
-    color: #fff;
+    color: $sub;
     border-radius: $borderRadius;
     box-shadow: $shadowUp, $shadowDown;
-    overflow: hidden;
+    // overflow: hidden;
     padding: 3*$gutter 5*$gutter;
     // word-break: keep-all;
     // white-space:nowrap;
     &.top {
         z-index: $toastZIndex;
-        top:50%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         transform-style: preserve-3d;

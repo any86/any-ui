@@ -1,10 +1,10 @@
 <template>
     <div :class="['component-radio', disabled && 'disabled']">
         <label>
-            <a v-if="!!$slots.default" class="title">
+            <span v-if="!!$slots.default" class="title">
                 <slot></slot>
-            </a>
-            <span class="radio">
+            </span>
+            <span v-show="selfValue == value" class="radio">
                 <input :disabled="disabled" :value="selfValue" :checked="isChecked" @change="change" type="radio">
                 <span class="icon"></span>
             </span>
@@ -25,13 +25,14 @@ export default {
             default: false
         },
 
+        value: {
+            required: true
+        },
+
         selfValue: {
             required: true
         },
 
-        value: {
-            required: true
-        }
     },
     methods: {
         change() {
@@ -70,14 +71,12 @@ $height: .5rem;
                 }
             }
         }
-    }
-    // 正常
+    } // 正常
     >label {
         display: flex;
-        >a.title {
+        align-items: center;
+        >.title {
             flex: 1;
-            height: $height;
-            line-height: $height;
             font-size: $big;
             &.active {
                 color: $base;
@@ -87,6 +86,7 @@ $height: .5rem;
             position: relative;
             width: $height;
             height: $height;
+            
             >input {
                 display: none;
             }

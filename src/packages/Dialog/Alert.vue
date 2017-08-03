@@ -1,5 +1,5 @@
 <template>
-    <transition name="alert" @after-leave="afterLeave">
+    <transition name="fadeUp" @after-leave="afterLeave">
         <div v-show="value" class="component-alert" :style="{width: width}">
             <div class="header">
                 <h1 class="title">{{title}}</h1>
@@ -109,7 +109,7 @@ export default {
         padding: 15px;
         >.title {
             margin: 0;
-            font-size: 16px;
+            font-size: $bigger;
         }
         >.btn-close {
             position: absolute;
@@ -118,44 +118,13 @@ export default {
         }
     }
     >.body {
-        padding: 15px;
+        padding: 3*$gutter;
     }
     >.footer {
-        padding: 15px;
+        padding: 3*$gutter;
         overflow: hidden;
         border-top: 1px solid $lightest; 
-        .button-ok{width: 100%; text-align: center; display:block; color: $base;font-size: 14px;}
-    }
-}
-
-// 动画
-.alert-enter-active {
-    animation: alert-in .5s;
-}
-
-.alert-leave-active {
-    animation: alert-out .5s;
-}
-
-@keyframes alert-in {
-    0% {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes alert-out {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(15px);
+        .button-ok{width: 100%; text-align: center; display:block; color: $base;font-size: $big;}
     }
 }
 </style>

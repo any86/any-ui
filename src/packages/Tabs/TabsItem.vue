@@ -36,13 +36,13 @@ export default {
     flex-shrink:0;
     // 默认尺寸
     flex-basis:auto;
-    
     display: block;
     box-sizing: border-box;
     padding: 2*$gutter 3*$gutter;
     text-align: center;
     color: $darkest;
     font-size: $normal;
+    font-weight: 900;
     &.active {
         color: $base;
     }

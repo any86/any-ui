@@ -25,7 +25,7 @@ export default {
         > div {
             width: 20px;
             height: 20px;
-            background-color: #ccc;
+            background: $light;
             border-radius: 100%;
             display: inline-block;
             -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
@@ -71,8 +71,8 @@ export default {
     @include loading;
     p {
         margin-top: $gutter;
-        font-size: $normal;
-        color: $light;
+        font-size: $biggest;
+        color: $lightest;
     }
 }
 </style>

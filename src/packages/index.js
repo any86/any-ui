@@ -1,5 +1,6 @@
 import DialogRoot from './Dialog/DialogRoot'
 import Toast from '@/packages/Toast/Toast'
+import Loading from '@/packages/Loading/Loading'
 import Icon from './Icon/Icon';
 import Spinner from './Spinner/Spinner';
 import ScrollView from './ScrollView/ScrollView';
@@ -8,7 +9,7 @@ import FlexItem from './Flexbox/FlexItem';
 import Badge from './Badge/Badge'
 
 var Atom = {};
-Atom.install = function(Vue) {
+Atom.install = function (Vue) {
     Vue.component(Flexbox.name, Flexbox);
     Vue.component(FlexItem.name, FlexItem);
     Vue.component(ScrollView.name, ScrollView);
@@ -57,11 +58,11 @@ Atom.install = function(Vue) {
                 ...options,
                 ok: () => {
                     vm.mask.show = false;
-                    resolve();
+                    resolve(true);
                 },
                 cancel: () => {
                     vm.mask.show = false;
-                    reject();
+                    reject(false);
                 },
                 show: true,
                 text
@@ -74,7 +75,7 @@ Atom.install = function(Vue) {
     // =================================================
     // ==============组件内调用: this.$prompt============
     // =================================================
-    Vue.prototype.$input = Vue.prototype.$prompt = (text = '', options = {}) => {
+    Vue.prototype.$prompt = Vue.prototype.$input = (text = '', options = {}) => {
         return new Promise((resolve, reject) => {
             vm.mask.show = true;
             vm.prompt = {
@@ -94,18 +95,29 @@ Atom.install = function(Vue) {
 
         });
     };
-
+    // ========================================== mask ==================================
     Vue.prototype.$mask = (options = {}) => {
         vm.mask.show = true;
     };
 
+    // ========================================== loading ==================================
+    Vue.prototype.$loading = (options = { isShow: true }) => {
+        // ** 每次创建新toast实例 **
+        var LoadingComponent = Vue.extend(Loading);
+        // 创建一个挂载点
+        var node = document.createElement('div');
+        // 起个不重复的名字
+        node.id = '_app-loading-' + Math.ceil(Math.random());
+        document.body.appendChild(node);
+        // 挂载
+        const LoadingVM = new LoadingComponent().$mount('#' + node.id);
+
+        LoadingVM.value = options.isShow;
+        return LoadingVM;
+    };
+
     // ==========================================toast==================================
-
-
-
     Vue.prototype.$toast = (text = '', options = {}) => {
-
-
         // ** 每次创建新toast实例 **
         var ToastComponent = Vue.extend(Toast);
         // 创建一个挂载点
@@ -116,15 +128,14 @@ Atom.install = function(Vue) {
         // 挂载
         var toastVM = new ToastComponent().$mount('#' + node.id);
 
-
-
         toastVM.type = options.type || 'default';
         toastVM.position = options.position || 'center';
 
         toastVM.isShow = true;
         toastVM.text = text;
+        toastVM.delay = options.delay || toastVM.delay;
+        return toastVM;
     };
-
 };
 
 export default Atom;

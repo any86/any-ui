@@ -1,15 +1,13 @@
 <template>
     <div class="container">
         <!-- 头部 -->
-        <slot name="header"></slot>
-        
+        <slot name="header" v-if="isShowHeader"></slot>
         <!-- 主体 -->
         <main>
             <slot></slot>
         </main>
-
         <!-- 底部 -->
-        <slot name="footer"></slot>
+        <slot name="footer" v-if="isShowFooter"></slot>
     </div>
 </template>
 <script>
@@ -17,6 +15,16 @@ export default {
     name: 'Sticky',
 
     props: {
+        isShowHeader: {
+            type: Boolean,
+            default: true
+        },
+
+        isShowFooter: {
+            type: Boolean,
+            default: true
+        },
+
         threshold: {
             type: Number,
             default: 50
@@ -29,8 +37,7 @@ export default {
         };
     },
 
-    methods: {
-    }
+    methods: {}
 
 }
 </script>
@@ -44,7 +51,7 @@ export default {
     flex-direction: column;
     // 主要内容
     main {
-        flex:1;
+        flex: 1;
         position: relative;
         overflow: hidden;
     }

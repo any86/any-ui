@@ -3,7 +3,7 @@
         <p>{{value}}%</p>
         <svg :viewBox="`0 0 100 100`" xmlns="http://www.w3.org/2000/svg">
             <circle class="backdrop" :r="40" :cy="50" :cx="50" stroke-width="3" stroke="#ddd" fill="none" />
-            <circle class="progress" :r="40" :cy="50" :cx="50" stroke-width="3" stroke="none" fill="none" :stroke-dasharray="strokeDasharray" />
+            <circle class="progress" :r="40" :cy="50" :cx="50" stroke-width="3" stroke="none" fill="none" :stroke-dasharray="strokeDasharray" :style="{'transition-duration': `${speed}ms`}" />
         </svg>
     </div>
 </template>
@@ -16,8 +16,11 @@ export default {
         value: {
             type: Number,
             default: 80
-
         },
+        speed: {
+            type: Number,
+            default: 0
+        }
     },
 
     computed: {
@@ -33,18 +36,26 @@ export default {
 .component-circle {
     position: relative;
     overflow: hidden;
-    p{font-size: $biggest;margin: auto;text-align: center;position: absolute;z-index: 2;width: 100%;transform:translateY(-50%);top:50%;color:$base;}
-
+    p {
+        font-size: $biggest;
+        margin: auto;
+        text-align: center;
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        transform: translateY(-50%);
+        top: 50%;
+        color: $base;
+    }
     svg {
         transform: rotate(-90deg);
         >.backdrop {
-            stroke: $lighter;
+            stroke: $darker;
         }
         >.progress {
             stroke: $base;
-            transition:stroke-dasharray 1s;
+            transition-property: stroke-dasharray;
         }
-       
         >text {
             fill: #f10;
         }

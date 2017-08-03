@@ -1,15 +1,22 @@
 <template>
-    <span class="component-carousel-item" :style="{width: `${width}px`}">
+    <div v-if="isActive || isPrevious || isNext" class="component-carousel-item" :class="{active: isActive, previous: isPrevious, next: isNext, 'patch-offset': isOffset}">
         <slot></slot>
-    </span>
+    </div>
 </template>
 <script>
 export default {
     name: 'CarouselItem',
 
+    props: {
+        value: {
+            type: [Number, String],
+            default: 0
+        }
+    },
+
     data() {
         return {
-            index: -1,
+            index: 0,
         };
     },
 
@@ -23,24 +30,57 @@ export default {
     },
 
     computed: {
-        width() {
-            return this.$parent.width;
+        isPrevious() {
+            if (2 < this.$parent.count) {
+                return this.$parent.previousIndex == this.index;
+            } else if (2 == this.$parent.count) {
+                if (this.$parent.isMoveToRight) {
+                    return this.$parent.previousIndex == this.index;
+                } else {
+                    return false;
+                }
+            }
         },
 
         isActive() {
-            return this.index == this.$parent.activeIndex;
+            return this.$parent.activeIndex == this.index;
+        },
+
+        isNext() {
+            if (2 < this.$parent.count) {
+                return this.$parent.nextIndex == this.index;
+            } else if (2 == this.$parent.count) {
+                if (this.$parent.isMoveToLeft) {
+                    return this.$parent.nextIndex == this.index;
+                } else {
+                    return false;
+                }
+            }
+        },
+
+        isOffset() {
+            // 专门针对count == 2 做的补丁
+            return 2 == this.$parent.count && this.isActive && !this.$parent.isMoveToRight;
         }
     }
 }
 </script>
-<style scoped lang="scss">
+<style scoped lang=scss>
 @import '../../scss/theme.scss';
 .component-carousel-item {
     position: relative;
-    flex: 0 0 auto;
-    // flex-shrink: 0;
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
+    flex: 0 0 100%;
+    &.patch-offset {
+        margin-left: 100%;
+    }
+    &.previous {
+        order: -1;
+    }
+    &.active {
+        order: 0;
+    }
+    &.next {
+        order: 1;
+    }
 }
 </style>

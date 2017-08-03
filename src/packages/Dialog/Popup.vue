@@ -1,11 +1,11 @@
 <template>
-    <VMask :value="value" :isFixed="isFixed" @input="closeMask">
-        <transition :name="'dialog-' + from" @after-leave="afterLeave">
+    <VMask :value="value" :isFixed="isFixed" @input="closeMask" @after-leave="afterLeave">
+        <transition :name="'dialog-' + from" @after-leave="afterDialogLeave">
             <div v-show="value" :class="['component-dialog', from]">
                 <div class="header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </div>
-                <div class="body" :style="{maxHeight: height * 0.6 + 'px'}">
+                <div class="body" :style="{maxHeight: height * 0.618 + 'px'}">
                     <slot></slot>
                 </div>
                 <div class="footer" v-if="undefined != $slots.footer">
@@ -48,12 +48,19 @@ export default {
         closeMask() {
             this.$emit('input', false);
         },
+
         close() {
             this.$emit('input', false);
         },
+
+        afterDialogLeave() {
+            this.$emit('after-dialog-leave');
+        },
+
         afterLeave() {
             this.$emit('after-leave');
         }
+
     },
     components: {
         VMask
@@ -84,7 +91,7 @@ export default {
     }
     .body {
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: scroll;
     }
     .footer {
         box-sizing: border-box;

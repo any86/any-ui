@@ -1,10 +1,12 @@
 <template>
-    <label class="component-switch">
-        <a v-if="!!this.$slots.default" class="title"><slot></slot></a>
-        <div class="control">
+    <label :style="{width: !!this.$slots.default && '100%'}" class="component-switch">
+        <a v-if="!!this.$slots.default" class="title">
+            <slot></slot>
+        </a>
+        <span class="control">
             <input :checked="value" @change="change" type="checkbox">
             <div class="checkbox"></div>
-        </div>
+        </span>
     </label>
 </template>
 <script>
@@ -29,10 +31,14 @@ export default {
 $size: .5rem;
 label.component-switch {
     display: flex;
-   
-    >.title{font-size: $big;line-height: $size; display: block;flex:1;}
-
+    >.title {
+        font-size: $big;
+        line-height: $size;
+        display: block;
+        flex: 1;
+    }
     >.control {
+        box-sizing: content-box;
         position: relative;
         display: block;
         height: $size;
@@ -60,10 +66,10 @@ label.component-switch {
                 width: $size;
                 border-radius: $size;
                 transition: all .3s ease;
-                background: #fff;
+                background: $sub;
                 box-shadow: $shadowDown;
             }
-           &:after{
+            &:after {
                 content: " ";
                 display: block;
                 position: absolute;

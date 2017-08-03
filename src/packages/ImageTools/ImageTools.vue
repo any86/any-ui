@@ -1,188 +1,187 @@
 <template>
-    <div class="component-image-tool">
-        <div class="preview" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-            <div :class="['image', 2 != touch.status && 'transition']" :style="{transform: 'rotate('+rotate+'deg) scale(' + scale + ') translate3d(' + touch.x.translateNew + 'px, ' + touch.y.translateNew + 'px, 0)'}">
-                <img src="../../assets/avator.jpeg">
-            </div>
-            <div class="mask" ref="mask"><img src="../../assets/C022.png"></div>
-        </div>
-        <div class="tools-bar">
-            <span class="button" @click="moveLeft"><Icon value="arrow-left"></Icon></span>
-            <span class="button" @click="moveRight"><Icon value="arrow-right"></Icon></span>
-            <span class="button" @click="moveUp"><Icon value="arrow-up"></Icon></span>
-            <span class="button" @click="moveDown"><Icon value="arrow-down"></Icon></span>
-            <span class="button" @click="minusScale"><Icon value="minus"></Icon></span>
-            <span class="button" @click="addScale"><Icon value="plus"></Icon></span>
-            <span class="button" @click="rotateLeft"><Icon value="rotate-left"></Icon></span>
-            <span class="button" @click="rotateRight"><Icon value="rotate-right"></Icon></span>
-            <span class="button" @click="refresh"><Icon value="refresh"></Icon></span>
-        </div>
+  <div class="component-image-tool">
+    <div ref="view" class="view">
+      <canvas id="c" style="display:block;"></canvas>
     </div>
+    <!-- 工具条 -->
+    <div class="tools-bar">
+      <span class="button" @click="moveLeft"><Icon value="arrow-left"></Icon></span>
+      <span class="button" @click="moveRight"><Icon value="arrow-right"></Icon></span>
+      <span class="button" @click="moveUp"><Icon value="arrow-up"></Icon></span>
+      <span class="button" @click="moveDown"><Icon value="arrow-down"></Icon></span>
+      <span class="button" @click="minusScale"><Icon value="minus"></Icon></span>
+      <span class="button" @click="addScale"><Icon value="plus"></Icon></span>
+      <span class="button" @click="rotateLeft"><Icon value="rotate-left"></Icon></span>
+      <span class="button" @click="rotateRight"><Icon value="rotate-right"></Icon></span>
+      <span class="button" @click="reset"><Icon value="refresh"></Icon></span>
+    </div>
+  </div>
 </template>
 <script>
+import {
+  fabric
+} from 'fabric'
 export default {
-    name: 'ImageTool',
+  name: 'ImageTool',
 
-    props: {
-        value: {
-
-        }
+  props: {
+    dataURL: {
+      type: String
     },
 
-    data() {
-        return {
-            maskHeight: -1,
-            scale: 1,
-            rotate: 0,
-            touch: {
-                status: 0,
-                x: {
-                    start: 0,
-                    current: 0,
-                    distance: 0,
-                    translateOld: 0,
-                    translateNew: 0,
-                },
-                y: {
-                    start: 0,
-                    current: 0,
-                    distance: 0,
-                    translateOld: 0,
-                    translateNew: 0,
-                }
-            }
-        };
+    dataSource: {}
+  },
+
+  data() {
+    return {
+      viewWidth: 0,
+      viewHeight: 0,
+      canvas: null,
+      image: null,
+      dataUrl: null,
+      scale: 1,
+      angle: 0,
+      top: 0,
+      left: 0
+    };
+  },
+
+  mounted() {
+    const overlayImageUrl = './static/C022.png';
+    const overlayImage = new Image();
+    overlayImage.src = overlayImageUrl;
+    overlayImage.onload = () => {
+      this.viewWidth = this.$refs.view.offsetWidth;
+      this.canvas = new fabric.Canvas('c');
+      this.canvas.setWidth(this.viewWidth);
+      this.canvas.setHeight(this.viewWidth / overlayImage.width * overlayImage.height);
+
+      fabric.Image.fromURL('./static/bg.jpg', (image) => {
+        this.image = image;
+        this.image.set({
+          width: this.viewWidth,
+          height: this.viewWidth / this.image.width * this.image.height,
+          left: 0,
+          top: 0,
+          hasControls: false,
+          centeredScaling: true,
+        });
+        this.canvas.add(image);
+        this.canvas.setOverlayImage(overlayImageUrl, this.canvas.renderAll.bind(this.canvas), { width: this.viewWidth, height: this.viewWidth / overlayImage.width * overlayImage.height });
+        this.canvas.renderAll();
+      });
+    };
+
+    overlayImage.onerror = () => {
+      this.$alert('网络问题, 请重试!');
+    };
+  },
+
+  methods: {
+    moveLeft() {
+      this.left = this.image.getLeft();
+      this.left -= 5;
+      this.image.setLeft(this.left);
+      this.canvas.renderAll();
     },
 
-    mounted(){
-        this.maskHeight = this.$refs.mask.offsetHeight;
+    moveRight() {
+      this.left = this.image.getLeft();
+      this.left += 5;
+      this.image.setLeft(this.left);
+      this.canvas.renderAll();
     },
 
-    methods: {
-        moveLeft(){
-            this.touch.x.translateNew-= 10;
-        },
+    moveUp() {
+      this.top = this.image.getTop();
+      this.top -= 5;
+      this.image.setTop(this.top);
+      this.canvas.renderAll();
+    },
 
-        moveRight(){
-            this.touch.x.translateNew+= 10;
-        },
+    moveDown() {
+      this.top = this.image.getTop();
+      this.top += 5;
+      this.image.setTop(this.top);
+      this.canvas.renderAll();
+    },
 
-        moveUp(){
-            this.touch.y.translateNew-= 10;
-        },
+    rotateLeft() {
+      this.angle -= 5;
+      this.image.rotate(this.angle);
+      this.canvas.renderAll();
+      this.top = this.image.getTop();
+      this.left = this.image.getLeft();
 
-        moveDown(){
-            this.touch.y.translateNew+= 10;
-        },
+    },
 
-        rotateLeft(){
-            this.rotate-= 10;
-        },
+    rotateRight() {
+      this.angle += 5;
+      this.image.rotate(this.angle);
+      this.canvas.renderAll();
+      this.top = this.image.getTop();
+      this.left = this.image.getLeft();
 
-        rotateRight(){
-            this.rotate+= 10;
-        },
+    },
 
-        addScale(){
-            this.scale = this.scale * 1.1;
-        },
+    addScale() {
+      this.scale += 0.1;
+      this.image.scale(this.scale);
+      this.canvas.renderAll();
+    },
 
-        minusScale(){
-            this.scale = this.scale / 1.1;
-        },
+    minusScale() {
+      this.scale -= 0.1;
+      this.image.scale(this.scale);
+      this.canvas.renderAll();
+    },
 
-        refresh(){
-            this.scale = 1;
-            this.rotate = 0;
-            this.touch.x.translateNew = 0;
-            this.touch.y.translateNew = 0;
-        },
+    reset() {
+      this.top = 0;
+      this.left = 0;
+      this.angle = 0;
+      this.scale = 1;
+      this.image.set({
+        top: this.top,
+        left: this.left,
+        angle: this.angle,
+        scaleX: this.scale,
+        scaleY: this.scale
+      });
+      this.canvas.renderAll();
+    },
 
-        touchStart(e) {
-            // 同步工具栏操作的位移
-            this.touch.x.translateOld = this.touch.x.translateNew;
-            this.touch.y.translateOld = this.touch.y.translateNew;
-            // 初始化其他一些标记
-            this.touch.status = 1;
-            this.touch.x.start = e.touches[0].clientX;
-            this.touch.y.start = e.touches[0].clientY;
-
-        },
-
-        touchMove(e) {
-            this.touch.status = 2;
-            this.touch.x.current = e.touches[0].clientX;
-            this.touch.y.current = e.touches[0].clientY;
-            this.touch.x.distance = this.touch.x.current - this.touch.x.start;
-            this.touch.y.distance = this.touch.y.current - this.touch.y.start;
-
-            this.touch.x.translateNew = this.touch.x.translateOld + this.touch.x.distance;
-            this.touch.y.translateNew = this.touch.y.translateOld + this.touch.y.distance;
-            // 阻止拖拽时候滚动条晃动
-            e.preventDefault();
-            e.stopPropagation();
-        },
-
-        touchEnd(e) {
-            this.touch.status = 3;
-            this.touch.x.translateOld = this.touch.x.translateNew;
-            this.touch.y.translateOld = this.touch.y.translateNew;
-        }
-    }
+  },
 }
+
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-image-tool {
-    padding: $gutter*3 $gutter*3 0 $gutter*3;
-    box-sizing: border-box;
+  padding: $gutter*3 $gutter*3 0 $gutter*3;
+  position: relative;
+  overflow: hidden;
+  background: #f7f8f9;
+  width: 100%;
+  >.view {
     position: relative;
     overflow: hidden;
-    background: #f7f8f9;
     width: 100%;
-    // box-shadow: $shadowUp $shadowDown;
-    >.preview {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        >.image {
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            >img {
-                display: block;
-                max-width: 100%;
-            }
-        }
-        >.mask {
-            position: relative;
-            z-index: 2;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            left: 0;
-            >img {
-                display: block;
-                width: 100%;
-            }
-        }
+  }
+  >.tools-bar {
+    padding: $gutter*2 0;
+    display: flex;
+    border-top: 1px solid $lighter;
+    >.button {
+      flex: 1;
+      color: $dark;
+      font-size: .4rem;
+      text-align: center;
+      &:active {
+        color: $light;
+      }
     }
-    >.tools-bar {
-        padding: $gutter*2 0;
-        box-sizing: border-box;
-        display: flex;
-        border-top: 1px solid $lighter;
-        >.button {
-            flex: 1;
-            color: $dark;
-            font-size: .4rem;
-            text-align: center;
-            &:active {
-                color: $light;
-            }
-        }
-    }
+  }
 }
-.transition {transition:all .3s;}
+
 </style>

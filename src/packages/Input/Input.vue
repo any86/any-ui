@@ -1,6 +1,6 @@
 <template>
     <div class="component-input">
-        <span class="title"><slot></slot></span>
+        <span class="title" v-if="!!$slots.default"><slot></slot></span>
         <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
         <!-- border -->
         <!-- <div class="border"></div> -->
@@ -23,26 +23,22 @@ export default {
             type: Number
         },
 
+        placeholder: {
+            type: String
+        },
+
+        type: {
+            type: String
+        },
+
         value: {
             required: true
         }
     },
 
-    mounted() {
-        // 自定义属性同步到data
-        ['type', 'placeholder'].forEach(prop=>{
-            var propValue = this.$el.getAttribute('type');
-            if (null != propValue) {
-                this[prop] = propValue;
-            }
-        });
-    },
-
     data() {
         return {
             label: '',
-            type: 'text',
-            placeholder: '',
             isShowEmpty: false
         };
     },
@@ -111,16 +107,16 @@ $height : $gutter*8;
 .component-input {
     width: 100%;
     box-sizing: border-box;
-    height: $height + 1px;
+    // height: $height;
+    padding-bottom: 1px;
     position: relative;
     display: flex;
     .title {height: $height;line-height: $height;font-size: $big;margin-right: 5%;}
 
     input {
-        font-size: 14px;
+        font-size: $big;
         flex: 1;
         box-sizing: border-box;
-        padding: 0 2*$gutter;
         border: 0 none;
         outline: none;
         width: 100%;
