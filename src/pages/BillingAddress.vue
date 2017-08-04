@@ -2,16 +2,29 @@
     <ScrollView v-model="scrollY" class="page-billing-address">
         <LayoutHeader></LayoutHeader>
         <VCell class="item">
-            <VInput v-model="form.firstName" :placeholder="'First Name'"></VInput>
+            <VInput v-model="form.firstname" :placeholder="'First Name'"></VInput>
         </VCell>
         <VCell class="item">
-            <VInput v-model="form.lastName" :placeholder="'Last Name'"></VInput>
+            <VInput v-model="form.lastname" :placeholder="'Last Name'"></VInput>
         </VCell>
-        <VCell class="item" :hasArrow="true" @click.native="selectZone(0)">
-            <VInput :value="zoneLabel[0]" :hasRemove="false" :disabled="true" :placeholder="'country'"></VInput>
+    
+        <!--国家-->
+        <VCell class="item" :hasArrow="true" @click.native="isShowCountryPicker = true">
+            <VInput :value="form.country" :hasRemove="false" :disabled="true" :placeholder="'select country'"></VInput>
         </VCell>
+    
+        <!--省-->
+        <VCell class="item" :hasArrow="!isEmptyRegion" @click.native="isShowRegionPicker = true">
+            <VInput :value="form.region" :disabled="!isEmptyRegion" :hasRemove="false" :placeholder="'select region'"></VInput>
+        </VCell>
+    
+        <!--市-->
         <VCell class="item">
-            <VInput v-model="form.zip" :placeholder="'Zip Code'"></VInput>
+            <VInput v-model="form.city" :hasRemove="false" :placeholder="'select city'"></VInput>
+        </VCell>
+    
+        <VCell class="item">
+            <VInput v-model="form.postcode" :placeholder="'postcode Code'"></VInput>
         </VCell>
         <VCell class="item">
             <VInput v-model="form.email" :placeholder="'Email Address'"></VInput>
@@ -24,14 +37,9 @@
         </VCell>
         <button @click="save" class="button-save">SAVE</button>
     
-        <!--选择区域-->
-        <VPopup v-model="isShowPicker" class="popup">
-            <header>
-                <span class="button button-cancel" @click="cancelPopup">cancel</span>
-                <span class="button button-ok" @click="okPopup">ok</span>
-            </header>
-            <VPicker :dataSource="dataSource.zones" :value="form.zones" @change="changePicker"></VPicker>
-        </VPopup>
+        <!--选择国家-->
+        <v-popup-picker v-if="!isEmptyCountry" :isShow.sync="isShowCountryPicker" :value="[form.country_id]" :dataSource="dataSource.country" @change="changeCountry"></v-popup-picker>
+        <v-popup-picker v-if="!isEmptyRegion" :isShow.sync="isShowRegionPicker" :value="[form.region_id]" :dataSource="dataSource.region" @change="changeRegion"></v-popup-picker>
     </ScrollView>
 </template>
 <script>
@@ -39,55 +47,87 @@ import LayoutHeader from './BillingAddress/Header'
 import VCell from '@/packages/Cell/Cell'
 import VInput from '@/packages/Input/Input'
 import VSwitch from '@/packages/Switch/Switch'
-import VPopup from '@/packages/Dialog/Popup'
-import VPicker from '@/packages/Picker/Picker'
+import VPopupPicker from '@/packages/PopupPicker/PopupPicker'
+
+
 export default {
     name: 'BillingAddress',
 
     data() {
         return {
             scrollY: 0,
-            isShowPicker: false,
+            isShowCountryPicker: false,
+            isShowRegionPicker: false,
             form: {
-                firstName: 'zhang',
-                lastName: '',
-                zip: '',
+                firstname: 'zhang',
+                lastname: '',
+                postcode: '',
                 email: '',
                 tel: '',
-                zones: [],
+                country_id: null,
+                country: '',
+                region_id: null,
+                region: '',
+                city: '',
                 isShipSameAddress: false
             },
             dataSource: {
-                zones: [[{}]]
+                country: [[]],
+                region: [[]],
             },
-            tempZones: [],
-            zoneLabel: []
         }
+    },
+
+    mounted() {
+        this.getCountryList();
     },
 
     methods: {
         /**
-         * 区域选择
-         * @param {Number} index 层级
+         * 选择国家
          */
-        async selectZone(index) {
+        async getCountryList() {
             try {
                 this.$store.commit('SHOW_LOADING');
-                const response = await this.$api.getProvince({country: 'us'});
-                this.dataSource.zones[index].splice(0, this.dataSource.zones[0].length);
-                this.dataSource.zones[index].push(...response.data);
-                // 显示区域选择面板
-                this.isShowPicker = true;
+                const response = await this.$api.getCountry();
+                this.dataSource.country[0].splice(0, this.dataSource.country[0].length);
+                this.dataSource.country[0].push(...response.data);
             } catch (error) {
                 this.$alert(error);
             }
             this.$store.commit('HIDE_LOADING');
         },
         /**
-         * 选择一个区域
+         * 选择国家
          */
-        changePicker({ index, value, label }) {
-            this.tempZones[index] = { value, label };
+        changeCountry({ value, label }) {
+            this.form.country_id = value;
+            this.form.country = label;
+            this.form.region = '';
+            this.form.region_id = null;
+            this.form.city = '';
+            this.getRegion();
+        },
+
+        /**
+         * 选择州/省
+         */
+        async getRegion() {
+            try {
+                this.$store.commit('SHOW_LOADING');
+                const response = await this.$api.getRegion({ country: this.form.country_id });
+                this.dataSource.region[0].splice(0, this.dataSource.region[0].length);
+                this.dataSource.region[0].push(...response.data);
+            } catch (error) {
+                this.$alert(error);
+            }
+            this.$store.commit('HIDE_LOADING');
+        },
+
+        changeRegion({ value, label }) {
+            this.form.region_id = value;
+            this.form.region = label;
+            this.form.city = '';
         },
 
         /**
@@ -105,18 +145,27 @@ export default {
          * 取消区域选择
          */
         cancelPopup() {
-            this.isShowPicker = false;
+            this.isShowCountryPicker = false;
         },
         /** 
          * 确定区域选择
          */
         okPopup() {
-            this.isShowPicker = false;
+            this.isShowCountryPicker = false;
+        }
+    },
 
-            this.form.zones = this.tempZones.map((item, index) => {
-                this.zoneLabel[index] = item.label;
-                return item.value;
-            });
+    computed: {
+        isEmptyCountry() {
+            return 0 == this.dataSource.country[0].length;
+        },
+
+        isEmptyRegion() {
+            return 0 == this.dataSource.region[0].length;
+        },
+
+        isEmptyCity() {
+            return 0 == this.dataSource.city[0].length;
         }
     },
 
@@ -125,8 +174,7 @@ export default {
         VInput,
         VCell,
         VSwitch,
-        VPopup,
-        VPicker
+        VPopupPicker
     }
 }
 </script>
@@ -134,29 +182,6 @@ export default {
 @import '../scss/theme.scss';
 .page-billing-address {
     background: $lightest;
-
-    .popup {
-        header {
-            display: flex; // border-bottom: 1px solid $lightest;
-            .button {
-                padding: $gutter * 3;
-                font-size: $bigger;
-                flex: 1;
-                display: block; // &:active {}
-            }
-            .button-cancel {
-                text-align: left;
-                color: $light;
-            }
-
-            .button-ok {
-                color: $base;
-                text-align: right;
-            }
-        }
-    }
-
-
     .item {
         background: $background;
         border-bottom: 1px solid $lightest;
