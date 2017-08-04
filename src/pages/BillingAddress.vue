@@ -4,6 +4,7 @@
         <VCell class="item">
             <VInput v-model="form.firstname" :placeholder="'First Name'"></VInput>
         </VCell>
+        
         <VCell class="item">
             <VInput v-model="form.lastname" :placeholder="'Last Name'"></VInput>
         </VCell>
@@ -15,12 +16,21 @@
     
         <!--省-->
         <VCell class="item" :hasArrow="!isEmptyRegion" @click.native="isShowRegionPicker = true">
-            <VInput :value="form.region" :disabled="!isEmptyRegion" :hasRemove="false" :placeholder="'select region'"></VInput>
+            <VInput v-model="form.region" :disabled="!isEmptyRegion" :hasRemove="false" :placeholder="'select region'"></VInput>
         </VCell>
     
         <!--市-->
         <VCell class="item">
             <VInput v-model="form.city" :hasRemove="false" :placeholder="'select city'"></VInput>
+        </VCell>
+    
+        <!--街道-->
+        <VCell class="item">
+            <VInput v-model="form.street[0]" :hasRemove="false" :placeholder="'select street 1'"></VInput>
+        </VCell>
+    
+        <VCell class="item">
+            <VInput v-model="form.street[1]" :hasRemove="false" :placeholder="'select street 2'"></VInput>
         </VCell>
     
         <VCell class="item">
@@ -58,6 +68,7 @@ export default {
             scrollY: 0,
             isShowCountryPicker: false,
             isShowRegionPicker: false,
+            isEmailError: false,
             form: {
                 firstname: 'zhang',
                 lastname: '',
@@ -69,6 +80,7 @@ export default {
                 region_id: null,
                 region: '',
                 city: '',
+                street: ['', ''],
                 isShipSameAddress: false
             },
             dataSource: {
@@ -106,6 +118,7 @@ export default {
             this.form.region = '';
             this.form.region_id = null;
             this.form.city = '';
+            this.form.street = ['', ''];
             this.getRegion();
         },
 
@@ -128,6 +141,7 @@ export default {
             this.form.region_id = value;
             this.form.region = label;
             this.form.city = '';
+            this.form.street = ['', ''];
         },
 
         /**
@@ -182,6 +196,7 @@ export default {
 @import '../scss/theme.scss';
 .page-billing-address {
     background: $lightest;
+    padding-bottom: 1rem;
     .item {
         background: $background;
         border-bottom: 1px solid $lightest;
