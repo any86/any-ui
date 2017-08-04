@@ -47,12 +47,12 @@ const useCoupon = data => axios.post('/api/rest/cart/coupon', data);
 const restoreCoupon = data => axios.delete('/api/rest/cart/coupon', { data });
 // 国家 / 省(洲) / 市
 const getCountry = () => axios.get('/api/rest/directory/country');
-const getProvince = params => axios.get('/api/rest/directory/region', { params });
-// const getCity = param => axios.get('', { params });
+const getRegion = params => axios.get('/api/rest/directory/region', { params });
+
 
 // 暴露
 export default {
-    getCountry, getProvince,
+    getCountry, getRegion, 
     getGoodsList,
     getCartPage,
     saveAddress,
