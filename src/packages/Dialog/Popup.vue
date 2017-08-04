@@ -49,10 +49,6 @@ export default {
             this.$emit('input', false);
         },
 
-        close() {
-            this.$emit('input', false);
-        },
-
         afterDialogLeave() {
             this.$emit('after-dialog-leave');
         },
