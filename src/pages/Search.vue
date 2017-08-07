@@ -1,23 +1,28 @@
 <template>
     <ScrollView class="page-search">
         <header>
-            <i class="button-back"></i>
-            <v-input v-model="keyword" @keyup="search" :placeholder="placeholder" class="input" @click="alert(1)"></v-input>
+            <i class="button-back" @click="$router.back()"></i>
+            <v-input v-model="keyword" @keyup="search" :placeholder="placeholder" class="input"></v-input>
         </header>
         <main>
-            <h3>
-                Search History
-            </h3>
-            <ul>
-                <li v-for="keyword in keywords" :key="keyword">{{keyword}}</li>
-            </ul>
+            <section v-if="0 < keywords.length">
+                <div class="title">
+                    <span>Search History</span>
+                    <i @click="emptyAll" class="icon-delete"></i>
+                </div>
+                <ul>
+                    <li v-for="keyword in keywords" :key="keyword" @click="$router.push({path: '/list', query: {keyword}})">{{keyword}}</li>
+                </ul>
+            </section>
     
-            <h3>
-                Explore
-            </h3>
-            <ul>
-                <li v-for="n in 10" :key="n">{{n}}dsfdsfxx</li>
-            </ul>
+            <section>
+                <div class="title">
+                    <span>Explore</span>
+                </div>
+                <ul>
+                    <li v-for="n in 10" :key="n">{{n}}dsfdsfxx</li>
+                </ul>
+            </section>
         </main>
     </ScrollView>
 </template>
@@ -35,7 +40,7 @@ export default {
         };
     },
 
-    mounted(){
+    mounted() {
         this.keywords = Store.get('keywords');
     },
 
@@ -50,6 +55,11 @@ export default {
                 Store.set('keywords', keywords);
                 this.$router.push({ path: '/list', query: { keyword: this.keyword } });
             }
+        },
+
+        emptyAll() {
+            Store.remove('keywords');
+            this.keywords = [];
         }
     },
 
@@ -84,19 +94,33 @@ export default {
 
     main {
         padding: 3 * $gutter;
-        h3 {
-            padding: 3*$gutter 0;
-        }
-        >ul {
-            >li {
-                font-size: $big;
-                color: $darker;
-                background: $lightest;
-                border-radius: .6rem;
-                display: inline-block;
-                padding: $gutter*1.5 $gutter * 3;
-                margin-right: $gutter * 3;
-                margin-bottom: $gutter * 3;
+        section {
+            .title {
+                padding: 3*$gutter 0;
+                display: flex;
+                span {
+                    flex: 1;
+                    font-size: $bigger;
+                }
+                i.icon-delete {
+                    display: block;
+                    width: .4rem;
+                    height: .4rem;
+                    background: url('../assets/delete.svg') center center no-repeat;
+                    background-size: 100%;
+                }
+            }
+            >ul {
+                >li {
+                    font-size: $big;
+                    color: $darker;
+                    background: $lightest;
+                    border-radius: .6rem;
+                    display: inline-block;
+                    padding: $gutter*1.5 $gutter * 3;
+                    margin-right: $gutter * 3;
+                    margin-bottom: $gutter * 3;
+                }
             }
         }
     }

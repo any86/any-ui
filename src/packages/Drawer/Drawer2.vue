@@ -35,26 +35,10 @@ export default {
         return {
             isShowMask: false,
             sideWidth: -1,
-            touch: {
-                status: 0,
-                startX: 0,
-                translateXOld: 0,
-                translateXNew: 0,
-                distanceX: 0,
-                distanceY: 0,
-            }
         };
     },
 
     methods: {
-        /**
-         * 触摸屏幕
-         */
-        touchstart(e) {
-            this.touch.status = 0;
-            this.touch.startX = e.touches[0].clientX;
-            this.touch.startY = e.touches[0].clientY;
-        },
         /**
          * 开始滑动
          */

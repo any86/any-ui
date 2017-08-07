@@ -11,36 +11,36 @@
     
         <!--国家-->
         <VCell class="item" :hasArrow="true" @click.native="isShowCountryPicker = true">
-            <VInput :value="form.country" :hasRemove="false" :disabled="true" :placeholder="'select country'"></VInput>
+            <VInput :value="form.country"  :disabled="true" :placeholder="'select country'"></VInput>
         </VCell>
     
         <!--省-->
         <VCell class="item" :hasArrow="!isEmptyRegion" @click.native="isShowRegionPicker = true">
-            <VInput v-model="form.region" :disabled="!isEmptyRegion" :hasRemove="false" :placeholder="'select region'"></VInput>
+            <VInput v-model="form.region" :disabled="!isEmptyRegion"  :placeholder="'select region'"></VInput>
         </VCell>
     
         <!--市-->
         <VCell class="item">
-            <VInput v-model="form.city" :hasRemove="false" :placeholder="'select city'"></VInput>
+            <VInput v-model="form.city"  :placeholder="'select city'"></VInput>
         </VCell>
     
         <!--街道-->
         <VCell class="item">
-            <VInput v-model="form.street[0]" :hasRemove="false" :placeholder="'select street 1'"></VInput>
+            <VInput v-model="form.street[0]"  :placeholder="'select street 1'"></VInput>
         </VCell>
     
         <VCell class="item">
-            <VInput v-model="form.street[1]" :hasRemove="false" :placeholder="'select street 2'"></VInput>
+            <VInput v-model="form.street[1]"  :placeholder="'select street 2'"></VInput>
         </VCell>
     
         <VCell class="item">
-            <VInput v-model="form.postcode" :placeholder="'postcode Code'"></VInput>
+            <VInput v-model="form.postcode" :type="'number'" :placeholder="'postcode Code'"></VInput>
         </VCell>
         <VCell class="item">
             <VInput v-model="form.email" :placeholder="'Email Address'"></VInput>
         </VCell>
         <VCell class="item">
-            <VInput v-model="form.telephone" :placeholder="'Telphone'"></VInput>
+            <VInput v-model="form.telephone" :type="'number'" :placeholder="'Telphone'"></VInput>
         </VCell>
         <VCell class="item item-dark">
             <VSwitch v-model="form.use_for_shipping">Ship The Same Address</VSwitch>
@@ -149,7 +149,7 @@ export default {
          */
         async save() {
             try {
-                const response = await this.$api.saveAddress(this.form);
+                const response = await this.$api.saveShippingAddress(this.form);
                 this.$alert(response.data.message);
             } catch (error) {
                 this.$alert(error);

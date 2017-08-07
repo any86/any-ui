@@ -87,7 +87,7 @@ export default {
                     border: 1px solid $lightest;
                 }
             }
-            &.active {}
+            // &.active {}
         }
     }
 }

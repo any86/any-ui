@@ -1,7 +1,7 @@
 <template>
     <section class="row-user-info">
         <header class="header-title">Ship Address</header>
-        <!--<div class="info">
+        <div class="info">
                 <div class="contact">
                     <span class="name">Seven</span>
                     <span class="mobile">13813877821</span>
@@ -10,7 +10,7 @@
                     <p>118 xjkljqw adssdlfjk #405</p>
                     <p>LA USA UK AK CK</p>
                 </div>
-            </div>-->
+            </div>
         <v-cell :to="{path: 'billingAddress'}" :hasArrow="true">
             Add Shipping Address
         </v-cell>
