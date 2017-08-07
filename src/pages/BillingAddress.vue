@@ -40,10 +40,10 @@
             <VInput v-model="form.email" :placeholder="'Email Address'"></VInput>
         </VCell>
         <VCell class="item">
-            <VInput v-model="form.tel" :placeholder="'Telphone'"></VInput>
+            <VInput v-model="form.telephone" :placeholder="'Telphone'"></VInput>
         </VCell>
         <VCell class="item item-dark">
-            <VSwitch v-model="form.isShipSameAddress">Ship The Same Address</VSwitch>
+            <VSwitch v-model="form.use_for_shipping">Ship The Same Address</VSwitch>
         </VCell>
         <button @click="save" class="button-save">SAVE</button>
     
@@ -74,14 +74,14 @@ export default {
                 lastname: '',
                 postcode: '',
                 email: '',
-                tel: '',
+                telephone: '',
                 country_id: null,
                 country: '',
                 region_id: null,
                 region: '',
                 city: '',
                 street: ['', ''],
-                isShipSameAddress: false
+                use_for_shipping: false
             },
             dataSource: {
                 country: [[]],
@@ -176,10 +176,6 @@ export default {
 
         isEmptyRegion() {
             return 0 == this.dataSource.region[0].length;
-        },
-
-        isEmptyCity() {
-            return 0 == this.dataSource.city[0].length;
         }
     },
 
