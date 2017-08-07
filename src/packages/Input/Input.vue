@@ -7,7 +7,8 @@
         <!-- border -->
         <!-- <div class="border"></div> -->
         <transition name="fadeLeft">
-            <Icon v-if="hasRemove" v-show="isShowEmpty" @click.native="empty" class="button-close" value="remove"></Icon>
+            <!-- <i @click.native="empty" class="button-close"></i> -->
+             <i v-if="hasRemove" v-show="isShowEmpty" @click.native="empty" class="button-close"></i>  
         </transition>
     </div>
 </template>
@@ -54,6 +55,14 @@ export default {
         };
     },
 
+    mounted() {
+
+        for (var key in this.$listeners) {
+            // alert(key)
+        }
+
+    },
+
     methods: {
         input(e) {
             this.$emit('input', e.target.value);
@@ -89,7 +98,7 @@ export default {
                 value = value.replace(/\D/g, '');
             }
             this.$emit('input', value);
-            this.$emit('keyup');
+            this.$emit('keyup', e);
         },
 
         empty() {
@@ -131,7 +140,7 @@ $height: $gutter*8;
     }
 
     input {
-        background: rgba(255,255,255,0);
+        background: rgba(255, 255, 255, 0);
         font-size: $big;
         flex: 1;
         box-sizing: border-box;
@@ -156,14 +165,14 @@ $height: $gutter*8;
     }
 
     .button-close {
-        margin: $height*0.25;
+        display: inline-block;
+        background: url('./close.svg');
+        background-size: 100%;
+        margin: $height*0.3;
         text-align: center;
-        width: $height*0.5;
-        height: $height*0.5;
-        line-height: $height*0.5;
-        border-radius: 100%;
-        background: $lighter;
-        color: #fff;
+        width: $height*0.4;
+        height: $height*0.4;
+        line-height: $height*0.4;
     }
 }
 
