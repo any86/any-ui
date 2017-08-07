@@ -9,7 +9,7 @@
                 Search History
             </h3>
             <ul>
-                <li v-for="n in 20" :key="n">{{n}}dsfdsfxx</li>
+                <li v-for="keyword in keywords" :key="keyword">{{keyword}}</li>
             </ul>
     
             <h3>
@@ -22,21 +22,33 @@
     </ScrollView>
 </template>
 <script>
+import Store from 'store';
 import VInput from '@/packages/Input/Input'
 export default {
     name: 'Search',
 
     data() {
         return {
+            keywords: [],
             keyword: '',
             placeholder: 'please !'
         };
     },
 
+    mounted(){
+        this.keywords = Store.get('keywords');
+    },
+
     methods: {
-        search(e){
-            if(13 == e.keyCode) {
-                this.$router.push({path: '/list', query: {keyword: this.keyword}});
+        search(e) {
+            if (13 == e.keyCode) {
+                var keywords = Store.get('keywords');
+                if (undefined == keywords) {
+                    keywords = [];
+                }
+                keywords.push(this.keyword);
+                Store.set('keywords', keywords);
+                this.$router.push({ path: '/list', query: { keyword: this.keyword } });
             }
         }
     },
