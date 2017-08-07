@@ -1,7 +1,7 @@
 <template>
     <div class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <ul v-for="(list, i) in dataSource" :key="i" @touchstart.passive="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
+        <ul v-for="(list, i) in dataSource" :key="i" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
             <li v-for="(item, j) in list" :key="j" :class="{active: item.value == touchStatusList[i].value}" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}">{{item.label}}</li>
         </ul>
     </div>
@@ -119,7 +119,6 @@ export default {
             } else if (0 - this.itemHeight * (listLength - 1) > this.active.translateYNew) {
                 this.active.translateYNew = 0 - this.itemHeight * (listLength - 1)
             }
-
             // 对准(四舍五入)
             // 确定value
             var itemIndex = Math.round((0 - this.active.translateYNew) / this.itemHeight);
@@ -129,10 +128,11 @@ export default {
 
             //同步当前位置
             this.active.translateYOld = this.active.translateYNew;
-
-            const newValue = [];
-            this.value.map((item, i) => {
-                newValue[i] = this.touchStatusList[index].value = i == index ? this.active.value : item;
+            
+   
+            // 遍历已选值
+            const newValue = this.touchStatusList.map(list=> {
+                return list.value;
             });
 
             // 当前列表的变更状态
