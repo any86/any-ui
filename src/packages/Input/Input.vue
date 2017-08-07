@@ -4,16 +4,13 @@
             <slot></slot>
         </span>
         <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
-        <!-- border -->
-        <!-- <div class="border"></div> -->
         <transition name="fadeLeft">
             <!-- <i @click.native="empty" class="button-close"></i> -->
-             <i v-if="hasRemove" v-show="isShowEmpty" @click.native="empty" class="button-close"></i>  
+            <i v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="button-close"></i>
         </transition>
     </div>
 </template>
 <script>
-import Icon from '@/packages/Icon/Icon'
 export default {
     name: 'Input',
 
@@ -56,11 +53,9 @@ export default {
     },
 
     mounted() {
-
-        for (var key in this.$listeners) {
-            // alert(key)
-        }
-
+        // for (var key in this.$listeners) {
+        //     // alert(key)
+        // }
     },
 
     methods: {
@@ -74,12 +69,12 @@ export default {
             if ('' != this.value) {
                 this.isShowEmpty = true;
             }
-            this.$emit('focus');
+            this.$emit('focus', e);
         },
 
-        blur() {
+        blur(e) {
             this.isShowEmpty = false;
-            this.$emit('blur');
+            this.$emit('blur', e);
         },
 
         keyup(e) {
@@ -102,9 +97,9 @@ export default {
         },
 
         empty() {
-            this.$emit('input', '');
             this.$refs.input.focus();
-            this.$emit('empty');
+            this.$emit('input', '');
+
         }
     },
 
@@ -116,20 +111,14 @@ export default {
                 this.isShowEmpty = true;
             }
         }
-    },
-
-    components: {
-        Icon
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: $gutter*8;
+$height: .8rem;
 .component-input {
     width: 100%;
-    box-sizing: border-box; // height: $height;
-    padding-bottom: 1px;
     position: relative;
     display: flex;
     .title {
@@ -150,35 +139,14 @@ $height: $gutter*8;
         height: $height;
         line-height: $height;
     }
-    input:focus+.border {
-        border-color: $base;
-    }
-
-    .border {
-        position: absolute;
-        height: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-bottom: 1px solid $lighter;
-        transition: all .3s;
-    }
 
     .button-close {
-        display: inline-block;
-        background: url('./close.svg');
-        background-size: 100%;
-        margin: $height*0.3;
-        text-align: center;
-        width: $height*0.4;
-        height: $height*0.4;
-        line-height: $height*0.4;
+        width: $height;
+        height: 100%;
+        display: block;
+        background: url('./close.svg') center center no-repeat;
+        background-size: 50%;
+        margin: auto;
     }
 }
-
-// .disabled {
-//     // @include disabled;
-//     // input{@include disabled;}
-//     // .button-close{@include disabled;}
-// }
 </style>
