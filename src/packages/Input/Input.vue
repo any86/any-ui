@@ -60,6 +60,8 @@ export default {
         },
 
         focus(e) {
+            // 默认选中文字
+            e.target.select();
             if ('' != this.value) {
                 this.isShowEmpty = true;
             }
@@ -129,6 +131,7 @@ $height: $gutter*8;
     }
 
     input {
+        background: rgba(255,255,255,0);
         font-size: $big;
         flex: 1;
         box-sizing: border-box;
@@ -164,9 +167,9 @@ $height: $gutter*8;
     }
 }
 
-.disabled {
-    // @include disabled;
-    // input{@include disabled;}
-    // .button-close{@include disabled;}
-}
+// .disabled {
+//     // @include disabled;
+//     // input{@include disabled;}
+//     // .button-close{@include disabled;}
+// }
 </style>
