@@ -2,7 +2,7 @@
     <header>
         <Icon class="icon" value="bars" @click.native="showSide"></Icon>
         <span>CHECKOUT</span>
-        <Icon class="icon" value="search" ></Icon>
+        <Icon @click.native="$router.push({path: '/search'})" class="icon" value="search" ></Icon>
     </header>
 </template>
 <script>
