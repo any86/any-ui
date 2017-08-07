@@ -57,9 +57,12 @@ const Forget = () => ({
     component: import ("@/pages/Forget")
 });
 
-
 const Canvas = () => ({
     component: import ("@/pages/Canvas")
+});
+
+const Search = () => ({
+    component: import ("@/pages/Search")
 });
 
 Vue.use(Router);
@@ -123,5 +126,9 @@ export default new Router({
         path: "/canvas",
         name: "Canvas",
         component: Canvas
+    }, {
+        path: "/search",
+        name: "Search",
+        component: Search
     }]
 });

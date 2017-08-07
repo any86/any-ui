@@ -49,9 +49,10 @@ const restoreCoupon = data => axios.delete('/api/rest/cart/coupon', { data });
 const getCountry = () => axios.get('/api/rest/directory/country');
 const getRegion = params => axios.get('/api/rest/directory/region', { params });
 
-
+const saveShippingAddress = data => axios.post('/api/rest/checkout/address/shipping', data);
 // 暴露
 export default {
+    saveShippingAddress,
     getCountry, getRegion, 
     getGoodsList,
     getCartPage,
