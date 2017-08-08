@@ -100,8 +100,8 @@ export default {
                 this.touch.status = 2;
                 if (this.sideWidth * 0.2 < this.touch.translateXNew) {
                     this.$emit('input', true);
-                } else {
-                    if(this.value) {
+                } else if(this.value) {
+                    if (this.value) {
                         this.$emit('input', false);
                     } else {
                         this.touch.translateXNew = 0;
