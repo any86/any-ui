@@ -4,33 +4,33 @@
         <VCell class="item">
             <VInput v-model="form.firstname" :placeholder="'First Name'"></VInput>
         </VCell>
-        
+    
         <VCell class="item">
             <VInput v-model="form.lastname" :placeholder="'Last Name'"></VInput>
         </VCell>
     
         <!--国家-->
         <VCell class="item" :hasArrow="true" @click.native="isShowCountryPicker = true">
-            <VInput :value="form.country"  :disabled="true" :placeholder="'select country'"></VInput>
+            <VInput :value="form.country" :disabled="true" :placeholder="'select country'"></VInput>
         </VCell>
     
         <!--省-->
         <VCell class="item" :hasArrow="!isEmptyRegion" @click.native="isShowRegionPicker = true">
-            <VInput v-model="form.region" :disabled="!isEmptyRegion"  :placeholder="'select region'"></VInput>
+            <VInput v-model="form.region" :disabled="!isEmptyRegion" :placeholder="'select region'"></VInput>
         </VCell>
     
         <!--市-->
         <VCell class="item">
-            <VInput v-model="form.city"  :placeholder="'select city'"></VInput>
+            <VInput v-model="form.city" :placeholder="'select city'"></VInput>
         </VCell>
     
         <!--街道-->
         <VCell class="item">
-            <VInput v-model="form.street[0]"  :placeholder="'select street 1'"></VInput>
+            <VInput v-model="form.street[0]" :placeholder="'select street 1'"></VInput>
         </VCell>
     
         <VCell class="item">
-            <VInput v-model="form.street[1]"  :placeholder="'select street 2'"></VInput>
+            <VInput v-model="form.street[1]" :placeholder="'select street 2'"></VInput>
         </VCell>
     
         <VCell class="item">
@@ -40,7 +40,7 @@
             <VInput v-model="form.email" :placeholder="'Email Address'"></VInput>
         </VCell>
         <VCell class="item">
-            <VInput v-model="form.telephone" :type="'number'" :placeholder="'Telphone'"></VInput>
+            <VInput @click.native="clickIpt" v-model="form.telephone" :type="'number'" :placeholder="'Telphone'"></VInput>
         </VCell>
         <VCell class="item item-dark">
             <VSwitch v-model="form.use_for_shipping">Ship The Same Address</VSwitch>
@@ -95,6 +95,12 @@ export default {
     },
 
     methods: {
+        clickIpt() {
+            // setTimeout(() => {
+            //     this.scrollY = 3000;
+            // this._scrollY = 3000 缓存一个值 ,当reszie的时候出发scroll
+            // }, 1000)
+        },
         /**
          * 选择国家
          */

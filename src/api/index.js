@@ -49,11 +49,18 @@ const restoreCoupon = data => axios.delete('/api/rest/cart/coupon', { data });
 const getCountry = () => axios.get('/api/rest/directory/country');
 const getRegion = params => axios.get('/api/rest/directory/region', { params });
 
+// 地址相关
+const getShippingAddress = params => axios.get('/api/rest/checkout/address/shipping', { params });
 const saveShippingAddress = data => axios.post('/api/rest/checkout/address/shipping', data);
+
+// 运输费用
+const getShippingFee = param => axios.get('/api/rest/checkout/shipping', { params });
+
 // 暴露
 export default {
-    saveShippingAddress,
-    getCountry, getRegion, 
+    getShippingFee,
+    saveShippingAddress,getShippingAddress,
+    getCountry, getRegion,
     getGoodsList,
     getCartPage,
     saveAddress,

@@ -137,7 +137,7 @@ export default {
          */
         isFromEdge() {
             // return true;
-            return 100 > this.touch.startX;
+            return 15 > this.touch.startX;
             // 如果是支持左右2个抽屉的话, 需要如下判断
             // return 30 > this.touch.startX || window.screen.width - 30 < this.touch.startX;
         },

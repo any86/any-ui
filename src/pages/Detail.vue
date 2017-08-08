@@ -6,8 +6,7 @@
       <a>PHOTO CHARMS</a>
       <a>SHELL LOCKET</a>
     </div>
-
-
+    <!-- charm tools -->
     <ImageTools :dataSource="static.imageTools" :dataURL="upload.dataURL" @change="reOverlay" @overlaid="overlaid">
     </ImageTools>
     <div class="info-base">
@@ -90,6 +89,7 @@ export default {
         },
       },
       upload: {
+        canvas: null,
         dataURL: '',
         position: {},
         textCongratulation: 'congratulation!',
@@ -202,5 +202,4 @@ export default {
     }
   }
 }
-
 </style>
