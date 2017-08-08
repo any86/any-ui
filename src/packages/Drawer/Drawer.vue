@@ -51,7 +51,8 @@ export default {
             this.touch.status = 0;
             this.touch.startX = e.touches[0].clientX;
             this.touch.startY = e.touches[0].clientY;
-
+            // 计算抽屉的宽度, 即可滑动的最大距离
+            this.sideWidth = this.$refs.side.offsetWidth;
         },
         /**
          * 开始滑动
@@ -62,8 +63,6 @@ export default {
                 this.touch.status = 1;
                 this.touch.distanceX = e.touches[0].clientX - this.touch.startX;
                 this.touch.distanceY = e.touches[0].clientY - this.touch.startY;
-                // 计算抽屉的宽度, 即可滑动的最大距离
-                this.sideWidth = this.$refs.side.offsetWidth;
                 // 关闭状态 && 正向(→)拖拽
                 // 那么拉出抽屉
                 if (!this.value && 0 < this.touch.distanceX) {
@@ -100,7 +99,7 @@ export default {
                 this.touch.status = 2;
                 if (this.sideWidth * 0.2 < this.touch.translateXNew) {
                     this.$emit('input', true);
-                } else if(this.value) {
+                } else if (0 < this.touch.translateXNew) {
                     if (this.value) {
                         this.$emit('input', false);
                     } else {
