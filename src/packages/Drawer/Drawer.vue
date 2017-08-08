@@ -1,5 +1,5 @@
 <template>
-    <div class="component-drawer"  @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+    <div class="component-drawer" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
         <div class="scroll-body" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`, 'transition-duration': 1 != touch.status ? '300ms' : '0ms'}">
             <span class="side" ref="side">
                 <slot name="side"></slot>
@@ -12,11 +12,8 @@
     </div>
 </template>
 <script>
-import touch from '@/packages/touch';
 import VMask from '@/packages/Dialog/Mask';
 export default {
-    mixins: [touch],
-
     name: 'Drawer',
 
     props: {
@@ -54,6 +51,7 @@ export default {
             this.touch.status = 0;
             this.touch.startX = e.touches[0].clientX;
             this.touch.startY = e.touches[0].clientY;
+
         },
         /**
          * 开始滑动
@@ -67,20 +65,27 @@ export default {
                 // 计算抽屉的宽度, 即可滑动的最大距离
                 this.sideWidth = this.$refs.side.offsetWidth;
                 // 关闭状态 && 正向(→)拖拽
+                // 那么拉出抽屉
                 if (!this.value && 0 < this.touch.distanceX) {
                     // 当前抽屉的滑动距离
-                    const translateXNew = this.touch.translateXOld + this.touch.distanceX;
-
-                    // 如果X轴拖拽, 或者打开状态, 禁止页面滚动
-                    if (this.sensitivity < Math.abs(this.touch.distanceX) - Math.abs(this.touch.distanceY) || this.value) {
+                    var translateXNew = this.touch.translateXOld + this.touch.distanceX;
+                    // 如果超过阈值
+                    // 如果X轴拖拽
+                    // 那么禁止页面滚动
+                    if (this.sensitivity < Math.abs(this.touch.distanceX) && this.isMoveAlongX) {
+                        // 关闭Mask
                         this.isShowMask = true;
-                        // 合法范围内
+                        // 位移要减去阈值
+                        translateXNew -= this.sensitivity;
+                        // 边界判断
+                        // 如果合理范围, 移动
+                        // 如果超过side的宽度, 停止移动
+                        // 如果反向超过最小距离, 停止移动
                         if (this.sideWidth >= translateXNew && 0 <= translateXNew) {
                             this.touch.translateXNew = translateXNew;
                             // 超过最大距离
                         } else if (this.sideWidth < translateXNew) {
                             this.touch.translateXNew = this.sideWidth;
-                            // 反向超过最小距离
                         } else {
                             this.touch.translateXNew = 0;
                         }
@@ -93,10 +98,15 @@ export default {
         touchend(e) {
             if (this.isFromEdge) {
                 this.touch.status = 2;
-                if (this.sideWidth * 0.2 < this.touch.translateXNew && !this.value) {
+                if (this.sideWidth * 0.2 < this.touch.translateXNew) {
                     this.$emit('input', true);
                 } else {
-                    this.$emit('input', false);
+                    if(this.value) {
+                        this.$emit('input', false);
+                    } else {
+                        this.touch.translateXNew = 0;
+                        this.isShowMask = false;
+                    }
                 }
                 this.touch.translateXOld = this.touch.translateXNew;
             }
@@ -118,6 +128,7 @@ export default {
                 this.isShowMask = false;
                 this.touch.translateXNew = 0;
             }
+            this.touch.translateXOld = this.touch.translateXNew;
         }
     },
 
@@ -126,9 +137,22 @@ export default {
          * touch的起点是否是边缘
          */
         isFromEdge() {
-            return 30 > this.touch.startX;
+            // return true;
+            return 100 > this.touch.startX;
             // 如果是支持左右2个抽屉的话, 需要如下判断
             // return 30 > this.touch.startX || window.screen.width - 30 < this.touch.startX;
+        },
+        /**
+         * 是否沿着Y轴拖拽
+         */
+        isMoveAlongY() {
+            return 0 < Math.abs(this.touch.distanceY) - Math.abs(this.touch.distanceX);
+        },
+        /**
+         * 是否沿着Y轴拖拽
+         */
+        isMoveAlongX() {
+            return 0 < Math.abs(this.touch.distanceX) - Math.abs(this.touch.distanceY);
         }
     },
 
