@@ -3,7 +3,7 @@
         <span class="title" v-if="!!$slots.default">
             <slot></slot>
         </span>
-        <input ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
+        <input v-on="$listeners" ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
         <transition name="fadeLeft">
             <!-- <i @click.native="empty" class="button-close"></i> -->
             <i v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="button-close"></i>
@@ -53,6 +53,7 @@ export default {
     },
 
     mounted() {
+        console.log(this.$listeners)
         // for (var key in this.$listeners) {
         //     // alert(key)
         // }
