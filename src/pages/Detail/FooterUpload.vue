@@ -1,15 +1,15 @@
 <template>
     <footer>
-        <label v-if="isFirst" class="button-upload">
+        <label v-if="'ready' == status" class="button-upload">
             Upload
             <input ref="upload" name="upload" class="input-upload" type="file">
         </label>
         <template v-else>
             <label class="button-upload">
                 Change Picture
-                 <!-- <input ref="upload" name="upload" class="input-upload" type="file">  -->
+                <input ref="upload" name="upload" class="input-upload" type="file">
             </label>
-            <button @click="confirm" class="button-confirm">Confirm</button>
+            <button @click="confirm" class="button-confirm">Confirm{{isLockConfrim}}</button>
         </template>
     </footer>
 </template>
@@ -21,22 +21,31 @@ export default {
     props: {
         dataSource: {},
 
-        overlayData: {}
+        overlayDataURL: {
+            type: String
+        },
+
+        isLockConfrim: {
+            type: Boolean,
+            default: false
+        }
     },
 
     data() {
         return {
-            isFirst: true,
-            file: null
+            status: 'ready',
+            file: null,
         };
     },
 
     mounted() {
         // 监听上传事件, 单文件上传
         FileAPI.event.on(this.$refs.upload, 'change', evt => {
+            this.status = 'loading';
             this.file = FileAPI.getFiles(evt)[0];
-            FileAPI.Image(this.file).get( (err, canvas)=> {
-
+            FileAPI.Image(this.file).get((err, canvas) => {
+                // 加载完毕
+                this.status = 'loaded';
                 this.$emit('loaded', canvas.toDataURL());
             });
         });
@@ -85,7 +94,7 @@ export default {
 $height: 1rem;
 footer {
     position: fixed;
-    z-index: 999;
+    z-index: 90;
     bottom: 0;
     left: 0;
     width: 100%;
