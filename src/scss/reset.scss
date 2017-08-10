@@ -1,4 +1,5 @@
 @import './theme.scss';
+@import './font.scss';
 * {
   margin: 0;
   padding: 0;
@@ -64,7 +65,7 @@ p,
 td,
 div,
 span {
-  font-size: .14rem;
+  // font-size: .14rem;
 }
 
 img {
@@ -186,7 +187,7 @@ button {
 }
 
 // 懒加载动画
-img[lazy="loading"] {}
+// img[lazy="loading"] {}
 
 img[lazy="done"] {
   animation: zoomIn 1s;
