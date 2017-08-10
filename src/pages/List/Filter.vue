@@ -127,7 +127,6 @@ $height:1rem;
         li {
             padding: 3*$gutter;
             border-bottom: 1px solid $lightest;
-            font-size: $big;
             &.active {
                 color: $base;
             }

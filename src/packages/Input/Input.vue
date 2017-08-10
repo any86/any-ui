@@ -56,6 +56,9 @@ export default {
             var value = e.target.value;
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
+                syslog(this.type)
+            } else if ('letter' == this.type) {
+                value = value.replace(/\d/g, '');
             } else if ('phone' == this.type) {
                 value = value.replace(/\D/g, '').substring(0, 11);
                 const valueLen = value.length;

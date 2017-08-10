@@ -27,9 +27,9 @@
             <h3>preview your font</h3>
             <p class="font-preview">{{text}}</p>
             <div class="input">
-                <v-input v-model="text"></v-input>
+                <v-input type="letter" v-model="text" maxlength="13"></v-input>
                 <span class="text">
-                    <a class="text-danger">10</a> left</span>
+                    <a class="text-danger">{{13 - text.length}}</a> left</span>
             </div>
         </section>
     

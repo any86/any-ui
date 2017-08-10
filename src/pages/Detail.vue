@@ -1,5 +1,6 @@
 <template>
-    <NameNecklaceType></NameNecklaceType>
+    <NameNecklaceType>
+    </NameNecklaceType>
 </template>
 <script>
 import NameNecklaceType from './Detail/NameNecklaceType'
