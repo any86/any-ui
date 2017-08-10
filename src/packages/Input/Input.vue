@@ -70,12 +70,10 @@ export default {
             if ('' != this.value) {
                 this.isShowEmpty = true;
             }
-            this.$emit('focus', e);
         },
 
         blur(e) {
             this.isShowEmpty = false;
-            this.$emit('blur', e);
         },
 
         keyup(e) {
@@ -94,7 +92,6 @@ export default {
                 value = value.replace(/\D/g, '');
             }
             this.$emit('input', value);
-            this.$emit('keyup', e);
         },
 
         empty() {
@@ -137,8 +134,8 @@ $height: .8rem;
         border: 0 none;
         outline: none;
         width: 100%;
-        height: $height;
-        line-height: $height;
+        // height: $height;
+        // line-height: $height;
     }
 
     .button-close {
@@ -146,7 +143,7 @@ $height: .8rem;
         height: 100%;
         display: block;
         background: url('./close.svg') center center no-repeat;
-        background-size: 50%;
+        background-size: 40%;
         margin: auto;
     }
 }
