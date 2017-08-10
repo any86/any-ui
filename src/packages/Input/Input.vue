@@ -3,9 +3,8 @@
         <span class="title" v-if="!!$slots.default">
             <slot></slot>
         </span>
-        <input v-on="$listeners" ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :type="type" :maxlength="maxlength">
+        <input v-on="$listeners" v-bind="$attrs" ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
         <transition name="fadeLeft">
-            <!-- <i @click.native="empty" class="button-close"></i> -->
             <i v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="button-close"></i>
         </transition>
     </div>
@@ -18,22 +17,6 @@ export default {
         hasRemove: {
             type: Boolean,
             default: true
-        },
-
-        disabled: {
-            type: Boolean
-        },
-
-        readonly: {
-            type: Boolean
-        },
-
-        maxlength: {
-            type: Number
-        },
-
-        placeholder: {
-            type: String
         },
 
         type: {
@@ -50,13 +33,6 @@ export default {
             label: '',
             isShowEmpty: false
         };
-    },
-
-    mounted() {
-        console.log(this.$listeners)
-        // for (var key in this.$listeners) {
-        //     // alert(key)
-        // }
     },
 
     methods: {
@@ -133,8 +109,7 @@ $height: .8rem;
         box-sizing: border-box;
         border: 0 none;
         outline: none;
-        width: 100%;
-        // height: $height;
+        width: 100%; // height: $height;
         // line-height: $height;
     }
 
