@@ -90,7 +90,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../../scss/theme.scss';
 $height: 1rem;
 footer {
     position: fixed;

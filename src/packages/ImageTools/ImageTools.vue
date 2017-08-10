@@ -61,8 +61,11 @@ export default {
     data() {
         return {
             isLoadingImg: true,
-            demoImgUrl: 'https://static.soufeel.com/skin/frontend/smartwave/default/exclusive/images/base/C046-1.png',
-            frameImgUrl: 'https://static.soufeel.com/skin/frontend/smartwave/default/exclusive/images/base/C046.png',
+            // demoImgUrl: 'https://static.soufeel.com/skin/frontend/smartwave/default/exclusive/images/base/C046-1.png',
+            // frameImgUrl: 'https://static.soufeel.com/skin/frontend/smartwave/default/exclusive/images/base/C046.png',
+            // 需要支持跨域
+            demoImgUrl: './static/C046-1.png',
+            frameImgUrl: './static/C046.png',
             uploadImg: null,
             demoImg: null,
             viewWidth: 0,
@@ -83,16 +86,16 @@ export default {
         this.viewWidth = this.$refs.view.offsetWidth;
         // 生成一个画布
         this.canvas = new fabric.Canvas(this.$refs.canvas);
+
         this.canvas.centeredRotation = true;
         this.canvas.centeredScaling = true;
+        // this.demoImgUrl = './static/cd.jpg'
         this.demoImg = await this.loadImage(this.demoImgUrl);
         this.canvas.setWidth(this.viewWidth);
         this.canvas.setHeight(this.viewWidth / this.demoImg.width * this.demoImg.height);
         // 加载示例图片
         this.canvas.add(this.demoImg);
         this.canvas.renderAll();
-
-        dir(this.canvas.toDataURL());
 
         this.parameter.scale = this.demoImg.getScaleX();
     },
@@ -113,7 +116,7 @@ export default {
                         this.isLoadingImg = false;
                         resolve(image);
                     }
-                });
+                }, { crossOrigin: 'anonymous' });
             });
         },
 
@@ -204,14 +207,13 @@ export default {
                 this.canvas.renderAll();
                 this.$emit('update:status', 'done');
 
-                
-
-            // this.$emit('done', this.canvas.toDataURL());
+                // 图片需要支持跨域
+                // this.$emit('done', this.canvas.toDataURL());
+            }
         }
-    }
-},
+    },
 
-components: { VSpinner }
+    components: { VSpinner }
 }
 
 </script>
