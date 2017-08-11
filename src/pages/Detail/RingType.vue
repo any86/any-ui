@@ -1,17 +1,21 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
+        <VGoTop v-show="0 < scrollY" @click.native="gotop"></VGoTop>
         <button class="fixed-bottom button-block button-danger">ADD TO CART</button>
-        <v-breadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></v-breadcrumb>
+        <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- 轮播 -->
         <layout-slider></layout-slider>
         <!-- 基础信息 -->
         <layout-baseInfo></layout-baseInfo>
     
+        <LayoutSelectSize></LayoutSelectSize>
+
         <!-- 提示文字 -->
         <layout-tip></layout-tip>
         <!-- 相关产品 -->
         <layout-related-products></layout-related-products>
-    
+
+
         <!-- tabs -->
         <v-tabs v-model="tabsIndex">
             <v-tabs-item>Details</v-tabs-item>
@@ -38,11 +42,13 @@
 </template>
 <script>
 import LayoutBaseInfo from './Common/BaseInfo'
+import LayoutSelectSize from './Common/SelectSize'
 import LayoutSlider from './Common/GoodsSlider'
 import LayoutTip from './Common/Tip'
 import LayoutRelatedProducts from './Common/RelatedProducts'
 import LayoutPreview from './NameNecklace/Preview'
 
+import VGoTop from '@/components/GoTop'
 import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb.vue'
 import VSpinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
@@ -58,9 +64,15 @@ export default {
         };
     },
 
+    methods: {
+        gotop() {
+            this.scrollY = 0;
+        },
+    },
+
     components: {
-        LayoutSlider, LayoutBaseInfo, LayoutPreview, LayoutTip, LayoutRelatedProducts,
-        VSpinner, VLazyLoad, VTabs, VTabsItem, VBreadcrumb
+        LayoutSlider, LayoutBaseInfo, LayoutPreview, LayoutTip, LayoutRelatedProducts,LayoutSelectSize,
+        VSpinner, VLazyLoad, VTabs, VTabsItem, VBreadcrumb,VGoTop
     }
 }
 </script>
