@@ -1,9 +1,9 @@
 <template>
-    <NameNecklaceType>
-    </NameNecklaceType>
+    <NameNecklaceType></NameNecklaceType>
 </template>
 <script>
 import NameNecklaceType from './Detail/NameNecklaceType'
+import RingType from './Detail/RingType'
 import CharmType from './Detail/CharmType'
 export default {
     name: 'Detail',
@@ -11,7 +11,6 @@ export default {
     data() {
         return {
             dataSource: {}
-
         };
     },
 
@@ -24,8 +23,9 @@ export default {
     },
 
     components: {
+        RingType,
         NameNecklaceType,
-        CharmType
+        CharmType,
     }
 }
 </script>

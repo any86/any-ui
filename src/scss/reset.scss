@@ -227,22 +227,26 @@ img[lazy="done"] {
 // 按钮
 .button-success {
   background: $success !important;
-  color: $sub;font-size: $normal;
+  color: $sub;
+  font-size: $normal;
 }
 
 .button-warning {
   background: $warning !important;
-  color: $sub;font-size: $normal;
+  color: $sub;
+  font-size: $normal;
 }
 
 .button-danger {
   background: $danger !important;
-  color: $sub;font-size: $normal;
+  color: $sub;
+  font-size: $normal;
 }
 
 .button-info {
   background: $info !important;
-  color: $sub;font-size: $normal;
+  color: $sub;
+  font-size: $normal;
 }
 
 .button-block {
@@ -259,7 +263,7 @@ img[lazy="done"] {
   background: $base !important;
 }
 
-.line {
+.divider {
   height: 1px;
   background: $lightest;
   width: 100%;
@@ -276,5 +280,15 @@ img[lazy="done"] {
 .fixed-bottom {
   position: fixed;
   bottom: 0;
-  left: 0;z-index: 999;
+  left: 0;
+  z-index: 999;
+}
+
+.tag-success {
+  display: inline-block;
+  padding: $gutter / 6 $gutter /2;
+  background: $success;
+  color: $sub;
+  margin-right: $gutter;
+  margin-top: $gutter;
 }

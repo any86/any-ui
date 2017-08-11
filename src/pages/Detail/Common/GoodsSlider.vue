@@ -28,7 +28,7 @@ export default {
                     sliders: [
                         { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/Z/N/ZNL32_2.jpg' },
                         { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/Z/N/ZNL32_2.png' },
-                        { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/Z/N/ZNL32.png' },
+                        { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/Z/N/ZNL32.png' }, { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/R/5/R507_2.jpg' },
                     ]
                 };
             }
@@ -67,13 +67,12 @@ export default {
 
 .thumb {
     display: flex;
-    width: 5rem;
     margin: $gutter auto;
     li {
         flex: 1;
         opacity: .5;
         border: 1px solid $light;
-        margin: $gutter;
+        margin: $gutter / 4;
         &.active {
             opacity: 1;
         }

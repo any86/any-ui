@@ -5,7 +5,7 @@
         <p>Buy now and pay over time.
             <a class="text-info">Learn More</a>
         </p>
-        <div class="line"></div>
+        <div class="divider"></div>
         <p class="text-danger">This item requires 3-5 days to handcraft.</p>
     </div>
 </template>
