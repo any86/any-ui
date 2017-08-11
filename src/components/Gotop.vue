@@ -13,7 +13,7 @@ export default {
 @import '../scss/theme.scss';
 .component-gotop {
   position: fixed;
-  bottom: .3rem;
+  bottom: 1.2rem;
   right: .3rem;
   z-index: 9999;
   background: rgba($darkest, .8);
