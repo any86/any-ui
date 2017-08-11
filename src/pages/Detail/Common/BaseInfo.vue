@@ -1,7 +1,8 @@
 <template>
     <section class="row row-info-base">
-        <h4>Shell Locket2a Photo Charm</h4>
-        <div class="line"></div>
+        <h4>Shell Locket2a Photo CharmShell Locket2a Photo Charm</h4>
+        <span>sku: 100</span>
+        <div class="divider"></div>
         <div class="price">
             <span>Retail Price : </span>
             <span class="old"> $265.00</span>
