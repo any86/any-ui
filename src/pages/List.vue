@@ -212,11 +212,9 @@ export default {
                     margin: auto;
                     .final {
                         padding: .1rem;
-                        font-size: $big;
                     }
                     .regular {
                         padding: .1rem;
-                        font-size: $big;
                         color: $light;
                         text-decoration: line-through;
                     }
@@ -232,7 +230,6 @@ export default {
                     color: $sub;
                     display: block;
                     margin-top: .3rem;
-                    font-size: $big;
                 }
             }
         }

@@ -99,7 +99,6 @@ $height:1rem;
             width: 100%;
             line-height: $height;
             display: block;
-            font-size: $big;
             text-align: center;
             border-color: $lightest;
             border-style: solid;

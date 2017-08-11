@@ -1,37 +1,16 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
-        <div class="breadcrumb">
-            <a>HOME</a>
-            <a>CHARMS</a>
-            <a>PHOTO CHARMS</a>
-            <a>SHELL LOCKET</a>
-        </div>
-    
-        <section class="row-info-base">
-            <v-swiper class="slider">
-                <v-swiper-item v-for="item in dataSource.sliders" :key="item.src">
-                    <img :src="item.src" :key="item.src" class="item-img">
-                </v-swiper-item>
-            </v-swiper>
-    
-            <h3>Shell Locket Photo Charm</h3>
-            <div class="price">
-                <span class="old">$65.00</span>
-                <span class="new">$40.00</span>
-            </div>
-            <p>you save $54.00</p>
-        </section>
-    
+        <button class="fixed-bottom button-block button-danger">ADD TO CART</button>
+        <v-breadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></v-breadcrumb>
+        <!-- 轮播 -->
+        <layout-slider></layout-slider>
+        <!-- 基础信息 -->
+        <layout-baseInfo></layout-baseInfo>
         <!-- 预览 -->
-        <section class="row-preview">
-            <h3>preview your font</h3>
-            <p class="font-preview">{{text}}</p>
-            <div class="input">
-                <v-input type="letter" v-model="text" maxlength="13"></v-input>
-                <span class="text">
-                    <a class="text-danger">{{13 - text.length}}</a> left</span>
-            </div>
-        </section>
+        <layout-preview></layout-preview>
+
+        <layout-tip></layout-tip>
+
     
         <!-- tabs -->
         <v-tabs v-model="tabsIndex">
@@ -58,33 +37,33 @@
     </ScrollView>
 </template>
 <script>
-import VSwiper from '@/packages/Swiper/Swiper.vue'
-import VSwiperItem from '@/packages/Swiper/SwiperItem.vue'
-import VInput from '@/packages/Input/Input.vue'
+import LayoutSlider from './NameNecklace/Slider'
+import LayoutBaseInfo from './NameNecklace/BaseInfo'
+import LayoutPreview from './NameNecklace/Preview'
+import LayoutTip from './NameNecklace/Tip'
+
+
+
+
+import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb.vue'
+
 
 import VSpinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
 
-import LayoutResult from './Charm/Result'
-import LayoutFooterUpload from './Charm/FooterUpload'
+
 
 export default {
     name: 'NormalType',
 
     data() {
         return {
-            dataSource: {
-                sliders: [
-                    { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/Z/N/ZNL32_2.jpg' },
-                    { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/Z/N/ZNL32_2.png' },
-                    { src: 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/Z/N/ZNL32.png' },
-                ]
-            },
-            text: '',
+
+            
             scrollY: 0,
-            tabsIndex: 0
+            tabsIndex: 0,
         };
     },
 
@@ -92,15 +71,14 @@ export default {
 
     },
 
-    methods: {
 
-    },
 
     components: {
-        VSpinner, VInput,
+        LayoutSlider, LayoutBaseInfo, LayoutPreview,LayoutTip,
+        VSpinner,
         VLazyLoad,
         VTabs,
-        VTabsItem, VSwiper, VSwiperItem
+        VTabsItem, VBreadcrumb
     },
 
     watch: {
@@ -111,79 +89,15 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .page-detail {
-    section {
-        padding: 3*$gutter;
-    } // 面包屑
-    .breadcrumb {
-        margin: $gutter * 3;
-        a {
-            font-size: $small;
-            display: inline-block;
-            &.active {
-                color: $base;
-            }
-        }
-        a:not(:last-of-type) {
-            &:after {
-                color: #000;
-                content: '>';
-                margin: auto 5px;
-            }
-        }
-    }
-    .row-info-base {
 
-        .slider {
-            .item-img {
-                width: 100%;
-                display: block;
-            }
-        }
-        .price {
-            padding: $gutter * 3 0;
-            .old {
-                font-size: $bigger;
-                color: $darkest;
-                text-decoration: line-through;
-            }
-            .new {
-                font-size: $bigger;
-                color: $danger;
-                margin-left: $gutter *3;
-            }
-        }
-    }
-
-    .row-preview {
-        .font-preview {
-            border: 1px dashed $lightest;
-            padding: $gutter;
-            height: 1rem;
-            line-height: 1rem;
-            font-family: CommercialScriptBT-Regular;
-            font-size: 1rem;
-            color: $base;
-        }
-        .input {
-            margin-top: $gutter * 3;
-            display: flex;
-            border: 1px solid $lightest;
-            padding: 0 $gutter * 3;
-            span {
-                display: block;
-                flex: 1 0 auto;
-                line-height: 1rem;
-            }
-        }
-    }
+    
     .row-info-detail {
-        padding: 15px;
+        padding: $gutter;
         p {
             line-height: 1.5;
-            font-size: $normal;
         }
         .img {
-            margin: $gutter * 3 auto;
+            margin: $gutter auto;
             width: 100%;
             min-height: 7rem;
             overflow: hidden;
@@ -192,5 +106,7 @@ export default {
             animation: fadeIn 1s;
         }
     }
+
+
 }
 </style>
