@@ -10,6 +10,7 @@
   box-sizing: border-box;
   -webkit-touch-callout: none;
   -webkit-appearance: none;
+  font-size: $normal;
 }
 
 // 设计稿宽度
@@ -55,14 +56,6 @@ a {
   color: $darkest;
 }
 
-a,
-p,
-td,
-div,
-span {
-  font-size: $normal;
-}
-
 img {
   display: block;
   border: 0 none;
@@ -86,43 +79,49 @@ img {
 
 h1 {
   font-size: $large;
+  margin: $gutter / 3 0;
   font-weight: 400;
   color: #333;
 }
 
 h2 {
   font-size: $biggest;
+  margin: $gutter / 3 0;
   font-weight: 400;
   color: #333;
 }
 
 h3 {
   font-size: $bigger;
+  margin: $gutter / 3 0;
   font-weight: 400;
   color: #333;
 }
 
 h4 {
   font-size: $big;
+  margin: $gutter / 3 0;
   font-weight: 400;
   color: #333;
 }
 
 h5 {
   font-size: $normal;
-  margin: $gutter 0;
+  margin: $gutter / 3 0;
   font-weight: 400;
   color: #333;
 }
 
 h6 {
   font-size: $small;
+  margin: $gutter / 3 0;
   font-weight: 400;
   color: #333;
 }
 
 small {
   color: $dark;
+  margin: $gutter / 3 0;
   font-size: $small;
 }
 
@@ -199,28 +198,83 @@ img[lazy="done"] {
 }
 
 .text-success {
-  color: $success;
+  color: $success !important;
   font-size: inherit;
 }
 
 .text-warning {
-  color: $warning;
+  color: $warning !important;
   font-size: inherit;
 }
 
 .text-danger {
-  color: $danger;
+  color: $danger !important;
   font-size: inherit;
 }
 
 .text-info {
-  color: $info;
+  color: $info !important;
   font-size: inherit;
 }
 
 .header-title {
   border-bottom: 1px solid $lightest;
-  padding: $gutter * 3;
+  padding: $gutter;
   font-size: $big;
   color: $darkest;
+}
+
+// 按钮
+.button-success {
+  background: $success !important;
+  color: $sub;font-size: $normal;
+}
+
+.button-warning {
+  background: $warning !important;
+  color: $sub;font-size: $normal;
+}
+
+.button-danger {
+  background: $danger !important;
+  color: $sub;font-size: $normal;
+}
+
+.button-info {
+  background: $info !important;
+  color: $sub;font-size: $normal;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+  height: 1rem;
+}
+
+.row {
+  padding: $gutter/ 3 $gutter;
+}
+
+.swiper-pagination-bullet-active {
+  background: $base !important;
+}
+
+.line {
+  height: 1px;
+  background: $lightest;
+  width: 100%;
+  margin: $gutter auto;
+}
+
+.fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;z-index: 999;
 }

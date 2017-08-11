@@ -46,7 +46,7 @@ export default {
             min-height: 2.4rem;
             align-self: center;
             background: rgba(#000, .5);
-            padding: 3*$gutter 6*$gutter;
+            padding: $gutter 2*$gutter;
             >img {
                 display: block;
                 width: 100%;
@@ -54,8 +54,8 @@ export default {
             >p {
                 text-align: center;
                 color: $sub;
-                font-size: $big;
-                margin-top: $gutter*3;
+                font-size: $normal;
+                margin-top: $gutter;
             }
         }
     }

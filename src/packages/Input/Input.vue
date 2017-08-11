@@ -101,13 +101,13 @@ $height: .8rem;
     .title {
         height: $height;
         line-height: $height;
-        font-size: $big;
+        font-size: $normal;
         margin-right: 5%;
     }
 
     input {
         background: rgba(255, 255, 255, 0);
-        font-size: $big;
+        font-size: $normal;
         flex: 1;
         box-sizing: border-box;
         border: 0 none;

@@ -1,3 +1,4 @@
+$white: #fff;
 // 主色
 // $base: #1fbab1;
 $base: #e60044;
@@ -8,8 +9,7 @@ $sub: #fff;
 $disabled: #ccc;
 //：重#333333       中#888888     浅#cccccc
 // 背景色
-$background: #fff;
-$white: #fff;
+$background: $white;
 // 浅灰
 $light: #aaa9ae;
 $lighter: #ddd;
@@ -27,7 +27,7 @@ $danger: #e60044;
 $info: #2db7f5;
 // 间隙
 // $gutter: 5px;
-$gutter: .1rem;
+$gutter: .3rem;
 // 最小高度
 $minHeight: .5rem;
 // 圆角
@@ -45,7 +45,7 @@ $drawerZIndex: 3000;
 $loadingZIndex: 9999;
 //字体大小
 $small: 12px;
-$normal: .3rem;
+$normal: .26rem;
 $big: .35rem;
 $bigger: .4rem;
 $biggest: .45rem;
