@@ -62,7 +62,7 @@ $width: .5rem;
     }
     .content {
         padding: 0 $gutter;
-        flex: 1;
+        flex: 1;min-width:0;
     }
 }
 </style>
