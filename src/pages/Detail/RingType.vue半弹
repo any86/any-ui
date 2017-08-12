@@ -14,11 +14,65 @@
         <!-- 相关产品 -->
         <layout-related-products></layout-related-products>
     
-        <VCell :hasArrow="true" border :to="{path: '/RingDiy'}">Crystals 1</VCell>
-        <VCell :hasArrow="true" border :to="{path: '/RingDiy'}">Crystals 2</VCell>
-        <VCell :hasArrow="true" border :to="{path: '/RingDiy'}">ABC Engravings</VCell>
-        <VCell :hasArrow="true" border :to="{path: '/RingDiy'}">Ring Size</VCell>
+        <VCell :hasArrow="true" border @click="showPopup(0)">Crystals 1</VCell>
+        <VCell :hasArrow="true" border @click="showPopup(1)">Crystals 2</VCell>
+        <VCell :hasArrow="true" border @click="showPopup(2)">ABC Engravings</VCell>
+        <VCell :hasArrow="true" border @click="showPopup(3)">Ring Size</VCell>
     
+        <VPopup v-model="isShowPopup" class="popup">
+            <!-- <header slot="header">pick one</header> -->
+    
+            <div slot="header" class="preview">
+                <img src="https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/C/R/CR02_5.png" />
+            </div>
+            <button slot="footer" class="button-block button-danger">ADD TO CART</button>
+
+            
+            <section class="condition">
+                <h5>Swarovski Crystals 1</h5>
+                <VSwiper :options="{slidesPerView :'auto'}">
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                </VSwiper>
+                <h5>Swarovski Crystals 2</h5>
+                <VSwiper :options="{slidesPerView :'auto'}">
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                </VSwiper>
+
+                <h5>Swarovski Crystals 3</h5>
+                <VSwiper :options="{slidesPerView :'auto'}">
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                </VSwiper>
+
+                <h5>Swarovski Crystals 4</h5>
+                <VSwiper :options="{slidesPerView :'auto'}">
+                    <VSwiperItem class="small">
+                        <img class="small-img" src="https://static.soufeel.com/media/textdesign/diamond/display/SW26077.png">
+                    </VSwiperItem>
+                </VSwiper>
+    
+            </section>
+        </VPopup>
     
         <!-- tabs -->
         <v-tabs v-model="tabsIndex">

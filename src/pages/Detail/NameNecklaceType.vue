@@ -12,7 +12,6 @@
         <layout-tip></layout-tip>
         <!-- 相关产品 -->
         <layout-related-products></layout-related-products>
-    
             <!-- tabs -->
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item>Details</v-tabs-item>

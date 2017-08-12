@@ -74,33 +74,32 @@ export default {
 .page-search {
     header {
         background: $background;
-        padding: $gutter * 3 $gutter * 3 $gutter * 3 0;
+        padding: $gutter $gutter $gutter 0;
         border-bottom: 1px solid $lightest;
         display: flex;
         .button-back {
             background: url('../assets/back.svg');
             background-size: 100%;
-            height: $gutter*8;
-            width: $gutter*8;
+            height: $gutter*2;
+            width: $gutter*2;
             display: block;
         }
         .input {
             flex: 1;
             background: $lightest;
-            padding-left: $gutter * 3;
+            padding-left: $gutter;
             border-radius: $borderRadius;
         }
     }
 
     main {
-        padding: 3 * $gutter;
+        padding: $gutter;
         section {
             .title {
-                padding: 3*$gutter 0;
+                padding: $gutter 0;
                 display: flex;
                 span {
                     flex: 1;
-                    font-size: $bigger;
                 }
                 i.icon-delete {
                     display: block;
@@ -112,14 +111,14 @@ export default {
             }
             >ul {
                 >li {
-                    font-size: $big;
+                    
                     color: $darker;
                     background: $lightest;
                     border-radius: .6rem;
                     display: inline-block;
-                    padding: $gutter*1.5 $gutter * 3;
-                    margin-right: $gutter * 3;
-                    margin-bottom: $gutter * 3;
+                    padding: $gutter/2 $gutter;
+                    margin-right: $gutter;
+                    margin-bottom: $gutter;
                 }
             }
         }

@@ -1,24 +1,24 @@
 <template>
     <section class="row row-select-size">
         <div class="divider"></div>
-        <!-- <VSteps>
+         <VSteps>
                 <VStep>
                     Select Your Size:
                     <a class="text-info">Size Guide ></a>
                     <ul class="options">
-                        <li v-for="n in 7" :class="{active: n == 1}">{{n}}(U.S.)</li>
+                        <li v-for="(item, i) in dataSource" :key="item.text" :class="{active: activeIndex == i}" @click="select(i)">{{item.text}}</li>
                     </ul>
                 </VStep>
                 <VStep>
                     <button class="button button-block button-danger">ADD TO CART</button>
                 </VStep>
-            </VSteps> -->
+            </VSteps> 
     
-        Select Your Size:
+        <!-- Select Your Size:
         <a class="text-info">Size Guide ></a>
         <ul class="options">
             <li v-for="(item, i) in dataSource" :key="item.text" :class="{active: activeIndex == i}" @click="select(i)">{{item.text}}</li>
-        </ul>
+        </ul> -->
     
     </section>
 </template>

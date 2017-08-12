@@ -15,7 +15,7 @@ export default {
   position: fixed;
   bottom: 1.2rem;
   right: .3rem;
-  z-index: 9999;
+  z-index: 999;
   background: rgba($darkest, .8);
   text-align: center;
   width: .8rem;

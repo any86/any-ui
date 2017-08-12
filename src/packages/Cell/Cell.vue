@@ -1,12 +1,12 @@
 <template>
-    <router-link v-if="undefined != to" :to="to" tag="div" class="component-cell">
+    <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="component-cell" :class="{'component-cell-border': undefined != $attrs.border}">
         <span>
             <slot></slot>
         </span>
         <Icon v-if="hasArrow" class="icon" value="angle-right"></Icon>
     </router-link>
     
-    <div v-else class="component-cell">
+    <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': undefined != $attrs.border}">
         <span>
             <slot></slot>
         </span>
@@ -46,6 +46,10 @@ export default {
     >.icon {
         align-self: center;
         font-size: $biggest;
+    }
+
+    &-border {
+        border-bottom: 1px solid $lightest;
     }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <RingType></RingType>
+     <RingType></RingType> 
 </template>
 <script>
 import NameNecklaceType from './Detail/NameNecklaceType'

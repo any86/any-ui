@@ -2,10 +2,11 @@
     <VMask :value="value" :isFixed="isFixed" @input="closeMask" @after-leave="afterLeave">
         <transition :name="'dialog-' + from" @after-leave="afterDialogLeave">
             <div v-show="value" :class="['component-dialog', from]">
+
                 <div class="header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </div>
-                <div class="body" :style="{maxHeight: height * 0.618 + 'px'}">
+                <div class="body" :style="{maxHeight: height * 0.36 + 'px'}">
                     <slot></slot>
                 </div>
                 <div class="footer" v-if="undefined != $slots.footer">
@@ -82,7 +83,7 @@ export default {
     background: $background;
     .header {
         box-sizing: border-box;
-        padding: 4*$gutter;
+        padding: $gutter;
         border-bottom: 1px solid $lightest
     }
     .body {
@@ -93,6 +94,7 @@ export default {
         box-sizing: border-box;
     }
 }
+
 
 
 /*动画*/
