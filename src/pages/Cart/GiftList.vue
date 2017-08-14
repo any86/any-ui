@@ -100,11 +100,11 @@ export default {
 @import '../../scss/theme.scss';
 $headerHeight: .8rem;
 .row-gift {
-    margin: 3*$gutter auto 0;
+    margin: $gutter auto 0;
     background: $background;
     header {
         display: flex;
-        padding: $gutter 3*$gutter;
+        padding: $gutter;
         overflow: hidden;
         background: $background;
         border-bottom: 1px solid $lightest;
@@ -120,7 +120,7 @@ $headerHeight: .8rem;
             p {
                 height: $headerHeight/2;
                 line-height: $headerHeight/2;
-                margin-left: 2*$gutter;
+                margin-left: $gutter;
                 &:nth-child(1) {
                     font-size: $big;
                 }
@@ -136,7 +136,7 @@ $headerHeight: .8rem;
         .item {
             display: flex;
             overflow: hidden;
-            padding: 3*$gutter;
+            padding: $gutter;
             border-bottom: 1px solid $lightest;
             min-width: 0;
             .img {
@@ -144,7 +144,7 @@ $headerHeight: .8rem;
                 display: block;
                 width: 1.8rem;
                 height: 1.8rem;
-                margin-right: 2*$gutter;
+                margin-right: $gutter;
             }
             .info {
                 flex: 1;
@@ -172,7 +172,7 @@ $headerHeight: .8rem;
                 .row-2 {
                     display: flex;
                     height: .5rem;
-                    margin-top: 2*$gutter;
+                    margin-top: $gutter;
                     .info {
                         font-size: $big;
                         color: $light;
@@ -204,12 +204,13 @@ $headerHeight: .8rem;
                 overflow: hidden;
                 position: relative;
                 .tip {
-                    display:table;
-                    margin:auto;
+                    display: table;
+                    margin: auto;
                     background: $sub;
                     color: $darkest;
                     border-radius: .6rem;
-                    height: .6rem;line-height: .6rem;
+                    height: .6rem;
+                    line-height: .6rem;
                     margin-top: .7rem;
                     padding: 0 $gutter*3;
                 }

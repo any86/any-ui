@@ -124,7 +124,7 @@ $height:1rem;
         position: relative;
         z-index: 10;
         li {
-            padding: 3*$gutter;
+            padding: $gutter;
             border-bottom: 1px solid $lightest;
             &.active {
                 color: $base;
