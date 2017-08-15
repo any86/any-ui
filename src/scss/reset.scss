@@ -1,18 +1,19 @@
 @import './theme.scss';
+@import './mixin.scss';
 @import './font.scss';
 * {
   margin: 0;
   padding: 0;
-  font-family: 'PingFang SC', 'Microsoft Yahei', 'Avenir', Helvetica, Arial, sans-serif;
+  // font-family: 'PingFang SC', 'Microsoft Yahei', 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
   -webkit-touch-callout: none;
   -webkit-appearance: none;
-  font-size: $normal;
+  
 }
-
+a,p,div,span,section, main{font-size: $normal;}
 // 设计稿宽度
 // $designWidth: 750px;
 // @mixin adapt($min, $max, $designWidth) {
@@ -131,6 +132,10 @@ button {
   border: 0 none;
   font-size: $big;
 }
+
+
+.border-bottom-line{@include border-bottom-line;}
+.cell{@include border-bottom-line;padding:$gutter;}
 
 // ::-webkit-scrollbar {
 //     background: #ccc;

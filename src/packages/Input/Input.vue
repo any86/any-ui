@@ -118,7 +118,7 @@ $height: .8rem;
 
     .button-close {
         width: $height;
-        height: 100%;
+        height: $height;
         display: block;
         background: url('./close.svg') center center no-repeat;
         background-size: 40%;

@@ -2,12 +2,14 @@
     <section class="page-list">
         <LayoutHeader ref="header"></LayoutHeader>
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
+            
             <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/namenecklacebannner/namenecklace-banner_01-mobile.jpg" width="100%">
             <!-- 列表和筛选条件 -->
     
             <!-- 筛选条件 -->
             <LayoutFilter ref="filter" :scrollY="scrollY" @open="openFilterList" @select="selectFilterOption" :isOpen="isPopupShow" :activeIndex="activeIndex">
             </LayoutFilter>
+    
             <ul class="list">
                 <VMask v-model="isPopupShow" :isFixed="false" :zIndex="5"></VMask>
                 <li v-for="item in list" class="item" :key="item.id">
@@ -23,6 +25,7 @@
                     <span v-else class="button-buy">{{lang.DESIGN_YOUR_OWN}}</span>
                 </li>
             </ul>
+    
             <Spinner v-show="isShowSpinner && !isEnd"></Spinner>
             <p v-if="isEnd" class="empty">there is nothing</p>
         </ScrollView>
@@ -86,8 +89,7 @@ export default {
         },
 
         openFilterList() {
-            dir(this.$refs.filter.$el.offsetTop)
-            const offsetTop = this.$refs.filter.$el.offsetTop;
+            const offsetTop = this.$refs.filter.$el.offsetTop + 1;
             this.scrollY = offsetTop;
             this.isPopupShow = !this.isPopupShow;
         },

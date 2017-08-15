@@ -79,7 +79,6 @@ export default {
             this.$emit('select', value);
         }
     },
-
 }
 
 </script>
@@ -94,6 +93,7 @@ $height:1rem;
         height: $height;
         display: flex;
         li {
+            font-family: AF_Riyadh;
             flex: 1;
             height: $height;
             width: 100%;
@@ -124,7 +124,7 @@ $height:1rem;
         position: relative;
         z-index: 10;
         li {
-            padding: 3*$gutter;
+            padding: $gutter;
             border-bottom: 1px solid $lightest;
             &.active {
                 color: $base;

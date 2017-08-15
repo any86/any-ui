@@ -31,7 +31,7 @@ header {
     // left: 0;
     // z-index: $headerZIndex;
     display: flex;
-    padding: 0 3*$gutter;
+    padding: 0 $gutter;
     background: $background;
     height: $height;
     width: 100%;

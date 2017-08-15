@@ -58,13 +58,12 @@ export default {
 @import '../../scss/theme.scss';
 .row-checkout-review {
     background: $background;
-    margin-top: $gutter * 3;
-    padding-bottom: $gutter * 3;
+    margin-top: $gutter;
+    padding-bottom: $gutter;
     
     >header {
-        font-size: $big;
         color: $darkest;
-        padding: 3*$gutter;
+        padding: $gutter;
         border-bottom: 1px solid $lightest;
     }
 
@@ -72,7 +71,7 @@ export default {
         width: 100%;
         padding:$gutter;
         tr{
-            td{padding:$gutter;font-size: $big;}
+            td{padding:$gutter;}
             td:nth-child(3){text-align: center;}
             td:last-child{text-align: right;color: $danger;}
             td.grand-total-price{font-size: $biggest;}
@@ -80,7 +79,7 @@ export default {
     }
 
     >.btn-place {
-        margin: $gutter*3;
+        margin: $gutter;
         height: 1rem;
         line-height: 1rem;
         text-align: center;
@@ -89,7 +88,7 @@ export default {
         display: block;
         font-size: $big;
     }
-    .text{font-size: $normal;margin: $gutter*3;padding:$gutter;}
+    .text{font-size: $normal;margin: $gutter;padding:$gutter;}
 
 
 }

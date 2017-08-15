@@ -69,6 +69,11 @@ const RingDiy = () => ({
   component: import ("@/pages/Detail/RingDiy")
 });
 
+const Svg = () => ({
+  component: import ("@/pages/Svg")
+});
+
+
 Vue.use(Router);
 export default new Router({
   routes: [{
@@ -138,5 +143,9 @@ export default new Router({
     path: "/ringDiy",
     name: "RingDiy",
     component: RingDiy
+  }, {
+    path: "/svg",
+    name: "Svg",
+    component: Svg
   }]
 });

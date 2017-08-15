@@ -163,7 +163,6 @@ export default {
             this.canvas.renderAll();
             this.parameter.top = this.uploadImg.getTop();
             this.parameter.left = this.uploadImg.getLeft();
-
         },
 
         addScale() {

@@ -65,25 +65,26 @@ export default {
 @import '../../scss/theme.scss';
 .row-payment-methods {
     background: $background;
-    margin-top: $gutter * 3;
+    margin-top: $gutter;
     >header {
         height: 1.2rem;
         line-height: 1.2rem;
         font-size: $big;
         color: $darkest;
-        padding: 0 3*$gutter;
+        padding: 0 $gutter;
         padding-bottom: 0;
     }
 
     >ul {
         li {
-            padding: $gutter * 3;
+            padding: $gutter;
             border-top: 1px solid $lightest;
             .creadit-card-detail-panel {
-                margin-top: $gutter * 5;
+                margin-top: $gutter;
                 .input {
-                    margin-top: $gutter*3;
-                    padding-left: 3*$gutter;
+                    height: 1rem;
+                    margin-top: $gutter;
+                    padding-left: $gutter;
                     border: 1px solid $lightest;
                 }
             }

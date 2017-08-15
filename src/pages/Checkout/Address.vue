@@ -49,7 +49,7 @@ export default {
     background: $background;
     >div {
         border-bottom: 1px solid $lightest;
-        padding: 3*$gutter;
+        padding: $gutter;
         &:last-child {
             border-bottom: none;
         }
@@ -60,7 +60,7 @@ export default {
                 font-size: $big;
             }
             >.mobile {
-                margin-left: 3*$gutter;
+                margin-left: $gutter;
                 font-size: $big;
             }
         }
