@@ -12,10 +12,10 @@ import router from '@/router'
 // API
 import api from '@/api'
 Object.defineProperty(Vue.prototype, '$api', {
-    value: api,
-    writable: false,
-    enumerable: false,
-    configurable: false
+  value: api,
+  writable: false,
+  enumerable: false,
+  configurable: false
 });
 
 // vuex
@@ -49,38 +49,39 @@ Vue.config.performance = true;
 
 /* eslint-disable no-new */
 new Vue({
-    el: '#app',
-    router,
-    store,
-    template: '<App/>',
-    components: { App }
+  el: '#app',
+  router,
+  store,
+  template: '<App/>',
+  components: {
+    App
+  }
 });
 
 
 import * as types from "@/store/mutation-types";
-router.beforeEach(function(to, from, next) {
-    store.commit(types.SHOW_LOADING);
-    next();
+router.beforeEach(function (to, from, next) {
+  store.commit(types.SHOW_LOADING);
+  next();
 })
 
-router.afterEach(function(to) {
-    document.title = to.name;
-    store.commit(types.HIDE_LOADING);
+router.afterEach(function (to) {
+  document.title = to.name;
+  store.commit(types.HIDE_LOADING);
 });
 
 
-// var startX = 0, startY = 0;
-// document.addEventListener('touchstart', e => {
-//     startX = e.touches[0].clientX;
-//     startY = e.touches[0].clientY;
+window.imageLoader = src => {
+  return new Promise((resolve, reject) => {
+    var image = new Image();
+    image.src = src;
+    image.crossOrigin = 'anonymous';
+    image.onload = () => {
+      resolve(image);
+    }
+    image.onerror = error => {
+      reject(error);
+    }
+  });
 
-// });
-
-// document.addEventListener('touchmove', e => {
-//     var distanceX = e.touches[0].clientX - startX;
-//     var distanceY = e.touches[0].clientY - startY;
-
-//     if (distanceX < distanceY) {
-//         e.preventDefault();
-//     }
-// });
+}

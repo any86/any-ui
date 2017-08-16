@@ -1,16 +1,16 @@
 <template>
     <section class="row-user-info">
         <header class="header-title">Ship Address</header>
-        <!--<div class="info">
-                <div class="contact">
-                    <span class="name">Seven</span>
-                    <span class="mobile">13813877821</span>
-                </div>
-                <div class="address">
-                    <p>118 xjkljqw adssdlfjk #405</p>
-                    <p>LA USA UK AK CK</p>
-                </div>
-            </div>-->
+        <v-cell :to="{path: 'billingAddress'}" :hasArrow="true" class="info">
+            <div class="contact">
+                <span class="name">Seven</span>
+                <span class="mobile">13813877821</span>
+            </div>
+            <div class="address">
+                <p>118 xjkljqw adssdlfjk #405</p>
+                <p>LA USA UK AK CK</p>
+            </div>
+        </v-cell>
         <v-cell :to="{path: 'billingAddress'}" :hasArrow="true">
             Add Shipping Address
         </v-cell>
@@ -49,7 +49,7 @@ export default {
     background: $background;
     >div {
         border-bottom: 1px solid $lightest;
-        padding: 3*$gutter;
+        padding: $gutter;
         &:last-child {
             border-bottom: none;
         }
@@ -57,14 +57,16 @@ export default {
     >.info {
         >.contact {
             >.name {
-                font-size: $biggest;
+                font-size: $big;
             }
             >.mobile {
-                font-size: $biggest;
+                margin-left: $gutter;
+                font-size: $big;
             }
         }
         >.address {
             >p {
+                font-size: $big;
                 color: $light;
             }
         }

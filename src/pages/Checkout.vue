@@ -51,6 +51,5 @@ export default {
 @import '../scss/theme.scss';
 .page-checkout {
     background: $lightest;
-    main {}
 }
 </style>

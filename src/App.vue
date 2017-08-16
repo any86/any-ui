@@ -77,10 +77,9 @@ export default {
 .menu {
     display: block;
     li {
-        padding: 3*$gutter;
+        padding: $gutter;
         display: block;
         border-bottom: 1px solid $lightest;
-        font-size: $big;
     }
 }
 

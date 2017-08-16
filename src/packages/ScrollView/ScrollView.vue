@@ -70,7 +70,6 @@ export default {
     overflow-x: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    overflow-scrolling: touch;
     .scroll-content {
         position: relative;
         min-height: 100%;

@@ -67,7 +67,6 @@ export default {
                 } else {
                     activeIndex = 0;
                 }
-
                 // 存储当前值
                 this.touchStatusList[index].value = this.dataSource[index][activeIndex].value;
                 this.touchStatusList[index].label = this.dataSource[index][activeIndex].label;
@@ -120,7 +119,6 @@ export default {
             } else if (0 - this.itemHeight * (listLength - 1) > this.active.translateYNew) {
                 this.active.translateYNew = 0 - this.itemHeight * (listLength - 1)
             }
-
             // 对准(四舍五入)
             // 确定value
             var itemIndex = Math.round((0 - this.active.translateYNew) / this.itemHeight);
@@ -130,10 +128,11 @@ export default {
 
             //同步当前位置
             this.active.translateYOld = this.active.translateYNew;
-
-            const newValue = [];
-            this.value.map((item, i) => {
-                newValue[i] = this.touchStatusList[index].value = i == index ? this.active.value : item;
+            
+   
+            // 遍历已选值
+            const newValue = this.touchStatusList.map(list=> {
+                return list.value;
             });
 
             // 当前列表的变更状态

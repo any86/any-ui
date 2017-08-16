@@ -1,4 +1,5 @@
-import * as types from "./mutation-types";
+import * as types from '@/store/mutation-types';
+
 
 export default {
     [types.SHOW_SIDE](state) {
@@ -27,6 +28,5 @@ export default {
 
     [types.SET_CUSTOMER](state, customer) {
         state.customer = customer;
-    },
-
+    }
 };

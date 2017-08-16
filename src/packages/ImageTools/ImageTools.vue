@@ -1,187 +1,271 @@
 <template>
-  <div class="component-image-tool">
-    <div ref="view" class="view">
-      <canvas id="c" style="display:block;"></canvas>
+    <div class="component-image-tool">
+        <div ref="view" class="view">
+            <canvas ref="canvas" style="display:block;"></canvas>
+            <v-spinner v-show="isLoadingImg" class="spinner"></v-spinner>
+        </div>
+        <!-- 工具条 -->
+        <div class="tools-bar">
+            <transition name="fadeUp">
+                <section v-show="isUpoloaded">
+                    <span class="button" @click="moveLeft">
+                        <Icon value="arrow-left"></Icon>
+                    </span>
+                    <span class="button" @click="moveRight">
+                        <Icon value="arrow-right"></Icon>
+                    </span>
+                    <span class="button" @click="moveUp">
+                        <Icon value="arrow-up"></Icon>
+                    </span>
+                    <span class="button" @click="moveDown">
+                        <Icon value="arrow-down"></Icon>
+                    </span>
+                    <span class="button" @click="minusScale">
+                        <Icon value="minus"></Icon>
+                    </span>
+                    <span class="button" @click="addScale">
+                        <Icon value="plus"></Icon>
+                    </span>
+                    <span class="button" @click="rotateLeft">
+                        <Icon value="rotate-left"></Icon>
+                    </span>
+                    <span class="button" @click="rotateRight">
+                        <Icon value="rotate-right"></Icon>
+                    </span>
+                    <span class="button" @click="reset">
+                        <Icon value="refresh"></Icon>
+                    </span>
+                </section>
+            </transition>
+        </div>
     </div>
-    <!-- 工具条 -->
-    <div class="tools-bar">
-      <span class="button" @click="moveLeft"><Icon value="arrow-left"></Icon></span>
-      <span class="button" @click="moveRight"><Icon value="arrow-right"></Icon></span>
-      <span class="button" @click="moveUp"><Icon value="arrow-up"></Icon></span>
-      <span class="button" @click="moveDown"><Icon value="arrow-down"></Icon></span>
-      <span class="button" @click="minusScale"><Icon value="minus"></Icon></span>
-      <span class="button" @click="addScale"><Icon value="plus"></Icon></span>
-      <span class="button" @click="rotateLeft"><Icon value="rotate-left"></Icon></span>
-      <span class="button" @click="rotateRight"><Icon value="rotate-right"></Icon></span>
-      <span class="button" @click="reset"><Icon value="refresh"></Icon></span>
-    </div>
-  </div>
 </template>
 <script>
 import {
-  fabric
+    fabric
 } from 'fabric'
+import VSpinner from '@/packages/Spinner/Spinner'
 export default {
-  name: 'ImageTool',
+    name: 'ImageTool',
 
-  props: {
-    dataURL: {
-      type: String
+    props: {
+        dataURL: {
+            type: String
+        },
+
+        status: {
+            type: String,
+        },
+
+        dataSource: {},
+
     },
 
-    dataSource: {}
-  },
+    data() {
+        return {
+            isLoadingImg: true,
+            // demoImgUrl: 'https://static.soufeel.com/skin/frontend/smartwave/default/exclusive/images/base/C046-1.png',
+            // frameImgUrl: 'https://static.soufeel.com/skin/frontend/smartwave/default/exclusive/images/base/C046.png',
+            // 需要支持跨域
+            demoImgUrl: './static/C046-1.png',
+            frameImgUrl: './static/C046.png',
+            uploadImg: null,
+            isUpoloaded: false,
+            demoImg: null,
+            viewWidth: 0,
+            viewHeight: 0,
+            canvas: null,
+            parameter: {
+                scale: 1,
+                angle: 0,
+                top: 0,
+                left: 0
+            }
+        };
+    },
 
-  data() {
-    return {
-      viewWidth: 0,
-      viewHeight: 0,
-      canvas: null,
-      image: null,
-      dataUrl: null,
-      scale: 1,
-      angle: 0,
-      top: 0,
-      left: 0
-    };
-  },
+    async mounted() {
+        // 暂时不知道为什么谷歌移动端测试下不响应touch
+        // *************************************
+        this.viewWidth = this.$refs.view.offsetWidth;
+        // 生成一个画布
+        this.canvas = new fabric.Canvas(this.$refs.canvas);
 
-  mounted() {
-    const overlayImageUrl = './static/C022.png';
-    const overlayImage = new Image();
-    overlayImage.src = overlayImageUrl;
-    overlayImage.onload = () => {
-      this.viewWidth = this.$refs.view.offsetWidth;
-      this.canvas = new fabric.Canvas('c');
-      this.canvas.setWidth(this.viewWidth);
-      this.canvas.setHeight(this.viewWidth / overlayImage.width * overlayImage.height);
 
-      fabric.Image.fromURL('./static/bg.jpg', (image) => {
-        this.image = image;
-        this.image.set({
-          width: this.viewWidth,
-          height: this.viewWidth / this.image.width * this.image.height,
-          left: 0,
-          top: 0,
-          hasControls: false,
-          centeredScaling: true,
-        });
-        this.canvas.add(image);
-        this.canvas.setOverlayImage(overlayImageUrl, this.canvas.renderAll.bind(this.canvas), { width: this.viewWidth, height: this.viewWidth / overlayImage.width * overlayImage.height });
+        this.canvas.centeredRotation = true;
+        this.canvas.centeredScaling = true;
+        // this.demoImgUrl = './static/cd.jpg'
+        this.demoImg = await this.loadImage(this.demoImgUrl);
+        this.demoImg.selectable = false;
+        this.demoImg.evented = false;
+
+        this.canvas.setWidth(this.viewWidth);
+        this.canvas.setHeight(this.viewWidth / this.demoImg.width * this.demoImg.height);
+        // 加载示例图片
+        this.canvas.add(this.demoImg);
         this.canvas.renderAll();
-      });
-    };
 
-    overlayImage.onerror = () => {
-      this.$alert('网络问题, 请重试!');
-    };
-  },
-
-  methods: {
-    moveLeft() {
-      this.left = this.image.getLeft();
-      this.left -= 5;
-      this.image.setLeft(this.left);
-      this.canvas.renderAll();
+        this.parameter.scale = this.demoImg.getScaleX();
     },
 
-    moveRight() {
-      this.left = this.image.getLeft();
-      this.left += 5;
-      this.image.setLeft(this.left);
-      this.canvas.renderAll();
+    methods: {
+        /**
+         * 读取产品图片
+         * 调成图片宽度自适应宽度
+         */
+        loadImage(url) {
+            this.isLoadingImg = true;
+            return new Promise((resolve, reject) => {
+                fabric.Image.fromURL(url, (image, error) => {
+                    if (error) {
+                        reject();
+                    } else {
+                        image.scaleToWidth(this.viewWidth);
+                        this.isLoadingImg = false;
+                        resolve(image);
+                    }
+                }, { crossOrigin: 'anonymous' });
+            });
+        },
+
+        moveLeft() {
+            this.parameter.left = this.uploadImg.getLeft();
+            this.parameter.left -= 5;
+            this.uploadImg.setLeft(this.parameter.left);
+            this.canvas.renderAll();
+        },
+
+        moveRight() {
+            this.parameter.left = this.uploadImg.getLeft();
+            this.parameter.left += 5;
+            this.uploadImg.setLeft(this.parameter.left);
+            this.canvas.renderAll();
+        },
+
+        moveUp() {
+            this.parameter.top = this.uploadImg.getTop();
+            this.parameter.top -= 5;
+            this.uploadImg.setTop(this.parameter.top);
+            this.canvas.renderAll();
+        },
+
+        moveDown() {
+            this.parameter.top = this.uploadImg.getTop();
+            this.parameter.top += 5;
+            this.uploadImg.setTop(this.parameter.top);
+            this.canvas.renderAll();
+        },
+
+        rotateLeft() {
+            this.parameter.angle -= 5;
+            this.uploadImg.rotate(this.parameter.angle);
+            this.canvas.renderAll();
+            this.parameter.top = this.uploadImg.getTop();
+            this.parameter.left = this.uploadImg.getLeft();
+
+        },
+
+        rotateRight() {
+            this.parameter.angle += 5;
+            this.uploadImg.rotate(this.parameter.angle);
+            this.canvas.renderAll();
+            this.parameter.top = this.uploadImg.getTop();
+            this.parameter.left = this.uploadImg.getLeft();
+        },
+
+        addScale() {
+            this.parameter.scale = this.uploadImg.getScaleX() + 0.01;
+            this.uploadImg.scale(this.parameter.scale);
+            this.canvas.renderAll();
+        },
+
+        minusScale() {
+            this.parameter.scale = this.uploadImg.getScaleX() - 0.01;
+            this.uploadImg.scale(this.parameter.scale);
+            this.canvas.renderAll();
+        },
+
+        reset() {
+            this.parameter.top = 0;
+            this.parameter.left = 0;
+            this.parameter.angle = 0;
+            this.uploadImg.scaleToWidth(this.viewWidth).set({
+                top: this.parameter.top,
+                left: this.parameter.left,
+                angle: this.parameter.angle,
+            });
+            this.canvas.renderAll();
+        },
     },
 
-    moveUp() {
-      this.top = this.image.getTop();
-      this.top -= 5;
-      this.image.setTop(this.top);
-      this.canvas.renderAll();
+    watch: {
+        async dataURL(value) {
+            if ('' != value) {
+                this.$emit('update:status', 'uploading');
+                // 删除实例图片
+                // 同时清空每次的合成图
+                this.canvas.clear();
+
+                this.isUpoloaded = false;
+                this.uploadImg = await this.loadImage(value);
+                this.isUpoloaded = true;
+                const frameImage = await this.loadImage(this.frameImgUrl);
+                this.canvas.add(this.uploadImg).setActiveObject(this.uploadImg);
+                this.canvas.setOverlayImage(frameImage, this.canvas.renderAll.bind(this.canvas));
+                // this.canvas.setOverlayImage(frameImage, this.canvas.renderAll.bind(this.canvas), { width: this.viewWidth, height: this.viewWidth });
+                this.canvas.renderAll();
+                this.$emit('update:status', 'done');
+
+                // 图片需要支持跨域
+                // this.$emit('done', this.canvas.toDataURL());
+            }
+        }
     },
 
-    moveDown() {
-      this.top = this.image.getTop();
-      this.top += 5;
-      this.image.setTop(this.top);
-      this.canvas.renderAll();
-    },
-
-    rotateLeft() {
-      this.angle -= 5;
-      this.image.rotate(this.angle);
-      this.canvas.renderAll();
-      this.top = this.image.getTop();
-      this.left = this.image.getLeft();
-
-    },
-
-    rotateRight() {
-      this.angle += 5;
-      this.image.rotate(this.angle);
-      this.canvas.renderAll();
-      this.top = this.image.getTop();
-      this.left = this.image.getLeft();
-
-    },
-
-    addScale() {
-      this.scale += 0.1;
-      this.image.scale(this.scale);
-      this.canvas.renderAll();
-    },
-
-    minusScale() {
-      this.scale -= 0.1;
-      this.image.scale(this.scale);
-      this.canvas.renderAll();
-    },
-
-    reset() {
-      this.top = 0;
-      this.left = 0;
-      this.angle = 0;
-      this.scale = 1;
-      this.image.set({
-        top: this.top,
-        left: this.left,
-        angle: this.angle,
-        scaleX: this.scale,
-        scaleY: this.scale
-      });
-      this.canvas.renderAll();
-    },
-
-  },
+    components: { VSpinner }
 }
 
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-image-tool {
-  padding: $gutter*3 $gutter*3 0 $gutter*3;
-  position: relative;
-  overflow: hidden;
-  background: #f7f8f9;
-  width: 100%;
-  >.view {
+    padding: $gutter*3 $gutter*3 0 $gutter*3;
     position: relative;
     overflow: hidden;
+    background: #f7f8f9;
     width: 100%;
-  }
-  >.tools-bar {
-    padding: $gutter*2 0;
-    display: flex;
-    border-top: 1px solid $lighter;
-    >.button {
-      flex: 1;
-      color: $dark;
-      font-size: .4rem;
-      text-align: center;
-      &:active {
-        color: $light;
-      }
-    }
-  }
-}
 
+    .spinner {
+        z-index: 10;
+        position: absolute;
+        top: 30%;
+        right: 0;
+        left: 0;
+        margin: auto;
+    }
+
+
+    >.view {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 5.5rem;
+    }
+    >.tools-bar {
+        height: 1rem;
+        section {
+            position: relative;
+            display: flex;
+            .button {
+                flex: 1;
+                color: $dark;
+                font-size: .4rem;
+                text-align: center;
+                &:active {
+                    color: $light;
+                }
+            }
+        }
+    }
+}
 </style>

@@ -21,13 +21,13 @@
         <transition-group class="item-img" name="fade" tag="div" @before-enter="beforeEnter" @enter="enter" :css="false">
           <template v-for="item in contentItem.swiper">
             <!-- 图片 -->
-            <img class="transition" v-if="undefined != item.src" v-show="i == realIndex" :key="item" :src="item.src" :style="{width: item.width, height: item.height, top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay" />
+            <img class="transition" v-if="undefined != item.src" v-show="i == realIndex" :key="item.src" :src="item.src" :style="{width: item.width, height: item.height, top: item.top, left: item.left, position: 'absolute'}" :data-delay="item.delay" />
             <!-- 文字 -->
-            <h4 class="transition" v-else-if="undefined != item.text" v-show="i == realIndex" :key="item" :style="{top: item.top, left: item.left, position: 'absolute', 'font-size': item.fontSize}" :data-delay="item.delay">{{item.text}}</h4>
+            <h4 class="transition" v-else-if="undefined != item.text" v-show="i == realIndex" :key="item.text" :style="{top: item.top, left: item.left, position: 'absolute', 'font-size': item.fontSize}" :data-delay="item.delay">{{item.text}}</h4>
           </template>
         </transition-group>
         <ul class="list swiper-no-swiping">
-          <li v-if="-1 != contentItem.skus.indexOf(goods.sku)" v-for="goods in goodsList">
+          <li v-if="-1 != contentItem.skus.indexOf(goods.sku)" v-for="goods in goodsList" :key="goods.image_url">
             <img :src="goods.image_url" />
           </li>
         </ul>

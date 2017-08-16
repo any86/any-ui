@@ -1,8 +1,9 @@
 <template>
-    <div class="swiper-container">
+    <div class="component-swiper swiper-container">
         <div class="swiper-wrapper">
             <slot></slot>
         </div>
+        <div v-if="hasPagination" class="swiper-pagination"></div>
     </div>
 </template>
 <script>
@@ -12,7 +13,19 @@ export default {
     name: 'Swiper',
 
     props: {
-        options: {}
+        options: {
+            type: Object
+        },
+
+        hasPagination: {
+            type: Boolean,
+            default: false
+        },
+
+        value: {
+            type: [Number, String],
+            default: 0
+        }
     },
 
     data() {
@@ -23,64 +36,31 @@ export default {
 
     mounted() {
         // 生成实例
-        this.swiper = new Swiper(this.$el, { 
+        this.swiper = new Swiper(this.$el, {
             slidesPerView: 1,
-            ...this.options
-        });        
-    },
-
-    methods: {
-
+            pagination: '.swiper-pagination',
+            ...this.options,
+            onSlideChangeStart: swiper => {
+                this.$emit('change-start', swiper);
+            },
+            onSlideChangeEnd: swiper => {
+                this.$emit('change-end', swiper);
+            }
+        });
     },
 
     watch: {
-        // value(value) {
-        //     this.swiper.stopAutoplay();
-        //     this.$nextTick(() => {
-        //         this.swiper.slideTo(value);
-        //         this.swiper.startAutoplay();
-        //     });
-        // }
-    },
-
-    computed: {
-
+        value(value){
+            this.swiper.slideTo(value);
+        }
     },
 
     destroy() {
-        // this.swiper.destroy();
-        // this.swiper = null;
+        this.swiper.destroy();
+        delete this.swiper;
     }
 }
 </script>
-<style scoped lang=scss>
+<style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-swiper {
-/*    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    >.pages {
-        position: absolute;
-        z-index: 3;
-        left: 50%;
-        bottom: 10%;
-        transform: translateX(-50%);
-        >a {
-            margin-right: 5px;
-            border-radius: 100%;
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            line-height: 12px;
-            text-align: center;
-            background: $light;
-            color: #fff;
-            &.active {
-                background: $base;
-            }
-        }
-    }
-    .addon{position: absolute;top:0;left:0;right: 0;bottom: 0;z-index: 10;}*/
-}
 </style>

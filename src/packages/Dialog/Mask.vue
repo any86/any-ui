@@ -1,10 +1,10 @@
 <template>
   <transition v-if="animate" name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-    <div v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position, background, zIndex}">
+    <div v-show="value" @click.self="close"  class="component-mask" :style="{position, background, zIndex}">
       <slot></slot>
     </div>
   </transition>
-  <div v-else v-show="value" @click.self="close" @touchstart.self="close" class="component-mask" :style="{position, background, zIndex}">
+  <div v-else v-show="value" @click.self="close" class="component-mask" :style="{position, background, zIndex}">
     <slot></slot>
   </div>
 </template>

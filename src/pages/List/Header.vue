@@ -2,7 +2,7 @@
     <header>
         <Icon class="icon" value="bars" @click.native="showSide"></Icon>
         <span>personalize</span>
-        <Icon class="icon" value="search" ></Icon>
+        <Icon @click.native="$router.push({path: '/search'})" class="icon" value="search" ></Icon>
     </header>
 </template>
 <script>
@@ -23,7 +23,7 @@ $height: 1.2rem;
 header {
 	box-sizing: border-box;
     display: flex;
-    padding: 0 3*$gutter;
+    padding: 0 $gutter;
     background: $background;
     height: $height;
     width: 100%;

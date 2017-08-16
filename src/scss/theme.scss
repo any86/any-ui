@@ -1,19 +1,15 @@
+$white: #fff;
 // 主色
 // $base: #1fbab1;
 $base: #e60044;
 // $base: #333;
 // 辅色
 $sub: #fff;
-
 // 禁用色
 $disabled: #ccc;
-
 //：重#333333       中#888888     浅#cccccc
-
 // 背景色
-$background: #fff;
-$white: #fff;
-
+$background: $white;
 // 浅灰
 $light: #aaa9ae;
 $lighter: #ddd;
@@ -29,75 +25,64 @@ $success: #5cb85c;
 $warning: #fa0;
 $danger: #e60044;
 $info: #2db7f5;
-
 // 间隙
 // $gutter: 5px;
-$gutter: .1rem;
-
+$gutter: .3rem;
 // 最小高度
 $minHeight: .5rem;
-
 // 圆角
 $borderRadius: 5px;
-
 // z-index管理
 $tabBarZIndex: 10;
 $dropDownZIndex: 20;
-
 $headerZIndex: 1000;
 $footerZIndex: 1000;
-
-
 $maskZIndex: 1986;
 $dialogZIndex: 2000;
 $sideBarZIndex: 1989;
 $toastZIndex: 2010;
 $drawerZIndex: 3000;
-
 $loadingZIndex: 9999;
-
 //字体大小
 $small: 12px;
-$normal: .2rem;
-$big: .28rem;
-$bigger: .36rem;
-$biggest: .4rem;
+$normal: .26rem;
+$big: .35rem;
+$bigger: .4rem;
+$biggest: .45rem;
 $large: .5rem;
 // 阴影
 $shadowUp: 1px -1px 3px rgba(0, 0, 0, .1);
 $shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
-
 // 底部tab高度
 $bottomTabHeight: 60px;
-
 @mixin theme($type) {
-	@if 'default' == $type {
-		color: $dark;
-		background: $default;
-	}
-	@else if 'success' == $type {
-		color: #fff;
-		background: $success;
-	}
-	@else if 'info' == $type {
-		color: #fff;
-		background: $info;
-	}
-	@else if 'warning' == $type {
-		color: #fff;
-		background: $warning;
-	}
-	@else if 'danger' == $type {
-		color: #fff;
-		background: $danger;
-	}
-	@else if 'primary' == $type {
-		color: #fff;
-		background: $primary;
-	}
+  @if 'default'==$type {
+    color: $dark;
+    background: $default;
+  }
+  @else if 'success'==$type {
+    color: #fff;
+    background: $success;
+  }
+  @else if 'info'==$type {
+    color: #fff;
+    background: $info;
+  }
+  @else if 'warning'==$type {
+    color: #fff;
+    background: $warning;
+  }
+  @else if 'danger'==$type {
+    color: #fff;
+    background: $danger;
+  }
+  @else if 'primary'==$type {
+    color: #fff;
+    background: $primary;
+  }
 }
 
 @mixin disabled() {
-	background: $lighter;
-	color: $light;
+  background: $lighter;
+  color: $light;
 }

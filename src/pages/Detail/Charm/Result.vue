@@ -1,5 +1,5 @@
 <template>
-    <img :src="dataSource"/>
+    <img :src="dataSource" />
 </template>
 <script>
 import FileAPI from 'fileapi'
@@ -12,7 +12,7 @@ export default {
 
     data() {
         return {
-           
+
         };
     },
 
@@ -21,11 +21,14 @@ export default {
     },
 
     methods: {
-       
+
     }
 }
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
-img{display: block;width: 100%;}
+@import '../../../scss/theme.scss';
+img {
+    display: block;
+    width: 100%;
+}
 </style>

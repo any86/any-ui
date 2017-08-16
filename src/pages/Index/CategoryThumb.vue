@@ -81,7 +81,7 @@ $height: 1.9rem;
             width: 1.3rem;
             height: 1.3rem;
         }
-        >.img[lazy="loading"] {}
+        // >.img[lazy="loading"] {}
         >.img[lazy="done"] {
             animation: zoom 1s;
         }

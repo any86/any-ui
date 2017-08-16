@@ -51,28 +51,28 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/theme.scss';
 .row-shipping-method {
-    margin-top: 3*$gutter;
+    margin-top: $gutter;
 
     >header {
         background: $background;
         font-size: $big;
         color: $darkest;
-        padding: 3*$gutter;
+        padding: $gutter;
         border-bottom: 1px solid $lightest;
     }
     >.item {
         background: $background;
         border-bottom: 1px solid $lightest;
         box-sizing: content-box;
-        padding: 3*$gutter;
+        padding: $gutter;
         >p {
             font-size: $big;
             color: $darkest;
         }
     }
     .row-insurance {
-        padding: 3*$gutter;
-        margin-top: 3*$gutter;
+        padding: $gutter;
+        margin-top: $gutter;
         background: $background;
     }
 }
