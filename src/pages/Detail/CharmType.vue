@@ -1,19 +1,35 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
-        <div class="breadcrumb">
-            <a>HOME</a>
-            <a>CHARMS</a>
-            <a>PHOTO CHARMS</a>
-            <a>SHELL LOCKET</a>
-        </div>
+        <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- charm tools -->
         <ImageTools :dataSource="dataSource.imageTools" :dataURL="userDataURL" :status.sync="dataSource.imageTools.status" @done="getOverlayDataURL">
         </ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
-            <h4>$80.00</h4>
-            <h5>Fits all major brands of bracelets</h5>
-            <h5>This item requires 1-3 days to handcraft.</h5>
+            <h4 class="price">R$80.00
+                <small>R$123</small>
+            </h4>
+    
+            <h5>you save R$63</h5>
+            <h6 class="gutter text-danger">(22% off)</h6>
+    
+            <div class="paypal gutter">
+                <a>We now support </a>
+                <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-logo.png" alt="">
+            </div>
+    
+            <VWarning>Buy now and pay over time
+                <a class="text-info"> learn more</a>
+            </VWarning>
+    
+            <VWarning>Avoid These Common Mistakes</VWarning>
+            <VWarning>Failed to upload photos?
+                <a class="text-danger">click here</a>
+            </VWarning>
+            <VWarning>
+                <a class="text text-danger">This item requires 1-3 days to handcraft.</a>
+            </VWarning>
+    
         </div>
         <v-tabs v-model="tabsIndex">
             <v-tabs-item>Details</v-tabs-item>
@@ -31,20 +47,38 @@
             Reviews
         </div>
         <div v-show="2 == tabsIndex" class="information">
-            Information
+            <table>
+                <tr v-for="n in 10" :key="n">
+                    <td width="50%">{{n}}</td>
+                    <td width="50%">{{n*2}}</td>
+                </tr>
+            </table>
         </div>
         <div v-show="3 == tabsIndex" class="shipping">
-            Shipping
+            You can choose the delivery method during checkout: USPS First Class Shipping- Cost: $5.99 - Free over $49 Please Allow up to 8 business days for delivery via USPS If Your order has Personalized Products, please allow up to 10 business days for USPS delivery. DHL Express Shipping- Cost: $19.95 - Free over $150 Please allow up to 3 business days for delivery via DHL If Your order has Personalized Products, please allow up to 5 business days for DHL delivery. Please note that the time frame mentioned above includes production time.
         </div>
-        <!-- 上传进度 -->
-        <VMask :value="'upload' == upload.status">
-            <VCircle style="width:3rem;margin:2rem auto 0" v-model="upload.progress"></VCircle>
-            <Spinner v-show="100 > upload.progress">{{upload.text}}</Spinner>
-            <p v-show="100 == upload.progress" class="text-success">{{upload.textCongratulation}}</p>
-        </VMask>
+    
         <!-- 底部上传按钮 -->
-        <LayoutFooterUpload :dataSource="dataSource.footerUpload" :isLockConfrim="'loading' == dataSource.imageTools.status" :overlayDataURL="overlayDataURL" @loaded="loadUserImg">
+        <LayoutFooterUpload :dataSource="dataSource.footerUpload" :isLockConfrim="'loading' == dataSource.imageTools.status" :overlayDataURL="overlayDataURL" @loaded="loadUserImg" @upload-done="uploadDone">
         </LayoutFooterUpload>
+    
+        <LayoutRecommend></LayoutRecommend>
+    
+        <VMask v-model="isShowDialog">
+            <VDialog v-model="isShowDialog">
+                <h3 align="center" solt="header">confrim your design</h3>
+                <img :src="overlayDataURL" width="100%">
+                <div class="count">
+                    <h5>count: {{count}}</h5>
+                    <span v-for="n in 10" :key="n" @click="count=n" :class="{active: n == count}">{{n}}</span>
+                </div>
+    
+                <template slot="footer">
+                    <button class="button button-default button-block">Add To Cart & Design Another</button>
+                    <button class="button button-danger button-block gutter">Checkout</button>
+                </template>
+            </VDialog>
+        </VMask>
     </ScrollView>
 </template>
 <script>
@@ -56,11 +90,19 @@ import VTabsItem from '@/packages/Tabs/TabsItem'
 
 import LayoutResult from './Charm/Result'
 import LayoutFooterUpload from './Charm/FooterUpload'
+import LayoutRecommend from './Common/Recommend'
 
+
+import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb'
 import ImageTools from '@/packages/ImageTools/ImageTools'
 import VUpload from '@/packages/Upload/Upload'
 import VMask from '@/packages/Dialog/Mask'
+import VDialog from '@/packages/Dialog/Dialog'
+import VStepper from '@/packages/Stepper/Stepper'
+
 import VCircle from '@/packages/Progress/Circle'
+import VWarning from '@/packages/Warning/Warning'
+
 import VToast from '@/packages/Toast/Toast'
 
 export default {
@@ -79,12 +121,13 @@ export default {
                     params: {},
                 },
             },
-
+            count: 1,
             upload: {},
             userDataURL: '',
             overlayDataURL: '',
             scrollY: 0,
-            tabsIndex: 0
+            tabsIndex: 0,
+            isShowDialog: false
         };
     },
 
@@ -93,6 +136,9 @@ export default {
     },
 
     methods: {
+        uploadDone(base64) {
+            this.isShowDialog = true;
+        },
         /**
          * 读取用户上传图片的base64
          */
@@ -109,17 +155,17 @@ export default {
     },
 
     components: {
-        ImageTools,
+        ImageTools, VBreadcrumb,
         Spinner,
-        VLazyLoad,
+        VLazyLoad, VStepper,
         VTabs,
         VTabsItem,
         VUpload,
-        VMask,
+        VMask, VDialog,
         VCircle,
-        VToast,
+        VToast, VWarning,
         LayoutFooterUpload,
-        LayoutResult
+        LayoutResult, LayoutRecommend
     },
 
     watch: {
@@ -130,24 +176,7 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .page-detail {
-    // 面包屑
-    .breadcrumb {
-        margin: $gutter;
-        a {
-            font-size: $small;
-            display: inline-block;
-            &.active {
-                color: $base;
-            }
-        }
-        a:not(:last-of-type) {
-            &:after {
-                color: #000;
-                content: '>';
-                margin: auto 5px;
-            }
-        }
-    }
+    padding-bottom: 1.5rem;
     .text-success {
         text-align: center;
         color: $dark;
@@ -155,6 +184,12 @@ export default {
     }
     .info-base {
         padding: $gutter;
+        .price {
+            small {
+                font-size: $normal;
+                text-decoration: line-through;
+            }
+        }
     }
     .info-detail {
         padding: 15px;
@@ -171,6 +206,40 @@ export default {
         .img[lazy="done"] {
             animation: fadeIn 1s;
         }
+    }
+
+
+    .paypal {
+        a {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        img {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+    .count {
+        margin: $gutter auto;
+        span {
+            display: inline-block;
+            height: .6rem;
+            line-height: .6rem;
+            width: .6rem;
+            text-align: center;
+            border: 1px solid $lightest;
+            border-right: none;
+            &:last-child {
+                border-right: 1px solid $lightest;
+            }
+            &.active {
+                border: 1px solid $base;
+            }
+        }
+    }
+
+    .shipping {
+        padding: $gutter;
     }
 }
 </style>

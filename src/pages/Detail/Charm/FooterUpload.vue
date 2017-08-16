@@ -9,7 +9,7 @@
                 Change Picture
                 <input ref="upload" name="upload" class="input-upload" type="file">
             </label>
-            <button @click="confirm" class="button-confirm">Confirm{{isLockConfrim}}</button>
+            <button @click="confirm" class="button-confirm">Confirm</button>
         </template>
     </footer>
 </template>
@@ -58,6 +58,7 @@ export default {
          * @param  {Function} done     完成对调函数
          */
         confirm(progress = () => { }, done = () => { }) {
+            var $loading = this.$loading();
             FileAPI.upload({
                 url: this.dataSource.url,
 
@@ -65,11 +66,11 @@ export default {
 
                 data: {
                     ...this.dataSource.params,
-                    base64: this.overlayBase64
+                    base64: this.overlayDataURL
                 },
 
                 progress: (evt) => {
-                    this.$emit('progress', Math.floor(evt.loaded / evt.total * 100));
+                    this.$emit('uploading', Math.floor(evt.loaded / evt.total * 100));
                 },
 
                 files: {
@@ -78,6 +79,8 @@ export default {
                 },
 
                 complete: (err, xhr, file, options) => {
+                    $loading.value = false;
+                    this.$emit('upload-done', this.overlayDataURL);
                     if (err) {
                         done(err);
                     } else {
