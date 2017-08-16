@@ -35,8 +35,8 @@ import store from '@/store'
 
 
 //全局样式
-import '@/scss/reset.scss'
-import '@/scss/animate.scss'
+import '@/scss/global.scss'
+
 
 
 // UI
