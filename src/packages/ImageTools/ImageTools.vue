@@ -4,36 +4,39 @@
             <canvas ref="canvas" style="display:block;"></canvas>
             <v-spinner v-show="isLoadingImg" class="spinner"></v-spinner>
         </div>
-    
         <!-- 工具条 -->
         <div class="tools-bar">
-            <span class="button" @click="moveLeft">
-                <Icon value="arrow-left"></Icon>
-            </span>
-            <span class="button" @click="moveRight">
-                <Icon value="arrow-right"></Icon>
-            </span>
-            <span class="button" @click="moveUp">
-                <Icon value="arrow-up"></Icon>
-            </span>
-            <span class="button" @click="moveDown">
-                <Icon value="arrow-down"></Icon>
-            </span>
-            <span class="button" @click="minusScale">
-                <Icon value="minus"></Icon>
-            </span>
-            <span class="button" @click="addScale">
-                <Icon value="plus"></Icon>
-            </span>
-            <span class="button" @click="rotateLeft">
-                <Icon value="rotate-left"></Icon>
-            </span>
-            <span class="button" @click="rotateRight">
-                <Icon value="rotate-right"></Icon>
-            </span>
-            <span class="button" @click="reset">
-                <Icon value="refresh"></Icon>
-            </span>
+            <transition name="fadeUp">
+                <section v-show="isUpoloaded">
+                    <span class="button" @click="moveLeft">
+                        <Icon value="arrow-left"></Icon>
+                    </span>
+                    <span class="button" @click="moveRight">
+                        <Icon value="arrow-right"></Icon>
+                    </span>
+                    <span class="button" @click="moveUp">
+                        <Icon value="arrow-up"></Icon>
+                    </span>
+                    <span class="button" @click="moveDown">
+                        <Icon value="arrow-down"></Icon>
+                    </span>
+                    <span class="button" @click="minusScale">
+                        <Icon value="minus"></Icon>
+                    </span>
+                    <span class="button" @click="addScale">
+                        <Icon value="plus"></Icon>
+                    </span>
+                    <span class="button" @click="rotateLeft">
+                        <Icon value="rotate-left"></Icon>
+                    </span>
+                    <span class="button" @click="rotateRight">
+                        <Icon value="rotate-right"></Icon>
+                    </span>
+                    <span class="button" @click="reset">
+                        <Icon value="refresh"></Icon>
+                    </span>
+                </section>
+            </transition>
         </div>
     </div>
 </template>
@@ -67,6 +70,7 @@ export default {
             demoImgUrl: './static/C046-1.png',
             frameImgUrl: './static/C046.png',
             uploadImg: null,
+            isUpoloaded: false,
             demoImg: null,
             viewWidth: 0,
             viewHeight: 0,
@@ -87,10 +91,14 @@ export default {
         // 生成一个画布
         this.canvas = new fabric.Canvas(this.$refs.canvas);
 
+
         this.canvas.centeredRotation = true;
         this.canvas.centeredScaling = true;
         // this.demoImgUrl = './static/cd.jpg'
         this.demoImg = await this.loadImage(this.demoImgUrl);
+        this.demoImg.selectable = false;
+        this.demoImg.evented = false;
+
         this.canvas.setWidth(this.viewWidth);
         this.canvas.setHeight(this.viewWidth / this.demoImg.width * this.demoImg.height);
         // 加载示例图片
@@ -198,7 +206,9 @@ export default {
                 // 同时清空每次的合成图
                 this.canvas.clear();
 
+                this.isUpoloaded = false;
                 this.uploadImg = await this.loadImage(value);
+                this.isUpoloaded = true;
                 const frameImage = await this.loadImage(this.frameImgUrl);
                 this.canvas.add(this.uploadImg).setActiveObject(this.uploadImg);
                 this.canvas.setOverlayImage(frameImage, this.canvas.renderAll.bind(this.canvas));
@@ -242,15 +252,18 @@ export default {
         height: 5.5rem;
     }
     >.tools-bar {
-        padding: $gutter*2 0;
-        display: flex;
-        >.button {
-            flex: 1;
-            color: $dark;
-            font-size: .4rem;
-            text-align: center;
-            &:active {
-                color: $light;
+        height: 1rem;
+        section {
+            position: relative;
+            display: flex;
+            .button {
+                flex: 1;
+                color: $dark;
+                font-size: .4rem;
+                text-align: center;
+                &:active {
+                    color: $light;
+                }
             }
         }
     }

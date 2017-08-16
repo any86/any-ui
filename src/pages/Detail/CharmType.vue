@@ -132,7 +132,7 @@ export default {
 .page-detail {
     // 面包屑
     .breadcrumb {
-        margin: $gutter * 3;
+        margin: $gutter;
         a {
             font-size: $small;
             display: inline-block;
@@ -154,7 +154,7 @@ export default {
         font-size: $biggest;
     }
     .info-base {
-        padding: 3*$gutter;
+        padding: $gutter;
     }
     .info-detail {
         padding: 15px;
@@ -163,7 +163,7 @@ export default {
             font-size: $normal;
         }
         .img {
-            margin: $gutter * 3 auto;
+            margin: $gutter auto;
             width: 100%;
             min-height: 7rem;
             overflow: hidden;
