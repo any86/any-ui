@@ -4,10 +4,10 @@
         <VSpinner v-if="0 >= $store.state.cart.totalInfo.length"></VSpinner>
         <div v-else class="info">
             <ul class="title-group">
-                <li v-for="item in $store.state.cart.totalInfo">{{item.title}}</li>
+                <li v-for="item in $store.state.cart.totalInfo" :key="item.title">{{item.title}}</li>
             </ul>
             <ul class="content-group">
-                <li v-for="item in $store.state.cart.totalInfo">
+                <li v-for="item in $store.state.cart.totalInfo" :key="item.value">
                     <span class="danger">{{item.value}}</span>
                 </li>
             </ul>
@@ -35,9 +35,9 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .row-result {
-    margin-top: $gutter * 3;
-    padding: $gutter*3;
-    background: $white;
+    margin-top: $gutter;
+    padding: $gutter;
+    background: $background;
     a {
         font-size: $big;
         display: block;
@@ -46,7 +46,7 @@ export default {
         display: flex;
         .title-group {
             flex: 1;
-            margin-right: $gutter;
+            margin-right: $gutter/3;
             display: block;
             width: 2rem;
             li {
@@ -71,15 +71,13 @@ export default {
 
     >.tip {
         text-align: right;
-        margin: 3*$gutter 0 6*$gutter 0;
+        margin: $gutter 0 2*$gutter 0;
         color: $success;
     }
 
     >.button {
         width: 100%;
-        height: 1rem;
         line-height: 1rem;
-        font-size: $big;
         text-align: center;
         &+p {
             height: .6rem;

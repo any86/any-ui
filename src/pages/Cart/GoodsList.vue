@@ -199,13 +199,13 @@ $headerHeight: .88rem;
                             }
                         }
                     }
-                    .steppr {}
+                    // .steppr {}
                 }
             }
         }
     }
     .spinner {
-        padding: 3*$gutter 0;
+        padding: $gutter 0;
     }
 }
 

@@ -9,7 +9,7 @@
         </header>
         <!--已选择-->
         <section class="row-gift-list">
-            <section v-for="item in dataSource.children" class="item">
+            <section v-for="item in dataSource.children" :key="item.img" class="item">
                 <VLazyLoad class="img" :src="item.img" :watch="scrollY"></VLazyLoad>
                 <span class="info">
                     <div class="row-1">
@@ -26,7 +26,7 @@
     
         <!--待选择-->
         <section class="row-gift-more">
-            <section v-for="n in 2">
+            <section v-for="n in 2" :key="n">
                 <h4 class="title">Free gift for ${{n}}00</h4>
                 <main>
                     <VMask :value="true" :isFixed="false">
@@ -100,15 +100,14 @@ export default {
 @import '../../scss/theme.scss';
 $headerHeight: .8rem;
 .row-gift {
-    margin: 3*$gutter auto 0;
+    margin: $gutter auto 0;
     background: $background;
     header {
         display: flex;
-        padding: $gutter 3*$gutter;
+        padding: $gutter/3 $gutter;
         overflow: hidden;
         background: $background;
         border-bottom: 1px solid $lightest;
-        height: $headerHeight;
         box-sizing: content-box;
         .icon {
             font-size: $biggest;
@@ -136,7 +135,7 @@ $headerHeight: .8rem;
         .item {
             display: flex;
             overflow: hidden;
-            padding: 3*$gutter;
+            padding: $gutter;
             border-bottom: 1px solid $lightest;
             min-width: 0;
             .img {
@@ -144,7 +143,7 @@ $headerHeight: .8rem;
                 display: block;
                 width: 1.8rem;
                 height: 1.8rem;
-                margin-right: 2*$gutter;
+                margin-right: $gutter;
             }
             .info {
                 flex: 1;
@@ -172,7 +171,7 @@ $headerHeight: .8rem;
                 .row-2 {
                     display: flex;
                     height: .5rem;
-                    margin-top: 2*$gutter;
+                    margin-top:$gutter;
                     .info {
                         font-size: $big;
                         color: $light;
@@ -195,7 +194,7 @@ $headerHeight: .8rem;
             border-bottom: 1px solid $lightest;
             overflow: hidden;
             .title {
-                margin: $gutter * 3 auto;
+                margin: $gutter auto;
                 text-align: center;
                 display: block;
                 width: 100%;
@@ -211,10 +210,10 @@ $headerHeight: .8rem;
                     border-radius: .6rem;
                     height: .6rem;line-height: .6rem;
                     margin-top: .7rem;
-                    padding: 0 $gutter*3;
+                    padding: 0 $gutter;
                 }
                 .list {
-                    padding-bottom: 3*$gutter;
+                    padding-bottom: $gutter;
                     .item {
                         border-right: 1px solid $lightest;
                         display: flex;
@@ -222,14 +221,14 @@ $headerHeight: .8rem;
                             border-right: none;
                         }
                         >.img {
-                            margin: 0 $gutter* 2 0 $gutter* 3;
+                            margin: 0 $gutter 0 $gutter;
                             display: block;
                             width: 100%;
                             height: 100%;
                         }
                         >.info {
-                            margin-top: 3 * $gutter;
-                            padding-right: 2 * $gutter;
+                            margin-top:  $gutter;
+                            padding-right:  $gutter;
                             flex: 1;
                             >.row {
                                 display: flex;
@@ -251,12 +250,11 @@ $headerHeight: .8rem;
 
                             >.button {
                                 display: inline-block;
-                                padding: $gutter 0;
-                                width: 1.2rem;
+                                padding: $gutter/3 0;
                                 text-align: center;
                                 border-radius: .5rem;
                                 border: 1px solid $darkest;
-                                margin-top: $gutter * 3;
+                                margin-top: $gutter;
                             }
                         }
                     }

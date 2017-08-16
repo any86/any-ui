@@ -53,7 +53,8 @@ export default {
         }
         img {
             display: block;
-            width: 60%;
+            width: 2rem;
+            height: 2rem;
             margin: auto;
         }
 
