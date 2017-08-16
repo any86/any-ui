@@ -5,15 +5,15 @@
                 <v-close-button class="btn-close" @click.native="close"></v-close-button>
                 <slot name="header"></slot>
             </div>
-            
-            <div class="body" :style="{maxHeight: height * 0.5 + 'px'}">
+    
+            <div class="body" :style="{maxHeight: windowHeight * 0.618 + 'px'}">
                 <slot></slot>
             </div>
-
+    
             <div class="footer">
                 <slot name="footer"></slot>
             </div>
-
+    
         </div>
     </transition>
 </template>
@@ -27,12 +27,12 @@ export default {
             dialog: {
                 show: false
             },
-            height: 0
+            windowHeight: 0
         };
     },
 
     created() {
-        this.height = window.outerHeight;
+        this.windowHeight = window.outerHeight;
     },
 
     props: {
@@ -42,7 +42,7 @@ export default {
     },
 
     methods: {
-        close(){
+        close() {
             this.$emit('input', false);
         },
 
@@ -57,22 +57,31 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+@import '../../scss/theme.scss';
 .component-dialog {
-    margin: 5% auto;
+    margin: 15% auto;
     max-width: 640px;
+    width: 90%;
     border-radius: 4px;
-    background: #fff;
-    box-shadow: 1px 2px 5px rgba(0, 0, 0, .2);
-    .header{padding:15px 15px 0 15px;overflow: hidden;
-        .btn-close{float: right;margin-bottom: 15px;}
+    background: $background;
+    .header {
+        padding: $gutter $gutter 0 $gutter;
+        overflow: hidden;
+        .btn-close {
+            float: right;
+            margin-bottom: $gutter;
+        }
     }
     .body {
-        padding: 0 5px;
+        padding: 0 $gutter;
         overflow-x: hidden;
         overflow-y: auto;
     }
-    .footer{padding: 15px;}
+    .footer {
+        padding: $gutter;
+    }
 }
+
 
 
 /*动画*/
