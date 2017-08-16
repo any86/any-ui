@@ -8,31 +8,31 @@
         <div class="tools-bar">
             <transition name="fadeUp">
                 <section v-show="isUpoloaded">
-                    <span class="button" @click="moveLeft">
+                    <span class="button-item" @click="moveLeft">
                         <Icon value="arrow-left"></Icon>
                     </span>
-                    <span class="button" @click="moveRight">
+                    <span class="button-item" @click="moveRight">
                         <Icon value="arrow-right"></Icon>
                     </span>
-                    <span class="button" @click="moveUp">
+                    <span class="button-item" @click="moveUp">
                         <Icon value="arrow-up"></Icon>
                     </span>
-                    <span class="button" @click="moveDown">
+                    <span class="button-item" @click="moveDown">
                         <Icon value="arrow-down"></Icon>
                     </span>
-                    <span class="button" @click="minusScale">
+                    <span class="button-item" @click="minusScale">
                         <Icon value="minus"></Icon>
                     </span>
-                    <span class="button" @click="addScale">
+                    <span class="button-item" @click="addScale">
                         <Icon value="plus"></Icon>
                     </span>
-                    <span class="button" @click="rotateLeft">
+                    <span class="button-item" @click="rotateLeft">
                         <Icon value="rotate-left"></Icon>
                     </span>
-                    <span class="button" @click="rotateRight">
+                    <span class="button-item" @click="rotateRight">
                         <Icon value="rotate-right"></Icon>
                     </span>
-                    <span class="button" @click="reset">
+                    <span class="button-item" @click="reset">
                         <Icon value="refresh"></Icon>
                     </span>
                 </section>
@@ -217,7 +217,7 @@ export default {
                 this.$emit('update:status', 'done');
 
                 // 图片需要支持跨域
-                // this.$emit('done', this.canvas.toDataURL());
+                this.$emit('done', this.canvas.toDataURL());
             }
         }
     },
@@ -252,11 +252,11 @@ export default {
         height: 5.5rem;
     }
     >.tools-bar {
-        height: 1rem;
+        height: .6rem;
         section {
             position: relative;
             display: flex;
-            .button {
+            .button-item {
                 flex: 1;
                 color: $dark;
                 font-size: .4rem;
