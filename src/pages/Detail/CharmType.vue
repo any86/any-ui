@@ -2,7 +2,7 @@
     <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- charm tools -->
-        <ImageTools :dataSource="dataSource.imageTools" :dataURL="userDataURL" :status.sync="dataSource.imageTools.status" @done="getOverlayDataURL">
+        <ImageTools :dataSource="dataSource.imageTools" :dataURL="userDataURL" @change="changeImageTools">
         </ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
@@ -131,10 +131,6 @@ export default {
         };
     },
 
-    mounted() {
-
-    },
-
     methods: {
         uploadDone(base64) {
             this.isShowDialog = true;
@@ -147,10 +143,10 @@ export default {
         },
 
         /**
-         *获取合成后的图片base64
+         *imageTools发生变化
          */
-        getOverlayDataURL(dataURL) {
-            this.overlayDataURL = dataURL;
+        changeImageTools(canvas) {
+            this.overlayDataURL = canvas.toDataURL();
         }
     },
 

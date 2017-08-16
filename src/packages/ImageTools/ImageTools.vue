@@ -133,6 +133,7 @@ export default {
             this.parameter.left -= 5;
             this.uploadImg.setLeft(this.parameter.left);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
         },
 
         moveRight() {
@@ -140,6 +141,7 @@ export default {
             this.parameter.left += 5;
             this.uploadImg.setLeft(this.parameter.left);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
         },
 
         moveUp() {
@@ -147,6 +149,7 @@ export default {
             this.parameter.top -= 5;
             this.uploadImg.setTop(this.parameter.top);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
         },
 
         moveDown() {
@@ -154,12 +157,14 @@ export default {
             this.parameter.top += 5;
             this.uploadImg.setTop(this.parameter.top);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
         },
 
         rotateLeft() {
             this.parameter.angle -= 5;
             this.uploadImg.rotate(this.parameter.angle);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
             this.parameter.top = this.uploadImg.getTop();
             this.parameter.left = this.uploadImg.getLeft();
 
@@ -169,6 +174,7 @@ export default {
             this.parameter.angle += 5;
             this.uploadImg.rotate(this.parameter.angle);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
             this.parameter.top = this.uploadImg.getTop();
             this.parameter.left = this.uploadImg.getLeft();
         },
@@ -177,12 +183,14 @@ export default {
             this.parameter.scale = this.uploadImg.getScaleX() + 0.01;
             this.uploadImg.scale(this.parameter.scale);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
         },
 
         minusScale() {
             this.parameter.scale = this.uploadImg.getScaleX() - 0.01;
             this.uploadImg.scale(this.parameter.scale);
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
         },
 
         reset() {
@@ -195,13 +203,14 @@ export default {
                 angle: this.parameter.angle,
             });
             this.canvas.renderAll();
+            this.$emit('change', this.canvas);
         },
     },
 
     watch: {
         async dataURL(value) {
             if ('' != value) {
-                this.$emit('update:status', 'uploading');
+                // this.$emit('update:status', 'uploading');
                 // 删除实例图片
                 // 同时清空每次的合成图
                 this.canvas.clear();
@@ -214,10 +223,10 @@ export default {
                 this.canvas.setOverlayImage(frameImage, this.canvas.renderAll.bind(this.canvas));
                 // this.canvas.setOverlayImage(frameImage, this.canvas.renderAll.bind(this.canvas), { width: this.viewWidth, height: this.viewWidth });
                 this.canvas.renderAll();
-                this.$emit('update:status', 'done');
+                // this.$emit('update:status', 'done');
 
                 // 图片需要支持跨域
-                this.$emit('done', this.canvas.toDataURL());
+                this.$emit('change', this.canvas);
             }
         }
     },
