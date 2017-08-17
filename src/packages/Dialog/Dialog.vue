@@ -2,8 +2,8 @@
     <transition name="dialog" @after-leave="afterLeave">
         <div v-show="value" class="component-dialog">
             <div class="header">
+                <span><slot name="header"></slot></span>
                 <v-close-button class="btn-close" @click.native="close"></v-close-button>
-                <slot name="header"></slot>
             </div>
     
             <div class="body" :style="{maxHeight: windowHeight * 0.618 + 'px'}">
@@ -67,9 +67,10 @@ export default {
     .header {
         padding: $gutter $gutter 0 $gutter;
         overflow: hidden;
+        display: flex;
+        span{flex:1;}
         .btn-close {
-            float: right;
-            margin-bottom: $gutter;
+            // align-self: center;
         }
     }
     .body {
