@@ -40,7 +40,7 @@ import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 
 // 公共头尾
-import LayoutHeader from '@/components/header'
+import LayoutHeader from '@/components/Header'
 import LayoutFilter from './List/Filter'
 import LayoutFooter from '@/components/Footer'
 

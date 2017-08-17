@@ -11,7 +11,7 @@
 </template>
 <script>
 // 模块
-import LayoutHeader from '@/components/header'
+import LayoutHeader from '@/components/Header'
 
 export default {
     name: 'Personalized',

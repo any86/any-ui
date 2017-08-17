@@ -46,19 +46,19 @@ export default {
 @import '../../scss/theme.scss';
 .row-card {
     background: $background;
-    padding:$gutter * 3;
+    padding:$gutter;
     >.button-config{font-size: $biggest;position: absolute;top:.4rem;right: .4rem;}
     >.avator {
         border-radius: 100%;
         height: 2rem;
         width: 2rem;
         overflow: hidden;
-        margin: $gutter * 8 auto 0;
+        margin: $gutter * 2.4 auto 0;
     }
     >.name {
         text-align: center;
         font-size: $bigger;
-        margin: $gutter * 3 auto;
+        margin: $gutter auto;
     }
 
     >ul{display: flex;

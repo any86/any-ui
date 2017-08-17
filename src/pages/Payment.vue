@@ -9,7 +9,7 @@
 <script>
 import * as types from "@/store/mutation-types";
 // 模块
-import LayoutHeader from '@/components/header'
+import LayoutHeader from '@/components/Header'
 import LayoutCard from './Payment/Card'
 import LayoutShippingMethod from './Payment/ShippingMethod'
 import LayoutCheckoutReview from './Payment/CheckoutReview'

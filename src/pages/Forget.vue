@@ -11,7 +11,7 @@
     </div>
 </template>
 <script>
-import LayoutHeader from '@/components/header'
+import LayoutHeader from '@/components/Header'
 import VInput from '@/packages/Input/Input'
 export default {
     name: 'Forget',

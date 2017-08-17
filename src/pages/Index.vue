@@ -1,6 +1,6 @@
 <template>
     <main v-if="200 == status" class="page-index">
-        <LayoutHeader></LayoutHeader>
+        <LayoutHeader ref="header"></LayoutHeader>
         <ScrollView v-model="scrollY" class="scroll-view">
             <LayoutHeadSwiper></LayoutHeadSwiper>
             <LayoutCategoryThumb style="margin-top:.3rem" :dataSource="categoryThumbs" :scrollY="scrollY"></LayoutCategoryThumb>

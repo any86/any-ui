@@ -25,10 +25,6 @@ import LayoutCard from './My/Card'
 export default {
     name: 'My',
 
-    mounted() {
-
-    },
-
     data() {
         return {
             index: 1,
@@ -59,7 +55,7 @@ export default {
     .content {
         flex: 1;
         .section {
-            margin-top: $gutter * 3;
+            margin-top: $gutter;
             .badge {
                 position: absolute;
                 right: 0;

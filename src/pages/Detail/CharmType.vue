@@ -68,7 +68,7 @@
     
         <VMask v-model="isShowDialog">
             <VDialog v-model="isShowDialog">
-                <h3 align="center" solt="header">confrim your design</h3>
+                <h3 slot="header">confrim your design</h3>
                 <img :src="overlayDataURL" width="100%">
                 <div class="count">
                     <h5>count: {{count}}</h5>
@@ -76,8 +76,11 @@
                 </div>
     
                 <template slot="footer">
-                    <button class="button button-default button-block">Add To Cart & Design Another</button>
-                    <button class="button button-danger button-block gutter">Checkout</button>
+                    <div class="flex">
+                        <button class="button button-default button-block flex-item">Add To Cart & Design Another</button>
+                        <button class="button button-danger button-block flex-item">Checkout</button>
+                    </div>
+                    
                 </template>
             </VDialog>
         </VMask>
@@ -91,7 +94,7 @@ import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
 
-import LayoutHeader from '@/components/header'
+import LayoutHeader from '@/components/Header'
 import LayoutResult from './Charm/Result'
 import LayoutFooterUpload from './Charm/FooterUpload'
 import LayoutRecommend from './Common/Recommend'
