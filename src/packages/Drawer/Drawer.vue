@@ -43,6 +43,10 @@ export default {
         };
     },
 
+    mounted(){
+        this.sideWidth = this.$refs.side.offsetWidth;
+    },
+
     methods: {
         /**
          * 触摸屏幕

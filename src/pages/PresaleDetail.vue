@@ -8,7 +8,7 @@
     </div>
 </template>
 <script>
-import LayoutFooter from './PresaleDetail/Header'
+import LayoutHeader from '@/components/header'
 export default {
     name: 'PresaleDetail',
 

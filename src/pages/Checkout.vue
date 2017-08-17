@@ -11,7 +11,7 @@
     </ScrollView>
 </template>
 <script>
-import LayoutHeader from './Checkout/Header'
+import LayoutHeader from '@/components/header'
 import LayoutAddress from './Checkout/Address'
 import LayoutShippingMethod from './Checkout/ShippingMethod'
 import LayoutPaymentMethods from './Checkout/PaymentMethods'

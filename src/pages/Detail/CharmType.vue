@@ -1,5 +1,7 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
+        <LayoutHeader></LayoutHeader>
+        <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- charm tools -->
         <ImageTools :dataSource="dataSource.imageTools" :dataURL="userDataURL" @change="changeImageTools">
@@ -82,16 +84,17 @@
     </ScrollView>
 </template>
 <script>
+
 import VPopup from '@/packages/Dialog/Popup'
 import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
 
+import LayoutHeader from '@/components/header'
 import LayoutResult from './Charm/Result'
 import LayoutFooterUpload from './Charm/FooterUpload'
 import LayoutRecommend from './Common/Recommend'
-
 
 import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb'
 import ImageTools from '@/packages/ImageTools/ImageTools'
@@ -160,6 +163,7 @@ export default {
         VMask, VDialog,
         VCircle,
         VToast, VWarning,
+        LayoutHeader,
         LayoutFooterUpload,
         LayoutResult, LayoutRecommend
     },

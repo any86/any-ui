@@ -22,7 +22,7 @@
 import * as types from "@/store/mutation-types";
 
 // 模块
-import LayoutHeader from './Cart/Header'
+import LayoutHeader from '@/components/header'
 import LayoutGoodsList from './Cart/GoodsList'
 import LayoutGiftList from './Cart/GiftList'
 import LayoutRecommend from './Cart/Recommend'

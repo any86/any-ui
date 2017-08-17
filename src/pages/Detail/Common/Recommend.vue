@@ -1,14 +1,17 @@
 <template>
-    <VSwiper :options="{slidesPerView :2}" class="slider">
-        <VSwiperItem v-for="item in dataSource" :key="item.src" class="item">
-            <img class="img" :src="item.src">
-            <h5>xxxx</h5>
-            <div class="price">
-                <span>$10</span>
-                <span>$20</span>
-            </div>
-        </VSwiperItem>
-    </VSwiper>
+    <section class="row-recommend">
+        <h3>we also recommend</h3>
+        <VSwiper :options="{slidesPerView :2}" class="slider">
+            <VSwiperItem v-for="item in dataSource" :key="item.src" class="item">
+                <img class="img" :src="item.src">
+                <h5>xxxx</h5>
+                <div class="price">
+                    <span>$10</span>
+                    <span>$20</span>
+                </div>
+            </VSwiperItem>
+        </VSwiper>
+    </section>
 </template>
 <script>
 import VSwiper from '@/packages/Swiper/Swiper'
@@ -43,33 +46,40 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../../scss/theme.scss';
-.slider {
-    border-top: 1px solid $lightest;
-    border-bottom: 1px solid $lightest;
-    .item {
-        border-right: 1px solid $lightest;
-        &:last-chilid() {
-            border-right: none;
-        }
-        img {
-            display: block;
-            width: 2rem;
-            height: 2rem;
-            margin: auto;
-        }
-
-        h5 {
-            text-align: center;
-            color: $light;
-        }
-        .price {
-            display: table;
-            margin: auto;
-            span:nth-child(2n+1) {
-                margin-right: $gutter/2;
+.row-recommend {
+    h3 {
+        padding: $gutter 0;
+        text-align: center;
+        border-top: 1px solid $lightest;
+    }
+    .slider {
+        border-top: 1px solid $lightest;
+        border-bottom: 1px solid $lightest;
+        .item {
+            border-right: 1px solid $lightest;
+            &:last-chilid() {
+                border-right: none;
             }
-            span:nth-child(2n) {
+            img {
+                display: block;
+                width: 2rem;
+                height: 2rem;
+                margin: auto;
+            }
+
+            h5 {
+                text-align: center;
                 color: $light;
+            }
+            .price {
+                display: table;
+                margin: auto;
+                span:nth-child(2n+1) {
+                    margin-right: $gutter/2;
+                }
+                span:nth-child(2n) {
+                    color: $light;
+                }
             }
         }
     }

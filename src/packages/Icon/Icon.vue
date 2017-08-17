@@ -1,5 +1,6 @@
 <template>
-    <i @click="click" :class="['fa', 'fa-' + value]"></i>
+    <i v-on="$listeners" :class="['fa', 'fa-' + value]">
+    </i>
 </template>
 <script>
 export default {
@@ -12,7 +13,7 @@ export default {
     },
 
     mounted() {
-        var value = this.$el.getAttribute('value');
+        var value = this.$attrs.value;
         // 判断是否没传值
         if (null !== value) {
             if (-1 !== value.indexOf(' ')) {
@@ -20,12 +21,6 @@ export default {
             } else {
                 this.value = value;
             }
-        }
-    },
-
-    methods: {
-        click(){
-            this.$emit('click');
         }
     }
 }

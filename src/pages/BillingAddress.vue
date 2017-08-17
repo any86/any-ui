@@ -53,7 +53,7 @@
     </ScrollView>
 </template>
 <script>
-import LayoutHeader from './BillingAddress/Header'
+import LayoutHeader from '@/components/header'
 import VCell from '@/packages/Cell/Cell'
 import VInput from '@/packages/Input/Input'
 import VSwitch from '@/packages/Switch/Switch'

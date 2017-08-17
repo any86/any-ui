@@ -21,7 +21,7 @@
     </main>
 </template>
 <script>
-import LayoutHeader from './Category/Header'
+import LayoutHeader from '@/components/header'
 
 export default {
     name: 'Category',

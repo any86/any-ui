@@ -1,6 +1,6 @@
 <template>
     <main v-if="200 == status" class="page-index">
-        <LayoutHeader class="header"></LayoutHeader>
+        <LayoutHeader></LayoutHeader>
         <ScrollView v-model="scrollY" class="scroll-view">
             <LayoutHeadSwiper></LayoutHeadSwiper>
             <LayoutCategoryThumb style="margin-top:.3rem" :dataSource="categoryThumbs" :scrollY="scrollY"></LayoutCategoryThumb>
@@ -10,7 +10,7 @@
     </main>
 </template>
 <script>
-import LayoutHeader from './Index/Header'
+import LayoutHeader from '@/components/Header'
 import LayoutHeadSwiper from './Index/HeadSwiper'
 import LayoutCategoryThumb from './Index/CategoryThumb'
 import LayoutLooks from './Index/Looks'
