@@ -33,12 +33,16 @@
             </VWarning>
     
         </div>
-        <v-tabs v-model="tabsIndex">
-            <v-tabs-item>Details</v-tabs-item>
-            <v-tabs-item>Reviews</v-tabs-item>
-            <v-tabs-item>Information</v-tabs-item>
-            <v-tabs-item>Shipping</v-tabs-item>
-        </v-tabs>
+        <!-- 吸附的tabs -->
+        <VAdsorb :scrollY="scrollY">
+            <v-tabs v-model="tabsIndex">
+                <v-tabs-item>Details</v-tabs-item>
+                <v-tabs-item>Reviews</v-tabs-item>
+                <v-tabs-item>Information</v-tabs-item>
+                <v-tabs-item>Shipping</v-tabs-item>
+            </v-tabs>
+        </VAdsorb>
+
         <div v-show="0 == tabsIndex" class="info-detail">
             <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
             <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
@@ -80,14 +84,13 @@
                         <button class="button button-default button-block flex-item">Add To Cart & Design Another</button>
                         <button class="button button-danger button-block flex-item">Checkout</button>
                     </div>
-                    
                 </template>
             </VDialog>
         </VMask>
     </ScrollView>
 </template>
 <script>
-
+import VAdsorb from '@/packages/Adsorb/Adsorb'
 import VPopup from '@/packages/Dialog/Popup'
 import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
@@ -158,7 +161,7 @@ export default {
 
     components: {
         ImageTools, VBreadcrumb,
-        Spinner,
+        Spinner,VAdsorb,
         VLazyLoad, VStepper,
         VTabs,
         VTabsItem,

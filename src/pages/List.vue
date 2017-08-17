@@ -2,7 +2,7 @@
     <section class="page-list">
         <LayoutHeader ref="header"></LayoutHeader>
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
-            
+    
             <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/namenecklacebannner/namenecklace-banner_01-mobile.jpg" width="100%">
             <!-- 列表和筛选条件 -->
     

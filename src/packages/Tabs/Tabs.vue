@@ -1,5 +1,5 @@
 <template>
-    <div class="component-tabs" @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend">
+    <div class="component-tabs" @click="click" @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend">
         <div ref="film" :class="['film', 0 == touch.status && 'transition']" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}">
             <slot></slot>
             <!-- runway -->
@@ -11,6 +11,7 @@
     </div>
 </template>
 <script>
+import TWEEN from 'tween.js'
 export default {
     name: 'Tabs',
 
@@ -23,6 +24,8 @@ export default {
 
     data() {
         return {
+            isFixed: false,
+            scrollNode: null,
             itemWidth: [],
             width: -1,
             filmWidth: -1,
@@ -42,10 +45,58 @@ export default {
         this.width = this.$el.offsetWidth;
         window.addEventListener('resize', () => {
             this.width = this.$el.offsetWidth;
-        })
+        });
+
+        // this.scrollNode = this.findScrollParent(this.$el);
+
+        // // 监听scrollNode
+        // this.scrollNode.addEventListener('scroll', e => {
+        //     var { top } = this.$el.getBoundingClientRect();
+            
+        //     if(0 >= top){
+        //         this.isFixed = true;
+        //     } else {
+        //         this.isFixed = false;
+        //     }
+        // }, false);
+
     },
 
     methods: {
+        findScrollParent(el) {
+            var parentNode = el.parentNode;
+            var overflowY = getComputedStyle(parentNode, null).overflowY;
+            while ('scroll' != overflowY && parentNode) {
+                parentNode = parentNode.parentNode;
+                overflowY = getComputedStyle(parentNode, null).overflowY;
+            }
+            return parentNode;
+        },
+
+        animate(from, to, time, cb) {
+            var tween = new TWEEN.Tween({ value: from });
+            tween.to({ value: to }, time);
+            tween.start();
+            animate();
+            function animate() {
+                requestAnimationFrame(animate);
+                TWEEN.update();
+            }
+            tween.onUpdate(function () {
+                cb(this.value);
+            });
+        },
+
+        click(e) {
+            // var { top } = e.target.getBoundingClientRect();
+            // // 移动到顶部
+            // var from = this.scrollNode.scrollTop;
+            // var to = this.scrollNode.scrollTop + top;
+            // this.animate(from, to, 300, value => {
+            //     this.scrollNode.scrollTop = value;
+            // });
+        },
+
         touchstart(e) {
             this.touch.status = 1;
             this.touch.start = e.touches[0].clientX;
@@ -101,6 +152,7 @@ $height: 1rem;
         position: fixed;
         top: 0;
         left: 0;
+        z-index: 100;
     } // &:before {
     //     pointer-events: none;
     //     position: absolute;
