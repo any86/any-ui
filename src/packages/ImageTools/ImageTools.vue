@@ -91,7 +91,6 @@ export default {
         // 生成一个画布
         this.canvas = new fabric.Canvas(this.$refs.canvas);
 
-
         this.canvas.centeredRotation = true;
         this.canvas.centeredScaling = true;
         // this.demoImgUrl = './static/cd.jpg'
@@ -210,7 +209,6 @@ export default {
     watch: {
         async dataURL(value) {
             if ('' != value) {
-                // this.$emit('update:status', 'uploading');
                 // 删除实例图片
                 // 同时清空每次的合成图
                 this.canvas.clear();
@@ -219,12 +217,14 @@ export default {
                 this.uploadImg = await this.loadImage(value);
                 this.isUpoloaded = true;
                 const frameImage = await this.loadImage(this.frameImgUrl);
+                // 
+                this.uploadImg.on('modified', options=> {
+                    this.$emit('change', this.canvas);
+                });
                 this.canvas.add(this.uploadImg).setActiveObject(this.uploadImg);
                 this.canvas.setOverlayImage(frameImage, this.canvas.renderAll.bind(this.canvas));
                 // this.canvas.setOverlayImage(frameImage, this.canvas.renderAll.bind(this.canvas), { width: this.viewWidth, height: this.viewWidth });
                 this.canvas.renderAll();
-                // this.$emit('update:status', 'done');
-
                 // 图片需要支持跨域
                 this.$emit('change', this.canvas);
             }
