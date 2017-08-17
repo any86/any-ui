@@ -4,19 +4,19 @@
         <!-- 小时 -->
         <span ref="hour" class="hour" @touchstart="touchStart('hour',  $event)" @touchmove="touchMove('hour',  $event)" @touchend="touchEnd('hour', 24, $event)">
             <ul :style="{transform: 'translateY('+hour.translateYNew+'px)'}" :class="{transition: 3 == hour.status}">
-                <li :class="{active: hour.value == h-1}" v-for="h in 24">{{zeroize(h-1)}} 点</li>
+                <li :class="{active: hour.value == h-1}" v-for="h in 24" :key="h">{{zeroize(h-1)}} 点</li>
             </ul>
         </span>
         <!-- 分钟 -->
         <span ref="minute" class="minute" @touchstart="touchStart('minute',  $event)" @touchmove="touchMove('minute',  $event)" @touchend="touchEnd('minute', 60,  $event)">
             <ul :style="{transform: 'translateY('+minute.translateYNew+'px)'}" :class="{transition: 3 == minute.status}">
-                <li :class="{active: minute.value == m-1}" v-for="m in 60">{{zeroize(m-1)}} 分</li>
+                <li :class="{active: minute.value == m-1}" v-for="m in 60" :key="m">{{zeroize(m-1)}} 分</li>
             </ul>
         </span>
         <!-- 秒 -->
         <span ref="seconds" class="seconds" @touchstart="touchStart('seconds',  $event)" @touchmove="touchMove('seconds',  $event)" @touchend="touchEnd('seconds', 60, $event)">
             <ul :style="{transform: 'translateY('+seconds.translateYNew+'px)'}" :class="{transition: 3 == seconds.status}">
-                <li :class="{active: seconds.value == s-1}" v-for="s in 60">{{zeroize(s-1)}} 秒</li>
+                <li :class="{active: seconds.value == s-1}" v-for="s in 60" :key="s">{{zeroize(s-1)}} 秒</li>
             </ul>
         </span>
     </div>
