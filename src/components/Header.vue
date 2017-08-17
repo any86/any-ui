@@ -1,9 +1,14 @@
 <template>
     <header>
         <Icon value="bars" @click.stop="showSide"></Icon>
-        <Icon value="search" style="margin-left:15px;"></Icon>
+        <router-link :to="{path: '/search'}">
+            <Icon value="search" style="margin-left:15px;"></Icon>
+        </router-link>
         <img class="logo" src="../assets/logo.png">
-        <Icon value="user" style="margin-right:15px;"></Icon>
+
+        <router-link :to="{path: '/my'}">
+            <Icon value="user" style="margin-right:15px;"></Icon>
+        </router-link>
         <router-link :to="{path: '/cart'}">
             <Icon value="shopping-bag"></Icon>
         </router-link>
