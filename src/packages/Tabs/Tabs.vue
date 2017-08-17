@@ -90,12 +90,18 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 $height: 1rem;
+
 .component-tabs {
+    background: $background;
     border-bottom: 1px solid $lightest;
     position: relative;
     height: $height;
     width: 100%;
-    // &:before {
+    &-fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+    } // &:before {
     //     pointer-events: none;
     //     position: absolute;
     //     top: 0;
@@ -107,7 +113,6 @@ $height: 1rem;
     //     z-index: 10;
     //     background: -webkit-gradient(linear,0 0,100% 0,from(#fff),to(hsla(0,0%,100%,0)));
     // }
-
     // &:after {
     //     pointer-events: none;
     //     position: absolute;
