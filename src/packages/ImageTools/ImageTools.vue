@@ -1,6 +1,7 @@
 <template>
     <div class="component-image-tool">
         <div ref="view" class="view">
+            <div v-if="null == uploadImg" class="mask"></div>
             <canvas ref="canvas" style="display:block;"></canvas>
             <v-spinner v-show="isLoadingImg" class="spinner"></v-spinner>
         </div>
@@ -93,7 +94,8 @@ export default {
 
         this.canvas.centeredRotation = true;
         this.canvas.centeredScaling = true;
-        // this.demoImgUrl = './static/cd.jpg'
+        this.canvas.allowTouchScrolling = true;
+        
         this.demoImg = await this.loadImage(this.demoImgUrl);
         this.demoImg.selectable = false;
         this.demoImg.evented = false;
@@ -259,6 +261,7 @@ export default {
         overflow: hidden;
         width: 100%;
         height: 5.5rem;
+        .mask{position: absolute;top:0;right: 0;left:0;bottom:0;z-index: 100;}
     }
     >.tools-bar {
         height: .6rem;
