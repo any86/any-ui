@@ -1,12 +1,12 @@
 <template>
-    <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="component-cell" :class="{'component-cell-border': undefined != $attrs.border}">
+    <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="component-cell" :class="{'component-cell-border': undefined != $attrs && undefined != $attrs.border}">
         <span>
             <slot></slot>
         </span>
         <Icon v-if="hasArrow" class="icon" value="angle-right"></Icon>
     </router-link>
     
-    <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': undefined != $attrs.border}">
+    <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': undefined != $attrs && undefined != $attrs.border}">
         <span>
             <slot></slot>
         </span>
@@ -26,6 +26,10 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+
+    mounted() {
+        console.log(this.$attrs);
     }
 }
 </script>
@@ -39,8 +43,7 @@ export default {
     >span {
         flex: 1;
         position: relative;
-        align-self: center;
-        font-size: $big;
+        align-self: center; // font-size: $big;
         color: $darkest;
     }
     >.icon {
