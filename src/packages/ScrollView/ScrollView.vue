@@ -6,6 +6,7 @@
     </div>
 </template>
 <script>
+import Dom from '@/packages/Tools/dom.js'
 export default {
     name: 'ScrollView',
 
@@ -28,7 +29,10 @@ export default {
 
     data() {
         return {
-            viewHeight: -1,
+            timer: null,
+            viewHeight: 0,
+            isAnimateScrolling: false,
+            isHandScrolling: false,
         };
     },
 
@@ -41,21 +45,36 @@ export default {
 
     methods: {
         scroll() {
-            // 滚动条高度
-            const scrollTop = this.$el.scrollTop;
-            this.$emit('input', scrollTop);
-            // 内容高度
-            var contentHeight = this.$refs.content.offsetHeight;
-            // 滚动条高度 + 可是区高度 + 偏移量 > 内容高度
-            if (this.preLoad * (scrollTop + this.viewHeight) > contentHeight) {
-                this.$emit('reach-bottom');
+            if (!this.isAnimateScrolling) {
+                this.isHandScrolling = true;
+                // 滚动条高度
+                const scrollTop = this.$el.scrollTop;
+                this.$emit('input', scrollTop);
+                // 内容高度
+                var contentHeight = this.$refs.content.offsetHeight;
+                // 滚动条高度 + 可是区高度 + 偏移量 > 内容高度
+                if (this.preLoad * (scrollTop + this.viewHeight) > contentHeight) {
+                    this.$emit('reach-bottom');
+                }
+                // 监测停止滚动
+                clearTimeout(this.timer);
+                this.timer = setTimeout(() => {
+                    this.isHandScrolling = false;
+                }, 200);
             }
         }
     },
 
     watch: {
-        value(value){
-            this.$el.scrollTop = value;
+        value(to, from) {
+            if (!this.isHandScrolling) {
+                this.isAnimateScrolling = true;
+                Dom.animate(from, to, 300, value => {
+                    this.$el.scrollTop = value;
+                }, value => {
+                    this.isAnimateScrolling = false;
+                });
+            }
         }
     }
 }
