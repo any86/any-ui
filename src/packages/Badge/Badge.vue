@@ -30,20 +30,20 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-badge {
-    &.absolute{position: absolute;right: 0;top:0;}
+    // &.absolute{position: absolute;right: 0;top:0;}
     display: inline-block;
     position: relative;
     overflow: hidden;
 }
 
 .small {
-    width: $gutter*2;
-    height: $gutter*2;
+    width: $gutter;
+    height: $gutter;
     border-radius: 100%;
 }
 
 .big {
-    padding: $gutter / 8 2 * $gutter;
+    padding: $gutter / 3 $gutter;
     border-radius: $gutter*2;
 }
 

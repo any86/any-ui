@@ -6,25 +6,24 @@ import TWEEN from "tween.js";
  * @param {Number} time 
  * @param {Function} cb 
  */
-const animate = (from, to, time, cb) => {
-  var tween = new TWEEN.Tween({
-    value: from
-  });
-  tween.to(
-    {
-      value: to
-    },
-    time
-  );
+const animate = (from, to, time, onUpdate =  ()=>{}, onComplete = ()=>{}) => {
+  var tween = new TWEEN.Tween({ value: from });
+  tween.to({ value: to }, time);
   tween.start();
-  animate();
 
-  function animate() {
-    requestAnimationFrame(animate);
+  _animate();
+
+  function _animate() {
+    requestAnimationFrame(_animate);
     TWEEN.update();
   }
+
   tween.onUpdate(function() {
-    cb(this.value);
+    onUpdate(this.value);
+  });
+
+  tween.onComplete(function() {
+    onComplete(this.value);
   });
 };
 

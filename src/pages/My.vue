@@ -2,15 +2,15 @@
     <div class="page-my full-screen">
         <ScrollView v-model="scrollY" class="content">
             <LayoutCard></LayoutCard>
-            <VCell class="section">
+            <VCell border class="section">
                 My Order
                 <VBadge class="badge" type="danger">10</VBadge>
             </VCell>
             <section class="section">
-                <VCell class="item">SHIPPING ADDRESS</VCell>
-                <VCell class="item">PNEDING PAYMENT</VCell>
-                <VCell class="item">SHIPPED</VCell>
-                <VCell class="item">FEEDBACK&FAQ</VCell>
+                <VCell border>SHIPPING ADDRESS</VCell>
+                <VCell border>PNEDING PAYMENT</VCell>
+                <VCell border>SHIPPED</VCell>
+                <VCell border>FEEDBACK&FAQ</VCell>
             </section>
         </ScrollView>
     </div>
@@ -61,9 +61,6 @@ export default {
                 right: 0;
                 top: 0;
                 bottom: 0;
-            }
-            >.item {
-                border-bottom: 1px solid $lightest;
             }
         }
     }

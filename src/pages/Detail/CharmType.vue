@@ -1,5 +1,6 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
+        <VGoTop v-show="0 < scrollY" @click.native="gotop"></VGoTop>
         <LayoutHeader></LayoutHeader>
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
@@ -21,20 +22,20 @@
             </div>
     
             <VWarning>Buy now and pay over time
-                <a class="text-info"> learn more</a>
+                <a class="text-info" @click="isShowDialogLearnMore = true"> learn more</a>
             </VWarning>
     
-            <VWarning>Avoid These Common Mistakes</VWarning>
+            <VWarning @click="isShowDialogMistakes = true">Avoid These Common Mistakes</VWarning>
+    
             <VWarning>Failed to upload photos?
-                <a class="text-danger">click here</a>
+                <a class="text-danger" @click="isShowDialogFailUpload = true">click here</a>
             </VWarning>
             <VWarning>
                 <a class="text text-danger">This item requires 1-3 days to handcraft.</a>
             </VWarning>
-    
         </div>
         <!-- 吸附的tabs -->
-        <VAdsorb :scrollY="scrollY">
+        <VAdsorb :scrollY="scrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item>Details</v-tabs-item>
                 <v-tabs-item>Reviews</v-tabs-item>
@@ -42,7 +43,7 @@
                 <v-tabs-item>Shipping</v-tabs-item>
             </v-tabs>
         </VAdsorb>
-
+    
         <div v-show="0 == tabsIndex" class="info-detail">
             <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
             <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
@@ -55,7 +56,8 @@
         <div v-show="2 == tabsIndex" class="information">
             <table>
                 <tr v-for="n in 10" :key="n">
-                    <td width="50%">{{n}}</td>
+                    <td width="50%">{{n}}
+                    </td>
                     <td width="50%">{{n*2}}</td>
                 </tr>
             </table>
@@ -70,8 +72,8 @@
     
         <LayoutRecommend></LayoutRecommend>
     
-        <VMask v-model="isShowDialog">
-            <VDialog v-model="isShowDialog">
+        <VMask v-model="isShowDialogPreview">
+            <VDialog v-model="isShowDialogPreview">
                 <h3 slot="header">confrim your design</h3>
                 <img :src="overlayDataURL" width="100%">
                 <div class="count">
@@ -87,6 +89,32 @@
                 </template>
             </VDialog>
         </VMask>
+    
+        <VMask v-model="isShowDialogLearnMore">
+            <VDialog v-model="isShowDialogLearnMore">
+                <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-view.jpg" width="100%">
+            </VDialog>
+        </VMask>
+    
+        <VMask v-model="isShowDialogMistakes">
+            <VDialog v-model="isShowDialogMistakes">
+                <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/product/photocharms-alert.jpg" width="100%">
+            </VDialog>
+        </VMask>
+    
+        <VMask v-model="isShowDialogFailUpload">
+            <VDialog v-model="isShowDialogFailUpload">
+                <div class="clickhere" id="ticket_notice" style="display: block;">
+                    <p>1. Your photo dimension may not comply, please use another photo if possible.</p>
+                    <p>2. If the error encountered on your mobile device, we suggest you to try on PC.</p>
+                    <p>3. If you need help, please request a
+                        <a href="javascript: void(0);" onclick="javascript: window.open('http://support.soufeel.com/visitor/index.php?/Default/LiveChat/Chat/Request/_sessionID=/_promptType=chat/_proactive=0/_filterDepartmentID=1/_randomNumber=56l1zet0776vzeumo149qew7vntoqexs/_fullName=/_email=/', 'livechatwin', 'toolbar=0,location=0,directories=0,status=1,menubar=0,scrollbars=0,resizable=1,width=600,height=680');" class="livechatlink">Live Chat</a> or contact us by
+                        <a role="button" id="sub_ticket">Submit a ticket</a>
+                    </p>
+                </div>
+            </VDialog>
+        </VMask>
+    
     </ScrollView>
 </template>
 <script>
@@ -108,7 +136,7 @@ import VUpload from '@/packages/Upload/Upload'
 import VMask from '@/packages/Dialog/Mask'
 import VDialog from '@/packages/Dialog/Dialog'
 import VStepper from '@/packages/Stepper/Stepper'
-
+import VGoTop from '@/components/GoTop'
 import VCircle from '@/packages/Progress/Circle'
 import VWarning from '@/packages/Warning/Warning'
 
@@ -136,13 +164,34 @@ export default {
             overlayDataURL: '',
             scrollY: 0,
             tabsIndex: 0,
-            isShowDialog: false
+            isShowMask: false,
+            isShowDialogPreview: false,
+            isShowDialogLearnMore: false,
+            isShowDialogMistakes: false,
+            isShowDialogFailUpload: false,
+            tabsTop: 0,
+
         };
     },
 
     methods: {
+        // showDialogFailUpload() {
+        //     // this.isShowDialogPreview = false;
+        //     // this.isShowDialogLearnMore = false;
+        //     // this.isShowDialogMistakes = false;
+        //     this.isShowDialogFailUpload = true;
+        // },
+
+        getTabsTop({ top }) {
+            this.tabsTop = top;
+        },
+
+        gotop() {
+            this.scrollY = 0;
+        },
+
         uploadDone(base64) {
-            this.isShowDialog = true;
+            this.isShowDialogPreview = true;
         },
         /**
          * 读取用户上传图片的base64
@@ -160,8 +209,8 @@ export default {
     },
 
     components: {
-        ImageTools, VBreadcrumb,
-        Spinner,VAdsorb,
+        ImageTools, VBreadcrumb, VGoTop,
+        Spinner, VAdsorb,
         VLazyLoad, VStepper,
         VTabs,
         VTabsItem,

@@ -1,5 +1,5 @@
 <template>
-    <div class="component-warning">
+    <div class="component-warning" v-on="$listeners">
         <i class="icon-warning"></i>
         <p>
             <slot></slot>
@@ -16,8 +16,8 @@ export default {
 $height: .3rem;
 .component-warning {
     display: flex;
-    height:$height;
-    margin:$gutter / 2 0;
+    height: $height;
+    margin: $gutter / 2 0;
     .icon-warning {
         background: url('./warning.svg');
         background-size: 100%;
@@ -25,8 +25,11 @@ $height: .3rem;
         height: $height;
         display: inline-block;
     }
-    
-    >p{flex:1;line-height: $height;margin-left: $gutter / 3;}
-    
+
+    >p {
+        flex: 1;
+        line-height: $height;
+        margin-left: $gutter / 3;
+    }
 }
 </style>
