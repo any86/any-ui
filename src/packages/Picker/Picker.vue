@@ -160,7 +160,6 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$itemHeight: 7 * $gutter;
 .component-picker {
     position: relative;
     overflow: hidden;
