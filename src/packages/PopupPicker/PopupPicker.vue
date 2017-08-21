@@ -1,7 +1,6 @@
 <template>
     <v-popup v-model="_isShow">
         <header>
-            <span @click="cancel" class="button button-cancel">cancel</span>
             <span @click="ok" class="button button-ok">ok</span>
         </header>
         <v-picker :dataSource="dataSource" :value="value" @change="change"></v-picker>
@@ -39,11 +38,10 @@ export default {
             this.active.label = label;
         },
 
-        cancel() {
-            this.$emit('update:isShow', false);
-        },
-
         ok() {
+            const value = this.value;
+            value[this.active.index] = this.active.value;
+            this.$emit('input', value);
             this.$emit('update:isShow', false);
             this.$emit('change', { index: this.active.index, value: this.active.value, label: this.active.label });
         }
@@ -69,7 +67,7 @@ export default {
 header {
     overflow: hidden;
     .button {
-        padding: $gutter * 3 $gutter * 5;
+        padding: $gutter $gutter * 1.5;
         font-size: $bigger;
         display: block; // &:active {}
     }
