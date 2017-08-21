@@ -1,32 +1,39 @@
 <template>
-    <transition name="dialog" @after-leave="afterLeave">
-        <div v-show="value" class="component-dialog">
-            <div class="header">
-                <span><slot name="header"></slot></span>
-                <v-close-button class="btn-close" @click.native="close"></v-close-button>
-            </div>
+    <VMask :value="value" @input="close">
+        <transition name="fadeUp" @after-leave="afterLeave">
+            <div v-show="value" class="component-dialog">
+                <div class="header">
+                    <span>
+                        <slot name="header"></slot>
+                    </span>
+                    <v-close-button class="btn-close" @click.native="close"></v-close-button>
+                </div>
     
-            <div class="body" :style="{maxHeight: windowHeight * 0.618 + 'px'}">
-                <slot></slot>
-            </div>
+                <div class="body" :style="{maxHeight: windowHeight * 0.618 + 'px'}">
+                    <slot></slot>
+                </div>
     
-            <div class="footer">
-                <slot name="footer"></slot>
+                <div class="footer">
+                    <slot name="footer"></slot>
+                </div>
             </div>
-    
-        </div>
-    </transition>
+        </transition>
+    </VMask>
 </template>
 <script>
+import VMask from './Mask'
 import VCloseButton from './CloseButton'
 export default {
     name: 'Dialog',
 
+    props: {
+        value: {
+            type: Boolean
+        }
+    },
+
     data() {
         return {
-            dialog: {
-                show: false
-            },
             windowHeight: 0
         };
     },
@@ -35,11 +42,6 @@ export default {
         this.windowHeight = window.outerHeight;
     },
 
-    props: {
-        value: {
-            type: Boolean
-        }
-    },
 
     methods: {
         close() {
@@ -47,12 +49,13 @@ export default {
         },
 
         afterLeave() {
+            this.$emit('input', false);
             this.$emit('after-leave');
         }
     },
 
     components: {
-        VCloseButton
+        VCloseButton, VMask
     }
 }
 </script>
@@ -68,10 +71,11 @@ export default {
         padding: $gutter $gutter 0 $gutter;
         overflow: hidden;
         display: flex;
-        span{flex:1;}
-        .btn-close {
-            // align-self: center;
-        }
+        span {
+            flex: 1;
+        } // .btn-close {
+        //     // align-self: center;
+        // }
     }
     .body {
         padding: 0 $gutter;
@@ -80,40 +84,6 @@ export default {
     }
     .footer {
         padding: $gutter;
-    }
-}
-
-
-
-/*动画*/
-
-.dialog-enter-active {
-    animation: dialog-in .5s;
-}
-
-.dialog-leave-active {
-    animation: dialog-out .5s;
-}
-
-@keyframes dialog-in {
-    0% {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes dialog-out {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(15px);
     }
 }
 </style>
