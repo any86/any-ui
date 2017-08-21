@@ -57,35 +57,24 @@
     
         <!-- 底部上传按钮 -->
         <footer class="fixed-bottom flex">
-            <VCell class="flex-item" :hasArrow="true">Checkout</VCell>
-            <button class="button button-danger button-block flex-item">Add To Cart</button>
+            <VCell @click="isShowAmount = true" :hasArrow="true" :arrowAngle="90" style="border-top:1px solid #eee">{{amount[0]}}</VCell>
+            <button @click="addToCart" class="button button-danger button-block flex-item">Add To Cart</button>
         </footer>
     
+        <!-- 商品推荐  -->
         <LayoutRecommend></LayoutRecommend>
     
-        <VMask v-model="isShowDialogPreview">
-            <VDialog v-model="isShowDialogPreview">
-                <h3 slot="header">confrim your design</h3>
-                <img :src="overlayDataURL" width="100%">
-                <div class="count">
-                    <h5>count: {{count}}</h5>
-                    <span v-for="n in 10" :key="n" @click="count=n" :class="{active: n == count}">{{n}}</span>
-                </div>
+        <VPopupPicker v-model="amount" :isShow.sync="isShowAmount" :dataSource="[[{label:1, value:1}, {label:2, value:2}, {label:3, value:3}, {label:4, value:4}, {label:5, value:5}, {label:6, value:6}, {label:7, value:7}, {label:8, value:8}, {label:9, value:9}, {label:10, value:10}]]"></VPopupPicker>
     
-                <template slot="footer">
-                    <div class="flex">
-                        <button class="button button-default button-block flex-item">Add To Cart & Design Another</button>
-                        <button class="button button-danger button-block flex-item">Checkout</button>
-                    </div>
-                </template>
-            </VDialog>
-        </VMask>
+        <!-- 加入购物车, 成功提示! -->
+        <VDialog v-model="isShowFinish">
+            <LayoutSuccessDialogContent :amount="amount[0]"></LayoutSuccessDialogContent>
+        </VDialog>
     
-        <VMask v-model="isShowDialogLearnMore">
-            <VDialog v-model="isShowDialogLearnMore">
-                <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-view.jpg" width="100%">
-            </VDialog>
-        </VMask>
+        <!-- 提示图片 -->
+        <VDialog v-model="isShowDialogLearnMore">
+            <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-view.jpg" width="100%">
+        </VDialog>
     
     </ScrollView>
 </template>
@@ -95,6 +84,8 @@ import LayoutSlider from './Common/GoodsSlider'
 import LayoutResult from './Charm/Result'
 import LayoutFooterUpload from './Charm/FooterUpload'
 import LayoutRecommend from './Common/Recommend'
+import LayoutSuccessDialogContent from './Necklace/SuccessDialogContent'
+
 
 import VCell from '@/packages/Cell/Cell'
 import VAdsorb from '@/packages/Adsorb/Adsorb'
@@ -112,6 +103,8 @@ import VGoTop from '@/components/GoTop'
 import VCircle from '@/packages/Progress/Circle'
 import VWarning from '@/packages/Warning/Warning'
 import VToast from '@/packages/Toast/Toast'
+import VPopupPicker from '@/packages/PopupPicker/PopupPicker'
+
 
 export default {
     name: 'NecklaceType',
@@ -136,12 +129,19 @@ export default {
             scrollY: 0,
             tabsIndex: 0,
             isShowDialogLearnMore: false,
+            isShowAmount: false,
+            isShowFinish: false,
             tabsTop: 0,
+            amount: [1]
 
         };
     },
 
     methods: {
+        addToCart() {
+            this.isShowFinish = true;
+        },
+
         getTabsTop({ top }) {
             this.tabsTop = top;
         },
@@ -154,7 +154,7 @@ export default {
     components: {
         ImageTools, VBreadcrumb, VGoTop,
         Spinner, VAdsorb,
-        VLazyLoad, VStepper,
+        VLazyLoad, VStepper, VPopupPicker,
         VTabs,
         VTabsItem,
         VMask, VDialog,
@@ -162,7 +162,7 @@ export default {
         VToast, VWarning,
         LayoutHeader,
         LayoutFooterUpload,
-        LayoutResult, LayoutRecommend, LayoutSlider
+        LayoutResult, LayoutRecommend, LayoutSlider, LayoutSuccessDialogContent
     },
 
     watch: {
