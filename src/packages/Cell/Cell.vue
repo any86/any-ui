@@ -39,7 +39,7 @@ export default {
     display: flex;
     background: $background;
     padding: 0 2*$gutter;
-    min-height: 1.2rem;
+    // min-height: 1.2rem;
     >span {
         flex: 1;
         position: relative;

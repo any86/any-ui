@@ -6,9 +6,14 @@
             </v-swiper-item>
         </v-swiper>
         <!-- 缩略图 -->
-        <ul class="thumb">
+        <ul v-if="'thumb' == pageType" class="thumb">
             <li v-for="(item, i) in dataSource.sliders" :key="item.src" :class="{active: swiperActiveIndex == i}" @click="changeSwiperByThumb(i)">
                 <img :src="item.src" />
+            </li>
+        </ul>
+    
+        <ul v-else class="dot">
+            <li v-for="(item, i) in dataSource.sliders" :key="item.src" :class="{active: swiperActiveIndex == i}" @click="changeSwiperByThumb(i)">
             </li>
         </ul>
     </section>
@@ -21,6 +26,10 @@ export default {
     name: 'Slider',
 
     props: {
+        pageType: {
+            default: 'dot'
+        },
+
         dataSource: {
             type: Object,
             default() {
@@ -60,8 +69,9 @@ export default {
 @import '../../../scss/theme.scss';
 .slider {
     .item-img {
-        width: 100%;
+        width: 90%;
         display: block;
+        margin:auto;
     }
 }
 
@@ -79,6 +89,24 @@ export default {
         img {
             display: block;
             width: 100%;
+        }
+    }
+}
+
+.dot {
+    display: table;
+    margin: auto;
+    li {
+        width: .15rem;
+        height: .15rem;
+        background: $lighter;
+        border-radius: 100%;
+        flex: 0 1 .15rem;
+        justify-content: center;
+        display: inline-block;
+        margin: 0 $gutter/4;
+        &.active {
+            background: $darkest;
         }
     }
 }

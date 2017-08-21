@@ -21,13 +21,14 @@ export default {
     span {
         font-size: $small;
         display: inline-block;
+        color: $darker;
         &.active {
             color: $base;
         }
     }
     span:not(:last-of-type) {
         &:after {
-            color: $darkest;
+            
             content: '>';
             margin: auto 5px;
         }

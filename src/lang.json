@@ -5,30 +5,21 @@ window.SUCCESS_CODE = 200;
 window.FAIL_CODE = 400;
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from "vue";
-import App from "@/App";
-import router from "@/router";
+import Vue from 'vue'
+import App from '@/App'
+import router from '@/router'
 
 // API
-import api from "@/api";
-Object.defineProperty(Vue.prototype, "$api", {
+import api from '@/api'
+Object.defineProperty(Vue.prototype, '$api', {
   value: api,
   writable: false,
   enumerable: false,
   configurable: false
 });
 
-
-Object.defineProperty(Vue.prototype, "$lang", {
-  value: lang,  // lang存在lang.js文件中
-  writable: false,
-  enumerable: false,
-  configurable: false
-});
-
-
 // vuex
-import store from "@/store";
+import store from '@/store'
 
 // AJAX
 // import axios from 'axios'
@@ -40,11 +31,16 @@ import store from "@/store";
 //     configurable: false
 // });
 
+
+
+
 //全局样式
-import "@/scss/global.scss";
+import '@/scss/global.scss'
+
+
 
 // UI
-import Atom from "@/packages/index.js";
+import Atom from '@/packages/index.js';
 Vue.use(Atom);
 
 // 关闭错误提示
@@ -53,22 +49,23 @@ Vue.config.performance = true;
 
 /* eslint-disable no-new */
 new Vue({
-  el: "#app",
+  el: '#app',
   router,
   store,
-  template: "<App/>",
+  template: '<App/>',
   components: {
     App
   }
 });
 
+
 import * as types from "@/store/mutation-types";
-router.beforeEach(function(to, from, next) {
+router.beforeEach(function (to, from, next) {
   store.commit(types.SHOW_LOADING);
   next();
-});
+})
 
-router.afterEach(function(to) {
+router.afterEach(function (to) {
   document.title = to.name;
   store.commit(types.HIDE_LOADING);
 });
@@ -77,12 +74,12 @@ window.imageLoader = src => {
   return new Promise((resolve, reject) => {
     var image = new Image();
     image.src = src;
-    image.crossOrigin = "anonymous";
+    image.crossOrigin = 'anonymous';
     image.onload = () => {
       resolve(image);
-    };
+    }
     image.onerror = error => {
       reject(error);
-    };
+    }
   });
-};
+}

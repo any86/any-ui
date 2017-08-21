@@ -24,6 +24,11 @@ export default {
         value: {
             type: Number,
             default: 0
+        },
+
+        speed: {
+            type: Number,
+            default: 300
         }
     },
 
@@ -69,7 +74,7 @@ export default {
         value(to, from) {
             if (!this.isHandScrolling) {
                 this.isAnimateScrolling = true;
-                Dom.animate(from, to, 300, value => {
+                Dom.animate(from, to, this.speed, value => {
                     this.$el.scrollTop = value;
                 }, value => {
                     this.isAnimateScrolling = false;

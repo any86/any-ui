@@ -41,14 +41,14 @@ export default {
                 {
                     type: 'list',
                     children: [
-                        { type: 'item', title: 'Default', value: 0 },
-                        { type: 'item', title: 'Recomond', value: 1 },
-                        { type: 'item', title: 'Hight To Low', value: 2 },
-                        { type: 'item', title: 'Low To Hight', value: 3 }
+                        { type: 'item', title: this.$lang.LIST_FILTER_DEFAULT, value: 0 },
+                        { type: 'item', title: this.$lang.LIST_FILTER_RECOMOND, value: 1 },
+                        { type: 'item', title: this.$lang.LIST_FILTER_HIGH_TO_LOW, value: 2 },
+                        { type: 'item', title: this.$lang.LIST_FILTER_LOW_TO_HIGH, value: 3 }
                     ]
                 },
-                { type: 'item', title: 'Best Selling', value: 4 },
-                { type: 'item', title: 'Newest', value: 5 }
+                { type: 'item', title: this.$lang.LIST_FILTER_BSET_SELLING, value: 4 },
+                { type: 'item', title: this.$lang.LIST_FILTER_NEWSET, value: 5 }
             ],
             isOpenNavIndex: -1, // 被展开的导航索引
             activeNavIndex: 0,

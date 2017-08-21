@@ -1,6 +1,6 @@
 <template>
     <section class="row-recommend">
-        <h3>we also recommend</h3>
+        <h3>{{$lang.DETAIL_WE_ALSO_RECOMEND}}</h3>
         <VSwiper :options="{slidesPerView :2}" class="slider">
             <VSwiperItem v-for="item in dataSource" :key="item.src" class="item">
                 <img class="img" :src="item.src">

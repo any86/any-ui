@@ -4,18 +4,15 @@
         <LayoutHeader></LayoutHeader>
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
-        <!-- charm tools -->
-        <ImageTools :dataSource="dataSource.imageTools" :dataURL="userDataURL" @change="changeImageTools">
-        </ImageTools>
+        <!-- 轮播 -->
+        <LayoutSlider></LayoutSlider>
         <div class="info-base">
-            <h3>Shell Locket Photo Charm</h3>
-            <h4 class="price">R$80.00
-                <small>R$123</small>
-            </h4>
+            <h4>Shell Locket Photo Charm</h4>
+            <small>sku: XNL160</small>
+            <div class="divider gutter"></div>
     
-            <h5>you save R$63</h5>
-            <h6 class="gutter text-danger">(22% off)</h6>
-    
+            <h4 class="price">R$80.00</h4>
+            <span class="tag tag-success">news</span>
             <div class="paypal gutter">
                 <a>We now support </a>
                 <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-logo.png" alt="">
@@ -25,14 +22,6 @@
                 <a class="text-info" @click="isShowDialogLearnMore = true"> learn more</a>
             </VWarning>
     
-            <VWarning @click="isShowDialogMistakes = true">Avoid These Common Mistakes</VWarning>
-    
-            <VWarning>Failed to upload photos?
-                <a class="text-danger" @click="isShowDialogFailUpload = true">click here</a>
-            </VWarning>
-            <VWarning>
-                <a class="text text-danger">This item requires 1-3 days to handcraft.</a>
-            </VWarning>
         </div>
         <!-- 吸附的tabs -->
         <VAdsorb :scrollY="scrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
@@ -67,8 +56,10 @@
         </div>
     
         <!-- 底部上传按钮 -->
-        <LayoutFooterUpload :dataSource="dataSource.footerUpload" :isLockConfrim="'loading' == dataSource.imageTools.status" :overlayDataURL="overlayDataURL" @loaded="loadUserImg" @upload-done="uploadDone">
-        </LayoutFooterUpload>
+        <footer class="fixed-bottom flex">
+            <VCell class="flex-item" :hasArrow="true">Checkout</VCell>
+            <button class="button button-danger button-block flex-item">Add To Cart</button>
+        </footer>
     
         <LayoutRecommend></LayoutRecommend>
     
@@ -96,54 +87,34 @@
             </VDialog>
         </VMask>
     
-        <VMask v-model="isShowDialogMistakes">
-            <VDialog v-model="isShowDialogMistakes">
-                <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/product/photocharms-alert.jpg" width="100%">
-            </VDialog>
-        </VMask>
-    
-        <VMask v-model="isShowDialogFailUpload">
-            <VDialog v-model="isShowDialogFailUpload">
-                <div class="clickhere" id="ticket_notice" style="display: block;">
-                    <p>1. Your photo dimension may not comply, please use another photo if possible.</p>
-                    <p>2. If the error encountered on your mobile device, we suggest you to try on PC.</p>
-                    <p>3. If you need help, please request a
-                        <a href="javascript: void(0);" onclick="javascript: window.open('http://support.soufeel.com/visitor/index.php?/Default/LiveChat/Chat/Request/_sessionID=/_promptType=chat/_proactive=0/_filterDepartmentID=1/_randomNumber=56l1zet0776vzeumo149qew7vntoqexs/_fullName=/_email=/', 'livechatwin', 'toolbar=0,location=0,directories=0,status=1,menubar=0,scrollbars=0,resizable=1,width=600,height=680');" class="livechatlink">Live Chat</a> or contact us by
-                        <a role="button" id="sub_ticket">Submit a ticket</a>
-                    </p>
-                </div>
-            </VDialog>
-        </VMask>
-    
     </ScrollView>
 </template>
 <script>
+import LayoutHeader from '@/components/Header'
+import LayoutSlider from './Common/GoodsSlider'
+import LayoutResult from './Charm/Result'
+import LayoutFooterUpload from './Charm/FooterUpload'
+import LayoutRecommend from './Common/Recommend'
+
+import VCell from '@/packages/Cell/Cell'
 import VAdsorb from '@/packages/Adsorb/Adsorb'
 import VPopup from '@/packages/Dialog/Popup'
 import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
-
-import LayoutHeader from '@/components/Header'
-import LayoutResult from './Charm/Result'
-import LayoutFooterUpload from './Charm/FooterUpload'
-import LayoutRecommend from './Common/Recommend'
-
 import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb'
 import ImageTools from '@/packages/ImageTools/ImageTools'
-import VUpload from '@/packages/Upload/Upload'
 import VMask from '@/packages/Dialog/Mask'
 import VDialog from '@/packages/Dialog/Dialog'
 import VStepper from '@/packages/Stepper/Stepper'
 import VGoTop from '@/components/GoTop'
 import VCircle from '@/packages/Progress/Circle'
 import VWarning from '@/packages/Warning/Warning'
-
 import VToast from '@/packages/Toast/Toast'
 
 export default {
-    name: 'CharmType',
+    name: 'NecklaceType',
 
     data() {
         return {
@@ -164,47 +135,19 @@ export default {
             overlayDataURL: '',
             scrollY: 0,
             tabsIndex: 0,
-            isShowMask: false,
-            isShowDialogPreview: false,
             isShowDialogLearnMore: false,
-            isShowDialogMistakes: false,
-            isShowDialogFailUpload: false,
             tabsTop: 0,
 
         };
     },
 
     methods: {
-        // showDialogFailUpload() {
-        //     // this.isShowDialogPreview = false;
-        //     // this.isShowDialogLearnMore = false;
-        //     // this.isShowDialogMistakes = false;
-        //     this.isShowDialogFailUpload = true;
-        // },
-
         getTabsTop({ top }) {
             this.tabsTop = top;
         },
 
         gotop() {
             this.scrollY = 0;
-        },
-
-        uploadDone(base64) {
-            this.isShowDialogPreview = true;
-        },
-        /**
-         * 读取用户上传图片的base64
-         */
-        loadUserImg(dataURL) {
-            this.userDataURL = dataURL;
-        },
-
-        /**
-         *imageTools发生变化
-         */
-        changeImageTools(canvas) {
-            this.overlayDataURL = canvas.toDataURL();
         }
     },
 
@@ -214,13 +157,12 @@ export default {
         VLazyLoad, VStepper,
         VTabs,
         VTabsItem,
-        VUpload,
         VMask, VDialog,
-        VCircle,
+        VCircle, VCell,
         VToast, VWarning,
         LayoutHeader,
         LayoutFooterUpload,
-        LayoutResult, LayoutRecommend
+        LayoutResult, LayoutRecommend, LayoutSlider
     },
 
     watch: {

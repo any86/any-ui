@@ -18,7 +18,7 @@
                 </transition>
             </div>
             <!--             <LayoutFooter v-show="-1 != ['/index', '/category', '/explore', '/bag', '/my'].indexOf($route.path)">
-                </LayoutFooter> -->
+                    </LayoutFooter> -->
         </div>
     </VDrawer>
 </template>

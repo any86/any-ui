@@ -2,11 +2,12 @@
     <section class="page-list">
         <LayoutHeader ref="header"></LayoutHeader>
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
-    
-            <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/namenecklacebannner/namenecklace-banner_01-mobile.jpg" width="100%">
-            <!-- 列表和筛选条件 -->
-    
-            <!-- 筛选条件 -->
+            
+            <div  :style="{height: `${iframeHeight}px`}" class="iframe">
+                <iframe :style="{height: `${iframeHeight}px`}" src="./static/iframe.html" frameborder="0" scrolling="no"  vsspace="0" hspace="0" marginwidth="0" marginheight="0" width="100%"></iframe>
+            </div>
+            
+
             <LayoutFilter ref="filter" :scrollY="scrollY" @open="openFilterList" @select="selectFilterOption" :isOpen="isPopupShow" :activeIndex="activeIndex">
             </LayoutFilter>
     
@@ -49,6 +50,7 @@ export default {
 
     data() {
         return {
+            iframeHeight: 0,
             lang: {},
             status: -1,
             isShowSide: false,
@@ -77,6 +79,11 @@ export default {
         });
 
         this.refresh();
+
+        setInterval(() => {
+            var height = localStorage.getItem('listIframeHeight');
+            this.iframeHeight = height;
+        }, 200);
     },
 
     methods: {
@@ -187,6 +194,7 @@ export default {
     .scroll-list {
         flex: 1;
         position: relative;
+        .iframe{overflow: hidden;}
         .list {
             position: relative;
             overflow: hidden;
