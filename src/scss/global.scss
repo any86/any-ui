@@ -101,11 +101,13 @@ img[lazy="done"] {
 
 // 按钮
 .button {
-  padding: $gutter/3 $gutter;
+  padding: $gutter 2*$gutter;
   font-size: $normal;
 }
 
 .button-block {
+  padding: $gutter;
+  display: block;
   width: 100%;
 }
 
@@ -135,11 +137,7 @@ img[lazy="done"] {
   color: $sub;
 }
 
-.button-block {
-  display: block;
-  width: 100%;
-  height: 1rem;
-}
+
 
 .row {
   padding: $gutter/ 3 $gutter;
