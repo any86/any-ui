@@ -112,8 +112,9 @@ $height: .8rem;
         box-sizing: border-box;
         border: 0 none;
         outline: none;
-        width: 100%; // height: $height;
-        // line-height: $height;
+        width: 100%; 
+        height: $height;
+        line-height: $height;
     }
 
     .button-close {
