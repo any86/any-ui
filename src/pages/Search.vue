@@ -77,6 +77,7 @@ export default {
         padding: $gutter $gutter $gutter 0;
         border-bottom: 1px solid $lightest;
         display: flex;
+        align-items: center;
         .button-back {
             background: url('../assets/back.svg');
             background-size: 100%;
@@ -111,7 +112,7 @@ export default {
             }
             >ul {
                 >li {
-                    
+
                     color: $darker;
                     background: $lightest;
                     border-radius: .6rem;
