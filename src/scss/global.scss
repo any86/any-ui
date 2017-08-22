@@ -4,13 +4,14 @@
 @import './reset.scss';
 @import './animate.scss';
 .clearfix {
-  clear: both;
+  overflow: hidden;
   &:after {
     content: ' ';
     clear: both;
   }
 }
-
+.pull-left{float: left;}
+.pull-right{float: right;}
 .flex {
   display: flex;
 }
@@ -102,12 +103,11 @@ img[lazy="done"] {
 // 按钮
 .button {
   padding: $gutter 2*$gutter;
+  // min-height: 1.2rem;
   font-size: $normal;
 }
 
 .button-block {
-  padding: $gutter;
-  display: block;
   width: 100%;
 }
 
@@ -199,4 +199,5 @@ table {
 
 // .tag{padding:$gutter/10 $gutter/2;}
 .tag-success{background: $success;}
+
 
