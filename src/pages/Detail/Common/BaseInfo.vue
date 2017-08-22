@@ -9,13 +9,20 @@
             <span>Your Price : </span>
             <span class="new">$140.00</span>
         </div>
-        <p>you save $54.00</p>
+        <div class="clearfix">
+            <p class="pull-left">you save $54.00</p>
+            <VCountdown class="pull-right" :value="300000"></VCountdown>
+        </div>
         <span v-for="n in 3" :key="n" class="tag-success">news{{n}}</span>
+
     </section>
 </template>
 <script>
+import VCountdown from '@/packages/Countdown/Countdown'
 export default {
-    name: 'BaseInfo'
+    name: 'BaseInfo',
+
+    components: { VCountdown }
 }
 </script>
 <style scoped lang="scss">
