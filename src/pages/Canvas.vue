@@ -1,6 +1,7 @@
 <template>
     <ScrollView v-model="scrollY" class="page-canvas">
-        <canvas id="c" width="300" height="300" style="border:1px solid #ccc;margin:15px;"></canvas>
+        <h1>canva1111s</h1>
+        <canvas ref="canvas" width="300" height="300" style="border:1px solid #ccc;margin:15px;"></canvas>
     </ScrollView>
 </template>
 <script>
@@ -18,38 +19,22 @@ export default {
     },
 
     mounted() {
-        var canvas = document.getElementById('c');
-        // var context = canvas.getContext('2d');
-
-        var ctx = canvas.getContext('2d');
-        var x = 100,
-            y = 100,
-            width = 100,
-            height = 150,
-            angle = 90,
-            rectCenterPoint = {
-                x: x + width / 2,
-                y: y + height / 2
-            }; // 矩形中心点
-
-        // 旋转前(红色矩形)
-        // ctx.fillStyle = '#ccc';
-        // ctx.fillRect(x, y, width, height);
-        // 旋转后(绿色矩形)
-        // 
-        ctx.save();
-        ctx.translate(rectCenterPoint.x, rectCenterPoint.y);
-        ctx.rotate(Math.PI * angle / 180);
-        ctx.translate(-rectCenterPoint.x, -rectCenterPoint.y);
-        ctx.fillStyle = '#695';
-        ctx.fillRect(x , y, width, height);
-        ctx.restore();
+        // ./static/bg.jpg
+        // 生成一个画布
+        this.canvas = new fabric.Canvas(this.$refs.canvas);
 
 
-        ctx.save();
-        ctx.fillStyle = '#666';
-        ctx.fillRect(x , y, width, height);
-        ctx.restore();
+        var filter = new fabric.Image.filters.BlendImage({
+            image: fabricImageObject,
+            mode: 'multiply',
+            alpha: 0.5
+        });
+        object.filters.push(filter);
+        object.applyFilters();
+        this.canvas.renderAll();
+
+
+
     },
 
     methods: {

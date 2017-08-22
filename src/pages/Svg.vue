@@ -1,6 +1,5 @@
 <template>
     <ScrollView>
-    
         <h1>SVG</h1>
         <img width="100%" :src="destDataURL" />
     
@@ -37,7 +36,6 @@ export default {
     async mounted() {
         this.centerX = this.$refs.circle.getTotalLength() / 2;
 
-
         this.canvas = document.createElement('canvas');
         this.canvas.width = 300;
         this.canvas.height = 300;
@@ -54,7 +52,6 @@ export default {
         async ok() {
             var svg_xml = new XMLSerializer().serializeToString(this.$refs.svg);
             var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
-
 
             this.ctx.drawImage(image, 0, 0, 300, 300);
             this.destDataURL = this.canvas.toDataURL("image/png", 1.0);
