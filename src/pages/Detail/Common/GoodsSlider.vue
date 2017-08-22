@@ -69,7 +69,7 @@ export default {
 @import '../../../scss/theme.scss';
 .slider {
     .item-img {
-        width: 90%;
+        width: 100%;
         display: block;
         margin:auto;
     }
