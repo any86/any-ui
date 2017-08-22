@@ -1,7 +1,6 @@
 <template>
     <section class="row row-select-size">
-        <div class="divider"></div>
-         <VSteps>
+         <VSteps class="gutter">
                 <VStep>
                     Select Your Size:
                     <a class="text-info">Size Guide ></a>
