@@ -1,26 +1,14 @@
 <template>
-    <i v-on="$listeners" :class="['fa', 'fa-' + value]">
-    </i>
+    <i v-on="$listeners" :class="['iconfont', 'icon-' + value]"></i>
 </template>
 <script>
 export default {
     name: 'Icon',
 
-    data() {
-        return {
-            value: ''
-        };
-    },
-
-    mounted() {
-        var value = this.$attrs.value;
-        // 判断是否没传值
-        if (null !== value) {
-            if (-1 !== value.indexOf(' ')) {
-                this.value = value.replace(' ', ' fa-');
-            } else {
-                this.value = value;
-            }
+    props: {
+        value: {
+            type: String,
+            required: true
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <section class="row">
-        <h5 align="center">Related Products</h5>
+        <h3 align="center">Related Products</h3>
         <v-swiper :value="swiperActiveIndex" :options="{slidesPerView: 3}"  class="slider">
             <v-swiper-item v-for="item in dataSource" :key="item.src">
                 <img :src="item.src" :key="item.src" class="item-img">

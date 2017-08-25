@@ -19,6 +19,8 @@ axios.interceptors.request.use(function (config) {
 }, function (error) {
     return Promise.reject(error);
 });
+const getFont = params => axios.get('./static/font.json', { params });
+
 // 首页
 const getIndexPage = params => axios.get('./static/index.json', { params });
 // 列表页
@@ -58,6 +60,7 @@ const getShippingFee = param => axios.get('/api/rest/checkout/shipping', { param
 
 // 暴露
 export default {
+    getFont,
     getShippingFee,
     saveShippingAddress,getShippingAddress,
     getCountry, getRegion,

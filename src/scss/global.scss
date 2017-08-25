@@ -10,8 +10,12 @@
     clear: both;
   }
 }
-.pull-left{float: left;}
-.pull-right{float: right;}
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
 .flex {
   display: flex;
 }
@@ -42,10 +46,10 @@
 }
 
 .list {
-  >header {
+  > header {
     border-bottom: 1px solid $light;
   }
-  >section {
+  > section {
     border-bottom: 1px solid $light;
   }
 }
@@ -103,8 +107,7 @@ img[lazy="done"] {
 // 按钮
 .button {
   padding: $gutter 2*$gutter;
-  // min-height: 1.2rem;
-  font-size: $normal;
+  font-size: $big;
 }
 
 .button-block {
@@ -136,9 +139,10 @@ img[lazy="done"] {
   background: $info !important;
   color: $sub;
 }
-
-
-
+.button-link {
+  border: none;
+  font-size: $big;
+}
 .row {
   padding: $gutter/ 3 $gutter;
 }
@@ -181,8 +185,24 @@ img[lazy="done"] {
   margin-top: $gutter;
 }
 
+.gutter-top {
+  margin-top: $gutter;
+}
+
+.gutter-right {
+  margin-right: $gutter;
+}
+
+.gutter-left {
+  margin-left: $gutter;
+}
+
+.gutter-bottom {
+  margin-bottom: $gutter;
+}
+
 table {
-  margin:0 $gutter;
+  margin: 0 $gutter;
   width: 100%;
   border: none;
   border-spacing: 0;
@@ -198,6 +218,14 @@ table {
 }
 
 // .tag{padding:$gutter/10 $gutter/2;}
-.tag-success{background: $success;}
+.tag-success {
+  background: $success;
+}
 
+.border {
+  border: 1px solid $lightest;
+}
 
+.select {
+  border: 1px solid $lightest;
+}

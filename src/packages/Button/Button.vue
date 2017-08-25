@@ -1,5 +1,5 @@
 <template>
-    <span :class="['com-button', type, !!disabled && 'disabled ', size, inline && 'inline', inline || 'block' ]" @click="click">
+    <span :class="['com-button', type, !!disabled && 'disabled ', size, inline && 'inline', inline || 'block' ]" v-on="$listeners">
         <!-- 背景动画 -->
         <Icon v-if="'' != icon" v-show="!loading" :value="icon"></Icon>
         <slot></slot>
@@ -84,15 +84,20 @@ export default {
     font-size: .3rem;
 }
 
-.inline{display: inline-block;}
-.block{width: 100%;display: block;}
+.inline {
+    display: inline-block;
+}
+
+.block {
+    width: 100%;
+    display: block;
+}
 
 .com-button {
     cursor: pointer;
     position: relative;
     overflow: hidden;
     user-select: none;
-    border-radius: 4px;
     box-sizing: border-box;
     font-weight: 400;
     line-height: 1.42857143;

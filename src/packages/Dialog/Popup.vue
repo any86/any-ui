@@ -84,7 +84,7 @@ export default {
     .header {
         box-sizing: border-box;
         padding: $gutter;
-        border-bottom: 1px solid $lightest
+        // border-bottom: 1px solid $lightest
     }
     .body {
         overflow-x: hidden;

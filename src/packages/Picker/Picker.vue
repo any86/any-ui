@@ -1,7 +1,12 @@
 <template>
     <div class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <ul v-for="(list, i) in dataSource" :key="i" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
+        <ul v-for="(list, i) in dataSource" :key="i" 
+        @touchstart="touchstart(i, $event)" 
+        @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" 
+        :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, 
+        transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" 
+        :class="{transition: 0 == touchStatusList[i].status}">
             <li v-for="(item, j) in list" :key="j" :class="{active: item.value == touchStatusList[i].value}" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}">{{item.label}}</li>
         </ul>
     </div>
@@ -56,20 +61,23 @@ export default {
         _syncPosition() {
             this.dataSource.forEach((list, index) => {
                 let activeIndex;
+
                 // 如果存在值, 则查找相等项
                 // 如果不存在直接选取第一项为默认值
                 if (!!this.value[index]) {
                     activeIndex = list.findIndex(item => {
                         return this.value[index] == item.value;
                     });
+                    
                     // 如果找不到对应项, 那么默认取第一项
                     // activeIndex = -1 == activeIndex && 0; 
                 } else {
                     activeIndex = 0;
                 }
+
                 // 存储当前值
-                this.touchStatusList[index].value = this.dataSource[index][activeIndex].value;
-                this.touchStatusList[index].label = this.dataSource[index][activeIndex].label;
+                this.touchStatusList[index].value = list[activeIndex].value;
+                this.touchStatusList[index].label = list[activeIndex].label;
                 // 移动选项到适合位置
                 this.touchStatusList[index].translateYNew = 0 - activeIndex * this.itemHeight;
                 this.touchStatusList[index].translateYOld = this.touchStatusList[index].translateYNew;
@@ -124,26 +132,28 @@ export default {
             var itemIndex = Math.round((0 - this.active.translateYNew) / this.itemHeight);
             this.active.value = this.dataSource[index][itemIndex].value;
             this.active.label = this.dataSource[index][itemIndex].label;
-            this.active.translateYNew = 0 - itemIndex * this.itemHeight;
 
-            //同步当前位置
-            this.active.translateYOld = this.active.translateYNew;
-            
-   
+
+
+
+            // this.$nextTick(() => {
+                this.active.translateYNew = 0 - itemIndex * this.itemHeight;
+                //同步当前位置
+                this.active.translateYOld = this.active.translateYNew;
+            // });
+
             // 遍历已选值
-            const newValue = this.touchStatusList.map(list=> {
+            const newValue = this.touchStatusList.map(list => {
                 return list.value;
             });
-
+            // 所有列表的总变更状态
+            this.$emit('input', newValue);
             // 当前列表的变更状态
             this.$emit('change', {
                 index,
                 value: this.active.value,
                 label: this.active.label
             });
-
-            // 所有列表的总变更状态
-            this.$emit('input', newValue);
         }
     },
 

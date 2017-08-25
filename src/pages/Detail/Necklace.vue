@@ -10,18 +10,18 @@
             <h4>Shell Locket Photo Charm</h4>
             <small>sku: XNL160</small>
             <div class="divider gutter"></div>
-    
+
             <h4 class="price">R$80.00</h4>
             <span class="tag tag-success">news</span>
             <div class="paypal gutter">
                 <a>We now support </a>
                 <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-logo.png" alt="">
             </div>
-    
+
             <VWarning>Buy now and pay over time
                 <a class="text-info" @click="isShowDialogLearnMore = true"> learn more</a>
             </VWarning>
-    
+
         </div>
         <!-- 吸附的tabs -->
         <VAdsorb :scrollY="scrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
@@ -32,7 +32,7 @@
                 <v-tabs-item>{{$lang.DETAIL_TABS_SHIPPING}}</v-tabs-item>
             </v-tabs>
         </VAdsorb>
-    
+
         <div v-show="0 == tabsIndex" class="info-detail">
             <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
             <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
@@ -54,28 +54,28 @@
         <div v-show="3 == tabsIndex" class="shipping">
             You can choose the delivery method during checkout: USPS First Class Shipping- Cost: $5.99 - Free over $49 Please Allow up to 8 business days for delivery via USPS If Your order has Personalized Products, please allow up to 10 business days for USPS delivery. DHL Express Shipping- Cost: $19.95 - Free over $150 Please allow up to 3 business days for delivery via DHL If Your order has Personalized Products, please allow up to 5 business days for DHL delivery. Please note that the time frame mentioned above includes production time.
         </div>
-    
+
         <!-- 底部上传按钮 -->
         <footer class="fixed-bottom flex">
             <VCell @click="isShowAmount = true" :hasArrow="true" :arrowAngle="90" style="border-top:1px solid #eee">{{amount[0]}}</VCell>
             <button @click="addToCart" class="button button-danger button-block flex-item">Add To Cart</button>
         </footer>
-    
+
         <!-- 商品推荐  -->
         <LayoutRecommend></LayoutRecommend>
-    
+
         <VPopupPicker v-model="amount" :isShow.sync="isShowAmount" :dataSource="[[{label:1, value:1}, {label:2, value:2}, {label:3, value:3}, {label:4, value:4}, {label:5, value:5}, {label:6, value:6}, {label:7, value:7}, {label:8, value:8}, {label:9, value:9}, {label:10, value:10}]]"></VPopupPicker>
-    
+
         <!-- 加入购物车, 成功提示! -->
         <VDialog v-model="isShowFinish">
             <LayoutSuccessDialogContent :amount="amount[0]"></LayoutSuccessDialogContent>
         </VDialog>
-    
+
         <!-- 提示图片 -->
         <VDialog v-model="isShowDialogLearnMore">
             <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-view.jpg" width="100%">
         </VDialog>
-    
+
     </ScrollView>
 </template>
 <script>

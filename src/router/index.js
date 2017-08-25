@@ -17,26 +17,6 @@ const Detail = () => ({
   component: import("@/pages/Detail")
 });
 
-const DetailRing = () => ({
-  component: import("@/pages/Detail/Ring")
-});
-
-const DetailNameNecklace = () => ({
-  component: import("@/pages/Detail/NameNecklace")
-});
-
-const DetailNecklace = () => ({
-  component: import("@/pages/Detail/Necklace")
-});
-
-const DetailCharm = () => ({
-  component: import("@/pages/Detail/Charm")
-});
-
-// const PresaleDetail = () => ({
-//   component: import("@/pages/PresaleDetail")
-// });
-
 const Explore = () => ({
   component: import("@/pages/Explore")
 });
@@ -91,7 +71,13 @@ const Svg = () => ({
 
 Vue.use(Router);
 export default new Router({
+  mode: 'history',
   routes: [
+    {
+      path: "*-*",
+      name: "Detail",
+      component: Detail
+    },
     {
       path: "/",
       redirect: "/index"
@@ -125,21 +111,6 @@ export default new Router({
       path: "/explore",
       name: "Explore",
       component: Explore
-    },
-    {
-      path: "/detail",
-      name: "Detail",
-      component: Detail,
-      children: [
-        { path: "ring", name: "Ring", component: DetailRing },
-        {
-          path: "name-necklace",
-          name: "NameNecklace",
-          component: DetailNameNecklace
-        },
-        { path: "necklace", name: "Necklace", component: DetailNecklace },
-        { path: "charm", name: "Charm", component: DetailCharm }
-      ]
     },
     {
       path: "/billingAddress",

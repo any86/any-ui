@@ -1,24 +1,23 @@
 <template>
     <ScrollView class="page-ring-diy">
-        <!-- 隐藏, 用于生成环绕文字, 导入canvas -->
-        <svg ref="svg" width="200" height="100" viewBox="0 0 200 100">
-            <path ref="circle" id="circle" d="M20 20 C90 40, 130 40, 180 20" stroke="rgba(0,0,0,0)" fill="none" style="stroke-width: 2px;"></path>
-            <text :x="centerX" text-anchor="middle">
-                <textPath xlink:href="#circle">{{text}}</textPath>
-            </text>
-        </svg>
-    
         <div class="preview">
             <h4>preview your choose</h4>
-            <img src="https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/C/R/CR02_5.png" />
+            <svg ref="svg" style="margin-left:10%; width:80%;" viewBox="0 0 300 300" externalResourcesRequired="true">
+                <path ref="circle" id="circle" d="M71.848,172.678c40.339,3.897,98.644,9.831,175.932-2.033" stroke="rgba(0,0,0,0)" fill="none" style="stroke-width: 2px;"></path>
+                <!-- <image overflow="visible" width="300" height="300" xlink:href="https://static.soufeel.com/media/catalog/product/cache/0/small_image/400x/9df78eab33525d08d6e5fb8d27136e95/C/R/CR02_5.png"></image> -->
+                <image overflow="visible" width="300" height="300" xlink:href="../../../static/SL013-IN.png"></image>
+                <text :x="centerX" text-anchor="middle">
+                    <textPath xlink:href="#circle">{{text}}</textPath>
+                </text>
+            </svg>
         </div>
-    
+
         <ul>
-            <li class="cell">
-                <h4>Crystals 1</h4>
+            <li v-if="1 == conditions.type" v-for="(conditions, i) in dataSource.conditions" :key="conditions.key" class="cell">
+                <h4>Crystals {{i+1}}</h4>
                 <section class="condition">
                     <VSwiper :options="{slidesPerView :'auto'}">
-                        <VSwiperItem v-for="(item, i) in dataSource.conditions[0].children" :key="i" class="small">
+                        <VSwiperItem v-for="(item, j) in conditions.children" :key="j" class="small">
                             <img class="small-img" :src="item.src">
                         </VSwiperItem>
                     </VSwiper>
@@ -140,12 +139,12 @@ export default {
             >section {
                 padding-top: $gutter / 4;
                 .small {
-                    width: .7rem;
-                    height: .7rem;
+                    width: .6rem;
+                    height: .6rem;
                 }
                 .small-img {
-                    width: .7rem;
-                    height: .7rem;
+                    width: .6rem;
+                    height: .6rem;
                     display: block;
                 }
             }
