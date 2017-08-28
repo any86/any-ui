@@ -1,6 +1,6 @@
 <template>
     <div class="component-adsorb" :style="{height}" v-on="$listeners">
-        <div ref="main" :class="{'component-adsorb-fixed': scrollY > top}">
+        <div ref="main" :class="{'component-adsorb-fixed': 10 > top}">
             <slot></slot>
         </div>
     </div>
@@ -23,11 +23,13 @@ export default {
     },
 
     mounted() {
-        this.$nextTick(() => {
+        this.top = this.$el.getBoundingClientRect().top;
+    },
+
+    watch: {
+        scrollY(value) {
             this.top = this.$el.getBoundingClientRect().top;
-            this.height = this.$refs.main.offsetHeight;
-            this.$emit('mounted', {top: this.top});
-        });
+        }
     }
 }
 </script>
