@@ -3,7 +3,7 @@
         <span class="title" v-if="!!$slots.default">
             <slot></slot>
         </span>
-        <input v-on="$listeners" v-bind="$attrs" ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
+        <input v-on="$listeners" v-bind="$attrs" ref="input" :value="value" @input="input">
         <transition name="fadeLeft">
             <i v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="button-close"></i>
         </transition>
@@ -106,14 +106,14 @@ $height: .8rem;
     }
 
     input {
-        padding-left:$gutter;
+        padding-left: $gutter;
         background: rgba(255, 255, 255, 0);
         font-size: $normal;
         flex: 1;
         box-sizing: border-box;
         border: 0 none;
         outline: none;
-        width: 100%; 
+        width: 100%;
         height: $height;
         line-height: $height;
     }
