@@ -11,7 +11,7 @@
                 <img :src="item.src" />
             </li>
         </ul>
-    
+
         <ul v-else class="dot">
             <li v-for="(item, i) in dataSource.sliders" :key="item.src" :class="{active: swiperActiveIndex == i}" @click="changeSwiperByThumb(i)">
             </li>
@@ -68,10 +68,12 @@ export default {
 <style scoped lang="scss">
 @import '../../../scss/theme.scss';
 .slider {
+    
     .item-img {
         width: 90%;
+        height: 6rem;
         display: block;
-        margin:auto;
+        margin: auto;
     }
 }
 
@@ -94,6 +96,7 @@ export default {
 }
 
 .dot {
+    height: .6rem;
     display: table;
     margin: auto;
     li {
