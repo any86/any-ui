@@ -42,6 +42,11 @@ export default {
         this.windowHeight = window.outerHeight;
     },
 
+    mounted(){
+        window.addEventListener('resize', ()=>{
+            this.windowHeight = window.outerHeight;
+        });
+    },
 
     methods: {
         close() {
