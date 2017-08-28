@@ -8,10 +8,11 @@
                 <textPath xlink:href="#circle">{{text}}</textPath>
             </text>
         </svg>
-
-        <div class="border">
-            <VInput v-model="text"></VInput>
-        </div>
+        <VTooltip>
+            <div class="border">
+                <VInput v-model="text" placeholder="请输入" @focus="inputFont"></VInput>
+            </div>
+</VTooltip>
         <!-- 选字体样式和尺寸  -->
         <div class="flex">
             <span @click="isShowSelectFontStyle=true" class="select gutter-top gutter-right flex-item flex">
@@ -34,6 +35,8 @@
 </template>
 <script>
 import VButton from '@/packages/Button/Button'
+import VTooltip from '@/packages/Tooltip/Tooltip'
+
 import VCell from '@/packages/Cell/Cell'
 import VInput from '@/packages/Input/Input'
 import VPopupPicker from '@/packages/PopupPicker/PopupPicker'
@@ -95,10 +98,14 @@ export default {
 
         changeFontSize({ label }) {
             this.fontSize.label = label;
+        },
+
+        inputFont(e) {
+            syslog(e.target.getBoundingClientRect().top);
         }
     },
 
-    components: { VInput, VPopupPicker, VCell, VButton, VPickerOne }
+    components: { VInput, VPopupPicker, VCell, VButton, VPickerOne,  VTooltip}
 }
 
 </script>
