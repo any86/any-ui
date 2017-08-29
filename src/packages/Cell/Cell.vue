@@ -5,7 +5,7 @@
         </span>
         <Icon v-if="hasArrow" class="icon" value="angle-right" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
     </router-link>
-    
+
     <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': undefined != $attrs && undefined != $attrs.border}">
         <span>
             <slot></slot>
@@ -38,7 +38,7 @@ export default {
 .component-cell {
     display: flex;
     background: $background;
-    padding: 0 2*$gutter;
+    padding: 0 $gutter;
     min-height: 1.2rem;
     >span {
         flex: 1;
