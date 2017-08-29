@@ -76,6 +76,7 @@ export default {
         padding: $gutter $gutter 0 $gutter;
         overflow: hidden;
         display: flex;
+        align-items: center;
         span {
             flex: 1;
         } // .btn-close {
