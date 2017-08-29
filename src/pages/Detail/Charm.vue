@@ -175,13 +175,6 @@ export default {
     },
 
     methods: {
-        // showDialogFailUpload() {
-        //     // this.isShowDialogPreview = false;
-        //     // this.isShowDialogLearnMore = false;
-        //     // this.isShowDialogMistakes = false;
-        //     this.isShowDialogFailUpload = true;
-        // },
-
         getTabsTop({ top }) {
             this.tabsTop = top;
         },

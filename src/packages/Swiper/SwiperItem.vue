@@ -1,8 +1,8 @@
 <template>
-    <div v-if="undefined == to" class="swiper-slide">
+    <div v-if="undefined == to" v-on="$listeners" class="swiper-slide">
         <slot></slot>
     </div>
-    <router-link v-else :to="to" class="swiper-slide">
+    <router-link v-else :to="to" v-on="$listeners" class="swiper-slide">
         <slot></slot>
     </router-link>
 </template>

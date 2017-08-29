@@ -40,10 +40,16 @@
         <!-- 底部上传按钮 -->
         <button @click="addToCart" class="button button-danger button-block fixed-bottom">ADD ENGRAVING</button>
 
-        <VDialog v-model="isShowEngraving">
-            <LayoutEngrave></LayoutEngrave>
-        </VDialog>
+        <VPopup v-model="isShowDesign" class="popup">
+            <Cell>
+                <VSwitch v-model="hasPendant">Without Pendant</VSwitch>
+            </Cell>
 
+            <ul class="pendants">
+                <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png" alt=""></li>
+            </ul>
+
+        </VPopup>
     </ScrollView>
 </template>
 <script>
@@ -53,9 +59,10 @@ import LayoutSlider from './Common/GoodsSlider'
 import LayoutTip from './Common/Tip'
 import LayoutRelatedProducts from './Common/RelatedProducts'
 import LayoutOtherCustomerView from './Common/OtherCustomerView'
-import LayoutEngrave from './CurveEngrave/Engrave'
+import LayoutAddToCart from './Common/AddToCart'
 
-
+import VSwitch from '@/packages/Switch/Switch'
+import VCell from '@/packages/Cell/Cell'
 import VAdsorb from '@/packages/Adsorb/Adsorb'
 import VGoTop from '@/components/GoTop'
 import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb'
@@ -63,21 +70,24 @@ import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
 import VDialog from '@/packages/Dialog/Dialog'
+import VPopup from '@/packages/Dialog/Popup'
 
 export default {
-    name: 'CurveEngrave',
+    name: 'NecklacePendant',
 
     data() {
         return {
             scrollY: 0,
             tabsIndex: 0,
-            isShowEngraving: true
+            tabsTop: 0,
+            isShowDesign: true,
+            hasPendant: false
         };
     },
 
     methods: {
         addToCart() {
-            this.isShowFinish = true;
+            // this.isShowDesign = true;
         },
 
         getTabsTop({ top }) {
@@ -90,8 +100,10 @@ export default {
     },
 
     components: {
-        VGoTop, VBreadcrumb, VLazyLoad, VTabs, VTabsItem, VAdsorb, VDialog,
-        LayoutBaseInfo, LayoutSlider, LayoutRelatedProducts, LayoutTip, LayoutOtherCustomerView,LayoutEngrave
+        VGoTop, VBreadcrumb, VLazyLoad, VTabs, VTabsItem, VAdsorb, VDialog, VPopup, VSwitch, VCell,
+        LayoutBaseInfo, LayoutSlider, LayoutRelatedProducts, LayoutTip, LayoutOtherCustomerView,
+        LayoutAddToCart
+
     }
 }
 </script>
@@ -114,6 +126,20 @@ export default {
         }
         .img[lazy="done"] {
             animation: fadeIn 1s;
+        }
+    }
+
+    .popup {
+        .pendants {
+            .pendant {
+                width: .7rem;
+                height: .7rem;
+                display: inline-block;
+                img {
+                    display: block;
+                    width: 100%;
+                }
+            }
         }
     }
 }

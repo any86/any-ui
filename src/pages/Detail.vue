@@ -7,7 +7,7 @@ export default {
     name: 'Detail',
 
     data() {
-        return { activeComponent: 'Bangle' };
+        return { activeComponent: 'NecklacePendant' };
     },
 
     components: {
@@ -16,6 +16,8 @@ export default {
         Necklace: () => import("@/pages/Detail/Necklace"),
         Charm: () => import("@/pages/Detail/Charm"),
         Bangle: () => import("@/pages/Detail/Bangle"),
+        NecklacePendant: () => import("@/pages/Detail/NecklacePendant"),
+        
     }
 }
 </script>

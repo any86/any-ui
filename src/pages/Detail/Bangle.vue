@@ -41,10 +41,10 @@
         <button @click="addToCart" class="button button-danger button-block fixed-bottom">ADD ENGRAVING</button>
 
         <VDialog v-model="isShowEngraving">
-            <LayoutEngrave></LayoutEngrave>
-            <button slot="footer" class="button button-danger button-block">ok</button>
+            
+            <LayoutMultiCarve></LayoutMultiCarve>
+            
         </VDialog>
-
     </ScrollView>
 </template>
 <script>
@@ -54,7 +54,11 @@ import LayoutSlider from './Common/GoodsSlider'
 import LayoutTip from './Common/Tip'
 import LayoutRelatedProducts from './Common/RelatedProducts'
 import LayoutOtherCustomerView from './Common/OtherCustomerView'
-import LayoutEngrave from './Bangle/CurveEngrave'
+import LayoutCurveCarve from './DiyPanel/CurveCarve'
+import LayoutCarve from './DiyPanel/Carve'
+import LayoutMultiCarve from './DiyPanel/MultiCarve'
+
+import LayoutAddToCart from './Common/AddToCart'
 
 
 import VAdsorb from '@/packages/Adsorb/Adsorb'
@@ -64,7 +68,6 @@ import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
 import VDialog from '@/packages/Dialog/Dialog'
-
 export default {
     name: 'Bangle',
 
@@ -72,6 +75,7 @@ export default {
         return {
             scrollY: 0,
             tabsIndex: 0,
+            tabsTop: 0,
             isShowEngraving: false
         };
     },
@@ -92,7 +96,9 @@ export default {
 
     components: {
         VGoTop, VBreadcrumb, VLazyLoad, VTabs, VTabsItem, VAdsorb, VDialog,
-        LayoutBaseInfo, LayoutSlider, LayoutRelatedProducts, LayoutTip, LayoutOtherCustomerView,LayoutEngrave
+        LayoutBaseInfo, LayoutSlider, LayoutRelatedProducts, LayoutTip, LayoutOtherCustomerView, LayoutCurveCarve, LayoutCarve,
+        LayoutAddToCart,LayoutMultiCarve
+
     }
 }
 </script>

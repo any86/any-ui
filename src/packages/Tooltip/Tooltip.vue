@@ -22,8 +22,9 @@ export default {
         var node = document.createElement('span');
         node.id = 'tooltip'
         document.body.appendChild(node);
-        var component = this.constructor;
-        var vm = new component().$mount('#' + node.id);
+        dir(this)
+        // var component = this.constructor;
+        // var vm = new component().$mount('#' + node.id);
     },
 
     methods: {

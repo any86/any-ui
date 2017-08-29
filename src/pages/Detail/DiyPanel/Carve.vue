@@ -8,7 +8,7 @@
                 <textPath xlink:href="#circle">{{text}}</textPath>
             </text>
         </svg>
-        
+
         <div class="border">
             <VInput v-model="text" placeholder="请输入" @focus="inputFont"></VInput>
         </div>
@@ -43,7 +43,7 @@ import VPopupPicker from '@/packages/PopupPicker/PopupPicker'
 import VPickerOne from '@/packages/PickerOne/PickerOne'
 
 export default {
-    name: 'CurveEngrave',
+    name: 'Curve',
 
     data() {
         return {
@@ -53,7 +53,7 @@ export default {
             canvas: null,
             ctx: null,
             isLoadingImg: false,
-            url: './static/SL013-IN.png',
+            url: './static/carve.png',
             srcDataURL: '',
             destDataURL: '',
             canvasWidth: 1000,

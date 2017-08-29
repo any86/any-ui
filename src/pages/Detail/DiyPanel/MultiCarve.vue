@@ -1,16 +1,18 @@
 <template>
     <section>
+        <h4>confrim your design</h4>
+
         <svg ref="svg" style="width:80%;margin-left:10%;" viewBox="0 0 300 300" externalResourcesRequired="true">
             <path ref="circle" id="circle" d="M71.848,172.678c40.339,3.897,98.644,9.831,175.932-2.033" stroke="rgba(0,0,0,0)" fill="none" style="stroke-width: 2px;"></path>
             <image overflow="visible" width="300" height="300" :xlink:href="srcDataURL">
             </image>
             <text :x="centerX" text-anchor="middle" :font-size="`${fontSize.value * 3}px`" :font-family="fontStyle.value" externalResourcesRequired="true" class="svg-text">
-                <textPath xlink:href="#circle">{{text}}</textPath>
+                <textPath xlink:href="#circle">{{texts[0]}}</textPath>
             </text>
         </svg>
-        
-        <div class="border">
-            <VInput v-model="text" placeholder="请输入" @focus="inputFont"></VInput>
+
+        <div v-for="(text, i) in texts" :key="i" class="border gutter">
+            <VInput v-model="texts[i]" placeholder="请输入" @focus="inputFont"></VInput>
         </div>
 
         <!-- 选字体样式和尺寸  -->
@@ -25,6 +27,8 @@
                 <i class="iconfont icon-moreunfold"></i>
             </span>
         </div>
+
+        <button slot="footer" class="button button-danger button-block gutter">ok</button>
 
         <p class="text-danger">Please Note: No 9 or emoji can be used.</p>
 
@@ -43,13 +47,13 @@ import VPopupPicker from '@/packages/PopupPicker/PopupPicker'
 import VPickerOne from '@/packages/PickerOne/PickerOne'
 
 export default {
-    name: 'CurveEngrave',
+    name: 'MultiCarve',
 
     data() {
         return {
             centerX: 0,
             centerY: 0,
-            text: '',
+            texts: ['', '', ''],
             canvas: null,
             ctx: null,
             isLoadingImg: false,
@@ -112,6 +116,9 @@ export default {
 <style scoped lang="scss">
 @import '../../../scss/theme.scss';
 section {
+    h4 {
+        text-align: center;
+    }
     .select {
         height: .8rem;
         line-height: .8rem;
