@@ -38,17 +38,33 @@
             Shipping
         </div>
         <!-- 底部上传按钮 -->
-        <button @click="addToCart" class="button button-danger button-block fixed-bottom">ADD ENGRAVING</button>
+        <button @click="showDesign" class="button button-danger button-block fixed-bottom">ADD ENGRAVING</button>
 
         <VPopup v-model="isShowDesign" class="popup">
-            <Cell>
-                <VSwitch v-model="hasPendant">Without Pendant</VSwitch>
-            </Cell>
+            <VCell border="true">
+                <VSwitch v-model="hasPendant" border="true">
+                    <h5 class="text-danger">Without Pendant</h5>
+                </VSwitch>
+            </VCell>
+            <section class="condition">
+                <VMask :value="hasPendant" :isFixed="false" style="background: rgba(255,255,255,.8);">
+                </VMask>
+                <h5>Choose A Pendant +
+                    <span class="text-danger">$0.00</span>
+                </h5>
+                <ul class="pendants">
+                    <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png"></li>
+                    <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png"></li>
+                    <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png"></li>
+                    <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png"></li>
+                    <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png"></li>
+                    <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png"></li>
+                </ul>
+                <h5>Preview of Your Name:</h5>
+                <VInput v-model="text" class="border"></VInput>
+            </section>
 
-            <ul class="pendants">
-                <li class="pendant"><img src="https://jer.soufeel.org/media/textdesign/diamond/display/NP001.png" alt=""></li>
-            </ul>
-
+            <button class="button button-danger button-block">preview</button>
         </VPopup>
     </ScrollView>
 </template>
@@ -61,6 +77,7 @@ import LayoutRelatedProducts from './Common/RelatedProducts'
 import LayoutOtherCustomerView from './Common/OtherCustomerView'
 import LayoutAddToCart from './Common/AddToCart'
 
+import VInput from '@/packages/Input/Input'
 import VSwitch from '@/packages/Switch/Switch'
 import VCell from '@/packages/Cell/Cell'
 import VAdsorb from '@/packages/Adsorb/Adsorb'
@@ -71,6 +88,8 @@ import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
 import VDialog from '@/packages/Dialog/Dialog'
 import VPopup from '@/packages/Dialog/Popup'
+import VMask from '@/packages/Dialog/Popup'
+
 
 export default {
     name: 'NecklacePendant',
@@ -81,13 +100,14 @@ export default {
             tabsIndex: 0,
             tabsTop: 0,
             isShowDesign: true,
-            hasPendant: false
+            hasPendant: false,
+            text: ''
         };
     },
 
     methods: {
-        addToCart() {
-            // this.isShowDesign = true;
+        showDesign() {
+            this.isShowDesign = true;
         },
 
         getTabsTop({ top }) {
@@ -100,7 +120,7 @@ export default {
     },
 
     components: {
-        VGoTop, VBreadcrumb, VLazyLoad, VTabs, VTabsItem, VAdsorb, VDialog, VPopup, VSwitch, VCell,
+        VGoTop, VBreadcrumb, VLazyLoad, VTabs, VTabsItem, VAdsorb, VDialog, VPopup, VSwitch, VCell, VInput, VMask,
         LayoutBaseInfo, LayoutSlider, LayoutRelatedProducts, LayoutTip, LayoutOtherCustomerView,
         LayoutAddToCart
 
@@ -130,14 +150,18 @@ export default {
     }
 
     .popup {
-        .pendants {
-            .pendant {
-                width: .7rem;
-                height: .7rem;
-                display: inline-block;
-                img {
-                    display: block;
-                    width: 100%;
+        .condition {
+            position: relative;
+            padding: $gutter;
+            .pendants {
+                .pendant {
+                    width: .7rem;
+                    height: .7rem;
+                    display: inline-block;
+                    img {
+                        display: block;
+                        width: 100%;
+                    }
                 }
             }
         }
