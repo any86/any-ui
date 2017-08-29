@@ -1,5 +1,5 @@
 <template>
-    <div class="component-adsorb" :style="{height}" v-on="$listeners">
+    <div class="component-adsorb" v-on="$listeners">
         <div ref="main" :class="{'component-adsorb-fixed': 10 > top}">
             <slot></slot>
         </div>
@@ -18,12 +18,12 @@ export default {
     data() {
         return {
             top: 0,
-            height: 0,
         };
     },
 
     mounted() {
         this.top = this.$el.getBoundingClientRect().top;
+        this.$emit('mounted', {top: this.top});
     },
 
     watch: {
