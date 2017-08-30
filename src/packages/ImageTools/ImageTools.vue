@@ -10,31 +10,31 @@
             <transition name="fadeUp">
                 <section v-show="isUpoloaded">
                     <span class="button-item" @click="moveLeft">
-                        <Icon value="back"></Icon>
+                        <Icon value="arrow-left"></Icon>
                     </span>
                     <span class="button-item" @click="moveRight">
-                        <Icon value="more"></Icon>
+                        <Icon value="arrow-right"></Icon>
                     </span>
                     <span class="button-item" @click="moveUp">
-                        <Icon value="less"></Icon>
+                        <Icon value="arrow-up"></Icon>
                     </span>
                     <span class="button-item" @click="moveDown">
-                        <Icon value="moreunfold"></Icon>
+                        <Icon value="arrow-down"></Icon>
                     </span>
                     <span class="button-item" @click="minusScale">
-                        <Icon value="subtract"></Icon>
+                        <Icon value="minus"></Icon>
                     </span>
                     <span class="button-item" @click="addScale">
-                        <Icon value="add"></Icon>
+                        <Icon value="plus"></Icon>
                     </span>
-                    <span class="button-item" style="transform:scaleX(-1)" @click="rotateLeft">
-                        <Icon value="refresh" ></Icon>
+                    <span class="button-item" @click="rotateLeft">
+                        <Icon value="rotate-left"></Icon>
                     </span>
                     <span class="button-item" @click="rotateRight">
-                        <Icon value="refresh"></Icon>
+                        <Icon value="rotate-right"></Icon>
                     </span>
                     <span class="button-item" @click="reset">
-                        <Icon value="28"></Icon>
+                        <Icon value="refresh"></Icon>
                     </span>
                 </section>
             </transition>
