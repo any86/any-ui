@@ -1,7 +1,5 @@
 <template>
     <ScrollView>
-        <div id="base"></div>
-
         <h1>SVG</h1>
         <img width="100%" :src="destDataURL" />
 
@@ -11,7 +9,7 @@
 
         <svg ref="svg" width="100%" viewBox="0 0 300 300" externalResourcesRequired="true">
             <path ref="circle" id="circle" d="M71.848,172.678c40.339,3.897,98.644,9.831,175.932-2.033" stroke="rgba(0,0,0,0)" fill="none" style="stroke-width: 2px;"></path>
-            <image transform="rotate(90deg)" overflow="visible" width="300" height="300" :xlink:href="srcDataURL">
+            <image overflow="visible" width="300" height="300" :xlink:href="srcDataURL">
             </image>
             <text :x="centerX" text-anchor="middle" font-size="36px" font-family="BeautifulES" externalResourcesRequired="true" class="svg-text">
                 <textPath xlink:href="#circle">{{text}}</textPath>
@@ -68,37 +66,6 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
-
-#base {
-    background: red;
-    display: inline-block;
-    height: 60px;
-    position: relative;
-    width: 100px;
-}
-
-#base:after {
-    border-left: 50px solid goldenrod;
-    border-top: 30px solid transparent;
-    border-bottom: 30px solid transparent;
-    content: "";
-    height: 0;
-    left: 100px;
-    position: absolute;
-    width: 0;
-}
-#base:before {
-    border-left: 48px solid red;
-    border-top: 28px solid transparent;
-    border-bottom: 28px solid transparent;
-    content: "";
-    height: 0;
-    left: 100px;
-    top:2px;
-    position: absolute;
-    width: 0;
-    z-index: 1;
-}
 
 img {
     display: block;
