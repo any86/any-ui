@@ -1,7 +1,15 @@
 <template>
     <section class="row-user-info">
-        <header class="header-title">Ship Address</header>
-        <v-cell :to="{path: 'billingAddress'}" :hasArrow="true" class="info">
+        <header class="header-title"><a class="text-danger">1</a> Billing Address</header>
+        <VCell border="true">
+            <div class="button-circle">
+                <i class="iconfont icon-add"></i>
+            </div>
+            <p class="button-desc">Add Billing Address</p>
+        </VCell>
+
+
+        <!-- <v-cell :to="{path: 'billingAddress'}" :hasArrow="true" class="info">
             <div class="contact">
                 <span class="name">Seven</span>
                 <span class="mobile">13813877821</span>
@@ -13,10 +21,10 @@
         </v-cell>
         <v-cell :to="{path: 'billingAddress'}" :hasArrow="true">
             Add Shipping Address
-        </v-cell>
-        <div class="is-same-address">
+        </v-cell> -->
+        <!-- <VCell border="true">
             <VSwitch :value="isSameAddress" @input="change">Ship The Same Address</VSwitch>
-        </div>
+        </VCell> -->
     </section>
 </template>
 <script>
@@ -54,6 +62,20 @@ export default {
             border-bottom: none;
         }
     }
+
+    .button-circle{
+        display: block;
+        margin:$gutter auto;
+        border-radius: 100%;
+        width: 1rem;
+        text-align: center;
+        line-height: 1rem;
+        height: 1rem;
+        border:1px solid $light;
+        .iconfont{font-size: $biggest;color:$dark;}
+    }
+    .button-desc{text-align: center;font-size: $normal;}
+
     >.info {
         >.contact {
             >.name {
