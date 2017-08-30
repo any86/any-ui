@@ -1,9 +1,6 @@
 <template>
     <section class="row-shipping-method">
-        <header>
-            <h4><a class="text-danger">2</a> SELECT SHIPPING METHOD</h4>
-            <p>xsad asdsaret 234j== 3412</p>
-        </header>
+        <header>SHIPPING METHOD</header>
         <VRadio v-model="shippingMethods" :selfValue="0" class="item">
             <p>Standard Shipping(Free Over $499)
                 <span class="text-danger">($5.99)</span>
@@ -60,9 +57,8 @@ export default {
         background: $background;
         font-size: $big;
         color: $darkest;
-        padding: $gutter/2 $gutter;
+        padding: $gutter;
         border-bottom: 1px solid $lightest;
-        p{color:$light;font-size: $normal;}
     }
     >.item {
         background: $background;
