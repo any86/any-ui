@@ -62,6 +62,12 @@ new Vue({
   }
 });
 
+// 移动组件指令
+import DomPortal from 'vue-dom-portal'
+Vue.use(DomPortal)
+
+
+
 import * as types from "@/store/mutation-types";
 router.beforeEach(function(to, from, next) {
   store.commit(types.SHOW_LOADING);
