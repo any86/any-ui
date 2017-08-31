@@ -86,11 +86,10 @@ $height: .5rem;
             position: relative;
             width: $height;
             height: $height;
-            border: 1px solid $light;
+            border: 1px solid $lighter;
             border-radius: 100%;
-            &.checked{
-                border:1px solid $base;
-                // box-shadow: 1px 1px 1px $base;
+            &.checked {
+                border: 1px solid $base; // box-shadow: 1px 1px 1px $base;
                 background: $base;
             }
 
