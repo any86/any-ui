@@ -17,19 +17,20 @@ $height: .3rem;
 .component-warning {
     display: flex;
     height: $height;
-    margin: $gutter / 2 0;
     i {
         background: url('./warning.svg');
         background-size: 100%;
         width: $height;
         height: $height;
         display: inline-block;
+        color:inherit;
     }
 
     >p {
         flex: 1;
         line-height: $height;
         margin-left: $gutter / 3;
+        color:inherit;
     }
 }
 </style>
