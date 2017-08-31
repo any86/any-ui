@@ -33,6 +33,10 @@ const BillingAddress = () => ({
   component: import("@/pages/BillingAddress")
 });
 
+const ShippingAddress = () => ({
+  component: import("@/pages/ShippingAddress")
+});
+
 const Payment = () => ({
   component: import("@/pages/Payment")
 });
@@ -71,7 +75,7 @@ const Svg = () => ({
 
 Vue.use(Router);
 export default new Router({
-  mode: 'history',
+  mode: "history",
   routes: [
     {
       path: "*-*",
@@ -116,6 +120,11 @@ export default new Router({
       path: "/billingAddress",
       name: "BillingAddress",
       component: BillingAddress
+    },
+    {
+      path: "/shippingAddress",
+      name: "ShippingAddress",
+      component: ShippingAddress
     },
     {
       path: "/payment",

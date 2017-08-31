@@ -32,7 +32,7 @@ $size: .5rem;
 label.component-switch {
     display: flex;
     >.title {
-        font-size: $big;
+        font-size: $normal;
         line-height: $size;
         display: block;
         flex: 1;
@@ -51,7 +51,7 @@ label.component-switch {
         .checkbox {
             border-radius: $size;
             width: 100%;
-            height: 100%;
+            height: $size;
             transition: all .5s ease;
             background: $base;
             // 圆

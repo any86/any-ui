@@ -1,26 +1,29 @@
 <template>
     <section class="row-shipping-method">
-        <header>SHIPPING METHOD</header>
+        <header>
+            <h4>
+                <a class="text-danger">2</a> SELECT SHIPPING METHOD</h4>
+            <p>xsad asdsaret 234j== 3412</p>
+        </header>
         <VRadio v-model="shippingMethods" :selfValue="0" class="item">
-            <p>Standard Shipping(Free Over $499)
-                <span class="text-danger">($5.99)</span>
-            </p>
-            <p class="text-warning">6 - 10 Bussiness days</p>
+            <p>Standard Shipping($5.99) <span class="tag-success"> Recommond</span></p>
+            <p>6 - 10 Bussiness days</p>
+            <p class="text-default">Pay Coustomer Duty By Yourself</p>
         </VRadio>
-    
+
         <VRadio v-model="shippingMethods" :selfValue="1" class="item">
             <p>FEDEX EXPRESS
-                <span class="text-danger">($9.99)</span>
+                <span class="text-default">($9.99)</span>
             </p>
-            <p class="text-warning">6 - 10 Bussiness days</p>
+            <p class="text-default">6 - 10 Bussiness days</p>
             <p>Can Not Deliver To A.P.O.Box</p>
         </VRadio>
-    
+
         <VRadio v-model="shippingMethods" :selfValue="2" class="item">
             <p>FEDEX EXPRESS
-                <span class="text-danger">($9.99)</span>
+                <span class="text-default">($9.99)</span>
             </p>
-            <p class="text-warning">6 - 10 Bussiness days</p>
+            <p class="text-default">6 - 10 Bussiness days</p>
             <p>Can Not Deliver To A.P.O.Box</p>
         </VRadio>
         <div class="row-insurance">
@@ -57,8 +60,12 @@ export default {
         background: $background;
         font-size: $big;
         color: $darkest;
-        padding: $gutter;
+        padding: $gutter/2 $gutter;
         border-bottom: 1px solid $lightest;
+        p {
+            color: $light;
+            font-size: $normal;
+        }
     }
     >.item {
         background: $background;
@@ -66,7 +73,7 @@ export default {
         box-sizing: content-box;
         padding: $gutter;
         >p {
-            font-size: $big;
+            font-size: $normal;
             color: $darkest;
         }
     }

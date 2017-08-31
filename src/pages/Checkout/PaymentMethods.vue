@@ -1,6 +1,6 @@
 <template>
     <section class="row-payment-methods">
-        <header>PAYMENT METHODS</header>
+        <header><a class="text-danger">3</a> METHODS</header>
         <ul>
             <li>
                 <VRadio v-model="paymentType" :selfValue="0">PayPal</VRadio>
@@ -82,7 +82,6 @@ export default {
             .creadit-card-detail-panel {
                 margin-top: $gutter;
                 .input {
-                    height: 1rem;
                     margin-top: $gutter;
                     padding-left: $gutter;
                     border: 1px solid $lightest;
