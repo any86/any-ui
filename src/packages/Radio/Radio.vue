@@ -77,7 +77,7 @@ $height: .5rem;
         align-items: center;
         >.title {
             flex: 1;
-            font-size: $big;
+            font-size: $normal;
             &.active {
                 color: $base;
             }
