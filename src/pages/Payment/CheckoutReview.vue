@@ -36,23 +36,31 @@ export default {
 @import '../../scss/theme.scss';
 .row-checkout-review {
     background: $background;
-    margin-top: $gutter * 3;
+    margin-top: $gutter;
     >header {
-        font-size: $big;
+        font-size: $normal;
         color: $darkest;
-        padding: 3*$gutter;
+        padding: $gutter;
         border-bottom: 1px solid $lightest;
     }
     >ul {
         li {
             display: flex;
-            padding: $gutter * 3;
+            padding: $gutter;
             .title {
                 flex: 1;
             }
         }
     }
-
-    >.btn-place{height: 1rem;line-height: 1rem;text-align: center; width: 100%;background: $base;color:$sub;display: block;font-size: $big;}
+    >.btn-place {
+        height: 1rem;
+        line-height: 1rem;
+        text-align: center;
+        width: 100%;
+        background: $base;
+        color: $sub;
+        display: block;
+        font-size: $normal;
+    }
 }
 </style>
