@@ -2,21 +2,27 @@
     <section class="row-shipping-method">
         <header>SHIPPING METHOD</header>
         <div class="item">
-            <VCheckbox :value="shippingMethods[0]" class="item">
-                <p>Free Standard Shipping $0</p>
-                <small>6 - 10 Bussiness days</small>
-            </VCheckbox>
+            <VCell border="true">
+                <VRadio v-model="shippingMethodActive" :selfValue="0" class="item">
+                    <p>Free Standard Shipping $0</p>
+                    <small>6 - 10 Bussiness days</small>
+                </VRadio>
+            </VCell>
         </div>
         <div class="item">
-            <VCheckbox :value="shippingMethods[1]" class="item">
-                <p>Standard Shipping $10</p>
-                <small>6 - 10 Bussiness days</small>
-            </VCheckbox>
+            <VCell>
+                <VRadio v-model="shippingMethodActive" :selfValue="1" class="item">
+                    <p>Standard Shipping $10</p>
+                    <small>6 - 10 Bussiness days</small>
+                </VRadio>
+            </VCell>
         </div>
     </section>
 </template>
 <script>
-import VCheckbox from '@/packages/Checkbox/Checkbox'
+import VCell from '@/packages/Cell/Cell'
+import VRadio from '@/packages/Radio/Radio'
+
 export default {
     name: 'ShippingMethod',
 
@@ -26,8 +32,12 @@ export default {
         }
     },
 
+    data() {
+        return { shippingMethodActive: 0 };
+    },
+
     components: {
-        VCheckbox
+        VRadio, VCell
     }
 }
 </script>
@@ -36,18 +46,19 @@ export default {
 .row-shipping-method {
     background: $background;
     >header {
-        font-size: $big;
+        font-size: $normal;
         color: $dark;
         background: $lightest;
-        padding: 3*$gutter;
+        padding: $gutter;
     }
     >.item {
-        display: flex;
-        box-sizing: content-box;
-        padding: 3*$gutter;
-        border-bottom: 1px solid $lightest;
-        p{font-size: $big;color: $darkest;}
-        small{color: $darker;}
+        p {
+            font-size: $normal;
+            color: $darkest;
+        }
+        small {
+            color: $darker;
+        }
     }
 }
 </style>
