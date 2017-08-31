@@ -7,7 +7,7 @@ export default {
     name: 'Detail',
 
     data() {
-        return { activeComponent: 'NecklacePendant' };
+        return { activeComponent: 'Charm' };
     },
 
     components: {
@@ -15,7 +15,7 @@ export default {
         NameNecklace: () => import("@/pages/Detail/NameNecklace"),
         Necklace: () => import("@/pages/Detail/Necklace"),
         Charm: () => import("@/pages/Detail/Charm"),
-        Bangle: () => import("@/pages/Detail/Bangle"),
+        Bangle: () => import("@/pages/Detail/Bangle"), // 存在3中弹出处理
         NecklacePendant: () => import("@/pages/Detail/NecklacePendant"),
         
     }
