@@ -1,21 +1,23 @@
 <template>
     <ScrollView v-model="scrollY" class="page-checkout">
-        <LayoutHeader></LayoutHeader>
+        <RowHeader></RowHeader>
         <main>
-            <LayoutAddress :isSameAddress.sync="isSameAddress"></LayoutAddress>
-            <LayoutShippingMethod :shippingMethods.sync="shippingMethods"></LayoutShippingMethod>
-            <LayoutPaymentMethods></LayoutPaymentMethods>
-            <LayoutCheckoutReview></LayoutCheckoutReview>
+            <RowStep class="border-top"></RowStep>
+            <RowAddress :isSameAddress.sync="isSameAddress" class="gutter-top "></RowAddress>
+            <RowShippingMethod :shippingMethods.sync="shippingMethods"></RowShippingMethod>
+            <RowPaymentMethods></RowPaymentMethods>
+            <RowCheckoutReview></RowCheckoutReview>
         </main>
         <footer></footer>
     </ScrollView>
 </template>
 <script>
-import LayoutHeader from '@/components/Header'
-import LayoutAddress from './Checkout/Address'
-import LayoutShippingMethod from './Checkout/ShippingMethod'
-import LayoutPaymentMethods from './Checkout/PaymentMethods'
-import LayoutCheckoutReview from './Checkout/CheckoutReview'
+import RowHeader from '@/components/Header'
+import RowStep from './Checkout/Step'
+import RowAddress from './Checkout/Address'
+import RowShippingMethod from './Checkout/ShippingMethod'
+import RowPaymentMethods from './Checkout/PaymentMethods'
+import RowCheckoutReview from './Checkout/CheckoutReview'
 
 export default {
     name: 'Checkout',
@@ -38,11 +40,12 @@ export default {
     },
 
     components: {
-        LayoutHeader,
-        LayoutAddress,
-        LayoutShippingMethod,
-        LayoutPaymentMethods,
-        LayoutCheckoutReview
+        RowHeader,
+        RowStep,
+        RowAddress,
+        RowShippingMethod,
+        RowPaymentMethods,
+        RowCheckoutReview
 
     }
 }
