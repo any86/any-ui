@@ -1,24 +1,32 @@
 <template>
     <section class="row-payment-methods">
-        <header><a class="text-danger">3</a> METHODS</header>
+        <header>
+            <a class="text-danger">3</a>
+            <a>METHODS</a>
+        </header>
+
         <ul>
             <li>
                 <VRadio v-model="paymentType" :selfValue="0">PayPal</VRadio>
             </li>
+
             <li>
                 <VRadio v-model="paymentType" :selfValue="1">CREDIT CARD</VRadio>
                 <div v-show="paymentType" class="creadit-card-detail-panel">
                     <VInput v-model="card" type="bankCode" class="input" :placeholder="'card number'"></VInput>
+                    <VWarning class="error">xx xx xxx</VWarning>
                     <VInput :value="expireDate" class="input" :placeholder="'expire date'" @focus="isShowDatePicker=true">
                     </VInput>
+                    <p class="error"></p>
                     <VInput v-model="secureCode" class="input" :placeholder="'secure code'"></VInput>
+                    <p class="error"></p>
                 </div>
             </li>
         </ul>
+
         <VPopup v-model="isShowDatePicker">
             <VPicker v-model="pickerValue" :dataSource="pickerDataSource"></VPicker>
         </VPopup>
-        
     </section>
 </template>
 <script>
@@ -26,6 +34,8 @@ import VPicker from '@/packages/Picker/Picker'
 import VRadio from '@/packages/Radio/Radio'
 import VInput from '@/packages/Input/Input'
 import VPopup from '@/packages/Dialog/Popup'
+import VWarning from '@/packages/Warning/Warning'
+
 
 
 export default {
@@ -45,20 +55,20 @@ export default {
             paymentType: 1,
             pickerValue: [2018, '01'],
             pickerDataSource: [
-                [{label:2018, value: 2018}, {label:2017, value:2017}],
-                [{label: '01', value: '01'}, {label:'02', value:'02'}, {label:'03', value:'03'}]
+                [{ label: 2018, value: 2018 }, { label: 2017, value: 2017 }],
+                [{ label: '01', value: '01' }, { label: '02', value: '02' }, { label: '03', value: '03' }]
             ]
         };
     },
 
     computed: {
-        expireDate(){
+        expireDate() {
             const pickerValue = [...this.pickerValue];
             return pickerValue.reverse().join(' / ');
         }
     },
 
-    components: { VPicker, VInput, VRadio, VPopup }
+    components: { VPicker, VInput, VRadio, VPopup, VWarning }
 }
 </script>
 <style lang="scss" scoped>
@@ -82,12 +92,16 @@ export default {
             .creadit-card-detail-panel {
                 margin-top: $gutter;
                 .input {
-                    margin-top: $gutter;
-                    padding-left: $gutter;
                     border: 1px solid $lightest;
                 }
             }
-            // &.active {}
+
+            .error {
+                margin: $gutter/4 0;
+                padding-left: $gutter/3;
+                // color: $danger;
+                // opacity: 0;
+            }
         }
     }
 }

@@ -82,16 +82,16 @@ export default {
     background: $background;
     >.item {
         border-bottom: 1px solid $lightest;
-        padding: $gutter*3;
+        padding: $gutter;
         >header {
-            font-size: $big;
+            font-size: $normal;
         }
         >p {
-            font-size: $big;
+            font-size: $normal;
             color: $dark;
         }
         >ul {
-            margin-top: 3*$gutter;
+            margin-top: $gutter;
             display: flex;
             overflow-x: scroll;
             >li {
