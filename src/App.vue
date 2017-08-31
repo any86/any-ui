@@ -2,8 +2,8 @@
     <VDrawer v-model="isShowSide" class="home">
         <ul class="menu" slot="side">
             <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
-            <li>Personalized Name Necklace</li>
-            <li>New Arrivals</li>
+            <router-link :to="{path: '/checkout'}" tag="li">Checkout</router-link>
+            <router-link :to="{path: '/payment'}" tag="li">payment</router-link>
             <li>All Personalized</li>
             <li>Personalized</li>
             <li @click="changeCurrency('USD')">USD</li>
