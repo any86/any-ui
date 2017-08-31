@@ -4,7 +4,7 @@
             <div class="header">
                 <h1 class="title">{{title}}</h1>
             </div>
-            <div class="body" v-html="text"></div>
+            <div class="body" v-html="text" :style="{maxHeight: windowHeight * .38 + 'px'}"></div>
             <div class="footer">
                 <a @click="ok" class="button-ok">{{btnOkText}}</a>
             </div>
@@ -25,7 +25,7 @@ export default {
         },
 
         text: {
-            
+
         },
 
         title: {
@@ -45,11 +45,19 @@ export default {
 
     data() {
         return {
+            windowHeight: 0,
             timeOutTimer: null,
             intervalTimer: null,
             btnOkText: '确定',
             _holdTime: 0
         };
+    },
+
+    mounted() {
+        this.windowHeight = window.outerHeight;
+        window.onresize = () => {
+            this.windowHeight = window.outerHeight;
+        }
     },
 
     methods: {
@@ -109,7 +117,7 @@ export default {
         padding: 15px;
         >.title {
             margin: 0;
-            font-size: $bigger;
+            font-size: $big;
         }
         >.btn-close {
             position: absolute;
@@ -118,13 +126,20 @@ export default {
         }
     }
     >.body {
-        padding: 3*$gutter;
+        padding: $gutter;
+        overflow: auto;
     }
     >.footer {
-        padding: 3*$gutter;
+        padding: $gutter;
         overflow: hidden;
-        border-top: 1px solid $lightest; 
-        .button-ok{width: 100%; text-align: center; display:block; color: $base;font-size: $big;}
+        border-top: 1px solid $lightest;
+        .button-ok {
+            width: 100%;
+            text-align: center;
+            display: block;
+            color: $base;
+            font-size: $normal;
+        }
     }
 }
 </style>
