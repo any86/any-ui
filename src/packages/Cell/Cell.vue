@@ -3,14 +3,14 @@
         <span>
             <slot></slot>
         </span>
-        <Icon v-if="hasArrow" class="icon" value="angle-right" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
+        <Icon v-if="hasArrow" class="icon" value="more" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
     </router-link>
 
     <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': undefined != $attrs && undefined != $attrs.border}">
         <span>
             <slot></slot>
         </span>
-        <Icon v-if="hasArrow" class="icon" value="angle-right" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
+        <Icon v-if="hasArrow" class="icon" value="more" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
     </div>
 </template>
 <script>
@@ -45,7 +45,7 @@ export default {
         position: relative;
         align-self: center; // font-size: $big;
         color: $darkest;
-        margin-right: $gutter;
+        // margin-right: $gutter;
     }
     >.icon {
         align-self: center;
