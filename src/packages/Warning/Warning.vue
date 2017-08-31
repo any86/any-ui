@@ -1,6 +1,6 @@
 <template>
     <div class="component-warning" v-on="$listeners">
-        <i class="icon-warning"></i>
+        <i></i>
         <p>
             <slot></slot>
         </p>
@@ -18,7 +18,7 @@ $height: .3rem;
     display: flex;
     height: $height;
     margin: $gutter / 2 0;
-    .icon-warning {
+    i {
         background: url('./warning.svg');
         background-size: 100%;
         width: $height;
