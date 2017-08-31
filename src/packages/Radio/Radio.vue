@@ -4,7 +4,7 @@
             <span v-if="!!$slots.default" class="title">
                 <slot></slot>
             </span>
-            <span v-show="selfValue == value" class="radio">
+            <span class="radio" :class="{checked: selfValue == value}">
                 <input :disabled="disabled" :value="selfValue" :checked="isChecked" @change="change" type="radio">
                 <span class="icon"></span>
             </span>
@@ -86,13 +86,23 @@ $height: .5rem;
             position: relative;
             width: $height;
             height: $height;
-            
+            border: 1px solid $light;
+            border-radius: 100%;
+            &.checked{
+                border:1px solid $base;
+                // box-shadow: 1px 1px 1px $base;
+                background: $base;
+            }
+
             >input {
                 display: none;
             }
             >.icon {
+                display: none;
+            }
+            >input:checked+.icon {
                 position: absolute;
-                top: 20%;
+                top: 25%;
                 left: 0;
                 right: 0;
                 width: $height*0.6;
@@ -104,10 +114,7 @@ $height: .5rem;
                 margin: auto;
                 transform: rotate(-45deg);
                 transition: transform .3s;
-            }
-            >input:checked+.icon {
-                // transform: scale(1.2) rotate(-45deg);
-                border-color: $base;
+                border-color: #fff;
                 animation: zoom-in .5s;
             }
         }
