@@ -43,12 +43,30 @@ export default {
 
     mounted() {
         this.viewHeight = this.$el.offsetHeight;
-        window.addEventListener('resize', () => {
-            this.viewHeight = this.$el.offsetHeight;
-        });
+        window.addEventListener('resize', this._getViewHeight);
+
+        this.$refs.content.addEventListener('click', e => {
+            var node = e.target;
+            var nodeName = node.nodeName.toLowerCase();
+
+            // 滚动input到软键盘上方
+            var scrollInView = e => {
+                var { bottom, height, top } = node.getBoundingClientRect();
+                this.$el.scrollTop = this.$el.scrollTop + top - window.innerHeight + height;
+                // 只触发一次
+                e.target.removeEventListener(e.type, scrollInView);
+            }
+            if ('input' === nodeName || 'textarea' === nodeName) {
+                window.addEventListener('resize', scrollInView, false);
+            }
+        }, false);
     },
 
     methods: {
+        _getViewHeight() {
+            this.viewHeight = this.$el.offsetHeight;
+        },
+
         scroll() {
             if (!this.isAnimateScrolling) {
                 this.isHandScrolling = true;
@@ -81,6 +99,10 @@ export default {
                 });
             }
         }
+    },
+
+    destroyed() {
+        window.removeEventListener('resize', this._getViewHeight);
     }
 }
 </script>
