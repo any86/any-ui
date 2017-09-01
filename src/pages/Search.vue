@@ -14,7 +14,7 @@
                     <li v-for="keyword in keywords" :key="keyword" @click="$router.push({path: '/list', query: {keyword}})">{{keyword}}</li>
                 </ul>
             </section>
-    
+
             <section>
                 <div class="title">
                     <span>Explore</span>
@@ -41,7 +41,7 @@ export default {
     },
 
     mounted() {
-        this.keywords = Store.get('keywords');
+        this.keywords = Store.get('keywords') || [];
     },
 
     methods: {
