@@ -11,6 +11,11 @@ export default {
     name: 'ScrollView',
 
     props: {
+        keyboardOffset: {
+            type: Number,
+            default: 0
+        },
+
         preLoad: {
             type: Number,
             default: 1.3
@@ -50,12 +55,13 @@ export default {
             var nodeName = node.nodeName.toLowerCase();
 
             // 滚动input到软键盘上方
-            var scrollInView = e => {
+            const scrollInView = e => {
                 var { bottom, height, top } = node.getBoundingClientRect();
-                this.$el.scrollTop = this.$el.scrollTop + top - window.innerHeight + height;
+                this.$el.scrollTop = this.$el.scrollTop + top - window.innerHeight + height + this.keyboardOffset;
                 // 只触发一次
                 e.target.removeEventListener(e.type, scrollInView);
             }
+
             if ('input' === nodeName || 'textarea' === nodeName) {
                 window.addEventListener('resize', scrollInView, false);
             }
