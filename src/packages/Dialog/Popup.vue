@@ -1,12 +1,12 @@
 <template>
     <VMask :value="value" :isFixed="isFixed" @input="closeMask" @after-leave="afterLeave">
         <transition :name="'dialog-' + from" @after-leave="afterDialogLeave">
-            <div v-show="value" :class="['component-dialog', from]">
+            <div v-show="value" :class="['component-dialog', from]" :style="{maxHeight: height * 0.5 + 'px'}">
 
                 <div class="header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </div>
-                <div class="body" :style="{maxHeight: height * 0.618 + 'px'}">
+                <div class="body" :style="{maxHeight: height * 0.8 + 'px'}">
                     <slot></slot>
                 </div>
                 <div class="footer" v-if="undefined != $slots.footer">
