@@ -1,13 +1,13 @@
 <template>
-    <div class="component-adsorb" v-on="$listeners">
-        <div ref="main" :class="{'component-adsorb-fixed': 10 > top}">
+    <div class="component-affix" v-on="$listeners">
+        <div ref="main" :class="{'fixed': 10 > top}">
             <slot></slot>
         </div>
     </div>
 </template>
 <script>
 export default {
-    name: 'Adsorb',
+    name: 'Affix',
 
     props: {
         scrollY: {
@@ -23,7 +23,7 @@ export default {
 
     mounted() {
         this.top = this.$el.getBoundingClientRect().top;
-        this.$emit('mounted', {top: this.top});
+        this.$emit('mounted', { top: this.top });
     },
 
     watch: {
@@ -35,10 +35,10 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-adsorb {
+.component-affix {
     position: relative;
 
-    &-fixed {
+    .fixed {
         position: fixed;
         top: 0;
         left: 0;

@@ -1,12 +1,8 @@
 <template>
     <div class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <ul v-for="(list, i) in dataSource" :key="i" 
-        @touchstart="touchstart(i, $event)" 
-        @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" 
-        :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, 
-        transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" 
-        :class="{transition: 0 == touchStatusList[i].status}">
+        <ul v-for="(list, i) in dataSource" :key="i" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, 
+            transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
             <li v-for="(item, j) in list" :key="j" :class="{active: item.value == touchStatusList[i].value}" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}">{{item.label}}</li>
         </ul>
     </div>
@@ -68,7 +64,7 @@ export default {
                     activeIndex = list.findIndex(item => {
                         return this.value[index] == item.value;
                     });
-                    
+
                     // 如果找不到对应项, 那么默认取第一项
                     // activeIndex = -1 == activeIndex && 0; 
                 } else {
@@ -133,14 +129,9 @@ export default {
             this.active.value = this.dataSource[index][itemIndex].value;
             this.active.label = this.dataSource[index][itemIndex].label;
 
-
-
-
-            // this.$nextTick(() => {
-                this.active.translateYNew = 0 - itemIndex * this.itemHeight;
-                //同步当前位置
-                this.active.translateYOld = this.active.translateYNew;
-            // });
+            this.active.translateYNew = 0 - itemIndex * this.itemHeight;
+            //同步当前位置
+            this.active.translateYOld = this.active.translateYNew;
 
             // 遍历已选值
             const newValue = this.touchStatusList.map(list => {

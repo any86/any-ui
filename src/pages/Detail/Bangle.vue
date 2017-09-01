@@ -14,14 +14,14 @@
         <LayoutOtherCustomerView></LayoutOtherCustomerView>
 
         <!-- 吸附的tabs -->
-        <VAdsorb :scrollY="scrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
+        <VAffix :scrollY="scrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item>{{$lang.DETAIL_TABS_DETAILS}}</v-tabs-item>
                 <v-tabs-item>{{$lang.DETAIL_TABS_REVIEW}}</v-tabs-item>
                 <v-tabs-item>{{$lang.DETAIL_TABS_INFORMATION}}</v-tabs-item>
                 <v-tabs-item>{{$lang.DETAIL_TABS_SHIPPING}}</v-tabs-item>
             </v-tabs>
-        </VAdsorb>
+        </VAffix>
         <div v-show="0 == tabsIndex" class="row-info-detail">
             <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
             <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
@@ -61,7 +61,7 @@ import LayoutMultiCarve from './DiyPanel/MultiCarve'
 import LayoutAddToCart from './Common/AddToCart'
 
 
-import VAdsorb from '@/packages/Adsorb/Adsorb'
+import VAffix from '@/packages/Affix/Affix'
 import VGoTop from '@/components/GoTop'
 import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
@@ -95,7 +95,7 @@ export default {
     },
 
     components: {
-        VGoTop, VBreadcrumb, VLazyLoad, VTabs, VTabsItem, VAdsorb, VDialog,
+        VGoTop, VBreadcrumb, VLazyLoad, VTabs, VTabsItem, VAffix, VDialog,
         LayoutBaseInfo, LayoutSlider, LayoutRelatedProducts, LayoutTip, LayoutOtherCustomerView, LayoutCurveCarve, LayoutCarve,
         LayoutAddToCart,LayoutMultiCarve
 
