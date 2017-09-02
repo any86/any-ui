@@ -1,6 +1,6 @@
 <template>
     <div class="component-affix" v-on="$listeners">
-        <div ref="main" :class="{'fixed': 10 > top}">
+        <div ref="main" :class="{'fixed': 0 > top}">
             <slot></slot>
         </div>
     </div>
@@ -11,7 +11,8 @@ export default {
 
     props: {
         scrollY: {
-
+            required: true,
+            type: Number
         }
     },
 
