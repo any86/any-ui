@@ -1,5 +1,5 @@
 <template>
-    <div class="component-gotop">
+    <div v-on="$listeners" class="component-gotop">
         <i class="iconfont icon-less"></i>
     </div>
 </template>
