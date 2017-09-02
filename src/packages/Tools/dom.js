@@ -6,7 +6,13 @@ import TWEEN from "tween.js";
  * @param {Number} time 
  * @param {Function} cb 
  */
-const animate = (from, to, time, onUpdate =  ()=>{}, onComplete = ()=>{}) => {
+const animate = (
+  from,
+  to,
+  time,
+  onUpdate = () => {},
+  onComplete = () => {}
+) => {
   var tween = new TWEEN.Tween({ value: from });
   tween.to({ value: to }, time);
   tween.start();

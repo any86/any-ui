@@ -1,21 +1,24 @@
 <template>
-    <ScrollView v-model="scrollY" class="page-canvas">
-        <!-- <VPopup :value="true"> -->
+    <ScrollView v-model="scrollY" class="canvas">
+        <VPopup :value="true">
+            <VCell border="true">
+                <VSwitch v-model="bool">是否支持IOS</VSwitch>
+            </VCell>
+            <VCell v-for="n in 10" :key="n" border="true">{{n}}</VCell>
 
-            <VCell v-for="n in 10" :key="n" border="true">{{n}}</VCell> 
+            <!-- <VCell border="true">{{value}}</VCell>  -->
 
-             <!-- <VCell border="true">{{value}}</VCell>  -->
-
-             <VCell border="true">
+            <VCell border="true">
                 <VInput v-model="active" placeholder="请搜索"></VInput>
             </VCell>
 
-             <VCell v-for="n in 10" :key="n" border="true">XXX-{{n}}</VCell> 
+            <VCell v-for="n in 10" :key="n" border="true">XXX-{{n}}</VCell>
             <!-- <VPicker v-model="value" :dataSource="dataSource"></VPicker> -->
-        <!-- </VPopup> -->
+        </VPopup>
     </ScrollView>
 </template>
 <script>
+import VSwitch from '@/packages/Switch/Switch';
 import VPicker from '@/packages/Picker/Picker';
 import VDialog from '@/packages/Dialog/Dialog';
 import VPopup from '@/packages/Dialog/Popup';
@@ -26,6 +29,7 @@ export default {
 
     data() {
         return {
+            bool: true,
             scrollY: 0,
             active: '苹果🍎',
             value: [1, 2],
@@ -43,11 +47,9 @@ export default {
     methods: {
 
     },
-    components: { VInput, VPicker, VDialog, VCell, VPopup }
+    components: { VInput, VPicker, VDialog, VCell, VPopup, VSwitch }
 }
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
-
-
 </style>

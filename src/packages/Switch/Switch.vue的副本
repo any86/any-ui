@@ -37,21 +37,24 @@ label.component-switch {
         flex: 1;
     }
     >.control {
+        position: relative;
+        overflow: hidden;
+        display: block;
+        height: $height;
+        width: 1.8 * $height;
+        border-radius: $height;
+        user-select: none;
         input {
             display: none;
         }
-
         .checkbox {
-            user-select: none;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid $lightest;
             box-sizing: content-box;
+            border: 1px solid $lightest;
             border-radius: $height;
             width: 1.8 * $height;
             height: $height;
             transition: all .5s ease;
-            
+            background: $base; // 圆
             &:before {
                 font-size: 0;
                 content: " ";
@@ -65,7 +68,7 @@ label.component-switch {
                 border-radius: $height;
                 transition: all .3s ease;
                 background: $sub;
-                box-shadow: $shadowDown, $shadowUp;
+                box-shadow: $shadowDown;
             }
             &:after {
                 font-size: 0;
@@ -83,13 +86,6 @@ label.component-switch {
                 background: #fff;
             }
         }
-
-        input:checked+.checkbox{
-            transition-duration: 0ms;
-            border:1px solid $base;
-            background: $base;
-        }
-
         input:checked+.checkbox:before {
             transform: translateX($height * 0.8);
         }

@@ -1,6 +1,6 @@
 <template>
-    <ScrollView ref="scroll" v-model="scrollY" class="page-detail">
-        <VGoTop v-show="0 < scrollY" @click.native="gotop"></VGoTop>
+    <ScrollView ref="scroll" v-model="scrollY" @scroll="liveScrollY=$event" class="page-detail">
+        <VGoTop  @click="scrollY=0"></VGoTop>
         <LayoutHeader></LayoutHeader>
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
@@ -35,7 +35,7 @@
             </VWarning>
         </div>
         <!-- 吸附的tabs -->
-        <VAffix :scrollY="scrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
+        <VAffix :scrollY="liveScrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item>{{$lang.DETAIL_TABS_DETAILS}}</v-tabs-item>
                 <v-tabs-item>{{$lang.DETAIL_TABS_REVIEW}}</v-tabs-item>
@@ -163,6 +163,7 @@ export default {
             userDataURL: '',
             overlayDataURL: '',
             scrollY: 0,
+            liveScrollY: 0,
             tabsIndex: 0,
             isShowMask: false,
             isShowDialogPreview: false,
@@ -177,10 +178,6 @@ export default {
     methods: {
         getTabsTop({ top }) {
             this.tabsTop = top;
-        },
-
-        gotop() {
-            this.scrollY = 0;
         },
 
         uploadDone(base64) {
