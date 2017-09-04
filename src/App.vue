@@ -13,12 +13,12 @@
         <VLoading v-model="$store.state.isShowLoading"></VLoading>
         <div class="main">
             <div class="body">
-                <transition name="fadeLeft">
+                <transition :name="'in' == $store.state.pageDirection ? 'fadeLeft' : 'fadeRight'">
                     <router-view></router-view>
                 </transition>
             </div>
             <!--             <LayoutFooter v-show="-1 != ['/index', '/category', '/explore', '/bag', '/my'].indexOf($route.path)">
-                    </LayoutFooter> -->
+                            </LayoutFooter> -->
         </div>
     </VDrawer>
 </template>
@@ -40,7 +40,7 @@ export default {
 
     mounted() {
         var canvas = document.getElementById('canvas')
-        QRCode.toCanvas(canvas, window.location.href, function (error) {
+        QRCode.toCanvas(canvas, window.location.href, function(error) {
             if (error) console.error(error)
         })
     },
@@ -73,6 +73,7 @@ export default {
 
 </script>
 <style lang="scss" scoped>
+$animate_speed: 1000ms;
 @import './scss/theme.scss';
 .menu {
     display: block;
@@ -99,21 +100,44 @@ export default {
 }
 
 //切换动画, 未完, 还没有判断进入和离开方向
-.app-enter {
+.in-enter {
     transform: translate3d(100%, 0, 0);
 }
 
-.app-enter-active {
+.in-enter-active {
     will-change: transform;
-    transition: transform 500ms ease;
+    transition: transform $animate_speed linear;
     backface-visibility: hidden;
     perspective: 1000;
 }
 
-.app-leave-active {
+.in-leave-active {
     will-change: transform;
     transform: translate3d(-100%, 0, 0);
-    transition: transform 500ms ease;
+    transition: transform $animate_speed linear;
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+.out-enter {
+    transform: translate3d(-100%, 0, 0);
+}
+
+.out-enter-active {
+    will-change: transform;
+    transition: transform $animate_speed linear;
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+.out-leave {
+    transform: translate3d(0, 0, 0);
+}
+
+.out-leave-active {
+    will-change: transform;
+    transform: translate3d(100%, 0, 0);
+    transition: transform $animate_speed linear;
     backface-visibility: hidden;
     perspective: 1000;
 }
