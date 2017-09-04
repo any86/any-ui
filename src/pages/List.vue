@@ -2,22 +2,21 @@
     <section class="page-list">
         <LayoutHeader ref="header"></LayoutHeader>
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
-            
-            <div  :style="{height: `${iframeHeight}px`}" class="iframe">
-                <iframe :style="{height: `${iframeHeight}px`}" src="./static/iframe.html" frameborder="0" scrolling="no"  vsspace="0" hspace="0" marginwidth="0" marginheight="0" width="100%"></iframe>
+
+            <div :style="{height: `${iframeHeight}px`}" class="iframe">
+                <iframe :style="{height: `${iframeHeight}px`}" src="./static/iframe.html" frameborder="0" scrolling="no" vsspace="0" hspace="0" marginwidth="0" marginheight="0" width="100%"></iframe>
             </div>
-            
 
             <LayoutFilter ref="filter" :scrollY="scrollY" @open="openFilterList" @select="selectFilterOption" :isOpen="isPopupShow" :activeIndex="activeIndex">
             </LayoutFilter>
-    
+
             <ul class="list">
                 <VMask v-model="isPopupShow" :isFixed="false" :zIndex="5"></VMask>
                 <li v-for="item in list" class="item" :key="item.id">
-                    <router-link :to="{path: 'detail', query: {id: item.entity_id}}" tag="a">
+                    <router-link :to="{path: 'detail-a', query: {id: item.entity_id}}" tag="a">
                         <VLazyLoad class="img" :src="item.image_url" :watch="scrollY"></VLazyLoad>
                     </router-link>
-                    <h5 align="center">{{item.title}}</h5>
+                    <h5 class="title">{{item.title}}</h5>
                     <div class="price">
                         <span class="final">{{item.final_price_with_tax}}</span>
                         <span class="regular">{{item.regular_price_with_tax}}</span>
@@ -26,7 +25,7 @@
                     <span v-else class="button-buy">{{lang.DESIGN_YOUR_OWN}}</span>
                 </li>
             </ul>
-    
+
             <Spinner v-show="isShowSpinner && !isEnd"></Spinner>
             <p v-if="isEnd" class="empty">there is nothing</p>
         </ScrollView>
@@ -34,6 +33,8 @@
     </section>
 </template>
 <script>
+import throttle from 'lodash/throttle'
+
 import VMask from '@/packages/Dialog/Mask'
 import VGoTop from '@/components/GoTop'
 import VPopup from '@/packages/Dialog/Popup'
@@ -128,6 +129,7 @@ export default {
         },
 
         getMore() {
+
             if (!this.isLoading) {
                 this.isLoading = true;
                 this.page++;
@@ -182,6 +184,8 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
+@import '../scss/mixin.scss';
+
 .page-list {
     position: absolute;
     top: 0;
@@ -194,7 +198,9 @@ export default {
     .scroll-list {
         flex: 1;
         position: relative;
-        .iframe{overflow: hidden;}
+        .iframe {
+            overflow: hidden;
+        }
         .list {
             position: relative;
             overflow: hidden;
@@ -216,6 +222,12 @@ export default {
                     >.img[lazy="done"] {
                         animation: zoomIn 1s;
                     }
+                }
+                .title{
+                    @include ellipsis(2);
+                    text-align: center;
+                    height:.8rem;
+                    margin-top:$gutter/2;
                 }
                 .price {
                     display: table;

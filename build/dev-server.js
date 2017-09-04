@@ -63,7 +63,7 @@ app.use(hotMiddleware)
 
 
 // 假数据(Mock)
-require('./mock.js')(express, app);
+// require('./mock.js')(express, app);
 
 
 
