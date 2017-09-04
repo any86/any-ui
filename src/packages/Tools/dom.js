@@ -43,6 +43,7 @@ const findScrollParent = el => {
   return parentNode;
 };
 
+
 export default {
   animate,
   findScrollParent
