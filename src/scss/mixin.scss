@@ -1,3 +1,16 @@
-@mixin border-bottom-line {
-  border-bottom: 1px solid $lightest;
+
+
+@mixin ellipsis($row_count: 1) {
+    @if $row_count <= 1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    } @else {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: $row_count;
+        -webkit-box-orient: vertical;
+    }
 }
