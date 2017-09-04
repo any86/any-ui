@@ -28,7 +28,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: 30px;
+$height: .56rem;
 label.component-switch {
     display: flex;
     >.title {
