@@ -8,15 +8,16 @@ import actions from "./actions.js";
 import mutations from "./mutations.js";
 
 // 模块
-import cart from './modules/cart.js'
+import cart from "./modules/cart.js";
 
 const state = {
-  customer: { entity_id: '', email: '', firstname: '', lastname: '' },
-  currency: 'USD',
+  customer: { entity_id: "", email: "", firstname: "", lastname: "" },
+  currency: "USD",
+  pageDirection: "in",
   isShowHeader: true,
   isShowFooter: true,
   isShowSide: false,
-  isShowLoading: false,
+  isShowLoading: false
 };
 
 Vue.use(Vuex);

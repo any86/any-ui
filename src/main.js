@@ -18,14 +18,12 @@ Object.defineProperty(Vue.prototype, "$api", {
   configurable: false
 });
 
-
 Object.defineProperty(Vue.prototype, "$lang", {
-  value: lang,  // lang存在lang.js文件中
+  value: lang, // lang存在lang.js文件中
   writable: false,
   enumerable: false,
   configurable: false
 });
-
 
 // vuex
 import store from "@/store";
@@ -63,22 +61,47 @@ new Vue({
 });
 
 // 移动组件指令
-import DomPortal from 'vue-dom-portal'
-Vue.use(DomPortal)
-
-
+import DomPortal from "vue-dom-portal";
+Vue.use(DomPortal);
 
 import * as types from "@/store/mutation-types";
+
+// 路由切换前触发
+var routerHistory = new Map();
+var routerHistoryCount = 0;
+routerHistory.set("/list", 0);
+
 router.beforeEach(function(to, from, next) {
+  var toIndex = routerHistory.get(to.path);
+  var fromIndex = routerHistory.get(from.path);
+
+  if (undefined != toIndex) {
+    if (toIndex > fromIndex) {
+      console.log("前进");
+      store.commit(types.SET_PAGE_APPEAR_DIRECTION, 'in');
+    } else {
+      console.log("后退");
+      store.commit(types.SET_PAGE_APPEAR_DIRECTION, 'out');
+    }
+  } else {
+    console.log("前进1");
+    store.commit(types.SET_PAGE_APPEAR_DIRECTION, 'in');
+    // 首次进入该路由
+    routerHistoryCount++;
+    routerHistory.set(to.path, routerHistoryCount);
+  }
+  console.log(routerHistory);
   store.commit(types.SHOW_LOADING);
   next();
 });
 
+// 路由切换后触发
 router.afterEach(function(to) {
   document.title = to.name;
   store.commit(types.HIDE_LOADING);
 });
 
+// 突变加载
 window.imageLoader = src => {
   return new Promise((resolve, reject) => {
     var image = new Image();

@@ -29,3 +29,7 @@ export const SET_SUCCESS_TEXT = 'SET_SUCCESS_TEXT';
 // 优惠券
 export const USE_COUPON = 'USE_COUPON';
 export const RESTORE_COUPON = 'RESTORE_COUPON';
+
+
+// 路由动画切换方向
+export const SET_PAGE_APPEAR_DIRECTION= 'SET_PAGE_APPEAR_DIRECTION';
