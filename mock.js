@@ -12,15 +12,17 @@ app.get("/goods", function(req, res) {
             {
                 "id|+1": 200,
                 "entity_id|+3": 100,
-                'final_price_with_tax|10-200': 15,
-                'regular_price_with_tax|10-200': 2,
+                "final_price_with_tax|10-200": 15,
+                "regular_price_with_tax|10-200": 2,
                 type_id: "simple",
                 title: "@title(3, 8)",
                 image_url: "@image('300x300','#ccc', '#FFF', 'png', 'soufeel')"
             }
         ]
     });
-    res.json(data.array);
+    setTimeout(() => {
+        res.json(data.array);
+    }, 1000);
 });
 
 app.listen(3000, () => {
