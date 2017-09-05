@@ -6,7 +6,6 @@
     </div>
 </template>
 <script>
-import Dom from '@/packages/Tools/dom.js'
 export default {
     name: 'ScrollView',
 
@@ -29,20 +28,12 @@ export default {
         value: {
             type: Number,
             default: 0
-        },
-
-        speed: {
-            type: Number,
-            default: 300
         }
     },
 
     data() {
         return {
-            timer: null,
             viewHeight: 0,
-            isAnimateScrolling: false,
-            isHandScrolling: false,
         };
     },
 
@@ -78,41 +69,20 @@ export default {
         scroll() {
             const scrollTop = this.$el.scrollTop;
             this.$emit('scroll', scrollTop);
-            if (!this.isAnimateScrolling) {
-                // 手动拖拽
-                this.isHandScrolling = true;
-                // 滚动条高度
-
-                this.$emit('input', scrollTop);
-
-                // 内容高度
-                var contentHeight = this.$refs.content.offsetHeight;
-                // 滚动条高度 + 可是区高度 + 偏移量 > 内容高度
-                if (this.preLoad * (scrollTop + this.viewHeight) > contentHeight) {
-                    this.$emit('reach-bottom');
-                }
-                // 监测是否停止滚动
-                clearTimeout(this.timer);
-                this.timer = setTimeout(() => {
-                    this.isHandScrolling = false;
-                }, 200);
+            // 滚动条高度
+            this.$emit('input', scrollTop);
+            // 内容高度
+            var contentHeight = this.$refs.content.offsetHeight;
+            // 滚动条高度 + 可是区高度 + 偏移量 > 内容高度
+            if (this.preLoad * (scrollTop + this.viewHeight) > contentHeight) {
+                this.$emit('reach-bottom');
             }
         }
     },
 
     watch: {
         value(to, from) {
-            if (!this.isHandScrolling) {
-                this.isAnimateScrolling = true;
-                Dom.animate(from, to, this.speed, value => {
-                    this.$el.scrollTop = value;
-                }, value => {
-                    this.$emit('input', value);
-                    setTimeout(() => {
-                        this.isAnimateScrolling = false;
-                    }, 200)
-                });
-            }
+            this.$el.scrollTop = to;
         }
     },
 
