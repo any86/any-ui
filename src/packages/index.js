@@ -1,15 +1,15 @@
-import DialogRoot from './Dialog/DialogRoot'
-import Toast from '@/packages/Toast/Toast'
-import Loading from '@/packages/Loading/Loading'
-import Icon from './Icon/Icon';
-import Spinner from './Spinner/Spinner';
-import ScrollView from './ScrollView/ScrollView';
-import Flexbox from './Flexbox/FlexBox';
-import FlexItem from './Flexbox/FlexItem';
-import Badge from './Badge/Badge'
+import DialogRoot from "./Dialog/DialogRoot";
+import Toast from "@/packages/Toast/Toast";
+import Loading from "@/packages/Loading/Loading";
+import Icon from "./Icon/Icon";
+import Spinner from "./Spinner/Spinner";
+import ScrollView from "./ScrollView/ScrollView";
+import Flexbox from "./Flexbox/FlexBox";
+import FlexItem from "./Flexbox/FlexItem";
+import Badge from "./Badge/Badge";
 
 var Atom = {};
-Atom.install = function (Vue) {
+Atom.install = function(Vue) {
     Vue.component(Flexbox.name, Flexbox);
     Vue.component(FlexItem.name, FlexItem);
     Vue.component(ScrollView.name, ScrollView);
@@ -17,21 +17,20 @@ Atom.install = function (Vue) {
     Vue.component(Spinner.name, Spinner);
     Vue.component(Badge.name, Badge);
 
-
     // Vue.component('VPrompt', Prompt);
     // document.createDocumentFragment()
     var DialogRootComponent = Vue.extend(DialogRoot);
     // 创建一个挂载点
-    var node = document.createElement('div');
+    var node = document.createElement("div");
     // 起个不重复的名字
-    node.id = '_app-dialog-' + Math.ceil(Math.random());
+    node.id = "_app-dialog-" + Math.ceil(Math.random());
     document.body.appendChild(node);
     // 挂载
-    var vm = new DialogRootComponent().$mount('#' + node.id);
+    var vm = new DialogRootComponent().$mount("#" + node.id);
     // =================================================
     // ==============组件内调用: this.$alert==============
     // =================================================
-    Vue.prototype.$alert = (text = '', options = {}) => {
+    Vue.prototype.$alert = (text = "", options = {}) => {
         return new Promise((resolve, reject) => {
             vm.mask.show = true;
             vm.alert = {
@@ -43,14 +42,13 @@ Atom.install = function (Vue) {
                 },
                 show: true,
                 text
-
             };
         });
     };
     // =================================================
     // ==============组件内调用: this.$confirm============
     // =================================================
-    Vue.prototype.$confirm = (text = '', options = {}) => {
+    Vue.prototype.$confirm = (text = "", options = {}) => {
         return new Promise((resolve, reject) => {
             vm.mask.show = true;
             vm.confirm = {
@@ -67,15 +65,16 @@ Atom.install = function (Vue) {
                 show: true,
                 text
             };
-
         });
     };
-
 
     // =================================================
     // ==============组件内调用: this.$prompt============
     // =================================================
-    Vue.prototype.$prompt = Vue.prototype.$input = (text = '', options = {}) => {
+    Vue.prototype.$prompt = Vue.prototype.$input = (
+        text = "",
+        options = {}
+    ) => {
         return new Promise((resolve, reject) => {
             vm.mask.show = true;
             vm.prompt = {
@@ -92,7 +91,6 @@ Atom.install = function (Vue) {
                 show: true,
                 text
             };
-
         });
     };
     // ========================================== mask ==================================
@@ -101,35 +99,52 @@ Atom.install = function (Vue) {
     };
 
     // ========================================== loading ==================================
-    Vue.prototype.$loading = (options = { isShow: true }) => {
-        // ** 每次创建新toast实例 **
-        var LoadingComponent = Vue.extend(Loading);
-        // 创建一个挂载点
-        var node = document.createElement('div');
-        // 起个不重复的名字
-        node.id = '_app-loading-' + Math.ceil(Math.random());
-        document.body.appendChild(node);
-        // 挂载
-        const LoadingVM = new LoadingComponent().$mount('#' + node.id);
+    {
+        let LoadingVM = null;
+        Vue.prototype.$loading = (options = { isShow: true }) => {
+            if (null === LoadingVM) {
+                // ** 创建新实例 **
+                const LoadingComponent = Vue.extend(Loading);
+                // 创建一个挂载点
+                var node = document.createElement("div");
+                // 起个不重复的名字
+                node.id = "_app-loading-" + Math.ceil(Math.random());
+                document.body.appendChild(node);
+                // 挂载
+                LoadingVM = new LoadingComponent().$mount("#" + node.id);
 
-        LoadingVM.value = options.isShow;
-        return LoadingVM;
-    };
+                LoadingVM.value = options.isShow;
+
+                LoadingVM.close = () => {
+                    LoadingVM.value = false;
+                    // LoadingVM.$destroy();
+                };
+                return LoadingVM;
+            } else {
+                LoadingVM.value = true;
+                LoadingVM.close = () => {
+                    LoadingVM.value = false;
+                    // LoadingVM.$destroy();
+                };
+                return LoadingVM;
+            }
+        };
+    }
 
     // ==========================================toast==================================
-    Vue.prototype.$toast = (text = '', options = {}) => {
+    Vue.prototype.$toast = (text = "", options = {}) => {
         // ** 每次创建新toast实例 **
         var ToastComponent = Vue.extend(Toast);
         // 创建一个挂载点
-        var node = document.createElement('div');
+        var node = document.createElement("div");
         // 起个不重复的名字
-        node.id = '_app-toast-' + Math.ceil(Math.random());
+        node.id = "_app-toast-" + Math.ceil(Math.random());
         document.body.appendChild(node);
         // 挂载
-        var toastVM = new ToastComponent().$mount('#' + node.id);
+        var toastVM = new ToastComponent().$mount("#" + node.id);
 
-        toastVM.type = options.type || 'default';
-        toastVM.position = options.position || 'center';
+        toastVM.type = options.type || "default";
+        toastVM.position = options.position || "center";
 
         toastVM.isShow = true;
         toastVM.text = text;
