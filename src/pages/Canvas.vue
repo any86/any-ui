@@ -1,55 +1,58 @@
 <template>
-    <ScrollView v-model="scrollY" class="canvas">
-        <VPopup :value="true">
-            <VCell border="true">
-                <VSwitch v-model="bool">是否支持IOS</VSwitch>
-            </VCell>
-            <VCell v-for="n in 10" :key="n" border="true">{{n}}</VCell>
-
-            <!-- <VCell border="true">{{value}}</VCell>  -->
-
-            <VCell border="true">
-                <VInput v-model="active" placeholder="请搜索"></VInput>
-            </VCell>
-
-            <VCell v-for="n in 10" :key="n" border="true">XXX-{{n}}</VCell>
-            <!-- <VPicker v-model="value" :dataSource="dataSource"></VPicker> -->
-        </VPopup>
+    <ScrollView v-model="scrollY">
+        <h4>{{rotate.rotation}}</h4>
+        <div ref="box" class="box">
+            <img ref="avator" class="avator" src="../assets/avator.jpeg" :style="{transform: `rotate(${rotate}deg)`}">
+        </div>
     </ScrollView>
 </template>
 <script>
-import VSwitch from '@/packages/Switch/Switch';
-import VPicker from '@/packages/Picker/Picker';
-import VDialog from '@/packages/Dialog/Dialog';
-import VPopup from '@/packages/Dialog/Popup';
-import VCell from '@/packages/Cell/Cell';
-import VInput from '@/packages/Input/Input';
+import Hammer from 'hammerjs'
 export default {
     name: 'Canvas',
 
     data() {
         return {
-            bool: true,
             scrollY: 0,
-            active: '苹果🍎',
-            value: [1, 2],
-            dataSource: [
-                [{ label: '中国', value: 1 }, { label: '美国', value: 2 }, { label: '日本🇯🇵', value: 3 }],
-                [{ label: '菠萝🍍', value: 1 }, { label: '橘子🍊', value: 2 }, { label: '苹果🍎', value: 3 }]
-            ]
+            rotate: '',
         }
     },
 
     mounted() {
-
+        try {
+            var hammertime = new Hammer(this.$refs.box, {});
+            hammertime.get('rotate').set({ enable: true });
+            hammertime.on('rotate', (ev) => {
+                this.rotate = ev
+            });
+        } catch (e) {
+            alert(e)
+        }
     },
 
     methods: {
 
     },
-    components: { VInput, VPicker, VDialog, VCell, VPopup, VSwitch }
+    components: {}
 }
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
+h4 {
+    word-break: break-all;
+}
+
+.box {
+    width: 100%;
+    padding: $gutter*3;
+    background: $sub;
+    border-bottom: 1px solid $lightest;
+}
+
+.avator {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    margin: auto;
+}
 </style>
