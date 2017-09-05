@@ -1,14 +1,16 @@
 <template>
     <section class="page-list">
-        <LayoutHeader ref="header"></LayoutHeader>
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
-
+            <LayoutHeader ref="header"></LayoutHeader>
             <div :style="{height: `${iframeHeight}px`}" class="iframe">
                 <iframe :style="{height: `${iframeHeight}px`}" src="./static/iframe.html" frameborder="0" scrolling="no" vsspace="0" hspace="0" marginwidth="0" marginheight="0" width="100%"></iframe>
             </div>
 
-            <LayoutFilter ref="filter" :scrollY="scrollY" @open="openFilterList" @select="selectFilterOption" :isOpen="isPopupShow" :activeIndex="activeIndex">
-            </LayoutFilter>
+            <!-- 图钉 -->
+            <VAffix :scrollY="scrollY" @click="scrollY=$event.top">
+                <LayoutFilter ref="filter" @open="isPopupShow=!isPopupShow" @select="selectFilterOption" :isOpen="isPopupShow" :activeIndex="activeIndex">
+                </LayoutFilter>
+            </VAffix>
 
             <ul class="list">
                 <VMask v-model="isPopupShow" :isFixed="false" :zIndex="5"></VMask>
@@ -21,13 +23,13 @@
                         <span class="final">{{item.final_price_with_tax}}</span>
                         <span class="regular">{{item.regular_price_with_tax}}</span>
                     </div>
-                    <span v-if="'simple' == item.type_id" @click="addToCart" class="button-buy">{{lang.ADD_TO_CART}}</span>
-                    <span v-else class="button-buy">{{lang.DESIGN_YOUR_OWN}}</span>
+                    <span v-if="'simple' == item.type_id" @click="addToCart" class="button-buy">{{$lang.DETAIL_BUTTON_ADD_TO_CART}}</span>
+                    <span v-else class="button-buy">{{$lang.DETAIL_BUTTON_DESIGN_YOUR_OWN}}</span>
                 </li>
             </ul>
-
             <Spinner v-show="isShowSpinner && !isEnd"></Spinner>
-            <p v-if="isEnd" class="empty">there is nothing</p>
+
+            <p v-if="isEnd" class="empty">{{$lang.DETAIL_TEXT_THERE_IS_NOTHING}}</p>
         </ScrollView>
         <VGoTop v-show="0 < scrollY" @click.native="gotop"></VGoTop>
     </section>
@@ -35,6 +37,7 @@
 <script>
 import throttle from 'lodash/throttle'
 
+import VAffix from '@/packages/Affix/Affix'
 import VMask from '@/packages/Dialog/Mask'
 import VGoTop from '@/components/GoTop'
 import VPopup from '@/packages/Dialog/Popup'
@@ -52,16 +55,10 @@ export default {
     data() {
         return {
             iframeHeight: 0,
-            lang: {},
-            status: -1,
-            isShowSide: false,
             isShowSpinner: true,
-            ovh: false,
             scrollY: 0,
             isEnd: false,
-            isScrollUp: false,
-            isScrollDown: false,
-            isLoading: true,
+            isLoading: true, // 用于锁定, 防止多次加载
             isPopupShow: false,
             //过滤
             activeIndex: [0, 0],
@@ -75,9 +72,6 @@ export default {
     },
 
     mounted() {
-        this.$api.getListPage().then(response => {
-            this.lang = response.data
-        });
 
         this.refresh();
 
@@ -96,15 +90,9 @@ export default {
             this.scrollY = 0;
         },
 
-        openFilterList() {
-            const offsetTop = this.$refs.filter.$el.offsetTop + 1;
-            this.scrollY = offsetTop;
-            this.isPopupShow = !this.isPopupShow;
-        },
-
-
         selectFilterOption(value) {
             this.isPopupShow = false;
+            this.refresh();
         },
 
         afterPopupLeave() {
@@ -112,24 +100,25 @@ export default {
         },
 
         async refresh() {
+            const $loading = this.$loading();
             this.isLoading = true;
             this.isEnd = false;
-            this.list = [];
-            const params = {
+
+            const response = await this.$api.getGoodsList({
                 page: 1,
                 limit: this.limit,
                 trend: this.trend
-            };
+            });
 
-            const response = await this.$api.getGoodsList(params);
             this.isLoading = false;
             if (200 == response.status) {
+                this.list = [];
                 this.list.push(...response.data);
+                $loading.close();
             }
         },
 
         getMore() {
-
             if (!this.isLoading) {
                 this.isLoading = true;
                 this.page++;
@@ -158,14 +147,6 @@ export default {
         trend() {
             this.isPopupShow = false;
             this.refresh();
-        },
-
-        scrollY(newValue, oldValue) {
-
-        },
-
-        isPopupShow(value) {
-            this.ovh = value;
         }
     },
 
@@ -177,7 +158,8 @@ export default {
         LayoutFilter,
         LayoutFooter,
         VMask,
-        VGoTop
+        VGoTop,
+        VAffix
     }
 }
 
@@ -223,11 +205,13 @@ export default {
                         animation: zoomIn 1s;
                     }
                 }
-                .title{
+                .title {
+                    width: 3rem;
+                    margin: auto;
                     @include ellipsis(2);
-                    text-align: center;
-                    height:.8rem;
-                    margin-top:$gutter/2;
+                    text-align: left;
+                    height: .64rem;
+                    margin-top: $gutter/2;
                 }
                 .price {
                     display: table;
