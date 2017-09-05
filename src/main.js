@@ -77,14 +77,14 @@ router.beforeEach(function(to, from, next) {
 
   if (undefined != toIndex) {
     if (toIndex > fromIndex) {
-      console.log("前进");
+      // console.log("前进");
       store.commit(types.SET_PAGE_APPEAR_DIRECTION, 'in');
     } else {
-      console.log("后退");
+      // console.log("后退");
       store.commit(types.SET_PAGE_APPEAR_DIRECTION, 'out');
     }
   } else {
-    console.log("前进1");
+    // console.log("前进1");
     store.commit(types.SET_PAGE_APPEAR_DIRECTION, 'in');
     // 首次进入该路由
     routerHistoryCount++;

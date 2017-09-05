@@ -10,5 +10,7 @@ var lang = {
     DETAIL_TABS_INFORMATION: 'Infromatetion',
     DETAIL_TABS_SHIPPING: 'Shipping',
     DETAIL_WE_ALSO_RECOMEND: 'We Also Recommend',
-    
+    DETAIL_BUTTON_ADD_TO_CART: 'Add To Cart',
+    DETAIL_BUTTON_DESIGN_YOUR_OWN: 'Design Your Own',
+    DETAIL_TEXT_THERE_IS_NOTHING: 'there is nothing',
 };

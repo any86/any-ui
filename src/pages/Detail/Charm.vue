@@ -1,6 +1,6 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" @scroll="liveScrollY=$event" class="page-detail">
-        <VGoTop  @click="scrollY=0"></VGoTop>
+        <VGoTop @click="scrollY=0"></VGoTop>
         <LayoutHeader></LayoutHeader>
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
@@ -12,21 +12,21 @@
             <h4 class="price">R$80.00
                 <small>R$123</small>
             </h4>
-    
+
             <h5>you save R$63</h5>
             <h6 class="gutter text-danger">(22% off)</h6>
-    
+
             <div class="paypal gutter">
                 <a>We now support </a>
                 <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-logo.png" alt="">
             </div>
-    
+
             <VWarning>Buy now and pay over time
                 <a class="text-info" @click="isShowDialogLearnMore = true"> learn more</a>
             </VWarning>
-    
+
             <VWarning @click="isShowDialogMistakes = true">Avoid These Common Mistakes</VWarning>
-    
+
             <VWarning>Failed to upload photos?
                 <a class="text-danger" @click="isShowDialogFailUpload = true">click here</a>
             </VWarning>
@@ -34,8 +34,9 @@
                 <a class="text text-danger">This item requires 1-3 days to handcraft.</a>
             </VWarning>
         </div>
+        
         <!-- 吸附的tabs -->
-        <VAffix :scrollY="liveScrollY" @mounted="getTabsTop" @click="scrollY = tabsTop">
+        <VAffix :scrollY="liveScrollY" @click="scrollY = $event.top">
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item>{{$lang.DETAIL_TABS_DETAILS}}</v-tabs-item>
                 <v-tabs-item>{{$lang.DETAIL_TABS_REVIEW}}</v-tabs-item>
@@ -43,7 +44,7 @@
                 <v-tabs-item>{{$lang.DETAIL_TABS_SHIPPING}}</v-tabs-item>
             </v-tabs>
         </VAffix>
-    
+
         <div v-show="0 == tabsIndex" class="info-detail">
             <p>Christmas with jingle-bell charms, etc. Soufeel Jewelry is perfect for any special day. Every 925 sterling silver charm bead can be chosen and bought by oneself to do the tie-in, arbitrary combination, choosing his/her beloved color to match elegant dressing style, 26 letters to create their own name or English abbreviations, and silver charms to compose splendid classic charm bracelet. With your combination, a bit more freedom to try, through your imagination, all sorts of different types of beads together, design your unique personalized bracelet from Soufeel Jewelry. Whether it is romantic sentiment, family motifs, hobby or an array of other themes, you can always find the perfect gift ideas to personalize your - or someone else’s - jewelry “For Every Memorable Day”.</p>
             <v-lazy-load class="img" :src="'https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/personalized-charm-new/over1_03-mobile.jpg'" :watch="scrollY"></v-lazy-load>
@@ -65,13 +66,13 @@
         <div v-show="3 == tabsIndex" class="shipping">
             You can choose the delivery method during checkout: USPS First Class Shipping- Cost: $5.99 - Free over $49 Please Allow up to 8 business days for delivery via USPS If Your order has Personalized Products, please allow up to 10 business days for USPS delivery. DHL Express Shipping- Cost: $19.95 - Free over $150 Please allow up to 3 business days for delivery via DHL If Your order has Personalized Products, please allow up to 5 business days for DHL delivery. Please note that the time frame mentioned above includes production time.
         </div>
-    
+
         <!-- 底部上传按钮 -->
         <LayoutFooterUpload :dataSource="dataSource.footerUpload" :isLockConfrim="'loading' == dataSource.imageTools.status" :overlayDataURL="overlayDataURL" @loaded="loadUserImg" @upload-done="uploadDone">
         </LayoutFooterUpload>
-    
+
         <LayoutRecommend></LayoutRecommend>
-    
+
         <VMask v-model="isShowDialogPreview">
             <VDialog v-model="isShowDialogPreview">
                 <h3 slot="header">confrim your design</h3>
@@ -80,7 +81,7 @@
                     <h5>count: {{count}}</h5>
                     <span v-for="n in 10" :key="n" @click="count=n" :class="{active: n == count}">{{n}}</span>
                 </div>
-    
+
                 <template slot="footer">
                     <div class="flex">
                         <button class="button button-default button-block flex-item">Add To Cart & Design Another</button>
@@ -89,19 +90,19 @@
                 </template>
             </VDialog>
         </VMask>
-    
+
         <VMask v-model="isShowDialogLearnMore">
             <VDialog v-model="isShowDialogLearnMore">
                 <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-view.jpg" width="100%">
             </VDialog>
         </VMask>
-    
+
         <VMask v-model="isShowDialogMistakes">
             <VDialog v-model="isShowDialogMistakes">
                 <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/product/photocharms-alert.jpg" width="100%">
             </VDialog>
         </VMask>
-    
+
         <VMask v-model="isShowDialogFailUpload">
             <VDialog v-model="isShowDialogFailUpload">
                 <div class="clickhere" id="ticket_notice" style="display: block;">
@@ -114,7 +115,7 @@
                 </div>
             </VDialog>
         </VMask>
-    
+
     </ScrollView>
 </template>
 <script>
@@ -170,16 +171,11 @@ export default {
             isShowDialogLearnMore: false,
             isShowDialogMistakes: false,
             isShowDialogFailUpload: false,
-            tabsTop: 0,
 
         };
     },
 
     methods: {
-        getTabsTop({ top }) {
-            this.tabsTop = top;
-        },
-
         uploadDone(base64) {
             this.isShowDialogPreview = true;
         },
