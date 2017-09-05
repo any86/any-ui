@@ -30,7 +30,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../scss/theme.scss';
-$height: 1rem;
+$height: 50px;
 header {
     // position: fixed;
     // top: 0;
