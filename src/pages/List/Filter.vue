@@ -13,7 +13,7 @@
         </ul>
         <!-- 菜单选项 -->
         <ul v-if="'list' == dataSource[activeNavIndex].type && isOpenNavIndex == activeNavIndex && isOpen" class="dropdown">
-            <li v-for="(item, i) in dataSource[activeNavIndex].children" :key="item.title" @click="selectOption(i, item.value)">
+            <li v-for="(item, i) in dataSource[activeNavIndex].children" :key="item.title" @click="selectOption(i, item.value)" :class="{active: activeOptionIndex == i}" >
                 {{item.title}}
             </li>
         </ul>
@@ -24,11 +24,6 @@ export default {
     name: 'FilterLayout',
 
     props: {
-        scrollY: {
-            type: Number,
-            default: 0
-        },
-
         isOpen: {
             type: Boolean,
             default: false
@@ -93,7 +88,6 @@ $height:1rem;
         height: $height;
         display: flex;
         li {
-            font-family: AF_Riyadh;
             flex: 1;
             height: $height;
             width: 100%;
