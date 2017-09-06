@@ -8,6 +8,7 @@
                 <img ref="avator" class="avator" src="../assets/avator.jpeg" :style="{transform: `rotate(${angle}deg) scale(${scale})`}">
             </div>
         </div>
+        <button @click="reset" class="button button-default button-block ">复位</button>
         <button @click="addScale" class="button button-info button-block ">放大</button>
         <button @click="minusScale" class="button button-info button-block ">缩小</button>
         <button @click="minusAngle" class="button button-success button-block ">旋转-</button>
@@ -48,7 +49,7 @@ export default {
 
     mounted() {
         try {
-            let hammertime = new Hammer.Manager(this.$refs.avator);
+            let hammertime = new Hammer.Manager(this.$refs.view);
             hammertime.add(new Hammer.Pinch());
             hammertime.add(new Hammer.Rotate());
             hammertime.add(new Hammer.Pan());
@@ -59,6 +60,7 @@ export default {
 
             hammertime.on('rotatestart', (ev) => {
                 this.startRotation = ev.rotation;
+                this.lastAngle = this.angle;
             });
 
             hammertime.on('rotatemove', (ev) => {
@@ -68,7 +70,7 @@ export default {
             });
 
             hammertime.on('rotateend', (ev) => {
-                this.lastAngle = this.angle;
+                // this.lastAngle = this.angle;
                 this.lockPan = true;
                 clearTimeout(this.lockPanTimer);
                 this.lockPanTimer = setTimeout(() => {
@@ -77,12 +79,16 @@ export default {
             });
 
             // 缩放
+            hammertime.on('pinchstart', (ev) => {
+                this.lastScale = this.scale;
+            });
+
             hammertime.on('pinchmove', (ev) => {
                 this.scale = this.lastScale * ev.scale;
             });
 
             hammertime.on('pinchend', (ev) => {
-                this.lastScale = this.scale;
+                // this.lastScale = this.scale;
             });
 
             // 平移
@@ -142,6 +148,13 @@ export default {
 
         addAngle() {
             this.angle += 10;
+        },
+
+        reset(){
+            this.angle = 0;
+            this.scale = 1;
+            this.translateX = 0;
+            this.translateY = 0;
         }
     },
     components: { VInput }
