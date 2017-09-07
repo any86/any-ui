@@ -1,36 +1,67 @@
 <template>
     <ScrollView v-model="scrollY">
-        <h4>type: {{lockPan}}</h4>
-        <!-- <h4>ev: {{ev}}</h4> -->
-        <!-- <VInput v-model="rotation"></VInput>  -->
-        <div ref="view" class="view">
-            <div ref="box" class="box" :style="{transform: `translate3d(${translateX}px, ${translateY}px, 0)`}">
-                <img ref="avator" class="avator" src="../assets/avator.jpeg" :style="{transform: `rotate(${angle}deg) scale(${scale})`}">
-            </div>
-        </div>
-        <button @click="reset" class="button button-default button-block ">复位</button>
-        <button @click="addScale" class="button button-info button-block ">放大</button>
-        <button @click="minusScale" class="button button-info button-block ">缩小</button>
-        <button @click="minusAngle" class="button button-success button-block ">旋转-</button>
-        <button @click="addAngle" class="button button-success button-block ">旋转+</button>
-        <button @click="moveRight" class="button button-warning button-block ">向右</button>
-        <button @click="moveLeft" class="button button-warning button-block ">向左</button>
-        <button @click="moveUp" class="button button-danger button-block ">向上</button>
-        <button @click="moveDown" class="button button-danger button-block ">向下</button>
 
+        <div ref="view" class="view">
+            <img v-if="'' == uploadDataURL" :src="demoURL" width="100%">
+            <svg v-else ref="svg" :viewBox="`0 0 ${viewBoxWidth} ${viewBoxHeight}`" width="100%" preserveAspectRatio="xMidYMid meet">
+                <g :transform="`translate(${translateX} ${translateY})`">
+                    <image x="0" y="0" :width="viewBoxWidth" :xlink:href="uploadDataURL" :transform="`rotate(${angle}, ${viewBoxWidth/2} ${viewBoxHeight/2}) translate(${viewBoxWidth/2} ${viewBoxHeight/2}) scale(${scale}) translate(-${viewBoxWidth/2} -${viewBoxHeight/2})`" />
+                </g>
+                <image x="0" y="0" :width="viewBoxWidth" :xlink:href="coverDataURL" />
+            </svg>
+        </div>
+
+        <section class="tools-bar">
+            <span class="button-item" @click="moveLeft">
+                <Icon value="back"></Icon>
+            </span>
+            <span class="button-item" @click="moveRight">
+                <Icon value="more"></Icon>
+            </span>
+            <span class="button-item" @click="moveUp">
+                <Icon value="less"></Icon>
+            </span>
+            <span class="button-item" @click="moveDown">
+                <Icon value="moreunfold"></Icon>
+            </span>
+            <span class="button-item" @click="minusScale">
+                <Icon value="subtract"></Icon>
+            </span>
+            <span class="button-item" @click="addScale">
+                <Icon value="add"></Icon>
+            </span>
+            <span class="button-item" style="transform:scaleX(-1)" @click="minusAngle">
+                <Icon value="refresh"></Icon>
+            </span>
+            <span class="button-item" @click="addAngle">
+                <Icon value="refresh"></Icon>
+            </span>
+            <span class="button-item" @click="reset">
+                <Icon value="28"></Icon>
+            </span>
+        </section>
+
+        <button class="button button-block button-danger " @click="preview">preview</button>
     </ScrollView>
 </template>
 <script>
 import VInput from '@/packages/Input/Input'
+import VSpinner from '@/packages/Spinner/Spinner'
 import Hammer from 'hammerjs'
 export default {
     name: 'Canvas',
 
     data() {
         return {
-            ev: null,
 
-            type: '',
+            viewBoxWidth: 500, // 对应模具图片
+            viewBoxHeight: 400,
+
+            uploadDataURL: '',
+            coverDataURL: '',
+            prewiewDataURL: '',
+            demoURL: './static/C046-1.png',
+
             scrollY: 0,
             // 缩放
             scale: 1,
@@ -47,7 +78,16 @@ export default {
         }
     },
 
-    mounted() {
+    async mounted() {
+        var coverImage = await imageLoader('../static/C046.png');
+        this.coverDataURL = image2DataURL(coverImage);
+
+        var uploadImage = await imageLoader('../static/avator.jpeg');
+        this.uploadDataURL = image2DataURL(uploadImage);
+
+        this.$emit('mounted', this);
+
+        // 手势
         try {
             let hammertime = new Hammer.Manager(this.$refs.view);
             hammertime.add(new Hammer.Pinch());
@@ -118,12 +158,18 @@ export default {
     },
 
     methods: {
-        addScale(){
-            this.scale+= .1;
+        async preview() {
+            var svg_xml = new XMLSerializer().serializeToString(this.$refs.svg);
+            var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
+            this.prewiewDataURL = image2DataURL(image);
         },
 
-        minusScale(){
-            this.scale-= .1;
+        addScale() {
+            this.scale += .1;
+        },
+
+        minusScale() {
+            this.scale -= .1;
         },
 
         moveLeft() {
@@ -135,11 +181,11 @@ export default {
         },
 
         moveUp() {
-            this.translateY-= 10;
+            this.translateY -= 10;
         },
 
         moveDown() {
-            this.translateY+= 10;
+            this.translateY += 10;
         },
 
         minusAngle() {
@@ -150,31 +196,41 @@ export default {
             this.angle += 10;
         },
 
-        reset(){
+        reset() {
             this.angle = 0;
             this.scale = 1;
             this.translateX = 0;
             this.translateY = 0;
         }
     },
-    components: { VInput }
+    components: { VInput, VSpinner }
 }
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
-h4 {
-    word-break: break-all;
+.view {
+    width: 100%;
+    .demo {
+        width: 100%;
+    }
+    .box {
+        display: inline-block;
+    }
 }
 
-.box {
-    display: inline-block;
-    background: #ccc;
-    border-bottom: 1px solid $lightest;
-}
-
-.avator {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 100%;
+.tools-bar {
+    position: relative;
+    display: flex;
+    margin:$gutter auto;
+    .button-item {
+        flex: 1;
+        color: $dark;
+        font-size: .4rem;
+        text-align: center;
+        &:active {
+            background: $lightest;
+            color: $light;
+        }
+    }
 }
 </style>

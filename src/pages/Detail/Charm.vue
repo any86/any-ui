@@ -5,7 +5,7 @@
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- charm tools -->
-        <ImageTools :dataSource="dataSource.imageTools" :dataURL="userDataURL" @change="changeImageTools">
+        <ImageTools @mounted="getImageTools">
         </ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
@@ -191,6 +191,10 @@ export default {
          */
         changeImageTools(canvas) {
             this.overlayDataURL = canvas.toDataURL();
+        },
+
+        getImageTools(imageTools){
+            imageTools.preview()
         }
     },
 
