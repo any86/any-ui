@@ -1,13 +1,12 @@
 <template>
     <ScrollView v-model="scrollY">
-
+        <img :src="prewiewDataURL" width="100%">
         <div ref="view" class="view">
-            <img v-if="'' == uploadDataURL" :src="demoURL" width="100%">
-            <svg v-else ref="svg" :viewBox="`0 0 ${viewBoxWidth} ${viewBoxHeight}`" width="100%" preserveAspectRatio="xMidYMid meet">
+            <svg ref="svg" :viewBox="`0 0 ${viewBoxWidth} ${viewBoxHeight}`" width="100%" preserveAspectRatio="xMidYMid meet">
                 <g :transform="`translate(${translateX} ${translateY})`">
-                    <image x="0" y="0" :width="viewBoxWidth" :xlink:href="uploadDataURL" :transform="`rotate(${angle}, ${viewBoxWidth/2} ${viewBoxHeight/2}) translate(${viewBoxWidth/2} ${viewBoxHeight/2}) scale(${scale}) translate(-${viewBoxWidth/2} -${viewBoxHeight/2})`" />
+                    <image x="0" y="0" :width="viewBoxWidth" height="100%" :xlink:href="uploadDataURL" :transform="`rotate(${angle}, ${viewBoxWidth/2} ${viewBoxHeight/2}) translate(${viewBoxWidth/2} ${viewBoxHeight/2}) scale(${scale}) translate(-${viewBoxWidth/2} -${viewBoxHeight/2})`" />
                 </g>
-                <image x="0" y="0" :width="viewBoxWidth" :xlink:href="coverDataURL" />
+                <image x="0" y="0" :width="viewBoxWidth" height="100%" :xlink:href="coverDataURL" />
             </svg>
         </div>
 
@@ -45,6 +44,7 @@
     </ScrollView>
 </template>
 <script>
+import FileAPI from 'fileapi'
 import VInput from '@/packages/Input/Input'
 import VSpinner from '@/packages/Spinner/Spinner'
 import Hammer from 'hammerjs'
@@ -221,7 +221,7 @@ export default {
 .tools-bar {
     position: relative;
     display: flex;
-    margin:$gutter auto;
+    margin: $gutter auto;
     .button-item {
         flex: 1;
         color: $dark;

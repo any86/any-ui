@@ -94,7 +94,6 @@ router.beforeEach(function(to, from, next) {
         routerHistoryCount++;
         routerHistory.set(to.path, routerHistoryCount);
     }
-    console.log(routerHistory);
     store.commit(types.SHOW_LOADING);
     next();
 });
@@ -125,13 +124,21 @@ window.image2DataURL = image => {
     const height = image.height * rate;
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
-
     canvas.width = width;
     canvas.height = height;
     context.imageSmoothingEnabled = false; //  关闭抗锯齿
     // context.imageSmoothingQuality = 'high';
     context.drawImage(image, 0, 0, width, height);
-
-    return canvas.toDataURL("image/png", 1.0);
+    return canvas.toDataURL("image/png", 1);
 };
 
+
+
+
+import Raven from 'raven-js';
+import RavenVue from 'raven-js/plugins/vue';
+
+Raven
+    .config('https://69457829c83e470e8aff29d0fe8ae351@sentry.io/214710')
+    .addPlugin(RavenVue, Vue)
+    .install();

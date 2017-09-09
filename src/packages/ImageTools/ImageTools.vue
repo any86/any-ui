@@ -1,12 +1,14 @@
 <template>
     <section>
-        <div ref="view" class="view">
-            <img v-if="'' == uploadDataURL" :src="demoURL" width="100%">
-            <svg v-else ref="svg" :viewBox="`0 0 ${viewBoxWidth} ${viewBoxHeight}`" width="100%" preserveAspectRatio="xMidYMid meet">
+        <!-- 上传前 -->
+        <img v-show="'' == uploadDataURL" :src="demoURL" width="100%">
+        <!-- 上传后 -->
+        <div v-show="'' !== uploadDataURL" ref="view" class="view">
+            <svg ref="svg" :viewBox="`0 0 ${viewBoxWidth} ${viewBoxHeight}`" width="100%" preserveAspectRatio="xMidYMid meet">
                 <g :transform="`translate(${translateX} ${translateY})`">
-                    <image x="0" y="0" :width="viewBoxWidth" :xlink:href="uploadDataURL" :transform="`rotate(${angle}, ${viewBoxWidth/2} ${viewBoxHeight/2}) translate(${viewBoxWidth/2} ${viewBoxHeight/2}) scale(${scale}) translate(-${viewBoxWidth/2} -${viewBoxHeight/2})`" />
+                    <image x="0" y="0" :width="viewBoxWidth" height="100%" :xlink:href="uploadDataURL" :transform="`rotate(${angle}, ${viewBoxWidth/2} ${viewBoxHeight/2}) translate(${viewBoxWidth/2} ${viewBoxHeight/2}) scale(${scale}) translate(-${viewBoxWidth/2} -${viewBoxHeight/2})`" />
                 </g>
-                <image x="0" y="0" :width="viewBoxWidth" :xlink:href="coverDataURL" />
+                <image x="0" y="0" :width="viewBoxWidth" height="100%" :xlink:href="coverDataURL" />
             </svg>
         </div>
 
@@ -48,16 +50,25 @@ import Hammer from 'hammerjs'
 export default {
     name: 'Canvas',
 
+    props: {
+        uploadDataURL: {
+            type: String
+        },
+
+        demoURL: {
+            type: String
+        }
+    },
+
     data() {
         return {
-
+            hammertime: null,
+            // viewbox
             viewBoxWidth: 500, // 对应模具图片
             viewBoxHeight: 400,
 
-            uploadDataURL: '',
             coverDataURL: '',
             prewiewDataURL: '',
-            demoURL: './static/C046-1.png',
 
             // 缩放
             scale: 1,
@@ -77,35 +88,37 @@ export default {
     async mounted() {
         var coverImage = await imageLoader('../static/C046.png');
         this.coverDataURL = image2DataURL(coverImage);
-
-        var uploadImage = await imageLoader('../static/avator.jpeg');
-        this.uploadDataURL = image2DataURL(uploadImage);
-
+        // 同时通知封面图片已经加载完毕
         this.$emit('mounted', this);
 
         // 手势
-        try {
-            let hammertime = new Hammer.Manager(this.$refs.view);
-            hammertime.add(new Hammer.Pinch());
-            hammertime.add(new Hammer.Rotate());
-            hammertime.add(new Hammer.Pan());
+        this._hammer();
 
-            hammertime.get('pinch').recognizeWith('rotate');
-            // hammertime.get('pan').requireFailure('pinch');
-            // hammertime.get('pan').requireFailure('rotate');
+    },
 
-            hammertime.on('rotatestart', (ev) => {
+    methods: {
+        _hammer() {
+            this.hammertime = new Hammer.Manager(this.$refs.view);
+            this.hammertime.add(new Hammer.Pinch());
+            this.hammertime.add(new Hammer.Rotate());
+            this.hammertime.add(new Hammer.Pan());
+
+            this.hammertime.get('pinch').recognizeWith('rotate');
+            // this.hammertime.get('pan').requireFailure('pinch');
+            // this.hammertime.get('pan').requireFailure('rotate');
+
+            this.hammertime.on('rotatestart', (ev) => {
                 this.startRotation = ev.rotation;
                 this.lastAngle = this.angle;
             });
 
-            hammertime.on('rotatemove', (ev) => {
+            this.hammertime.on('rotatemove', (ev) => {
                 var activeRotation = ev.rotation - this.startRotation;
                 this.angle = this.lastAngle + activeRotation;
                 ev.preventDefault();
             });
 
-            hammertime.on('rotateend', (ev) => {
+            this.hammertime.on('rotateend', (ev) => {
                 // this.lastAngle = this.angle;
                 this.lockPan = true;
                 clearTimeout(this.lockPanTimer);
@@ -115,27 +128,27 @@ export default {
             });
 
             // 缩放
-            hammertime.on('pinchstart', (ev) => {
+            this.hammertime.on('pinchstart', (ev) => {
                 this.lastScale = this.scale;
             });
 
-            hammertime.on('pinchmove', (ev) => {
+            this.hammertime.on('pinchmove', (ev) => {
                 this.scale = this.lastScale * ev.scale;
             });
 
-            hammertime.on('pinchend', (ev) => {
+            this.hammertime.on('pinchend', (ev) => {
                 // this.lastScale = this.scale;
             });
 
             // 平移
-            hammertime.on('panstart', (ev) => {
+            this.hammertime.on('panstart', (ev) => {
                 if (!this.lockPan) {
                     this.lastTranslateX = this.translateX;
                     this.lastTranslateY = this.translateY;
                 }
             });
 
-            hammertime.on('panmove', (ev) => {
+            this.hammertime.on('panmove', (ev) => {
                 if (!this.lockPan) {
                     this.translateX = this.lastTranslateX + ev.deltaX;
                     this.translateY = this.lastTranslateY + ev.deltaY;
@@ -143,22 +156,18 @@ export default {
                 }
             });
 
-            hammertime.on('panend', (ev) => {
+            this.hammertime.on('panend', (ev) => {
                 // if (!this.lockPan) {
                 // }
             });
+        },
 
-        } catch (e) {
-            console.log(e)
-        }
-    },
 
-    methods: {
         async preview() {
             var svg_xml = new XMLSerializer().serializeToString(this.$refs.svg);
             var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
             this.prewiewDataURL = image2DataURL(image);
-            console.log(this.prewiewDataURL)
+            return this.prewiewDataURL;
         },
 
         addScale() {
@@ -200,7 +209,17 @@ export default {
             this.translateY = 0;
         }
     },
-    components: { VInput, VSpinner }
+    components: { VInput, VSpinner },
+
+    watch: {
+        uploadDataURL() {
+            this.reset();
+        }
+    },
+
+    destroyed() {
+        this.hammertime.destroy();
+    }
 }
 </script>
 <style scoped lang="scss">

@@ -1,11 +1,15 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" @scroll="liveScrollY=$event" class="page-detail">
+        <!-- 固定底部, 上传按钮 -->
+        <LayoutFooterUpload :uploadOptions="dataSource.footerUpload" :resultDataURL="resultDataURL" @loaded="imageLoaded" @uploaded="uploadDone" @confirm="confirm">
+        </LayoutFooterUpload>
+
         <VGoTop @click="scrollY=0"></VGoTop>
         <LayoutHeader></LayoutHeader>
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- charm tools -->
-        <ImageTools @mounted="getImageTools">
+        <ImageTools @mounted="getImageTools" :uploadDataURL="uploadDataURL" :demoURL="'./static/C046-1.png'">
         </ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
@@ -34,7 +38,7 @@
                 <a class="text text-danger">This item requires 1-3 days to handcraft.</a>
             </VWarning>
         </div>
-        
+
         <!-- 吸附的tabs -->
         <VAffix :scrollY="liveScrollY" @click="scrollY = $event.top">
             <v-tabs v-model="tabsIndex">
@@ -67,16 +71,12 @@
             You can choose the delivery method during checkout: USPS First Class Shipping- Cost: $5.99 - Free over $49 Please Allow up to 8 business days for delivery via USPS If Your order has Personalized Products, please allow up to 10 business days for USPS delivery. DHL Express Shipping- Cost: $19.95 - Free over $150 Please allow up to 3 business days for delivery via DHL If Your order has Personalized Products, please allow up to 5 business days for DHL delivery. Please note that the time frame mentioned above includes production time.
         </div>
 
-        <!-- 底部上传按钮 -->
-        <LayoutFooterUpload :dataSource="dataSource.footerUpload" :isLockConfrim="'loading' == dataSource.imageTools.status" :overlayDataURL="overlayDataURL" @loaded="loadUserImg" @upload-done="uploadDone">
-        </LayoutFooterUpload>
-
         <LayoutRecommend></LayoutRecommend>
 
         <VMask v-model="isShowDialogPreview">
             <VDialog v-model="isShowDialogPreview">
                 <h3 slot="header">confrim your design</h3>
-                <img :src="overlayDataURL" width="100%">
+                <img :src="resultDataURL" width="100%">
                 <div class="count">
                     <h5>count: {{count}}</h5>
                     <span v-for="n in 10" :key="n" @click="count=n" :class="{active: n == count}">{{n}}</span>
@@ -84,8 +84,8 @@
 
                 <template slot="footer">
                     <div class="flex">
-                        <button class="button button-default button-block flex-item">Add To Cart & Design Another</button>
-                        <button class="button button-danger button-block flex-item">Checkout</button>
+                        <button class="button button-default flex-item">Add To Cart & Design Another</button>
+                        <button class="button button-danger button-block  flex-item">Checkout</button>
                     </div>
                 </template>
             </VDialog>
@@ -160,9 +160,8 @@ export default {
                 },
             },
             count: 1,
-            upload: {},
-            userDataURL: '',
-            overlayDataURL: '',
+            uploadDataURL: '',
+            resultDataURL: '',
             scrollY: 0,
             liveScrollY: 0,
             tabsIndex: 0,
@@ -171,30 +170,28 @@ export default {
             isShowDialogLearnMore: false,
             isShowDialogMistakes: false,
             isShowDialogFailUpload: false,
+            $imageTools: null,
 
         };
     },
 
     methods: {
+        imageLoaded(dataURL) {
+            this.uploadDataURL = dataURL;
+            this.scrollY = 0;
+        },
+
         uploadDone(base64) {
             this.isShowDialogPreview = true;
         },
-        /**
-         * 读取用户上传图片的base64
-         */
-        loadUserImg(dataURL) {
-            this.userDataURL = dataURL;
+
+        getImageTools(imageTools) {
+            this.$imageTools = imageTools;
         },
 
-        /**
-         *imageTools发生变化
-         */
-        changeImageTools(canvas) {
-            this.overlayDataURL = canvas.toDataURL();
-        },
-
-        getImageTools(imageTools){
-            imageTools.preview()
+        async confirm() {
+            var dataURL = await this.$imageTools.preview();
+            this.resultDataURL = dataURL;
         }
     },
 
@@ -211,10 +208,6 @@ export default {
         LayoutHeader,
         LayoutFooterUpload,
         LayoutResult, LayoutRecommend
-    },
-
-    watch: {
-
     }
 }
 </script>
@@ -286,5 +279,7 @@ export default {
     .shipping {
         padding: $gutter;
     }
+
+    .button{font-size: $small;}
 }
 </style>

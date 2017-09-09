@@ -7,7 +7,7 @@
         <template v-else>
             <label class="button-upload">
                 Change Picture
-                <input ref="upload" name="upload" class="input-upload" type="file">
+                <input ref="reUpload" name="upload" class="input-upload" type="file">
             </label>
             <button @click="confirm" class="button-confirm">Confirm</button>
         </template>
@@ -15,19 +15,21 @@
 </template>
 <script>
 import FileAPI from 'fileapi'
+/** 
+ * 自定义事件
+ * @confirm {event} 点击confirm
+ * @demoLoaded {event} demo图读取完毕触发  
+ * @uploading {event} 上传中
+ * @uploaded {event} 上传完毕
+ */
 export default {
     name: 'FooterUpload',
 
     props: {
-        dataSource: {},
+        uploadOptions: {},
 
-        overlayDataURL: {
+        resultDataURL: {
             type: String
-        },
-
-        isLockConfrim: {
-            type: Boolean,
-            default: false
         }
     },
 
@@ -39,15 +41,27 @@ export default {
     },
 
     mounted() {
-        // 监听上传事件, 单文件上传
-        FileAPI.event.on(this.$refs.upload, 'change', evt => {
-            this.status = 'loading';
-            this.file = FileAPI.getFiles(evt)[0];
-            FileAPI.Image(this.file).get((err, canvas) => {
-                // 加载完毕
-                this.status = 'loaded';
-                this.$emit('loaded', canvas.toDataURL());
+        const bindUpload = (ref, cb = null) => {
+            FileAPI.event.on(ref, 'change', evt => {
+                this.status = 'loading';
+                this.file = FileAPI.getFiles(evt)[0];
+                if (undefined !== this.file) {
+                    var $loading = this.$loading();
+                    FileAPI.Image(this.file).get((err, canvas) => {
+                        // 加载完毕
+                        this.status = 'loaded';
+                        this.$emit('loaded', canvas.toDataURL());
+                        $loading.close();
+                        if (null !== cb) {
+                            cb();
+                        }
+                    });
+                }
             });
+        }
+        // 监听上传事件, 单文件上传
+        bindUpload(this.$refs.upload, () => {
+            bindUpload(this.$refs.reUpload);
         });
     },
 
@@ -59,14 +73,20 @@ export default {
          */
         confirm(progress = () => { }, done = () => { }) {
             var $loading = this.$loading();
-            FileAPI.upload({
-                url: this.dataSource.url,
 
-                headers: this.dataSource.headers,
+            // 不知道为什么不放到最后, 会影响loading的弹出时间
+            setTimeout(() => {
+                this.$emit('confirm');
+            }, 0);
+
+            FileAPI.upload({
+                url: this.uploadOptions.url,
+
+                headers: this.uploadOptions.headers,
 
                 data: {
-                    ...this.dataSource.params,
-                    base64: this.overlayDataURL
+                    ...this.uploadOptions.params,
+                    base64: this.resultDataURL
                 },
 
                 progress: (evt) => {
@@ -80,7 +100,7 @@ export default {
 
                 complete: (err, xhr, file, options) => {
                     $loading.value = false;
-                    this.$emit('upload-done', this.overlayDataURL);
+                    this.$emit('uploaded', this.resultDataURL);
                     if (err) {
                         done(err);
                     } else {
