@@ -9,6 +9,7 @@ import FlexItem from "./Flexbox/FlexItem";
 import Badge from "./Badge/Badge";
 
 var Atom = {};
+
 Atom.install = function(Vue) {
     Vue.component(Flexbox.name, Flexbox);
     Vue.component(FlexItem.name, FlexItem);
@@ -16,6 +17,20 @@ Atom.install = function(Vue) {
     Vue.component(Icon.name, Icon);
     Vue.component(Spinner.name, Spinner);
     Vue.component(Badge.name, Badge);
+
+    var createVueChild = component => {
+        // 创建一个挂载点
+        const node = document.createElement("div");
+        // 起个不重复的名字
+        node.id = `_app-${component.name}-${Math.random()
+            .toString(36)
+            .substr(2, 10)}`;
+        // 插入到文档最后
+        document.body.appendChild(node);
+        // 挂载
+        const VueChild = Vue.extend(component);
+        return new VueChild().$mount("#" + node.id);
+    };
 
     // Vue.component('VPrompt', Prompt);
     // document.createDocumentFragment()
@@ -99,50 +114,14 @@ Atom.install = function(Vue) {
     };
 
     // ========================================== loading ==================================
-    {
-        let LoadingVM = null;
-        Vue.prototype.$loading = (options = { isShow: true }) => {
-            if (null === LoadingVM) {
-                // ** 创建新实例 **
-                const LoadingComponent = Vue.extend(Loading);
-                // 创建一个挂载点
-                var node = document.createElement("div");
-                // 起个不重复的名字
-                node.id = "_app-loading-" + Math.ceil(Math.random());
-                document.body.appendChild(node);
-                // 挂载
-                LoadingVM = new LoadingComponent().$mount("#" + node.id);
-
-                LoadingVM.value = options.isShow;
-
-                LoadingVM.close = () => {
-                    LoadingVM.value = false;
-                    // LoadingVM.$destroy();
-                };
-                return LoadingVM;
-            } else {
-                LoadingVM.value = true;
-                LoadingVM.close = () => {
-                    LoadingVM.value = false;
-                    // LoadingVM.$destroy();
-                };
-                return LoadingVM;
-            }
-        };
-    }
-
+    Vue.prototype.$loading = () => {
+        const LoadingVM = createVueChild(Loading);
+        LoadingVM.isShow = true;
+        return LoadingVM;
+    };
     // ==========================================toast==================================
     Vue.prototype.$toast = (text = "", options = {}) => {
-        // ** 每次创建新toast实例 **
-        var ToastComponent = Vue.extend(Toast);
-        // 创建一个挂载点
-        var node = document.createElement("div");
-        // 起个不重复的名字
-        node.id = "_app-toast-" + Math.ceil(Math.random());
-        document.body.appendChild(node);
-        // 挂载
-        var toastVM = new ToastComponent().$mount("#" + node.id);
-
+        const toastVM = createVueChild(Toast);
         toastVM.type = options.type || "default";
         toastVM.position = options.position || "center";
 

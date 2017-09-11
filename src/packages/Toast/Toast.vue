@@ -19,7 +19,7 @@ export default {
             timer: null,
             text: '',
             isShow: false,
-            delay: 2000,
+            delay: 200000,
             position: 'center',
             type: 'default'
         };
@@ -29,7 +29,7 @@ export default {
 
     },
 
-    destroyed() {},
+    destroyed() { },
 
     methods: {
         delayClose() {
@@ -62,10 +62,8 @@ $height: $minHeight;
     background: rgba(0, 0, 0, .7);
     color: $sub;
     border-radius: $borderRadius;
-    box-shadow: $shadowUp, $shadowDown;
-    // overflow: hidden;
-    padding: 3*$gutter 5*$gutter;
-    // word-break: keep-all;
+    box-shadow: $shadowUp, $shadowDown; // overflow: hidden;
+    padding: $gutter 1.2*$gutter; // word-break: keep-all;
     // white-space:nowrap;
     &.top {
         z-index: $toastZIndex;
@@ -100,7 +98,7 @@ $height: $minHeight;
     }
     >p {
         text-align: center;
-        font-size: $big;
+        color: $sub;
     }
 }
 
