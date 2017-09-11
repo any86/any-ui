@@ -15,19 +15,17 @@ app.use("/uploads", express.static("./uploads/"));
 var uploadDir = "./uploads";
 
 app.post("/upload", function(req, res) {
+    
     // 建立上传文件夹
     if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir);
     }
-
     var form = new multiparty.Form({ uploadDir });
-
     form.on("error", function(err) {
         console.log("Error parsing form: " + err.stack);
     });
-
     form.parse(req, function(err, fields, files) {
-        var filesTmp = JSON.stringify(files, null, 2);
+        console.log(files);
         if (err) {
             console.log("parse error: " + err);
             res.send("写文件操作失败。");
@@ -38,17 +36,27 @@ app.post("/upload", function(req, res) {
                     data: {
                         url: files.file[0].path,
                         id: Mock.Random.natural()
-                    }
+                    },
+                    files
                 };
             } else {
                 var result = {
                     status: 0,
-                    message: "错误了啊!"
+                    message: "错误了啊!",
+                    files
                 };
             }
             res.json(result);
         }
     });
+});
+
+app.post('/success', (req, res) => {
+    res.json({text: 'ok'});
+});
+
+app.post('/error', (req, res) => {
+    res.json({text: 'error'});
 });
 
 app.get("/goods", function(req, res) {
