@@ -132,13 +132,20 @@ window.image2DataURL = image => {
     return canvas.toDataURL("image/png", 1);
 };
 
+window.dataURL2BLOB = urlData => {
+    var bytes = window.atob(urlData.split(",")[1]); //去掉url的头，并转换为byte
+    //处理异常,将ascii码小于0的转换为大于0
+    var ab = new ArrayBuffer(bytes.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+    }
+    return new Blob([ab], { type: "image/png" });
+};
 
+import Raven from "raven-js";
+import RavenVue from "raven-js/plugins/vue";
 
-
-import Raven from 'raven-js';
-import RavenVue from 'raven-js/plugins/vue';
-
-Raven
-    .config('https://69457829c83e470e8aff29d0fe8ae351@sentry.io/214710')
+Raven.config("https://69457829c83e470e8aff29d0fe8ae351@sentry.io/214710")
     .addPlugin(RavenVue, Vue)
     .install();
