@@ -40,7 +40,7 @@
             </span>
         </section>
 
-        <button class="button button-block button-danger " @click="preview">preview</button>
+        <button class="button button-block button-danger" @click="preview">preview</button>
     </ScrollView>
 </template>
 <script>

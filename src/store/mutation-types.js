@@ -33,3 +33,8 @@ export const RESTORE_COUPON = 'RESTORE_COUPON';
 
 // 路由动画切换方向
 export const SET_PAGE_APPEAR_DIRECTION= 'SET_PAGE_APPEAR_DIRECTION';
+
+
+// charm
+export const SET_CHARM_SVG= 'SET_CHARM_SVG';
+export const CLEAR_CHARM_SVG= 'CLEAR_CHARM_SVG';

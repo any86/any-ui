@@ -3,7 +3,7 @@ import Axios from "axios";
 const axios = Axios.create({
     headers: {
         "api-store": "default",
-        "api-cache": 1,
+        "api-cache": 1
     }
 });
 
@@ -35,9 +35,7 @@ const saveAddress = params => axios.post("./mock/success", params);
 // 商品列表
 // const getGoodsList = params => axios.get('/api/rest/catalog/product?category=7', { params });
 
-
 const getGoodsList = params => axios.get("./mock/goods", { params });
-
 
 const getGoodsListBySku = params =>
     axios.get("/api/rest/catalog/product", { params });
@@ -76,8 +74,12 @@ const saveShippingAddress = data =>
 const getShippingFee = param =>
     axios.get("/api/rest/checkout/shipping", { params });
 
+// 保存charm
+const saveCharm = data => axios.post("./mock/upload", data);
+
 // 暴露
 export default {
+    saveCharm,
     getFont,
     getShippingFee,
     saveShippingAddress,

@@ -89,8 +89,7 @@ export default {
         var coverImage = await imageLoader('../static/C046.png');
         this.coverDataURL = image2DataURL(coverImage);
         // 同时通知封面图片已经加载完毕
-        this.$emit('mounted', this);
-
+        this.$emit('mounted', this.$refs.svg);
         // 手势
         this._hammer();
 
@@ -160,14 +159,6 @@ export default {
                 // if (!this.lockPan) {
                 // }
             });
-        },
-
-
-        async preview() {
-            var svg_xml = new XMLSerializer().serializeToString(this.$refs.svg);
-            var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
-            this.prewiewDataURL = image2DataURL(image);
-            return this.prewiewDataURL;
         },
 
         addScale() {

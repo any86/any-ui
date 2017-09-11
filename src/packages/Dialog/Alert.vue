@@ -21,7 +21,7 @@ export default {
         },
 
         width: {
-            default: '90%'
+            default: '80%'
         },
 
         text: {

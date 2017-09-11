@@ -67,6 +67,7 @@ export default {
 .component-affix {
     position: relative;
     .fixed {
+        background: $background;
         position: fixed;
         left: 0;
         z-index: 100;

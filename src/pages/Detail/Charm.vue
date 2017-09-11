@@ -1,15 +1,17 @@
 <template>
     <ScrollView ref="scroll" v-model="scrollY" @scroll="liveScrollY=$event" class="page-detail">
         <!-- 固定底部, 上传按钮 -->
-        <LayoutFooterUpload :uploadOptions="dataSource.footerUpload" :resultDataURL="resultDataURL" @loaded="imageLoaded" @uploaded="uploadDone" @confirm="confirm">
+        <LayoutFooterUpload :uploadOptions="dataSource.footerUpload" @loaded="imageLoaded" @confirm="confirm" :svg="svgElement">
         </LayoutFooterUpload>
 
-        <VGoTop @click="scrollY=0"></VGoTop>
+        <transition name="fadeUp ">
+            <VGoTop v-show="0 < scrollY" @click="scrollY=0"></VGoTop>
+        </transition>
         <LayoutHeader></LayoutHeader>
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- charm tools -->
-        <ImageTools @mounted="getImageTools" :uploadDataURL="uploadDataURL" :demoURL="'./static/C046-1.png'">
+        <ImageTools @mounted="svgElement=$event" :uploadDataURL="uploadDataURL" :demoURL="'./static/C046-1.png'">
         </ImageTools>
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
@@ -149,10 +151,6 @@ export default {
     data() {
         return {
             dataSource: {
-                imageTools: {
-                    status: 'ready',
-                },
-
                 footerUpload: {
                     url: './mock/upload',
                     headers: {},
@@ -170,10 +168,11 @@ export default {
             isShowDialogLearnMore: false,
             isShowDialogMistakes: false,
             isShowDialogFailUpload: false,
-            $imageTools: null,
-
+            svgElement: null,
         };
     },
+
+
 
     methods: {
         imageLoaded(dataURL) {
@@ -181,17 +180,13 @@ export default {
             this.scrollY = 0;
         },
 
-        uploadDone(base64) {
+        // uploadDone(base64) {
+        //     this.isShowDialogPreview = true;
+        // },
+
+        confirm(resultDataURL) {
             this.isShowDialogPreview = true;
-        },
-
-        getImageTools(imageTools) {
-            this.$imageTools = imageTools;
-        },
-
-        async confirm() {
-            var dataURL = await this.$imageTools.preview();
-            this.resultDataURL = dataURL;
+            this.resultDataURL = resultDataURL;
         }
     },
 
@@ -280,6 +275,8 @@ export default {
         padding: $gutter;
     }
 
-    .button{font-size: $small;}
+    .button {
+        font-size: $small;
+    }
 }
 </style>

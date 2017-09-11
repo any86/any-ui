@@ -30,7 +30,9 @@ export default {
 
         resultDataURL: {
             type: String
-        }
+        },
+
+        svg: {}
     },
 
     data() {
@@ -41,6 +43,7 @@ export default {
     },
 
     mounted() {
+
         const bindUpload = (ref, cb = null) => {
             FileAPI.event.on(ref, 'change', evt => {
                 this.status = 'loading';
@@ -68,46 +71,24 @@ export default {
     methods: {
         /**
          * 上传
-         * @param  {Function} progress 进度回调函数
-         * @param  {Function} done     完成对调函数
          */
-        confirm(progress = () => { }, done = () => { }) {
+        async confirm() {
             var $loading = this.$loading();
-
-            // 不知道为什么不放到最后, 会影响loading的弹出时间
-            setTimeout(() => {
-                this.$emit('confirm');
-            }, 0);
-
-            FileAPI.upload({
-                url: this.uploadOptions.url,
-
-                headers: this.uploadOptions.headers,
-
-                data: {
-                    ...this.uploadOptions.params,
-                    base64: this.resultDataURL
-                },
-
-                progress: (evt) => {
-                    this.$emit('uploading', Math.floor(evt.loaded / evt.total * 100));
-                },
-
-                files: {
-                    file: this.file,
-                    // file: dataURLtoBlob(this.overlayBase64)
-                },
-
-                complete: (err, xhr, file, options) => {
-                    $loading.value = false;
-                    this.$emit('uploaded', this.resultDataURL);
-                    if (err) {
-                        done(err);
-                    } else {
-                        done(JSON.parse(xhr.response), file);
-                    }
-                }
-            });
+            // svg to base64ç
+            var svg_xml = new XMLSerializer().serializeToString(this.svg);
+            var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
+            var resultDataURL = image2DataURL(image);
+            // 提供base64给预览
+            this.$emit('confirm', resultDataURL);
+            // 上传
+            var formdata = new FormData();
+            // 合成图
+            formdata.append('file', new File([dataURL2BLOB(resultDataURL)], "xx.png"));
+            // 用户上传图
+            formdata.append('file', this.file);
+            // 开始上传
+            await this.$api.saveCharm(formdata);
+            $loading.close();
         },
     }
 }
