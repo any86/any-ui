@@ -72,7 +72,7 @@ export default {
     },
 
     mounted() {
-
+        this.$toast('sad221');
         this.refresh();
 
         setInterval(() => {
