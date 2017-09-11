@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
-        <div class="component-loading">
-            <VMask :value="value" class="mask" :background="`rgba(0,0,0,0})`">
+        <div v-show="isShow" class="component-loading">
+            <VMask :value="isShow" class="mask" :background="`rgba(0,0,0,0})`">
                 <div class="dialog">
                     <img src="../../assets/heart.svg" class="heart">
                     <p>LOADING</p>
@@ -16,15 +16,17 @@ import VMask from '@/packages/Dialog/Mask'
 export default {
     name: 'Loading',
 
-    props: {
-        value: {
-            type: Boolean
-        }
+    data() {
+        return { isShow: false };
     },
 
     methods: {
         close() {
-            this.$emit('input', false);
+            this.isShow = false;
+        },
+
+        hide() {
+            this.close();
         }
     },
 
