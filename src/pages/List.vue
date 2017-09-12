@@ -72,9 +72,7 @@ export default {
     },
 
     mounted() {
-        this.$toast('sad221');
         this.refresh();
-
         setInterval(() => {
             var height = localStorage.getItem('listIframeHeight');
             this.iframeHeight = height;
@@ -83,7 +81,8 @@ export default {
 
     methods: {
         addToCart() {
-            console.log(1);
+            this.$prompt('不能睡!')
+
         },
 
         gotop() {

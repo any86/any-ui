@@ -1,12 +1,9 @@
 <template>
-    <transition v-if="animate" name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
+    <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
         <div v-show="value" @click.self="close" class="component-mask" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs">
             <slot></slot>
         </div>
     </transition>
-    <div v-else v-show="value" @click.self="close" class="component-mask" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs">
-        <slot></slot>
-    </div>
 </template>
 <script>
 export default {
@@ -25,11 +22,6 @@ export default {
         lock: {
             type: Boolean,
             default: false
-        },
-
-        animate: {
-            type: Boolean,
-            default: true
         },
 
         zIndex: {
@@ -64,7 +56,6 @@ export default {
         }
     }
 };
-
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';

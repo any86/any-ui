@@ -30,7 +30,7 @@ export default {
 @import '../../scss/theme.scss';
 $height: .56rem;
 label.component-switch {
-    display: flex;
+    display: inline-flex;
     >.title {
         line-height: $height;
         display: block;

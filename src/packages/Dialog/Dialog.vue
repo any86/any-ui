@@ -1,18 +1,18 @@
 <template>
     <VMask :value="value" @input="close">
-        <transition name="fadeUp" @after-leave="afterLeave">
+        <transition name="fadeUp">
             <div v-show="value" class="component-dialog">
                 <div class="header">
                     <span>
                         <slot name="header"></slot>
                     </span>
-                    <v-close-button class="btn-close" @click.native="close"></v-close-button>
+                    <i v-if="hasClose" class="btn-close iconfont icon-close" @click="close"></i>
                 </div>
-    
+
                 <div class="body" :style="{maxHeight: windowHeight * 0.618 + 'px'}">
                     <slot></slot>
                 </div>
-    
+
                 <div class="footer">
                     <slot name="footer"></slot>
                 </div>
@@ -22,13 +22,17 @@
 </template>
 <script>
 import VMask from './Mask'
-import VCloseButton from './CloseButton'
 export default {
     name: 'Dialog',
 
     props: {
         value: {
             type: Boolean
+        },
+
+        hasClose: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -38,29 +42,27 @@ export default {
         };
     },
 
-    created() {
-        this.windowHeight = window.outerHeight;
-    },
-
-    mounted(){
-        window.addEventListener('resize', ()=>{
-            this.windowHeight = window.outerHeight;
-        });
+    mounted() {
+        this.getWindowHeight();
+        window.addEventListener('resize', this.getWindowHeight);
     },
 
     methods: {
+        getWindowHeight() {
+            this.windowHeight = window.outerHeight;
+        },
+
         close() {
             this.$emit('input', false);
         },
-
-        afterLeave() {
-            this.$emit('input', false);
-            this.$emit('after-leave');
-        }
     },
 
     components: {
-        VCloseButton, VMask
+        VMask
+    },
+
+    destroyed() {
+        window.removeEventListener('resize', this.getWindowHeight);
     }
 }
 </script>
@@ -69,7 +71,7 @@ export default {
 .component-dialog {
     margin: 15% auto;
     max-width: 640px;
-    width: 90%;
+    width: 80%;
     border-radius: 4px;
     background: $background;
     .header {
@@ -79,17 +81,16 @@ export default {
         align-items: center;
         span {
             flex: 1;
-        } // .btn-close {
-        //     // align-self: center;
-        // }
+        }
+        .btn-close {
+            align-self: center;
+            padding: 4px;
+        }
     }
     .body {
-        padding: 0 $gutter;
+        padding: $gutter;
         overflow-x: hidden;
         overflow-y: auto;
-    }
-    .footer {
-        padding: $gutter;
     }
 }
 </style>

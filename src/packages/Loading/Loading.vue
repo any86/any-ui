@@ -1,14 +1,12 @@
 <template>
-    <transition name="fade">
-        <div v-show="isShow" class="component-loading">
-            <VMask :value="isShow" class="mask" :background="`rgba(0,0,0,0})`">
-                <div class="dialog">
-                    <img src="../../assets/heart.svg" class="heart">
-                    <p>LOADING</p>
-                </div>
-            </VMask>
-        </div>
-    </transition>
+    <VMask :value="isShow" class="component-mask" :background="`rgba(0,0,0,0})`">
+        <transition name="fadeUp">
+            <div v-show="isShow" class="dialog">
+                <img src="../../assets/heart.svg" class="heart">
+                <p>LOADING</p>
+            </div>
+        </transition>
+    </VMask>
 </template>
 <script>
 import VMask from '@/packages/Dialog/Mask'
@@ -37,28 +35,26 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-loading {
+.component-mask {
     position: fixed;
     z-index: $loadingZIndex;
-    .mask {
-        display: flex;
-        justify-content: center;
-        .dialog {
-            border-radius: $borderRadius;
-            min-height: 2.4rem;
-            align-self: center;
-            background: rgba(#000, .5);
-            padding: $gutter 2*$gutter;
-            >img {
-                display: block;
-                width: 100%;
-            }
-            >p {
-                text-align: center;
-                color: $sub;
-                font-size: $normal;
-                margin-top: $gutter;
-            }
+    display: flex;
+    justify-content: center;
+    .dialog {
+        border-radius: $borderRadius;
+        min-height: 2.4rem;
+        align-self: center;
+        background: rgba(#000, .5);
+        padding: $gutter 2*$gutter;
+        >img {
+            display: block;
+            width: 100%;
+        }
+        >p {
+            text-align: center;
+            color: $sub;
+            font-size: $normal;
+            margin-top: $gutter;
         }
     }
 }

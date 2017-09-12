@@ -1,16 +1,16 @@
 <template>
-    <transition name="fade">
-        <div v-if="isShow" :class="['component-toast', position]">
-            <div v-if="'default' != type" class="icon">
-                <Icon v-if="'success' == type" :key="1" value="check"></Icon>
-                <Icon v-else-if="'error' == type" :key="2" value="remove"></Icon>
+    <VMask v-model="isShow" :background="'rgba(0,0,0,0)'">
+        <transition name="fade">
+            <div v-if="isShow" :class="['component-toast', position]">
+                <p>{{text}}</p>
             </div>
-            <p>{{text}}</p>
-        </div>
-    </transition>
+        </transition>
+    </VMask>
 </template>
 <script>
 import Icon from '@/packages/Icon/Icon'
+import VMask from '@/packages/Dialog/Mask'
+
 export default {
     name: 'Toast',
 
@@ -19,20 +19,14 @@ export default {
             timer: null,
             text: '',
             isShow: false,
-            delay: 200000,
+            delay: 3000,
             position: 'center',
             type: 'default'
         };
     },
 
-    mounted() {
-
-    },
-
-    destroyed() { },
-
     methods: {
-        delayClose() {
+        close() {
             if (-1 != this.delay) {
                 this.timer = setTimeout(() => {
                     this.isShow = false;
@@ -44,13 +38,13 @@ export default {
     watch: {
         isShow(value) {
             if (value) {
-                this.delayClose();
+                this.close();
             }
         }
     },
 
     components: {
-        Icon
+        Icon, VMask
     }
 }
 </script>

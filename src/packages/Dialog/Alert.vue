@@ -1,33 +1,16 @@
 <template>
-    <transition name="fadeUp" @after-leave="afterLeave">
-        <div v-show="value" class="component-alert" :style="{width: width}">
-            <div class="header">
-                <h1 class="title">{{title}}</h1>
-            </div>
-            <div class="body" v-html="text" :style="{maxHeight: windowHeight * .38 + 'px'}"></div>
-            <div class="footer">
-                <a @click="ok" class="button-ok">{{btnOkText}}</a>
-            </div>
-        </div>
-    </transition>
+    <v-dialog v-model="isShow" :hasClose="false">
+        <h4 slot="header" class="title">{{title}}</h4>
+        {{content}}
+        <a slot="footer" @click="ok" class="button-ok">{{btnOkText}}</a>
+    </v-dialog>
 </template>
 <script>
+import VDialog from '@/packages/Dialog/Dialog'
 export default {
     name: 'Alert',
 
     props: {
-        value: {
-            type: Boolean
-        },
-
-        width: {
-            default: '80%'
-        },
-
-        text: {
-
-        },
-
         title: {
             type: String,
             default: '提示'
@@ -45,101 +28,39 @@ export default {
 
     data() {
         return {
-            windowHeight: 0,
-            timeOutTimer: null,
-            intervalTimer: null,
-            btnOkText: '确定',
-            _holdTime: 0
+            okCallback: null, // 点击ok后运行
+            isShow: false, // 是否显示
+            content: '', // 内容
+            btnOkText: '确定', // 按钮文字
         };
     },
 
-    mounted() {
-        this.windowHeight = window.outerHeight;
-        window.onresize = () => {
-            this.windowHeight = window.outerHeight;
-        }
+    created() {
+        // var h = this.$createElement;
+        // this.$slots.default = [h('h1', )];
     },
 
     methods: {
         ok() {
-            this.$emit('ok');
-            this.$emit('input', false);
+            this.isShow = false;
+            this.okCallback();
         },
-
-        afterLeave() {
-            this.$emit('after-leave');
-        }
     },
 
-    computed: {
-        isShow: {
-            get() {
-                return this.value;
-            },
-
-            set(isShow) {
-                this.$emit('input', isShow);
-            }
-        }
-    },
-
-    watch: {
-        value(value) {
-            if (value && -1 != this.holdTime) {
-                clearTimeout(this.timeOutTimer);
-                this.timeOutTimer = setTimeout(() => {
-                    this.$emit('input', false);
-                }, this.holdTime);
-
-                // 刷新时钟
-                clearTimeout(this.intervalTimer);
-                this._holdTime = Math.floor(this.holdTime / 1000);
-                this.btnOkText = '确定 ' + this._holdTime + 's'
-                this.intervalTimer = setInterval(() => {
-                    if (0 < this._holdTime) {
-                        this._holdTime--;
-                        this.btnOkText = '确定 ' + this._holdTime + 's'
-                    }
-                }, 1000);
-
-            }
-        }
-    }
+    components: { VDialog }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-alert {
-    border-radius: $borderRadius;
-    background: $background;
-    box-shadow: 1px 2px 5px rgba(0, 0, 0, .2);
-    >.header {
-        padding: 15px;
-        >.title {
-            margin: 0;
-            font-size: $big;
-        }
-        >.btn-close {
-            position: absolute;
-            top: 20px;
-            right: 10px;
-        }
-    }
-    >.body {
-        padding: $gutter;
-        overflow: auto;
-    }
-    >.footer {
-        padding: $gutter;
-        overflow: hidden;
-        border-top: 1px solid $lightest;
-        .button-ok {
-            width: 100%;
-            text-align: center;
-            display: block;
-            color: $base;
-            font-size: $normal;
-        }
-    }
+
+.button-ok {
+    border-top: 1px solid $lightest;
+    width: 100%;
+    text-align: center;
+    display: block;
+    color: $base;
+    font-size: $normal;
+    text-align: center;
+    padding: $gutter 0;
 }
 </style>
