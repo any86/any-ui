@@ -81,8 +81,14 @@ export default {
 
     methods: {
         addToCart() {
-            this.$prompt('不能睡!')
-
+            this.$prompt('how much!', {
+                onOk(value) {
+                    this.$alert(value)
+                },
+                onCancel() {
+                    this.$alert('cancel');
+                }
+            })
         },
 
         gotop() {
