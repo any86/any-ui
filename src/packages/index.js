@@ -1,14 +1,14 @@
-import Toast from "@/packages/Toast/Toast";
-import Loading from "@/packages/Loading/Loading";
-import Icon from "./Icon/Icon";
-import Spinner from "./Spinner/Spinner";
-import ScrollView from "./ScrollView/ScrollView";
-import Flexbox from "./Flexbox/FlexBox";
-import FlexItem from "./Flexbox/FlexItem";
-import Badge from "./Badge/Badge";
-import VAlert from "@/packages/Dialog/Alert";
-import VConfirm from "@/packages/Dialog/Confirm";
-import VPrompt from "@/packages/Dialog/Prompt";
+import Toast from '@/packages/Toast/Toast';
+import Loading from '@/packages/Loading/Loading';
+import Icon from './Icon/Icon';
+import Spinner from './Spinner/Spinner';
+import ScrollView from './ScrollView/ScrollView';
+import Flexbox from './Flexbox/FlexBox';
+import FlexItem from './Flexbox/FlexItem';
+import Badge from './Badge/Badge';
+import VAlert from '@/packages/Dialog/Alert';
+import VConfirm from '@/packages/Dialog/Confirm';
+import VPrompt from '@/packages/Dialog/Prompt';
 
 var Atom = {};
 
@@ -22,7 +22,7 @@ Atom.install = function(Vue) {
 
     const createVueChild = component => {
         // 创建一个挂载点
-        const node = document.createElement("div");
+        const node = document.createElement('div');
         // 起个不重复的名字
         node.id = `_root-app-${component.name}-${Math.random()
             .toString(36)
@@ -31,7 +31,7 @@ Atom.install = function(Vue) {
         document.body.appendChild(node);
         // 挂载
         const VueChild = Vue.extend(component);
-        return new VueChild().$mount("#" + node.id);
+        return new VueChild().$mount('#' + node.id);
     };
 
     // =================================================
@@ -39,15 +39,13 @@ Atom.install = function(Vue) {
     // =================================================
     {
         let vm = null;
-        Vue.prototype.$alert = (content = "", options = {}) => {
+        Vue.prototype.$alert = (content = '', options = { onOk: () => {} }) => {
             if (null === vm) {
                 vm = createVueChild(VAlert);
             }
-            return new Promise((resolve, reject) => {
-                vm.isShow = true;
-                vm.content = content;
-                vm.okCallback = resolve;
-            });
+            vm.isShow = true;
+            vm.content = content;
+            vm.okCallback = options.onOk;
         };
     }
 
@@ -56,34 +54,32 @@ Atom.install = function(Vue) {
     // =================================================
     {
         let vm = null;
-        Vue.prototype.$confirm = (content = "", options = {}) => {
+        Vue.prototype.$confirm = (
+            content = '',
+            options = { onOk: () => {}, onCancel: () => {} }
+        ) => {
             if (null === vm) {
                 vm = createVueChild(VConfirm);
             }
-            return new Promise((resolve, reject) => {
-                vm.isShow = true;
-                vm.content = content;
-                vm.okCallback = resolve;
-                vm.cancellCallback = reject;
-            });
+            vm.isShow = true;
+            vm.content = content;
+            vm.okCallback = options.onOk;
+            vm.cancellCallback = options.onCancel;
         };
     }
-
     // =================================================
     // ==============组件内调用: this.$prompt============
     // =================================================
     {
         let vm = null;
-        Vue.prototype.$prompt = (content = "", options = {}) => {
+        Vue.prototype.$prompt = (content = '', options = {}) => {
             if (null === vm) {
                 vm = createVueChild(VPrompt);
             }
-            return new Promise((resolve, reject) => {
-                vm.isShow = true;
-                vm.content = content;
-                vm.okCallback = resolve;
-                vm.cancellCallback = reject;
-            });
+            vm.isShow = true;
+            vm.content = content;
+            vm.okCallback = options.onOk;
+            vm.cancellCallback = options.onCancel;
         };
     }
     // ========================================== mask ==================================
@@ -105,11 +101,11 @@ Atom.install = function(Vue) {
     // ==========================================toast==================================
     {
         let toastVM = null;
-        Vue.prototype.$toast = (text = "", options = {}) => {
+        Vue.prototype.$toast = (text = '', options = {}) => {
             if (null === toastVM) {
                 toastVM = createVueChild(Toast);
             }
-            toastVM.position = options.position || "center";
+            toastVM.position = options.position || 'center';
             toastVM.isShow = true;
             toastVM.text = text;
             toastVM.delay = options.delay || toastVM.delay;
