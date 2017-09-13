@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="isShow" :hasClose="false">
+    <v-dialog :isShow.sync="isShow" :hasClose="false">
         <h4 slot="header" class="title">{{title}}</h4>
         {{content}}
         <a slot="footer" @click="ok" class="button-ok">{{btnOkText}}</a>
@@ -43,7 +43,10 @@ export default {
     methods: {
         ok() {
             this.isShow = false;
-            this.okCallback();
+            // 防止在okCallback中再次$alert的时候, 切换不明显
+            this.$nextTick(() => {
+                this.okCallback();
+            });
         },
     },
 

@@ -6,7 +6,7 @@
             </span>
             <main>
                 <slot></slot>
-                <VMask :fixed="false" :value="isShowMask" @touchstart.native="close"></VMask>
+                <VMask :fixed="false" :isShow="isShowMask" @touchstart="close"></VMask>
             </main>
         </div>
     </div>

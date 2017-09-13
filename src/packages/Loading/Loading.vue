@@ -1,5 +1,5 @@
 <template>
-    <VMask :value="isShow" class="component-mask" :background="`rgba(0,0,0,0})`">
+    <VMask :isShow="isShow" class="component-mask" :background="`rgba(0,0,0,0})`">
         <transition name="fadeUp">
             <div v-show="isShow" class="dialog">
                 <img src="../../assets/heart.svg" class="heart">

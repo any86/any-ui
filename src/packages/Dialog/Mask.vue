@@ -1,6 +1,6 @@
 <template>
     <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="value" @click.self="close" class="component-mask" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs">
+        <div v-show="isShow" @click.self="close" class="component-mask" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs">
             <slot></slot>
         </div>
     </transition>
@@ -10,7 +10,7 @@ export default {
     name: 'Mask',
 
     props: {
-        value: {
+        isShow: {
             type: Boolean
         },
 
@@ -45,7 +45,7 @@ export default {
 
         close() {
             if (!this.lock) {
-                this.$emit('input', false);
+                this.$emit('update:isShow', false);
             }
         }
     },

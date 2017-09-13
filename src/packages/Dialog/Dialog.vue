@@ -1,7 +1,7 @@
 <template>
-    <VMask :value="value" @input="close">
+    <VMask :isShow="isShow" @update:isShow="close">
         <transition name="fadeUp">
-            <div v-show="value" class="component-dialog">
+            <div v-show="isShow" class="component-dialog">
                 <div class="header">
                     <span>
                         <slot name="header"></slot>
@@ -26,7 +26,7 @@ export default {
     name: 'Dialog',
 
     props: {
-        value: {
+        isShow: {
             type: Boolean
         },
 
@@ -53,7 +53,7 @@ export default {
         },
 
         close() {
-            this.$emit('input', false);
+            this.$emit('update:isShow', false);
         },
     },
 

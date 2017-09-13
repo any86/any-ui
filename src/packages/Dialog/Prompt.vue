@@ -1,15 +1,14 @@
 <template>
-    <v-dialog v-model="isShow" :hasClose="false">
+    <v-dialog :isShow.sync="isShow" :hasClose="false">
         <h4 slot="header" class="title">{{title}}</h4>
-
-        <p>{{content}}</p>
+        <!-- <p>{{content}}</p> -->
         <div>
-            <v-input v-model="value" :placeholder="content"></v-input>
+            <v-input v-model="value" :placeholder="content" class="input"></v-input>
         </div>
-       <div slot="footer" class="footer">
+        <div slot="footer" class="footer">
             <a class="button" @click="cancel">取消</a>
             <a class="button" @click="ok">确定</a>
-            </div>
+        </div>
     </v-dialog>
 </template>
 <script>
@@ -34,7 +33,7 @@ export default {
         ok() {
             this.isShow = false;
             this.$nextTick(() => {
-                this.okCallback();
+                this.okCallback(this.value);
             });
 
         },
@@ -47,11 +46,24 @@ export default {
         }
     },
 
+    watch: {
+        isShow(value) {
+            // 初始化value为空
+            if (value) {
+                this.value = '';
+            }
+        }
+    },
+
     components: { VDialog, VInput }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+
+.input {
+    border: 1px solid $lightest;
+}
 
 .footer {
     display: flex;
