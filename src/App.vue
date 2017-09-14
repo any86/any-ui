@@ -10,12 +10,11 @@
             <li @click="changeCurrency('GBP')">GBP</li>
             <canvas id="canvas" width="200"></canvas>
         </ul>
-        <VLoading v-model="$store.state.isShowLoading"></VLoading>
         <div class="main">
             <div class="body">
-                <transition :name="'in' == $store.state.pageDirection ? 'fadeLeft' : 'fadeRight'">
+                 <transition :name="'in' == $store.state.pageDirection ? 'fadeLeft' : 'fadeRight'"> 
                     <router-view></router-view>
-                </transition>
+                 </transition> 
             </div>
             <!--             <LayoutFooter v-show="-1 != ['/index', '/category', '/explore', '/bag', '/my'].indexOf($route.path)">
                             </LayoutFooter> -->
@@ -63,7 +62,7 @@ export default {
         }
     },
 
-    components: {
+components: {
         VDrawer,
         VLoading,
         LayoutFooter

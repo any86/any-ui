@@ -75,48 +75,40 @@
 
         <LayoutRecommend></LayoutRecommend>
 
-        <VMask v-model="isShowDialogPreview">
-            <VDialog v-model="isShowDialogPreview">
-                <h3 slot="header">confrim your design</h3>
-                <img :src="resultDataURL" width="100%">
-                <div class="count">
-                    <h5>count: {{count}}</h5>
-                    <span v-for="n in 10" :key="n" @click="count=n" :class="{active: n == count}">{{n}}</span>
+        <VDialog :isShow.sync="isShowDialogPreview" :hasClose="false">
+            <h3 slot="header">confrim your design</h3>
+            <img :src="resultDataURL" width="100%">
+            <a>count: {{count}}</a>
+            <div class="count">
+                <span v-for="n in 10" :key="n" @click="count=n" :class="{active: n == count}">{{n}}</span>
+            </div>
+
+            <template slot="footer">
+                <div class="flex">
+                    <button class="button button-default flex-item" style="border-left:none;border-bottom:none;">Add To Cart & Design Another</button>
+                    <button class="button button-danger button-block  flex-item">Checkout</button>
                 </div>
+            </template>
+        </VDialog>
 
-                <template slot="footer">
-                    <div class="flex">
-                        <button class="button button-default flex-item">Add To Cart & Design Another</button>
-                        <button class="button button-danger button-block  flex-item">Checkout</button>
-                    </div>
-                </template>
-            </VDialog>
-        </VMask>
+        <VDialog :isShow.sync="isShowDialogLearnMore">
+            <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-view.jpg" width="100%">
+        </VDialog>
 
-        <VMask v-model="isShowDialogLearnMore">
-            <VDialog v-model="isShowDialogLearnMore">
-                <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/brand/activity/product/view/pp-view.jpg" width="100%">
-            </VDialog>
-        </VMask>
+        <VDialog :isShow.sync="isShowDialogMistakes">
+            <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/product/photocharms-alert.jpg" width="100%">
+        </VDialog>
 
-        <VMask v-model="isShowDialogMistakes">
-            <VDialog v-model="isShowDialogMistakes">
-                <img src="https://static.soufeel.com/skin/frontend/smartwave/default/custom/static/product/photocharms-alert.jpg" width="100%">
-            </VDialog>
-        </VMask>
-
-        <VMask v-model="isShowDialogFailUpload">
-            <VDialog v-model="isShowDialogFailUpload">
-                <div class="clickhere" id="ticket_notice" style="display: block;">
-                    <p>1. Your photo dimension may not comply, please use another photo if possible.</p>
-                    <p>2. If the error encountered on your mobile device, we suggest you to try on PC.</p>
-                    <p>3. If you need help, please request a
-                        <a href="javascript: void(0);" onclick="javascript: window.open('http://support.soufeel.com/visitor/index.php?/Default/LiveChat/Chat/Request/_sessionID=/_promptType=chat/_proactive=0/_filterDepartmentID=1/_randomNumber=56l1zet0776vzeumo149qew7vntoqexs/_fullName=/_email=/', 'livechatwin', 'toolbar=0,location=0,directories=0,status=1,menubar=0,scrollbars=0,resizable=1,width=600,height=680');" class="livechatlink">Live Chat</a> or contact us by
-                        <a role="button" id="sub_ticket">Submit a ticket</a>
-                    </p>
-                </div>
-            </VDialog>
-        </VMask>
+        <VDialog :isShow.sync="isShowDialogFailUpload">
+            <div class="clickhere" id="ticket_notice" style="display: block;">
+                <p>1. Your photo dimension may not comply, please use another photo if possible.</p>
+                <p>2. If the error encountered on your mobile device, we suggest you to try on PC.</p>
+                <p>3. If you need help, please request a
+                    <a href="javascript: void(0);" onclick="javascript: window.open('http://support.soufeel.com/visitor/index.php?/Default/LiveChat/Chat/Request/_sessionID=/_promptType=chat/_proactive=0/_filterDepartmentID=1/_randomNumber=56l1zet0776vzeumo149qew7vntoqexs/_fullName=/_email=/', 'livechatwin', 'toolbar=0,location=0,directories=0,status=1,menubar=0,scrollbars=0,resizable=1,width=600,height=680');" class="livechatlink">Live Chat</a> or contact us by
+                    <a role="button" id="sub_ticket">Submit a ticket</a>
+                </p>
+            </div>
+        </VDialog>
 
     </ScrollView>
 </template>
@@ -172,17 +164,15 @@ export default {
         };
     },
 
-
+    mounted(){
+        this.$loading.close();
+    },
 
     methods: {
         imageLoaded(dataURL) {
             this.uploadDataURL = dataURL;
             this.scrollY = 0;
         },
-
-        // uploadDone(base64) {
-        //     this.isShowDialogPreview = true;
-        // },
 
         confirm(resultDataURL) {
             this.isShowDialogPreview = true;
@@ -253,9 +243,10 @@ export default {
         }
     }
     .count {
-        margin: $gutter auto;
+        margin: 0 auto $gutter ;
+        display:flex;
         span {
-            display: inline-block;
+            flex:1;
             height: .6rem;
             line-height: .6rem;
             width: .6rem;

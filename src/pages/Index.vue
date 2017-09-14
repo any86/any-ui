@@ -32,10 +32,7 @@ export default {
         this.status = response.status;
         this.categoryThumbs =  response.data['category-thumbs'];
         this.looks = response.data['looks'];
-    },
-
-    methods: {
-
+        this.$loading.close();
     },
 
     watch: {

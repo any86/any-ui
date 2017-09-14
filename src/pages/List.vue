@@ -105,7 +105,7 @@ export default {
         },
 
         async refresh() {
-            const $loading = this.$loading();
+            // this.$loading.open();
             this.isLoading = true;
             this.isEnd = false;
 
@@ -119,7 +119,7 @@ export default {
             if (200 == response.status) {
                 this.list = [];
                 this.list.push(...response.data);
-                $loading.close();
+                this.$loading.close();
             }
         },
 

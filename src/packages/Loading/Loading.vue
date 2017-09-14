@@ -1,6 +1,6 @@
 <template>
     <VMask :isShow="isShow" class="component-mask" :background="`rgba(0,0,0,0})`">
-        <transition name="fadeUp" @after-enter="afterEnter">
+        <transition name="zoom" @after-enter="afterEnter">
             <div v-show="isShow" class="dialog">
                 <img src="../../assets/heart.svg" class="heart">
                 <p>LOADING</p>
@@ -21,14 +21,6 @@ export default {
     methods: {
         afterEnter() {
             this.afterEnterCallback();
-        },
-
-        close() {
-            this.isShow = false;
-        },
-
-        hide() {
-            this.close();
         }
     },
 

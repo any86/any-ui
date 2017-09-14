@@ -1,6 +1,5 @@
 import * as types from '@/store/mutation-types';
 
-
 export default {
     [types.SHOW_SIDE](state) {
         state.isShowSide = true;
@@ -29,7 +28,7 @@ export default {
     [types.SET_CUSTOMER](state, customer) {
         state.customer = customer;
     },
-    
+
     [types.SET_PAGE_APPEAR_DIRECTION](state, direction) {
         state.pageDirection = direction;
     }

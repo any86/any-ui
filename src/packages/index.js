@@ -89,13 +89,21 @@ Atom.install = function(Vue) {
     // ========================================== loading ==================================
     {
         let LoadingVM = null;
-        Vue.prototype.$loading = (options = { afterEnter: () => {} }) => {
+        Vue.prototype.$loading = {};
+        Vue.prototype.$loading.start = Vue.prototype.$loading.open = (
+            options = { afterEnter: () => {} }
+        ) => {
             if (null === LoadingVM) {
                 LoadingVM = createVueChild(Loading);
             }
             LoadingVM.isShow = true;
             LoadingVM.afterEnterCallback = options.afterEnter;
-            return LoadingVM;
+        };
+
+        Vue.prototype.$loading.close = () => {
+            if (null !== LoadingVM) {
+                LoadingVM.isShow = false;
+            }
         };
     }
     // ==========================================toast==================================
