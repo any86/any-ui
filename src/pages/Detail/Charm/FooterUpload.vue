@@ -43,21 +43,24 @@ export default {
     },
 
     mounted() {
-
+        var _this = this;
         const bindUpload = (ref, cb = null) => {
             FileAPI.event.on(ref, 'change', evt => {
                 this.status = 'loading';
                 this.file = FileAPI.getFiles(evt)[0];
                 if (undefined !== this.file) {
-                    var $loading = this.$loading();
                     FileAPI.Image(this.file).get((err, canvas) => {
-                        // 加载完毕
-                        this.status = 'loaded';
-                        this.$emit('loaded', canvas.toDataURL());
-                        $loading.close();
-                        if (null !== cb) {
-                            cb();
-                        }
+                        var $loading = this.$loading({
+                            afterEnter() {
+                                // 加载完毕
+                                _this.status = 'loaded';
+                                _this.$emit('loaded', canvas.toDataURL());
+                                $loading.close();
+                                if (null !== cb) {
+                                    cb();
+                                }
+                            }
+                        });
                     });
                 }
             });
@@ -73,22 +76,28 @@ export default {
          * 上传
          */
         async confirm() {
-            var $loading = this.$loading();
-            // svg to base64ç
-            var svg_xml = new XMLSerializer().serializeToString(this.svg);
-            var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
-            var resultDataURL = image2DataURL(image);
-            // 提供base64给预览
-            this.$emit('confirm', resultDataURL);
-            // 上传
-            var formdata = new FormData();
-            // 合成图
-            formdata.append('file', new File([dataURL2BLOB(resultDataURL)], "xx.png"));
-            // 用户上传图
-            formdata.append('file', this.file);
-            // 开始上传
-            await this.$api.saveCharm(formdata);
-            $loading.close();
+            var _this = this;
+            var $loading = this.$loading({
+                async afterEnter() {
+                    // svg to base64ç
+                    var svg_xml = new XMLSerializer().serializeToString(_this.svg);
+                    var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
+                    var resultDataURL = image2DataURL(image);
+
+
+                    // 上传
+                    var formdata = new FormData();
+                    // 合成图
+                    formdata.append('file', new File([dataURL2BLOB(resultDataURL)], "xx.png"));
+                    // 用户上传图
+                    formdata.append('file', _this.file);
+                    // 开始上传
+                    await _this.$api.uploadCharm(formdata);
+                    // 提供base64给预览
+                    _this.$emit('confirm', resultDataURL);
+                    $loading.close();
+                }
+            });
         },
     }
 }
