@@ -3,10 +3,7 @@
         <transition name="fadeUp">
             <div v-show="isShow" class="component-dialog">
                 <div class="header">
-                    <span>
-                        <slot name="header"></slot>
-                    </span>
-                    <i v-if="hasClose" class="btn-close iconfont icon-close" @click="close"></i>
+                    <slot name="header"></slot>
                 </div>
 
                 <div class="body" :style="{maxHeight: windowHeight * 0.618 + 'px'}">
@@ -15,6 +12,7 @@
 
                 <div class="footer">
                     <slot name="footer"></slot>
+                    <div v-if="hasClose" @click="close" class="button-close">close</div>
                 </div>
             </div>
         </transition>
@@ -70,27 +68,29 @@ export default {
 @import '../../scss/theme.scss';
 .component-dialog {
     margin: 15% auto;
+    overflow: hidden;
     max-width: 640px;
     width: 80%;
     border-radius: 4px;
     background: $background;
     .header {
-        padding: $gutter $gutter 0 $gutter;
+        padding: $gutter/2 $gutter 0 $gutter;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        span {
-            flex: 1;
-        }
-        .btn-close {
-            align-self: center;
-            padding: 4px;
-        }
     }
     .body {
         padding: $gutter;
         overflow-x: hidden;
         overflow-y: auto;
+    }
+
+    .footer {
+        .button-close {
+            width: 100%;
+            height: 1rem;
+            line-height: 1rem;
+            text-align: center;
+            border-top: 1px solid $lightest;
+        }
     }
 }
 </style>
