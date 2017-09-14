@@ -164,9 +164,9 @@ export default {
         };
     },
 
-    mounted(){
-        this.$loading.close();
-    },
+    // mounted(){
+    //     this.$loading.close();
+    // },
 
     methods: {
         imageLoaded(dataURL) {

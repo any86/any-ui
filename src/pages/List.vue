@@ -31,7 +31,7 @@
 
             <p v-if="isEnd" class="empty">{{$lang.DETAIL_TEXT_THERE_IS_NOTHING}}</p>
         </ScrollView>
-        <VGoTop v-show="0 < scrollY" @click.native="gotop"></VGoTop>
+        <VGoTop v-show="0 < scrollY" @click.native="scrollY = 0"></VGoTop>
     </section>
 </template>
 <script>
@@ -58,7 +58,7 @@ export default {
             isShowSpinner: true,
             scrollY: 0,
             isEnd: false,
-            isLoading: true, // 用于锁定, 防止多次加载
+            _isLoading: true, // 用于锁定, 防止多次加载
             isPopupShow: false,
             //过滤
             activeIndex: [0, 0],
@@ -80,6 +80,9 @@ export default {
     },
 
     methods: {
+        /**
+         * 加入购物车
+         */
         addToCart() {
             this.$prompt('how much!', {
                 onOk(value) {
@@ -90,23 +93,23 @@ export default {
                 }
             })
         },
-
-        gotop() {
-            this.scrollY = 0;
-        },
-
+        /**
+         * 点击筛选条件
+         */
         selectFilterOption(value) {
             this.isPopupShow = false;
-            this.refresh();
+            this.$loading.open();
+            this.refresh(()=>{
+                this.$loading.close();
+            });
         },
 
-        afterPopupLeave() {
-            this.isShowSpinner = true;
-        },
 
-        async refresh() {
-            // this.$loading.open();
-            this.isLoading = true;
+        /**
+         * 刷新列表
+         */
+        async refresh(cb=()=>{}) {
+            this._isLoading = true;
             this.isEnd = false;
 
             const response = await this.$api.getGoodsList({
@@ -114,18 +117,18 @@ export default {
                 limit: this.limit,
                 trend: this.trend
             });
-
-            this.isLoading = false;
+            
+            this._isLoading = false;
             if (200 == response.status) {
                 this.list = [];
                 this.list.push(...response.data);
-                this.$loading.close();
             }
+            cb();
         },
 
         getMore() {
-            if (!this.isLoading) {
-                this.isLoading = true;
+            if (!this._isLoading) {
+                this._isLoading = true;
                 this.page++;
                 const params = {
                     page: this.page,
@@ -135,7 +138,7 @@ export default {
                 this.$api.getGoodsList(params).then(response => {
                     if (200 == response.status) {
                         this.list.push(...response.data);
-                        this.isLoading = false;
+                        this._isLoading = false;
                     } else {
                         this.isEnd = true;
                     }

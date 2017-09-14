@@ -31,9 +31,9 @@ export default {
         };
     },
 
-    mounted() {
-
-    },
+    // mounted(){
+    //     this.$loading.close();
+    // },
 
     methods: {
 

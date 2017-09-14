@@ -40,9 +40,10 @@ export default {
         };
     },
 
-    mounted() {
-        this.keywords = Store.get('keywords') || [];
-    },
+    // mounted() {
+    //     this.keywords = Store.get('keywords') || [];
+    //     this.$loading.close();
+    // },
 
     methods: {
         search(e) {

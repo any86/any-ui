@@ -9,10 +9,11 @@ window.SUCCESS_CODE = 200;
 window.FAIL_CODE = 400;
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+
 import Vue from 'vue';
 import App from '@/App';
 import router from '@/router';
-
+import * as types from '@/store/mutation-types';
 // API
 import api from '@/api';
 Object.defineProperty(Vue.prototype, '$api', {
@@ -58,7 +59,7 @@ var vm = new Vue({
 import DomPortal from 'vue-dom-portal';
 Vue.use(DomPortal);
 
-import * as types from '@/store/mutation-types';
+
 
 // 路由切换前触发
 var routerHistory = new Map();
@@ -92,7 +93,8 @@ router.beforeEach(function(to, from, next) {
 // 路由切换后触发
 router.afterEach(function(to) {
     document.title = to.name;
-    // store.commit(types.HIDE_LOADING);
+    store.commit(types.HIDE_SIDE);
+    vm.$loading.close();
 });
 
 // 突变加载

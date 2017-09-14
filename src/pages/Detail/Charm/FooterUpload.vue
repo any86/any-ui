@@ -50,12 +50,12 @@ export default {
                 this.file = FileAPI.getFiles(evt)[0];
                 if (undefined !== this.file) {
                     FileAPI.Image(this.file).get((err, canvas) => {
-                        var $loading = this.$loading({
+                        this.$loading.open({
                             afterEnter() {
                                 // 加载完毕
                                 _this.status = 'loaded';
                                 _this.$emit('loaded', canvas.toDataURL());
-                                $loading.close();
+                                _this.$loading.close();
                                 if (null !== cb) {
                                     cb();
                                 }
@@ -77,14 +77,12 @@ export default {
          */
         async confirm() {
             var _this = this;
-            var $loading = this.$loading({
+            this.$loading.open({
                 async afterEnter() {
                     // svg to base64ç
                     var svg_xml = new XMLSerializer().serializeToString(_this.svg);
                     var image = await imageLoader("data:image/svg+xml;base64," + window.btoa(unescape(encodeURIComponent(svg_xml))));
                     var resultDataURL = image2DataURL(image);
-
-
                     // 上传
                     var formdata = new FormData();
                     // 合成图
@@ -95,7 +93,7 @@ export default {
                     await _this.$api.uploadCharm(formdata);
                     // 提供base64给预览
                     _this.$emit('confirm', resultDataURL);
-                    $loading.close();
+                    _this.$loading.close();
                 }
             });
         },
