@@ -127,6 +127,7 @@ img[lazy="done"] {
 }
 
 .button-success {
+    border: 1px solid $success;
     background: $success !important;
     color: $sub;
 }
@@ -137,6 +138,7 @@ img[lazy="done"] {
 }
 
 .button-danger {
+    border: 1px solid $danger;
     background: $danger !important;
     color: $sub;
 }
