@@ -12,12 +12,10 @@
         </ul>
         <div class="main">
             <div class="body">
-                 <transition :name="'in' == $store.state.pageDirection ? 'fadeLeft' : 'fadeRight'"> 
+                <transition :name="'in' == $store.state.pageDirection ? 'zoom' : 'zoom'">
                     <router-view></router-view>
-                 </transition> 
+                </transition>
             </div>
-            <!--             <LayoutFooter v-show="-1 != ['/index', '/category', '/explore', '/bag', '/my'].indexOf($route.path)">
-                            </LayoutFooter> -->
         </div>
     </VDrawer>
 </template>
@@ -62,7 +60,7 @@ export default {
         }
     },
 
-components: {
+    components: {
         VDrawer,
         VLoading,
         LayoutFooter

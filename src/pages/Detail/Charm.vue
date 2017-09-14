@@ -3,7 +3,6 @@
         <!-- 固定底部, 上传按钮 -->
         <LayoutFooterUpload :uploadOptions="dataSource.footerUpload" @loaded="imageLoaded" @confirm="confirm" :svg="svgElement">
         </LayoutFooterUpload>
-
         <transition name="fadeUp ">
             <VGoTop v-show="0 < scrollY" @click="scrollY=0"></VGoTop>
         </transition>
@@ -115,7 +114,6 @@
 <script>
 import VAffix from '@/packages/Affix/Affix'
 import VPopup from '@/packages/Dialog/Popup'
-import Spinner from '@/packages/Spinner/Spinner.vue'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'
@@ -127,15 +125,9 @@ import LayoutRecommend from './Common/Recommend'
 
 import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb'
 import ImageTools from '@/packages/ImageTools/ImageTools'
-import VUpload from '@/packages/Upload/Upload'
-import VMask from '@/packages/Dialog/Mask'
 import VDialog from '@/packages/Dialog/Dialog'
-import VStepper from '@/packages/Stepper/Stepper'
 import VGoTop from '@/components/GoTop'
-import VCircle from '@/packages/Progress/Circle'
 import VWarning from '@/packages/Warning/Warning'
-
-import VToast from '@/packages/Toast/Toast'
 
 export default {
     name: 'CharmType',
@@ -164,14 +156,17 @@ export default {
         };
     },
 
-    // mounted(){
-    //     this.$loading.close();
-    // },
+    mounted() {
+        console.log(1)
+        this.$loading.close();
+    },
 
     methods: {
         imageLoaded(dataURL) {
-            this.uploadDataURL = dataURL;
             this.scrollY = 0;
+            this.$nextTick(() => {
+                this.uploadDataURL = dataURL;
+            });
         },
 
         confirm(resultDataURL) {
@@ -182,14 +177,12 @@ export default {
 
     components: {
         ImageTools, VBreadcrumb, VGoTop,
-        Spinner, VAffix,
-        VLazyLoad, VStepper,
+        VAffix,
+        VLazyLoad,
         VTabs,
         VTabsItem,
-        VUpload,
-        VMask, VDialog,
-        VCircle,
-        VToast, VWarning,
+        VDialog,
+        VWarning,
         LayoutHeader,
         LayoutFooterUpload,
         LayoutResult, LayoutRecommend
@@ -243,10 +236,10 @@ export default {
         }
     }
     .count {
-        margin: 0 auto $gutter ;
-        display:flex;
+        margin: 0 auto $gutter;
+        display: flex;
         span {
-            flex:1;
+            flex: 1;
             height: .6rem;
             line-height: .6rem;
             width: .6rem;

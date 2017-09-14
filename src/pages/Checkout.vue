@@ -31,14 +31,6 @@ export default {
         };
     },
 
-    // mounted(){
-    //     this.$loading.close();
-    // },
-
-    methods: {
-
-    },
-
     components: {
         RowHeader,
         RowStep,

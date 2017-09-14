@@ -4,12 +4,10 @@ window.dir = (...val) => console.dir.apply(null, val);
 //     console.log(error);
 //     return true;
 // };
-
 window.SUCCESS_CODE = 200;
 window.FAIL_CODE = 400;
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-
 import Vue from 'vue';
 import App from '@/App';
 import router from '@/router';
@@ -58,8 +56,6 @@ var vm = new Vue({
 // 移动组件指令
 import DomPortal from 'vue-dom-portal';
 Vue.use(DomPortal);
-
-
 
 // 路由切换前触发
 var routerHistory = new Map();
