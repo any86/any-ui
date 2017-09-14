@@ -86,15 +86,15 @@ Atom.install = function(Vue) {
     Vue.prototype.$mask = (options = {}) => {
         vm.mask.show = true;
     };
-
     // ========================================== loading ==================================
     {
         let LoadingVM = null;
-        Vue.prototype.$loading = () => {
+        Vue.prototype.$loading = (options = { afterEnter: () => {} }) => {
             if (null === LoadingVM) {
                 LoadingVM = createVueChild(Loading);
             }
             LoadingVM.isShow = true;
+            LoadingVM.afterEnterCallback = options.afterEnter;
             return LoadingVM;
         };
     }
