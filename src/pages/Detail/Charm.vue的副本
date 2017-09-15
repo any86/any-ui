@@ -10,8 +10,8 @@
         <div class="divider"></div>
         <VBreadcrumb :dataSource="[{text: 'HOME'}, {text: 'CHspanRMS'}, {text: 'PHOTO CHspanRMS'}, {text: 'SHELL LOCKET'}]"></VBreadcrumb>
         <!-- charm tools -->
-         <ImageTools @mounted="svgElement=$event" :uploadDataURL="uploadDataURL" :demoURL="'./static/C046-1.png'">
-        </ImageTools> 
+        <!-- <ImageTools @mounted="svgElement=$event" :uploadDataURL="uploadDataURL" :demoURL="'./static/C046-1.png'">
+        </ImageTools> -->
         <div class="info-base">
             <h3>Shell Locket Photo Charm</h3>
             <h4 class="price">R$80.00
@@ -72,7 +72,7 @@
             You can choose the delivery method during checkout: USPS First Class Shipping- Cost: $5.99 - Free over $49 Please Allow up to 8 business days for delivery via USPS If Your order has Personalized Products, please allow up to 10 business days for USPS delivery. DHL Express Shipping- Cost: $19.95 - Free over $150 Please allow up to 3 business days for delivery via DHL If Your order has Personalized Products, please allow up to 5 business days for DHL delivery. Please note that the time frame mentioned above includes production time.
         </div>
 
-        <!-- <LayoutRecommend></LayoutRecommend> -->
+        <LayoutRecommend></LayoutRecommend>
 
         <VDialog :isShow.sync="isShowDialogPreview" :hasClose="false">
             <h3 slot="header">confrim your design</h3>
@@ -113,6 +113,7 @@
 </template>
 <script>
 import VAffix from '@/packages/Affix/Affix'
+import VPopup from '@/packages/Dialog/Popup'
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad'
 import VTabs from '@/packages/Tabs/Tabs'
 import VTabsItem from '@/packages/Tabs/TabsItem'

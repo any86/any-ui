@@ -1,5 +1,5 @@
 <template>
-    <section class="page-list">
+    <main class="page-list">
         <ScrollView ref="scroll" v-model="scrollY" class="scroll-list" @reach-bottom="getMore" :ovh="isPopupShow">
             <LayoutHeader ref="header"></LayoutHeader>
             <div :style="{height: `${iframeHeight}px`}" class="iframe">
@@ -32,7 +32,7 @@
             <p v-if="isEnd" class="empty">{{$lang.DETAIL_TEXT_THERE_IS_NOTHING}}</p>
         </ScrollView>
         <VGoTop v-show="0 < scrollY" @click.native="scrollY = 0"></VGoTop>
-    </section>
+    </main>
 </template>
 <script>
 import throttle from 'lodash/throttle'

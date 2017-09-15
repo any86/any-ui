@@ -92,7 +92,6 @@ export default {
         this.$emit('mounted', this.$refs.svg);
         // 手势
         this._hammer();
-
     },
 
     methods: {
