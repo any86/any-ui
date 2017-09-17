@@ -47,7 +47,7 @@ export default {
 
     methods: {
         getWindowHeight() {
-            this.windowHeight = window.outerHeight;
+            this.windowHeight =  window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         },
 
         close() {
