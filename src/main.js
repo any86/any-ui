@@ -132,8 +132,8 @@ window.dataURL2BLOB = urlData => {
     return new Blob([ab], { type: 'image/png' });
 };
 
-import Raven from 'raven-js';
-import RavenVue from 'raven-js/plugins/vue';
-Raven.config('https://69457829c83e470e8aff29d0fe8ae351@sentry.io/214710')
-    .addPlugin(RavenVue, Vue)
-    .install();
+// import Raven from 'raven-js';
+// import RavenVue from 'raven-js/plugins/vue';
+// Raven.config('https://69457829c83e470e8aff29d0fe8ae351@sentry.io/214710')
+//     .addPlugin(RavenVue, Vue)
+//     .install();
