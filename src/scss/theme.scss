@@ -39,10 +39,12 @@ $headerZIndex: 1000;
 $footerZIndex: 1000;
 $maskZIndex: 1986;
 $dialogZIndex: 2000;
+$popperZIndex: 2001;
 $sideBarZIndex: 1989;
 $toastZIndex: 2010;
 $drawerZIndex: 3000;
 $loadingZIndex: 9999;
+
 //字体大小
 $small: 12px;
 $normal: .26rem;
@@ -51,8 +53,8 @@ $bigger: .38rem;
 $biggest: .46rem;
 $large: .52rem;
 // 阴影
-$shadowUp: 1px -1px 3px rgba(0, 0, 0, .1);
-$shadowDown: 1px 1px 3px rgba(0, 0, 0, .1);
+$shadowUp: 0 -1px 6px rgba(0, 0, 0, .1);
+$shadowDown:0 1px 6px rgba(0, 0, 0, .1);
 // 底部tab高度
 $bottomTabHeight: 60px;
 @mixin theme($type) {
