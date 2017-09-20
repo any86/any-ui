@@ -12,9 +12,9 @@
         </ul>
         <div class="main">
             <div class="body">
-                <!-- <transition :name="'in' == $store.state.pageDirection ? 'zoom' : 'zoom'"> -->
+                <transition :name="'in' == $store.state.pageDirection ? 'zoom' : 'zoom'">
                     <router-view></router-view>
-                <!-- </transition> -->
+                </transition>
             </div>
         </div>
     </VDrawer>

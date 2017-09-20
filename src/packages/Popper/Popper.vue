@@ -1,16 +1,18 @@
 <template>
     <span popper-handle @click="showPopper">
-        <slot></slot>
-        <transition name="fadeUp">
-            <span ref="popper" v-show="isShow">
+        <transition name="fade">
+            <span v-show="isShow" ref="popper">
                 <slot name="content"></slot>
             </span>
         </transition>
+        <slot></slot>
     </span>
 </template>
 <script>
+// 存在2个问题
+// 1.如果默认slot中的元素的父元素在进行动画, 那么popper位置会不对
+// 2.暂时只能用fade动画, 其他动画会发生起始位置错误,=
 import Popper from 'popper.js'
-
 export default {
     name: 'Popper',
 
@@ -38,26 +40,32 @@ export default {
 
     methods: {
         showPopper() {
-            this.updatePopper();
-            this.isShow = true;
+            this.popper.scheduleUpdate();
+            this.isShow = !this.isShow;
+            
         },
         createPopper() {
             // 获取popper元素
-            // const elPopper = this.$slots.content[0].elm;
-            const elPopper = this.$refs.popper;
-            elPopper.className = 'component-popper';
+            // const popperNode = this.$slots.content[0].elm;
+            const popperNode = this.$refs.popper;
+            popperNode.className = 'component-popper';
             // 插入arrow
-            const elArrow = document.createElement('div');
-            elArrow.setAttribute('x-arrow', '');
-            elArrow.className = 'popper__arrow'
-            elPopper.appendChild(elArrow);
-            // 实例化
-            this.popper = new Popper(this.$slots.default[0].elm, elPopper, {
-                placement: this.placement,
-                modifiers: this.modifiers
-            });
+            const arrowNode = document.createElement('div');
+            arrowNode.setAttribute('x-arrow', '');
+            arrowNode.className = 'popper__arrow'
+            popperNode.appendChild(arrowNode);
             // 移动到body尾部
-            document.body.appendChild(elPopper);
+            document.body.appendChild(popperNode);
+            // 实例化
+            this.popper = new Popper(this.$slots.default[0].elm, popperNode, {
+                placement: this.placement,
+                modifiers: this.modifiers,
+                onCreate: data=>{
+                    this.$nextTick(()=>{
+                        this.popper.scheduleUpdate()
+                    });
+                }
+            });
         },
 
         updatePopper() {

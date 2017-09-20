@@ -1,8 +1,7 @@
 <template>
-    <VMask :value="value" :isFixed="isFixed" @input="closeMask" @after-leave="afterLeave">
+    <v-mask v-dom-portal :isShow="value" :isFixed="isFixed" @update:isShow="closeMask" @after-leave="afterLeave">
         <transition :name="'dialog-' + from" @after-leave="afterDialogLeave">
             <div v-show="value" :class="['component-dialog', from]" :style="{maxHeight: height * 0.5 + 'px'}">
-
                 <div class="header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </div>
@@ -12,9 +11,10 @@
                 <div class="footer" v-if="undefined != $slots.footer">
                     <slot name="footer"></slot>
                 </div>
+
             </div>
         </transition>
-    </VMask>
+    </v-mask>
 </template>
 <script>
 import VMask from '@/packages/Dialog/Mask'
@@ -39,10 +39,8 @@ export default {
     },
     mounted() {
         this.height = window.outerHeight;
-        // props
-        var fromDirection = this.$el.getAttribute('from');
-        if (null !== fromDirection) {
-            this.from = fromDirection;
+        if (this.$attrs && null !== this.$attrs.from) {
+            this.from = this.$attrs.from;
         }
     },
     methods: {
@@ -83,8 +81,7 @@ export default {
     background: $background;
     .header {
         box-sizing: border-box;
-        padding: $gutter;
-        // border-bottom: 1px solid $lightest
+        padding: $gutter; // border-bottom: 1px solid $lightest
     }
     .body {
         overflow-x: hidden;
@@ -97,7 +94,11 @@ export default {
 
 
 
-/*动画*/
+
+
+/*
+* 动画
+*/
 
 // 上方下滑
 .dialog-up-enter-active {

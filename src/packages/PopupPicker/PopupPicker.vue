@@ -1,7 +1,8 @@
 <template>
     <v-popup v-model="_isShow">
-        <header>
-            <span @click="ok" class="button button-ok">ok</span>
+        <header class="flex">
+            <span @click="ok" class="flex-item button-cancel">cancel</span>
+            <span @click="ok" class="flex-item button-ok">ok</span>
         </header>
         <v-picker :dataSource="dataSource" :value="value" @change="change"></v-picker>
     </v-popup>
@@ -64,21 +65,25 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+@mixin button() {
+    text-align: center;
+    font-size: $bigger;
+    padding: $gutter $gutter*2;
+}
+
 header {
     overflow: hidden;
-    .button {
-        padding: $gutter $gutter * 1.5;
-        font-size: $bigger;
-        display: block; // &:active {}
-    }
+    border-bottom: 1px solid $lightest;
     .button-cancel {
-        float: left; // text-align: left;
+        @include button;
         color: $light;
+        text-align: left;
     }
 
     .button-ok {
+        @include button;
         color: $base;
-        float: right; // text-align: right;
+        text-align: right;
     }
 }
 </style>

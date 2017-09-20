@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+         ::-webkit-scrollbar {
+            background: rgba(2, 2, 2, 0.4);
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 13, 0, 0.18);
+        }
+
+
+        .box {
+            box-sizing: content-box;
+            width: 200px;
+            height: 200px;
+            background: #fc0;
+            padding:  15px 15px 15px 15px;
+            border: 1px solid #000;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            
+        }
+
+        .content {
+            overflow: hidden;
+            width: 400px;
+            height: 400px;
+            background: #69c;
+            padding: 15px;
+            border: 2px solid #6D23B8;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="box">
+        <div id="content" class="content">
+            <p>内容: 400 X 400</p>
+            <p>外部: 200 x 200</p>
+        </div>
+    </div>
+
+
+    <script>
+        var box = document.getElementById('box');
+        var content = document.getElementById('content');
+        console.log('offsetWidth: ' + box.offsetWidth + ' == 宽度 + 内边距 + 边框')
+        console.log('scrollWidth: ' + box.scrollWidth)
+        console.log('clientWidth: ' + box.clientWidth + ' == 宽度 + 内边距 - 滚动条宽度 == 可见内容宽度')
+    </script>
+</body>
+
+</html>
