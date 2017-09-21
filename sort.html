@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var arr = [31, 21, 557, 22, 1];
+        console.log(arr)
+        function qsort(arr) {
+            if (arr.length <= 1) { return arr; }
+            var temp = arr[0];
+            var len = arr.length;
+            var left = [];
+            var right = [];
+            for (var i = 1; i < len; i++) {
+                if (temp < arr[i]) {
+                    right.push(arr[i])
+                } else {
+                    left.push(arr[i]);
+                }
+            }
+            console.log(right, `|${temp}|`, left);
+            return [...qsort(right), temp, ...qsort(left)];
+        }
+
+        var a = qsort(arr)
+        console.log(a)
+    </script>
+</body>
+
+</html>
