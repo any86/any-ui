@@ -12,7 +12,7 @@
         </ul>
         <div class="main">
             <div class="body">
-                <transition :name="'in' == $store.state.pageDirection ? 'zoom' : 'zoom'">
+                <transition :name="'zoom'">
                     <router-view></router-view>
                 </transition>
             </div>
@@ -23,7 +23,6 @@
 import * as types from "@/store/mutation-types";
 import VDrawer from '@/packages/Drawer/Drawer'
 import VLoading from '@/packages/Loading/Loading'
-import LayoutFooter from '@/components/Footer'
 import QRCode from 'qrcode'
 export default {
     name: 'App',
@@ -62,8 +61,7 @@ export default {
 
     components: {
         VDrawer,
-        VLoading,
-        LayoutFooter
+        VLoading
     }
 
 }

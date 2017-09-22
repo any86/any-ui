@@ -1,53 +1,30 @@
 <template>
-    <main v-if="200 == status" class="page-index">
-        <LayoutHeader ref="header"></LayoutHeader>
-        <ScrollView v-model="scrollY" class="scroll-view">
-            <LayoutHeadSwiper></LayoutHeadSwiper>
-            <LayoutCategoryThumb style="margin-top:.3rem" :dataSource="categoryThumbs" :scrollY="scrollY"></LayoutCategoryThumb>
-            <LayoutLooks style="margin-top:.7rem" :dataSource="looks"></LayoutLooks>
-            <LayoutShopInstagram></LayoutShopInstagram>
-        </ScrollView>
+    <main class="page-index">
+        <v-cell border>1</v-cell>
+        <v-cell border>2</v-cell>
     </main>
 </template>
 <script>
-import LayoutHeader from '@/components/Header'
-import LayoutHeadSwiper from './Index/HeadSwiper'
-import LayoutCategoryThumb from './Index/CategoryThumb'
-import LayoutLooks from './Index/Looks'
-import LayoutShopInstagram from './Index/ShopInstagram'
+import VCell from '@/packages/Cell/Cell'
 export default {
     name: 'Index',
 
     data() {
         return {
-            status: -1,
-            scrollY: 0,
-            categoryThumbs: [],
-            looks: {},
+            
         };
     },
 
-    async mounted() {
-        const response = await this.$api.getIndexPage();
-        this.status = response.status;
-        this.categoryThumbs =  response.data['category-thumbs'];
-        this.looks = response.data['looks'];
-        this.$loading.close();
+    mounted() {
+       
     },
 
     watch: {
-        scrollY(newValue, oldValue) {
-            this.isShowHeader = newValue < oldValue;
-        }
+
     },
 
     components: {
-        LayoutHeader,
-        LayoutHeadSwiper,
-        LayoutCategoryThumb,
-        LayoutLooks,
-        LayoutShopInstagram,
-
+        VCell
     }
 }
 </script>
