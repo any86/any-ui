@@ -7,8 +7,8 @@ const Index = () => ({
     component: import('@/pages/Index')
 });
 
-const Demo = () => ({
-    component: import('@/pages/Demo')
+const SwitchDemo = () => ({
+    component: import('@/pages/SwitchDemo')
 });
 
 export default new Router({
@@ -24,9 +24,9 @@ export default new Router({
             component: Index
         },
         {
-            path: '/demo',
-            name: 'Demo',
-            component: Demo
+            name: 'SwitchDemo',
+            path: '/switch',
+            component: SwitchDemo
         }
     ]
 });
