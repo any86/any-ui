@@ -55,7 +55,6 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-
 .button-ok {
     border-top: 1px solid $lightest;
     width: 100%;
