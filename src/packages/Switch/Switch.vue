@@ -1,10 +1,10 @@
 <template>
-    <label :style="{width: !!this.$slots.default && '100%'}" class="component-switch">
+    <label :style="{width: !!this.$slots.default && '100%'}" class="component-switch" :class="{'component-switch-disabled': disabled}">
         <a v-if="!!this.$slots.default" class="title">
             <slot></slot>
         </a>
         <span class="control">
-            <input :checked="value" @change="change" type="checkbox">
+            <input :disabled="disabled" :checked="value" @change="change" type="checkbox">
             <div class="checkbox"></div>
         </span>
     </label>
@@ -16,12 +16,19 @@ export default {
     props: {
         value: {
             type: Boolean
+        },
+
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
 
     methods: {
         change(e) {
-            this.$emit('input', e.target.checked);
+            if(!this.disabled) {
+                this.$emit('input', e.target.checked);
+            }
         }
     }
 }
@@ -51,7 +58,7 @@ label.component-switch {
             width: 1.8 * $height;
             height: $height;
             transition: all .5s ease;
-            
+
             &:before {
                 font-size: 0;
                 content: " ";
@@ -84,9 +91,9 @@ label.component-switch {
             }
         }
 
-        input:checked+.checkbox{
+        input:checked+.checkbox {
             transition-duration: 0ms;
-            border:1px solid $base;
+            border: 1px solid $base;
             background: $base;
         }
 
@@ -95,6 +102,23 @@ label.component-switch {
         }
         input:checked+.checkbox:after {
             transform: scale(0);
+        }
+    } // 禁用状态
+    &-disabled {
+        >.control {
+            .checkbox {
+                &:before {
+                    background: $disabled;
+                }
+                &:after {
+                    background: $disabled;
+                }
+            }
+            input:checked+.checkbox {
+                transition-duration: 0ms;
+                border: 1px solid $lighter;
+                background: $lightest;
+            }
         }
     }
 }
