@@ -1,5 +1,5 @@
 <template>
-    <span popper-handle @click="showPopper">
+    <span popper-handle @click.stop="showPopper">
         <transition name="fade">
             <span v-show="isShow" ref="popper">
                 <slot name="content"></slot>
@@ -31,7 +31,7 @@ export default {
     },
 
     data() {
-        return { popper: null, top: 0, left: 0, isShow: false };
+        return { popper: null, top: 0, left: 0, isShow: false, popperNode: null };
     },
 
     mounted() {
@@ -39,29 +39,37 @@ export default {
     },
 
     methods: {
+        closePoper() {
+            this.isShow = false;
+        },
+
         showPopper() {
             this.popper.scheduleUpdate();
-            this.isShow = !this.isShow;
-            
+            this.isShow = true;
+            document.addEventListener('click', e => {
+                if (!this.popperNode.contains(e.target) && e.target != this.popperNode) {
+                    this.isShow = false;
+                }
+            });
         },
         createPopper() {
             // 获取popper元素
             // const popperNode = this.$slots.content[0].elm;
-            const popperNode = this.$refs.popper;
-            popperNode.className = 'component-popper';
+            this.popperNode = this.$refs.popper;
+            this.popperNode.className = 'component-popper';
             // 插入arrow
             const arrowNode = document.createElement('div');
             arrowNode.setAttribute('x-arrow', '');
             arrowNode.className = 'popper__arrow'
-            popperNode.appendChild(arrowNode);
+            this.popperNode.appendChild(arrowNode);
             // 移动到body尾部
-            document.body.appendChild(popperNode);
+            document.body.appendChild(this.popperNode);
             // 实例化
-            this.popper = new Popper(this.$slots.default[0].elm, popperNode, {
+            this.popper = new Popper(this.$slots.default[0].elm, this.popperNode, {
                 placement: this.placement,
                 modifiers: this.modifiers,
-                onCreate: data=>{
-                    this.$nextTick(()=>{
+                onCreate: data => {
+                    this.$nextTick(() => {
                         this.popper.scheduleUpdate()
                     });
                 }
