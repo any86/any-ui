@@ -1,11 +1,11 @@
 <template>
-    <div :class="['component-radio', disabled && 'disabled']">
+    <div :class="['component-radio', disabled && 'component-radio-disabled']">
         <label>
             <span v-if="!!$slots.default" class="title">
                 <slot></slot>
             </span>
-            <span class="radio" :class="{checked: selfValue == value}">
-                <input :disabled="disabled" :value="selfValue" :checked="isChecked" @change="change" type="radio">
+            <span class="radio" :class="{checked: isChecked}">
+                <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" type="radio">
                 <span class="icon"></span>
             </span>
         </label>
@@ -15,8 +15,9 @@
 export default {
     name: 'Radio',
 
-    data() {
-        return {};
+    model: {
+        prop: 'referenceValue',
+        event: 'change'
     },
 
     props: {
@@ -24,27 +25,27 @@ export default {
             type: Boolean,
             default: false
         },
+        // 外部参考值
+        // checked: referenceValue == value
+        referenceValue: {
+            required: true
+        },
 
         value: {
             required: true
-        },
-
-        selfValue: {
-            required: true
-        },
-
+        }
     },
     methods: {
         change() {
             if (!this.disabled) {
-                this.$emit('input', this.selfValue);
+                this.$emit('change', this.value);
             }
         }
     },
 
     computed: {
         isChecked() {
-            return this.value == this.selfValue;
+            return this.value == this.referenceValue;
         }
     }
 }
@@ -53,25 +54,6 @@ export default {
 @import '../../scss/theme.scss';
 $height: .5rem;
 .component-radio {
-    // disabled
-    &.disabled {
-        >label {
-            >span {
-                >input:checked+.icon {
-                    border-color: $disabled;
-                }
-                >.icon {
-                    border-color: $disabled;
-                }
-            }
-            >a {
-                color: $disabled;
-                &.active {
-                    color: $disabled;
-                }
-            }
-        }
-    } // 正常
     >label {
         display: flex;
         align-items: center;
@@ -89,7 +71,7 @@ $height: .5rem;
             border: 1px solid $lighter;
             border-radius: 100%;
             &.checked {
-                border: 1px solid $base; // box-shadow: 1px 1px 1px $base;
+                border: 1px solid $base;
                 background: $base;
             }
 
@@ -117,7 +99,31 @@ $height: .5rem;
                 animation: zoom-in .5s;
             }
         }
-    }
+    } // disabled
+    &-disabled {
+        >label {
+            >span.radio {
+                background: $lightest;
+                &.checked {
+                    background: $lightest;
+                    border-color: $disabled;
+                }
+                >input:checked+.icon {
+                    border-color: $disabled;
+                }
+                >.icon {
+                    border-color: $disabled;
+                }
+            }
+
+            >a {
+                color: $disabled;
+                &.active {
+                    color: $disabled;
+                }
+            }
+        }
+    } // 正常
 }
 
 @keyframes zoom-in {
