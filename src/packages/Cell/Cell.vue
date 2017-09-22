@@ -1,12 +1,14 @@
 <template>
-    <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="component-cell" :class="{'component-cell-border': undefined != $attrs && undefined != $attrs.border}">
+    <!-- 当连接用 -->
+    <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="component-cell" :class="{'component-cell-border': border}">
         <span>
             <slot></slot>
         </span>
         <Icon v-if="hasArrow" class="icon" value="more" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
     </router-link>
 
-    <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': undefined != $attrs && undefined != $attrs.border}">
+    <!-- 一般情况 -->
+    <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': border}">
         <span>
             <slot></slot>
         </span>
@@ -29,6 +31,11 @@ export default {
 
         arrowAngle: {
             default: 0
+        },
+
+        border: {
+            type: Boolean,
+            default: true
         }
     }
 }
@@ -44,8 +51,7 @@ export default {
         flex: 1;
         position: relative;
         align-self: center; // font-size: $big;
-        color: $darkest;
-        // margin-right: $gutter;
+        color: $darkest; // margin-right: $gutter;
     }
     >.icon {
         align-self: center;
