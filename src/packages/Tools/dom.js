@@ -75,7 +75,7 @@ const getHeight = obj => {
             document.body.clientHeight
         );
     } else {
-        console.dir(obj)
+        return obj.offsetHeight; // 轮廓尺寸(包括边框)
     }
 };
 
@@ -84,14 +84,21 @@ const getHeight = obj => {
  * {IE} document.documentElement 或 document.body的clientWidth
  * {CHROME} window.innerWidth
  */
-const getWindowWidth = () => {
-    return (
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth
-    );
+const getWidth = obj => {
+    if (window === obj) {
+        return (
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth
+        );
+    } else {
+        return obj.offsetWidth; // 轮廓尺寸(包括边框)
+    }
 };
-
+/**
+ * 获取滚动条高度
+ * @param {window|element} object 
+ */
 const getScrollTop = object => {
     if (window === object) {
         return window.pageYOffset;
@@ -100,7 +107,43 @@ const getScrollTop = object => {
     }
 };
 
+/**
+ * 获取滚动条左位移
+ * @param {window|element} object 
+ */
+const getScrollLeft = object => {
+    if (window === object) {
+        return window.pageXOffset;
+    } else {
+        return object.scrollLeft;
+    }
+};
+/**
+ * 获取2个元素之间的x, y距离
+ * @param {element} element 
+ * @param {element} traget 
+ */
+const getOffet = (element, traget) => {
+    var top = element.offsetTop;
+    var left = element.offsetLeft;
+    var activeNode = element.offsetParent;
+    while (null != activeNode && traget != activeNode) {
+        top += activeNode.offsetTop;
+        left += activeNode.offsetLeft;
+        activeNode = activeNode.offsetParent;
+    }
+    return { top, left };
+};
 // var x = (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
 // var y = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
-export { animate, findScrollParent, getElementTopFromDocument, getHeight };
+export {
+    animate,
+    findScrollParent,
+    getElementTopFromDocument,
+    getWidth,
+    getHeight,
+    getScrollTop,
+    getScrollLeft,
+    getOffet
+};
