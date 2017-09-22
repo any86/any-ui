@@ -47,7 +47,7 @@ export default {
 
     methods: {
         getWindowHeight() {
-            this.windowHeight =  window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            this.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
         },
 
         close() {
@@ -81,6 +81,7 @@ export default {
         padding: $gutter;
         overflow-x: hidden;
         overflow-y: auto;
+        min-height: 1.6rem;
     }
 
     .footer {
