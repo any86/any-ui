@@ -1,15 +1,13 @@
 <template>
     <div class="full-screen">
-        
-        <div id="box" class="box" >
+        <div ref="box" id="box" class="box" @click="click">
             <div id="content" class="content">
-                内容            
+                内容
             </div>
         </div>
 
-
         <Popper>
-            <button ref="button"  class="button button-warning">确定</button>
+            <button ref="button" class="button button-warning">确定</button>
             <div slot="content">
                 <VSwitch v-model="isShow">这是popper</VSwitch>
                 <VCell>11111</VCell>
@@ -41,13 +39,13 @@ export default {
     },
 
     mounted() {
-        
+
     },
 
     methods: {
         click(e) {
-            var h = Dom.getHeight(e.target);
-            // dir(h)
+            var h = Dom.getWidth(e.target);
+            dir(h)
         }
     },
 
@@ -58,29 +56,29 @@ export default {
 </script>
 <style lang="scss">
 @import '../scss/theme.scss';
-.box{
+.box {
     box-sizing: content-box;
     width: 200px;
     height: 200px;
     background: $base;
-    padding:15px;
-    border:1px solid $dark;
+    padding: 15px;
+    border: 1px solid $dark;
     overflow: auto;
 }
 
-.content{
+.content {
     box-sizing: content-box;
     width: 400px;
     height: 400px;
     background: $success;
-    padding:15px;
-    border:1px solid $lightest;    
+    padding: 15px;
+    border: 1px solid $lightest;
 }
 
 
 .button {
     position: absolute;
-    bottom: 10%;
+    top: 10%;
     left: 50%;
     width: 3rem;
     height: 1rem;

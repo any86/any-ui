@@ -13,7 +13,7 @@
             height: 10px;
         }
 
-        ::-webkit-scrollbar-thumb {
+         ::-webkit-scrollbar-thumb {
             background: rgba(255, 13, 0, 0.18);
         }
 
@@ -23,11 +23,10 @@
             width: 200px;
             height: 200px;
             background: #fc0;
-            padding:  15px 15px 15px 15px;
+            padding: 15px 15px 15px 15px;
             border: 1px solid #000;
             overflow-x: scroll;
             overflow-y: hidden;
-            
         }
 
         .content {
@@ -49,13 +48,28 @@
         </div>
     </div>
 
-
     <script>
         var box = document.getElementById('box');
         var content = document.getElementById('content');
+
+        console.time('offsetWidth');
         console.log('offsetWidth: ' + box.offsetWidth + ' == 宽度 + 内边距 + 边框')
+        console.timeEnd('offsetWidth')
+        
+        console.time('scrollWidth');
         console.log('scrollWidth: ' + box.scrollWidth)
+        console.timeEnd('scrollWidth')
+
+        console.time('clientWidth');
         console.log('clientWidth: ' + box.clientWidth + ' == 宽度 + 内边距 - 滚动条宽度 == 可见内容宽度')
+        console.timeEnd('clientWidth')
+
+        console.time('getBoundingClientRect');
+        console.log('getBoundingClientRect: ' + box.getBoundingClientRect().width);
+        console.timeEnd('getBoundingClientRect');
+
+
+
     </script>
 </body>
 
