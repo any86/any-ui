@@ -4,7 +4,7 @@
         <span>
             <slot></slot>
         </span>
-        <Icon v-if="hasArrow" class="icon" value="more" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
+        <Icon v-if="-1<arrow" class="icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></Icon>
     </router-link>
 
     <!-- 一般情况 -->
@@ -12,7 +12,7 @@
         <span>
             <slot></slot>
         </span>
-        <Icon v-if="hasArrow" class="icon" value="more" :style="{transform: `rotate(${arrowAngle}deg)`}"></Icon>
+        <Icon v-if="-1<arrow" class="icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></Icon>
     </div>
 </template>
 <script>
@@ -24,13 +24,8 @@ export default {
             type: Object
         },
 
-        hasArrow: {
-            type: Boolean,
-            default: false
-        },
-
-        arrowAngle: {
-            default: 0
+        arrow: {
+            default: -1
         },
 
         border: {
