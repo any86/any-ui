@@ -1,5 +1,5 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :hasClose="false">
+    <v-dialog :isShow.sync="isShow" :align="'bottom'" :hasClose="false">
         <h4 slot="header" class="title">{{title}}</h4>
         {{content}}
         <div slot="footer" class="footer">

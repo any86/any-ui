@@ -1,7 +1,7 @@
 <template>
     <VMask :isShow="isShow" @update:isShow="close">
         <transition name="fadeUp">
-            <div v-show="isShow" class="component-dialog">
+            <div v-show="isShow" :class="['component-dialog-' + align]" class="component-dialog">
                 <header>
                     <slot name="header"></slot>
                 </header>
@@ -73,7 +73,6 @@ export default {
 @import '../../scss/theme.scss';
 .component-dialog {
     position: absolute;
-    bottom: 20%;
     right: 0;
     left: 0;
     margin: auto;
@@ -82,6 +81,12 @@ export default {
     max-width: 640px;
     border-radius: 4px;
     background: $background;
+    &-top {
+        top: 20%;
+    }
+    &-bottom {
+        bottom: 20%;
+    }
     >header {
         padding: $gutter/2 $gutter 0 $gutter;
         overflow: hidden;
