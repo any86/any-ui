@@ -2,18 +2,18 @@
     <VMask :isShow="isShow" @update:isShow="close">
         <transition name="fadeUp">
             <div v-show="isShow" class="component-dialog">
-                <div class="header">
+                <header>
                     <slot name="header"></slot>
-                </div>
+                </header>
 
-                <div class="body" :style="{maxHeight: windowHeight * 0.618 + 'px'}">
+                <main :style="{maxHeight: windowHeight * 0.618 + 'px'}">
                     <slot></slot>
-                </div>
+                </main>
 
-                <div class="footer">
+                <footer>
                     <slot name="footer"></slot>
                     <div v-if="hasClose" @click="close" class="button-close">close</div>
-                </div>
+                </footer>
             </div>
         </transition>
     </VMask>
@@ -31,6 +31,11 @@ export default {
         hasClose: {
             type: Boolean,
             default: true
+        },
+
+        align: {
+            type: String,
+            default: 'top'
         }
     },
 
@@ -67,24 +72,28 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-dialog {
-    margin: 15% auto;
+    position: absolute;
+    bottom: 20%;
+    right: 0;
+    left: 0;
+    margin: auto;
     overflow: hidden;
+    width: 90%;
     max-width: 640px;
-    width: 80%;
     border-radius: 4px;
     background: $background;
-    .header {
+    >header {
         padding: $gutter/2 $gutter 0 $gutter;
         overflow: hidden;
     }
-    .body {
+    >main {
         padding: $gutter;
         overflow-x: hidden;
         overflow-y: auto;
-        min-height: 1.6rem;
+        min-height: 2rem;
     }
 
-    .footer {
+    >footer {
         .button-close {
             width: 100%;
             height: 1rem;
