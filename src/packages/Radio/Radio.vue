@@ -1,4 +1,5 @@
 <template>
+    <!-- radio改为圆形, 为了区别checkbox-->
     <div :class="['component-radio', disabled && 'component-radio-disabled']">
         <label>
             <span v-if="!!$slots.default" class="title">
