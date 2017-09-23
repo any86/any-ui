@@ -1,11 +1,11 @@
 <template>
-    <div :class="['component-radio', disabled && 'disabled']">
+    <div :class="['component-radio', disabled && 'component-radio-disabled']">
         <label>
-            <a v-if="!!$slots.default" class="title">
+            <span v-if="!!$slots.default" class="title">
                 <slot></slot>
-            </a>
-            <span class="radio">
-                <input :disabled="disabled" :value="selfValue" :checked="isChecked" @change="change" type="radio">
+            </span>
+            <span class="radio" :class="{checked: isChecked}">
+                <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" type="radio">
                 <span class="icon"></span>
             </span>
         </label>
@@ -15,8 +15,9 @@
 export default {
     name: 'Radio',
 
-    data() {
-        return {};
+    model: {
+        prop: 'referenceValue',
+        event: 'change'
     },
 
     props: {
@@ -24,27 +25,27 @@ export default {
             type: Boolean,
             default: false
         },
+        // 外部参考值
+        // checked: referenceValue == value
+        referenceValue: {
+            required: true
+        },
 
         value: {
             required: true
-        },
-
-        selfValue: {
-            required: true
-        },
-
+        }
     },
     methods: {
         change() {
             if (!this.disabled) {
-                this.$emit('input', this.selfValue);
+                this.$emit('change', this.value);
             }
         }
     },
 
     computed: {
         isChecked() {
-            return this.value == this.selfValue;
+            return this.value == this.referenceValue;
         }
     }
 }
@@ -53,32 +54,12 @@ export default {
 @import '../../scss/theme.scss';
 $height: .5rem;
 .component-radio {
-    // disabled
-    &.disabled {
-        >label {
-            >span {
-                >input:checked+.icon {
-                    border-color: $disabled;
-                }
-                >.icon {
-                    border-color: $disabled;
-                }
-            }
-            >a {
-                color: $disabled;
-                &.active {
-                    color: $disabled;
-                }
-            }
-        }
-    } // 正常
     >label {
         display: flex;
-        >a.title {
+        align-items: center;
+        >.title {
             flex: 1;
-            height: $height;
-            line-height: $height;
-            font-size: $big;
+            font-size: $normal;
             &.active {
                 color: $base;
             }
@@ -87,13 +68,22 @@ $height: .5rem;
             position: relative;
             width: $height;
             height: $height;
+            border: 1px solid $lighter;
+            border-radius: 100%;
+            &.checked {
+                border: 1px solid $base;
+                background: $base;
+            }
 
             >input {
                 display: none;
             }
             >.icon {
+                display: none;
+            }
+            >input:checked+.icon {
                 position: absolute;
-                top: 20%;
+                top: 25%;
                 left: 0;
                 right: 0;
                 width: $height*0.6;
@@ -105,14 +95,35 @@ $height: .5rem;
                 margin: auto;
                 transform: rotate(-45deg);
                 transition: transform .3s;
-            }
-            >input:checked+.icon {
-                // transform: scale(1.2) rotate(-45deg);
-                border-color: $base;
+                border-color: #fff;
                 animation: zoom-in .5s;
             }
         }
-    }
+    } // disabled
+    &-disabled {
+        >label {
+            >span.radio {
+                background: $lightest;
+                &.checked {
+                    background: $lightest;
+                    border-color: $disabled;
+                }
+                >input:checked+.icon {
+                    border-color: $disabled;
+                }
+                >.icon {
+                    border-color: $disabled;
+                }
+            }
+
+            >a {
+                color: $disabled;
+                &.active {
+                    color: $disabled;
+                }
+            }
+        }
+    } // 正常
 }
 
 @keyframes zoom-in {

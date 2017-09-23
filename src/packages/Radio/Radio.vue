@@ -65,75 +65,74 @@ $height: .5rem;
             }
         }
         >span.radio {
+            // 仅为占位, 不包含样式
             position: relative;
-            width: $height;
-            height: $height;
-            border: 1px solid $lighter;
-            border-radius: 100%;
-            &.checked {
-                border: 1px solid $base;
-                background: $base;
-            }
-
             >input {
                 display: none;
             }
+
             >.icon {
-                display: none;
-            }
-            >input:checked+.icon {
-                position: absolute;
-                top: 25%;
-                left: 0;
-                right: 0;
-                width: $height*0.6;
-                height: $height*0.3;
-                border-color: $darker;
-                border-style: solid;
-                border-width: 0 0 2px 2px;
                 display: block;
-                margin: auto;
-                transform: rotate(-45deg);
-                transition: transform .3s;
-                border-color: #fff;
-                animation: zoom-in .5s;
+                width: $height;
+                height: $height;
+                border-radius: 100%;
+                border: 1px solid $lighter;
+                background: $sub;
+            }
+
+            >input:checked+.icon {
+                border: 1px solid $base;
+                background: $base;
+                transition: transform 200ms;
+                &:after {
+                    content: ' ';
+                    display: block;
+                    background: $sub;
+                    margin: auto;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                    width: $height/3;
+                    height: $height/3;
+                    border-radius: 100%;
+
+                    animation: zoom-in 200ms;
+                }
             }
         }
-    } // disabled
+    }
+
     &-disabled {
         >label {
             >span.radio {
-                background: $lightest;
-                &.checked {
-                    background: $lightest;
-                    border-color: $disabled;
-                }
-                >input:checked+.icon {
-                    border-color: $disabled;
-                }
-                >.icon {
-                    border-color: $disabled;
-                }
-            }
 
-            >a {
-                color: $disabled;
-                &.active {
-                    color: $disabled;
+                >.icon {
+                    border: 1px solid $disabled;
+                    background: $lightest;
+                }
+
+                >input:checked+.icon {
+                    border: 1px solid $disabled;
+                    background: $disabled;
+                    &:after {
+                        background: $sub;
+                    }
                 }
             }
         }
-    } // 正常
+    }
 }
 
 @keyframes zoom-in {
     0% {
         opacity: 0;
-        transform: scale(1.5) rotate(-45deg);
+        transform: scale(.5);
     }
     100% {
         opacity: 1;
-        transform: scale(1) rotate(-45deg);
+        transform: scale(1);
     }
 }
 </style>
