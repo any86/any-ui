@@ -32,7 +32,7 @@ export default {
             type: Boolean,
             default: true
         }
-    }
+    },
 }
 </script>
 <style scoped lang="scss">
@@ -42,6 +42,7 @@ export default {
     background: $background;
     padding: 0 $gutter;
     min-height: 1rem;
+
     >span {
         flex: 1;
         position: relative;
@@ -55,6 +56,55 @@ export default {
 
     &-border {
         border-bottom: 1px solid $lightest;
+    }
+
+
+
+
+    .has-ripple {
+        position: relative;
+        overflow: hidden;
+        -webkit-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    .ripple {
+        display: block;
+        position: absolute;
+        pointer-events: none;
+        border-radius: 50%;
+
+        -webkit-transform: scale(0);
+        -o-transform: scale(0);
+        transform: scale(0);
+
+        background: #fff;
+        opacity: 1;
+    }
+    .ripple-animate {
+        -webkit-animation: ripple;
+        -o-animation: ripple;
+        animation: ripple;
+    }
+    @-webkit-keyframes ripple {
+        100% {
+            opacity: 0;
+            -webkit-transform: scale(2);
+            transform: scale(2);
+        }
+    }
+    @-o-keyframes ripple {
+        100% {
+            opacity: 0;
+            -o-transform: scale(2);
+            transform: scale(2);
+        }
+    }
+    @keyframes ripple {
+        100% {
+            opacity: 0;
+            transform: scale(2);
+        }
     }
 }
 </style>

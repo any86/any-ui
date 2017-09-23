@@ -33,7 +33,6 @@ $speed: 300ms;
     }
 }
 
-
 /*fadeRight*/
 
 .fadeRight-enter-active {
@@ -66,9 +65,7 @@ $speed: 300ms;
     }
 }
 
-
 /*fadeUp*/
-
 .fadeUp-enter-active {
     animation: fadeUpIn $speed ease-in-out;
 }
@@ -98,7 +95,6 @@ $speed: 300ms;
         transform: translate3d(0, -10%, 0);
     }
 }
-
 
 /*fadeDown*/
 
@@ -132,7 +128,6 @@ $speed: 300ms;
     }
 }
 
-
 /*fade*/
 .fade-enter-active {
     animation: fadeIn $speed ease-in-out;
@@ -159,7 +154,6 @@ $speed: 300ms;
         opacity: 0;
     }
 }
-
 
 /*zoom*/
 

@@ -98,7 +98,6 @@ $height: .5rem;
                     width: $height/3;
                     height: $height/3;
                     border-radius: 100%;
-
                     animation: zoom-in 200ms;
                 }
             }
@@ -108,7 +107,6 @@ $height: .5rem;
     &-disabled {
         >label {
             >span.radio {
-
                 >.icon {
                     border: 1px solid $disabled;
                     background: $lightest;

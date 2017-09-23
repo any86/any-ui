@@ -14,6 +14,10 @@
         <v-cell border @click="$alert('用户体验?')">
             Alert
         </v-cell>
+
+        <v-cell border @click="$confirm('是否开启蓝牙?')">
+            Confirm
+        </v-cell>
     </main>
 </template>
 <script>

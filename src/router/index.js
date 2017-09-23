@@ -11,6 +11,10 @@ const SwitchDemo = () => ({
     component: import('@/pages/SwitchDemo')
 });
 
+const RadioDemo = () => ({
+    component: import('@/pages/RadioDemo')
+});
+
 export default new Router({
     // mode: "history",
     routes: [
@@ -27,6 +31,11 @@ export default new Router({
             name: 'SwitchDemo',
             path: '/switch',
             component: SwitchDemo
+        },
+        {
+            name: 'RadioDemo',
+            path: '/radio',
+            component: RadioDemo
         }
     ]
 });
