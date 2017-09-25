@@ -4,7 +4,7 @@
             <slot></slot>
         </a>
         <span class="control">
-            <input :disabled="disabled" :checked="value" @change="change" type="checkbox">
+            <input :disabled="disabled" :checked="value" @change="change" @click.stop="()=>{}" type="checkbox">
             <div class="checkbox"></div>
         </span>
     </label>

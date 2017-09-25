@@ -6,7 +6,7 @@
                 <slot></slot>
             </span>
             <span class="radio" :class="{checked: isChecked}">
-                <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" type="radio">
+                <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" @click.stop="()=>{}" type="radio">
                 <span class="icon"></span>
             </span>
         </label>
