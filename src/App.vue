@@ -1,5 +1,5 @@
 <template>
-    <VDrawer v-model="isShowSide" class="home">
+    <VDrawer  class="home">
         <ul class="menu" slot="side">
             <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
             <router-link :to="{path: '/checkout'}" tag="li">Checkout</router-link>
@@ -20,7 +20,6 @@
     </VDrawer>
 </template>
 <script>
-import * as types from "@/store/mutation-types";
 import VDrawer from '@/packages/Drawer/Drawer'
 import VLoading from '@/packages/Loading/Loading'
 import QRCode from 'qrcode'
@@ -42,21 +41,11 @@ export default {
     },
 
     methods: {
-        changeCurrency(currency) {
-            this.$store.commit('SET_CURRENCY', currency);
-        }
+
     },
 
     computed: {
-        isShowSide: {
-            get() {
-                return this.$store.state.isShowSide;
-            },
 
-            set(value) {
-                this.$store.commit(value ? types.SHOW_SIDE : types.HIDE_SIDE);
-            }
-        }
     },
 
     components: {

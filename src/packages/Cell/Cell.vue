@@ -4,7 +4,7 @@
         <span>
             <slot></slot>
         </span>
-        <Icon v-if="-1<arrow" class="icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></Icon>
+        <i v-if="-1<arrow" class="atom-icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
     </router-link>
 
     <!-- 一般情况 -->
@@ -12,7 +12,7 @@
         <span>
             <slot></slot>
         </span>
-        <Icon v-if="-1<arrow" class="icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></Icon>
+        <i v-if="-1<arrow" class="atom-icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
     </div>
 </template>
 <script>
@@ -49,9 +49,15 @@ export default {
         align-self: center; // font-size: $big;
         color: $darkest; // margin-right: $gutter;
     }
-    >.icon {
-        align-self: center;
-        font-size: $biggest;
+    >.atom-icon {
+        align-self: center; 
+        background: url(../../assets/more.svg) center center;
+        background-size: 100%;
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        margin-right: -$gutter;
+        transition: transform 200ms;
     }
 
     &-border {
