@@ -16,9 +16,14 @@
                 <v-radio v-model="select1" :value="2">选项2</v-radio>
             </v-cell>
 
-            <v-cell>
-                <v-button v-model="is1">123</v-button>
-            </v-cell>
+            <v-button class="gutter" type="outline-primary" disabled block>primary</v-button>
+            <v-button class="gutter" type="outline-success" block>success</v-button>
+            <v-button class="gutter" type="outline-danger" block>danger</v-button>
+            <v-button class="gutter" type="outline-warning" block>warning</v-button>
+            <v-button class="gutter" type="outline-dark">dark</v-button>
+            <v-button class="gutter" type="outline-light">light</v-button>
+            <v-button class="gutter" type="outline-info">info</v-button>
+            
         </v-group>
 
         <v-group>
@@ -63,5 +68,11 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
-.m-icon{background: url(../assets/close.svg) center center;background-size: 100%; width: 32px;height: 32px;display: inline-block;}
+.m-icon {
+    background: url(../assets/close.svg) center center;
+    background-size: 100%;
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+}
 </style>

@@ -1,10 +1,10 @@
 <template>
-    <span :class="['com-button', type, !!disabled && 'disabled ', size, inline && 'inline', inline || 'block' ]" v-on="$listeners">
+    <a :class="[`component-button`, `button-${type}`, disabled && 'button-disabled ', size && `button-${size}`, block &&'button-block']" v-on="$listeners">
         <!-- 背景动画 -->
-        <Icon v-if="'' != icon" v-show="!loading" :value="icon"></Icon>
+        <!-- <Icon v-if="'' != icon" v-show="!loading" :value="icon"></Icon> -->
         <slot></slot>
-        <Icon v-show="loading" value="spinner spin"></Icon>
-    </span>
+        <!-- <Icon v-show="loading" value="spinner spin"></Icon> -->
+    </a>
 </template>
 <script>
 import Icon from '@/packages/Icon/Icon'
@@ -12,17 +12,8 @@ export default {
     name: 'Button',
 
     props: {
-        inline: {
-            type: Boolean
-        },
-
         loading: {
             type: Boolean
-        },
-
-        disabled: {
-            type: Boolean,
-            default: false
         }
     },
 
@@ -30,25 +21,29 @@ export default {
         return {
             size: 'small',
             icon: '',
-            type: 'default'
+            type: 'default',
+            block: false,
+            disabled: false
         };
     },
 
     mounted() {
-        // 类型
-        var type = this.$el.getAttribute('type');
-        if (null !== type) {
-            this.type = type;
-        }
-        // 图标
-        var icon = this.$el.getAttribute('icon');
-        if (null !== type) {
-            this.icon = icon;
-        }
-        // 尺寸
-        var size = this.$el.getAttribute('size');
-        if (null !== size) {
-            this.size = size;
+        if (undefined !== this.$attrs) {
+            // 类型
+            if ('' !== this.$attrs.type) {
+                this.type = this.$attrs.type;
+            }
+
+            // 100%宽按钮
+            this.block = ('' === this.$attrs.block || this.$attrs.block);
+
+            // 禁用
+            this.disabled = ('' === this.$attrs.disabled || this.$attrs.disabled);
+
+            // 尺寸
+            if ('' !== this.$attrs.size) {
+                this.size = this.$attrs.size;
+            }
         }
     },
 
@@ -65,120 +60,62 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-@mixin button($type) {
-    background: $type;
-    border-color: rgba($type, 1);
-    color: #fff;
-    &:active {
+
+// 纯色背景按钮
+@mixin button($color) {
+    background: $color;
+    border-color: rgba($color, 1);
+    color: $sub;
+    &:not(.disabled):active {
         opacity: .7;
     }
 }
 
-.small {
-    padding: .1rem .2rem;
-    font-size: .2rem;
+// 幽灵按钮
+@mixin button-outline($color) {
+    background: $sub;
+    border-color: $color;
+    color: $color;
+    &:not(.disabled):active {
+        opacity: .7;
+    }
 }
 
-.big {
-    padding: .2rem .4rem;
-    font-size: .3rem;
-}
-
-.inline {
-    display: inline-block;
-}
-
-.block {
-    width: 100%;
-    display: block;
-}
-
-.com-button {
-    cursor: pointer;
+.component-button {
     position: relative;
+    display: inline-block;
     overflow: hidden;
     user-select: none;
-    box-sizing: border-box;
-    font-weight: 400;
-    line-height: 1.42857143;
+    padding: $gutter/2 $gutter*2;
+    line-height: 1.5;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
     letter-spacing: 1px;
     text-decoration: none;
-    transition: .2s;
     border: 1px solid transparent;
+    border-radius: $borderRadius;
+    transition: all 200ms;
 }
 
-.default {
-    @include button($default);
-    color: $default;
-    background: #fff;
+.button-disabled {
+    pointer-events: none;
+    opacity: .65;
 }
 
-.ghost {
-    @include button($base);
-    color: $base;
-    background: #fff;
+.button-block {
+    width: 100%;
+    display: block;
 }
 
-.primary {
-    @include button($primary);
-}
-
-.success {
-    @include button($success);
-}
-
-.warning {
-    @include button($warning);
-}
-
-.danger {
-    @include button($danger);
-}
-
-.info {
-    @include button($info);
-}
-
-.disabled {
-    color: #c3cbd6;
-    background-color: #f7f7f7;
-    border: 1px solid #d7dde4;
-    &:hover {
-        cursor: not-allowed;
-        opacity: 1;
+@each $color,
+$value in $theme_colors {
+    .button-#{$color} {
+        @include button($value);
     }
-}
 
-.v-enter-active {
-    animation: in .2s;
-}
-
-.v-leave-active {
-    animation: out .2s;
-}
-
-@keyframes in {
-    0% {
-        opacity: 0;
-        transform: scale(2);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes out {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(2);
+    .button-outline-#{$color} {
+        @include button-outline($value);
     }
 }
 </style>

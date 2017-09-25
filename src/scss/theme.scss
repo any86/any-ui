@@ -1,37 +1,49 @@
-$white: #fff;
 // 主色
-// $base: #1fbab1;
 $base: #e60044;
-// $base: #333;
+$white: #fff;
 // 辅色
-$sub: #fff;
+$sub: $white;
 // 禁用色
 $disabled: #ccc;
-//：重#333333       中#888888     浅#cccccc
 // 背景色
 $background: $white;
+
 // 浅灰
 $light: #aaa9ae;
 $lighter: #ddd;
 $lightest: #eee;
+
 // 深灰
 $dark: #888;
 $darker: #6a6a6a;
 $darkest: #333;
+
 // 彩色
 $default: #ddd;
-$primary: #3680bf;
+$primary: $base;
 $success: #50d185;
 $warning: #fa0;
 $danger: #e60044;
 $info: #2db7f5;
+
+$theme_colors: (
+    default: $default,
+    primary: $primary,
+    success: $success,
+    warning: $warning,
+    danger: $danger,
+    info: $info,
+    dark: $dark,
+    light: $light
+);
+
 // 间隙
 // $gutter: 5px;
-$gutter: .3rem;
+$gutter: 0.3rem;
 // 最小高度
-$minHeight: .5rem;
+$minHeight: 0.5rem;
 // 圆角
-$borderRadius: 5px;
+$borderRadius: 4px;
 // z-index管理
 $tabBarZIndex: 10;
 $dropDownZIndex: 20;
@@ -49,43 +61,38 @@ $loadingZIndex: 9999;
 //字体大小
 $small: 12px;
 $normal: 14px;
-$big: .32rem;
-$bigger: .38rem;
-$biggest: .46rem;
-$large: .52rem;
+$big: 0.32rem;
+$bigger: 0.38rem;
+$biggest: 0.46rem;
+$large: 0.52rem;
 // 阴影
-$shadowUp: 0 -1px 6px rgba(0, 0, 0, .1);
-$shadowDown:0 1px 6px rgba(0, 0, 0, .1);
+$shadowUp: 0 -1px 6px rgba(0, 0, 0, 0.1);
+$shadowDown: 0 1px 6px rgba(0, 0, 0, 0.1);
 // 底部tab高度
 $bottomTabHeight: 60px;
 @mixin theme($type) {
-  @if 'default'==$type {
-    color: $dark;
-    background: $default;
-  }
-  @else if 'success'==$type {
-    color: #fff;
-    background: $success;
-  }
-  @else if 'info'==$type {
-    color: #fff;
-    background: $info;
-  }
-  @else if 'warning'==$type {
-    color: #fff;
-    background: $warning;
-  }
-  @else if 'danger'==$type {
-    color: #fff;
-    background: $danger;
-  }
-  @else if 'primary'==$type {
-    color: #fff;
-    background: $primary;
-  }
+    @if 'default'==$type {
+        color: $dark;
+        background: $default;
+    } @else if 'success'==$type {
+        color: #fff;
+        background: $success;
+    } @else if 'info'==$type {
+        color: #fff;
+        background: $info;
+    } @else if 'warning'==$type {
+        color: #fff;
+        background: $warning;
+    } @else if 'danger'==$type {
+        color: #fff;
+        background: $danger;
+    } @else if 'primary'==$type {
+        color: #fff;
+        background: $primary;
+    }
 }
 
 @mixin disabled() {
-  background: $lighter;
-  color: $light;
+    background: $lighter;
+    color: $light;
 }
