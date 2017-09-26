@@ -7,7 +7,7 @@
             </span>
             <span class="radio" :class="{checked: isChecked}">
                 <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" @click.stop="()=>{}" type="radio">
-                <span class="icon"></span>
+                <span class="appearance"></span>
             </span>
         </label>
     </div>
@@ -72,7 +72,7 @@ $height: .5rem;
                 display: none;
             }
 
-            >.icon {
+            >.appearance {
                 display: block;
                 width: $height;
                 height: $height;
@@ -81,7 +81,7 @@ $height: .5rem;
                 background: $sub;
             }
 
-            >input:checked+.icon {
+            >input:checked+.appearance {
                 border: 1px solid $base;
                 background: $base;
                 transition: transform 200ms;
@@ -107,12 +107,12 @@ $height: .5rem;
     &-disabled {
         >label {
             >span.radio {
-                >.icon {
+                >.appearance {
                     border: 1px solid $disabled;
                     background: $lightest;
                 }
 
-                >input:checked+.icon {
+                >input:checked+.appearance {
                     border: 1px solid $disabled;
                     background: $disabled;
                     &:after {

@@ -3,7 +3,7 @@
         <a v-if="!!this.$slots.default" class="title">
             <slot></slot>
         </a>
-        <span class="control">
+        <span class="appearance">
             <input :disabled="disabled" :checked="value" @change="change" @click.stop="()=>{}" type="checkbox">
             <div class="checkbox"></div>
         </span>
@@ -43,7 +43,7 @@ label.component-switch {
         display: block;
         flex: 1;
     }
-    >.control {
+    >.appearance {
         input {
             display: none;
         }
@@ -105,7 +105,7 @@ label.component-switch {
         }
     } // 禁用状态
     &-disabled {
-        >.control {
+        >.appearance {
             .checkbox {
                 &:before {
                     background: $disabled;
