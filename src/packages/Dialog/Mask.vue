@@ -1,11 +1,13 @@
 <template>
     <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="isShow" @click.self="close" class="component-mask" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs">
+        <div v-show="isShow" v-dom-portal @click.self="close" class="component-mask" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs">
             <slot></slot>
         </div>
     </transition>
 </template>
 <script>
+
+
 export default {
     name: 'Mask',
 

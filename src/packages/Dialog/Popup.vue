@@ -1,5 +1,5 @@
 <template>
-    <v-mask v-dom-portal :isShow="value" :isFixed="isFixed" @update:isShow="closeMask" @after-leave="afterLeave">
+    <v-mask :isShow="value" :isFixed="isFixed" @update:isShow="closeMask" @after-leave="afterLeave">
         <transition :name="'dialog-' + from" @after-leave="afterDialogLeave">
             <div v-show="value" :class="['component-dialog', from]" :style="{maxHeight: height * 0.5 + 'px'}">
                 <div class="header" v-if="undefined != $slots.header">

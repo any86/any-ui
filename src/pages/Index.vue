@@ -18,12 +18,16 @@
         <v-cell border @click="$confirm('是否开启蓝牙?')">
             Confirm
         </v-cell>
+        <v-dialog  :isShow.sync="isSdk">
+            <h1 class="h11">sdk</h1>
+        </v-dialog>
     </main>
 </template>
 <script>
 import VCell from '@/packages/Cell/Cell';
 import VSwitch from '@/packages/Switch/Switch';
 import VRadio from '@/packages/Radio/Radio';
+import VDialog from '@/packages/Dialog/Dialog';
 
 export default {
     name: 'Index',
@@ -37,7 +41,7 @@ export default {
     },
 
     components: {
-        VCell, VSwitch, VRadio
+        VCell, VSwitch, VRadio, VDialog
     }
 }
 </script>
@@ -58,5 +62,10 @@ export default {
         flex: 1;
         padding: 0 .3rem .3rem .3rem;
     }
+}
+
+.h11 {
+    color: $info;
+    border:1px dashed $info;
 }
 </style>
