@@ -15,6 +15,14 @@ const RadioDemo = () => ({
     component: import('@/pages/RadioDemo')
 });
 
+const CheckboxDemo = () => ({
+    component: import('@/pages/CheckboxDemo')
+});
+
+const SvgDemo = () => ({
+    component: import('@/pages/SvgDemo')
+});
+
 export default new Router({
     // mode: "history",
     routes: [
@@ -36,6 +44,15 @@ export default new Router({
             name: 'RadioDemo',
             path: '/radio',
             component: RadioDemo
-        }
+        },
+        {
+            name: 'CheckboxDemo',
+            path: '/checkbox',
+            component: CheckboxDemo
+        },{
+            name: 'SvgDemo',
+            path: '/svg',
+            component: SvgDemo
+        },      
     ]
 });

@@ -1,11 +1,11 @@
 <template>
-    <main>
+    <v-scroll-view v-model="top" class="full-screen">
         <v-group>
             <template slot="header">
                 正常情况
             </template>
             <v-cell :arrow="0">
-                带箭头
+                123
             </v-cell>
 
             <v-cell>
@@ -16,14 +16,8 @@
                 <v-radio v-model="select1" :value="2">选项2</v-radio>
             </v-cell>
 
-            <v-button class="gutter" type="outline-primary" disabled block>primary</v-button>
-            <v-button class="gutter" type="outline-success" block>success</v-button>
-            <v-button class="gutter" type="outline-danger" block>danger</v-button>
-            <v-button class="gutter" type="outline-warning" block>warning</v-button>
-            <v-button class="gutter" type="outline-dark">dark</v-button>
-            <v-button class="gutter" type="outline-light">light</v-button>
-            <v-button class="gutter" type="outline-info">info</v-button>
-            
+            <v-button :isLoading="true" class="gutter-top" type="primary" block>primary</v-button>
+
         </v-group>
 
         <v-group>
@@ -37,13 +31,16 @@
                 <v-radio v-model="select2" :value="2" :disabled="true">选项2</v-radio>
             </v-cell>
         </v-group>
-    </main>
+    </v-scroll-view>
 </template>
 <script>
+import VScrollView from '@/packages/ScrollView/ScrollView';
 import VRadio from '@/packages/Radio/Radio';
 import VButton from '@/packages/Button/Button';
 import VCell from '@/packages/Cell/Cell';
 import VGroup from '@/packages/Group/Group';
+import VCircle from '@/packages/Loading/Circle';
+
 export default {
     name: 'RadioDemo',
 
@@ -52,7 +49,7 @@ export default {
             is1: false,
             select1: 1,
             select2: 1,
-
+            top: 0,
         };
     },
 
@@ -62,7 +59,7 @@ export default {
     },
 
     components: {
-        VCell, VRadio, VGroup, VButton
+        VCell, VRadio, VGroup, VButton, VCircle,VScrollView
     }
 }
 </script>

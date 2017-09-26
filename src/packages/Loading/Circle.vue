@@ -1,143 +1,36 @@
 <template>
-  <svg class="circular" viewBox="25 25 50 50">
-    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-  </svg>
+    <div>
+        <svg viewBox="0 0 100 100" style="display: block; width: 100%;">
+            <path d="M 50,50 m 0,-48 a 48,48 0 1 1 0,96 a 48,48 0 1 1 0,-96" stroke="#eee" stroke-width="1" fill-opacity="0"></path>
+            <path d="M 50,50 m 0,-48 a 48,48 0 1 1 0,96 a 48,48 0 1 1 0,-96" stroke="rgb(127,127,127)" stroke-width="2.062553749271137" fill-opacity="0" style="stroke-dasharray: 301.635, 301.635; stroke-dashoffset: 194.801;"></path>
+        </svg>
+
+        <v-stepper v-model="number"></v-stepper>
+    </div>
 </template>
 <script>
-import VSpinner from '@/packages/Spinner/Spinner'
-import VMask from '@/packages/Dialog/Mask'
-
+import VStepper from '@/packages/Stepper/Stepper'
 export default {
-  name: 'Loading',
+    name: 'LoadingCircle',
 
-  props: {
-    value: {
-      required: true
-    }
-  },
+    data() {
+        return { number: 30, x: 0, y: 0 };
+    },
 
-  mounted() {
+    mounted() {
+        var rad = 0;
+        var r = 50;
+        setInterval(() => {
+            this.x = (Math.sin(rad) * r).toFixed(2);
+            this.y = -(Math.cos(rad) * r).toFixed(2);
+            rad++;
+        }, 200)
+    },
 
-  },
-
-  data() {
-    return {
-
-    };
-  },
-
-  methods: {
-
-  },
-
-  components: {
-    VSpinner,
-    VMask
-  }
+    components: { VStepper }
 }
 
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.circular {
-  -webkit-animation: rotate 2s linear infinite;
-  animation: rotate 2s linear infinite;
-  height: 100%;
-  -webkit-transform-origin: center center;
-  transform-origin: center center;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-
-.path {
-  stroke-dasharray: 1, 200;
-  stroke-dashoffset: 0;
-  -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-  stroke-linecap: round;
-}
-
-@-webkit-keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-@-webkit-keyframes dash {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -35px;
-  }
-  100% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -124px;
-  }
-}
-
-@keyframes dash {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -35px;
-  }
-  100% {
-    stroke-dasharray: 89, 200;
-    stroke-dashoffset: -124px;
-  }
-}
-
-@-webkit-keyframes color {
-  100%,
-  0% {
-    stroke: #d62d20;
-  }
-  40% {
-    stroke: #0057e7;
-  }
-  66% {
-    stroke: #008744;
-  }
-  80%,
-  90% {
-    stroke: #ffa700;
-  }
-}
-
-@keyframes color {
-  100%,
-  0% {
-    stroke: #d62d20;
-  }
-  40% {
-    stroke: #0057e7;
-  }
-  66% {
-    stroke: #008744;
-  }
-  80%,
-  90% {
-    stroke: #ffa700;
-  }
-}
-
 </style>
