@@ -1,21 +1,11 @@
 <template>
-    <a :class="[`component-button`, `button-${type}`, disabled && 'button-disabled ', size && `button-${size}`, block &&'button-block']" v-on="$listeners">
-        <!-- 背景动画 -->
-        <!-- <Icon v-if="'' != icon" v-show="!loading" :value="icon"></Icon> -->
+    <a v-on="$listeners" v-bind="$attrs" :class="[`button`, `button-${type}`, disabled && 'button-disabled ', size && `button-${size}`, block &&'button-block']">
         <slot></slot>
-        <!-- <Icon v-show="loading" value="spinner spin"></Icon> -->
     </a>
 </template>
 <script>
-import Icon from '@/packages/Icon/Icon'
 export default {
     name: 'Button',
-
-    props: {
-        loading: {
-            type: Boolean
-        }
-    },
 
     data() {
         return {
@@ -45,16 +35,6 @@ export default {
                 this.size = this.$attrs.size;
             }
         }
-    },
-
-    methods: {
-        click() {
-            this.$emit('click');
-        }
-    },
-
-    components: {
-        Icon
     }
 }
 </script>
@@ -69,6 +49,11 @@ export default {
     &:not(.disabled):active {
         opacity: .7;
     }
+
+    &-disabled {
+        pointer-events: none;
+        background: dark($color);
+    }
 }
 
 // 幽灵按钮
@@ -81,31 +66,34 @@ export default {
     }
 }
 
-.component-button {
-    position: relative;
-    display: inline-block;
+.button {
     overflow: hidden;
     user-select: none;
-    padding: $gutter/2 $gutter*2;
-    line-height: 1.5;
+    padding: $gutter $gutter*3;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
     letter-spacing: 1px;
     text-decoration: none;
     border: 1px solid transparent;
-    border-radius: $borderRadius;
     transition: all 200ms;
-}
+    .icon-loading {
+        align-self: center;
+        width: .3rem;
+        height: .3rem;
+        display: block;
+        margin-right: $gutter / 2;
+    }
 
-.button-disabled {
-    pointer-events: none;
-    opacity: .65;
+    .slot {
+        flex: 1;
+        align-self: center;
+        line-height: 1.5;
+    }
 }
 
 .button-block {
     width: 100%;
-    display: block;
 }
 
 @each $color,
