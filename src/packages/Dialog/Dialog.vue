@@ -1,5 +1,5 @@
 <template>
-    <VMask :isShow="isShow" @update:isShow="close">
+    <VMask :isShow="isShow" :portal="true" @update:isShow="close">
         <transition name="fadeUp">
             <div v-show="isShow" :class="['component-dialog-' + align]" class="component-dialog">
                 <header>
@@ -21,7 +21,7 @@
 <script>
 import VMask from './Mask'
 import VIconClose from '@/packages/Icon/Close'
-import {getHeight} from '@/packages/Tools/dom'
+import { getHeight } from '@/packages/Tools/dom'
 export default {
     name: 'Dialog',
 
@@ -101,14 +101,15 @@ export default {
 }
 
 .button-close {
-        display: block;
-        width: 36px;
-        position: absolute;
-        right: 0;
-        left: 0;
-        bottom: $gutter *3;
-        margin: auto;
-        border: 1px solid $light;
-        border-radius: 100%;
-    }
+    display: block;
+    width: .8rem;
+    height: .8rem;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: $gutter *3;
+    margin: auto;
+    border: 1px solid $light;
+    border-radius: 100%;
+}
 </style>
