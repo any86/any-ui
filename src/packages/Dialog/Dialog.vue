@@ -12,14 +12,16 @@
 
                 <footer>
                     <slot name="footer"></slot>
-                    <div v-if="hasClose" @click="close" class="button-close">close</div>
                 </footer>
             </div>
         </transition>
+        <v-icon-close v-if="hasClose" @click="close" class="button-close"></v-icon-close>
     </VMask>
 </template>
 <script>
 import VMask from './Mask'
+import VIconClose from '@/packages/Icon/Close'
+import {getHeight} from '@/packages/Tools/dom'
 export default {
     name: 'Dialog',
 
@@ -52,7 +54,7 @@ export default {
 
     methods: {
         getWindowHeight() {
-            this.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            this.windowHeight = getHeight(window);
         },
 
         close() {
@@ -61,7 +63,7 @@ export default {
     },
 
     components: {
-        VMask
+        VMask, VIconClose
     },
 
     destroyed() {
@@ -76,7 +78,6 @@ export default {
     right: 0;
     left: 0;
     margin: auto;
-    overflow: hidden;
     width: 90%;
     max-width: 640px;
     border-radius: 4px;
@@ -97,15 +98,17 @@ export default {
         overflow-y: auto;
         min-height: 2rem;
     }
-
-    >footer {
-        .button-close {
-            width: 100%;
-            height: 1rem;
-            line-height: 1rem;
-            text-align: center;
-            border-top: 1px solid $lightest;
-        }
-    }
 }
+
+.button-close {
+        display: block;
+        width: 36px;
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: $gutter *3;
+        margin: auto;
+        border: 1px solid $light;
+        border-radius: 100%;
+    }
 </style>
