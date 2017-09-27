@@ -1,11 +1,6 @@
 import Toast from '@/packages/Toast/Toast';
 import Loading from '@/packages/Loading/Loading';
-import Icon from './Icon/Icon';
-import Spinner from './Spinner/Spinner';
-import ScrollView from './ScrollView/ScrollView';
-import Flexbox from './Flexbox/FlexBox';
-import FlexItem from './Flexbox/FlexItem';
-import Badge from './Badge/Badge';
+// import ScrollView from './ScrollView/ScrollView';
 import VAlert from '@/packages/Dialog/Alert';
 import VConfirm from '@/packages/Dialog/Confirm';
 import VPrompt from '@/packages/Dialog/Prompt';
@@ -13,12 +8,7 @@ import VPrompt from '@/packages/Dialog/Prompt';
 var Atom = {};
 
 Atom.install = function(Vue) {
-    Vue.component(Flexbox.name, Flexbox);
-    Vue.component(FlexItem.name, FlexItem);
-    Vue.component(ScrollView.name, ScrollView);
-    Vue.component(Icon.name, Icon);
-    Vue.component(Spinner.name, Spinner);
-    Vue.component(Badge.name, Badge);
+    // Vue.component(ScrollView.name, ScrollView);
 
     const createVueChild = component => {
         // 创建一个挂载点

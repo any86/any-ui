@@ -24,10 +24,12 @@ Object.defineProperty(Vue.prototype, '$api', {
 
 //全局样式
 import '@/scss/global.scss';
-import '@/assets/iconfont/iconfont.css'
 // UI
 import Atom from '@/packages/index.js';
 Vue.use(Atom);
+// 移动组件指令
+import DomPortal from 'vue-dom-portal';
+Vue.use(DomPortal);
 
 // 关闭错误提示
 Vue.config.productionTip = false;
@@ -42,10 +44,6 @@ var vm = new Vue({
         App
     }
 });
-
-// 移动组件指令
-import DomPortal from 'vue-dom-portal';
-Vue.use(DomPortal);
 
 router.beforeEach(function(to, from, next) {
     next();

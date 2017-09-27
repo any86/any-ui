@@ -74,8 +74,12 @@ label.component-radio {
                 animation: zoom-in 500ms;
             }
         }
-    }
 
+        &:disabled+.appearance{
+            border: 1px solid $disabled;
+            background: $lightest;
+        }
+    }
 
     >input:checked {
         &+.appearance {
@@ -93,6 +97,14 @@ label.component-radio {
                 height: $size/2;
                 background: $base;
                 border-radius: 100%;
+            }
+        }
+
+        &:disabled+.appearance{
+            border: 1px solid $disabled;
+            background: $lightest;
+            &:after{
+                background: $light;
             }
         }
     }

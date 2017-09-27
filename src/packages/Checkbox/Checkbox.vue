@@ -119,10 +119,6 @@ label.component-checkbox {
     }
 }
 
-
-
-
-
 @keyframes zoom-in {
     0% {
         opacity: 0;

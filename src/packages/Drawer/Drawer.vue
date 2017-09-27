@@ -6,7 +6,7 @@
             </span>
             <main>
                 <slot></slot>
-                <VMask :fixed="false" :isShow="isShowMask" @touchstart="close"></VMask>
+                <v-mask :fixed="false" :isShow="isShowMask" @touchstart="close"></v-mask>
             </main>
         </div>
     </div>
@@ -43,7 +43,7 @@ export default {
         };
     },
 
-    mounted(){
+    mounted() {
         this.sideWidth = this.$refs.side.offsetWidth;
     },
 

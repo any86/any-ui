@@ -25,6 +25,7 @@
     "node-sass": "^4.5.2",
     "pm2": "^2.6.1",
     "popper.js": "^1.12.5",
+    "portal-vue": "^1.1.1",
     "progressbar.js": "^1.0.1",
     "qrcode": "^0.8.2",
     "raven-js": "^3.17.0",

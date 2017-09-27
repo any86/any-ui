@@ -1,5 +1,5 @@
 <template>
-    <div :class="['scroll-view', ovh && 'ovh']" @scroll="scroll">
+    <div :class="['component-scroll-view', ovh && 'ovh']" @scroll="scroll">
         <div ref="content" class="scroll-content">
             <slot></slot>
         </div>
@@ -92,7 +92,7 @@ export default {
 }
 </script>
 <style scoped lang=scss>
-.scroll-view {
+.component-scroll-view {
     /*暂时关闭x轴拖动 pinch-zoom*/
     touch-action: pan-y;
     position: relative;

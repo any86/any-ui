@@ -1,5 +1,5 @@
 <template>
-    <main class="page-index">
+    <v-scroll-view v-model="pos" class="full-screen page-index">
         <v-cell border>1</v-cell>
         <v-cell border>
             <v-switch v-model="isSdk">是否支持sdk</v-switch>
@@ -18,30 +18,38 @@
         <v-cell border @click="$confirm('是否开启蓝牙?')">
             Confirm
         </v-cell>
-        <v-dialog  :isShow.sync="isSdk">
+        <v-dialog :isShow.sync="isSdk">
             <h1 class="h11">sdk</h1>
         </v-dialog>
-    </main>
+
+        <div style="height:1000px; width: 1000px;background:#69c;">
+            {{pos}}
+        </div>
+
+    </v-scroll-view>
 </template>
 <script>
 import VCell from '@/packages/Cell/Cell';
 import VSwitch from '@/packages/Switch/Switch';
 import VRadio from '@/packages/Radio/Radio';
 import VDialog from '@/packages/Dialog/Dialog';
+import VScrollView from '@/packages/ScrollView/Core';
+
 
 export default {
     name: 'Index',
 
     data() {
         return {
-            isSdk: true,
-            which: 1
+            isSdk: false,
+            which: 1,
+            pos: {x: 10, y:10}
 
         };
     },
 
     components: {
-        VCell, VSwitch, VRadio, VDialog
+        VCell, VSwitch, VRadio, VDialog, VScrollView
     }
 }
 </script>
@@ -62,10 +70,5 @@ export default {
         flex: 1;
         padding: 0 .3rem .3rem .3rem;
     }
-}
-
-.h11 {
-    color: $info;
-    border:1px dashed $info;
 }
 </style>
