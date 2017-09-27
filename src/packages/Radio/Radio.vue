@@ -1,16 +1,12 @@
 <template>
     <!-- radio改为圆形, 为了区别checkbox-->
-    <div :class="['component-radio', disabled && 'component-radio-disabled']">
-        <label>
-            <span v-if="!!$slots.default" class="title">
-                <slot></slot>
-            </span>
-            <span class="radio" :class="{checked: isChecked}">
-                <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" @click.stop="()=>{}" type="radio">
-                <span class="appearance"></span>
-            </span>
-        </label>
-    </div>
+    <label :class="['component-radio', disabled && 'component-radio-disabled']">
+        <span v-if="!!$slots.default" class="title">
+            <slot></slot>
+        </span>
+        <input :class="{checked: isChecked}" :disabled="disabled" :value="value" :checked="isChecked" @change="change" @click.stop="()=>{}" type="radio">
+        <span class="appearance"></span>
+    </label>
 </template>
 <script>
 export default {
@@ -53,85 +49,65 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: .5rem;
-.component-radio {
-    >label {
-        display: flex;
-        align-items: center;
-        >.title {
-            flex: 1;
-            font-size: $normal;
-            &.active {
-                color: $base;
-            }
+$size: .5rem;
+label.component-radio {
+    display: flex;
+    align-items: center;
+    >.title {
+        flex: 1;
+        font-size: $normal;
+        &.active {
+            color: $base;
         }
-        >span.radio {
-            // 仅为占位, 不包含样式
-            position: relative;
-            >input {
+    }
+
+    >input {
+        &+.appearance {
+            display: flex;
+            border: 1px solid $base;
+            width: $size;
+            height: $size;
+            border-radius: 100%;
+            &:after {
+                content: ' ';
                 display: none;
+                animation: zoom-in 500ms;
             }
+        }
+    }
 
-            >.appearance {
+
+    >input:checked {
+        &+.appearance {
+            display: flex;
+            border: 1px solid $base;
+            width: $size;
+            height: $size;
+            border-radius: 100%;
+            &:after {
+                content: ' ';
+                align-self: center;
+                margin: auto;
                 display: block;
-                width: $height;
-                height: $height;
-                border-radius: 100%;
-                border: 1px solid $lighter;
-                background: $sub;
-            }
-
-            >input:checked+.appearance {
-                border: 1px solid $base;
+                width: $size/2;
+                height: $size/2;
                 background: $base;
-                transition: transform 200ms;
-                &:after {
-                    content: ' ';
-                    display: block;
-                    background: $sub;
-                    margin: auto;
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    left: 0;
-                    bottom: 0;
-                    width: $height/3;
-                    height: $height/3;
-                    border-radius: 100%;
-                    animation: zoom-in 200ms;
-                }
+                border-radius: 100%;
             }
         }
     }
 
-    &-disabled {
-        >label {
-            >span.radio {
-                >.appearance {
-                    border: 1px solid $disabled;
-                    background: $lightest;
-                }
 
-                >input:checked+.appearance {
-                    border: 1px solid $disabled;
-                    background: $disabled;
-                    &:after {
-                        background: $sub;
-                    }
-                }
-            }
+
+    @keyframes zoom-in {
+        0% {
+            opacity: 0;
+            transform: scale(.8);
         }
-    }
-}
-
-@keyframes zoom-in {
-    0% {
-        opacity: 0;
-        transform: scale(.5);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 }
 </style>
