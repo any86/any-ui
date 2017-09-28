@@ -15,6 +15,7 @@
     "axios": "^0.16.1",
     "body-parser": "^1.17.1",
     "fabric": "^1.7.16",
+    "fastclick": "^1.0.6",
     "fileapi": "^2.0.21",
     "hammerjs": "^2.0.8",
     "ionicons": "^3.0.0",

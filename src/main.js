@@ -14,7 +14,8 @@ Object.defineProperty(Vue.prototype, '$api', {
     enumerable: false,
     configurable: false
 });
-
+// var FastClick = require('fastclick');
+// FastClick.attach(document.body, {});
 // Object.defineProperty(Vue.prototype, '$lang', {
 //     value: lang, // lang存在lang.js文件中
 //     writable: false,

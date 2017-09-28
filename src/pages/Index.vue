@@ -1,6 +1,5 @@
 <template>
     <v-scroll-view v-model="pos" class="full-screen page-index">
-        <v-cell border>1</v-cell>
         <v-cell border>
             <v-switch v-model="isSdk">是否支持sdk</v-switch>
         </v-cell>
@@ -22,9 +21,10 @@
             <h1 class="h11">sdk</h1>
         </v-dialog>
 
-        <div style="height:1000px; width: 1000px;background:#69c;">
-            {{pos}}
-        </div>
+        <!-- <div style="height:1000px; width: 1000px;"></div> -->
+            <v-cell>{{pos}}</v-cell>
+            <v-cell v-for="n in 100" :style="{background: '#'+Math.floor(Math.random()*16777215).toString(16)}" :key="n">{{n + '#'+Math.floor(Math.random()*16777215).toString(16)}}</v-cell>
+        
 
     </v-scroll-view>
 </template>
