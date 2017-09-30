@@ -33,7 +33,7 @@ export default {
 
         directionLockThreshold: {
             type: Number,
-            default: 0
+            default: 5
         },
 
         preventDefault: {
