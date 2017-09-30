@@ -137,7 +137,10 @@ const getOffet = (element, traget) => {
 // var x = (window.pageXOffset !== undefined) ? window.pageXOffset : (document.documentElement || document.body.parentNode || document.body).scrollLeft;
 // var y = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
+const getTime = () => Date.now() || new Date().getTime();
+
 export {
+    getTime,
     animate,
     findScrollParent,
     getElementTopFromDocument,

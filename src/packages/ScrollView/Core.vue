@@ -1,17 +1,31 @@
 <template>
     <div :class="['component-scroll', ovh && 'ovh']">
-        <div class="fixed-bottom">{{speed}}</div>
         <div ref="content" :style="{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}" @touchstart.passive="touchstart" @touchmove.prevent="touchmove" @touchend="touchend" class="scroll-content">
             <slot></slot>
         </div>
     </div>
 </template>
 <script>
-import { getHeight, getWidth } from '@/packages/Tools/dom'
+import { getHeight, getWidth, getTime } from '@/packages/Tools/dom'
 export default {
     name: 'Core',
 
     props: {
+        beforeStart: {
+            type: Function,
+            default() { }
+        },
+
+        beforeMove: {
+            type: Function,
+            default() { }
+        },
+
+        beforeEnd: {
+            type: Function,
+            default() { }
+        },
+
         sensitivity: {
             type: Number,
             default: 10
@@ -66,8 +80,8 @@ export default {
             speed: 0,
             startTime: 0,
             endTime: 0,
-            pointTop: 0, // 手指坐标
-            pointLeft: 0,
+            startPointTop: 0, // 手指坐标
+            startPointLeft: 0,
             directionX: 0,
             directionY: 0,
             isInTransition: false,
@@ -96,9 +110,10 @@ export default {
         touchstart(e) {
             const point = e.touches ? e.touches[0] : e;
             this.transitionDuration = 0;
+            this.startTime = getTime();
 
-            this.pointTop = point.pageY;
-            this.pointLeft = point.pageX;
+            this.startPointTop = point.pageY;
+            this.startPointLeft = point.pageX;
 
             this.startScrollTop = this.scrollTop;
             this.startScrollLeft = this.scrollLeft;
@@ -108,40 +123,73 @@ export default {
 
         touchmove(e) {
             const point = e.touches ? e.touches[0] : e;
-            const deltaTop = point.pageY - this.pointTop;
-            const deltaLeft = point.pageX - this.pointLeft;
+            const deltaTop = point.pageY - this.startPointTop;
+            const deltaLeft = point.pageX - this.startPointLeft;
             const absDeltaTop = Math.abs(deltaTop);
             const absDeltaLeft = Math.abs(deltaLeft);
+            const now = getTime();
             // 灵敏度默认为10px;
             // 手指一动超过10px, 才开始拖拽;
-            if (this.sensitivity < absDeltaTop || this.sensitivity < absDeltaLeft) {
+            if ((this.sensitivity < absDeltaTop || this.sensitivity < absDeltaLeft)) {
                 // 只滑动一个方向, 锁定其他方向
-                if (this.lockX && !this.lockY) {
+                // 看锁, 且看位移角度
+                if (this.lockX && !this.lockY && absDeltaLeft < absDeltaTop) {
                     this.scrollTop = this.startScrollTop + deltaTop;
-                } else if (this.lockY && !this.lockX) {
+                    this.limitY();
+                } else if (this.lockY && !this.lockX && absDeltaLeft > absDeltaTop) {
                     this.scrollLeft = this.startScrollLeft + deltaLeft;
+                    this.limitX();
                 } else if (!this.lockX && !this.lockY) {
                     // 暂不处理, 自由移动
                     // absDeltaTop > absDeltaLeft + this.directionLockThreshold
                 }
+            }
+            // 当手指一直按住突然拖动, 那么重置起始值
+            if (300 < now - this.startTime) {
+                this.startTime = now;
+                this.startPointTop = point.pageY;
+                this.startPointLeft = point.pageX;
+                this.startScrollTop = this.scrollTop;
+                this.startScrollLeft = this.scrollLeft;
             }
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
         },
 
         touchend(e) {
+            this.transitionDuration = 500;
+            this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
-            
+            const costTime = this.endTime - this.startTime;
+
+            if (300 > costTime) {
+                const deltaTop = this.scrollTop - this.startScrollTop;
+                const speedY = deltaTop / costTime;
+                this.scrollTop += speedY * 1000;
+                this.limitY();
+            }
+
+            this.preventDefault && e.preventDefault();
         },
 
-        limitY() {
-
-            if (0 < this.translateY) {
+        limitX() {
+            if (0 < this.scrollLeft) {
                 // 向下拉
-                this.translateY = 0;
-            } else if (this.minTranslateX > this.translateY) {
+                this.scrollLeft = 0;
+            } else if (this.maxScrollLeft < 0 - this.scrollLeft) {
                 // 向上拉
-                this.translateY = this.minTranslateX;
+                this.scrollLeft = 0 - this.maxScrollLeft;
+            }
+        },
+
+
+        limitY() {
+            if (0 < this.scrollTop) {
+                // 向下拉
+                this.scrollTop = 0;
+            } else if (this.maxScrollTop < 0 - this.scrollTop) {
+                // 向上拉
+                this.scrollTop = 0 - this.maxScrollTop;
             }
         },
 
@@ -163,15 +211,12 @@ export default {
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    &.ovh {
-        overflow: hidden;
-    }
     >.scroll-content {
         position: relative;
-        /* min-height: 100%; */
-        width: 100%;
+        user-select: none;
         transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
         transition-duration: 0ms;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 }
 </style>
