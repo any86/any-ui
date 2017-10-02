@@ -2,10 +2,10 @@
 一个js框架, 可以让你写更少的代码, 同时代码更容易维护和迭代. 
 
 ### 简单的例子
-#### vue输入框
+1. **vue**输入框
 https://jsfiddle.net/_russell997/kmb0q8og/8/
 
-#### jq输入框
+2. **jq**输入框
 https://jsfiddle.net/_russell997/wjb5atk8/10/
 
 
