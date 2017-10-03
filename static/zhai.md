@@ -8,6 +8,119 @@ https://jsfiddle.net/_russell997/kmb0q8og/8/
 2. **jq**输入框
 https://jsfiddle.net/_russell997/wjb5atk8/10/
 
+## 看一个封装成组件的例子
+[对话框组件](https://jsfiddle.net/yyx990803/mwLbw11k/?utm_source=website&utm_medium=embed&utm_campaign=mwLbw11k)
+
+```html
+
+<div id="app">
+  <button id="show-modal" @click="showModal = true">Show Modal</button>
+  <!-- use the modal component, pass in the prop -->
+  <modal v-if="showModal" @close="showModal = false">
+    <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+    <h3 slot="header">custom header</h3>
+  </modal>
+</div>
+```
+``` javascript
+<script type="text/x-template" id="modal-template">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+
+          <div class="modal-header">
+            <slot name="header">
+              default header
+            </slot>
+          </div>
+
+          <div class="modal-body">
+            <slot name="body">
+              default body
+            </slot>
+          </div>
+
+          <div class="modal-footer">
+            <slot name="footer">
+              default footer
+              <button class="modal-default-button" @click="$emit('close')">
+                OK
+              </button>
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</script>
+
+```
+```css
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+```
+
+
+
 ## 大公司在用吗?
 京东金融/新浪金融/饿了么等, 看下[新浪金融](jr.sina.com), 这个页面不要关, 一会我还会具体提到这个页面.
 
@@ -90,7 +203,7 @@ new Vue({
 });
 ```
 
-所以总结一下选择vue就是因为他学习曲线平缓, 而后期高度3大框架一致, 均有路由/状态管理等概念. 学会vue后如果想学react/angular都会变的简单, 因为3者核心的概念一致, 跟甚至想学微信小程序也会变得简答, 因为**微信**小程序的语法和概念和vue相似度90%以上.
+所以总结一下选择vue就是因为他学习曲线平缓, 而后期高度3大框架一致, 均有router/state管理/ssr(服务端渲染)等概念. 学会vue后如果想学react/angular都会变的简单, 因为3者核心的概念一致, 跟甚至想学微信小程序也会变得简答, 因为**微信**小程序的语法和概念和vue相似度90%以上.
 更详尽的对比可以看vue官网的[一篇文章](https://cn.vuejs.org/v2/guide/comparison.html)
 说在最后: 这个时代的前端不会有什么统一, 因为3大框架的卖点不同, vue卖点是上手简单, 知乎上大v对他的口碑好, 作者[尤雨溪](https://baike.baidu.com/item/%E5%B0%A4%E9%9B%A8%E6%BA%AA/2281470?fr=aladdin)和这几个前端大v关系都不错, 所以可以放心vue在大公司的推广; react卖点是fb出品, 且fb上很多网站都是基于react的, 不怕项目突然死亡, 不过前段时间的react开源协议问题也让知乎热了3天, 百度/阿里等大公司都说要放弃使用react了, 最后还是fb回头是岸继续免费react, 才平息风波, 虽说vue是个人开大的, 但是你知道吗jq也是个人开发的, [John Resig](https://baike.baidu.com/item/John%20Resig/6336344?fr=aladdin), 所以我觉得vue也很稳定, 毕竟作者已经全职开发vue并且建立了团队, 他每个月通过vue可以赚到2/3w美金, angular卖点是概念亲服务端开发人员, 因为他的创建者是java程序员, 所以最终很难有个能一统江湖, 所以我们学那个都一样, 大公司不同的部门对3大框架的选择都不一样, 所以任何一个精通了, 都会给你开通去大公司的门.
 
@@ -116,7 +229,7 @@ new Vue({
 
 
 ## 学会了做什么?
-做一个组件库和一个前后台spa
+做一个[组件库](https://github.com/Atom-H/atom-ui-mobile)和一个前后台spa
 
 ## 善用sf提问
 在企业工作的时候, 很可能产生的问题大家都不会, 这时候就要知道如何在网上求助, 通过我的经验国内的sf是回答速度最快质量最高的平台, 所以后期会教大家如何在sf上提问, 以及如何标准的描述问题, 让别人一下就看懂你的问题.
