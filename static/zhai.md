@@ -8,9 +8,12 @@ https://jsfiddle.net/_russell997/kmb0q8og/8/
 2. **jq**输入框
 https://jsfiddle.net/_russell997/wjb5atk8/10/
 
-
 ## vue有什么好处?
 17年开始, 哈尔滨越来越多的用人单位(薪资6k+)的招聘信息中明确要求会用vue或者react等框架, 从自身角度为了涨工资,我们应该学习vue, 或者说vue是进入前端高薪领域一道门, 毕竟我们会的技能越契合企业需求收入越高.
+
+## jq还用不用了?
+如果单位还需要兼容ie低版本的浏览器, jq用来做交互少的活动页面最适合, 比如fullpage类型的广告页面和企业官网. 如果只是兼容高版本浏览器的活动页可以直接用原生js, 这样我们页面的体积会更小(**vue**: 28.96kb min+gzip / **jquery-3.2.1.min** : 30.63kb min+gzip), 因为高版本浏览器支持querySelector()和css3动画.
+在vue学习初期, 最容易问的2个问题就是如何获取dom尺寸信息和异步请求,获取元素的位置/尺寸等, 可以用js原生的getBoundingClientRect(), 异步请求(ajax)用axios.js(1k min+gzip)
 
 ## 现在还有react/angular, 为什么选择vue?
 从上手程度上讲, vue有一个标签叫做渐进式框架, 渐进式的意思就是我们可以把vue直接通过浏览器script标签在html中引入, 可以当做一个js插件来使用(可以和jq并存), 方便大家慢慢深入了解vue, 如果对vue有了解的同学知道, 整套vue开发还有其他技术点(webpack/scss/es6), 不过我们可以渐进的各个击破.
@@ -58,14 +61,14 @@ new Vue({
 ```
 所以总结一下选择vue就是因为他学习曲线平缓, 而后期高度3大框架一致, 均有路由/状态管理等概念. 学会vue后如果想学react/angular都会变的简单, 因为3者核心的概念一致, 跟甚至想学微信小程序也会变得简答, 因为**微信**小程序的语法和概念和vue相似度90%以上.
 
+更详尽的对比可以看vue官网的[一篇文章](https://cn.vuejs.org/v2/guide/comparison.html)
+
 <!-- ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/1.png)
 ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/2.png)
 ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/3.png) -->
 
 
-## jq还用不用了?
-如果单位还需要兼容ie低版本的浏览器, jq用来做交互少的活动页面最适合, 比如fullpage类型的广告页面和企业官网. 如果只是兼容高版本浏览器的活动页可以直接用原生js, 这样我们页面的体积会更小(**vue**: 28.96kb min+gzip / **jquery-3.2.1.min** : 30.63kb min+gzip), 因为高版本浏览器支持querySelector()和css3动画.
-在vue学习初期, 最容易问的2个问题就是如何获取dom尺寸信息和异步请求,获取元素的位置/尺寸等, 可以用js原生的getBoundingClientRect(), 异步请求(ajax)用axios.js(1k min+gzip)
+
 
 ## 关于IE6/7/8
 淘宝/天猫都已经不再支持ie6/7, 我最近2年工作单位也都不在要求支持ie6/7, 虽说要要求支持ie8, 但是如果你去的单位要求vue, 那么自然他只要求兼容到ie9, 再者现在企业都是移动端开发,  手机浏览器vue都支持. pc端后台单位都不会要求兼容ie的, 谷歌好使就行.
