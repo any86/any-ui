@@ -141,6 +141,7 @@ $color:#69c;
 
 #### webpack
 自从nodejs出现了, 前端工具异常的火爆, 有百度的解决方案fis, 使用更灵活的grunt/gulp, 不过当webpack出现后慢慢成为了唯一的主流, vue/react/angular3者官网的脚手架工具都是基于webpack的. webpack让我们可以把js/css/image/font等资源统统当做js来管理, 让代码更规范, 管理更简单.
+补充: 更神奇的是, 以后写代码在也不需要f5了(编译下组件库展示)
 
 ## 编码规范
 虽然vue可以让代码的可读性变的更清晰, 但是我们还是建议大家写注释让文档更清晰
