@@ -28,9 +28,30 @@ class HelloMessage extends React.Component {
 }
 
 ReactDOM.render(
-  <HelloMessage name="Jane" />,
+  <HelloMessage name="world" />,
   mountNode
 );
+```
+
+#### angular2基于(ngserver)
+``` javascript
+import { Component } from '@angular/core';
+@Component({
+  selector: 'mount-node',
+  template: `<h1>Hello {{name}}</h1>`
+})
+export class AppComponent { name = 'world'; }
+```
+
+#### vue
+``` javascript
+new Vue({
+    el: '#mount-node',
+    template: '<h1>Hello {{name}}</h1>',
+    data: {
+        name: 'world'
+    }
+});
 ```
 
 
