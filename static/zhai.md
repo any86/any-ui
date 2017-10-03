@@ -25,7 +25,7 @@ https://jsfiddle.net/_russell997/wjb5atk8/10/
 如果单位还需要兼容ie低版本的浏览器, jq用来做交互少的活动页面最适合, 比如[fullpage](https://alvarotrigo.com/fullPage/#firstPage)类型的广告页面和企业官网. 如果只是兼容高版本浏览器的活动页可以直接用原生js, 这样我们页面的体积会更小(**vue**: 28.96kb min+gzip / **jquery-3.2.1.min** : 30.63kb min+gzip), 因为高版本浏览器支持querySelector()和css3动画.
 在vue学习初期, 最容易问的2个问题就是如何获取dom尺寸信息和异步请求,获取元素的位置/尺寸等, 可以用js原生的getBoundingClientRect(), 异步请求(ajax)用axios.js(1k min+gzip)
 
-## 组件库
+## jq有那么多插件, vue有吗?
 可能大家会担心, vue的组件有没有jq的插件那么丰富, 实际上vue的组件有很多, 完全可以覆盖所有开发需求, 比如现在最火的[饿了么桌面端组件库](http://element.eleme.io/)和[移动端组件库vux](https://vux.li/#/), 以及一些vue[官方收集的组件库](https://github.com/vuejs/awesome-vue), 如果上述组件仍然不能满足需求, 你也可以在vue的项目引入jq插件, 当然这是在是在不得不的情况下, vue可以和jq同时被调用, 但是为了规范, jq的代码也要写在vue指定的地方(mounted钩子中);
 ``` javascript
 new Vue({
@@ -41,7 +41,7 @@ jr.sina.com 是我一前同事做的, 他是今年3月开始学的vue, 6月去�
 
 学习用vue之前他本来就是很优秀的前端, jq/css3/都很熟练, 所以说上手vue基本很容易, 所以大家如果有jq的经验那么学vue会更简单, 而且现在一旦学会了vue在前端里基本就是20%的程序员, 一般公司都会让你去带队.
 
-如果没有接触过前端也不用担心, 因为对比jq要操作dom, vue完全不需要, 不用记住那么多jq操作dom的api(只需要学会几个js的api即可, getBoundingClientRect/querySelector等等), 只需要做数据处理就行, 这样我们上手写代码的质量就很高(上面的2个例子),  哪个单位不想要写代码质量高/可维护的程序员.
+如果没有接触过前端也不用担心, 因为对比jq要操作dom, vue完全不需要, 不用记住那么多jq操作dom的api(只需要学会几个js的api即可, getBoundingClientRect/querySelector等等), 只需要做数据处理就行, 这样我们上手写代码的质量就很高(上面的2个例子),  哪个单位不想要写代码质量高/可维护的程序员. 我现在在做一个[小项目](https://github.com/Atom-H/d2n), 我会把vue开发中常用的获取dom数据的操作进行封装, 到时候大家可以写vue更清爽.
 
 
 ## 现在还有react/angular, 为什么选择vue?
