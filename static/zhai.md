@@ -12,20 +12,6 @@ https://jsfiddle.net/_russell997/wjb5atk8/10/
 [对话框组件](https://jsfiddle.net/yyx990803/mwLbw11k/?utm_source=website&utm_medium=embed&utm_campaign=mwLbw11k)
 
 ```html
-
-<div id="app">
-  <button id="show-modal" @click="showModal = true">Show Modal</button>
-  <!-- use the modal component, pass in the prop -->
-  <modal v-if="showModal" @close="showModal = false">
-    <!--
-      you can use custom content here to overwrite
-      default content
-    -->
-    <h3 slot="header">custom header</h3>
-  </modal>
-</div>
-```
-``` javascript
 <script type="text/x-template" id="modal-template">
   <transition name="modal">
     <div class="modal-mask">
@@ -57,6 +43,30 @@ https://jsfiddle.net/_russell997/wjb5atk8/10/
     </div>
   </transition>
 </script>
+<div id="app">
+  <button id="show-modal" @click="showModal = true">Show Modal</button>
+  <!-- use the modal component, pass in the prop -->
+  <modal v-if="showModal" @close="showModal = false">
+    <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+    <h3 slot="header">custom header</h3>
+  </modal>
+</div>
+```
+``` javascript
+Vue.component('modal', {
+  template: '#modal-template'
+})
+
+// start app
+new Vue({
+  el: '#app',
+  data: {
+    showModal: false
+  }
+})
 
 ```
 ```css
