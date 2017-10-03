@@ -17,6 +17,8 @@ https://jsfiddle.net/_russell997/wjb5atk8/10/
 反观react上手需要学习jsx语法, angular上手需要学习ts, 虽然angular支持标准的js, 但是官网的教程都是基于ts的, 所以想用好angular还要同时学好ts.
 #### react
 ``` javascript
+<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 class HelloMessage extends React.Component {
   render() {
     return (
@@ -45,6 +47,7 @@ export class AppComponent { name = 'world'; }
 
 #### vue
 ``` javascript
+<script src="https://unpkg.com/vue"></script>
 new Vue({
     el: '#mount-node',
     template: '<h1>Hello {{name}}</h1>',
@@ -53,9 +56,7 @@ new Vue({
     }
 });
 ```
-
-
-所以总结一下选择vue就是因为他学习曲线平缓, 而后期高度3大框架一致.
+所以总结一下选择vue就是因为他学习曲线平缓, 而后期高度3大框架一致, 均有路由/状态管理等概念. 学会vue后如果想学react/angular都会变的简单, 因为3者核心的概念一致, 跟甚至想学微信小程序也会变得简答, 因为**微信**小程序的语法和概念和vue相似度90%以上.
 
 <!-- ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/1.png)
 ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/2.png)
