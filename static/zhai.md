@@ -120,6 +120,21 @@ new Vue({
 ## 只学vue吗?
 #### scss
 当我们学会了使用vue,  我们会发现程序可以写的更好, 比如我们可以使用**scss**把css变成有逻辑的支持变量的, 让我们做皮肤变的非常简单.
+```scss
+$color:#69c;
+.modal{
+    .modal-header{
+        color: $color
+    }
+    .modal-body{
+        color: $color
+    }
+
+    .modal-footer{
+        color: $color
+    }
+}
+```
 
 #### es6
 知道吗? 原来写js代码可以写的更简单, 我写一篇关于[es6常用api的小总结](https://github.com/383514580/Notes/blob/master/ES6%E6%8F%90%E5%8D%87%E6%95%88%E7%8E%87%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E6%8A%80%E5%B7%A7.md)
