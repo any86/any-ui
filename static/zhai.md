@@ -8,12 +8,30 @@ https://jsfiddle.net/_russell997/kmb0q8og/8/
 2. **jq**输入框
 https://jsfiddle.net/_russell997/wjb5atk8/10/
 
-## vue有什么好处?
+## 大公司在用吗?
+京东金融/新浪金融/饿了么等, 毕竟是这2/3年崛起的框架, 大公司原有的页面因为已经上线是轻易不敢改的, 但是近年新出的页面都会用vue/react数据驱动的框架来实现.
+
+## 北上广的普通公司在用吗?
+[拉钩网搜索'前端'](https://www.lagou.com/jobs/list_%E5%89%8D%E7%AB%AF?labelWords=&fromSearch=true&suginput=)
+
+## 我在哈尔滨工作, vue有什么好处?
 17年开始, 哈尔滨越来越多的用人单位(薪资6k+)的招聘信息中明确要求会用vue或者react等框架, 从自身角度为了涨工资,我们应该学习vue, 或者说vue是进入前端高薪领域一道门, 毕竟我们会的技能越契合企业需求收入越高.
 
 ## jq还用不用了?
 如果单位还需要兼容ie低版本的浏览器, jq用来做交互少的活动页面最适合, 比如fullpage类型的广告页面和企业官网. 如果只是兼容高版本浏览器的活动页可以直接用原生js, 这样我们页面的体积会更小(**vue**: 28.96kb min+gzip / **jquery-3.2.1.min** : 30.63kb min+gzip), 因为高版本浏览器支持querySelector()和css3动画.
 在vue学习初期, 最容易问的2个问题就是如何获取dom尺寸信息和异步请求,获取元素的位置/尺寸等, 可以用js原生的getBoundingClientRect(), 异步请求(ajax)用axios.js(1k min+gzip)
+
+#### 组件库
+可能大家会担心, vue的组件有没有jq的插件那么丰富, 实际上vue的组件有很多, 完全可以覆盖所有开发需求, 比如现在最火的[饿了么桌面端组件库](http://element.eleme.io/)和[移动端组件库vux](https://vux.li/#/), 以及一些vue[官方收集的组件库](https://github.com/vuejs/awesome-vue)
+
+
+#### 新浪金融
+jr.sina.com 是我一前同事做的, 他是今年3月开始学的vue, 6月去了新浪, 去了就开始主导金融频道的前端开发, 2个月上线了这个spa(无刷新页面), 同时带其小组的其他3个前端学会用vue.
+
+学习用vue之前他本来就是很优秀的前端, jq/css3/都很熟练, 所以说上手vue基本很容易, 所以大家如果有jq的经验那么学vue会更简单, 而且现在一旦学会了vue在前端里基本就是20%的程序员, 一般公司都会让你去带队.
+
+如果没有接触过前端也不用担心, 因为对比jq要操作dom, vue完全不需要, 不用记住那么多jq操作dom的api(只需要学会几个js的api即可, getBoundingClientRect/querySelector等等), 只需要做数据处理就行, 这样我们上手写代码的质量就很高(上面的2个例子),  哪个单位不想要写代码质量高/可维护的程序员.
+
 
 ## 现在还有react/angular, 为什么选择vue?
 从上手程度上讲, vue有一个标签叫做渐进式框架, 渐进式的意思就是我们可以把vue直接通过浏览器script标签在html中引入, 可以当做一个js插件来使用(可以和jq并存), 方便大家慢慢深入了解vue, 如果对vue有了解的同学知道, 整套vue开发还有其他技术点(webpack/scss/es6), 不过我们可以渐进的各个击破.
@@ -67,9 +85,6 @@ new Vue({
 ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/2.png)
 ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/3.png) -->
 
-
-
-
 ## 关于IE6/7/8
 淘宝/天猫都已经不再支持ie6/7, 我最近2年工作单位也都不在要求支持ie6/7, 虽说要要求支持ie8, 但是如果你去的单位要求vue, 那么自然他只要求兼容到ie9, 再者现在企业都是移动端开发,  手机浏览器vue都支持. pc端后台单位都不会要求兼容ie的, 谷歌好使就行.
 
@@ -77,8 +92,8 @@ new Vue({
 北上广已经基本都是vue/react/angular3大框架的天下, 可以看下拉钩网的企业招聘要求.
 [拉钩网搜索'前端'](https://www.lagou.com/jobs/list_%E5%89%8D%E7%AB%AF?labelWords=&fromSearch=true&suginput=)
 
-## 高新的前端都需要会一门服务端语言
-多亏了nodejs, 前端不需要学新的语法就可以写服务端的应用, 而且结合mock.js, 前端可以在和服务端商定数据结构后, 自己写出假数据来进行单元测试, 而不需要等待后端, 效率大大提升.
+## 高薪的前端都需要会一门服务端语言
+多亏了nodejs, 前端不需要学新的语法就可以写服务端的应用, 所以我会通过给大家而且结合mock.js, 前端可以在和服务端商定数据结构后, 自己写出假数据来进行单元测试, 而不需要等待后端, 效率大大提升.
 
 ## 身边的同事
 
