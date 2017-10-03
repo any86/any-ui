@@ -3,10 +3,10 @@
 
 vue和jq的2个简单的增删改查小示例
 1. **vue**输入框
-https://jsfiddle.net/_russell997/kmb0q8og/8/
+https://jsfiddle.net/_russell997/kmb0q8og/9/
 
 2. **jq**输入框
-https://jsfiddle.net/_russell997/wjb5atk8/10/
+https://jsfiddle.net/_russell997/wjb5atk8/12/
 
 ## 看一个封装成组件的例子
 [对话框组件](https://jsfiddle.net/yyx990803/mwLbw11k/?utm_source=website&utm_medium=embed&utm_campaign=mwLbw11k)
