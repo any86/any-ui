@@ -1,5 +1,5 @@
 ## 什么是vue?
-一个js框架, 可以让你写更少的代码, 同时代码更容易维护和迭代. 
+一个js框架, 可以让你写更少的代码, 同时代码更容易维护和迭代.
 
 #### 简单的例子
 1. **vue**输入框
@@ -9,14 +9,37 @@ https://jsfiddle.net/_russell997/kmb0q8og/8/
 https://jsfiddle.net/_russell997/wjb5atk8/10/
 
 
-## 为什么选择vue?
-1. 17年开始, 哈尔滨越来越多的用人单位(薪资6k+)的招聘信息中明确要求会用vue或者react等框架, 从自身角度为了涨工资,我们应该学习vue, 或者说vue是进入前端高薪领域一道门, 毕竟我们会的技能越契合企业需求收入越高.
+## vue有什么好处?
+17年开始, 哈尔滨越来越多的用人单位(薪资6k+)的招聘信息中明确要求会用vue或者react等框架, 从自身角度为了涨工资,我们应该学习vue, 或者说vue是进入前端高薪领域一道门, 毕竟我们会的技能越契合企业需求收入越高.
 
-2. 从上手程度上讲, vue有一个标签叫做渐进式框架, 渐进式的意思就是我们可以把vue直接通过浏览器script标签在html中引入, 可以当做一个js插件来使用(可以和jq并存), 方便大家慢慢深入了解vue, 如果对vue有了解的同学知道, 整套vue开发还有其他技术点(webpack/scss/es6), 不过我们可以渐进的各个击破.
+## 现在还有react/angular, 为什么选择vue?
+从上手程度上讲, vue有一个标签叫做渐进式框架, 渐进式的意思就是我们可以把vue直接通过浏览器script标签在html中引入, 可以当做一个js插件来使用(可以和jq并存), 方便大家慢慢深入了解vue, 如果对vue有了解的同学知道, 整套vue开发还有其他技术点(webpack/scss/es6), 不过我们可以渐进的各个击破.
+反观react上手需要学习jsx语法, angular上手需要学习ts, 虽然angular支持标准的js, 但是官网的教程都是基于ts的, 所以想用好angular还要同时学好ts.
+#### react
+``` javascript
+class HelloMessage extends React.Component {
+  render() {
+    return (
+      <div>
+        Hello {this.props.name}
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <HelloMessage name="Jane" />,
+  mountNode
+);
+```
+
+
+所以总结一下选择vue就是因为他学习曲线平缓, 而后期高度3大框架一致.
 
 <!-- ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/1.png)
 ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/2.png)
 ![](https://raw.githubusercontent.com/Atom-H/atom-ui-mobile/master/static/image/3.png) -->
+
 
 ## jq还用不用了?
 如果单位还需要兼容ie低版本的浏览器, jq用来做交互少的活动页面最适合, 比如fullpage类型的广告页面和企业官网. 如果只是兼容高版本浏览器的活动页可以直接用原生js, 这样我们页面的体积会更小(**vue**: 28.96kb min+gzip / **jquery-3.2.1.min** : 30.63kb min+gzip), 因为高版本浏览器支持querySelector()和css3动画.
