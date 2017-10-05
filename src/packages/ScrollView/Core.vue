@@ -1,6 +1,6 @@
 <template>
     <div :class="['component-scroll', ovh && 'ovh']">
-        <div ref="content" :style="{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}" @touchstart.passive="touchstart" @touchmove.prevent="touchmove" @touchend="touchend" class="scroll-content">
+        <div ref="content" :style="{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}" @touchstart.passive="touchstart" @touchmove.prevent="touchmove" @touchend="touchend" class="scroll-content" :class="{table: lockY}">
             <slot></slot>
         </div>
     </div>
@@ -74,12 +74,12 @@ export default {
 
         lockX: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         lockY: {
             type: Boolean,
-            default: true
+            default: false
         }
     },
 
@@ -179,7 +179,7 @@ export default {
             if (300 > costTime) {
                 const deltaTop = this.scrollTop - this.startScrollTop;
                 const deltaLeft = this.scrollLeft - this.startScrollLeft;
-                
+
                 const speedY = deltaTop / costTime;
                 const speedX = deltaLeft / costTime;
                 this.scrollTop += speedY * 1000;
@@ -234,12 +234,14 @@ export default {
     overflow-y: hidden;
     >.scroll-content {
         position: relative;
-        /* 没有display: table, 子元素的子元元素没法撑起其父元素的宽度 */
-        display: table;
         user-select: none;
         transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
         transition-duration: 0ms;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        .table {
+            /* 没有display: table, 子元素的子元元素没法撑起其父元素的宽度 */
+            display: table;
+        }
     }
 }
 </style>
