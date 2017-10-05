@@ -1,8 +1,14 @@
 <template>
     <v-scroll-view v-model="pos" class="full-screen page-index">
+
         <v-cell border>
             <v-switch v-model="isSdk">是否支持sdk</v-switch>
         </v-cell>
+
+        <v-cell>
+            <div style="background:#69c; width:1000px;height:1000px;"></div>            
+        </v-cell>
+
         <v-cell>
             <v-input v-model="text"></v-input>
         </v-cell>

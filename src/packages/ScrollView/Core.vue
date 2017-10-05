@@ -70,6 +70,16 @@ export default {
         value: {
             type: Object,
             default: { x: 0, y: 0 }
+        },
+
+        lockX: {
+            type: Boolean,
+            default: false
+        },
+
+        lockY: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -94,20 +104,24 @@ export default {
             scrollTop: 0,
             maxScrollLeft: 0,
             maxScrollTop: 0,
-            lockX: true,
-            lockY: false,
         };
     },
 
     mounted() {
-        this.viewWidth = getWidth(this.$el);
-        this.viewHeight = getHeight(this.$el);
-        this.maxScrollTop = getHeight(this.$refs.content) - this.viewHeight;
-        this.maxScrollLeft = getWidth(this.$refs.content) - this.viewWidth;
+        this.getAllSize();
     },
 
     methods: {
+        getAllSize() {
+            this.viewWidth = getWidth(this.$el);
+            this.viewHeight = getHeight(this.$el);
+            this.maxScrollTop = getHeight(this.$refs.content, { isScroll: true }) - this.viewHeight;
+            this.maxScrollLeft = getWidth(this.$refs.content, { isScroll: true }) - this.viewWidth;
+            // scrollWidth
+        },
+
         touchstart(e) {
+            this.getAllSize();
             const point = e.touches ? e.touches[0] : e;
             this.transitionDuration = 0;
             this.startTime = getTime();
@@ -164,8 +178,13 @@ export default {
 
             if (300 > costTime) {
                 const deltaTop = this.scrollTop - this.startScrollTop;
+                const deltaLeft = this.scrollLeft - this.startScrollLeft;
+                
                 const speedY = deltaTop / costTime;
+                const speedX = deltaLeft / costTime;
                 this.scrollTop += speedY * 1000;
+                this.scrollLeft += speedX * 1000;
+                this.limitX();
                 this.limitY();
             }
 
@@ -173,11 +192,13 @@ export default {
         },
 
         limitX() {
+            syslog(this.scrollLeft)
             if (0 < this.scrollLeft) {
-                // 向下拉
+                // 向右拉
                 this.scrollLeft = 0;
-            } else if (this.maxScrollLeft < 0 - this.scrollLeft) {
-                // 向上拉
+            }
+            else if (0 - this.maxScrollLeft > this.scrollLeft) {
+                // 向左拉
                 this.scrollLeft = 0 - this.maxScrollLeft;
             }
         },
@@ -213,6 +234,8 @@ export default {
     overflow-y: hidden;
     >.scroll-content {
         position: relative;
+        /* 没有display: table, 子元素的子元元素没法撑起其父元素的宽度 */
+        display: table;
         user-select: none;
         transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
         transition-duration: 0ms;
