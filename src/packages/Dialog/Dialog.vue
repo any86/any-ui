@@ -21,7 +21,7 @@
 <script>
 import VMask from './Mask'
 import VIconClose from '@/packages/Icon/Close'
-import { getHeight } from '@/packages/Tools/dom'
+import { getHeight } from '@/utils/dom'
 export default {
     name: 'Dialog',
 
