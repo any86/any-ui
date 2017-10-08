@@ -1,4 +1,5 @@
 <template>
+    <!-- 注意在组件上设置display: flex 会出现怪异的问题, 请慎用 -->
     <div class="component-infinite-scroll" @scroll="scroll">
         <slot></slot>
     </div>
