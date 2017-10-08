@@ -22,6 +22,11 @@ const CheckboxDemo = () => ({
 const SvgDemo = () => ({
     component: import('@/pages/SvgDemo')
 });
+const Test = () => ({
+    component: import('@/pages/Test')
+});
+
+Test
 
 export default new Router({
     // mode: "history",
@@ -53,6 +58,11 @@ export default new Router({
             name: 'SvgDemo',
             path: '/svg',
             component: SvgDemo
-        },      
+        },{
+            name: 'Test',
+            path: '/test',
+            component: Test
+        },    
+            
     ]
 });
