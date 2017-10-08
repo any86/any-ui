@@ -1,17 +1,18 @@
 <template>
-    <div :style="{height: height + 'px'}" v-on="$listeners" @click="click" class="component-affix">
+    <div :style="{height: height + 'px'}" v-on="$listeners" class="component-affix">
         <div ref="main" :class="{'fixed': isFixed}" :style="{top: this.offsetTop + 'px'}">
             <slot></slot>
         </div>
     </div>
 </template>
 <script>
-import { getElementTopFromDocument } from '@/packages/Tools/dom'
+// import { getElementTopFromDocument } from '@/packages/Tools/dom'
+import { getHeight, getScrollTop } from '@/utils/dom'
 export default {
     name: 'Affix',
 
     props: {
-        scrollY: {
+        scrollTop: {
             required: true,
             type: Number
         },
@@ -26,6 +27,7 @@ export default {
         return {
             top: 0,
             height: 'auto',
+            width: 'auto'
         };
     },
 
@@ -33,16 +35,18 @@ export default {
         // 固定占位容器的高度为内容高度
         // 防止内容定位变成fixed时抖动
         this.height = this.$el.offsetHeight;
+        
         // 获取距离文档顶部的距离
         // const top = getElementTopFromDocument(this.$el)
         // this.$emit('mounted', { top });
     },
 
     methods: {
-        click() {
-            const top = getElementTopFromDocument(this.$el);
-            this.$emit('click', { top });
-        }
+        // click() {
+        //     // const top = getElementTopFromDocument(this.$el);
+        //     const top = 100;
+        //     this.$emit('click', { top });
+        // }
     },
 
     computed: {
@@ -56,7 +60,7 @@ export default {
     },
 
     watch: {
-        scrollY(value) {
+        scrollTop(value) {
             this.top = this.$el.getBoundingClientRect().top;
         }
     }
@@ -66,12 +70,14 @@ export default {
 @import '../../scss/theme.scss';
 .component-affix {
     position: relative;
+    display: table;
+    width:100%;
     .fixed {
         background: $background;
         position: fixed;
         left: 0;
         z-index: 100;
-        width: 100%;
+        width:100%;
     }
 }
 </style>
