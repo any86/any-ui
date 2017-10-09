@@ -8,7 +8,7 @@
 <script>
 import { getHeight, getWidth, getTime } from '@/utils/dom'
 export default {
-    name: 'Core',
+    name: 'VirtualScroll',
 
     props: {
         beforeStart: {
@@ -39,17 +39,6 @@ export default {
         preventDefault: {
             type: Boolean,
             default: false
-        },
-
-        startX: {
-            // 起始滚动条X左侧距离
-            type: Number,
-            default: 0
-        },
-
-        startY: {
-            type: Number,
-            default: 0
         },
 
         keyboardOffset: {
@@ -107,6 +96,11 @@ export default {
         };
     },
 
+    created(){
+        this.scrollLeft = this.value.x;
+        this.scrollTop = this.value.y;
+    },
+
     mounted() {
         this.getAllSize();
     },
@@ -149,7 +143,7 @@ export default {
                 // 看锁, 且看位移角度
                 if (this.lockX && !this.lockY && absDeltaLeft < absDeltaTop) {
                     this.scrollTop = this.startScrollTop + deltaTop;
-                    this.limitY();
+                    // this.limitY();
                 } else if (this.lockY && !this.lockX && absDeltaLeft > absDeltaTop) {
                     this.scrollLeft = this.startScrollLeft + deltaLeft;
                     this.limitX();
@@ -192,7 +186,6 @@ export default {
         },
 
         limitX() {
-            syslog(this.scrollLeft)
             if (0 < this.scrollLeft) {
                 // 向右拉
                 this.scrollLeft = 0;
@@ -234,6 +227,7 @@ export default {
     overflow-y: hidden;
     >.scroll-content {
         position: relative;
+        width:100%;
         user-select: none;
         transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
         transition-duration: 0ms;
