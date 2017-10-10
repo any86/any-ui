@@ -1,8 +1,8 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :isSelfMoving.sync="isSelfMoving" :bodyStyle="bodyStyle" class="list">
-            <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}">
+        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :maxHolderTime="50" :isSelfMoving.sync="isSelfMoving" :bodyStyle="bodyStyle" class="list">
+            <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
                 {{item.label}}
             </div>
         </virtual-scroll>
@@ -32,7 +32,6 @@ export default {
 
     data() {
         return {
-            selfValue: [], // 有时候并不调用v-model, 如果计算属性绑定this.value会不变化, 比如activeIndexList
             positions: [],
             isSelfMoving: false,
             bodyStyle: { paddingTop: 3 * this.itemHeight + 'px', paddingBottom: 3 * this.itemHeight + 'px' }
@@ -54,11 +53,11 @@ export default {
             const absIndex = Math.abs(index);
             // 当前列scrollTop
             this.positions[listIndex].scrollTop = index * this.itemHeight;
-            // 同步value
-            this.selfValue = [...this.value];
             const activeItem = this.dataSource[listIndex][absIndex];
-            this.selfValue[listIndex] = activeItem.value;
-            this.$emit('input', this.selfValue);
+            const _value = [...this.value];
+            _value.splice(listIndex, 1, activeItem.value);
+            // 同步value
+            this.$emit('input', _value);
             // 携带更详细的信息
             this.$emit('change', { path: [listIndex, absIndex], ...activeItem });
         },
@@ -67,7 +66,6 @@ export default {
          */
         _syncPositionition() {
             if (!this.isSelfMoving) {
-                this.selfValue = [...this.value];
                 this.positions = [];
                 this.value.forEach((v, i) => {
                     var index = this._findIndexByValue(i, v);
@@ -91,7 +89,7 @@ export default {
     computed: {
         activeIndexList() {
             var array = [];
-            this.selfValue.forEach((v, i) => {
+            this.value.forEach((v, i) => {
                 var index = this._findIndexByValue(i, v);
                 array.push(index);
             });
@@ -133,7 +131,7 @@ export default {
     .list {
         flex: 1;
         box-sizing: border-box;
-        div {
+        .item {
             box-sizing: border-box;
             width: 100%;
             display: block;
