@@ -32,6 +32,7 @@ export default {
 
     data() {
         return {
+            selfValue: [], // 有时候并不调用v-model, 如果计算属性绑定this.value会不变化, 比如activeIndexList
             positions: [],
             isSelfMoving: false,
             bodyStyle: { paddingTop: 3 * this.itemHeight + 'px', paddingBottom: 3 * this.itemHeight + 'px' }
@@ -48,19 +49,25 @@ export default {
         * @param {Object} 滚动条距离数据
         */
         scrollLeave(listIndex, e) {
+            // 选项index
             const index = Math.round(e.scrollTop / this.itemHeight);
+            const absIndex = Math.abs(index);
+            // 当前列scrollTop
             this.positions[listIndex].scrollTop = index * this.itemHeight;
-            const value = [...this.value];
-            value[listIndex] = this.dataSource[listIndex][Math.abs(index)].value;
-            this.$emit('input', value);
+            // 同步value
+            this.selfValue = [...this.value];
+            const activeItem = this.dataSource[listIndex][absIndex];
+            this.selfValue[listIndex] = activeItem.value;
+            this.$emit('input', this.selfValue);
+            // 携带更详细的信息
+            this.$emit('change', { path: [listIndex, absIndex], ...activeItem });
         },
         /**
          * 设置scrollTop
          */
         _syncPositionition() {
             if (!this.isSelfMoving) {
-                // this.positions.splice(0, this.positions.length);
-                // 由于下面紧接着push操作, 所以数据可以相应, 暂时没发现直接赋值[]的负面影响
+                this.selfValue = [...this.value];
                 this.positions = [];
                 this.value.forEach((v, i) => {
                     var index = this._findIndexByValue(i, v);
@@ -84,7 +91,7 @@ export default {
     computed: {
         activeIndexList() {
             var array = [];
-            this.value.forEach((v, i) => {
+            this.selfValue.forEach((v, i) => {
                 var index = this._findIndexByValue(i, v);
                 array.push(index);
             });

@@ -33,7 +33,10 @@ import DomPortal from 'vue-dom-portal';
 Vue.use(DomPortal);
 
 // 关闭错误提示
+Vue.config.silent = false
+// 生产环境提示
 Vue.config.productionTip = false;
+// 设置为 true 以在浏览器开发工具中启用对组件初始化、编译、渲染和打补丁的性能追踪。只适用于开发模式和支持 performance.mark API 的浏览器上。
 Vue.config.performance = true;
 
 /* eslint-disable no-new */

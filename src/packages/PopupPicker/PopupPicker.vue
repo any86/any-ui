@@ -33,8 +33,8 @@ export default {
     },
 
     methods: {
-        change({ index, value, label }) {
-            this.active.index = index;
+        change({ path, value, label }) {
+            this.active.index = path[0];
             this.active.value = value;
             this.active.label = label;
         },

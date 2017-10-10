@@ -1,10 +1,14 @@
 <template>
     <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true" class="page-index">
-        <!-- <v-popup-picker isShow="true" :dataSource="dataSource" v-model="value"></v-popup-picker> -->
-        <v-picker :dataSource="dataSource" v-model="value"></v-picker>
+        <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value"></v-popup-picker>
+        <!-- <v-picker :dataSource="dataSource" v-model="value"></v-picker> -->
 
         <v-cell>
             <v-input v-model="value[0]"></v-input>
+        </v-cell>
+
+        <v-cell>
+            <v-switch v-model="isShow">打开弹窗</v-switch>
         </v-cell>
 
         <v-cell>
@@ -30,7 +34,7 @@ import VInput from '@/packages/Input/Input';
 import VSwitch from '@/packages/Switch/Switch';
 import VRadio from '@/packages/Radio/Radio';
 import VDialog from '@/packages/Dialog/Dialog';
-import VPicker from '@/packages/Picker/Picker2';
+import VPicker from '@/packages/Picker/Picker';
 import VPopupPicker from '@/packages/PopupPicker/PopupPicker';
 
 import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
@@ -41,6 +45,7 @@ export default {
 
     data() {
         return {
+            isShow: true,
             list: Mock.mock({
                 'list|20': [{
                     'label|+1': 1,
@@ -59,16 +64,7 @@ export default {
     },
 
     mounted() {
-        // var t = 14.2
-        // var a = 0
-        // var arr = [10, 10, 10, 15, 16]
-        // arr.map(item => {
-        //     a += item;
-        // });
 
-        // arr.map(item => {
-        //     syslog((item - item / a * t).toFixed(1));
-        // })
     },
 
     methods: {
