@@ -75,6 +75,11 @@ export default {
         bodyStyle: {
             type: Object,
             default: {}
+        },
+
+        maxHolderTime: {
+            type: Number,
+            default: 300
         }
     },
 
@@ -122,7 +127,7 @@ export default {
 
         transitionend() {
             this.$emit('update:isSelfMoving', false);
-            this.$emit('transition-end', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
+            this.$emit('scroll-end', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
 
         touchstart(e) {
@@ -167,7 +172,7 @@ export default {
             }
 
             // 当手指一直按住突然拖动, 那么重置起始值
-            if (300 < now - this.startTime) {
+            if (this.maxHolderTime < now - this.startTime) {
                 this.startTime = now;
                 this.startPointTop = point.pageY;
                 this.startPointLeft = point.pageX;
@@ -187,7 +192,7 @@ export default {
             const costTime = this.endTime - this.startTime;
 
             if (this.lockY) {
-                if (300 > costTime) {
+                if (this.maxHolderTime > costTime) {
                     const deltaLeft = this.scrollLeft - this.startScrollLeft;
                     const speedX = deltaLeft / costTime;
                     this.scrollLeft += speedX * 1000;
@@ -196,7 +201,7 @@ export default {
                 this.isAllowRest && this.resetX();
 
             } else if (this.lockX) {
-                if (300 > costTime) {
+                if (this.maxHolderTime > costTime) {
                     const deltaTop = this.scrollTop - this.startScrollTop;
                     const speedY = deltaTop / costTime;
                     this.scrollTop += speedY * 1000;
@@ -210,7 +215,7 @@ export default {
             this.preventDefault && e.preventDefault();
             this.$emit('update:isSelfMoving', true);
             this.$emit('input', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
-            this.$emit('scroll-end', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
+            this.$emit('scroll-leave', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
 
         limitX() {
