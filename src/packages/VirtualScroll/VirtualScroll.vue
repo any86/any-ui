@@ -1,6 +1,6 @@
 <template>
     <div :class="['component-scroll', ovh && 'ovh']" @touchstart.passive="touchstart" @touchmove.prevent="touchmove" @touchend="touchend">
-        <div ref="content" :style="{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}" class="scroll-body" :class="{table: lockY}">
+        <div ref="body" :style="[{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" class="scroll-body" :class="{table: lockY}">
             <slot></slot>
         </div>
     </div>
@@ -65,13 +65,22 @@ export default {
         isAllowRest: {
             type: Boolean,
             default: true
+        },
+
+        isSelfMoving: {
+            type: Boolean,
+            default: false
+        },
+
+        bodyStyle: {
+            type: Object,
+            default: {}
         }
     },
 
     data() {
         return {
             version: 0.01,
-            moved: false,
             moveRatio: 1,
             speed: 0,
             startTime: 0,
@@ -106,9 +115,14 @@ export default {
         getAllSize() {
             this.viewWidth = getWidth(this.$el);
             this.viewHeight = getHeight(this.$el);
-            this.maxScrollTop = getHeight(this.$refs.content, { isScroll: true }) - this.viewHeight;
-            this.maxScrollLeft = getWidth(this.$refs.content, { isScroll: true }) - this.viewWidth;
+            this.maxScrollTop = getHeight(this.$refs.body, { isScroll: true }) - this.viewHeight;
+            this.maxScrollLeft = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
             // scrollWidth
+        },
+
+        transitionend() {
+            this.$emit('update:isSelfMoving', false);
+            this.$emit('transition-end', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
 
         touchstart(e) {
@@ -194,6 +208,7 @@ export default {
             // ******
 
             this.preventDefault && e.preventDefault();
+            this.$emit('update:isSelfMoving', true);
             this.$emit('input', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
             this.$emit('scroll-end', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
