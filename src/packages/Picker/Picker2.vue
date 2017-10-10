@@ -1,10 +1,8 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-end="scrollEnd(i, $event)" class="list">
-            <div :style="{height: `${3*itemHeight}px`}"></div>
+        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-end="scrollEnd(i, $event)" :isSelfMoving.sync="isSelfMoving" :bodyStyle="bodyStyle" class="list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}">{{item.label}}</div>
-            <div :style="{height: `${3*itemHeight}px`}"></div>
         </virtual-scroll>
     </div>
 </template>
@@ -15,13 +13,18 @@ export default {
 
     props: {
         dataSource: {
-            type: Array,
+            type: Array, // [[{label, value}]]
             required: true
         },
 
         value: {
-            type: Array,
+            type: Array, // [v1, v2]
             required: true
+        },
+
+        itemHeight: {
+            type: Number,
+            default: 36
         }
     },
 
@@ -29,8 +32,8 @@ export default {
         return {
             positions: [],
             active: {}, // 当前拖拽列表
-            itemHeight: 36,
-            touchStatusList: []
+            isSelfMoving: false,
+            bodyStyle: { paddingTop: 3 * this.itemHeight + 'px', paddingBottom: 3 * this.itemHeight + 'px' }
         };
     },
 
@@ -43,21 +46,30 @@ export default {
     },
 
     methods: {
-        scrollEnd(listIndex, e){
-            var index = Math.round(e.scrollTop / this.itemHeight);
+        /**
+        * @param {Number} 列表索引
+        * @param {Object} 滚动条距离数据
+        */
+        scrollEnd(listIndex, e) {
+            const index = Math.round(e.scrollTop / this.itemHeight);
             this.positions[listIndex].scrollTop = index * this.itemHeight;
-            // this.$emit('input', );
+            const value = [...this.value];
+            value[listIndex] = this.dataSource[listIndex][Math.abs(index)].value;
+            this.$emit('input', value);
         },
-
         /**
          * 设置scrollTop
          */
         _syncPositionition() {
-            this.positions.splice(0, this.positions.length - 1);
-            this.value.forEach((v, i) => {
-                var index = this._findIndexByValue(i, v);
-                this.positions.push({ scrollLeft: 0, scrollTop: (0 - index) * this.itemHeight });
-            });
+            if (!this.isSelfMoving) {
+                // this.positions.splice(0, this.positions.length);
+                // 由于下面紧接着push操作, 所以数据可以相应, 暂时没发现直接赋值[]的负面影响
+                this.positions = [];
+                this.value.forEach((v, i) => {
+                    var index = this._findIndexByValue(i, v);
+                    this.positions.push({ scrollLeft: 0, scrollTop: (0 - index) * this.itemHeight });
+                });
+            }
         },
         /**
          * 获取索引通过给定值
@@ -77,8 +89,11 @@ export default {
             this._syncPositionition();
         },
 
-        dataSource() {
-            this._syncPositionition();
+        dataSource: {
+            deep: true,
+            handler() {
+                this._syncPositionition();
+            }
         }
     },
 
