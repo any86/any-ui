@@ -1,161 +1,111 @@
 <template>
-    <div class="component-picker">
+    <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <ul v-for="(list, i) in dataSource" :key="i" @touchstart="touchstart(i, $event)" @touchmove="touchmove(i, $event)" @touchend="touchend(i, $event)" :style="{paddingTop: `${itemHeight*3}px`, height: `${itemHeight*7}px`, 
-                                transform: 'translate3d(0,' + touchStatusList[i].translateYNew + 'px,0)'}" :class="{transition: 0 == touchStatusList[i].status}">
-            <li v-for="(item, j) in list" :key="j" :class="{active: item.value == touchStatusList[i].value}" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}">{{item.label}}</li>
-        </ul>
+        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :isSelfMoving.sync="isSelfMoving" :bodyStyle="bodyStyle" class="list">
+            <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}">
+                {{item.label}}
+            </div>
+        </virtual-scroll>
     </div>
 </template>
 <script>
+import VirtualScroll from '@/packages/VirtualScroll/VirtualScroll'
 export default {
     name: 'Picker',
 
     props: {
         dataSource: {
-            type: Array,
+            type: Array, // [[{label, value}]]
             required: true
         },
 
         value: {
-            type: Array,
+            type: Array, // [v1, v2]
             required: true
+        },
+
+        itemHeight: {
+            type: Number,
+            default: 36
         }
     },
 
     data() {
         return {
-            active: {}, // 当前拖拽列表
-            itemHeight: 36,
-            touchStatusList: []
+            positions: [],
+            isSelfMoving: false,
+            bodyStyle: { paddingTop: 3 * this.itemHeight + 'px', paddingBottom: 3 * this.itemHeight + 'px' }
         };
     },
 
     created() {
-        // 构造列表结构
-        this.dataSource.forEach(() => {
-            this.touchStatusList.push({
-                value: 0,
-                status: 0,
-                translateYOld: 0,
-                translateYNew: 0,
-                start: 0,
-                current: 0,
-                distance: 0
-            });
-        });
-    },
-
-    mounted() {
-        this._syncPosition();
+        this._syncPositionition();
     },
 
     methods: {
         /**
-         * 滚动UI到默认值位置
-         */
-        _syncPosition() {
-            this.dataSource.forEach((list, index) => {
-                let activeIndex;
-                // 如果存在值, 则查找相等项
-                // 如果不存在直接选取第一项为默认值
-                if (!!this.value[index]) {
-                    activeIndex = list.findIndex(item => {
-                        return this.value[index] == item.value;
-                    });
-
-                    // 如果找不到对应项, 那么默认取第一项
-                    // activeIndex = -1 == activeIndex && 0; 
-                } else {
-                    activeIndex = 0;
-                }
-
-                // 存储当前值
-                this.touchStatusList[index].value = list[activeIndex].value;
-                this.touchStatusList[index].label = list[activeIndex].label;
-                // 移动选项到适合位置
-                this.touchStatusList[index].translateYNew = 0 - activeIndex * this.itemHeight;
-                this.touchStatusList[index].translateYOld = this.touchStatusList[index].translateYNew;
-            });
+        * @param {Number} 列表索引
+        * @param {Object} 滚动条距离数据
+        */
+        scrollLeave(listIndex, e) {
+            const index = Math.round(e.scrollTop / this.itemHeight);
+            this.positions[listIndex].scrollTop = index * this.itemHeight;
+            const value = [...this.value];
+            value[listIndex] = this.dataSource[listIndex][Math.abs(index)].value;
+            this.$emit('input', value);
         },
-
         /**
-         * 开始拖拽
-         * @param  {Number} index 当前列表索引
-         * @param  {Object} e     event
+         * 设置scrollTop
          */
-        touchstart(index, e) {
-            // 标记当前
-            this.active = this.touchStatusList[index];
-            // 开始拖拽
-            this.active.status = 0;
-            this.active.start = e.touches[0].clientY;
-        },
-
-        /**
-         * 拖拽中
-         * @param  {Number} index 当前列表索引
-         * @param  {Object} e     event
-         */
-        touchmove(index, e) {
-            // 拖拽中
-            this.active.status = 1;
-            this.active.current = e.touches[0].clientY;
-            this.active.distance = this.active.current - this.active.start;
-            this.active.translateYNew = this.active.translateYOld + this.active.distance;
-            e.preventDefault();
-            e.stopPropagation();
-        },
-
-        /**
-         * 手指离开屏幕
-         * @param  {Number} index 当前列表索引
-         * @param  {Object} e     event
-         */
-        touchend(index, e) {
-            var listLength = this.dataSource[index].length;
-            this.active.status = 0;
-
-            // 边界 向上/向下
-            if (0 < this.active.translateYNew) {
-                this.active.translateYNew = 0;
-            } else if (0 - this.itemHeight * (listLength - 1) > this.active.translateYNew) {
-                this.active.translateYNew = 0 - this.itemHeight * (listLength - 1)
+        _syncPositionition() {
+            if (!this.isSelfMoving) {
+                // this.positions.splice(0, this.positions.length);
+                // 由于下面紧接着push操作, 所以数据可以相应, 暂时没发现直接赋值[]的负面影响
+                this.positions = [];
+                this.value.forEach((v, i) => {
+                    var index = this._findIndexByValue(i, v);
+                    this.positions.push({ scrollLeft: 0, scrollTop: (0 - index) * this.itemHeight });
+                });
             }
-            // 对准(四舍五入)
-            // 确定value
-            var itemIndex = Math.round((0 - this.active.translateYNew) / this.itemHeight);
-            this.active.value = this.dataSource[index][itemIndex].value;
-            this.active.label = this.dataSource[index][itemIndex].label;
-
-            this.active.translateYNew = 0 - itemIndex * this.itemHeight;
-            //同步当前位置
-            this.active.translateYOld = this.active.translateYNew;
-
-            // 遍历已选值
-            const newValue = this.touchStatusList.map(list => {
-                return list.value;
+        },
+        /**
+         * 获取索引通过给定值
+         * @param {number} 列表索引
+         * @param {any} 给定值
+         * @returns {number} 对应的索引
+         */
+        _findIndexByValue(listIndex, value) {
+            return this.dataSource[listIndex].findIndex(item => {
+                return value == item.value
             });
-            // 所有列表的总变更状态
-            this.$emit('input', newValue);
-            // 当前列表的变更状态
-            this.$emit('change', {
-                index,
-                value: this.active.value,
-                label: this.active.label
+        }
+    },
+
+    computed: {
+        activeIndexList() {
+            var array = [];
+            this.value.forEach((v, i) => {
+                var index = this._findIndexByValue(i, v);
+                array.push(index);
             });
+            return array;
         }
     },
 
     watch: {
         value() {
-            this._syncPosition();
+            this._syncPositionition();
         },
 
-        dataSource() {
-            this._syncPosition();
+        dataSource: {
+            deep: true,
+            handler() {
+                this._syncPositionition();
+            }
         }
-    }
+    },
+
+    components: { VirtualScroll }
 }
 </script>
 <style scoped lang="scss">
@@ -164,7 +114,6 @@ export default {
     position: relative;
     overflow: hidden;
     display: flex;
-    overflow: hidden;
     .graticule {
         position: absolute;
         top: 0;
@@ -174,10 +123,10 @@ export default {
         margin: auto;
         box-shadow: $shadowUp, $shadowDown;
     }
-    ul {
+    .list {
         flex: 1;
         box-sizing: border-box;
-        li {
+        div {
             box-sizing: border-box;
             width: 100%;
             display: block;
@@ -187,9 +136,6 @@ export default {
             &.active {
                 color: $darkest;
             }
-        }
-        &.transition {
-            transition: all .3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
     }
 }
