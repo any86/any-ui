@@ -1,7 +1,7 @@
 <template>
     <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true" class="page-index">
-        <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value"></v-popup-picker>
-        <!-- <v-picker :dataSource="dataSource" v-model="value"></v-picker> -->
+        <!-- <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value"></v-popup-picker> -->
+        <v-picker :dataSource="dataSource" v-model="value"></v-picker>
 
         <v-cell>
             <v-input v-model="value[0]"></v-input>
@@ -105,6 +105,7 @@ export default {
         &:nth-child(2n+1) {
             background: #fff;
         }
+
     }
 }
 </style>

@@ -66,6 +66,7 @@ export default {
          */
         _syncPositionition() {
             if (!this.isSelfMoving) {
+                // 下面有positions的push操作才敢直接赋值为空, 不然数据不响应
                 this.positions = [];
                 this.value.forEach((v, i) => {
                     var index = this._findIndexByValue(i, v);

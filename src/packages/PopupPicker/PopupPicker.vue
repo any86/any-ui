@@ -37,6 +37,7 @@ export default {
             this.active.index = path[0];
             this.active.value = value;
             this.active.label = label;
+            this.$emit('change', this.active);
         },
 
         ok() {
@@ -44,7 +45,7 @@ export default {
             value[this.active.index] = this.active.value;
             this.$emit('input', value);
             this.$emit('update:isShow', false);
-            this.$emit('change', { index: this.active.index, value: this.active.value, label: this.active.label });
+            
         }
     },
 
