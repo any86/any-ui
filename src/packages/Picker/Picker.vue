@@ -1,7 +1,7 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :maxHolderTime="50" :isSelfMoving.sync="isSelfMoving" :bodyStyle="bodyStyle" class="list">
+        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :max-holder-time="50" :is-self-moving.sync="isSelfMoving" :body-style="bodyStyle" class="list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
                 {{item.label}}
             </div>
@@ -47,19 +47,19 @@ export default {
         * @param {Number} 列表索引
         * @param {Object} 滚动条距离数据
         */
-        scrollLeave(listIndex, e) {
+        scrollLeave(columnIndex, e) {
             // 选项index
             const index = Math.round(e.scrollTop / this.itemHeight);
             const absIndex = Math.abs(index);
             // 当前列scrollTop
-            this.positions[listIndex].scrollTop = index * this.itemHeight;
-            const activeItem = this.dataSource[listIndex][absIndex];
+            this.positions[columnIndex].scrollTop = index * this.itemHeight;
+            const activeItem = this.dataSource[columnIndex][absIndex];
             const _value = [...this.value];
-            _value.splice(listIndex, 1, activeItem.value);
+            _value.splice(columnIndex, 1, activeItem.value);
             // 同步value
             this.$emit('input', _value);
             // 携带更详细的信息
-            this.$emit('change', { path: [listIndex, absIndex], ...activeItem });
+            this.$emit('change', { columnIndex, rowIndex: absIndex, ...activeItem });
         },
         /**
          * 设置scrollTop

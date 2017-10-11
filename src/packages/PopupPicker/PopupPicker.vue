@@ -4,7 +4,7 @@
             <span @click="ok" class="flex-item button-cancel">cancel</span>
             <span @click="ok" class="flex-item button-ok">ok</span>
         </header>
-        <v-picker :dataSource="dataSource" :value="value" @change="change"></v-picker>
+        <v-picker :data-source="dataSource" v-model="selfValue" @change="change"></v-picker>
     </v-popup>
 </template>
 <script>
@@ -29,23 +29,30 @@ export default {
     },
 
     data() {
-        return { active: { index: null, value: null, label: null } };
+        return {
+            active: {
+                index: null,
+                value: null,
+                label: null
+            }, // 当前选项
+            selfValue: []
+        };
+    },
+
+    created() {
+        this.selfValue = [...this.value];
     },
 
     methods: {
-        change({ path, value, label }) {
-            this.active.index = path[0];
-            this.active.value = value;
-            this.active.label = label;
+        change({ columnIndex, rowIndex, value, label }) {
+            this.selfValue[columnIndex] = value;
+            this.active = { columnIndex, rowIndex, value, label };
             this.$emit('change', this.active);
         },
 
         ok() {
-            const value = this.value;
-            value[this.active.index] = this.active.value;
-            this.$emit('input', value);
+            this.$emit('input', this.selfValue);
             this.$emit('update:isShow', false);
-            
         }
     },
 

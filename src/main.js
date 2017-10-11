@@ -5,15 +5,15 @@ window.dir = (...val) => console.dir.apply(null, val);
 import Vue from 'vue';
 import App from '@/App';
 import router from '@/router';
-import * as types from '@/store/mutation-types';
+// import * as types from '@/store/mutation-types';
 // API
-import api from '@/api';
-Object.defineProperty(Vue.prototype, '$api', {
-    value: api,
-    writable: false,
-    enumerable: false,
-    configurable: false
-});
+// import api from '@/api';
+// Object.defineProperty(Vue.prototype, '$api', {
+//     value: api,
+//     writable: false,
+//     enumerable: false,
+//     configurable: false
+// });
 // var FastClick = require('fastclick');
 // FastClick.attach(document.body, {});
 // Object.defineProperty(Vue.prototype, '$lang', {
@@ -24,7 +24,7 @@ Object.defineProperty(Vue.prototype, '$api', {
 // });
 
 //全局样式
-import '@/scss/global.scss';
+import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
 Vue.use(Atom);
