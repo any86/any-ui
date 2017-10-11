@@ -1,7 +1,10 @@
 <template>
-    <v-popup v-model="_isShow">
+    <v-popup v-model="_isShow" class="atom-popup-pickcer">
         <header class="flex">
-            <span @click="ok" class="flex-item button-cancel">cancel</span>
+            <span @click="cancel" class="flex-item button-cancel">cancel</span>
+            <span v-if="!!$slots.default" class="flex-item title">
+                <slot></slot>
+            </span>
             <span @click="ok" class="flex-item button-ok">ok</span>
         </header>
         <v-picker :data-source="dataSource" v-model="selfValue" @change="change"></v-picker>
@@ -53,6 +56,10 @@ export default {
         ok() {
             this.$emit('input', this.selfValue);
             this.$emit('update:isShow', false);
+        },
+
+        cancel() {
+            this.$emit('update:isShow', false);
         }
     },
 
@@ -79,19 +86,26 @@ export default {
     padding: $gutter $gutter*2;
 }
 
-header {
-    overflow: hidden;
-    border-bottom: 1px solid $lightest;
-    .button-cancel {
-        @include button;
-        color: $light;
-        text-align: left;
-    }
-
-    .button-ok {
-        @include button;
-        color: $base;
-        text-align: right;
+.atom-popup-pickcer {
+    header {
+        overflow: hidden;
+        border-bottom: 1px solid $lightest;
+        .button-cancel {
+            @include button;
+            color: $light;
+            text-align: left;
+        }
+        .title {
+            align-self: center;
+            text-align:center;
+            font-size: $big;
+            color:$darker;
+        }
+        .button-ok {
+            @include button;
+            color: $base;
+            text-align: right;
+        }
     }
 }
 </style>

@@ -18,6 +18,7 @@
 </template>
 <script>
 import VMask from '@/packages/Dialog/Mask'
+import { getHeight } from '@/utils/dom'
 export default {
     name: 'Popup',
 
@@ -31,18 +32,24 @@ export default {
             default: true
         }
     },
+
     data() {
         return {
             from: 'down', // or up
             height: 0
         };
     },
-    mounted() {
-        this.height = window.outerHeight;
-        if (this.$attrs && null !== this.$attrs.from) {
-            this.from = this.$attrs.from;
+
+    created() {
+        this.height = getHeight(window);
+        // 为了兼容vue < 2.4.4
+        if (undefined !== this.$attrs) {
+            if (undefined !== this.$attrs.from) {
+                this.from = this.$attrs.from;
+            }
         }
     },
+
     methods: {
         closeMask() {
             this.$emit('input', false);
@@ -64,34 +71,32 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.down {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
-.up {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
 .component-dialog {
+    position: absolute;
     width: 100%;
     background: $background;
+    &.down {
+
+        bottom: 0;
+        left: 0;
+    }
+
+    &.up {
+        top: 0;
+        left: 0;
+    }
     .header {
         box-sizing: border-box;
         padding: $gutter; // border-bottom: 1px solid $lightest
     }
     .body {
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     .footer {
         box-sizing: border-box;
     }
 }
-
 
 
 

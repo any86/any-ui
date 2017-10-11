@@ -119,7 +119,6 @@ const getTime = () => Date.now() || new Date().getTime();
 
 export {
     getTime,
-    animate,
     findScrollParent,
     getElementTopFromDocument,
     getWidth,

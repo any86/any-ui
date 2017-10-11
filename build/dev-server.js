@@ -70,23 +70,6 @@ app.use(staticPath, express.static('./static'))
 
 const uri = 'http://localhost:' + port
 
-
-//---获取局域网ip
-var os=require('os'),
-iptable={},
-ifaces=os.networkInterfaces();
-for (var dev in ifaces) {
-ifaces[dev].forEach(function(details,alias){
-    if ((details.family=='IPv4') && (details.internal == false)) {
-        // iptable[dev+(alias?':'+alias:'')]=details.address;
-        iptable['localIP'] = details.address;
-    }
-});
-}
-uri = 'http://' + iptable.localIP + ':8080';
-//---获取局域网ip
-
-
 var _resolve
 var _reject
 var readyPromise = new Promise((resolve, reject) => {
@@ -105,7 +88,27 @@ devMiddleware.waitUntilValid(() => {
       _reject(err)
     }
     process.env.PORT = port
-    var uri = 'http://localhost:' + port
+
+
+//---获取局域网ip
+var os=require('os'),
+iptable={},
+ifaces=os.networkInterfaces();
+for (var dev in ifaces) {
+ifaces[dev].forEach(function(details,alias){
+    if ((details.family=='IPv4') && (details.internal == false)) {
+        // iptable[dev+(alias?':'+alias:'')]=details.address;
+        iptable['localIP'] = details.address;
+    }
+});
+}
+const localIP = 'http://' + iptable.localIP + ':';
+var uri = localIP + port
+//---获取局域网ip
+
+
+    // var uri = 'http://localhost:' + port
+    
     console.log('> Listening at ' + uri + '\n')
     // when env is testing, don't need open it
     if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
