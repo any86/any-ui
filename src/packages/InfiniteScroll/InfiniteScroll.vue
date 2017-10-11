@@ -52,13 +52,17 @@ export default {
         window.addEventListener('resize', debounce(() => {
             this.viewHeight = getHeight(this.$el);
             this.winHeight = getHeight(window);
-        }, 200), false);
+        }, 200));
 
-        this._fixForm();
+        this._markInput();
     },
 
     methods: {
-        _fixForm(winHeight) {
+        _resizeCalc(){
+            
+        },
+        
+        _markInput() {
             // 对内部的input和textara做自动聚焦处理
             // 防止软键盘遮挡
             this.$el.addEventListener('click', e => {
