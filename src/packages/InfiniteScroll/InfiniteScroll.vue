@@ -29,14 +29,21 @@ export default {
         isListenBottom: {
             type: Boolean,
             default: false
+        },
+
+        keyboardOffset: {
+            type: Number,
+            default: 10
         }
     },
 
     data() {
         return {
             viewHeight: 0,
+            winHeight: 0,
             direction: '',
             scrollTop: 0,
+            $activeFormEl: null,
         }
     },
 
@@ -44,10 +51,26 @@ export default {
         this.viewHeight = getHeight(this.$el);
         window.addEventListener('resize', debounce(() => {
             this.viewHeight = getHeight(this.$el);
+            this.winHeight = getHeight(window);
         }, 200), false);
+
+        this._fixForm();
     },
 
     methods: {
+        _fixForm(winHeight) {
+            // 对内部的input和textara做自动聚焦处理
+            // 防止软键盘遮挡
+            this.$el.addEventListener('click', e => {
+                var node = e.target;
+                var nodeName = node.nodeName.toLowerCase();
+                // 标记正在交互的input/textarea元素
+                if ('input' === nodeName || 'textarea' === nodeName) {
+                    this.$activeFormEl = node;
+                }
+            });
+        },
+
         /**
          * 检查是否到底
          */
@@ -67,12 +90,29 @@ export default {
             this.scrollTop = getScrollTop(this.$el);
             this._checkBottom();
             this.$emit('scroll', this.scrollTop);
+        },
+
+        scrollTo(top) {
+            this.$el.scrollTop = top;
         }
     },
 
     watch: {
         scrollTop(oldVal, newVal) {
             this.direction = oldVal < newVal ? 'up' : 'down';
+        },
+
+        winHeight(winHeight) {
+            let node = this.$activeFormEl;
+            if (null !== node) {
+                // node.scrollIntoView(false);
+                // 自己模拟scrollIntoView
+                // 这样就可以通过keyboardOffset进一步控制滚动距离
+                const { bottom, height, top } = node.getBoundingClientRect();
+                const scrollTop = this.$el.scrollTop + top - winHeight + height + this.keyboardOffset;
+                this.scrollTo(scrollTop);
+                node = null;
+            }
         }
     }
 };
