@@ -49,18 +49,15 @@ export default {
 
     mounted() {
         this.viewHeight = getHeight(this.$el);
-        window.addEventListener('resize', debounce(() => {
-            this.viewHeight = getHeight(this.$el);
-            this.winHeight = getHeight(window);
-        }, 200));
-
+        window.addEventListener('resize', this._resizeCalc);
         this._markInput();
     },
 
     methods: {
-        _resizeCalc(){
-            
-        },
+        _resizeCalc: debounce(() => {
+            this.viewHeight = getHeight(this.$el);
+            this.winHeight = getHeight(window);
+        }, 200),
         
         _markInput() {
             // 对内部的input和textara做自动聚焦处理
@@ -118,6 +115,10 @@ export default {
                 node = null;
             }
         }
+    },
+    
+    destroyed(){
+        window.removeEventListener('resize', this._resizeCalc);
     }
 };
 </script>
