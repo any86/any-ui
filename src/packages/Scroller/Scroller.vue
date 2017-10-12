@@ -109,19 +109,13 @@ export default {
             viewWidth: 0,
             viewHeight: 0,
 
-            // startScrollLeft: 0, // 滚动条位置
-            // startScrollTop: 0,
-            // scrollLeft: 0,
-            // scrollTop: 0,
-            // maxScrollLeft: 0,
-            // maxScrollTop: 0,
-
             translateX: 0,
             translateY: 0,
             maxTranslateX: 0,
             maxTranslateY: 0,
             startTranslateX: 0,
             startTranslateY: 0,
+            events:['touchstart', 'touchmove', 'touchend', 'transitionend', 'webkitTransitionend'],
         };
     },
 
@@ -142,7 +136,7 @@ export default {
          * @argument {Element}
          */
         _addEvents(el) {
-            ['touchstart', 'touchmove', 'touchend', 'transitionend', 'webkitTransitionend'].forEach(evnetName => {
+            this.events.forEach(evnetName => {
                 el.addEventListener(evnetName, this[evnetName], { passive: !this.preventDefault });
             });
         },
@@ -151,7 +145,7 @@ export default {
          * @argument {Element}
          */
         _removeEvents(el) {
-            ['touchstart', 'touchmove', 'touchend', 'transitionend', 'webkitTransitionend'].forEach(name => {
+            this.events.forEach(name => {
                 el.removeEventListener(evnetName, this[evnetName]);
             });
         },
@@ -197,10 +191,10 @@ export default {
                 // 看锁, 且看位移角度
                 if (this.lockX && !this.lockY && absdeltaX < absdeltaY) {
                     // 当scroll-body的位置超出边界, 那么滑动距离 : 手指一动距离 = 1 : 2
-                    this.moveRatio = (0 < this.scrollTop || this.maxScrollTop < 0 - this.scrollTop) ? .5 : 1;
+                    this.moveRatio = (0 < this.translateY || this.maxTranslateY < 0 - this.translateY) ? .5 : 1;
                     this.translateY = this.startTranslateY + deltaY * this.moveRatio;
                 } else if (this.lockY && !this.lockX && absdeltaX > absdeltaY) {
-                    this.moveRatio = (0 < this.scrollLeft || this.maxScrollLeft < 0 - this.scrollLeft) ? .5 : 1;
+                    this.moveRatio = (0 < this.translateX || this.maxTranslateX < 0 - this.translateX) ? .5 : 1;
                     this.translateX = this.startTranslateX + deltaX;
                 } else if (!this.lockX && !this.lockY) {
                     // 暂不处理, 自由移动
@@ -243,7 +237,7 @@ export default {
                     this.translateY += speedY * 1000;
                 }
                 // 自己复位
-                // this.isAllowRest && this.resetY();
+                this.isAllowRest && this.resetY();
             }
 
             // 后期可以在此处加入throhold做超出范围回弹动画
@@ -259,42 +253,21 @@ export default {
             this.$emit('scroll-end', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
         },
 
-        limitX() {
+        resetX() {
             if (0 < this.translateX) {
-                // 向右拉
+                // 向下拉
                 this.translateX = 0;
-            }
-            else if (0 - this.maxTranslateX > this.translateX) {
-                // 向左拉
+            } else if (this.maxTranslateX < 0 - this.translateX) {
+                // 向上拉
                 this.translateX = 0 - this.maxTranslateX;
             }
         },
 
-        limitY() {
-            if (this.threshold < this.translateY) {
-                // 向下拉
-                this.translateY = this.threshold;
-            } else if (this.maxTranslateY < 0 - this.translateY) {
-                // 向上拉
-                this.translateY = 0 - this.maxTranslateY;
-            }
-        },
-
-        resetX() {
-            if (0 < this.scrollLeft) {
-                // 向下拉
-                this.scrollLeft = 0;
-            } else if (this.maxScrollLeft < 0 - this.scrollLeft) {
-                // 向上拉
-                this.scrollLeft = 0 - this.maxScrollLeft;
-            }
-        },
-
         resetY() {
-            if (0 < this.scrollTop) {
-                this.scrollTop = 0;
-            } else if (this.maxScrollTop < 0 - this.scrollTop) {
-                this.scrollTop = 0 - this.maxScrollTop;
+            if (0 < this.translateY) {
+                this.translateY = 0;
+            } else if (this.maxTranslateY < 0 - this.translateY) {
+                this.translateY = 0 - this.maxTranslateY;
             }
         }
     },
@@ -304,8 +277,8 @@ export default {
             deep: true,
             handler(value) {
                 this.transitionDuration = 500;
-                this.scrollTop = (value.scrollTop);
-                this.scrollLeft = (value.scrollLeft);
+                this.translateY = (value.scrollTop);
+                this.translateX = (value.scrollLeft);
             }
         }
     },
