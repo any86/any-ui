@@ -1,6 +1,6 @@
 <template>
     <!-- 注意在组件上设置display: flex 会出现怪异的问题, 请慎用 -->
-    <div class="component-infinite-scroll" @scroll="scroll">
+    <div class="atom-infinite-scroll" @scroll="scroll">
         <slot></slot>
     </div>
 </template>
@@ -43,7 +43,7 @@ export default {
             winHeight: 0,
             direction: '',
             scrollTop: 0,
-            $activeFormEl: null,
+            formInput: null,
         }
     },
 
@@ -54,11 +54,29 @@ export default {
     },
 
     methods: {
-        _resizeCalc: debounce(() => {
-            this.viewHeight = getHeight(this.$el);
-            this.winHeight = getHeight(window);
-        }, 200),
-        
+        /**
+         * 控制运行频率
+         */
+        _resizeCalc() {
+            debounce(() => {
+                this.viewHeight = getHeight(this.$el);
+                this.winHeight = getHeight(window);
+                let node = this.formInput;
+                if (null !== node) {
+                    // node.scrollIntoView(false);
+                    // 自己模拟scrollIntoView
+                    // 这样就可以通过keyboardOffset进一步控制滚动距离
+                    const { bottom, height, top } = node.getBoundingClientRect();
+                    const scrollTop = this.$el.scrollTop + top - this.winHeight + height + this.keyboardOffset;
+                    this.scrollTo(scrollTop);
+                    node = null;
+                }
+            }, 200)();
+        },
+        /** 
+         * 标记input/textarea
+         * 当resize的时候获取标记元素的尺寸信息
+        */
         _markInput() {
             // 对内部的input和textara做自动聚焦处理
             // 防止软键盘遮挡
@@ -67,11 +85,10 @@ export default {
                 var nodeName = node.nodeName.toLowerCase();
                 // 标记正在交互的input/textarea元素
                 if ('input' === nodeName || 'textarea' === nodeName) {
-                    this.$activeFormEl = node;
+                    this.formInput = node;
                 }
             });
         },
-
         /**
          * 检查是否到底
          */
@@ -92,7 +109,10 @@ export default {
             this._checkBottom();
             this.$emit('scroll', this.scrollTop);
         },
-
+        /**
+         * 滚动到指定位置
+         * @argument {Number} 
+         */
         scrollTo(top) {
             this.$el.scrollTop = top;
         }
@@ -104,20 +124,11 @@ export default {
         },
 
         winHeight(winHeight) {
-            let node = this.$activeFormEl;
-            if (null !== node) {
-                // node.scrollIntoView(false);
-                // 自己模拟scrollIntoView
-                // 这样就可以通过keyboardOffset进一步控制滚动距离
-                const { bottom, height, top } = node.getBoundingClientRect();
-                const scrollTop = this.$el.scrollTop + top - winHeight + height + this.keyboardOffset;
-                this.scrollTo(scrollTop);
-                node = null;
-            }
+
         }
     },
-    
-    destroyed(){
+
+    destroyed() {
         window.removeEventListener('resize', this._resizeCalc);
     }
 };
