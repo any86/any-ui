@@ -29,7 +29,7 @@
     </v-scroll-view>
 </template>
 <script>
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import VScrollView from '@/packages/InfiniteScroll/InfiniteScroll';
 import VCheckbox from '@/packages/Checkbox/Checkbox';
 import VButton from '@/packages/Button/Button';
 import VCell from '@/packages/Cell/Cell';

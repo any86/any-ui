@@ -1,8 +1,8 @@
 <template>
     <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true" class="page-index">
-        <!-- <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value">请选择数字</v-popup-picker> -->
+        <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value">请选择数字</v-popup-picker>
         <!-- <v-picker :dataSource="dataSource" v-model="value"></v-picker> -->
-<v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
+        <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
         <v-cell>
             <v-input v-model="value[0]"></v-input>
         </v-cell>
@@ -45,7 +45,7 @@ export default {
 
     data() {
         return {
-            isShow: true,
+            isShow: false,
             list: Mock.mock({
                 'list|20': [{
                     'label|+1': 1,
@@ -93,7 +93,6 @@ export default {
     right: 0;
     bottom: 0;
 
-
     .scroll-view {
         flex: 1;
         padding: 0 .3rem .3rem .3rem;
@@ -105,7 +104,6 @@ export default {
         &:nth-child(2n+1) {
             background: #fff;
         }
-
     }
 }
 </style>

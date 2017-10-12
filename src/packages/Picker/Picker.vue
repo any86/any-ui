@@ -1,15 +1,15 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <virtual-scroll v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :max-holder-time="50" :is-self-moving.sync="isSelfMoving" :body-style="bodyStyle" class="list">
+        <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :max-holder-time="50" :is-self-moving.sync="isSelfMoving" :body-style="bodyStyle" class="list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
                 {{item.label}}
             </div>
-        </virtual-scroll>
+        </v-scroller>
     </div>
 </template>
 <script>
-import VirtualScroll from '@/packages/VirtualScroll/VirtualScroll'
+import VScroller from '@/packages/Scroller/Scroller'
 export default {
     name: 'Picker',
 
@@ -111,7 +111,7 @@ export default {
         }
     },
 
-    components: { VirtualScroll }
+    components: { VScroller }
 }
 </script>
 <style scoped lang="scss">

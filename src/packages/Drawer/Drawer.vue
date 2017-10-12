@@ -203,20 +203,7 @@ export default {
             max-width: 80%;
             height: 100%;
             transform: translateX(-100%) scale(1);
-        } // main {
-        //     position: relative;
-        //     padding: 0;
-        //     flex: 1 0 100%;
-        //     min-width: 0;
-        // }
-        // aside {
-        //     position: absolute;
-        //     right: 0;
-        //     top: 0;
-        //     background: $base;
-        //     display: block;
-        //     transform: translateX(100%);
-        // }
+        }
     }
 }
 </style>

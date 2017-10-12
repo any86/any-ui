@@ -34,7 +34,7 @@
     </v-scroll-view>
 </template>
 <script>
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import VScrollView from '@/packages/InfiniteScroll/InfiniteScroll';
 import VRadio from '@/packages/Radio/Radio';
 import VButton from '@/packages/Button/Button';
 import VCell from '@/packages/Cell/Cell';

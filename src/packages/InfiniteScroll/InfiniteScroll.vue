@@ -135,7 +135,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-infinite-scroll {
+.atom-infinite-scroll {
     /*暂时关闭x轴拖动 pinch-zoom*/
     position: relative;
     touch-action: pan-y;
