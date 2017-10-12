@@ -1,6 +1,6 @@
 <template>
-    <div :class="['atom-scroller', ovh && 'ovh']" @touchstart.passive="touchstart" @touchmove="touchmove" @touchend="touchend">
-        <div ref="body" :style="[{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" class="atom-scroller__body" :class="[{table: lockY}, bodyClass]">
+    <div :class="['atom-scroller', ovh && 'ovh']">
+        <div ref="body" :style="[{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="[{table: lockY}, bodyClass]" v-on="!isBindBody ? {} : events" class="atom-scroller__body">
             <slot></slot>
         </div>
     </div>
@@ -44,7 +44,7 @@ export default {
 
         value: {
             type: Object,
-            default: { scrollLeft: 0, scrollTop: 0 }
+            default: () => ({ scrollLeft: 0, scrollTop: 0 }) // 注意返回对象, 要用括号包起来
         },
 
         lockX: {
@@ -85,6 +85,11 @@ export default {
         maxHolderTime: {
             type: Number,
             default: 300
+        },
+
+        isBindBody: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -108,9 +113,10 @@ export default {
             scrollLeft: 0,
             scrollTop: 0,
             maxScrollLeft: 0,
-            maxScrollTop: 0,
+            maxScrollTop: 0
         };
     },
+
 
     created() {
         this.scrollLeft = (this.value.scrollLeft);
@@ -118,10 +124,23 @@ export default {
     },
 
     mounted() {
+        this._addEvents(this.isBindBody ? this.$refs.body : this.$el);
         this.getAllSize();
     },
 
     methods: {
+        _addEvents(el) {
+            ['touchstart', 'touchmove', 'touchend'].forEach(evnetName => {
+                el.addEventListener(evnetName, this[evnetName], { passive: !this.preventDefault });
+            });
+        },
+
+        _removeEvents() {
+            ['touchstart', 'touchmove', 'touchend'].forEach(name => {
+                el.removeEventListener(evnetName, this[evnetName]);
+            });
+        },
+
         getAllSize() {
             this.viewWidth = getWidth(this.$el);
             this.viewHeight = getHeight(this.$el);
@@ -272,6 +291,10 @@ export default {
                 this.scrollLeft = (value.scrollLeft);
             }
         }
+    },
+
+    destroyed(){
+        this._removeEvents();
     }
 
 }
