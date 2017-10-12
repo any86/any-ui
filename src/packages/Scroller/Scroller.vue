@@ -1,55 +1,30 @@
 <template>
-    <div :class="['component-scroll', ovh && 'ovh']">
-        <div ref="content" :style="{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}" @touchstart.passive="touchstart" @touchmove.prevent="touchmove" @touchend="touchend" class="scroll-content" :class="{table: lockY}">
+    <div :class="['atom-scroller', ovh && 'ovh']" @touchstart.passive="touchstart" @touchmove="touchmove" @touchend="touchend">
+        <div ref="body" :style="[{transform: `translate3d(${scrollLeft}px, ${scrollTop}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" class="atom-scroller__body" :class="[{table: lockY}, bodyClass]">
             <slot></slot>
         </div>
     </div>
 </template>
 <script>
-import { getHeight, getWidth, getTime } from '@/packages/Tools/dom'
+import { getHeight, getWidth, getTime } from '@/utils/dom'
 export default {
-    name: 'Core',
+    name: 'Scroller',
 
     props: {
-        beforeStart: {
-            type: Function,
-            default() { }
-        },
-
-        beforeMove: {
-            type: Function,
-            default() { }
-        },
-
-        beforeEnd: {
-            type: Function,
-            default() { }
-        },
-
         sensitivity: {
             type: Number,
             default: 10
         },
 
-        directionLockThreshold: {
+        threshold: {
+            // 减速滑动时, 允许超出的最大距离
             type: Number,
-            default: 5
+            default: 100
         },
 
         preventDefault: {
             type: Boolean,
             default: false
-        },
-
-        startX: {
-            // 起始滚动条X左侧距离
-            type: Number,
-            default: 0
-        },
-
-        startY: {
-            type: Number,
-            default: 0
         },
 
         keyboardOffset: {
@@ -69,7 +44,7 @@ export default {
 
         value: {
             type: Object,
-            default: { x: 0, y: 0 }
+            default: { scrollLeft: 0, scrollTop: 0 }
         },
 
         lockX: {
@@ -80,13 +55,43 @@ export default {
         lockY: {
             type: Boolean,
             default: false
+        },
+
+        isBounce: {
+            type: Boolean,
+            default: true
+        },
+
+        isAllowRest: {
+            type: Boolean,
+            default: true
+        },
+
+        isSelfMoving: {
+            type: Boolean,
+            default: false
+        },
+
+        bodyStyle: {
+            type: Object,
+            default: () => { }
+        },
+
+        bodyClass: {
+            type: Object,
+            default: () => { }
+        },
+
+        maxHolderTime: {
+            type: Number,
+            default: 300
         }
     },
 
     data() {
         return {
             version: 0.01,
-            moved: false,
+            moveRatio: 1,
             speed: 0,
             startTime: 0,
             endTime: 0,
@@ -107,6 +112,11 @@ export default {
         };
     },
 
+    created() {
+        this.scrollLeft = (this.value.scrollLeft);
+        this.scrollTop = (this.value.scrollTop);
+    },
+
     mounted() {
         this.getAllSize();
     },
@@ -115,9 +125,14 @@ export default {
         getAllSize() {
             this.viewWidth = getWidth(this.$el);
             this.viewHeight = getHeight(this.$el);
-            this.maxScrollTop = getHeight(this.$refs.content, { isScroll: true }) - this.viewHeight;
-            this.maxScrollLeft = getWidth(this.$refs.content, { isScroll: true }) - this.viewWidth;
+            this.maxScrollTop = getHeight(this.$refs.body, { isScroll: true }) - this.viewHeight;
+            this.maxScrollLeft = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
             // scrollWidth
+        },
+
+        transitionend() {
+            this.$emit('update:isSelfMoving', false);
+            this.$emit('scroll-end', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
 
         touchstart(e) {
@@ -133,6 +148,8 @@ export default {
             this.startScrollLeft = this.scrollLeft;
 
             this.preventDefault && e.preventDefault();
+
+            this.$emit('scroll-start', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
 
         touchmove(e) {
@@ -148,18 +165,19 @@ export default {
                 // 只滑动一个方向, 锁定其他方向
                 // 看锁, 且看位移角度
                 if (this.lockX && !this.lockY && absDeltaLeft < absDeltaTop) {
-                    this.scrollTop = this.startScrollTop + deltaTop;
-                    this.limitY();
+                    // 当scroll-body的位置超出边界, 那么滑动距离 : 手指一动距离 = 1 : 2
+                    this.moveRatio = (0 < this.scrollTop || this.maxScrollTop < 0 - this.scrollTop) ? .5 : 1;
+                    this.scrollTop = this.startScrollTop + deltaTop * this.moveRatio;
                 } else if (this.lockY && !this.lockX && absDeltaLeft > absDeltaTop) {
+                    this.moveRatio = (0 < this.scrollLeft || this.maxScrollLeft < 0 - this.scrollLeft) ? .5 : 1;
                     this.scrollLeft = this.startScrollLeft + deltaLeft;
-                    this.limitX();
                 } else if (!this.lockX && !this.lockY) {
                     // 暂不处理, 自由移动
-                    // absDeltaTop > absDeltaLeft + this.directionLockThreshold
                 }
             }
+
             // 当手指一直按住突然拖动, 那么重置起始值
-            if (300 < now - this.startTime) {
+            if (this.maxHolderTime < now - this.startTime) {
                 this.startTime = now;
                 this.startPointTop = point.pageY;
                 this.startPointLeft = point.pageX;
@@ -168,6 +186,8 @@ export default {
             }
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
+
+            this.$emit('scroll-move', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
 
         touchend(e) {
@@ -176,23 +196,34 @@ export default {
             const point = e.changedTouches ? e.changedTouches[0] : e;
             const costTime = this.endTime - this.startTime;
 
-            if (300 > costTime) {
-                const deltaTop = this.scrollTop - this.startScrollTop;
-                const deltaLeft = this.scrollLeft - this.startScrollLeft;
+            if (this.lockY) {
+                if (this.maxHolderTime > costTime) {
+                    const deltaLeft = this.scrollLeft - this.startScrollLeft;
+                    const speedX = deltaLeft / costTime;
+                    this.scrollLeft += speedX * 1000;
+                }
+                // 复位
+                this.isAllowRest && this.resetX();
 
-                const speedY = deltaTop / costTime;
-                const speedX = deltaLeft / costTime;
-                this.scrollTop += speedY * 1000;
-                this.scrollLeft += speedX * 1000;
-                this.limitX();
-                this.limitY();
+            } else if (this.lockX) {
+                if (this.maxHolderTime > costTime) {
+                    const deltaTop = this.scrollTop - this.startScrollTop;
+                    const speedY = deltaTop / costTime;
+                    this.scrollTop += speedY * 1000;
+                }
+                this.isAllowRest && this.resetY();
             }
 
+            // 后期可以在此处加入throhold做超出范围回弹动画
+            // ******
+
             this.preventDefault && e.preventDefault();
+            this.$emit('update:isSelfMoving', true);
+            this.$emit('input', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
+            this.$emit('scroll-leave', { scrollTop: this.scrollTop, scrollLeft: this.scrollLeft });
         },
 
         limitX() {
-            syslog(this.scrollLeft)
             if (0 < this.scrollLeft) {
                 // 向右拉
                 this.scrollLeft = 0;
@@ -203,28 +234,50 @@ export default {
             }
         },
 
-
         limitY() {
-            if (0 < this.scrollTop) {
+            if (this.threshold < this.scrollTop) {
                 // 向下拉
-                this.scrollTop = 0;
+                this.scrollTop = this.threshold;
             } else if (this.maxScrollTop < 0 - this.scrollTop) {
                 // 向上拉
                 this.scrollTop = 0 - this.maxScrollTop;
             }
         },
 
-        reset() { }
+        resetX() {
+            if (0 < this.scrollLeft) {
+                // 向下拉
+                this.scrollLeft = 0;
+            } else if (this.maxScrollLeft < 0 - this.scrollLeft) {
+                // 向上拉
+                this.scrollLeft = 0 - this.maxScrollLeft;
+            }
+        },
+
+        resetY() {
+            if (0 < this.scrollTop) {
+                this.scrollTop = 0;
+            } else if (this.maxScrollTop < 0 - this.scrollTop) {
+                this.scrollTop = 0 - this.maxScrollTop;
+            }
+        }
     },
 
-
-    destroyed() {
-
+    watch: {
+        value: {
+            deep: true,
+            handler(value) {
+                this.transitionDuration = 500;
+                this.scrollTop = (value.scrollTop);
+                this.scrollLeft = (value.scrollLeft);
+            }
+        }
     }
+
 }
 </script>
 <style scoped lang=scss>
-.component-scroll {
+.atom-scroller {
     touch-action: pan-x;
     touch-action: pan-y;
     position: relative;
@@ -232,8 +285,9 @@ export default {
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    >.scroll-content {
+    >.atom-scroller__body {
         position: relative;
+        width: 100%;
         user-select: none;
         transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
         transition-duration: 0ms;
