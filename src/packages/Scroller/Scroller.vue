@@ -67,10 +67,10 @@ export default {
             default: true
         },
 
-        isSelfMoving: {
-            type: Boolean,
-            default: false
-        },
+        // isSelfMoving: {
+        //     type: Boolean,
+        //     default: false
+        // },
 
         bodyStyle: {
             type: Object,
@@ -96,6 +96,7 @@ export default {
     data() {
         return {
             version: 0.01,
+            isSelfMoving: false,
             moveRatio: 1,
             speed: 0,
             startTime: 0,
@@ -115,7 +116,7 @@ export default {
             maxTranslateY: 0,
             startTranslateX: 0,
             startTranslateY: 0,
-            events:['touchstart', 'touchmove', 'touchend', 'transitionend', 'webkitTransitionend'],
+            events: ['touchstart', 'touchmove', 'touchend', 'transitionend', 'webkitTransitionend'],
         };
     },
 
@@ -204,7 +205,7 @@ export default {
             // 当手指一直按住突然拖动, 那么重置起始值
             if (this.maxHolderTime < now - this.startTime) {
                 this.startTime = now;
-                
+
                 this.startPointY = point.pageY;
                 this.startPointX = point.pageX;
                 this.startTranslateY = this.translateY;
@@ -229,14 +230,14 @@ export default {
                     this.translateX += speedX * 1000;
                 }
                 // 自动复位
-                // this.isAllowRest && this.resetX();
+                this.isAllowRest && this.resetX();
             } else if (this.lockX) {
                 if (this.maxHolderTime > costTime) {
                     const deltaY = this.translateY - this.startTranslateY;
                     const speedY = deltaY / costTime;
                     this.translateY += speedY * 1000;
                 }
-                // 自己复位
+                //自己复位
                 this.isAllowRest && this.resetY();
             }
 
@@ -244,12 +245,14 @@ export default {
             // ******
 
             this.preventDefault && e.preventDefault();
-            this.$emit('update:isSelfMoving', true);
+            // this.$emit('update:isSelfMoving', true);
+            this.isSelfMoving = true;
             this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
             this.$emit('scroll-leave', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
         },
         transitionend() {
-            this.$emit('update:isSelfMoving', false);
+            // this.$emit('update:isSelfMoving', false);
+            this.isSelfMoving = false;
             this.$emit('scroll-end', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
         },
 
@@ -276,9 +279,11 @@ export default {
         value: {
             deep: true,
             handler(value) {
-                this.transitionDuration = 500;
-                this.translateY = (value.scrollTop);
-                this.translateX = (value.scrollLeft);
+                if (!this.isSelfMoving) {
+                    this.transitionDuration = 500;
+                    this.translateY = (value.scrollTop);
+                    this.translateX = (value.scrollLeft);
+                }
             }
         }
     },
