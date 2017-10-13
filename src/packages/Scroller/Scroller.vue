@@ -63,6 +63,12 @@ export default {
             default: true
         },
 
+        bufferThreshold: {
+            // 触发缓冲运动所需要的最小拖拽距离
+            type: Number,
+            default: 15
+        },
+
         hasReset: {
             type: Boolean,
             default: true
@@ -132,8 +138,8 @@ export default {
     mounted() {
         this._addEvents(this.isBindBody ? this.$refs.body : this.$el);
         this._getAllSize();
-        
-        
+
+
     },
 
     methods: {
@@ -186,7 +192,8 @@ export default {
                 pointY: this.startPointY,
                 pointX: this.startPointX,
                 deltaX: this.translateX - this.startTranslateX,
-                deltaY: this.translateY - this.startTranslateY
+                deltaY: this.translateY - this.startTranslateY,
+                e
             });
         },
 
@@ -239,7 +246,8 @@ export default {
                 pointY: this.startPointY,
                 pointX: this.startPointX,
                 deltaX: this.translateX - this.startTranslateX,
-                deltaY: this.translateY - this.startTranslateY
+                deltaY: this.translateY - this.startTranslateY,
+                e
             });
         },
 
@@ -281,7 +289,8 @@ export default {
                 pointY: this.startPointY,
                 pointX: this.startPointX,
                 deltaX: this.translateX - this.startTranslateX,
-                deltaY: this.translateY - this.startTranslateY
+                deltaY: this.translateY - this.startTranslateY,
+                e
             });
         },
 
@@ -291,6 +300,11 @@ export default {
                 this.isAnimateMoving = false;
                 this.$emit('scroll-end', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
             });
+        },
+        /**
+         * 开启缓冲运动
+         */
+        bufferMove() {
 
         },
 
@@ -326,7 +340,7 @@ export default {
         }
     },
 
-    beforeDestroy(){
+    beforeDestroy() {
         this._removeEvents(this.isBindBody ? this.$refs.body : this.$el);
     }
 

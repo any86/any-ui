@@ -1,6 +1,6 @@
 <template>
     <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="isShow" v-dom-portal="portal" @click.self="close" class="component-mask" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs">
+        <div v-show="isShow" v-dom-portal="portal" @click.self="close" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs" class="component-mask">
             <slot></slot>
         </div>
     </transition>

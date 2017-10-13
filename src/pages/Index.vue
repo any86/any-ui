@@ -1,14 +1,15 @@
 <template>
     <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true" class="page-index">
+        <v-cell>
+            <v-switch v-model="isShow">打开弹窗</v-switch>
+        </v-cell>
         <!-- <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value">请选择数字</v-popup-papicker> -->
         <v-picker :dataSource="dataSource" v-model="value"></v-picker>
         <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
         <v-cell>
             <v-input v-model="value[0]"></v-input>
         </v-cell>
-        <v-cell>
-            <v-switch v-model="isShow">打开弹窗</v-switch>
-        </v-cell>
+        
 
         <v-cell>
             <v-input v-model="value[1]"></v-input>

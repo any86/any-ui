@@ -1,5 +1,6 @@
 <template>
-    <virtual-scroll v-model="pos" :lock-x="true" :lock-y="false">
+    <virtual-scroll v-model="pos" :lock-y="false" :lock-x="true">
+        <!-- <div style="background:linear-gradient(-45deg,#69c,#444);width:500px;height:500px;"></div> -->
         <p v-for="n in 5" :key="n">{{n}}</p>
         <p><v-input v-model="pos.scrollTop"></v-input></p>
         <p v-for="n in 35" :key="n+5">{{n+5}}</p>
@@ -8,6 +9,7 @@
 <script>
 import VInput from '@/packages/Input/Input';
 import VirtualScroll from '@/packages/Scroller/Scroller'
+import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
 export default {
     name: 'Test',
 
@@ -23,11 +25,10 @@ export default {
 
     watch: {
         pos(v){
-            syslog(v.scrollTop, v.scrollLeft)
         }
     },
 
-    components: { VirtualScroll, VInput }
+    components: { VirtualScroll, VInput,VInfiniteScroll }
 }
 </script>
 <style scoped lang="scss">
