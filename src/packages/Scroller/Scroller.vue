@@ -1,5 +1,5 @@
 <template>
-    <div :class="['atom-scroller', ovh && 'ovh']">
+    <div class="atom-scroller">
         <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="[{table: lockY}, bodyClass]" v-on="!isBindBody ? {} : events" class="atom-scroller__body">
             <slot></slot>
         </div>
@@ -23,21 +23,6 @@ export default {
         },
 
         preventDefault: {
-            type: Boolean,
-            default: false
-        },
-
-        keyboardOffset: {
-            type: Number,
-            default: 0
-        },
-
-        preLoad: {
-            type: Number,
-            default: 1.3
-        },
-
-        ovh: {
             type: Boolean,
             default: false
         },
@@ -67,7 +52,7 @@ export default {
             default: true
         },
 
-        // isSelfMoving: {
+        // isAnimateMoving: {
         //     type: Boolean,
         //     default: false
         // },
@@ -95,18 +80,20 @@ export default {
 
     data() {
         return {
-            version: 0.01,
-            isSelfMoving: false,
+            isAnimateMoving: false,
             moveRatio: 1,
             speed: 0,
             startTime: 0,
             endTime: 0,
+
             startPointY: 0, // 手指坐标
             startPointX: 0,
+
             directionX: 0,
             directionY: 0,
-            isInTransition: false,
+
             transitionDuration: 0,
+
             viewWidth: 0,
             viewHeight: 0,
 
@@ -226,6 +213,7 @@ export default {
                     const deltaX = this.translateX - this.startTranslateX;
                     const speedX = deltaX / costTime;
                     this.translateX += speedX * 1000;
+                    this.isAnimateMoving = true;
                 }
                 // 自动复位
                 this.isAllowRest && this.resetX();
@@ -234,24 +222,25 @@ export default {
                     const deltaY = this.translateY - this.startTranslateY;
                     const speedY = deltaY / costTime;
                     this.translateY += speedY * 1000;
+                    this.isAnimateMoving = true;
                 }
                 //自己复位
                 this.isAllowRest && this.resetY();
             }
-
-            // 后期可以在此处加入throhold做超出范围回弹动画
-            // ******
-
             this.preventDefault && e.preventDefault();
-            // this.$emit('update:isSelfMoving', true);
-            this.isSelfMoving = true;
+            this.$emit('update:isAnimateMoving', true);
+
             this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
             this.$emit('scroll-leave', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
         },
+
         transitionend() {
-            // this.$emit('update:isSelfMoving', false);
-            this.isSelfMoving = false;
-            this.$emit('scroll-end', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            // this.$emit('update:isAnimateMoving', false);
+            this.$nextTick(() => {
+                this.isAnimateMoving = false;
+                this.$emit('scroll-end', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            });
+
         },
 
         resetX() {
@@ -277,11 +266,11 @@ export default {
         value: {
             deep: true,
             handler(value) {
-                if (!this.isSelfMoving) {
+                // if (!this.isAnimateMoving) {
                     this.transitionDuration = 500;
-                    this.translateY = (value.scrollTop);
-                    this.translateX = (value.scrollLeft);
-                }
+                    this.translateY = -value.scrollTop;
+                    this.translateX = -value.scrollLeft;
+                // }
             }
         }
     },
