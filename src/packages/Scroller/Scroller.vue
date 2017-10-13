@@ -274,7 +274,7 @@ export default {
 
             this.preventDefault && e.preventDefault();
             this.$emit('update:isAnimateMoving', true);
-
+            this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
             this.$emit('scroll-leave', {
                 scrollTop: -this.translateY,
                 scrollLeft: -this.translateX,
