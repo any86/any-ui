@@ -1,11 +1,12 @@
 <template>
-    <v-scroller v-model="position" :lock-y="true" :lock-x="lockX" class="atom-drawer" :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" :has-buffer="false"  @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
+    <v-scroller v-model="position" :lock-y="true" :lock-x="lockX" class="atom-drawer" :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" :has-buffer="false" :prevent-default="true" @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
         <span class="atom-drawer__side" ref="side">
             <slot name="side"></slot>
         </span>
         <main class="atom-drawer__main">
             <slot></slot>
-            <v-mask :fixed="false" :isShow="isShowMask" @click="hide"></v-mask>
+            <!-- 用为用了fastclick 才能用click -->
+            <v-mask :fixed="false" :isShow="isShowMask" :style="{opacity: maskOpacity}" @touchstart="hide"></v-mask>
         </main>
     </v-scroller>
 </template>
@@ -38,16 +39,17 @@ export default {
             sideWidth: 0,
             isShowMask: false,
             lockX: false,
+            startPointX: 0,
+            handlerX: 15
         };
     },
 
     mounted() {
-        // 暂时没弄懂, 为什么不加nextTick, 获取的宽度是200,
+        // 暂时没弄懂, 为什么不加nextTick, 获取的宽度是200, 因为如果只打印$refs.side宽度是小于200的
         // syslog(this.$refs.side.offsetWidth)
         this.$nextTick(() => {
             this.sideWidth = this.$refs.side.offsetWidth;
         });
-        
     },
 
     methods: {
@@ -61,16 +63,30 @@ export default {
             this.isShowMask = false;
         },
 
-        scrollStart({scrollLeft}){
-            // this.lockX = false;
+        scrollStart({ scrollLeft, pointX }) {
+            this.startPointX = pointX;
+
         },
 
-        scrollMove({scrollLeft}) {
-            // this.lockX = 0 - this.sideWidth > scrollLeft;
+        scrollMove({ scrollLeft, pointX }) {
+            if (this.handlerX > this.startPointX) {
+                this.lockX = false;
+                this.isShowMask = true;
+            } else {
+                this.lockX = true;
+            }
         },
 
-        scrollLeave({scrollLeft}){
-
+        scrollLeave({ scrollLeft, pointX, deltaX }) {
+            // 暂时用deltaX来区分是click还是touchstart
+            // 不明原因fastclick不生效在手机上, 但电脑上好使
+            if (10 < Math.abs(deltaX)) {
+                if (-scrollLeft * 0.2 > this.sideWidth) {
+                    this.hide();
+                } else {
+                    this.show();
+                }
+            }
         }
     },
 
@@ -79,7 +95,10 @@ export default {
     },
 
     computed: {
-
+        maskOpacity() {
+            // return Math.abs(this.position.scrollLeft / this.sideWidth);
+            return 1;
+        }
     },
 
     components: {
@@ -100,10 +119,10 @@ export default {
         left: 0;
         top: 0;
         background: $background;
-        display: block; 
+        display: block;
         overflow: hidden;
         max-width: 80%;
-        height: 100%; 
+        height: 100%;
         transform: translateX(-100%);
     }
 
