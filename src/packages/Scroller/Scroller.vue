@@ -205,10 +205,6 @@ export default {
             // 当手指一直按住突然拖动, 那么重置起始值
             if (this.maxHolderTime < now - this.startTime) {
                 this.startTime = now;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3dad080950364bbdbf1f2eaaf7282907ef7e6747
                 this.startPointY = point.pageY;
                 this.startPointX = point.pageX;
                 this.startTranslateY = this.translateY;
