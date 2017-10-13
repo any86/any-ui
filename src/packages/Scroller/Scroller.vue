@@ -210,7 +210,6 @@ export default {
             // 当手指一直按住突然拖动, 那么重置起始值
             if (this.maxHolderTime < now - this.startTime) {
                 this.startTime = now;
-                
                 this.startPointY = point.pageY;
                 this.startPointX = point.pageX;
                 this.startTranslateY = this.translateY;
@@ -218,7 +217,6 @@ export default {
             }
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
-
             this.$emit('scroll-move', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
         },
 
