@@ -6,7 +6,6 @@
         <v-cell>
             <v-input v-model="value[0]"></v-input>
         </v-cell>
-
         <v-cell>
             <v-switch v-model="isShow">打开弹窗</v-switch>
         </v-cell>
