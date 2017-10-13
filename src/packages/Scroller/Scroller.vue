@@ -1,6 +1,6 @@
 <template>
     <div class="atom-scroller">
-        <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="[{table: lockY}, bodyClass]" v-on="!isBindBody ? {} : events" class="atom-scroller__body">
+        <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="[{table: lockY}, bodyClass]" class="atom-scroller__body">
             <slot></slot>
         </div>
     </div>
@@ -132,6 +132,8 @@ export default {
     mounted() {
         this._addEvents(this.isBindBody ? this.$refs.body : this.$el);
         this._getAllSize();
+        
+        
     },
 
     methods: {
@@ -178,26 +180,33 @@ export default {
             this.startTranslateY = this.translateY;
             this.startTranslateX = this.translateX;
             this.preventDefault && e.preventDefault();
-            this.$emit('scroll-start', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            this.$emit('scroll-start', {
+                scrollTop: -this.translateY,
+                scrollLeft: -this.translateX,
+                pointY: this.startPointY,
+                pointX: this.startPointX,
+                deltaX: this.translateX - this.startTranslateX,
+                deltaY: this.translateY - this.startTranslateY
+            });
         },
 
         touchmove(e) {
             const point = e.touches ? e.touches[0] : e;
             const deltaY = point.pageY - this.startPointY;
             const deltaX = point.pageX - this.startPointX;
-            const absdeltaY = Math.abs(deltaY);
-            const absdeltaX = Math.abs(deltaX);
+            const absDeltaY = Math.abs(deltaY);
+            const abxDeltaY = Math.abs(deltaX);
             const now = getTime();
             // 灵敏度默认为10px;
             // 手指移动超过10px, scroll-body才开始随手指滑动;
-            if ((this.sensitivity < absdeltaY || this.sensitivity < absdeltaX)) {
+            if ((this.sensitivity < absDeltaY || this.sensitivity < abxDeltaY)) {
                 // 只滑动一个方向, 锁定其他方向
                 // 看锁, 且看位移角度
-                if (this.lockX && !this.lockY && absdeltaX < absdeltaY) {
+                if (this.lockX && !this.lockY && abxDeltaY < absDeltaY) {
                     // 当scroll-body的位置超出边界, 那么滑动距离 : 手指一动距离 = 1 : 2
                     this.moveRatio = (0 < this.translateY || this.maxTranslateY < 0 - this.translateY) ? .5 : 1;
                     this.translateY = this.startTranslateY + deltaY * this.moveRatio;
-                } else if (this.lockY && !this.lockX && absdeltaX > absdeltaY) {
+                } else if (this.lockY && !this.lockX && abxDeltaY > absDeltaY) {
                     this.moveRatio = (0 < this.translateX || this.maxTranslateX < 0 - this.translateX) ? .5 : 1;
                     this.translateX = this.startTranslateX + deltaX;
                 } else if (!this.lockX && !this.lockY) {
@@ -214,16 +223,24 @@ export default {
                 this.startTranslateX = this.translateX;
             }
 
+            // 限制滑动区域
             if (undefined !== this.maxScrollLeft && this.maxScrollLeft < this.translateX) {
                 this.translateX = this.maxScrollLeft
-            } else if(undefined !== this.minScrollLeft && this.minScrollLeft > this.translateX) {
+            } else if (undefined !== this.minScrollLeft && this.minScrollLeft > this.translateX) {
                 this.translateX = this.minScrollLeft
             }
 
-
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
-            this.$emit('scroll-move', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            this.$emit('scroll-move', {
+                scrollTop: -this.translateY,
+                scrollLeft: -this.translateX,
+                pointY: this.startPointY,
+                pointX: this.startPointX,
+                deltaX: this.translateX - this.startTranslateX,
+                deltaY: this.translateY - this.startTranslateY
+            });
         },
 
         touchend(e) {
@@ -258,8 +275,14 @@ export default {
             this.preventDefault && e.preventDefault();
             this.$emit('update:isAnimateMoving', true);
 
-            this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
-            this.$emit('scroll-leave', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            this.$emit('scroll-leave', {
+                scrollTop: -this.translateY,
+                scrollLeft: -this.translateX,
+                pointY: this.startPointY,
+                pointX: this.startPointX,
+                deltaX: this.translateX - this.startTranslateX,
+                deltaY: this.translateY - this.startTranslateY
+            });
         },
 
         transitionend() {
@@ -303,7 +326,7 @@ export default {
         }
     },
 
-    destroyed() {
+    beforeDestroy(){
         this._removeEvents(this.isBindBody ? this.$refs.body : this.$el);
     }
 
