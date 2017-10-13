@@ -1,4 +1,5 @@
 <template>
+<main class="full-screen">
     <VDrawer  class="home">
         <ul class="menu" slot="side">
             <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
@@ -17,11 +18,10 @@
                 </transition>
             </div>
         </div>
-    </VDrawer>
-
+    </VDrawer></main>
 </template>
 <script>
-import VDrawer from '@/packages/Drawer/Drawer'
+import VDrawer from '@/packages/Drawer/Drawer2'
 import VLoading from '@/packages/Loading/Loading'
 import QRCode from 'qrcode'
 export default {

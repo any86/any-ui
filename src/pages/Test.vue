@@ -1,6 +1,7 @@
 <template>
     <virtual-scroll v-model="pos" :lock-x="true" :lock-y="false">
         <p v-for="n in 5" :key="n">{{n}}</p>
+        <p><v-input v-model="pos.scrollTop"></v-input></p>
         <p v-for="n in 35" :key="n+5">{{n+5}}</p>
     </virtual-scroll>
 </template>

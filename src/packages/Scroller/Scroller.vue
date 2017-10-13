@@ -32,6 +32,22 @@ export default {
             default: () => ({ scrollLeft: 0, scrollTop: 0 }) // 注意返回对象, 要用括号包起来
         },
 
+        minScrollTop: {
+            type: Number
+        },
+
+        maxScrollTop: {
+            type: Number
+        },
+
+        minScrollLeft: {
+            type: Number
+        },
+
+        maxScrollLeft: {
+            type: Number
+        },
+
         lockX: {
             type: Boolean,
             default: true
@@ -42,12 +58,12 @@ export default {
             default: false
         },
 
-        isBounce: {
+        hasBuffer: {
             type: Boolean,
             default: true
         },
 
-        isAllowRest: {
+        hasReset: {
             type: Boolean,
             default: true
         },
@@ -197,6 +213,14 @@ export default {
                 this.startTranslateY = this.translateY;
                 this.startTranslateX = this.translateX;
             }
+
+            if (undefined !== this.maxScrollLeft && this.maxScrollLeft < this.translateX) {
+                this.translateX = this.maxScrollLeft
+            } else if(undefined !== this.minScrollLeft && this.minScrollLeft > this.translateX) {
+                this.translateX = this.minScrollLeft
+            }
+
+
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
             this.$emit('scroll-move', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
@@ -208,25 +232,29 @@ export default {
             const point = e.changedTouches ? e.changedTouches[0] : e;
             const costTime = this.endTime - this.startTime;
 
-            if (this.lockY) {
-                if (this.maxHolderTime > costTime) {
-                    const deltaX = this.translateX - this.startTranslateX;
-                    const speedX = deltaX / costTime;
-                    this.translateX += speedX * 1000;
-                    this.isAnimateMoving = true;
+            // buffer
+            if (this.hasBuffer) {
+                if (this.lockY) {
+                    if (this.maxHolderTime > costTime) {
+                        const deltaX = this.translateX - this.startTranslateX;
+                        const speedX = deltaX / costTime;
+                        this.translateX += speedX * 1000;
+                        this.isAnimateMoving = true;
+                    }
+                    // 自动复位
+                    this.hasReset && this.resetX();
+                } else if (this.lockX) {
+                    if (this.maxHolderTime > costTime) {
+                        const deltaY = this.translateY - this.startTranslateY;
+                        const speedY = deltaY / costTime;
+                        this.translateY += speedY * 1000;
+                        this.isAnimateMoving = true;
+                    }
+                    //自己复位
+                    this.hasReset && this.resetY();
                 }
-                // 自动复位
-                this.isAllowRest && this.resetX();
-            } else if (this.lockX) {
-                if (this.maxHolderTime > costTime) {
-                    const deltaY = this.translateY - this.startTranslateY;
-                    const speedY = deltaY / costTime;
-                    this.translateY += speedY * 1000;
-                    this.isAnimateMoving = true;
-                }
-                //自己复位
-                this.isAllowRest && this.resetY();
             }
+
             this.preventDefault && e.preventDefault();
             this.$emit('update:isAnimateMoving', true);
 
@@ -267,9 +295,9 @@ export default {
             deep: true,
             handler(value) {
                 // if (!this.isAnimateMoving) {
-                    this.transitionDuration = 500;
-                    this.translateY = -value.scrollTop;
-                    this.translateX = -value.scrollLeft;
+                this.transitionDuration = 500;
+                this.translateY = -value.scrollTop;
+                this.translateX = -value.scrollLeft;
                 // }
             }
         }

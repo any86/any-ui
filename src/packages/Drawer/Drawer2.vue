@@ -1,12 +1,11 @@
 <template>
-    <v-scroller v-model="position" :lock-y="true" :lock-x="false" class="atom-drawer" :body-style="bodyStyle" :is-allow-rest="false" @scroll-move="scrollMove">
+    <v-scroller v-model="position" :lock-y="true" :lock-x="lockX" class="atom-drawer" :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" :has-buffer="false"  @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
         <span class="atom-drawer__side" ref="side">
-            {{position.scrollLeft}}
             <slot name="side"></slot>
         </span>
         <main class="atom-drawer__main">
             <slot></slot>
-            <!-- <v-mask :fixed="false" :isShow="isShowMask" @touchstart="close"></v-mask> -->
+            <v-mask :fixed="false" :isShow="isShowMask" @click="hide"></v-mask>
         </main>
     </v-scroller>
 </template>
@@ -30,22 +29,48 @@ export default {
 
     data() {
         return {
-            position: { scrollLeft: 100, scrollTop: 0 },
+            position: { scrollLeft: 0, scrollTop: 0 },
             bodyStyle: {
                 position: 'relative',
                 display: 'flex',
                 height: '100%'
             },
+            sideWidth: 0,
+            isShowMask: false,
+            lockX: false,
         };
     },
 
     mounted() {
-        this.sideWidth = this.$refs.side.offsetWidth;
+        // 暂时没弄懂, 为什么不加nextTick, 获取的宽度是200,
+        // syslog(this.$refs.side.offsetWidth)
+        this.$nextTick(() => {
+            this.sideWidth = this.$refs.side.offsetWidth;
+        });
+        
     },
 
     methods: {
-        scrollMove({scrollLeft }){
-            dir(scrollLeft)
+        show() {
+            this.position.scrollLeft = -this.sideWidth;
+            this.isShowMask = true;
+        },
+
+        hide() {
+            this.position.scrollLeft = 0;
+            this.isShowMask = false;
+        },
+
+        scrollStart({scrollLeft}){
+            // this.lockX = false;
+        },
+
+        scrollMove({scrollLeft}) {
+            // this.lockX = 0 - this.sideWidth > scrollLeft;
+        },
+
+        scrollLeave({scrollLeft}){
+
         }
     },
 
@@ -75,11 +100,11 @@ export default {
         left: 0;
         top: 0;
         background: $background;
-        display: block;
+        display: block; 
         overflow: hidden;
         max-width: 80%;
-        height: 100%;
-        transform: translateX(-100%) scale(1);
+        height: 100%; 
+        transform: translateX(-100%);
     }
 
     &__main {
