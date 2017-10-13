@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "fastclick": "^1.0.6",
     "mockjs": "^1.0.1-beta3",
     "node-sass": "^4.5.3",
     "qrcode": "^0.9.0",
