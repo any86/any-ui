@@ -6,7 +6,7 @@
         <main class="atom-drawer__main">
             <slot></slot>
             <!-- 用为用了fastclick 才能用click -->
-            <v-mask :fixed="false" :isShow="isShowMask" :style="{opacity: maskOpacity}" @touchstart="hide"></v-mask>
+            <v-mask :fixed="false" :isShow="isShowMask" @touchstart="hide"></v-mask>
         </main>
     </v-scroller>
 </template>
@@ -63,15 +63,17 @@ export default {
             this.isShowMask = false;
         },
 
-        scrollStart({ scrollLeft, pointX }) {
+        scrollStart({ scrollLeft, pointX, deltaX }) {
             this.startPointX = pointX;
 
         },
 
-        scrollMove({ scrollLeft, pointX }) {
+        scrollMove({ scrollLeft, pointX, deltaX }) {
             if (this.handlerX > this.startPointX) {
                 this.lockX = false;
-                this.isShowMask = true;
+                if (15 < Math.abs(deltaX)) {
+                    this.isShowMask = true;
+                }
             } else {
                 this.lockX = true;
             }
@@ -80,12 +82,10 @@ export default {
         scrollLeave({ scrollLeft, pointX, deltaX }) {
             // 暂时用deltaX来区分是click还是touchstart
             // 不明原因fastclick不生效在手机上, 但电脑上好使
-            if (10 < Math.abs(deltaX)) {
-                if (-scrollLeft * 0.2 > this.sideWidth) {
-                    this.hide();
-                } else {
-                    this.show();
-                }
+            if (10 < Math.abs(deltaX) && (0 - scrollLeft) > this.sideWidth / 5) {
+                this.show();
+            } else {
+                this.hide();
             }
         }
     },
@@ -95,10 +95,7 @@ export default {
     },
 
     computed: {
-        maskOpacity() {
-            // return Math.abs(this.position.scrollLeft / this.sideWidth);
-            return 1;
-        }
+
     },
 
     components: {
