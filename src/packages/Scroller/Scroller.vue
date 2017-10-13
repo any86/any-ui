@@ -146,7 +146,7 @@ export default {
          * @argument {Element}
          */
         _removeEvents(el) {
-            this.events.forEach(name => {
+            this.events.forEach(evnetName => {
                 el.removeEventListener(evnetName, this[evnetName]);
             });
         },
