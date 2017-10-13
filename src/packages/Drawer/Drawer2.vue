@@ -1,5 +1,5 @@
 <template>
-    <v-scroller v-model="position" :lock-y="true" :lock-x="lockX" class="atom-drawer" :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" :has-buffer="false" :prevent-default="true" @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
+    <v-scroller v-model="position" :lock-y="true" :lock-x="lockX" class="atom-drawer" :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" :has-buffer="false" :prevent-default="false" @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
         <span class="atom-drawer__side" ref="side">
             <slot name="side"></slot>
         </span>
