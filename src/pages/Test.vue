@@ -1,5 +1,5 @@
 <template>
-    <virtual-scroll v-model="pos">
+    <virtual-scroll v-model="pos" :lock-x="true" :lock-y="false">
         <p v-for="n in 5" :key="n">{{n}}</p>
         <p v-for="n in 35" :key="n+5">{{n+5}}</p>
     </virtual-scroll>
@@ -12,7 +12,7 @@ export default {
 
     data() {
         return {
-            pos: { scrollLeft: 0, scrollTop: 60 },
+            pos: { scrollLeft: 0, scrollTop: 0 },
         };
     },
 
