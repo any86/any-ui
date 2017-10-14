@@ -23,6 +23,11 @@ export default {
             default: 100
         },
 
+        edgeThreshold: {
+            type: Number,
+            default: 15
+        },
+
         preventDefault: {
             type: Boolean,
             default: false
@@ -59,6 +64,11 @@ export default {
             default: false
         },
 
+        lockThreshold: {
+            type: Number,
+            default: 15
+        },
+
         hasBuffer: {
             type: Boolean,
             default: true
@@ -75,10 +85,10 @@ export default {
             default: true
         },
 
-        // isAnimateMoving: {
-        //     type: Boolean,
-        //     default: false
-        // },
+        isFreeScroll: {
+            type: Boolean,
+            default: false
+        },
 
         bodyStyle: {
             type: Object,
@@ -114,6 +124,7 @@ export default {
 
             directionX: 0,
             directionY: 0,
+            directionLock: 'n',
 
             transitionDuration: 0,
 
@@ -137,9 +148,9 @@ export default {
     },
 
     mounted() {
-        this._addEvents(this.isBindBody ? this.$refs.body : this.$el);
-        this._updateSize();
-        window.addEventListener('resize',this._updateSize);
+        this.addEvents(this.isBindBody ? this.$refs.body : this.$el);
+        this.updateSize();
+        window.addEventListener('resize', this.updateSize);
     },
 
     methods: {
@@ -147,7 +158,7 @@ export default {
          * 绑定touch系列事件
          * @argument {Element}
          */
-        _addEvents(el) {
+        addEvents(el) {
             this.events.forEach(evnetName => {
                 el.addEventListener(evnetName, this[evnetName], { passive: !this.preventDefault });
             });
@@ -156,20 +167,19 @@ export default {
          * 解除绑定touch系列事件
          * @argument {Element}
          */
-        _removeEvents(el) {
+        removeEvents(el) {
             this.events.forEach(evnetName => {
                 el.removeEventListener(evnetName, this[evnetName]);
             });
         },
         /**
          * 获取内容高/宽, 
-         * 不加节流, 否者其他使用_updateSize方法的实例没法触发, 会被节流掉
+         * 不加节流, 否者其他使用updateSize方法的实例没法触发, 会被节流掉
          * 反正手机端也不会频繁的触发resize
          * 没有理解为什么多个实例的方法会触发节流函数
          * 可能需要研究下webpack生成代码才有答案
          */
-        _updateSize(){
-            syslog(998)
+        updateSize() {
             if (this.lockY) {
                 this.viewWidth = getWidth(this.$el);
                 this.maxTranslateX = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
@@ -186,42 +196,59 @@ export default {
             // 记录当前触碰点在屏幕上的坐标
             this.startPointY = point.pageY;
             this.startPointX = point.pageX;
+
+            // 判断起点是否边缘
+            let edge = '';
+            // 四个角度肯定是不精准了, 不过暂时觉得没什么实际意义
+            if (this.edgeThreshold > point.pageX) {
+                edge = 'left';
+            } else if (this.viewWidth - this.edgeThreshold < point.pageX) {
+                edge = 'right';
+            } else if (this.edgeThreshold > point.pageY) {
+                edge = 'top';
+            } else if (this.viewHeight - this.edgeThreshold < point.pageY) {
+                edge = 'bottom';
+            }
+
             // 记录滑动前scroll-body的translate信息
             this.startTranslateY = this.translateY;
             this.startTranslateX = this.translateX;
+            e.stopPropagation();
+            // 阻止浏览器默认行为
             this.preventDefault && e.preventDefault();
-            this.$emit('scroll-start', {
-                scrollTop: -this.translateY,
-                scrollLeft: -this.translateX,
-                pointY: this.startPointY,
-                pointX: this.startPointX,
-                deltaX: this.translateX - this.startTranslateX,
-                deltaY: this.translateY - this.startTranslateY,
-                e
-            });
+            this.$emit('scroll-start', { ...this.moveData, e, edge });
         },
-
         touchmove(e) {
+            // 都lock了就不用计算了.
+            if (this.lockX && this.lockY) return;
+            // 如果不同时锁定
+            // 基础位置数据
             const point = e.touches ? e.touches[0] : e;
             const deltaY = point.pageY - this.startPointY;
             const deltaX = point.pageX - this.startPointX;
             const absDeltaY = Math.abs(deltaY);
-            const abxDeltaY = Math.abs(deltaX);
+            const absDeltaX = Math.abs(deltaX);
             const now = getTime();
             // 灵敏度默认为10px;
             // 手指移动超过10px, scroll-body才开始随手指滑动;
-            if ((this.sensitivity < absDeltaY || this.sensitivity < abxDeltaY)) {
-                // 只滑动一个方向, 锁定其他方向
-                // 看锁, 且看位移角度
-                if (this.lockX && !this.lockY && abxDeltaY < absDeltaY) {
-                    // 当scroll-body的位置超出边界, 那么滑动距离 : 手指一动距离 = 1 : 2
-                    this.moveRatio = (0 < this.translateY || this.maxTranslateY < 0 - this.translateY) ? .5 : 1;
+            if ((this.sensitivity < absDeltaY || this.sensitivity < absDeltaX)) {
+                // 锁定X轴的移动
+                // 锁定Y
+                // 自由移动
+                if (this.lockX && !this.lockY) {
+                    // 当scroll-body的位置超出边界, 那么滑动距离 : 手指移动距离 = 1 : 2
+                    this.moveRatio = this.isOutOfYLimit ? .5 : 1;
                     this.translateY = this.startTranslateY + deltaY * this.moveRatio;
-                } else if (this.lockY && !this.lockX && abxDeltaY > absDeltaY) {
-                    this.moveRatio = (0 < this.translateX || this.maxTranslateX < 0 - this.translateX) ? .5 : 1;
-                    this.translateX = this.startTranslateX + deltaX;
+                    this.directionLock = 'x';
+                } else if (this.lockY && !this.lockX) {
+                    this.moveRatio = this.isOutOfXLimit ? .5 : 1;
+                    this.translateX = this.startTranslateX + deltaX * this.moveRatio;
                 } else if (!this.lockX && !this.lockY) {
-                    // 暂不处理, 自由移动
+                    if (absDeltaY + this.lockThreshold < absDeltaY) {
+
+                    } else if (absDeltaX + this.lockThreshold < absDeltaX) {
+
+                    }
                 }
             }
 
@@ -240,62 +267,27 @@ export default {
             } else if (undefined !== this.minScrollLeft && this.minScrollLeft > this.translateX) {
                 this.translateX = this.minScrollLeft
             }
-
+            e.stopPropagation();
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
             this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
-            this.$emit('scroll-move', {
-                scrollTop: -this.translateY,
-                scrollLeft: -this.translateX,
-                pointY: this.startPointY,
-                pointX: this.startPointX,
-                deltaX: this.translateX - this.startTranslateX,
-                deltaY: this.translateY - this.startTranslateY,
-                e
-            });
+            this.$emit('scroll-move', { ...this.moveData, e });
         },
 
         touchend(e) {
             this.transitionDuration = 500;
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
-            const costTime = this.endTime - this.startTime;
 
             // buffer
             if (this.hasBuffer) {
-                if (this.lockY) {
-                    if (this.maxHolderTime > costTime) {
-                        const deltaX = this.translateX - this.startTranslateX;
-                        const speedX = deltaX / costTime;
-                        this.translateX += speedX * 1000;
-                        this.isAnimateMoving = true;
-                    }
-                    // 自动复位
-                    this.hasReset && this.resetX();
-                } else if (this.lockX) {
-                    if (this.maxHolderTime > costTime) {
-                        const deltaY = this.translateY - this.startTranslateY;
-                        const speedY = deltaY / costTime;
-                        this.translateY += speedY * 1000;
-                        this.isAnimateMoving = true;
-                    }
-                    //自己复位
-                    this.hasReset && this.resetY();
-                }
+                this.bufferMove();
             }
-
+            e.stopPropagation();
             this.preventDefault && e.preventDefault();
             this.$emit('update:isAnimateMoving', true);
             this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
-            this.$emit('scroll-leave', {
-                scrollTop: -this.translateY,
-                scrollLeft: -this.translateX,
-                pointY: this.startPointY,
-                pointX: this.startPointX,
-                deltaX: this.translateX - this.startTranslateX,
-                deltaY: this.translateY - this.startTranslateY,
-                e
-            });
+            this.$emit('scroll-leave', { ...this.moveData, e });
         },
 
         transitionend() {
@@ -309,7 +301,26 @@ export default {
          * 开启缓冲运动
          */
         bufferMove() {
-
+            const costTime = this.endTime - this.startTime;
+            if (this.lockY) {
+                if (this.maxHolderTime > costTime) {
+                    const deltaX = this.translateX - this.startTranslateX;
+                    const speedX = deltaX / costTime;
+                    this.translateX += speedX * 1000;
+                    this.isAnimateMoving = true;
+                }
+                // 自动复位
+                this.hasReset && this.resetX();
+            } else if (this.lockX) {
+                if (this.maxHolderTime > costTime) {
+                    const deltaY = this.translateY - this.startTranslateY;
+                    const speedY = deltaY / costTime;
+                    this.translateY += speedY * 1000;
+                    this.isAnimateMoving = true;
+                }
+                //自己复位
+                this.hasReset && this.resetY();
+            }
         },
 
         resetX() {
@@ -331,6 +342,45 @@ export default {
         }
     },
 
+    computed: {
+        isOutOfTopLimit() {
+            return 0 < this.translateY;
+        },
+
+        isOutOfBottomLimit() {
+            return this.maxTranslateY < 0 - this.translateY;
+        },
+
+        isOutOfLeftLimit() {
+            return 0 < this.translateX;
+        },
+
+        isOutOfRightLimit() {
+            return this.maxTranslateX < 0 - this.translateX;
+        },
+
+        isOutOfXLimit() {
+            return this.isOutOfRightLimit || this.isOutOfLeftLimit;
+        },
+
+        isOutOfYLimit() {
+            return this.isOutOfTopLimit || this.isOutOfBottomLimit;
+        },
+        /**
+         * 运动数据
+         */
+        moveData() {
+            return {
+                scrollTop: -this.translateY,
+                scrollLeft: -this.translateX,
+                pointY: this.startPointY,
+                pointX: this.startPointX,
+                deltaX: this.translateX - this.startTranslateX,
+                deltaY: this.translateY - this.startTranslateY,
+            };
+        }
+    },
+
     watch: {
         value: {
             deep: true,
@@ -345,8 +395,8 @@ export default {
     },
 
     beforeDestroy() {
-        window.removeEventListener('resize', this._updateSize);
-        this._removeEvents(this.isBindBody ? this.$refs.body : this.$el);
+        window.removeEventListener('resize', this.updateSize);
+        this.removeEvents(this.isBindBody ? this.$refs.body : this.$el);
     }
 
 }
