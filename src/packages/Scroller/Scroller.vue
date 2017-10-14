@@ -7,6 +7,7 @@
 </template>
 <script>
 import { getHeight, getWidth, getTime } from '@/utils/dom'
+import debounce from 'lodash/debounce'
 export default {
     name: 'Scroller',
 
@@ -137,9 +138,8 @@ export default {
 
     mounted() {
         this._addEvents(this.isBindBody ? this.$refs.body : this.$el);
-        this._getAllSize();
-
-
+        this._updateSize();
+        window.addEventListener('resize',this._updateSize);
     },
 
     methods: {
@@ -162,9 +162,14 @@ export default {
             });
         },
         /**
-         * 获取内容高/宽
+         * 获取内容高/宽, 
+         * 不加节流, 否者其他使用_updateSize方法的实例没法触发, 会被节流掉
+         * 反正手机端也不会频繁的触发resize
+         * 没有理解为什么多个实例的方法会触发节流函数
+         * 可能需要研究下webpack生成代码才有答案
          */
-        _getAllSize() {
+        _updateSize(){
+            syslog(998)
             if (this.lockY) {
                 this.viewWidth = getWidth(this.$el);
                 this.maxTranslateX = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
@@ -175,7 +180,6 @@ export default {
         },
 
         touchstart(e) {
-            this._getAllSize();
             const point = e.touches ? e.touches[0] : e;
             this.transitionDuration = 0;
             this.startTime = getTime();
@@ -341,6 +345,7 @@ export default {
     },
 
     beforeDestroy() {
+        window.removeEventListener('resize', this._updateSize);
         this._removeEvents(this.isBindBody ? this.$refs.body : this.$el);
     }
 
