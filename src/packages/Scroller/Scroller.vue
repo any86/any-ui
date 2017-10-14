@@ -25,7 +25,7 @@ export default {
 
         edgeThreshold: {
             type: Number,
-            default: 15
+            default: 150
         },
 
         preventDefault: {

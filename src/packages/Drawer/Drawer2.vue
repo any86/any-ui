@@ -1,12 +1,14 @@
 <template>
-    <v-scroller v-model="position" :lock-y="true" :lock-x="lockX" class="atom-drawer" :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" :has-buffer="false" :prevent-default="false" @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
+    <v-scroller v-model="pos" :lock-y="true" :lock-x="lockX" class="atom-drawer" 
+    :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" 
+    :has-buffer="false" :prevent-default="false" 
+    @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
         <span class="atom-drawer__side" ref="side">
             <slot name="side"></slot>
         </span>
         <main class="atom-drawer__main">
             <slot></slot>
-            <!-- 用为用了fastclick 才能用click -->
-            <v-mask :fixed="false" :isShow="isShowMask" @touchstart="hide"></v-mask>
+            <v-mask :fixed="false" :isShow="isShowMask" @click="hide"></v-mask>
         </main>
     </v-scroller>
 </template>
@@ -30,7 +32,8 @@ export default {
 
     data() {
         return {
-            position: { scrollLeft: 0, scrollTop: 0 },
+            edge: '',
+            pos: { scrollLeft: 0, scrollTop: 0 },
             bodyStyle: {
                 position: 'relative',
                 display: 'flex',
@@ -40,7 +43,6 @@ export default {
             isShowMask: false,
             lockX: false,
             startPointX: 0,
-            handlerX: 15
         };
     },
 
@@ -50,39 +52,33 @@ export default {
         this.$nextTick(() => {
             this.sideWidth = this.$refs.side.offsetWidth;
         });
+        
     },
 
     methods: {
         show() {
-            this.position.scrollLeft = -this.sideWidth;
+            this.pos.scrollLeft = -this.sideWidth;
             this.isShowMask = true;
         },
 
         hide() {
-            this.position.scrollLeft = 0;
+            this.pos.scrollLeft = 0;
             this.isShowMask = false;
         },
 
-        scrollStart({ scrollLeft, pointX, deltaX }) {
+        scrollStart({ scrollLeft, pointX, deltaX, edge }) {
+            this.edge = edge;
             this.startPointX = pointX;
-
+            this.lockX = 'left' !== edge;
         },
 
         scrollMove({ scrollLeft, pointX, deltaX }) {
-            if (this.handlerX > this.startPointX) {
-                this.lockX = false;
-                if (15 < Math.abs(deltaX)) {
-                    this.isShowMask = true;
-                }
-            } else {
-                this.lockX = true;
-            }
+            this.isShowMask = true;
         },
 
         scrollLeave({ scrollLeft, pointX, deltaX }) {
-            // 暂时用deltaX来区分是click还是touchstart
-            // 不明原因fastclick不生效在手机上, 但电脑上好使
-            if (10 < Math.abs(deltaX) && (0 - scrollLeft) > this.sideWidth / 5) {
+            syslog(scrollLeft)
+            if ((0 - scrollLeft) > this.sideWidth / 5) {
                 this.show();
             } else {
                 this.hide();
@@ -91,11 +87,13 @@ export default {
     },
 
     watch: {
-
-    },
-
-    computed: {
-
+        value(value){
+            if(value) {
+                this.show();
+            } else {
+                this.hide();
+            }
+        }
     },
 
     components: {

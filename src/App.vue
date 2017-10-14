@@ -1,6 +1,6 @@
 <template>
 <main class="full-screen">
-    <VDrawer  class="home">
+    <VDrawer :value="true"  class="home">
         <ul class="menu" slot="side">
             <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
             <router-link :to="{path: '/checkout'}" tag="li">Checkout</router-link>
