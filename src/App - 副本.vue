@@ -21,7 +21,7 @@
     </VDrawer></main>
 </template>
 <script>
-import VDrawer from '@/packages/Drawer/Drawer2'
+import VDrawer from '@/packages/Drawer/Drawer3'
 import VLoading from '@/packages/Loading/Loading'
 import QRCode from 'qrcode'
 export default {
@@ -62,7 +62,6 @@ $animate_speed: 1000ms;
 @import './scss/theme.scss';
 .menu {
     display: block;
-    background: $background;
     li {
         padding: $gutter;
         display: block;

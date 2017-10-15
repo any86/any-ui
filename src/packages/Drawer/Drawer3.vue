@@ -1,18 +1,20 @@
 <template>
-    <div class="atom-drawer">
-        <span class="atom-drawer__side" ref="side" :style="{transform: `translate3d(${avaitTranslateXPercent}%, 0, 0)`}">
+    <v-scroller v-model="pos" :lock-y="true" :lock-x="lockX" class="atom-drawer" 
+    :body-style="bodyStyle" :has-reset="false" :min-scroll-left="0" :max-scroll-left="sideWidth" 
+    :has-buffer="false" :prevent-default="false" 
+    @scroll-start="scrollStart" @scroll-move="scrollMove" @scroll-leave="scrollLeave">
+        <span class="atom-drawer__side" ref="side">
             <slot name="side"></slot>
         </span>
         <main class="atom-drawer__main">
-            <span @touchstart="touchstart" @touchmove="touchmove" :style="{width: `${handlerWidth}px`}" class="main__handler"></span>
             <slot></slot>
             <v-mask :fixed="false" :isShow="isShowMask" @click="hide"></v-mask>
         </main>
-    </div>
+    </v-scroller>
 </template>
 <script>
-import { getWidth } from '@/utils/dom'
 import VMask from '@/packages/Dialog/Mask';
+import VScroller from '@/packages/Scroller/Scroller'
 export default {
     name: 'Drawer',
 
@@ -20,11 +22,6 @@ export default {
         sensitivity: {
             type: Number,
             default: 30
-        },
-
-        handlerWidth: {
-            type: Number,
-            default: 10
         },
 
         value: {
@@ -35,10 +32,17 @@ export default {
 
     data() {
         return {
+            edge: '',
+            pos: { scrollLeft: 0, scrollTop: 0 },
+            bodyStyle: {
+                position: 'relative',
+                display: 'flex',
+                height: '100%'
+            },
             sideWidth: 0,
-            viewWidth: 0,
             isShowMask: false,
-            translateXPercent: 0,
+            lockX: false,
+            startPointX: 0,
         };
     },
 
@@ -46,45 +50,35 @@ export default {
         // 暂时没弄懂, 为什么不加nextTick, 获取的宽度是200, 因为如果只打印$refs.side宽度是小于200的
         // syslog(this.$refs.side.offsetWidth)
         this.$nextTick(() => {
-            this.sideWidth = getWidth(this.$refs.side);
-            this.viewWidth = getWidth(this.$el);
+            this.sideWidth = this.$refs.side.offsetWidth;
         });
-
+        
     },
 
     methods: {
-        
-        touchstart(e) {
-            const point = e.touches ? e.touches[0] : e;
-            this.translateXPercent = point.pageX / this.sideWidth * 100;
-        },
-
-        touchmove(e) {
-            const point = e.touches ? e.touches[0] : e;
-            this.translateXPercent = point.pageX / this.sideWidth * 100;
+        show() {
+            this.pos.scrollLeft = -this.sideWidth;
             this.isShowMask = true;
         },
 
-        touchend() {
-
-        },
-
-        /**
-         * 咔哒一声关上, 哈哈, 有道翻译
-         */
-        snap(){
-
-        },
-
-        hide(){
+        hide() {
+            this.pos.scrollLeft = 0;
             this.isShowMask = false;
-            
-        }
-    },
+        },
 
-    watch: {
-        value(value) {
-            if (value) {
+        scrollStart({ scrollLeft, pointX, deltaX, edge }) {
+            this.edge = edge;
+            this.startPointX = pointX;
+            this.lockX = 'left' !== edge;
+        },
+
+        scrollMove({ scrollLeft, pointX, deltaX }) {
+            this.isShowMask = true;
+        },
+
+        scrollLeave({ scrollLeft, pointX, deltaX }) {
+            syslog(scrollLeft)
+            if ((0 - scrollLeft) > this.sideWidth / 5) {
                 this.show();
             } else {
                 this.hide();
@@ -92,14 +86,18 @@ export default {
         }
     },
 
-    computed: {
-        avaitTranslateXPercent() {
-            return 0 > this.translateXPercent - 100 ? this.translateXPercent - 100 : 0;
+    watch: {
+        value(value){
+            if(value) {
+                this.show();
+            } else {
+                this.hide();
+            }
         }
     },
 
     components: {
-        VMask
+        VMask, VScroller
     }
 }
 </script>
@@ -136,12 +134,6 @@ export default {
         width: 100%;
         -webkit-overflow-scrolling: touch;
         overflow: hidden;
-        .main__handler {
-            height: 100%;
-            position: absolute;
-            z-index: 99999;
-            background: rgba(0, 0, 0, 0);
-        }
     }
 }
 </style>

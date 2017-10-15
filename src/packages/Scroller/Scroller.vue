@@ -12,6 +12,11 @@ export default {
     name: 'Scroller',
 
     props: {
+        disableTouch: {
+            type: Boolean,
+            default: false
+        },
+
         sensitivity: {
             type: Number,
             default: 10
@@ -190,6 +195,7 @@ export default {
         },
 
         touchstart(e) {
+            if(this.disableTouch) return;
             const point = e.touches ? e.touches[0] : e;
             this.transitionDuration = 0;
             this.startTime = getTime();
@@ -219,6 +225,7 @@ export default {
             this.$emit('scroll-start', { ...this.moveData, e, edge });
         },
         touchmove(e) {
+            if(this.disableTouch) return;
             // 都lock了就不用计算了.
             if (this.lockX && this.lockY) return;
             // 如果不同时锁定
@@ -275,6 +282,7 @@ export default {
         },
 
         touchend(e) {
+            if(this.disableTouch) return;
             this.transitionDuration = 500;
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
@@ -291,6 +299,7 @@ export default {
         },
 
         transitionend() {
+            if(this.disableTouch) return;
             // this.$emit('update:isAnimateMoving', false);
             this.$nextTick(() => {
                 this.isAnimateMoving = false;
