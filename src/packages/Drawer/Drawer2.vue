@@ -11,6 +11,7 @@
     </div>
 </template>
 <script>
+//https://github.com/react-native-community/react-native-drawer-layout/blob/master/src/DrawerLayout.js
 import { getWidth } from '@/utils/dom'
 import VMask from '@/packages/Dialog/Mask';
 export default {
