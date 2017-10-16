@@ -1,17 +1,18 @@
 <template>
-    <div class="component-drawer" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
-        <div class="scroll-body" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`, 'transition-duration': 1 != touch.status ? '300ms' : '0ms'}">
-            <span class="side" ref="side">
-                <slot name="side"></slot>
-            </span>
-            <main>
-                <slot></slot>
-                <v-mask :fixed="false" :isShow="isShowMask" @touchstart="close"></v-mask>
-            </main>
-        </div>
+    <div class="atom-drawer">
+        <span class="atom-drawer__side" ref="side" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}">
+            <slot name="side"></slot>
+        </span>
+        <main class="atom-drawer__main" :style="mainTranslateXStyle">
+            <span @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" :style="{width: `${handlerWidth}px`}" class="main__handler"></span>
+            <slot></slot>
+            <v-mask :fixed="false" :isShow="isMaskShow" @click="hide"></v-mask>
+        </main>
     </div>
 </template>
 <script>
+//https://github.com/react-native-community/react-native-drawer-layout/blob/master/src/DrawerLayout.js
+import { getWidth } from '@/utils/dom'
 import VMask from '@/packages/Dialog/Mask';
 export default {
     name: 'Drawer',
@@ -22,6 +23,16 @@ export default {
             default: 30
         },
 
+        handlerWidth: {
+            type: Number,
+            default: 20
+        },
+
+        speed: {
+            type: Number,
+            default: 300
+        },
+
         value: {
             type: Boolean,
             default: false
@@ -30,132 +41,90 @@ export default {
 
     data() {
         return {
-            isShowMask: false,
-            sideWidth: -1,
-            touch: {
-                status: 0,
-                startX: 0,
-                translateXOld: 0,
-                translateXNew: 0,
-                distanceX: 0,
-                distanceY: 0,
-            }
+            sideWidth: 0,
+            viewWidth: 0,
+            translateX: 0,
+            transitionDuration: 0
         };
     },
 
-    mounted() {
-        this.sideWidth = this.$refs.side.offsetWidth;
+    beforeMount() {
+        // 暂时没弄懂, 为什么不加nextTick, 获取的宽度是200, 因为如果只打印$refs.side宽度是小于200的
+        // 猜测可能是生成二维码哪里的问题, 稍后测试
+        // syslog(this.$refs.side.offsetWidth)
+        this.$nextTick(() => {
+            this.sideWidth = getWidth(this.$refs.side);
+            this.viewWidth = getWidth(this.$el);
+            this.translateX = 0 - this.sideWidth;
+        });
     },
 
     methods: {
-        /**
-         * 触摸屏幕
-         */
         touchstart(e) {
-            this.touch.status = 0;
-            this.touch.startX = e.touches[0].clientX;
-            this.touch.startY = e.touches[0].clientY;
-            // 计算抽屉的宽度, 即可滑动的最大距离
-            this.sideWidth = this.$refs.side.offsetWidth;
+            this.transitionDuration = 0;
         },
-        /**
-         * 开始滑动
-         */
+
         touchmove(e) {
-            // 触碰起点只能是边缘内的才能拖拽
-            if (this.isFromEdge) {
-                this.touch.status = 1;
-                this.touch.distanceX = e.touches[0].clientX - this.touch.startX;
-                this.touch.distanceY = e.touches[0].clientY - this.touch.startY;
-                // 关闭状态 && 正向(→)拖拽
-                // 那么拉出抽屉
-                if (!this.value && 0 < this.touch.distanceX) {
-                    // 当前抽屉的滑动距离
-                    var translateXNew = this.touch.translateXOld + this.touch.distanceX;
-                    // 如果超过阈值
-                    // 如果X轴拖拽
-                    // 那么禁止页面滚动
-                    if (this.sensitivity < Math.abs(this.touch.distanceX) && this.isMoveAlongX) {
-                        // 关闭Mask
-                        this.isShowMask = true;
-                        // 位移要减去阈值
-                        translateXNew -= this.sensitivity;
-                        // 边界判断
-                        // 如果合理范围, 移动
-                        // 如果超过side的宽度, 停止移动
-                        // 如果反向超过最小距离, 停止移动
-                        if (this.sideWidth >= translateXNew && 0 <= translateXNew) {
-                            this.touch.translateXNew = translateXNew;
-                            // 超过最大距离
-                        } else if (this.sideWidth < translateXNew) {
-                            this.touch.translateXNew = this.sideWidth;
-                        } else {
-                            this.touch.translateXNew = 0;
-                        }
-                        e.preventDefault();
-                    }
-                }
+            const point = e.touches ? e.touches[0] : e;
+            if (this.sideWidth >= point.pageX) {
+                // 因为是边缘操作, 起始x坐标== 0, 
+                // 所以就没有把位置移动用当前x坐标-起始x坐标, 
+                // 直接用当前x坐标表示移动距离, 逻辑更精简, 
+                // 反正视觉上不太容易被发现不是从最边缘抽出
+                // 参考了DrawerLayout.js
+                this.translateX = point.pageX - this.sideWidth;
+            } else {
+                this.translateX = 0;
+            }
+
+            // 并没有针对是x/y哪个轴线拖拽做判断
+        },
+
+        touchend() {
+            this.transitionDuration = this.speed;
+            this.snap();
+        },
+
+        /**
+         * 自动啮合
+         * snap: 咔哒一声关上, 哈哈, 有道翻译, 真有道
+         */
+        snap() {
+            if (Math.abs(this.translateX) < this.sideWidth / 2) {
+                this.translateX = 0;
+            } else {
+                this.translateX = 0 - this.sideWidth;
             }
         },
 
-        touchend(e) {
-            if (this.isFromEdge) {
-                this.touch.status = 2;
-                if (this.sideWidth * 0.2 < this.touch.translateXNew) {
-                    this.$emit('input', true);
-                } else if (0 < this.touch.translateXNew) {
-                    if (this.value) {
-                        this.$emit('input', false);
-                    } else {
-                        this.touch.translateXNew = 0;
-                        this.isShowMask = false;
-                    }
-                }
-                this.touch.translateXOld = this.touch.translateXNew;
-            }
+        show() {
+            this.transitionDuration = this.speed;
+            this.translateX = 0;
         },
 
-        close() {
-            this.isShowMask = false;
-            this.touch.translateXNew = 0;
-            this.$emit('input', false);
-        },
+        hide() {
+            this.transitionDuration = this.speed;
+            this.translateX = 0 - this.sideWidth;
+        }
     },
 
     watch: {
         value(value) {
             if (value) {
-                this.isShowMask = true;
-                this.touch.translateXNew = this.sideWidth;
+                this.show();
             } else {
-                this.isShowMask = false;
-                this.touch.translateXNew = 0;
+                this.hide();
             }
-            this.touch.translateXOld = this.touch.translateXNew;
         }
     },
 
     computed: {
-        /**
-         * touch的起点是否是边缘
-         */
-        isFromEdge() {
-            // return true;
-            return 15 > this.touch.startX;
-            // 如果是支持左右2个抽屉的话, 需要如下判断
-            // return 30 > this.touch.startX || window.screen.width - 30 < this.touch.startX;
+        isMaskShow() {
+            return 0 - this.sideWidth < this.translateX
         },
-        /**
-         * 是否沿着Y轴拖拽
-         */
-        isMoveAlongY() {
-            return 0 < Math.abs(this.touch.distanceY) - Math.abs(this.touch.distanceX);
-        },
-        /**
-         * 是否沿着Y轴拖拽
-         */
-        isMoveAlongX() {
-            return 0 < Math.abs(this.touch.distanceX) - Math.abs(this.touch.distanceY);
+
+        mainTranslateXStyle() {
+            return { transform: `translate3d(${this.sideWidth + this.translateX}px, 0, 0)`, transitionDuration: `${this.transitionDuration}ms` };
         }
     },
 
@@ -167,42 +136,41 @@ export default {
 
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-drawer {
+.atom-drawer {
     position: relative;
     overflow: hidden;
     height: 100%;
-    .scroll-body {
-        position: relative;
-        display: flex;
+    &__side {
+        position: absolute;
+        z-index: $drawerZIndex;
+        left: 0;
+        top: 0;
+        background: $background;
+        display: block;
+        overflow: hidden;
+        max-width: 80%;
         height: 100%;
-        transition-duration: 0ms;
-        transition-timing-function: ease-in-out;
-        transition-property: transform;
-        main {
-            position: relative;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            flex: 1 0 100%;
-            min-width: 0;
+        transform: translateX(-100%);
+    }
+
+    &__main {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        flex: 1 0 100%;
+        min-width: 0;
+        height: 100%;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
+        .main__handler {
             height: 100%;
-            width: 100%;
-            -webkit-overflow-scrolling: touch;
-            overflow: hidden;
-        }
-        .side {
             position: absolute;
-            z-index: $drawerZIndex;
-            left: 0;
-            top: 0;
-            background: $background;
-            display: block;
-            overflow: hidden;
-            max-width: 80%;
-            height: 100%;
-            transform: translateX(-100%) scale(1);
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0);
         }
     }
 }

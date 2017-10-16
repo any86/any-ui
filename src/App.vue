@@ -21,7 +21,7 @@
     </VDrawer></main>
 </template>
 <script>
-import VDrawer from '@/packages/Drawer/Drawer2'
+import VDrawer from '@/packages/Drawer/Drawer'
 import VLoading from '@/packages/Loading/Loading'
 import QRCode from 'qrcode'
 export default {
