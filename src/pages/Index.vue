@@ -1,31 +1,43 @@
 <template>
-    <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true" class="page-index">
-        <v-cell>
-            <v-switch v-model="isShow">打开弹窗</v-switch>
-        </v-cell>
-        <!-- <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value">请选择数字</v-popup-papicker> -->
-        <v-picker :dataSource="dataSource" v-model="value"></v-picker>
-        <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
-        <v-cell>
-            <v-input v-model="value[0]"></v-input>
-        </v-cell>
-        
+    <v-drawer v-model="isShowDrawer" :mode="'overlay'" class="page-index">
+        <ul class="menu" slot="side">
+            <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
+            <router-link :to="{path: '/checkout'}" tag="li">Checkout</router-link>
+            <router-link :to="{path: '/payment'}" tag="li">payment</router-link>
+            <li>All Personalized</li>
+            <li>Personalized</li>
+            <canvas id="canvas" width="200"></canvas>
+        </ul>
+        <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true">
+            <v-cell>
+                <v-switch v-model="isShowDrawer">打开弹窗</v-switch>
+            </v-cell>
+            <!-- <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value">请选择数字</v-popup-papicker> -->
+            <v-picker :dataSource="dataSource" v-model="value"></v-picker>
+            <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
+            <v-cell>
+                <v-input v-model="value[0]"></v-input>
+            </v-cell>
 
-        <v-cell>
-            <v-input v-model="value[1]"></v-input>
-        </v-cell>
+            <v-cell>
+                <v-input v-model="value[1]"></v-input>
+            </v-cell>
 
-        <v-cell v-for="n in 10" :key="n" class="abc">第{{n}}次</v-cell>
+            <v-cell v-for="n in 10" :key="n" class="abc">第{{n}}次</v-cell>
 
-        <v-affix :scrollTop="scrollTop">
-            <v-cell style="background:#bbb;">{{scrollTop}}</v-cell>
-        </v-affix>
+            <v-affix :scrollTop="scrollTop">
+                <v-cell style="background:#bbb;">{{scrollTop}}</v-cell>
+            </v-affix>
 
-        <v-cell v-for="n in 20" :key="n" class="abc">第{{10+n}}次</v-cell>
-        <v-spinner v-show="isBottom"></v-spinner>
-    </v-infinite-scroll>
+            <v-cell v-for="n in 20" :key="n" class="abc">第{{10+n}}次</v-cell>
+            <v-spinner v-show="isBottom"></v-spinner>
+        </v-infinite-scroll>
+    </v-drawer>
 </template>
 <script>
+import QRCode from 'qrcode'
+
+import VDrawer from '@/packages/Drawer/Drawer'
 import VSpinner from '@/packages/Spinner/Spinner'
 import VAffix from '@/packages/Affix/Affix'
 
@@ -45,6 +57,7 @@ export default {
 
     data() {
         return {
+            isShowDrawer: false,
             isShow: false,
             list: Mock.mock({
                 'list|20': [{
@@ -64,7 +77,10 @@ export default {
     },
 
     mounted() {
-
+        var canvas = document.getElementById('canvas')
+        QRCode.toCanvas(canvas, window.location.href, function(error) {
+            if (error) console.error(error)
+        })
     },
 
     methods: {
@@ -73,7 +89,7 @@ export default {
     },
 
     components: {
-        VCell, VSwitch, VRadio, VDialog, VInfiniteScroll, VInput, VPicker, VSpinner, VAffix, VPopupPicker
+        VCell, VSwitch, VRadio, VDialog, VInfiniteScroll, VInput, VPicker, VSpinner, VAffix, VPopupPicker, VDrawer
     }
 }
 </script>
@@ -97,7 +113,15 @@ export default {
         flex: 1;
         padding: 0 .3rem .3rem .3rem;
     }
-
+.menu {
+    display: block;
+    background: $background;
+    li {
+        padding: $gutter;
+        display: block;
+        border-bottom: 1px solid $lightest;
+    }
+}
 
     .abc {
         background: #eee;
