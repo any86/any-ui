@@ -33,6 +33,16 @@ export default {
             default: 300
         },
 
+        mode: {
+            type: String,
+            default: 'push'
+        },
+
+        moveRate: {
+            type: Number,
+            default: 1
+        },
+
         value: {
             type: Boolean,
             default: false
@@ -66,13 +76,14 @@ export default {
 
         touchmove(e) {
             const point = e.touches ? e.touches[0] : e;
-            if (this.sideWidth >= point.pageX) {
+            const moveDistance = point.pageX * this.moveRate;
+            if (this.sideWidth >= moveDistance) {
                 // 因为是边缘操作, 起始x坐标== 0, 
                 // 所以就没有把位置移动用当前x坐标-起始x坐标, 
                 // 直接用当前x坐标表示移动距离, 逻辑更精简, 
                 // 反正视觉上不太容易被发现不是从最边缘抽出
                 // 参考了DrawerLayout.js
-                this.translateX = point.pageX - this.sideWidth;
+                this.translateX = moveDistance - this.sideWidth;
             } else {
                 this.translateX = 0;
             }
@@ -92,6 +103,7 @@ export default {
         snap() {
             if (Math.abs(this.translateX) < this.sideWidth / 2) {
                 this.translateX = 0;
+                this.$emit('input', true);
             } else {
                 this.translateX = 0 - this.sideWidth;
             }
@@ -105,6 +117,7 @@ export default {
         hide() {
             this.transitionDuration = this.speed;
             this.translateX = 0 - this.sideWidth;
+            this.$emit('input', false);
         }
     },
 
@@ -124,7 +137,11 @@ export default {
         },
 
         mainTranslateXStyle() {
-            return { transform: `translate3d(${this.sideWidth + this.translateX}px, 0, 0)`, transitionDuration: `${this.transitionDuration}ms` };
+            if('overlay' == this.mode) {
+                return { transform: `translate3d(${this.sideWidth + this.translateX}px, 0, 0)`, transitionDuration: `${this.transitionDuration}ms` };
+            } else {
+                return {};
+            }
         }
     },
 
