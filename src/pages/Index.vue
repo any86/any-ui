@@ -1,5 +1,5 @@
 <template>
-    <v-drawer v-model="isShowDrawer" :mode="'overlay'" class="page-index">
+    <v-drawer v-model="isShowDrawer" :mode="'overlay'">
         <ul class="menu" slot="side">
             <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
             <router-link :to="{path: '/checkout'}" tag="li">Checkout</router-link>
@@ -9,6 +9,11 @@
             <canvas id="canvas" width="200"></canvas>
         </ul>
         <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true">
+
+            <v-tabs v-model="tabsIndex">
+                <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
+            </v-tabs>
+
             <v-cell>
                 <v-switch v-model="isShowDrawer">打开弹窗</v-switch>
             </v-cell>
@@ -40,6 +45,8 @@ import QRCode from 'qrcode'
 import VDrawer from '@/packages/Drawer/Drawer'
 import VSpinner from '@/packages/Spinner/Spinner'
 import VAffix from '@/packages/Affix/Affix'
+import VTabs from '@/packages/Tabs/Tabs2';
+import VTabsItem from '@/packages/Tabs/TabsItem2';
 
 import VCell from '@/packages/Cell/Cell';
 import VInput from '@/packages/Input/Input';
@@ -57,6 +64,7 @@ export default {
 
     data() {
         return {
+            tabsIndex: 2,
             isShowDrawer: false,
             isShow: false,
             list: Mock.mock({
@@ -64,6 +72,9 @@ export default {
                     'label|+1': 1,
                     'value|+1': 1
                 }]
+            }),
+            tabs: Mock.mock({
+                'list|5-12': ['@province(true)']
             }),
             value: [12, 15],
             scrollTop: 0,
@@ -89,7 +100,7 @@ export default {
     },
 
     components: {
-        VCell, VSwitch, VRadio, VDialog, VInfiniteScroll, VInput, VPicker, VSpinner, VAffix, VPopupPicker, VDrawer
+        VCell, VSwitch, VRadio, VDialog, VInfiniteScroll, VInput, VPicker, VSpinner, VAffix, VPopupPicker, VDrawer, VTabs, VTabsItem
     }
 }
 </script>
@@ -113,15 +124,15 @@ export default {
         flex: 1;
         padding: 0 .3rem .3rem .3rem;
     }
-.menu {
-    display: block;
-    background: $background;
-    li {
-        padding: $gutter;
+    .menu {
         display: block;
-        border-bottom: 1px solid $lightest;
+        background: $background;
+        li {
+            padding: $gutter;
+            display: block;
+            border-bottom: 1px solid $lightest;
+        }
     }
-}
 
     .abc {
         background: #eee;

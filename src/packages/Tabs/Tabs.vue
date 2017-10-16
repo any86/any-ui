@@ -1,10 +1,10 @@
 <template>
-    <div class="component-tabs" @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend">
-        <div ref="film" :class="['film', 0 == touch.status && 'transition']" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}">
+    <div @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend" class="atom-tabs">
+        <div ref="film" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}" :class="['atom-tabs__swiper', 0 == touch.status && 'transition']">
             <slot></slot>
-            <!-- runway -->
-            <div class="active-runway">
-                <div class="nonius" :style="{width: itemWidth[active] + 'px', transform: `translate3d(${noniusTranslateX}px, 0, 0)`}">
+            <!-- 状态条 -->
+            <div class="swiper__state-bar">
+                <div class="state-bar__indicator" :style="{width: itemWidth[active] + 'px', transform: `translate3d(${indicatorTranslateX}px, 0, 0)`}">
                 </div>
             </div>
         </div>
@@ -18,6 +18,11 @@ export default {
         value: {
             type: Number,
             default: 0
+        },
+
+        maxColumn: {
+            type: Number,
+            default: 4
         }
     },
 
@@ -77,7 +82,7 @@ export default {
                 this.$emit('input', value);
             }
         },
-        noniusTranslateX() {
+        indicatorTranslateX() {
             var translateX = 0;
             for (var i = 0; i < this.active; i++) {
                 translateX += this.itemWidth[i];
@@ -91,7 +96,7 @@ export default {
 @import '../../scss/theme.scss';
 $height: 1rem;
 
-.component-tabs {
+.atom-tabs {
     background: $background;
     border-bottom: 1px solid $lightest;
     position: relative;
@@ -126,7 +131,7 @@ $height: 1rem;
     //     z-index: 10;
     //     background: -webkit-gradient(linear,100% 0,0 0,from(#fff),to(hsla(0,0%,100%,0)));
     // }
-    .film {
+    .atom-tabs__swiper {
         display: flex;
         align-items: center;
         position: relative;
@@ -135,13 +140,13 @@ $height: 1rem;
             transition: transform 300ms;
         }
     }
-    .active-runway {
+    .swiper__state-bar {
         height: 1px;
         position: absolute;
         z-index: 2;
         bottom: -1px;
         left: 0;
-        .nonius {
+        .state-bar__indicator {
             // margin: 0 3*$gutter;
             transition: all .3s cubic-bezier(0.35, 0, 0.25, 1);
             height: 1px;

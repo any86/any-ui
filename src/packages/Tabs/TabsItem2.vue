@@ -1,28 +1,31 @@
 <template>
-    <span @click="select" :class="['atom-tabs-item', index == $parent.active && 'active']"><slot></slot></span>
+    <span @click="select" :class="['atom-tabs-item', index == $parent.active && 'active']">
+        <slot></slot>
+    </span>
 </template>
 <script>
 export default {
     name: 'TabsItem',
-    
-    data(){
+
+    data() {
         return {
             index: -1,
             width: -1,
         };
     },
 
-    mounted(){
+    beforeMounted(){
+        
+    },
+
+    mounted() {
         this.index = this.$parent.count;
         this.$parent.count++;
-        this.width = this.$el.scrollWidth + 1;
-        this.$parent.itemWidth.push(this.width);
-        this.$parent.filmWidth+= this.width;
     },
 
     methods: {
-        select(){
-            this.$parent.active = this.index;
+        select() {
+            // this.$parent.active = this.index;
         }
     }
 }
@@ -31,11 +34,9 @@ export default {
 @import '../../scss/theme.scss';
 .atom-tabs-item {
     // 有剩余空间是否自动占满
-    flex-grow:1;
-    // 空间不够是否缩小
-    flex-shrink:0;
-    // 默认尺寸
-    flex-basis:auto;
+    flex-grow: 1; // 空间不够是否缩小
+    flex-shrink: 0; // 默认尺寸
+    flex-basis: auto;
     display: block;
     box-sizing: border-box;
     padding: $gutter;

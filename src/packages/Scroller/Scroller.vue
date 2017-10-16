@@ -1,6 +1,6 @@
 <template>
     <div class="atom-scroller">
-        <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="[{table: lockY}, bodyClass]" class="atom-scroller__body">
+        <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="[{table: isLockY}, bodyClass]" class="atom-scroller__body">
             <slot></slot>
         </div>
     </div>
@@ -59,12 +59,12 @@ export default {
             type: Number
         },
 
-        lockX: {
+        isLockX: {
             type: Boolean,
             default: true
         },
 
-        lockY: {
+        isLockY: {
             type: Boolean,
             default: false
         },
@@ -185,17 +185,17 @@ export default {
          * 可能需要研究下webpack生成代码才有答案
          */
         updateSize() {
-            if (this.lockY) {
+            if (this.isLockY) {
                 this.viewWidth = getWidth(this.$el);
                 this.maxTranslateX = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
-            } else if (this.lockX) {
+            } else if (this.isLockX) {
                 this.viewHeight = getHeight(this.$el);
                 this.maxTranslateY = getHeight(this.$refs.body, { isScroll: true }) - this.viewHeight;
             }
         },
 
         touchstart(e) {
-            if(this.disableTouch) return;
+            if (this.disableTouch) return;
             const point = e.touches ? e.touches[0] : e;
             this.transitionDuration = 0;
             this.startTime = getTime();
@@ -225,9 +225,9 @@ export default {
             this.$emit('scroll-start', { ...this.moveData, e, edge });
         },
         touchmove(e) {
-            if(this.disableTouch) return;
+            if (this.disableTouch) return;
             // 都lock了就不用计算了.
-            if (this.lockX && this.lockY) return;
+            if (this.isLockX && this.isLockY) return;
             // 如果不同时锁定
             // 基础位置数据
             const point = e.touches ? e.touches[0] : e;
@@ -242,15 +242,15 @@ export default {
                 // 锁定X轴的移动
                 // 锁定Y
                 // 自由移动
-                if (this.lockX && !this.lockY) {
+                if (this.isLockX && !this.isLockY) {
                     // 当scroll-body的位置超出边界, 那么滑动距离 : 手指移动距离 = 1 : 2
                     this.moveRatio = this.isOutOfYLimit ? .5 : 1;
                     this.translateY = this.startTranslateY + deltaY * this.moveRatio;
                     this.directionLock = 'x';
-                } else if (this.lockY && !this.lockX) {
+                } else if (this.isLockY && !this.isLockX) {
                     this.moveRatio = this.isOutOfXLimit ? .5 : 1;
                     this.translateX = this.startTranslateX + deltaX * this.moveRatio;
-                } else if (!this.lockX && !this.lockY) {
+                } else if (!this.isLockX && !this.isLockY) {
                     if (absDeltaY + this.lockThreshold < absDeltaY) {
 
                     } else if (absDeltaX + this.lockThreshold < absDeltaX) {
@@ -282,7 +282,7 @@ export default {
         },
 
         touchend(e) {
-            if(this.disableTouch) return;
+            if (this.disableTouch) return;
             this.transitionDuration = 500;
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
@@ -299,7 +299,7 @@ export default {
         },
 
         transitionend() {
-            if(this.disableTouch) return;
+            if (this.disableTouch) return;
             // this.$emit('update:isAnimateMoving', false);
             this.$nextTick(() => {
                 this.isAnimateMoving = false;
@@ -311,7 +311,7 @@ export default {
          */
         bufferMove() {
             const costTime = this.endTime - this.startTime;
-            if (this.lockY) {
+            if (this.isLockY) {
                 if (this.maxHolderTime > costTime) {
                     const deltaX = this.translateX - this.startTranslateX;
                     const speedX = deltaX / costTime;
@@ -320,7 +320,7 @@ export default {
                 }
                 // 自动复位
                 this.hasReset && this.resetX();
-            } else if (this.lockX) {
+            } else if (this.isLockX) {
                 if (this.maxHolderTime > costTime) {
                     const deltaY = this.translateY - this.startTranslateY;
                     const speedY = deltaY / costTime;
@@ -412,9 +412,12 @@ export default {
 </script>
 <style scoped lang=scss>
 .atom-scroller {
+    position: relative;
     touch-action: pan-x;
     touch-action: pan-y;
-    position: relative;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     width: 100%;
     height: 100%;
     overflow-x: hidden;
