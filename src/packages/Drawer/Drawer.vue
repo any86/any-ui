@@ -186,7 +186,7 @@ export default {
         .main__handler {
             height: 100%;
             position: absolute;
-            z-index: 99999;
+            z-index: $drawerZIndex;;
             background: rgba(0, 0, 0, 0);
         }
     }
