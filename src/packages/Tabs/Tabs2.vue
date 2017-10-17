@@ -29,7 +29,9 @@ export default {
 
     data() {
         return {
+            warpWidth: 0,
             itemWidthList: [],
+            lateItemWidth: 0,
             countWidth: 0,
             count: 0,
             activeIndex: 2,
@@ -39,17 +41,44 @@ export default {
     },
 
     mounted() {
+        this.warpWidth = getWidth(this.$el);
+        this.lateItemWidth = this.itemWidthList[this.count - 1];
     },
 
     methods: {
         showHidden(e) {
-            this.tabPos.scrollLeft+= this.itemWidthList[this.activeIndex];
-            if(this.countWidth - this.itemWidthList[0] < this.tabPos.scrollLeft) {
-                // this.tabPos.scrollLeft = newScrollLeft;
-            } else {
-                this.tabPos.scrollLeft = this.tabPos.scrollLeft;
+            const offsetLeft = e.target.offsetLeft;
+            const itemWidth = getWidth(e.target);
+            const prevIndex = this.activeIndex - 1;
+            if (0 <= prevIndex) {
+                const countWidth = this.countWidthByIndex(prevIndex);
+                // 判断前一项是否完全可见, 不能有部分被遮挡
+                // 否则判断后一项是否完全可见             
+                if (countWidth < this.tabPos.scrollLeft) {
+                    this.tabPos.scrollLeft = countWidth;
+                } else{
+                    // 判断后一项是否完全可见 
+                    const nextIndex = this.activeIndex + 1;
+                    // 是否有下一项
+                    if(nextIndex < this.count) {
+                        const countWidth = this.countWidthByIndex(nextIndex);
+                        // 未完
+                    }
+                }
             }
-        }
+        },
+
+        countWidthByIndex(index) {
+            let countWidth = 0;
+            if (0 < index) {
+                for (var i in this.itemWidthList) {
+                    countWidth += this.itemWidthList[i];
+                    if (i == index - 1) break;
+                }
+            }
+            return countWidth;
+            // return countWidth >= this.tabPos.scrollLeft;
+        },
     },
 
     computed: {
