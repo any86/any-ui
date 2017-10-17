@@ -55,6 +55,7 @@ export default {
             // const itemWidth = getWidth(e.target);
             const prevIndex = this.activeIndex - 1;
             if (1 <= prevIndex) {
+                // 获取前一项的距离左边距的距离 == 前一项的前面项的width和
                 let countWidth = this.countWidthByIndex(prevIndex - 1);
                 // 判断前一项是否完全可见, 不能有部分被遮挡
                 // 判断后一项是否完全可见 
@@ -105,8 +106,7 @@ export default {
 $height: 1rem;
 .atom-tabs {
     position: relative;
-    background: $background; // padding-right: $gutter/2;
-    // padding-left: $gutter/2;
+    background: $background;
     height: $height;
     width: 100%;
     border-bottom: 1px solid $lightest;
