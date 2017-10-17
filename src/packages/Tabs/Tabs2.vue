@@ -1,15 +1,16 @@
 <template>
-    <div class="atom-tabs">
+    <div class="atom-tabs" @click.stop="showHidden($event)">
         <v-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}">
             <slot></slot>
-        </v-scroller>
-        <!-- 状态条 -->
-        <v-scroller v-model="indicatorPos" :is-lock-x="false" :is-lock-y="true" class="atom-tabs__state-bar">
-            <div class="indicator"></div>
+            <!-- 状态条 -->
+            <div class="atom-tabs__state-bar">
+                <div class="indicator" :style="{width: `${itemWidthList[activeIndex]}px`, transform: `translate3d(${indicatorTranslateX}px, 0, 0)`}"></div>
+            </div>
         </v-scroller>
     </div>
 </template>
 <script>
+import { getWidth } from '@/utils/dom'
 import VScroller from '@/packages/Scroller/Scroller'
 export default {
     name: 'Tabs',
@@ -28,34 +29,38 @@ export default {
 
     data() {
         return {
-            itemWidth: [],
-            width: 0,
+            itemWidthList: [],
+            countWidth: 0,
+            count: 0,
+            activeIndex: 2,
             tabPos: { scrollLeft: 0, scrollTop: 0 },
-            indicatorPos: { scrollLeft: 0, scrollTop: 0 },
             stateBarStyle: { position: 'absolute', bottom: 0 }
         }
     },
 
     mounted() {
-
     },
 
     methods: {
-        touchstart(e) {
-
-        },
-
-        touchmove(e) {
-
-        },
-
-        touchend(e) {
-
+        showHidden(e) {
+            this.tabPos.scrollLeft+= this.itemWidthList[this.activeIndex];
+            if(this.countWidth - this.itemWidthList[0] < this.tabPos.scrollLeft) {
+                // this.tabPos.scrollLeft = newScrollLeft;
+            } else {
+                this.tabPos.scrollLeft = this.tabPos.scrollLeft;
+            }
         }
     },
 
     computed: {
-
+        indicatorTranslateX() {
+            let translateX = 0;
+            for (var i in this.itemWidthList) {
+                if (this.activeIndex == i) break;
+                translateX += this.itemWidthList[i];
+            };
+            return translateX;
+        }
     },
 
     components: { VScroller }
@@ -67,15 +72,22 @@ $height: 1rem;
 .atom-tabs {
     position: relative;
     background: $background;
-    border-bottom: 1px solid $lightest;
+    padding-right: $gutter/2;
+    padding-left: $gutter/2;
     height: $height;
     width: 100%;
-
-
+    border-bottom: 1px solid $lightest;
     &__state-bar {
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
         .indicator {
-            width: 100px;
+            transition-duration: 300ms;
+            transition-timing-function: ease-in-out;
+            width: 0;
             height: 2px;
+            text-align: center;
             background: $base;
         }
     }

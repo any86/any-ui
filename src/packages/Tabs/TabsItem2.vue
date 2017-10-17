@@ -1,49 +1,53 @@
 <template>
-    <span @click="select" :class="['atom-tabs-item', index == $parent.active && 'active']">
+    <a @click="select" :class="['atom-tabs__item', index == $parent.active && 'active']">
         <slot></slot>
-    </span>
+    </a>
 </template>
 <script>
+import { getWidth } from '@/utils/dom'
 export default {
     name: 'TabsItem',
 
     data() {
         return {
-            index: -1,
-            width: -1,
+            index: 0
         };
     },
 
-    beforeMounted(){
-        
+    beforeMount() {
+        // 此时还没有$el
+        // syslog(this.$el)
     },
 
     mounted() {
-        this.index = this.$parent.count;
-        this.$parent.count++;
+        const width = getWidth(this.$el);
+        this.index = this.$parent.$parent.count;
+        this.$parent.$parent.count++;
+        this.$parent.$parent.itemWidthList.push(width);
+        this.$parent.$parent.countWidth+= width;
+        
     },
 
     methods: {
         select() {
-            // this.$parent.active = this.index;
+            this.$parent.$parent.activeIndex = this.index;
         }
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.atom-tabs-item {
+.atom-tabs__item {
     // 有剩余空间是否自动占满
     flex-grow: 1; // 空间不够是否缩小
     flex-shrink: 0; // 默认尺寸
     flex-basis: auto;
-    display: block;
     box-sizing: border-box;
     padding: $gutter;
     text-align: center;
     color: $darkest;
-    font-size: $normal;
     font-weight: 900;
+    display: block;
     &.active {
         color: $base;
     }
