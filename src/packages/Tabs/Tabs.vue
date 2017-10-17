@@ -1,16 +1,17 @@
 <template>
-    <div @touchstart="touchstart" @touchmove.stop.prevent="touchmove" @touchend="touchend" class="atom-tabs">
-        <div ref="film" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}" :class="['atom-tabs__swiper', 0 == touch.status && 'transition']">
+    <div class="atom-tabs" @click.stop="showHidden($event)">
+        <v-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}">
             <slot></slot>
             <!-- 状态条 -->
-            <div class="swiper__state-bar">
-                <div class="state-bar__indicator" :style="{width: itemWidth[active] + 'px', transform: `translate3d(${indicatorTranslateX}px, 0, 0)`}">
-                </div>
+            <div class="atom-tabs__state-bar">
+                <div class="indicator" :style="{width: `${itemWidthList[activeIndex]}px`, transform: `translate3d(${indicatorTranslateX}px, 0, 0)`}"></div>
             </div>
-        </div>
+        </v-scroller>
     </div>
 </template>
 <script>
+import { getWidth } from '@/utils/dom'
+import VScroller from '@/packages/Scroller/Scroller'
 export default {
     name: 'Tabs',
 
@@ -28,128 +29,98 @@ export default {
 
     data() {
         return {
-            itemWidth: [],
-            width: -1,
-            filmWidth: -1,
+            warpWidth: 0,
+            itemWidthList: [],
+            lateItemWidth: 0,
+            countWidth: 0,
             count: 0,
-            touch: {
-                status: 0,
-                start: 0,
-                current: 0,
-                distance: 0,
-                translateXNew: 0,
-                translateXOld: 0,
-            }
+            activeIndex: 2,
+            tabPos: { scrollLeft: 0, scrollTop: 0 },
+            stateBarStyle: { position: 'absolute', bottom: 0 }
         }
     },
 
     mounted() {
-        this.width = this.$el.offsetWidth;
-        window.addEventListener('resize', () => {
-            this.width = this.$el.offsetWidth;
-        });
+        this.warpWidth = getWidth(this.$el);
+        this.lateItemWidth = this.itemWidthList[this.count - 1];
     },
 
     methods: {
-        touchstart(e) {
-            this.touch.status = 1;
-            this.touch.start = e.touches[0].clientX;
-        },
-
-        touchmove(e) {
-            this.touch.status = 2;
-            this.touch.current = e.touches[0].clientX;
-            var translateXNew = this.touch.current - this.touch.start + this.touch.translateXOld;
-            // 左边界 && 右边界
-            if (0 >= translateXNew && this.width - this.filmWidth <= translateXNew) {
-                this.touch.translateXNew = translateXNew;
+        /**
+        * 通过控制滚动条, 显示边缘的隐藏项 
+        * @argument {Event} 
+        */
+        showHidden(e) {
+            const offsetLeft = e.target.offsetLeft;
+            // const itemWidth = getWidth(e.target);
+            const prevIndex = this.activeIndex - 1;
+            if (1 <= prevIndex) {
+                let countWidth = this.countWidthByIndex(prevIndex - 1);
+                // 判断前一项是否完全可见, 不能有部分被遮挡
+                // 判断后一项是否完全可见 
+                if (countWidth < this.tabPos.scrollLeft) {
+                    this.tabPos.scrollLeft = countWidth;
+                } else {
+                    const nextIndex = this.activeIndex + 1;
+                    // 是否有下一项
+                    if (nextIndex < this.count) {
+                        let countWidth = this.countWidthByIndex(nextIndex);
+                        // 下一项是否被隐藏
+                        if (countWidth > this.tabPos.scrollLeft + this.warpWidth) {
+                            this.tabPos.scrollLeft = countWidth - this.warpWidth;
+                        }
+                    }
+                }
             }
         },
 
-        touchend(e) {
-            this.touch.status = 0;
-            this.touch.translateXOld = this.touch.translateXNew;
-        }
+        countWidthByIndex(index) {
+            let countWidth = 0;
+            if (0 < index) {
+                for (var i in this.itemWidthList) {
+                    countWidth += this.itemWidthList[i];
+                    if (i == index) break;
+                }
+            }
+            return countWidth;
+        },
     },
 
     computed: {
-        active: {
-            get() {
-                return this.value;
-            },
-
-            set(value) {
-                this.$emit('input', value);
-            }
-        },
         indicatorTranslateX() {
-            var translateX = 0;
-            for (var i = 0; i < this.active; i++) {
-                translateX += this.itemWidth[i];
-            }
+            let translateX = 0;
+            for (var i in this.itemWidthList) {
+                if (this.activeIndex == i) break;
+                translateX += this.itemWidthList[i];
+            };
             return translateX;
         }
-    }
+    },
+
+    components: { VScroller }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 $height: 1rem;
-
 .atom-tabs {
-    background: $background;
-    border-bottom: 1px solid $lightest;
     position: relative;
+    background: $background; // padding-right: $gutter/2;
+    // padding-left: $gutter/2;
     height: $height;
     width: 100%;
-    &-fixed {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 100;
-    } // &:before {
-    //     pointer-events: none;
-    //     position: absolute;
-    //     top: 0;
-    //     left:0;
-    //     display: block;
-    //     width: 1.18rem;
-    //     height: 100%;
-    //     content: " ";
-    //     z-index: 10;
-    //     background: -webkit-gradient(linear,0 0,100% 0,from(#fff),to(hsla(0,0%,100%,0)));
-    // }
-    // &:after {
-    //     pointer-events: none;
-    //     position: absolute;
-    //     top: 0;
-    //     right:0;
-    //     display: block;
-    //     width: 1.18rem;
-    //     height: 100%;
-    //     content: " ";
-    //     z-index: 10;
-    //     background: -webkit-gradient(linear,100% 0,0 0,from(#fff),to(hsla(0,0%,100%,0)));
-    // }
-    .atom-tabs__swiper {
-        display: flex;
-        align-items: center;
-        position: relative;
-        height: 100%;
-        &.transition {
-            transition: transform 300ms;
-        }
-    }
-    .swiper__state-bar {
-        height: 1px;
+    border-bottom: 1px solid $lightest;
+    &__state-bar {
         position: absolute;
-        z-index: 2;
         bottom: -1px;
         left: 0;
-        .state-bar__indicator {
-            // margin: 0 3*$gutter;
-            transition: all .3s cubic-bezier(0.35, 0, 0.25, 1);
-            height: 1px;
+        width: 100%;
+        .indicator {
+            transition-duration: 300ms;
+            transition-timing-function: ease-in-out;
+            width: 0;
+            height: 2px;
+            text-align: center;
             background: $base;
         }
     }

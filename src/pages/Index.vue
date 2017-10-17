@@ -45,8 +45,8 @@ import QRCode from 'qrcode'
 import VDrawer from '@/packages/Drawer/Drawer'
 import VSpinner from '@/packages/Spinner/Spinner'
 import VAffix from '@/packages/Affix/Affix'
-import VTabs from '@/packages/Tabs/Tabs2';
-import VTabsItem from '@/packages/Tabs/TabsItem2';
+import VTabs from '@/packages/Tabs/Tabs';
+import VTabsItem from '@/packages/Tabs/TabsItem';
 
 import VCell from '@/packages/Cell/Cell';
 import VInput from '@/packages/Input/Input';
@@ -74,7 +74,7 @@ export default {
                 }]
             }),
             tabs: Mock.mock({
-                'list|12': ['@city(false)']
+                'list|12': ['@province()']
             }),
             value: [12, 15],
             scrollTop: 0,
