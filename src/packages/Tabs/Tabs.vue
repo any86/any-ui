@@ -1,17 +1,17 @@
 <template>
     <div class="atom-tabs" @click.stop="showHidden($event)">
-        <v-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}">
+        <v-x-scroller v-model="tabPos.scrollLeft" :body-class="{flex: true}" :disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->
             <div class="atom-tabs__state-bar">
                 <div class="indicator" :style="{width: `${itemWidthList[activeIndex]}px`, transform: `translate3d(${indicatorTranslateX}px, 0, 0)`}"></div>
             </div>
-        </v-scroller>
+        </v-x-scroller>
     </div>
 </template>
 <script>
 import { getWidth } from '@/utils/dom'
-import VScroller from '@/packages/Scroller/Scroller'
+import VXScroller from '@/packages/Scroller/XScroller'
 export default {
     name: 'Tabs',
 
@@ -19,11 +19,6 @@ export default {
         value: {
             type: Number,
             default: 0
-        },
-
-        maxColumn: {
-            type: Number,
-            default: 4
         }
     },
 
@@ -36,13 +31,15 @@ export default {
             count: 0,
             activeIndex: 2,
             tabPos: { scrollLeft: 0, scrollTop: 0 },
-            stateBarStyle: { position: 'absolute', bottom: 0 }
+            stateBarStyle: { position: 'absolute', bottom: 0 },
+            isDisableTouch: true // 少量选项的时候关闭拖拽
         }
     },
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
         this.lateItemWidth = this.itemWidthList[this.count - 1];
+        this.isDisableTouch = this.countWidth <= this.warpWidth;
     },
 
     methods: {
@@ -98,7 +95,7 @@ export default {
         }
     },
 
-    components: { VScroller }
+    components: { VXScroller }
 }
 </script>
 <style scoped lang="scss">
@@ -107,14 +104,15 @@ $height: 1rem;
 .atom-tabs {
     position: relative;
     background: $background;
-    height: $height;
     width: 100%;
     border-bottom: 1px solid $lightest;
     &__state-bar {
         position: absolute;
-        bottom: -1px;
+        z-index: 2;
+        bottom:0;
         left: 0;
         width: 100%;
+
         .indicator {
             transition-duration: 300ms;
             transition-timing-function: ease-in-out;
