@@ -19,10 +19,6 @@ export default {
             default: true
         },
 
-        type: {
-            type: String
-        },
-
         value: {
             required: true
         }

@@ -39,6 +39,7 @@ export default {
         this.swiper = new Swiper(this.$el, {
             slidesPerView: 1,
             pagination: '.swiper-pagination',
+            touchMoveStopPropagation: true,
             ...this.options,
             onSlideChangeStart: swiper => {
                 this.$emit('change-start', swiper);

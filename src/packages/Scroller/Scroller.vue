@@ -1,6 +1,6 @@
 <template>
     <div class="atom-scroller" v-on="$listeners">
-        <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="[{table: isLockY}, bodyClass]" class="atom-scroller__body">
+        <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="bodyClass" class="atom-scroller__body">
             <slot></slot>
         </div>
     </div>
@@ -69,7 +69,7 @@ export default {
             default: false
         },
 
-        lockThreshold: {
+        directionLockThreshold: {
             type: Number,
             default: 15
         },
@@ -127,8 +127,6 @@ export default {
             startPointY: 0, // 手指坐标
             startPointX: 0,
 
-            directionX: 0,
-            directionY: 0,
             directionLock: 'n',
 
             transitionDuration: 0,
@@ -156,6 +154,13 @@ export default {
         this.addEvents(this.isBindBody ? this.$refs.body : this.$el);
         this.updateSize();
         window.addEventListener('resize', this.updateSize);
+        if (!this.isLockX && this.isLockY) {
+            this.directionLock = 'y'
+        } else if (this.isLockX && !this.isLockY) {
+            this.directionLock = 'x'
+        } else {
+            this.directionLock = 'n'
+        }
     },
 
     methods: {
@@ -195,6 +200,7 @@ export default {
         },
 
         touchstart(e) {
+            // 禁用touch事件
             if (this.disableTouch) return;
             const point = e.touches ? e.touches[0] : e;
             this.transitionDuration = 0;
@@ -225,38 +231,68 @@ export default {
             this.$emit('scroll-start', { ...this.moveData, e, edge });
         },
         touchmove(e) {
+            // 禁用touch事件
             if (this.disableTouch) return;
-            // 都lock了就不用计算了.
+
+            // x/y都lock了
             if (this.isLockX && this.isLockY) return;
-            // 如果不同时锁定
+
+            // 这句没看懂iscroll的意义
+            const now = getTime();
+            // if(300 < now - this.endTime) return;
+
             // 基础位置数据
             const point = e.touches ? e.touches[0] : e;
-            const deltaY = point.pageY - this.startPointY;
-            const deltaX = point.pageX - this.startPointX;
-            const absDeltaY = Math.abs(deltaY);
-            const absDeltaX = Math.abs(deltaX);
-            const now = getTime();
-            // 灵敏度默认为10px;
-            // 手指移动超过10px, scroll-body才开始随手指滑动;
-            if ((this.sensitivity < absDeltaY || this.sensitivity < absDeltaX)) {
-                // 锁定X轴的移动
-                // 锁定Y
-                // 自由移动
-                if (this.isLockX && !this.isLockY) {
-                    // 当scroll-body的位置超出边界, 那么滑动距离 : 手指移动距离 = 1 : 2
-                    this.moveRatio = this.isOutOfYLimit ? .5 : 1;
-                    this.translateY = this.startTranslateY + deltaY * this.moveRatio;
-                    this.directionLock = 'x';
-                } else if (this.isLockY && !this.isLockX) {
-                    this.moveRatio = this.isOutOfXLimit ? .5 : 1;
-                    this.translateX = this.startTranslateX + deltaX * this.moveRatio;
-                } else if (!this.isLockX && !this.isLockY) {
-                    if (absDeltaY + this.lockThreshold < absDeltaY) {
+            let deltaY = point.pageY - this.startPointY;
+            let deltaX = point.pageX - this.startPointX;
+            let absDeltaY = Math.abs(deltaY);
+            let absDeltaX = Math.abs(deltaX);
 
-                    } else if (absDeltaX + this.lockThreshold < absDeltaX) {
+            // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
+            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
 
-                    }
-                }
+            // ========== 计算滑动 ==========
+
+            // 确定手指滑动方向
+            // 锁定手指滑动距离小的轴线方向的页面滚动
+            if (absDeltaX > absDeltaY + this.directionLockThreshold) {
+                this.directionLock = 'y';
+            } else if (absDeltaY > this.directionLockThreshold + absDeltaX) {
+                this.directionLock = 'x';
+            } else {
+                // this.directionLock = 'n';
+            }
+
+            // 对锁定方向的增量(delta)归0
+            if ('y' == this.directionLock) {
+                deltaY = 0;
+            } else if ('x' == this.directionLock) {
+                deltaX = 0;
+            }
+
+            // 如果锁定X轴的移动
+            // 如果锁定Y
+            // 自由移动
+            if (this.isLockX && !this.isLockY) {
+                // 当scroll-body的位置超出边界, 那么滑动距离 : 手指移动距离 = 1 : 2
+                this.moveRatio = this.isOutOfYLimit ? .5 : 1;
+                this.translateY = this.startTranslateY + deltaY * this.moveRatio;
+            } else if (this.isLockY && !this.isLockX) {
+                this.moveRatio = this.isOutOfXLimit ? .5 : 1;
+                this.translateX = this.startTranslateX + deltaX * this.moveRatio;
+            }
+
+            // 控制translateX在范围内
+            if(this.maxTranslateX < 0 - this.translateX) {
+                this.translateX = 0 - this.maxTranslateX;
+            } else if(0 < this.translateX) {
+                this.translateX = 0;
+            }
+            // 控制translateY在范围内
+            if(this.maxTranslateY < 0 - this.translateY) {
+                this.translateY = 0 - this.maxTranslateY;
+            }else if(0 < this.translateY) {
+                this.translateY = 0;
             }
 
             // 当手指一直按住突然拖动, 那么重置起始值
@@ -268,12 +304,6 @@ export default {
                 this.startTranslateX = this.translateX;
             }
 
-            // 限制滑动区域
-            if (undefined !== this.maxScrollLeft && this.maxScrollLeft < this.translateX) {
-                this.translateX = this.maxScrollLeft
-            } else if (undefined !== this.minScrollLeft && this.minScrollLeft > this.translateX) {
-                this.translateX = this.minScrollLeft
-            }
             e.stopPropagation();
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
@@ -282,6 +312,7 @@ export default {
         },
 
         touchend(e) {
+            // 禁用touch事件
             if (this.disableTouch) return;
             this.transitionDuration = 500;
             this.endTime = getTime();
@@ -289,7 +320,7 @@ export default {
 
             // buffer
             if (this.hasBuffer) {
-                this.bufferMove();
+                // this.bufferMove(point);
             }
             e.stopPropagation();
             this.preventDefault && e.preventDefault();
@@ -309,23 +340,24 @@ export default {
         /**
          * 开启缓冲运动
          */
-        bufferMove() {
+        bufferMove(point) {
             const costTime = this.endTime - this.startTime;
-            if (this.isLockY) {
+             const deltaX = point.pageY - this.startTranslateX;
+            const deltaY = point.pageY - this.startPointX;
+            this.isAnimateMoving = true;
+            if ('y' == this.directionLock && deltaX > deltaY + 15) {
                 if (this.maxHolderTime > costTime) {
-                    const deltaX = this.translateX - this.startTranslateX;
+                   
                     const speedX = deltaX / costTime;
                     this.translateX += speedX * 1000;
-                    this.isAnimateMoving = true;
                 }
                 // 自动复位
                 this.hasReset && this.resetX();
-            } else if (this.isLockX) {
+            } else if ('x' == this.directionLock && deltaY > deltaX + 15) {
                 if (this.maxHolderTime > costTime) {
-                    const deltaY = this.translateY - this.startTranslateY;
+                    
                     const speedY = deltaY / costTime;
                     this.translateY += speedY * 1000;
-                    this.isAnimateMoving = true;
                 }
                 //自己复位
                 this.hasReset && this.resetY();

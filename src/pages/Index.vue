@@ -74,7 +74,7 @@ export default {
                 }]
             }),
             tabs: Mock.mock({
-                'list|12': ['@province()']
+                'list|3': ['@province()']
             }),
             value: [12, 15],
             scrollTop: 0,

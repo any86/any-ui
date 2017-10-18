@@ -4,32 +4,8 @@
     </transition>
 </template>
 <script>
-import VDrawer from '@/packages/Drawer/Drawer'
-import VLoading from '@/packages/Loading/Loading'
 export default {
-    name: 'App',
-
-    data() {
-        return {
-            show: true,
-            qrcode: ''
-        };
-    },
-
-
-    methods: {
-
-    },
-
-    computed: {
-
-    },
-
-    components: {
-        VDrawer,
-        VLoading
-    }
-
+    name: 'App'
 }
 
 </script>

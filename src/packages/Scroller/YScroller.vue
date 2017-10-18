@@ -38,14 +38,6 @@ export default {
             default: 0
         },
 
-        minScrollTop: {
-            type: Number
-        },
-
-        maxScrollTop: {
-            type: Number
-        },
-
         hasBuffer: {
             type: Boolean,
             default: true
@@ -159,7 +151,7 @@ export default {
 
             // 记录滑动前scroll-body的translate信息
             this.startTranslateY = this.translateY;
-            
+
             // 阻止浏览器默认行为
             this.preventDefault && e.preventDefault();
             this.$emit('scroll-start', { ...this.moveData, e });
@@ -204,7 +196,7 @@ export default {
                 this.startTranslateY = this.translateY;
             }
 
-            
+
             // 阻止默认行为(页面滚动)
             this.preventDefault && e.preventDefault();
             this.$emit('input', -this.translateY);
@@ -221,7 +213,7 @@ export default {
 
             // buffer
             if (this.hasBuffer) {
-                // this.bufferMove(point);
+                this.bufferMove(point);
             }
             this.preventDefault && e.preventDefault();
             this.$emit('update:isAnimateMoving', true);
@@ -242,7 +234,7 @@ export default {
          */
         bufferMove(point) {
             const costTime = this.endTime - this.startTime;
-            const deltaY = point.pageY - this.startPointX;
+            const deltaY = point.pageY - this.startPointY;
             this.isAnimateMoving = true;
             if (this.maxHolderTime > costTime) {
                 const speedY = deltaY / costTime;
@@ -298,15 +290,11 @@ export default {
     },
 
     watch: {
-        value: {
-            deep: true,
-            handler(value) {
-                // if (!this.isAnimateMoving) {
-                this.transitionDuration = 500;
-                this.translateY = 0 - value;
-
-                // }
-            }
+        value(value) {
+            // if (!this.isAnimateMoving) {
+            this.transitionDuration = 500;
+            this.translateY = 0 - value;
+            // }
         }
     },
 

@@ -1,15 +1,15 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" :is-self-moving.sync="isSelfMoving" :body-style="bodyStyle" class="list">
+        <v-y-scroller v-model="positions[i].scrollTop" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" :is-self-moving.sync="isSelfMoving" :body-style="bodyStyle" class="list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
                 {{item.label}}
             </div>
-        </v-scroller>
+        </v-y-scroller>
     </div>
 </template>
 <script>
-import VScroller from '@/packages/Scroller/Scroller'
+import VYScroller from '@/packages/Scroller/YScroller'
 export default {
     name: 'Picker',
 
@@ -111,7 +111,7 @@ export default {
         }
     },
 
-    components: { VScroller }
+    components: { VYScroller }
 }
 </script>
 <style scoped lang="scss">

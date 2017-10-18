@@ -47,6 +47,7 @@ export default {
     text-align: center;
     color: $darkest;
     display: block;
+    // border-bottom: 1px solid $lightest;
     &--active {
         color: $base;
     }

@@ -19,14 +19,21 @@ const CheckboxDemo = () => ({
     component: import('@/pages/CheckboxDemo')
 });
 
+// const SliderDemo = () => ({
+//     component: import('@/pages/SliderDemo')
+// });
+
+import SwiperDemo from '@/pages/SwiperDemo'
+
+
+
+
 const SvgDemo = () => ({
     component: import('@/pages/SvgDemo')
 });
 const Test = () => ({
     component: import('@/pages/Test')
 });
-
-Test
 
 export default new Router({
     // mode: "history",
@@ -54,15 +61,21 @@ export default new Router({
             name: 'CheckboxDemo',
             path: '/checkbox',
             component: CheckboxDemo
-        },{
+        },
+        {
             name: 'SvgDemo',
             path: '/svg',
             component: SvgDemo
-        },{
+        },
+        {
+            name: 'SwiperDemo',
+            path: '/swiper',
+            component: SwiperDemo
+        },
+        {
             name: 'Test',
             path: '/test',
             component: Test
-        },    
-            
+        }
     ]
 });

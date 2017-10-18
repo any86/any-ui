@@ -218,7 +218,7 @@ export default {
 
             // buffer
             if (this.hasBuffer) {
-                // this.bufferMove(point);
+                this.bufferMove(point);
             }
             e.stopPropagation();
             this.preventDefault && e.preventDefault();
