@@ -6,8 +6,8 @@
     </div>
 </template>
 <script>
-import { getHeight, getWidth, getTime } from '@/utils/dom'
-import debounce from 'lodash/debounce'
+import { getHeight, getWidth, getTime } from '@/utils/dom';
+import debounce from 'lodash/debounce';
 export default {
     name: 'Scroller',
 
@@ -76,12 +76,12 @@ export default {
 
         bodyStyle: {
             type: Object,
-            default: () => { }
+            default: () => {}
         },
 
         bodyClass: {
             type: Object,
-            default: () => { }
+            default: () => {}
         },
 
         maxHolderTime: {
@@ -113,7 +113,13 @@ export default {
             maxTranslateY: 0,
             startTranslateX: 0,
             startTranslateY: 0,
-            events: ['touchstart', 'touchmove', 'touchend', 'transitionend', 'webkitTransitionend'],
+            events: [
+                'touchstart',
+                'touchmove',
+                'touchend',
+                'transitionend',
+                'webkitTransitionend'
+            ]
         };
     },
 
@@ -127,7 +133,6 @@ export default {
         this.addEvents(this.isBindBody ? this.$refs.body : this.$el);
         this.updateSize();
         window.addEventListener('resize', this.updateSize);
-
     },
 
     methods: {
@@ -137,7 +142,9 @@ export default {
          */
         addEvents(el) {
             this.events.forEach(evnetName => {
-                el.addEventListener(evnetName, this[evnetName], { passive: !this.preventDefault });
+                el.addEventListener(evnetName, this[evnetName], {
+                    passive: !this.preventDefault
+                });
             });
         },
         /**
@@ -159,10 +166,14 @@ export default {
         updateSize() {
             if (this.isLockY) {
                 this.viewWidth = getWidth(this.$el);
-                this.maxTranslateX = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
+                this.maxTranslateX =
+                    getWidth(this.$refs.body, { isScroll: true }) -
+                    this.viewWidth;
             } else if (this.isLockX) {
                 this.viewHeight = getHeight(this.$el);
-                this.maxTranslateY = getHeight(this.$refs.body, { isScroll: true }) - this.viewHeight;
+                this.maxTranslateY =
+                    getHeight(this.$refs.body, { isScroll: true }) -
+                    this.viewHeight;
             }
         },
 
@@ -175,7 +186,7 @@ export default {
             // 禁用touch事件
             if (this.isDisableTouch) return;
 
-            // ========== 计算滑动 ========== 
+            // ========== 计算滑动 ==========
             const point = e.touches ? e.touches[0] : e;
             this.transitionDuration = 0;
 
@@ -203,8 +214,8 @@ export default {
             // x/y都lock了[停止运行]
             if (this.isLockX && this.isLockY) return;
 
-            // 这句没看懂iscroll的意义, 先直接拿过来[停止运行]
             const now = getTime();
+            // 这句没看懂iscroll的意图, 先直接拿过来[停止运行]
             // if(300 < now - this.endTime) return;
 
             // 基础位置数据
@@ -215,7 +226,8 @@ export default {
             let absDeltaX = Math.abs(deltaX);
 
             // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
-            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
+            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX)
+                return;
 
             // ========== 计算滑动 ==========
             if (!this.isLockX && this.isLockY) {
@@ -228,19 +240,23 @@ export default {
                 if (!this.isOverflowX) return;
 
                 // 超出边界减慢拖拽移动速度
-                this.moveRatio = this.isOutOfXLimit ? .3 : 1;
-                this.translateX = this.startTranslateX + deltaX * this.moveRatio;
+                this.moveRatio = this.isOutOfXLimit ? 0.3 : 1;
+                this.translateX =
+                    this.startTranslateX + deltaX * this.moveRatio;
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
                 if (absDeltaY < absDeltaX + this.directionLockThreshold) return;
                 if (!this.isOverflowY) return;
-                this.moveRatio = this.isOutOfYLimit ? .3 : 1;
-                this.translateY = this.startTranslateY + deltaY * this.moveRatio;
+                this.moveRatio = this.isOutOfYLimit ? 0.3 : 1;
+                this.translateY =
+                    this.startTranslateY + deltaY * this.moveRatio;
             } else {
                 // 自由移动, 最上面已经对禁用移动判断过了
                 this.moveRatio = 1;
-                this.translateX = this.startTranslateX + deltaX * this.moveRatio;
-                this.translateY = this.startTranslateY + deltaY * this.moveRatio;
+                this.translateX =
+                    this.startTranslateX + deltaX * this.moveRatio;
+                this.translateY =
+                    this.startTranslateY + deltaY * this.moveRatio;
             }
 
             // 当手指一直按住突然拖动, 那么重置起始值
@@ -252,7 +268,10 @@ export default {
                 this.startTranslateX = this.translateX;
             }
             // 派发组件事件
-            this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            this.$emit('input', {
+                scrollTop: -this.translateY,
+                scrollLeft: -this.translateX
+            });
             this.$emit('scroll-move', { ...this.moveData, e });
         },
 
@@ -272,8 +291,11 @@ export default {
                 this.$emit('buffer-move', true);
             }
 
-            // 派发事件     
-            this.$emit('input', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+            // 派发事件
+            this.$emit('input', {
+                scrollTop: -this.translateY,
+                scrollLeft: -this.translateX
+            });
             this.$emit('scroll-leave', { ...this.moveData, e });
         },
 
@@ -284,7 +306,10 @@ export default {
             }
             this.$nextTick(() => {
                 this.isBufferMoving = false;
-                this.$emit('scroll-end', { scrollTop: -this.translateY, scrollLeft: -this.translateX });
+                this.$emit('scroll-end', {
+                    scrollTop: -this.translateY,
+                    scrollLeft: -this.translateX
+                });
             });
         },
         /**
@@ -296,23 +321,25 @@ export default {
             const deltaY = point.pageY - this.startPointY;
             const absDeltaX = Math.abs(deltaX);
             const absDeltaY = Math.abs(deltaY);
-            
+
             this.isBufferMoving = true;
             if (!this.isLockX && this.isLockY) {
-                // X轴可拖拽
-                if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
-                if (this.maxHolderTime > costTime) {
-                    const speedX = deltaX / costTime;
-                    this.translateX += speedX * 1000;
+                // X轴可拖拽, 前提是X轴的移动增量大于Y轴增量和阈值的和
+                if (absDeltaX > absDeltaY + this.directionLockThreshold) {
+                    if (this.maxHolderTime > costTime) {
+                        const speedX = deltaX / costTime;
+                        this.translateX += speedX * 1000;
+                    }
                 }
                 // 自动复位
                 this.hasReset && this.resetX();
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
-                if (absDeltaY < absDeltaX + this.directionLockThreshold) return;
-                if (this.maxHolderTime > costTime) {
-                    const speedY = deltaY / costTime;
-                    this.translateY += speedY * 1000;
+                if (absDeltaY < absDeltaX + this.directionLockThreshold) {
+                    if (this.maxHolderTime > costTime) {
+                        const speedY = deltaY / costTime;
+                        this.translateY += speedY * 1000;
+                    }
                 }
                 // 自动复位
                 this.hasReset && this.resetY();
@@ -380,7 +407,7 @@ export default {
                 pointY: this.startPointY,
                 pointX: this.startPointX,
                 deltaX: this.translateX - this.startTranslateX,
-                deltaY: this.translateY - this.startTranslateY,
+                deltaY: this.translateY - this.startTranslateY
             };
         }
     },
@@ -402,8 +429,7 @@ export default {
         window.removeEventListener('resize', this.updateSize);
         this.removeEvents(this.isBindBody ? this.$refs.body : this.$el);
     }
-
-}
+};
 </script>
 <style scoped lang=scss>
 .atom-scroller {
@@ -417,7 +443,7 @@ export default {
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    >.atom-scroller__body {
+    > .atom-scroller__body {
         position: relative;
         width: 100%;
         user-select: none;
