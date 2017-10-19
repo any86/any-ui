@@ -12,7 +12,7 @@ export default {
     name: 'Scroller',
 
     props: {
-        disableTouch: {
+        isDisableTouch: {
             type: Boolean,
             default: false
         },
@@ -173,7 +173,7 @@ export default {
             this.preventDefault && e.preventDefault();
 
             // 禁用touch事件
-            if (this.disableTouch) return;
+            if (this.isDisableTouch) return;
 
             // ========== 计算滑动 ========== 
             const point = e.touches ? e.touches[0] : e;
@@ -198,7 +198,7 @@ export default {
             e.stopPropagation();
             this.preventDefault && e.preventDefault();
             // 禁用touch事件[停止运行]
-            if (this.disableTouch) return;
+            if (this.isDisableTouch) return;
 
             // x/y都lock了[停止运行]
             if (this.isLockX && this.isLockY) return;
@@ -260,7 +260,7 @@ export default {
             e.stopPropagation();
             this.preventDefault && e.preventDefault();
             // 禁用touch事件
-            if (this.disableTouch) return;
+            if (this.isDisableTouch) return;
             this.transitionDuration = 500;
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
@@ -278,7 +278,7 @@ export default {
         },
 
         transitionend() {
-            if (this.disableTouch) return;
+            if (this.isDisableTouch) return;
             if (this.hasBufferMove) {
                 this.$emit('buffer-move', false);
             }
