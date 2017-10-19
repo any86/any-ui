@@ -1,16 +1,20 @@
 <template>
-    <v-scroller v-model="pos" :is-lock-y="false" :is-lock-x="true">
-        <div class="swiper-item">
-            <h1>12321321</h1>
-        </div>
-        <v-swiper>
+    <v-scroller v-model="pos">
+        <v-cell  class="item">
+            {{index}}
+        </v-cell>
+        <v-swiper v-model="index">
             <v-swiper-item v-for="n in 5" :key="n" class="swiper-item">{{n}}</v-swiper-item>
         </v-swiper>
+        <v-cell v-for="n in 100" :key="n" class="item">
+            {{n+15}}
+        </v-cell>
     </v-scroller>
 </template>
 <script>
 import Mock from 'mockjs'
 import VScroller from '@/packages/Scroller/Scroller'
+import VCell from '@/packages/Cell/Cell';
 import VSwiper from '@/packages/Swiper/Swiper';
 import VSwiperItem from '@/packages/Swiper/SwiperItem';
 export default {
@@ -18,7 +22,12 @@ export default {
 
     data() {
         return {
-            pos: { scrollLeft: 0, scrollTop: 0 },
+            pos: {
+                scrollLeft: 0,
+                scrollTop: 0,
+            },
+            index: 0
+
 
         };
     },
@@ -27,7 +36,7 @@ export default {
 
     },
 
-    components: { VSwiper, VSwiperItem, VScroller }
+    components: { VSwiper, VSwiperItem, VScroller, VCell }
 }
 </script>
 <style scoped lang="scss">
@@ -42,4 +51,15 @@ export default {
         background: $success;
     }
 }
+
+.item {
+    &:nth-child(2n+1) {
+        background: $white;
+    }
+
+    &:nth-child(2n) {
+        background: $lightest;
+    }
+}
+
 </style>

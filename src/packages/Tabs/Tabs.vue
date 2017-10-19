@@ -1,6 +1,6 @@
 <template>
     <div class="atom-tabs" @click.stop="showHidden($event)">
-        <v-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :disable-touch="isDisableTouch">
+        <v-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->
             <div class="atom-tabs__state-bar">
@@ -26,7 +26,6 @@ export default {
         return {
             warpWidth: 0,
             itemWidthList: [],
-            lateItemWidth: 0,
             countWidth: 0,
             count: 0,
             activeIndex: 2,
@@ -38,7 +37,6 @@ export default {
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
-        this.lateItemWidth = this.itemWidthList[this.count - 1];
         this.isDisableTouch = this.countWidth <= this.warpWidth;
     },
 

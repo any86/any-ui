@@ -345,7 +345,6 @@ export default {
                 if (this.maxHolderTime > costTime) {
                     const speedY = deltaY / costTime;
                     this.translateY += speedY * 500;
-                    log(absDeltaY);
                 }
                 this.hasReset && this.resetY();
             }

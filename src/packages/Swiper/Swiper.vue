@@ -1,5 +1,5 @@
 <template>
-    <div class="component-swiper swiper-container">
+    <div class="atom-swiper swiper-container">
         <div class="swiper-wrapper">
             <slot></slot>
         </div>
@@ -7,8 +7,8 @@
     </div>
 </template>
 <script>
-import Swiper from 'swiper'
-import 'swiper/dist/css/swiper.css'
+import Swiper from 'swiper';
+import 'swiper/dist/css/swiper.css';
 export default {
     name: 'Swiper',
 
@@ -30,7 +30,7 @@ export default {
 
     data() {
         return {
-            swiper: null,
+            swiper: null
         };
     },
 
@@ -39,28 +39,27 @@ export default {
         this.swiper = new Swiper(this.$el, {
             slidesPerView: 1,
             pagination: '.swiper-pagination',
-            touchMoveStopPropagation: true,
-            ...this.options,
-            onSlideChangeStart: swiper => {
-                this.$emit('change-start', swiper);
-            },
-            onSlideChangeEnd: swiper => {
-                this.$emit('change-end', swiper);
-            }
+            touchMoveStopPropagation: true
+        });
+
+        this.swiper.on('slideChange', swiper => {
+            dir(swiper);
+            this.$emit('input', this.value);
+            this.$emit('change-start', swiper);
         });
     },
 
     watch: {
-        value(value){
-            this.swiper.slideTo(value);
-        }
+        // value(value) {
+        //     this.swiper.slideTo(value);
+        // }
     },
 
     destroy() {
         this.swiper.destroy();
-        delete this.swiper;
+        this.swiper = null;
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';

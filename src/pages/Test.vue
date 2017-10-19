@@ -1,5 +1,5 @@
 <template>
-    <v-y-scroll v-model="y">
+    <v-scroll v-model="pos">
         <v-cell>
             <v-switch v-model="isShow">显示{{text2}}</v-switch>
         </v-cell>
@@ -9,7 +9,7 @@
             <label>scroll = <input v-model="text2" /></label>
         </p>
         <p v-for="n in 35" :key="n+5">{{n+5}}</p>
-    </v-y-scroll>
+    </v-scroll>
 </template>
 <script>
 import Mock from 'mockjs'
@@ -20,7 +20,7 @@ import VCell from '@/packages/Cell/Cell';
 import VPicker from '@/packages/Picker/Picker';
 import VInput from '@/packages/Input/Input';
 import VirtualScroll from '@/packages/Scroller/Scroller'
-import VYScroll from '@/packages/Scroller/YScroller'
+import VScroll from '@/packages/Scroller/Scroller'
 import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
 export default {
     name: 'Test',
@@ -35,7 +35,7 @@ export default {
                 }]
             }),
             value: [12, 15],
-            y: 0,
+           pos: {scrollTop: 0, scrollLeft: 0},
             isBottom: false,
             dataSource: [],
             text2: '123'
@@ -53,7 +53,7 @@ export default {
         }
     },
 
-    components: { VirtualScroll, VInput, VInfiniteScroll, VPicker, VSwitch, VCell, VSlider, VSliderItem, VYScroll }
+    components: { VirtualScroll, VInput, VInfiniteScroll, VPicker, VSwitch, VCell, VSlider, VSliderItem, VScroll }
 }
 </script>
 <style scoped lang="scss">

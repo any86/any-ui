@@ -1,7 +1,7 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @buffer-move="isMoving = $event" :body-style="bodyStyle" class="list">
+        <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @scroll-buffer="isMoving = $event" :body-style="bodyStyle" class="list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
                 {{item.label}}
             </div>

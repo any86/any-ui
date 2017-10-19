@@ -9,7 +9,6 @@
             <canvas id="canvas" width="200"></canvas>
         </ul>
         <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true">
-
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
             </v-tabs>
@@ -34,7 +33,7 @@
                 <v-cell style="background:#bbb;">{{scrollTop}}</v-cell>
             </v-affix>
 
-            <v-cell v-for="n in 20" :key="n" class="abc">第{{10+n}}次</v-cell>
+            <v-cell v-for="n in 120" :key="n" class="abc">第{{10+n}}次</v-cell>
             <v-spinner v-show="isBottom"></v-spinner>
         </v-infinite-scroll>
     </v-drawer>
@@ -74,12 +73,14 @@ export default {
                 }]
             }),
             tabs: Mock.mock({
-                'list|3': ['@province()']
+                'list|10': ['@province()']
             }),
             value: [12, 15],
             scrollTop: 0,
             isBottom: false,
-            dataSource: []
+            dataSource: [],
+            map: { a: 1, b: 2 },
+            list2: [1, 2, 3]
         };
     },
 
@@ -95,8 +96,7 @@ export default {
     },
 
     methods: {
-        bo(e) {
-        }
+
     },
 
     components: {
