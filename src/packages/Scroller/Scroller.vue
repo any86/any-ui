@@ -294,9 +294,13 @@ export default {
             const costTime = this.endTime - this.startTime;
             const deltaX = point.pageX - this.startPointX;
             const deltaY = point.pageY - this.startPointY;
+            const absDeltaX = Math.abs(deltaX);
+            const absDeltaY = Math.abs(deltaY);
+            
             this.isBufferMoving = true;
             if (!this.isLockX && this.isLockY) {
                 // X轴可拖拽
+                if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
                 if (this.maxHolderTime > costTime) {
                     const speedX = deltaX / costTime;
                     this.translateX += speedX * 1000;
@@ -305,6 +309,7 @@ export default {
                 this.hasReset && this.resetX();
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
+                if (absDeltaY < absDeltaX + this.directionLockThreshold) return;
                 if (this.maxHolderTime > costTime) {
                     const speedY = deltaY / costTime;
                     this.translateY += speedY * 1000;
