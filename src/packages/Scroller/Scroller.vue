@@ -203,7 +203,7 @@ export default {
             // x/y都lock了[停止运行]
             if (this.isLockX && this.isLockY) return;
 
-            // 这句没看懂iscroll的意义
+            // 这句没看懂iscroll的意义, 先直接拿过来[停止运行]
             const now = getTime();
             // if(300 < now - this.endTime) return;
 
@@ -226,9 +226,6 @@ export default {
 
                 // 如果X轴向内容没有溢出[停止运行]
                 if (!this.isOverflowX) return;
-
-                // 如果超出边界[停止运行]
-                // code...
 
                 // 超出边界减慢拖拽移动速度
                 this.moveRatio = this.isOutOfXLimit ? .3 : 1;
@@ -295,7 +292,7 @@ export default {
          */
         bufferMove(point) {
             const costTime = this.endTime - this.startTime;
-            const deltaX = point.pageY - this.startPointX;
+            const deltaX = point.pageX - this.startPointX;
             const deltaY = point.pageY - this.startPointY;
             this.isBufferMoving = true;
             if (!this.isLockX && this.isLockY) {
