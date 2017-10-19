@@ -1,15 +1,15 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <v-y-scroller v-model="positions[i].scrollTop" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" :is-self-moving.sync="isSelfMoving" :body-style="bodyStyle" class="list">
+        <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @buffer-move="isMoving = $event" :body-style="bodyStyle" class="list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
                 {{item.label}}
             </div>
-        </v-y-scroller>
+        </v-scroller>
     </div>
 </template>
 <script>
-import VYScroller from '@/packages/Scroller/YScroller'
+import VScroller from '@/packages/Scroller/Scroller';
 export default {
     name: 'Picker',
 
@@ -33,8 +33,11 @@ export default {
     data() {
         return {
             positions: [],
-            isSelfMoving: false,
-            bodyStyle: { paddingTop: 3 * this.itemHeight + 'px', paddingBottom: 3 * this.itemHeight + 'px' }
+            isMoving: false,
+            bodyStyle: {
+                paddingTop: 3 * this.itemHeight + 'px',
+                paddingBottom: 3 * this.itemHeight + 'px'
+            }
         };
     },
 
@@ -59,18 +62,25 @@ export default {
             // 同步value
             this.$emit('input', _value);
             // 携带更详细的信息
-            this.$emit('change', { columnIndex, rowIndex: absIndex, ...activeItem });
+            this.$emit('change', {
+                columnIndex,
+                rowIndex: absIndex,
+                ...activeItem
+            });
         },
         /**
          * 设置scrollTop
          */
         _syncPositionition() {
-            if (!this.isSelfMoving) {
+            if (!this.isMoving) {
                 // 下面有positions的push操作才敢直接赋值为空, 不然数据不响应
                 this.positions = [];
                 this.value.forEach((v, i) => {
                     var index = this._findIndexByValue(i, v);
-                    this.positions.push({ scrollLeft: 0, scrollTop: index * this.itemHeight });
+                    this.positions.push({
+                        scrollLeft: 0,
+                        scrollTop: index * this.itemHeight
+                    });
                 });
             }
         },
@@ -82,7 +92,7 @@ export default {
          */
         _findIndexByValue(listIndex, value) {
             return this.dataSource[listIndex].findIndex(item => {
-                return value == item.value
+                return value == item.value;
             });
         }
     },
@@ -111,8 +121,8 @@ export default {
         }
     },
 
-    components: { VYScroller }
-}
+    components: { VScroller }
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
