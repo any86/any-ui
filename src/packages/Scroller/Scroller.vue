@@ -288,7 +288,7 @@ export default {
             if (this.hasBufferMove) {
                 this.bufferMove(point);
                 // 派发事件
-                this.$emit('buffer-move', true);
+                this.$emit('scroll-buffer', true);
             }
 
             // 派发事件
@@ -302,7 +302,7 @@ export default {
         transitionend() {
             if (this.isDisableTouch) return;
             if (this.hasBufferMove) {
-                this.$emit('buffer-move', false);
+                this.$emit('scroll-buffer', false);
             }
             this.$nextTick(() => {
                 this.isBufferMoving = false;
@@ -324,24 +324,29 @@ export default {
 
             this.isBufferMoving = true;
             if (!this.isLockX && this.isLockY) {
-                // X轴可拖拽, 前提是X轴的移动增量大于Y轴增量和阈值的和
+                // X轴可拖拽
                 if (absDeltaX > absDeltaY + this.directionLockThreshold) {
-                    if (this.maxHolderTime > costTime) {
-                        const speedX = deltaX / costTime;
-                        this.translateX += speedX * 1000;
-                    }
+                    this.hasReset && this.resetX();
+                    return;
                 }
-                // 自动复位
+                // 缓冲滑动
+                if (this.maxHolderTime > costTime) {
+                    const speedX = deltaX / costTime;
+                    this.translateX += speedX * 500;
+                }
+                // 自动复位到最近的边缘
                 this.hasReset && this.resetX();
             } else if (this.isLockX && !this.isLockY) {
-                // Y轴可拖拽
+                // Y轴可拖拽, 前提是Y的移动增量要大于X轴移动增量和阈值的和
                 if (absDeltaY < absDeltaX + this.directionLockThreshold) {
-                    if (this.maxHolderTime > costTime) {
-                        const speedY = deltaY / costTime;
-                        this.translateY += speedY * 1000;
-                    }
+                    this.hasReset && this.resetY();
+                    return;
                 }
-                // 自动复位
+                if (this.maxHolderTime > costTime) {
+                    const speedY = deltaY / costTime;
+                    this.translateY += speedY * 500;
+                    log(absDeltaY);
+                }
                 this.hasReset && this.resetY();
             }
         },
