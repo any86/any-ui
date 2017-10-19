@@ -1,17 +1,17 @@
 <template>
     <div class="atom-tabs" @click.stop="showHidden($event)">
-        <v-x-scroller v-model="tabPos.scrollLeft" :body-class="{flex: true}" :disable-touch="isDisableTouch">
+        <v-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->
             <div class="atom-tabs__state-bar">
                 <div class="indicator" :style="{width: `${itemWidthList[activeIndex]}px`, transform: `translate3d(${indicatorTranslateX}px, 0, 0)`}"></div>
             </div>
-        </v-x-scroller>
+        </v-scroller>
     </div>
 </template>
 <script>
-import { getWidth } from '@/utils/dom'
-import VXScroller from '@/packages/Scroller/XScroller'
+import { getWidth } from '@/utils/dom';
+import VScroller from '@/packages/Scroller/Scroller';
 export default {
     name: 'Tabs',
 
@@ -33,7 +33,7 @@ export default {
             tabPos: { scrollLeft: 0, scrollTop: 0 },
             stateBarStyle: { position: 'absolute', bottom: 0 },
             isDisableTouch: true // 少量选项的时候关闭拖拽
-        }
+        };
     },
 
     mounted() {
@@ -55,7 +55,7 @@ export default {
                 // 获取前一项的距离左边距的距离 == 前一项的前面项的width和
                 let countWidth = this.countWidthByIndex(prevIndex - 1);
                 // 判断前一项是否完全可见, 不能有部分被遮挡
-                // 判断后一项是否完全可见 
+                // 判断后一项是否完全可见
                 if (countWidth < this.tabPos.scrollLeft) {
                     this.tabPos.scrollLeft = countWidth;
                 } else {
@@ -64,8 +64,12 @@ export default {
                     if (nextIndex < this.count) {
                         let countWidth = this.countWidthByIndex(nextIndex);
                         // 下一项是否被隐藏
-                        if (countWidth > this.tabPos.scrollLeft + this.warpWidth) {
-                            this.tabPos.scrollLeft = countWidth - this.warpWidth;
+                        if (
+                            countWidth >
+                            this.tabPos.scrollLeft + this.warpWidth
+                        ) {
+                            this.tabPos.scrollLeft =
+                                countWidth - this.warpWidth;
                         }
                     }
                 }
@@ -81,7 +85,7 @@ export default {
                 }
             }
             return countWidth;
-        },
+        }
     },
 
     computed: {
@@ -90,13 +94,13 @@ export default {
             for (var i in this.itemWidthList) {
                 if (this.activeIndex == i) break;
                 translateX += this.itemWidthList[i];
-            };
+            }
             return translateX;
         }
     },
 
-    components: { VXScroller }
-}
+    components: { VScroller }
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
@@ -109,7 +113,7 @@ $height: 1rem;
     &__state-bar {
         position: absolute;
         z-index: 2;
-        bottom:0;
+        bottom: 0;
         left: 0;
         width: 100%;
 
