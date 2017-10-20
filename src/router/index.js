@@ -24,6 +24,9 @@ const CheckboxDemo = () => ({
 // });
 
 import SwiperDemo from '@/pages/SwiperDemo'
+import TabsDemo from '@/pages/TabsDemo'
+import PopperDemo from '@/pages/PopperDemo'
+
 
 
 
@@ -71,11 +74,22 @@ export default new Router({
             name: 'SwiperDemo',
             path: '/swiper',
             component: SwiperDemo
+        },{
+            name: 'TabsDemo',
+            path: '/tabs',
+            component: TabsDemo
         },
         {
             name: 'Test',
             path: '/test',
             component: Test
+        },
+        {
+            name: 'PopperDemo',
+            path: '/popper',
+            component: PopperDemo
         }
+
+        
     ]
 });

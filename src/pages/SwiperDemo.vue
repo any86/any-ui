@@ -1,9 +1,10 @@
 <template>
     <v-scroller v-model="pos">
-        <v-cell  class="item">
-            {{index}}
+        <v-cell>{{index}}</v-cell>
+        <v-cell class="item" @click="index = 2">
+            change  
         </v-cell>
-        <v-swiper v-model="index">
+        <v-swiper v-model="index" :hasPagination="true">
             <v-swiper-item v-for="n in 5" :key="n" class="swiper-item">{{n}}</v-swiper-item>
         </v-swiper>
         <v-cell v-for="n in 100" :key="n" class="item">

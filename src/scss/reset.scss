@@ -17,20 +17,6 @@ section,
 main {
   font-size: $normal;
 }
-
-// 设计稿宽度
-// $designWidth: 750px;
-// @mixin adapt($min, $max, $designWidth) {
-//     @media (min-width: $min) and (max-width: $max) {
-//         html {
-//             font-size: 100px * $max / $designWidth;
-//         }
-//     }
-// }
-// @include adapt(376px, 414px, $designWidth);
-// @include adapt(361px, 375px, $designWidth);
-// @include adapt(321px, 360px, $designWidth);
-// @include adapt(0px, 320px, $designWidth);
 html {
   width: 100%;
   height: 100%;

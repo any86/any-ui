@@ -31,6 +31,7 @@ export default {
     methods: {
         select() {
             this.$parent.$parent.activeIndex = this.index;
+            this.$parent.$parent.$emit('input', this.index);
         }
     }
 }

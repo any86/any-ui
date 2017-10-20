@@ -1,6 +1,6 @@
 @import "./theme.scss";
 @import "./mixin.scss";
-@import "./font.scss";
+// @import "./font.scss";
 @import "./reset.scss";
 @import "./animate.scss";
 .clearfix {
@@ -155,9 +155,7 @@ img[lazy="done"] {
     padding: $gutter/ 3 $gutter;
 }
 
-.swiper-pagination-bullet-active {
-    background: $base !important;
-}
+
 
 .divider {
     height: 1px;

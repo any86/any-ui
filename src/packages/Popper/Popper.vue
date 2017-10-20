@@ -1,23 +1,20 @@
 <template>
-    <span popper-handle @click.stop="showPopper">
+    <span  @click="showPopper">
         <transition name="fade">
-            <span v-show="isShow" ref="popper">
-                <slot name="content"></slot>
+            <span ref="popper" v-show="isShow" class="atom-popper">
+                <slot></slot>
             </span>
         </transition>
-        <slot></slot>
+        <slot name="reference"></slot>
     </span>
 </template>
 <script>
-// 存在2个问题
-// 1.如果默认slot中的元素的父元素在进行动画, 那么popper位置会不对
-// 2.暂时只能用fade动画, 其他动画会发生起始位置错误,=
-import Popper from 'popper.js'
+import Popper from 'popper.js';
 export default {
     name: 'Popper',
 
     props: {
-        modifiers: {
+        options: {
             type: Object,
             default() {
                 return {};
@@ -31,76 +28,78 @@ export default {
     },
 
     data() {
-        return { popper: null, top: 0, left: 0, isShow: false, popperNode: null };
+        return {
+            popper: null,
+            top: 0,
+            left: 0,
+            isShow: false,
+            referenceElm: null,
+            popperElm: null
+        };
     },
 
     mounted() {
         this.createPopper();
+        document.addEventListener('click', this.closePopper);
     },
 
     methods: {
-        closePoper() {
+        handleDocumentClick(e) {
+            if (
+                this.$el.contains(e.target) ||
+                this.referenceElm.contains(e.target) ||
+                this.popperElm.contains(e.target)
+            ) {
+                return;
+            }
+        },
+
+        closePopper(e) {
+            this.handleDocumentClick(e);
             this.isShow = false;
         },
 
         showPopper() {
-            this.popper.scheduleUpdate();
-            this.isShow = true;
-            document.addEventListener('click', e => {
-                if (!this.popperNode.contains(e.target) && e.target != this.popperNode) {
-                    this.isShow = false;
-                }
-            });
-        },
-        createPopper() {
-            // 获取popper元素
-            // const popperNode = this.$slots.content[0].elm;
-            this.popperNode = this.$refs.popper;
-            this.popperNode.className = 'component-popper';
-            // 插入arrow
-            const arrowNode = document.createElement('div');
-            arrowNode.setAttribute('x-arrow', '');
-            arrowNode.className = 'popper__arrow'
-            this.popperNode.appendChild(arrowNode);
-            // 移动到body尾部
-            document.body.appendChild(this.popperNode);
-            // 实例化
-            this.popper = new Popper(this.$slots.default[0].elm, this.popperNode, {
-                placement: this.placement,
-                modifiers: this.modifiers,
-                onCreate: data => {
-                    this.$nextTick(() => {
-                        this.popper.scheduleUpdate()
-                    });
-                }
+            this.isShow = !this.isShow;
+            this.$nextTick(() => {
+                this.updatePopper();
             });
         },
 
-        updatePopper() {
-            this.popper ? this.popper.scheduleUpdate() : this.createPopper();
+        createPopper() {
+            this.referenceElm = this.$slots.reference[0].elm;
+            this.popperElm = this.$refs.popper;
+            // 插入箭头
+            const arrow = document.createElement('div');
+            arrow.setAttribute('x-arrow', '');
+            arrow.className = 'popper__arrow';
+            this.popperElm.appendChild(arrow);
+            this.popper = new Popper(this.referenceElm, this.popperElm);
         },
+
+        updatePopper() {
+            this.popperElm ? this.popper.scheduleUpdate() : this.createPopper();
+        }
     },
 
     destroyed() {
         this.popper.destroy();
     }
-}
+};
 </script>
 <style lang="scss">
 @import '../../scss/theme.scss';
 $arrowSize: 8px;
 $arrowBorderSize: 1px;
 
-
-.component-popper {
+.atom-popper {
     z-index: $popperZIndex;
     display: inline-block;
-    padding: 15px;
     border: 1px solid $lightest;
     border-radius: $borderRadius;
     background: $sub;
 
-    &[x-placement^="top"] {
+    &[x-placement^='top'] {
         box-shadow: $shadowDown;
         margin-bottom: 10px;
         .popper__arrow {
@@ -112,7 +111,7 @@ $arrowBorderSize: 1px;
             border-style: solid;
             border-bottom-color: transparent;
             border-left-color: transparent;
-            border-top-color: hsla(0, 0%, 85%, .5);
+            border-top-color: hsla(0, 0%, 85%, 0.5);
             border-right-color: transparent;
             &:after {
                 content: '';
@@ -121,7 +120,8 @@ $arrowBorderSize: 1px;
                 right: -($arrowSize - $arrowBorderSize);
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize 0 $arrowSize - $arrowBorderSize;
+                border-width: $arrowSize - $arrowBorderSize $arrowSize -
+                    $arrowBorderSize 0 $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-left-color: transparent;
@@ -131,8 +131,7 @@ $arrowBorderSize: 1px;
         }
     }
 
-
-    &[x-placement^="bottom"] {
+    &[x-placement^='bottom'] {
         box-shadow: $shadowDown;
         margin-top: 10px;
         .popper__arrow {
@@ -142,7 +141,7 @@ $arrowBorderSize: 1px;
             height: 0;
             border-width: 0 $arrowSize $arrowSize $arrowSize;
             border-style: solid;
-            border-bottom-color: hsla(0, 0%, 85%, .5);
+            border-bottom-color: hsla(0, 0%, 85%, 0.5);
             border-left-color: transparent;
             border-top-color: transparent;
             border-right-color: transparent;
@@ -153,7 +152,8 @@ $arrowBorderSize: 1px;
                 right: -($arrowSize - $arrowBorderSize);
                 width: 0;
                 height: 0;
-                border-width: 0 $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize;
+                border-width: 0 $arrowSize - $arrowBorderSize $arrowSize -
+                    $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: $sub;
                 border-left-color: transparent;
@@ -163,7 +163,7 @@ $arrowBorderSize: 1px;
         }
     }
 
-    &[x-placement^="left"] {
+    &[x-placement^='left'] {
         box-shadow: $shadowDown;
         margin-right: 10px;
         .popper__arrow {
@@ -174,7 +174,7 @@ $arrowBorderSize: 1px;
             border-width: $arrowSize 0 $arrowSize $arrowSize;
             border-style: solid;
             border-bottom-color: transparent;
-            border-left-color: hsla(0, 0%, 85%, .5);
+            border-left-color: hsla(0, 0%, 85%, 0.5);
             border-top-color: transparent;
             border-right-color: transparent;
             &:after {
@@ -184,7 +184,8 @@ $arrowBorderSize: 1px;
                 right: $arrowBorderSize * 2;
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize 0 $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize;
+                border-width: $arrowSize - $arrowBorderSize 0 $arrowSize -
+                    $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-left-color: $sub;
@@ -194,8 +195,7 @@ $arrowBorderSize: 1px;
         }
     }
 
-
-    &[x-placement^="right"] {
+    &[x-placement^='right'] {
         box-shadow: $shadowDown;
         margin-left: 10px;
         .popper__arrow {
@@ -206,7 +206,7 @@ $arrowBorderSize: 1px;
             border-width: $arrowSize $arrowSize $arrowSize 0;
             border-style: solid;
             border-bottom-color: transparent;
-            border-right-color: hsla(0, 0%, 85%, .5);
+            border-right-color: hsla(0, 0%, 85%, 0.5);
             border-top-color: transparent;
             border-left-color: transparent;
             &:after {
@@ -216,7 +216,8 @@ $arrowBorderSize: 1px;
                 left: $arrowBorderSize * 2;
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize 0;
+                border-width: $arrowSize - $arrowBorderSize $arrowSize -
+                    $arrowBorderSize $arrowSize - $arrowBorderSize 0;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-right-color: $sub;
