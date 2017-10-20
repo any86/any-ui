@@ -338,12 +338,12 @@ export default {
                 this.hasReset && this.resetX();
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽, 前提是Y的移动增量要大于X轴移动增量和阈值的和
+                const speedY = deltaY / costTime;
+
                 if (absDeltaY < absDeltaX + this.directionLockThreshold) {
-                    this.hasReset && this.resetY();
-                    return;
-                }
-                if (this.maxHolderTime > costTime) {
-                    const speedY = deltaY / costTime;
+                } else if (0.02 > Math.abs(speedY)) {
+                    
+                } else if (this.maxHolderTime > costTime) {
                     this.translateY += speedY * 500;
                 }
                 this.hasReset && this.resetY();
