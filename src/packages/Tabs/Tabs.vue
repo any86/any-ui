@@ -28,7 +28,7 @@ export default {
             itemWidthList: [],
             countWidth: 0,
             count: 0,
-            activeIndex: 2,
+            activeIndex: 0,
             tabPos: { scrollLeft: 0, scrollTop: 0 },
             stateBarStyle: { position: 'absolute', bottom: 0 },
             isDisableTouch: true // 少量选项的时候关闭拖拽
@@ -36,6 +36,7 @@ export default {
     },
 
     mounted() {
+        this.activeIndex = this.value;
         this.warpWidth = getWidth(this.$el);
         this.isDisableTouch = this.countWidth <= this.warpWidth;
     },
@@ -45,13 +46,11 @@ export default {
         * 通过控制滚动条, 显示边缘的隐藏项 
         * @argument {Event} 
         */
-        showHidden(e) {
-            const offsetLeft = e.target.offsetLeft;
-            // const itemWidth = getWidth(e.target);
+        showHidden() {
             const prevIndex = this.activeIndex - 1;
             if (1 <= prevIndex) {
                 // 获取前一项的距离左边距的距离 == 前一项的前面项的width和
-                let countWidth = this.countWidthByIndex(prevIndex - 1);
+                let countWidth = this.countRightWidthByIndex(prevIndex - 1);
                 // 判断前一项是否完全可见, 不能有部分被遮挡
                 // 判断后一项是否完全可见
                 if (countWidth < this.tabPos.scrollLeft) {
@@ -60,7 +59,7 @@ export default {
                     const nextIndex = this.activeIndex + 1;
                     // 是否有下一项
                     if (nextIndex < this.count) {
-                        let countWidth = this.countWidthByIndex(nextIndex);
+                        let countWidth = this.countRightWidthByIndex(nextIndex);
                         // 下一项是否被隐藏
                         if (
                             countWidth >
@@ -74,7 +73,7 @@ export default {
             }
         },
 
-        countWidthByIndex(index) {
+        countRightWidthByIndex(index) {
             let countWidth = 0;
             if (0 < index) {
                 for (var i in this.itemWidthList) {
@@ -94,6 +93,14 @@ export default {
                 translateX += this.itemWidthList[i];
             }
             return translateX;
+        }
+    },
+
+    watch: {
+        value(value){
+            this.activeIndex = value;
+            this.showHidden();
+            this.$emit('input', value);
         }
     },
 
