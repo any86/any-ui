@@ -1,6 +1,6 @@
 <template>
     <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="isShow" v-dom-portal="portal" @click.self="close" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs" class="component-mask">
+        <div v-show="isShow" v-dom-portal="portal" @click.self="close" :style="{position, background, zIndex}" v-on="$listeners" v-bind="$attrs" class="atom-mask">
             <slot></slot>
         </div>
     </transition>
@@ -64,7 +64,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-mask {
+.atom-mask {
     z-index: $maskZIndex;
     top: 0;
     left: 0;
