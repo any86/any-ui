@@ -63,11 +63,7 @@
     right: 0;
 }
 
-// 懒加载动画
-// img[lazy="loading"] {}
-img[lazy="done"] {
-    animation: zoomIn 1s;
-}
+
 
 .ellipsis {
     text-overflow: ellipsis;

@@ -23,13 +23,10 @@ const CheckboxDemo = () => ({
 //     component: import('@/pages/SliderDemo')
 // });
 
-import SwiperDemo from '@/pages/SwiperDemo'
-import TabsDemo from '@/pages/TabsDemo'
-import PopperDemo from '@/pages/PopperDemo'
-
-
-
-
+import SwiperDemo from '@/pages/SwiperDemo';
+import TabsDemo from '@/pages/TabsDemo';
+import PopperDemo from '@/pages/PopperDemo';
+import LazyLoadDemo from '@/pages/LazyLoadDemo';
 
 const SvgDemo = () => ({
     component: import('@/pages/SvgDemo')
@@ -74,7 +71,8 @@ export default new Router({
             name: 'SwiperDemo',
             path: '/swiper',
             component: SwiperDemo
-        },{
+        },
+        {
             name: 'TabsDemo',
             path: '/tabs',
             component: TabsDemo
@@ -88,8 +86,11 @@ export default new Router({
             name: 'PopperDemo',
             path: '/popper',
             component: PopperDemo
+        },
+        {
+            name: 'LazyLoadDemo',
+            path: '/lazyload',
+            component: LazyLoadDemo
         }
-
-        
     ]
 });

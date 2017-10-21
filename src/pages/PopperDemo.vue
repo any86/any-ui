@@ -8,7 +8,10 @@
                 </v-popper>
             </v-cell>
             <v-cell>
-                <v-switch v-model="isShow">开关</v-switch>
+                <v-popper v-model="isShow" :options="{placement: 'top'}">
+                    <p style="padding:15px;">用户名密码不对!</p style="padding:15px;">
+                    <button slot="reference" class="button button-warning">弹出</button>
+                </v-popper>
             </v-cell>
         </v-group>
     </v-infinite-scroll>
