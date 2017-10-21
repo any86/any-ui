@@ -1,7 +1,7 @@
 <template>
-    <span  @click="showPopper">
-        <transition name="fade">
-            <span ref="popper" v-show="isShow" class="atom-popper">
+    <span>
+        <transition name="fadeUp">
+            <span ref="popper" v-show="isShow" class="atom-popper" v-dom-portal="portal">
                 <slot></slot>
             </span>
         </transition>
@@ -9,6 +9,7 @@
     </span>
 </template>
 <script>
+import throttle from 'lodash/throttle';
 import Popper from 'popper.js';
 export default {
     name: 'Popper',
@@ -21,9 +22,31 @@ export default {
             }
         },
 
+        value: {
+            type: Boolean,
+            default: false
+        },
+
+        triggers: {
+            type: Array,
+            default() {
+                return ['click'];
+            }
+        },
+
         placement: {
             type: String,
             default: 'auto'
+        },
+
+        isCloseAfterClick: {
+            type: Boolean,
+            default: true
+        },
+
+        portal: {
+            type: Boolean,
+            default: true
         }
     },
 
@@ -40,30 +63,29 @@ export default {
 
     mounted() {
         this.createPopper();
-        document.addEventListener('click', this.closePopper);
+        document.addEventListener('click', this.handleDocumentClick);
+        this.triggers.forEach(eventName => {
+            this.referenceElm.addEventListener(eventName, this.togglePopper);
+        });
     },
 
     methods: {
         handleDocumentClick(e) {
-            if (
-                this.$el.contains(e.target) ||
-                this.referenceElm.contains(e.target) ||
-                this.popperElm.contains(e.target)
-            ) {
-                return;
+            if (this.isShow) {
+                // 点击组件外部关闭popper
+                if (
+                    !this.$el.contains(e.target) &
+                    !this.referenceElm.contains(e.target) &
+                    !this.popperElm.contains(e.target)
+                ) {
+                    this.isShow = false;
+                } else if (
+                    this.isCloseAfterClick &&
+                    this.popperElm.contains(e.target)
+                ) {
+                    this.isShow = false;
+                }
             }
-        },
-
-        closePopper(e) {
-            this.handleDocumentClick(e);
-            this.isShow = false;
-        },
-
-        showPopper() {
-            this.isShow = !this.isShow;
-            this.$nextTick(() => {
-                this.updatePopper();
-            });
         },
 
         createPopper() {
@@ -74,7 +96,23 @@ export default {
             arrow.setAttribute('x-arrow', '');
             arrow.className = 'popper__arrow';
             this.popperElm.appendChild(arrow);
-            this.popper = new Popper(this.referenceElm, this.popperElm);
+            this.popper = new Popper(this.referenceElm, this.popperElm, {
+                modifiers: {
+                    computeStyle: { gpuAcceleration: false }
+                },
+                onUpdate() {}
+            });
+        },
+
+        togglePopper() {
+            this.isShow = !this.isShow;
+        },
+
+        showPopper() {
+            this.$nextTick(() => {
+                this.isShow = true;
+                this.updatePopper();
+            });
         },
 
         updatePopper() {
@@ -82,8 +120,34 @@ export default {
         }
     },
 
+    watch: {
+        isShow(value) {
+            if (value) {
+                this.$emit('show');
+            } else {
+                this.$emit('hide');
+            }
+        },
+
+        value: {
+            immediate: true,
+
+            handler(value) {
+                this.isShow = value;
+            }
+        }
+    },
+
+    breforeDestory() {
+        document.removeEventListener('click', this.handleDocumentClick);
+        this.triggers.forEach(eventName => {
+            this.referenceElm.removeEventListener(eventName, this.togglePopper);
+        });
+    },
+
     destroyed() {
         this.popper.destroy();
+        this.popper = null;
     }
 };
 </script>
