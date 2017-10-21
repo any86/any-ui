@@ -1,11 +1,11 @@
 <template>
     <v-mask :isShow="value" :isFixed="isFixed" @update:isShow="closeMask" @after-leave="afterLeave">
         <transition :name="'dialog-' + from" @after-leave="afterDialogLeave">
-            <div v-show="value" :class="['component-dialog', from]" :style="{maxHeight: height * 0.5 + 'px'}">
+            <div v-show="value" :class="['component-dialog', from]">
                 <div class="header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </div>
-                <div class="body" :style="{maxHeight: height * 0.8 + 'px'}">
+                <div class="body" :style="{maxHeight: height * 0.5 + 'px'}">
                     <slot></slot>
                 </div>
                 <div class="footer" v-if="undefined != $slots.footer">
@@ -97,7 +97,6 @@ export default {
         box-sizing: border-box;
     }
 }
-
 
 
 
