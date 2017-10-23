@@ -9,7 +9,7 @@
     </span>
 </template>
 <script>
-import throttle from 'lodash/throttle';
+
 import Popper from 'popper.js';
 export default {
     name: 'Popper',

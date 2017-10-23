@@ -1,3 +1,4 @@
+const isBrowser = typeof window !== 'undefined';
 /**
  * 找距离最近的scroll父元素
  * @param {element} el 
@@ -117,9 +118,40 @@ const getOffet = (element, traget) => {
 
 const getTime = () => Date.now() || new Date().getTime();
 
+const getScrollParent = el => {
+    if (!isBrowser) return;
+    if (!(el instanceof HTMLElement)) {
+        return window;
+    }
+
+    let parent = el;
+
+    while (parent) {
+        if (parent === document.body || parent === document.documentElement) {
+            break;
+        }
+
+        if (!parent.parentNode) {
+            break;
+        }
+        
+        let temp = getComputedStyle(parent, null).getPropertyValue('overflow');
+        temp += getComputedStyle(parent, null).getPropertyValue('overflow-x');
+        temp += getComputedStyle(parent, null).getPropertyValue('overflow-y');
+        
+        if (/(scroll|auto)/.test(temp)) {
+            return parent;
+        }
+
+        parent = parent.parentNode;
+    }
+
+    return window;
+};
+
 export {
     getTime,
-    findScrollParent,
+    getScrollParent,
     getElementTopFromDocument,
     getWidth,
     getHeight,
