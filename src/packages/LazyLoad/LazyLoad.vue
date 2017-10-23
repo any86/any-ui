@@ -2,9 +2,12 @@
     <img :status="status" :src="url" class="atom-lazyload" :lazy="status">
 </template>
 <script>
-// import throttled from 'lodash/throttled'
-import { getWidth, getHeight } from '@/utils/dom';
-
+// 借鉴了vue-lazyload, 我这就一简化版
+// https://github.com/hilongjw/vue-lazyload
+// IntersectionObserver不知道兼容性, 稍后测验
+// https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API
+import { getWidth, getHeight, getScrollParent } from '@/utils/dom';
+import debounce from 'lodash/debounce';
 export default {
     name: 'LazyLoad',
 
@@ -26,6 +29,11 @@ export default {
             }
         },
 
+        isLoad: {
+            type: Boolean,
+            default: false
+        },
+
         attempt: {
             type: Number,
             default: 1
@@ -40,12 +48,19 @@ export default {
             default: 1.3
         },
 
-        baseWatch: {
-            // required: true
-        },
-
-        watch: {
-            required: true
+        events: {
+            type: Array,
+            default() {
+                return [
+                    'scroll',
+                    'wheel',
+                    'mousewheel',
+                    'resize',
+                    'animationend',
+                    'transitionend',
+                    'touchmove'
+                ];
+            }
         }
     },
 
@@ -54,18 +69,44 @@ export default {
             status: 'ready',
             rect: {},
             url: '',
-            loadTime: 0
+            loadTime: 0,
+            scrollParentNode: null
         };
     },
 
     mounted() {
+        // 找到最近的滚动元素, 绑定事件监听
+        this.scrollParentNode = getScrollParent(this.$el);
+        // 绑定事件
+        this.events.forEach(eventName => {
+            this.scrollParentNode.addEventListener(
+                eventName,
+                debounce(this.loadInViewImg, 200)
+            );
+        });
+        // 初始化加载图片
         this.url = this.placeholder;
-        if (this.checkInView()) {
-            this.loadImg();
-        }
+        this.loadInViewImg();
     },
 
     methods: {
+        /**
+         * 如果没加载, 去监测是否能加载
+         * 否则移除监听
+         */
+        loadInViewImg() {
+            if ('done' === this.status) {
+                this.scrollParentNode.removeEventListener(
+                    'scroll',
+                    this.loadInViewImg
+                );
+            } else {
+                if (this.checkInView()) {
+                    this.loadImg();
+                }
+            }
+        },
+
         checkInView() {
             const {
                 top,
@@ -105,14 +146,19 @@ export default {
     },
 
     watch: {
-        watch(value) {
-            if ('ready' == this.status && this.checkInView()) {
-                this.loadImg();
-            }
+        isLoad(value) {
+            this.loadInViewImg();
         }
     },
 
-    computed: {}
+    beforeDestroy() {
+        this.events.forEach(eventName => {
+            this.scrollParentNode.removeEventListener(
+                eventName,
+                this.loadInViewImg
+            );
+        });
+    }
 };
 </script>
 <style scoped lang="scss">
