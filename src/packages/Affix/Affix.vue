@@ -1,33 +1,51 @@
 <template>
-    <div :style="{height: height + 'px'}" v-on="$listeners" class="atom-affix">
-        <div ref="main" :class="{'fixed': isFixed}" :style="{top: this.offsetTop + 'px'}">
+    <!-- 明天控制下外层的height, 应该能解决bottom的问题. -->
+    <div :style="{height: `${height}px`}" v-on="$listeners" class="atom-affix">
+        <div :class="{'fixed': isFixed}" :style="{top: `${top}px`}">
             <slot></slot>
         </div>
     </div>
 </template>
 <script>
-// import { getElementTopFromDocument } from '@/packages/Tools/dom'
-import { getHeight, getScrollTop } from '@/utils/dom'
+import {
+    getHeight,
+    getScrollTop,
+    getIsInView,
+    getScrollParent
+} from '@/utils/dom';
 export default {
     name: 'Affix',
 
     props: {
-        scrollTop: {
-            required: true,
-            type: Number
-        },
-
         offsetTop: {
             type: Number,
             default: 0
+        },
+
+        events: {
+            type: Array,
+            default() {
+                return [
+                    'scroll',
+                    'wheel',
+                    'mousewheel',
+                    'resize',
+                    'animationend',
+                    'transitionend',
+                    'webkitAnimationend',
+                    'webkitTransitionend',
+                    'touchmove'
+                ];
+            }
         }
     },
 
     data() {
         return {
-            top: 0,
+            isFixed: false,
             height: 'auto',
-            width: 'auto'
+            width: 'auto',
+            scrollParentNode: null
         };
     },
 
@@ -35,50 +53,54 @@ export default {
         // 固定占位容器的高度为内容高度
         // 防止内容定位变成fixed时抖动
         this.height = this.$el.offsetHeight;
-        // const rect = this.$el.getBoundingClientRect();
+        this.scrollParentNode = getScrollParent(this.$el);
+        this.events.forEach(eventName => {
+            this.scrollParentNode.addEventListener(eventName, this.getIsFixed);
+        });
 
-        // 获取距离文档顶部的距离
-        // const top = getElementTopFromDocument(this.$el)
-        // this.$emit('mounted', { top });
+        window.addEventListener('resize', this.getIsFixed);
+
+        this.getIsFixed();
     },
 
     methods: {
-        // click() {
-        //     // const top = getElementTopFromDocument(this.$el);
-        //     const top = 100;
-        //     this.$emit('click', { top });
-        // }
+        getIsFixed() {
+            const { top } = this.$el.getBoundingClientRect();
+            this.isFixed = this.offsetTop >= top;
+            this.$emit('change', this.isFixed);
+        }
     },
 
     computed: {
-        isFixed() {
-            if (0 == this.top) {
-                return false;
-            } else {
-                return this.offsetTop >= this.top;
-            }
+        top() {
+            // 减去2是为了有个动画, 让进入不突兀
+            return this.isFixed ? this.offsetTop : this.offsetTop - 2;
         }
     },
 
-    watch: {
-        scrollTop(value) {
-            this.top = this.$el.getBoundingClientRect().top;
-        }
+    destroyed() {
+        this.events.forEach(eventName => {
+            this.scrollParentNode.removeEventListener(
+                eventName,
+                this.getIsFixed
+            );
+        });
+        window.removeEventListener('resize', this.getIsFixed);
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-affix {
     position: relative;
-    // display: table;
-    width:100%;
-    .fixed {
+    width: 100%;
+    > .fixed {
+        transition: all 200ms;
         background: $background;
         position: fixed;
         left: 0;
-        z-index: 100;
-        width:100%;
+        z-index: $affixZIndex;
+        width: 100%;
     }
 }
 </style>

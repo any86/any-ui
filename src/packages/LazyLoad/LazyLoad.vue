@@ -8,7 +8,13 @@
 // https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API
 // 未来想借助了indexeddb对每个图片标记id, 让加载过的图片可以省去一些流程判断.
 // 还要加入对每个图片加载事件的统计事件, 方便找出加载慢的图片
-import { getWidth, getHeight, getScrollParent, getTime } from '@/utils/dom';
+import {
+    getWidth,
+    getHeight,
+    getScrollParent,
+    getTime,
+    getIsInView
+} from '@/utils/dom';
 import throttle from 'lodash/throttle';
 export default {
     name: 'LazyLoad',
@@ -115,28 +121,11 @@ export default {
                         this.loadInViewImg
                     );
                 } else if ('ready' === this.status) {
-                    if (this.checkInView()) {
+                    if (getIsInView(this.$el, this.preLoadRate)) {
                         this.loadImg();
                     }
                 }
             }, 200)();
-        },
-
-        checkInView() {
-            const {
-                top,
-                right,
-                bottom,
-                left
-            } = this.$el.getBoundingClientRect();
-            const winWidth = getWidth(window);
-            const winHeight = getHeight(window);
-            return (
-                top < winHeight * this.preLoadRate &&
-                bottom > 0 &&
-                left < winWidth * this.preLoadRate &&
-                right > 0
-            );
         },
 
         loadImg() {

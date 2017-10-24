@@ -34,7 +34,7 @@ const getElementTopFromDocument = el => {
  * {IE} document.documentElement 或 document.body的clientHeight
  * {CHROME} window.innerHeight
  */
-const getHeight = (obj, { isScroll = false } = {}) => {
+const getHeight = (obj = window, { isScroll = false } = {}) => {
     if (window === obj) {
         return (
             window.innerHeight || // 浏览器窗口的可视区（viewport）高度（以像素为单位），如果存在水平滚动条，则包括它, outerHeight浏览器高度
@@ -57,7 +57,7 @@ const getHeight = (obj, { isScroll = false } = {}) => {
  * {IE} document.documentElement 或 document.body的clientWidth
  * {CHROME} window.innerWidth
  */
-const getWidth = (obj, { isScroll = false } = {}) => {
+const getWidth = (obj = window, { isScroll = false } = {}) => {
     if (window === obj) {
         return (
             window.innerWidth ||
@@ -134,11 +134,11 @@ const getScrollParent = el => {
         if (!parent.parentNode) {
             break;
         }
-        
+
         let temp = getComputedStyle(parent, null).getPropertyValue('overflow');
         temp += getComputedStyle(parent, null).getPropertyValue('overflow-x');
         temp += getComputedStyle(parent, null).getPropertyValue('overflow-y');
-        
+
         if (/(scroll|auto)/.test(temp)) {
             return parent;
         }
@@ -149,6 +149,28 @@ const getScrollParent = el => {
     return window;
 };
 
+/**
+ * 判断元素是否在可视区或者可视区的倍数范围内
+ * @param {Element} el 
+ * @param {Number} viewRate 
+ */
+const getIsInView = (el, viewRate = 1) => {
+    const { top, right, bottom, left } = el.getBoundingClientRect();
+    const winWidth = getWidth(window);
+    const winHeight = getHeight(window);
+    return (
+        top < winHeight * viewRate &&
+        bottom > 0 &&
+        left < winWidth * viewRate &&
+        right > 0
+    );
+};
+/**
+ * 给getBoundingClientRect做个简写
+ * @param {Element} el 
+ */
+const getBCR = el => el.getBoundingClientRect();
+
 export {
     getTime,
     getScrollParent,
@@ -157,5 +179,6 @@ export {
     getHeight,
     getScrollTop,
     getScrollLeft,
-    getOffet
+    getOffet,
+    getIsInView
 };

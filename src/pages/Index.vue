@@ -29,7 +29,7 @@
 
             <v-cell v-for="n in 10" :key="n" class="abc">第{{n}}次</v-cell>
 
-            <v-affix :scrollTop="scrollTop">
+            <v-affix>
                 <v-cell style="background:#bbb;">{{scrollTop}}</v-cell>
             </v-affix>
 

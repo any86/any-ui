@@ -6,15 +6,23 @@
             <v-segment-item>好友去哪</v-segment-item>
         </v-segment>
 
-        <div ref="warp" class="warp">
-            <div class="box" v-for="item in dataSource.list" :key="item">
-                <v-lazy-load :src="item" class="image"></v-lazy-load>
+            <div v-show="0 == index" class="warp">
+                <div class="box" v-for="item in dataSource.list" :key="item">
+                    <v-lazy-load :src="item" class="image" @loaded="loaded"></v-lazy-load>
+                </div>
             </div>
-        </div>
+
+            <div v-show="1 == index" class="warp">
+                
+                <div class="box" v-for="item in dataSource.list2" :key="item">
+                    <v-lazy-load :src="item" class="image" :refreshTime="refreshTime" @loaded="loaded"></v-lazy-load>
+                </div>
+            </div>
+
 
         <!-- <v-cell v-for="item in dataSource.list" :key="item">
-            <v-lazy-load :src="item" :watch="scrollTop" class="image"></v-lazy-load>
-        </v-cell> -->
+                <v-lazy-load :src="item" :watch="scrollTop" class="image"></v-lazy-load>
+            </v-cell> -->
 
     </v-infinite-scroll>
 </template>
@@ -33,14 +41,28 @@ export default {
         return {
             scrollTop: 0,
             dataSource: Mock.mock({
-                'list|29': ["@image('300x300')"]
+                'list|4': ["@image('300x300')"],
+                'list2|6': ["@image('400x400')"]
             }),
             isShow: true,
-            index: 0
+            index: 0,
+            refreshTime: new Date().getTime()
         };
     },
-    mounted(){
+    mounted() {
         // dir(getComputedStyle(this.$refs.warp).getPropertyValue('overflow'));
+    },
+
+    methods: {
+        loaded(e){
+            log(e)
+        }
+    },
+
+    watch: {
+        index(){
+            this.refreshTime =  new Date().getTime()
+        }
     },
 
     components: {
@@ -90,6 +112,8 @@ export default {
     width: 100%;
     overflow: scroll;
     display: flex;
-    .box{flex: 0 0 68%;}
+    .box {
+        flex: 0 0 68%;
+    }
 }
 </style>
