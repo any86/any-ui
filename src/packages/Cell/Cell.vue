@@ -1,6 +1,6 @@
 <template>
     <!-- 当连接用 -->
-    <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="component-cell" :class="{'component-cell-border': border}">
+    <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="atom-cell" :class="{'atom-cell-border': border}">
         <span>
             <slot></slot>
         </span>
@@ -8,7 +8,7 @@
     </router-link>
 
     <!-- 一般情况 -->
-    <div v-else v-on="$listeners" class="component-cell" :class="{'component-cell-border': border}">
+    <div v-else v-on="$listeners" class="atom-cell" :class="{'atom-cell-border': border}">
         <span>
             <slot></slot>
         </span>
@@ -37,12 +37,10 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-cell {
+.atom-cell {
     display: flex;
-    background: $background;
     padding: 0 $gutter;
     min-height: 1rem;
-
     >span {
         flex: 1;
         position: relative;
