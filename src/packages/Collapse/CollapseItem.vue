@@ -1,6 +1,6 @@
 <template>
-    <div @click="toggle" v-bind="$attrs" v-on="$listeners" class="atom-collapse__item">
-        <header class="item__header">
+    <div v-bind="$attrs" v-on="$listeners" class="atom-collapse__item">
+        <header class="item__header" @click="toggle">
             <span :class="[`header__arrow--${isUnfolded ? 'open' : 'close'}`]" class="header__arrow"></span>
             <!-- 这只有vue2.4以上$attrs默认才是{} -->
             <slot name="header">{{$attrs.title}}</slot>
@@ -92,20 +92,17 @@ export default {
             width: 24px;
             height: 24px;
             margin-right: $gutter;
-            transition: all $animateDuration;
+            transition: transform $animateDuration;
             will-change: transform;
             &--open {
                 transform: rotate(0);
             }
-
             &--close {
                 transform: rotate(-90deg);
             }
         }
     }
-
     > .item__body {
-        transition: all $animateDuration;
         padding: 0 $gutter $gutter $gutter;
         overflow: hidden;
         line-height: 1.5;

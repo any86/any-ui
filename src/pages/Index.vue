@@ -27,23 +27,23 @@
                 <v-input v-model="value[1]"></v-input>
             </v-cell>
 
-            <v-cell v-for="n in 10" :key="n" class="abc">第{{n}}次</v-cell>
+            <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
 
             <v-affix>
-                <v-cell style="background:#bbb;">{{scrollTop}}</v-cell>
+                <v-cell class="fixed">{{scrollTop}}</v-cell>
             </v-affix>
 
-            <v-cell v-for="n in 120" :key="n" class="abc">第{{10+n}}次</v-cell>
+            <v-cell v-for="n in 50" :key="n" class="abc">第{{5+n}}次</v-cell>
             <v-spinner v-show="isBottom"></v-spinner>
         </v-infinite-scroll>
     </v-drawer>
 </template>
 <script>
-import QRCode from 'qrcode'
+import QRCode from 'qrcode';
 
-import VDrawer from '@/packages/Drawer/Drawer'
-import VSpinner from '@/packages/Spinner/Spinner'
-import VAffix from '@/packages/Affix/Affix'
+import VDrawer from '@/packages/Drawer/Drawer';
+import VSpinner from '@/packages/Spinner/Spinner';
+import VAffix from '@/packages/Affix/Affix';
 import VTabs from '@/packages/Tabs/Tabs';
 import VTabsItem from '@/packages/Tabs/TabsItem';
 
@@ -57,7 +57,7 @@ import VPopupPicker from '@/packages/PopupPicker/PopupPicker';
 
 import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
 
-import Mock from 'mockjs'
+import Mock from 'mockjs';
 export default {
     name: 'Index',
 
@@ -67,10 +67,12 @@ export default {
             isShowDrawer: false,
             isShow: false,
             list: Mock.mock({
-                'list|20': [{
-                    'label|+1': 1,
-                    'value|+1': 1
-                }]
+                'list|20': [
+                    {
+                        'label|+1': 1,
+                        'value|+1': 1
+                    }
+                ]
             }),
             tabs: Mock.mock({
                 'list|10': ['@province()']
@@ -89,56 +91,58 @@ export default {
     },
 
     mounted() {
-        var canvas = document.getElementById('canvas')
+        var canvas = document.getElementById('canvas');
         QRCode.toCanvas(canvas, window.location.href, function(error) {
-            if (error) console.error(error)
-        })
+            if (error) console.error(error);
+        });
     },
 
-    methods: {
-
-    },
+    methods: {},
 
     components: {
-        VCell, VSwitch, VRadio, VDialog, VInfiniteScroll, VInput, VPicker, VSpinner, VAffix, VPopupPicker, VDrawer, VTabs, VTabsItem
+        VCell,
+        VSwitch,
+        VRadio,
+        VDialog,
+        VInfiniteScroll,
+        VInput,
+        VPicker,
+        VSpinner,
+        VAffix,
+        VPopupPicker,
+        VDrawer,
+        VTabs,
+        VTabsItem
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
-.fixed-top {
-    width: 100%;
-    background: rgba(255, 255, 255, .7) !important;
+.fixed {
+    background: rgba(#69c, 1) !important;
     color: #fff !important;
     text-align: center;
+    box-shadow: $shadowDown;
 }
 
-.page-index {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    .scroll-view {
-        flex: 1;
-        padding: 0 .3rem .3rem .3rem;
-    }
-    .menu {
+.scroll-view {
+    flex: 1;
+    padding: 0 0.3rem 0.3rem 0.3rem;
+}
+.menu {
+    display: block;
+    background: $background;
+    li {
+        padding: $gutter;
         display: block;
-        background: $background;
-        li {
-            padding: $gutter;
-            display: block;
-            border-bottom: 1px solid $lightest;
-        }
+        border-bottom: 1px solid $lightest;
     }
+}
 
-    .abc {
-        background: #eee;
-        &:nth-child(2n+1) {
-            background: #fff;
-        }
+.abc {
+    background: #eee;
+    &:nth-child(2n + 1) {
+        background: #fff;
     }
 }
 </style>

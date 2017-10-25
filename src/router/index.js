@@ -27,6 +27,9 @@ import SwiperDemo from '@/pages/SwiperDemo';
 import TabsDemo from '@/pages/TabsDemo';
 import PopperDemo from '@/pages/PopperDemo';
 import LazyLoadDemo from '@/pages/LazyLoadDemo';
+import StepsDemo from '@/pages/StepsDemo';
+import CollapseDemo from '@/pages/CollapseDemo';
+
 
 const SvgDemo = () => ({
     component: import('@/pages/SvgDemo')
@@ -91,6 +94,16 @@ export default new Router({
             name: 'LazyLoadDemo',
             path: '/lazyload',
             component: LazyLoadDemo
+        },
+        {
+            name: 'StepsDemo',
+            path: '/steps',
+            component: StepsDemo
+        },
+        {
+            name: 'CollapseDemo',
+            path: '/collapse',
+            component: CollapseDemo
         }
     ]
 });
