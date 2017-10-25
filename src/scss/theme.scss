@@ -71,6 +71,10 @@ $shadowUp: 0 -1px 6px rgba(0, 0, 0, 0.1);
 $shadowDown: 0 1px 6px rgba(0, 0, 0, 0.1);
 // 底部tab高度
 $bottomTabHeight: 60px;
+
+
+$animateDuration: 300ms;
+
 @mixin theme($type) {
     @if 'default'==$type {
         color: $dark;
