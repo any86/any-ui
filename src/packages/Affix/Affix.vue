@@ -1,7 +1,7 @@
 <template>
     <!-- 明天控制下外层的height, 应该能解决bottom的问题. -->
-    <div :style="{height: `${height}px`}" v-on="$listeners" class="atom-affix">
-        <div :class="{'fixed': isFixed}" :style="{top: `${top}px`}">
+    <div :style="{height: `${warpHeight}px`}" v-on="$listeners" class="atom-affix">
+        <div :class="{'atom-affix__body--fixed': isFixed}" :style="style" class="atom-affix__body">
             <slot></slot>
         </div>
     </div>
@@ -20,6 +20,10 @@ export default {
         offsetTop: {
             type: Number,
             default: 0
+        },
+
+        offsetBottom: {
+            type: Number
         },
 
         events: {
@@ -43,8 +47,7 @@ export default {
     data() {
         return {
             isFixed: false,
-            height: 'auto',
-            width: 'auto',
+            warpHeight: 'auto',
             scrollParentNode: null
         };
     },
@@ -52,29 +55,53 @@ export default {
     mounted() {
         // 固定占位容器的高度为内容高度
         // 防止内容定位变成fixed时抖动
-        this.height = this.$el.offsetHeight;
+        if (undefined === this.offsetBottom && 0 >= this.offsetTop) {
+            this.warpHeight = getHeight(this.$el);
+        }
         this.scrollParentNode = getScrollParent(this.$el);
         this.events.forEach(eventName => {
             this.scrollParentNode.addEventListener(eventName, this.getIsFixed);
         });
 
         window.addEventListener('resize', this.getIsFixed);
-
         this.getIsFixed();
     },
 
     methods: {
         getIsFixed() {
-            const { top } = this.$el.getBoundingClientRect();
-            this.isFixed = this.offsetTop >= top;
-            this.$emit('change', this.isFixed);
+            if (undefined === this.offsetBottom) {
+                const { top } = this.$el.getBoundingClientRect();
+                this.isFixed = this.offsetTop >= top;
+            } else {
+                const { bottom } = this.$el.getBoundingClientRect();
+                const winHeight = getHeight();
+                this.isFixed = winHeight >= bottom + this.offsetBottom;
+            }
         }
     },
 
     computed: {
-        top() {
-            // 减去2是为了有个动画, 让进入不突兀
-            return this.isFixed ? this.offsetTop : this.offsetTop - 2;
+        style() {
+            if (undefined === this.offsetBottom) {
+                // 减去2是为了有个动画, 让进入不突兀
+                return {
+                    top: `${this.isFixed
+                        ? this.offsetTop
+                        : this.offsetTop - 2}px`
+                };
+            } else {
+                return {
+                    bottom: `${this.isFixed
+                        ? this.offsetBottom
+                        : this.offsetBottom - 2}px`
+                };
+            }
+        }
+    },
+
+    watch: {
+        isFixed(value) {
+            this.$emit('change', value);
         }
     },
 
@@ -92,11 +119,8 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-affix {
-    position: relative;
-    width: 100%;
-    > .fixed {
+    &__body--fixed {
         transition: all 200ms;
-        background: $background;
         position: fixed;
         left: 0;
         z-index: $affixZIndex;
