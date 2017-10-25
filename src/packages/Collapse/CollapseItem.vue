@@ -1,46 +1,23 @@
 <template>
-    <div class="component-accordion-item">
-        <header @click="toggle">
-            <Icon :class="['angle', value && 'down']" value="angle-right"></Icon>
-            <span class="title">
-                <slot name="header"></slot>
-            </span>
+    <div @click="toggle" v-bind="$attrs" v-on="$listeners" class="atom-collapse__item">
+        <header class="item__header">
+            <span :class="[`header__arrow--${isUnfolded ? 'open' : 'close'}`]" class="header__arrow"></span>
+            <!-- 这只有vue2.4以上$attrs默认才是{} -->
+            <slot name="header">{{$attrs.title}}</slot>
         </header>
-        <template v-if="isAnimate">
-            <transition :css="false" @before-enter="beforeEnter" @enter="enter" @before-leave="beforeLeave" @leave="leave">
-                <div v-show="value" :class="['body', value && 'border']">
-                    <div class="content">
-                        <slot name="body"></slot>
-                    </div>
-                </div>
-            </transition>
-        </template>
-        <template v-else>
-            <div v-show="value" :class="['body', value && 'border']">
-                <div class="content">
-                    <slot name="body"></slot>
-                </div>
-            </div>
-        </template>
+        <div v-show="isUnfolded" class="item__body">
+            <slot></slot>
+        </div>
+        </transition>
     </div>
 </template>
 <script>
-import Icon from '@/packages/Icon/Icon'
+import { getHeight } from '@/utils/dom';
 export default {
-    name: 'AccordionItem',
+    name: 'CollapseItem',
 
     props: {
-        value: {
-            type: Boolean,
-            default: false
-        },
-
-        speed: {
-            type: Number,
-            default: 300
-        },
-
-        isAnimate: {
+        isOpen: {
             type: Boolean,
             default: false
         }
@@ -48,78 +25,90 @@ export default {
 
     data() {
         return {
-            padding: 0,
+            index: 0,
+            isUnfolded: false
         };
     },
 
+    mounted() {
+        this.index = this.$parent.count;
+        this.$parent.count++;
+        this.$parent.status.push(this.isOpen);
+    },
+
     methods: {
-        beforeEnter(el) {
-            el.style.height = 0;
-        },
-
-        enter(el, done) {
-            el.style.height = el.scrollHeight + 'px';
-        },
-
-
-        beforeLeave(el) {
-            el.style.height = 0;
-            el.style.height = el.scrollHeight + 'px';
-        },
-
-        leave(el, done) {
-            el.style.height = 0;
-        },
-
         toggle() {
-            this.$emit('input', !this.value);
+            this.isUnfolded = !this.isUnfolded;
+            if (this.$parent.isAccordion) {
+                this.$parent.status = this.$parent.status.map((isOpen, i) => {
+                    return this.index == i ? this.isUnfolded : false;
+                });
+            } else {
+                this.$parent.status = this.$parent.status.map((isOpen, i) => {
+                    return this.index == i ? this.isUnfolded : isOpen;
+                });
+            }
+            this.$emit('update:isOpen', this.isUnfolded);
+            if (this.isUnfolded) {
+                this.$emit('change', this.index);
+            }
         }
     },
 
-    components: {
-        Icon
-    }
-}
-</script>
-<style scoped lang="scss">
-@import '../../scss/theme.scss';
-.component-accordion-item {
-    position: relative;
-    >header {
-        font-size: .26rem;
-        display: flex;
-        padding: 3*$gutter;
-        border-bottom: 1px solid $lighter;
-        >.title {
-            margin-left: .15rem;
-            font-size: inherit;
-            line-height: .3rem;
-            flex: 1
-        }
+    watch: {
+        isOpen: {
+            immediate: true,
+            handler(value) {
+                this.isUnfolded = value;
+            }
+        },
 
-        >.angle {
-            font-size: inherit;
-            transition: all .3s ease-in-out;
-            &.down {
-                transform: rotate(90deg);
+        ['$parent.status'](value) {
+            for (let k in value) {
+                if (this.index == k) {
+                    this.isUnfolded = value[k];
+                    break;
+                }
             }
         }
     }
-    >.body {
-        will-change: transform;
-        overflow: hidden;
-        font-size: $normal;
-        line-height: 1.5;
-        height: 100%;
-        transition-property: height;
-        transition-timing-function: ease-in-out;
-        transition-duration: 300ms;
-        &.border {
-            border-bottom: 1px solid $lighter;
-        }
-        >.content {
+};
+</script>
+<style scoped lang="scss">
+@import '../../scss/theme.scss';
+.atom-collapse__item {
+    position: relative;
+    border-bottom: 1px solid $lighter;
+    > .item__header {
+        display: flex;
+        padding: $gutter;
+        height: 24px;
+        line-height: 24px;
+        box-sizing: content-box;
+        .header__arrow {
+            display: inline-block;
+            background: url('../../assets/more_unfold.svg');
+            background-size: 100%;
+            width: 24px;
+            height: 24px;
+            margin-right: $gutter;
+            transition: all $animateDuration;
             will-change: transform;
+            &--open {
+                transform: rotate(0);
+            }
+
+            &--close {
+                transform: rotate(-90deg);
+            }
         }
+    }
+
+    > .item__body {
+        transition: all $animateDuration;
+        padding: 0 $gutter $gutter $gutter;
+        overflow: hidden;
+        line-height: 1.5;
     }
 }
 </style>
