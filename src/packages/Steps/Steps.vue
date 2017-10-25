@@ -8,25 +8,20 @@ export default {
     name: 'Steps',
 
     props: {
-
+        value: {
+            type: Number,
+            default: 0
+        }
     },
 
     data(){
         return {count: 0};
-    },
-
-    mounted() {
-
-    },
-
-    destroyed() {
-
     }
 }
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-steps {
+.atom-steps {
     position: relative;
 }
 </style>
