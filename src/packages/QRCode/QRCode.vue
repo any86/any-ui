@@ -21,9 +21,19 @@ export default {
     methods: {
         renderQRCode(string) {
             const str = String(string);
-            QRCode.toCanvas(this.$el, str, error => {
-                if (error) console.error(error);
-            });
+            QRCode.toCanvas(
+                this.$el,
+                str,
+                // {
+                //     color: {
+                //         dark: '#000', // Blue dots
+                //         light: '#fff' // Transparent background
+                //     }
+                // },
+                error => {
+                    if (error) console.error(error);
+                }
+            );
         }
     },
 
