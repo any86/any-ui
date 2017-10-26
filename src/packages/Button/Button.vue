@@ -1,5 +1,5 @@
 <template>
-    <a v-on="$listeners" v-bind="$attrs" :class="[`button`, `button-${type}`, disabled && 'button-disabled ', size && `button-${size}`, block &&'button-block']">
+    <a v-on="$listeners" v-bind="$attrs" :class="classArray" class="btn">
         <slot></slot>
     </a>
 </template>
@@ -7,47 +7,91 @@
 export default {
     name: 'Button',
 
-    data() {
-        return {
-            size: 'small',
-            icon: '',
-            type: 'default',
-            block: false,
-            disabled: false
-        };
+    props: {
+        type: {
+            type: String,
+            default: 'default'
+        },
+
+        block: {
+            type: Boolean,
+            default: false
+        },
+
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+
+        radius: {
+            type: Boolean,
+            default: false
+        },
+
+        ghost: {
+            type: Boolean,
+            default: false
+        }
     },
 
-    mounted() {
-        if (undefined !== this.$attrs) {
-            // 类型
-            if ('' !== this.$attrs.type) {
-                this.type = this.$attrs.type;
-            }
+    data() {
+        return {};
+    },
 
-            // 100%宽按钮
-            this.block = ('' === this.$attrs.block || this.$attrs.block);
+    mounted() {},
 
-            // 禁用
-            this.disabled = ('' === this.$attrs.disabled || this.$attrs.disabled);
-
-            // 尺寸
-            if ('' !== this.$attrs.size) {
-                this.size = this.$attrs.size;
-            }
+    computed: {
+        classArray() {
+            return [
+                `btn${this.ghost ? '-ghost' : ''}-${this.type}`,
+                this.disabled && 'btn-disabled ',
+                this.block && 'btn-block',
+                this.radius && 'btn-radius'
+            ];
         }
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 
 // 纯色背景按钮
-@mixin button($color) {
+@mixin btn($color) {
     background: $color;
     border-color: rgba($color, 1);
     color: $sub;
-    &:not(.disabled):active {
-        opacity: .7;
+
+    // &:not(.btn-disabled):active {
+    //     // opacity: 0.7;
+    //     :after {
+    //         transition: all 1000ms;
+    //         width: 300px;
+    //         transform: scale(2);
+    //     }
+    // }
+
+
+    &:active {
+        &:after {
+            transition: all 200ms;
+            width: 300px;
+            transform: scale(2);
+        }
+    }
+
+
+    &:after {
+        content: ' ';
+        display: block;
+        position: absolute;
+        z-index: 100;
+        pointer-events: none;
+        border-radius: 50%;
+        transform: scale(1);
+        background: #fff;
+        opacity: .3;
+        width: 200px;
+        height: 200px;
     }
 
     &-disabled {
@@ -57,53 +101,54 @@ export default {
 }
 
 // 幽灵按钮
-@mixin button-outline($color) {
+@mixin btn-ghost($color) {
     background: $sub;
     border-color: $color;
     color: $color;
     &:not(.disabled):active {
-        opacity: .7;
+        opacity: 0.7;
     }
 }
 
-.button {
-    overflow: hidden;
+.btn {
+    display: inline-block;
     user-select: none;
-    padding: $gutter $gutter*3;
+    vertical-align: middle;
+    overflow: hidden;
+    padding: $gutter $gutter*2;
     text-align: center;
     white-space: nowrap;
-    vertical-align: middle;
     letter-spacing: 1px;
     text-decoration: none;
     border: 1px solid transparent;
-    transition: all 200ms;
+    transition: all $duration;
+    position: relative;
+    overflow: hidden;
+    font-size: $big;
+
     .icon-loading {
         align-self: center;
-        width: .3rem;
-        height: .3rem;
+        width: 0.3rem;
+        height: 0.3rem;
         display: block;
         margin-right: $gutter / 2;
     }
-
-    .slot {
-        flex: 1;
-        align-self: center;
-        line-height: 1.5;
-    }
 }
-
-.button-block {
+.btn-radius {
+    border-radius: $borderRadius;
+}
+.btn-block {
+    display: block;
     width: 100%;
 }
 
-@each $color,
-$value in $theme_colors {
-    .button-#{$color} {
-        @include button($value);
+@each $color, $value in $theme_colors {
+    .btn-#{$color} {
+        @include btn($value);
     }
 
-    .button-outline-#{$color} {
-        @include button-outline($value);
+    .btn-ghost-#{$color} {
+        @include btn-ghost($value);
     }
 }
 </style>

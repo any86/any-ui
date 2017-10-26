@@ -1,5 +1,7 @@
 // 主色
 $base: #e60044;
+
+
 $white: #fff;
 // 辅色
 $sub: $white;
@@ -19,7 +21,6 @@ $darker: #6a6a6a;
 $darkest: #333;
 
 // 彩色
-$default: #ddd;
 $primary: $base;
 $success: #50d185;
 $warning: #fa0;
@@ -27,8 +28,8 @@ $danger: #e60044;
 $info: #2db7f5;
 
 $theme_colors: (
-    default: $default,
-    primary: $primary,
+    default: $base,
+    primary: $base,
     success: $success,
     warning: $warning,
     danger: $danger,
@@ -73,7 +74,7 @@ $shadowDown: 0 1px 6px rgba(0, 0, 0, 0.1);
 $bottomTabHeight: 60px;
 
 
-$animateDuration: 300ms;
+$duration: 300ms;
 
 @mixin theme($type) {
     @if 'default'==$type {
