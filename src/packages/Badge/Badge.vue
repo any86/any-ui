@@ -1,69 +1,49 @@
 <template>
-    <span :class="['component-badge', size, type]">
+    <span :class="{'atom-badge--dot': undefined === text}" class="atom-badge">
         <slot></slot>
+        <span v-if="undefined !== text" class="atom-badge__text">{{text}}</span>
     </span>
 </template>
 <script>
 export default {
     name: 'Badge',
 
-    data() {
-        return {
-            type: 'default',
-            size: 'big'
-        };
-    },
-
-    mounted() {
-        var type = this.$el.getAttribute('type');
-        var size = this.$el.getAttribute('size')
-        if (null != type) {
-            this.type = type;
-        }
-
-        if (null != size) {
-            this.size = size;
+    props: {
+        text: {
+            type: [Number, String]
         }
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-badge {
-    // &.absolute{position: absolute;right: 0;top:0;}
-    display: inline-block;
+$dotSize: 8px;
+.atom-badge {
     position: relative;
-    overflow: hidden;
-}
+    display: inline-block;
+    &--dot {
+        &:after {
+            content: ' ';
+            position: absolute;
+            top: 0;
+            right: -$dotSize;
+            z-index: 2;
+            display: block;
+            width: $dotSize;
+            height: $dotSize;
+            border-radius: 100%;
+            background: $danger;
+        }
+    }
 
-.small {
-    width: $gutter;
-    height: $gutter;
-    border-radius: 100%;
-}
-
-.big {
-    padding: $gutter / 3 $gutter;
-    border-radius: $gutter*2;
-}
-
-.default {
-    @include theme('default');
-}
-
-.success {
-    @include theme('success');
-}
-
-.warning {
-    @include theme('warning');
-}
-
-.danger {
-    @include theme('danger');
-}
-
-.info {
-    @include theme('info');
+    &__text {
+        // vertical-align: middle;
+        text-align: center;
+        color: $dark;
+        padding: 0 $gutter/2;
+        border-radius: $gutter*2;
+        background: $danger;
+        color:$sub;
+    }
 }
 </style>
