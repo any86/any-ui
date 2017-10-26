@@ -27,7 +27,7 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .component-group{
-    padding:$gutter;
+    padding:$gutter $gutter 0 $gutter;
     >header{
         color:$darkest;
         border-bottom: 1px solid $lightest;
