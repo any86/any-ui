@@ -92,7 +92,7 @@ export default {
             width: 24px;
             height: 24px;
             margin-right: $gutter;
-            transition: transform $animateDuration;
+            transition: transform $duration;
             will-change: transform;
             &--open {
                 transform: rotate(0);

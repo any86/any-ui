@@ -69,10 +69,10 @@ export default {
         align-self: center;
         background: url(../../assets/more.svg) center center;
         background-size: 100%;
-        width: 30px;
-        height: 30px;
+        width: 24px;
+        height: 24px;
         display: inline-block;
-        transition: transform 200ms;
+        transition: transform $duration;
     }
     &-border {
         border-bottom: 1px solid $lightest;
