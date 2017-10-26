@@ -21,6 +21,7 @@ $dotSize: 8px;
 .atom-badge {
     position: relative;
     display: inline-block;
+    font-size: 100%;
     &--dot {
         &:after {
             content: ' ';
@@ -32,17 +33,17 @@ $dotSize: 8px;
             width: $dotSize;
             height: $dotSize;
             border-radius: 100%;
-            background: $danger;
+            background: $base;
         }
     }
 
     &__text {
         // vertical-align: middle;
         text-align: center;
-        color: $dark;
+        white-space: nowrap;
         padding: 0 $gutter/2;
         border-radius: $gutter*2;
-        background: $danger;
+        background: $base;
         color:$sub;
     }
 }
