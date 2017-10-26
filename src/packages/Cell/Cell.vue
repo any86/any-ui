@@ -1,18 +1,28 @@
 <template>
     <!-- 当连接用 -->
     <router-link v-if="undefined != to" v-on="$listeners" :to="to" tag="div" class="atom-cell" :class="{'atom-cell-border': border}">
-        <span>
+        <span class="atom-cell__body">
             <slot></slot>
         </span>
-        <i v-if="-1<arrow" class="atom-icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
+
+        <span v-if="undefined !== $slots.extra" class="atom-cell__extra">
+            <slot name="extra"></slot>
+        </span>
+
+        <i v-if="undefined !== arrow" class="atom-cell__arrow" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
     </router-link>
 
     <!-- 一般情况 -->
     <div v-else v-on="$listeners" class="atom-cell" :class="{'atom-cell-border': border}">
-        <span>
+        <span class="atom-cell__body">
             <slot></slot>
         </span>
-        <i v-if="-1<arrow" class="atom-icon" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
+
+        <span v-if="undefined !== $slots.extra" class="atom-cell__extra">
+            <slot name="extra"></slot>
+        </span>
+
+        <i v-if="undefined !== arrow" class="atom-cell__arrow" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
     </div>
 </template>
 <script>
@@ -25,15 +35,15 @@ export default {
         },
 
         arrow: {
-            default: -1
+            type: Number
         },
 
         border: {
             type: Boolean,
             default: true
         }
-    },
-}
+    }
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
@@ -41,29 +51,32 @@ export default {
     display: flex;
     padding: 0 $gutter;
     min-height: 1rem;
-    >span {
+    &__body {
         flex: 1;
         position: relative;
-        align-self: center; // font-size: $big;
-        color: $darkest; // margin-right: $gutter;
+        align-self: center;
+        color: $darkest;
     }
-    >.atom-icon {
-        align-self: center; 
+    &__extra{
+        flex:1;
+        position: relative;
+        align-self: center;
+        text-align: right;
+        color: $darkest;
+    }
+
+    &__arrow {
+        align-self: center;
         background: url(../../assets/more.svg) center center;
         background-size: 100%;
         width: 30px;
         height: 30px;
         display: inline-block;
-        margin-right: -$gutter;
         transition: transform 200ms;
     }
-
     &-border {
         border-bottom: 1px solid $lightest;
     }
-
-
-
 
     .has-ripple {
         position: relative;
