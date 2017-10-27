@@ -1,5 +1,5 @@
 <template>
-    <div @click="select" :class="['atom-tabs__item', index == $parent.$parent.activeIndex && 'atom-tabs__item--active']">
+    <div v-ripple @click="select" :class="['atom-tabs__item', index == $parent.$parent.activeIndex && 'atom-tabs__item--active']">
         <slot></slot>
     </div>
 </template>

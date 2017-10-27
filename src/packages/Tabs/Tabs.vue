@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-tabs" @click.stop="showHidden($event)">
+    <div @click.stop="showHidden($event)" class="atom-tabs">
         <v-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->

@@ -1,6 +1,6 @@
 <template>
     <div v-bind="$attrs" v-on="$listeners" class="atom-collapse__item">
-        <header class="item__header" @click="toggle">
+        <header @click="toggle" class="item__header">
             <span :class="[`header__arrow--${isUnfolded ? 'open' : 'close'}`]" class="header__arrow"></span>
             <!-- 这只有vue2.4以上$attrs默认才是{} -->
             <slot name="header">{{$attrs.title}}</slot>
