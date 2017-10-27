@@ -1,9 +1,15 @@
 <template>
     <v-drawer v-model="isShowDrawer" :mode="'overlay'">
         <ul class="menu" slot="side">
-            <router-link tag="li" :to="{path: '/index'}">What's New<v-tag type="primary" :is-ghost="false">shose</v-tag></router-link>
-            <router-link :to="{path: '/checkout'}" tag="li">Checkout <v-tag type="success" :is-ghost="false">shose</v-tag></router-link>
-            <router-link :to="{path: '/payment'}" tag="li">payment <v-tag type="warning" :is-ghost="false">shose</v-tag></router-link>
+            <router-link tag="li" :to="{path: '/index'}">What's New
+                <v-tag type="primary" :is-ghost="false">shose</v-tag>
+            </router-link>
+            <router-link :to="{path: '/checkout'}" tag="li">Checkout
+                <v-tag type="success" :is-ghost="false">shose</v-tag>
+            </router-link>
+            <router-link :to="{path: '/payment'}" tag="li">payment
+                <v-tag type="warning" :is-ghost="false">shose</v-tag>
+            </router-link>
             <li>All Personalized</li>
             <li>Personalized</li>
         </ul>
@@ -11,7 +17,12 @@
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
             </v-tabs>
-            <v-cell><v-stepper v-model="tabsIndex"></v-stepper></v-cell>
+
+            <v-circle v-model="tabsIndex"></v-circle>
+            
+            <v-cell :has-ripple="false">
+                <v-stepper v-model="tabsIndex"></v-stepper>
+            </v-cell>
             <v-cell>
                 <v-switch v-model="isShowDrawer">打开弹窗</v-switch>
             </v-cell>
@@ -21,18 +32,21 @@
             <v-cell @click="renderHandler" :arrow="0">
                 render
                 <v-tag type="primary">shose</v-tag>
-                <v-tag type="success">isShor</v-tag>
                 <v-tag type="info">打开</v-tag>
                 <v-tag type="warning">警告render</v-tag>
             </v-cell>
 
             <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
             <v-cell>
-                <v-input placeholder="请输入数字" v-model="value[0]"><span style="width:60px;display:inline-block;">生产月份</span></v-input>
+                <v-input placeholder="请输入数字" v-model="value[0]">
+                    <span style="width:60px;display:inline-block;">生产月份</span>
+                </v-input>
             </v-cell>
 
             <v-cell>
-                <v-input v-model="value[1]"><span style="width:60px;display:inline-block;">日期</span></v-input>
+                <v-input v-model="value[1]">
+                    <span style="width:60px;display:inline-block;">日期</span>
+                </v-input>
             </v-cell>
 
             <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
@@ -48,6 +62,7 @@
 </template>
 <script>
 import QRCode from 'qrcode';
+import VCircle from '@/packages/Progress/Circle';
 
 import VDrawer from '@/packages/Drawer/Drawer';
 import VSpinner from '@/packages/Spinner/Spinner';
@@ -100,19 +115,17 @@ export default {
         this.dataSource.push(this.list.list, this.list.list);
     },
 
-    mounted() {
-
-    },
+    mounted() {},
 
     methods: {
-        
-        renderHandler(){
-            this.$alert(321)
+        renderHandler() {
+            this.$alert(321);
         }
     },
 
     components: {
         VCell,
+        VCircle,
         VSwitch,
         VRadio,
         VDialog,
@@ -123,8 +136,10 @@ export default {
         VAffix,
         VPopupPicker,
         VDrawer,
-        VTabs,VTag,
-        VTabsItem,VStepper
+        VTabs,
+        VTag,
+        VTabsItem,
+        VStepper
     }
 };
 </script>
