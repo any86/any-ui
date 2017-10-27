@@ -1,5 +1,5 @@
 <template>
-    <div class="component-circle">
+    <div class="atom-circle">
         <p>{{value}}%</p>
         <svg :viewBox="`0 0 100 100`" xmlns="http://www.w3.org/2000/svg">
             <circle class="backdrop" :r="40" :cy="50" :cx="50" stroke-width="3" stroke="#ddd" fill="none" />
@@ -33,7 +33,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-circle {
+.atom-circle {
     position: relative;
     overflow: hidden;
     p {
@@ -45,19 +45,19 @@ export default {
         width: 100%;
         transform: translateY(-50%);
         top: 50%;
-        color: $base;
+        color: $primary;
     }
     svg {
         transform: rotate(-90deg);
         >.backdrop {
-            stroke: $darker;
+            stroke: $lightest;
         }
         >.progress {
             stroke: $base;
             transition-property: stroke-dasharray;
         }
         >text {
-            fill: #f10;
+            fill:$primary;
         }
     }
 }
