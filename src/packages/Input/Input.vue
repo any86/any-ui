@@ -1,15 +1,17 @@
 <template>
-    <div class="component-input">
+    <div class="atom-input">
         <span class="title" v-if="!!$slots.default">
             <slot></slot>
         </span>
-        <input v-on="$listeners" v-bind="$attrs" ref="input" :value="value" @input="input">
+        <input v-bind="$attrs" ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
+        <!-- <input v-on="$listeners" v-bind="$attrs" ref="input" :value="value" @input="input"> -->
         <transition name="fadeLeft">
-            <i v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="button-close"></i>
+            <v-close v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="btn-close"></v-close>
         </transition>
     </div>
 </template>
 <script>
+import VClose from '@/packages/Icon/Close';
 export default {
     name: 'Input',
 
@@ -52,7 +54,6 @@ export default {
             var value = e.target.value;
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
-                syslog(this.type)
             } else if ('letter' == this.type) {
                 value = value.replace(/\d/g, '');
             } else if ('phone' == this.type) {
@@ -61,7 +62,10 @@ export default {
                 if (valueLen > 3 && valueLen < 8) {
                     value = `${value.substr(0, 3)} ${value.substr(3)}`;
                 } else if (valueLen >= 8) {
-                    value = `${value.substr(0, 3)} ${value.substr(3, 4)} ${value.substr(7)}`;
+                    value = `${value.substr(0, 3)} ${value.substr(
+                        3,
+                        4
+                    )} ${value.substr(7)}`;
                 }
             } else if ('number' == this.type) {
                 value = value.replace(/\D/g, '');
@@ -72,7 +76,6 @@ export default {
         empty() {
             this.$refs.input.focus();
             this.$emit('input', '');
-
         }
     },
 
@@ -84,13 +87,15 @@ export default {
                 this.isShowEmpty = true;
             }
         }
-    }
-}
+    },
+
+    components: { VClose }
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: .8rem;
-.component-input {
+$height: 0.8rem;
+.atom-input {
     width: 100%;
     position: relative;
     display: flex;
@@ -114,12 +119,10 @@ $height: .8rem;
         line-height: $height;
     }
 
-    .button-close {
-        width: $height;
-        height: $height;
+    .btn-close {
+        width: $height/2;
+        height: $height/2;
         display: block;
-        background: url('./close.svg') center center no-repeat;
-        background-size: 40%;
         margin: auto;
     }
 }
