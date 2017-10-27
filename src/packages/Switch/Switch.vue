@@ -1,5 +1,5 @@
 <template>
-    <label :style="{width: !!this.$slots.default && '100%'}" class="component-switch" :class="{'component-switch-disabled': disabled}">
+    <label :style="{width: !!this.$slots.default && '100%'}" class="atom-switch" :class="{'atom-switch-disabled': disabled}">
         <span v-if="!!this.$slots.default" class="title">
             <slot></slot>
         </span>
@@ -37,7 +37,7 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 $height: .5rem;
-label.component-switch {
+label.atom-switch {
     display: flex;
     align-items: center;
     >.title {
