@@ -8,7 +8,6 @@
     </VMask>
 </template>
 <script>
-import Icon from '@/packages/Icon/Icon'
 import VMask from '@/packages/Dialog/Mask'
 
 export default {
@@ -44,7 +43,7 @@ export default {
     },
 
     components: {
-        Icon, VMask
+        VMask
     }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <v-infinite-scroll v-model="scrollTop">
         <v-tabs v-model="index">
             <v-tabs-item>
                 <v-badge>哈尔滨</v-badge>
@@ -36,6 +36,32 @@
                 简单
             </v-button>
         </v-group>
+
+
+
+        <v-group>
+            <v-button :block="true" :radius="true" type="info">
+                <v-badge>困难</v-badge>
+            </v-button>
+        </v-group>
+        <v-group>
+            <v-button :block="true" :radius="true" type="info">
+                <v-badge>困难</v-badge>
+            </v-button>
+        </v-group>
+
+        <v-group>
+            <v-button :block="true" :radius="true" type="info">
+                <v-badge>困难</v-badge>
+            </v-button>
+        </v-group>
+
+        <v-group>
+            <v-button :block="true" :radius="true" type="info">
+                <v-badge>困难</v-badge>
+            </v-button>
+        </v-group>
+
         <v-group>
             <v-button :block="true" :radius="true" type="info">
                 <v-badge>困难</v-badge>
@@ -43,16 +69,20 @@
         </v-group>
 
         <div class="flex fixed-bottom" style="width:100%;">
-            <v-button :block="true" type="warning" :disabled="true" >
+            <v-button :block="true" type="warning" :disabled="true">
                 商城
             </v-button>
             <v-button :block="true">开始</v-button>
         </div>
-
-    </main>
+    </v-infinite-scroll>
 </template>
 <script>
+
+
+
 import Mock from 'mockjs';
+import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
+import VDivider from '@/packages/Divider/Divider';
 import VQRCode from '@/packages/QRCode/QRCode';
 import VGroup from '@/packages/Group/Group';
 import VBadge from '@/packages/Badge/Badge';
@@ -68,6 +98,7 @@ export default {
 
     data() {
         return {
+            scrollTop: 0,
             index: 1,
             dataSource: Mock.mock({
                 'list|4': ["@image('300x300')"],
@@ -77,7 +108,7 @@ export default {
     },
 
     components: {
-        VCell,
+        VCell,VDivider,
         VCollapseItem,
         VCollapse,
         VQRCode,
@@ -85,10 +116,13 @@ export default {
         VTabs,
         VTabsItem,
         VButton,
-        VGroup
+        VGroup,VInfiniteScroll
     }
 };
 </script>
 <style scope lang="scss">
 @import '../scss/theme.scss';
+main {
+    overflow: scroll;
+}
 </style>

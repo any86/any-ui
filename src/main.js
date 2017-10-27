@@ -32,6 +32,8 @@ Vue.use(Atom);
 // 移动组件指令
 import DomPortal from 'vue-dom-portal';
 Vue.use(DomPortal);
+import '@/scss/ripple.scss';
+import '@/directives/ripple';
 
 // 关闭错误提示
 Vue.config.silent = false

@@ -1,30 +1,38 @@
 <template>
     <v-drawer v-model="isShowDrawer" :mode="'overlay'">
         <ul class="menu" slot="side">
-            <router-link tag="li" :to="{path: '/index'}">What's New</router-link>
-            <router-link :to="{path: '/checkout'}" tag="li">Checkout</router-link>
-            <router-link :to="{path: '/payment'}" tag="li">payment</router-link>
+            <router-link tag="li" :to="{path: '/index'}">What's New<v-tag type="primary" :is-ghost="false">shose</v-tag></router-link>
+            <router-link :to="{path: '/checkout'}" tag="li">Checkout <v-tag type="success" :is-ghost="false">shose</v-tag></router-link>
+            <router-link :to="{path: '/payment'}" tag="li">payment <v-tag type="warning" :is-ghost="false">shose</v-tag></router-link>
             <li>All Personalized</li>
             <li>Personalized</li>
-            <canvas id="canvas" width="200"></canvas>
         </ul>
         <v-infinite-scroll @scroll-bottom="isBottom=true" v-model="scrollTop" :isListenBottom="true">
             <v-tabs v-model="tabsIndex">
                 <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
             </v-tabs>
-
+            <v-cell><v-stepper v-model="tabsIndex"></v-stepper></v-cell>
             <v-cell>
                 <v-switch v-model="isShowDrawer">打开弹窗</v-switch>
             </v-cell>
             <!-- <v-popup-picker :isShow.sync="isShow" :dataSource="dataSource" v-model="value">请选择数字</v-popup-papicker> -->
             <v-picker :dataSource="dataSource" v-model="value"></v-picker>
+
+            <v-cell @click="renderHandler" :arrow="0">
+                render
+                <v-tag type="primary">shose</v-tag>
+                <v-tag type="success">isShor</v-tag>
+                <v-tag type="info">打开</v-tag>
+                <v-tag type="warning">警告render</v-tag>
+            </v-cell>
+
             <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
             <v-cell>
-                <v-input v-model="value[0]"></v-input>
+                <v-input placeholder="请输入数字" v-model="value[0]"><span style="width:60px;display:inline-block;">生产月份</span></v-input>
             </v-cell>
 
             <v-cell>
-                <v-input v-model="value[1]"></v-input>
+                <v-input v-model="value[1]"><span style="width:60px;display:inline-block;">日期</span></v-input>
             </v-cell>
 
             <v-cell v-for="n in 5" :key="n" class="abc">第{{n}}次</v-cell>
@@ -46,6 +54,7 @@ import VSpinner from '@/packages/Spinner/Spinner';
 import VAffix from '@/packages/Affix/Affix';
 import VTabs from '@/packages/Tabs/Tabs';
 import VTabsItem from '@/packages/Tabs/TabsItem';
+import VStepper from '@/packages/Stepper/Stepper';
 
 import VCell from '@/packages/Cell/Cell';
 import VInput from '@/packages/Input/Input';
@@ -54,6 +63,7 @@ import VRadio from '@/packages/Radio/Radio';
 import VDialog from '@/packages/Dialog/Dialog';
 import VPicker from '@/packages/Picker/Picker';
 import VPopupPicker from '@/packages/PopupPicker/PopupPicker';
+import VTag from '@/packages/Tag/Tag';
 
 import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
 
@@ -91,13 +101,15 @@ export default {
     },
 
     mounted() {
-        var canvas = document.getElementById('canvas');
-        QRCode.toCanvas(canvas, window.location.href, function(error) {
-            if (error) console.error(error);
-        });
+
     },
 
-    methods: {},
+    methods: {
+        
+        renderHandler(){
+            this.$alert(321)
+        }
+    },
 
     components: {
         VCell,
@@ -111,8 +123,8 @@ export default {
         VAffix,
         VPopupPicker,
         VDrawer,
-        VTabs,
-        VTabsItem
+        VTabs,VTag,
+        VTabsItem,VStepper
     }
 };
 </script>

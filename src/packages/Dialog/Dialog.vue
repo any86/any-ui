@@ -1,6 +1,6 @@
 <template>
     <VMask :isShow="isShow" :portal="true" @update:isShow="close">
-        <transition name="fadeUp">
+        <transition name="zoom">
             <div v-show="isShow" :class="['atom-dialog-' + align]" class="atom-dialog">
                 <header>
                     <slot name="header"></slot>
