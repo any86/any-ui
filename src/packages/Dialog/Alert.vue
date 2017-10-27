@@ -61,7 +61,7 @@ export default {
     text-align: center;
     display: block;
     color: $base;
-    font-size: $normal;
+    font-size: $big;
     text-align: center;
     padding: $gutter 0;
 }
