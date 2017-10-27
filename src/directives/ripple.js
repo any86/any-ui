@@ -2,16 +2,23 @@ import Vue from 'vue';
 // 参考 https://github.com/davinder17s/material-ripple-effect/blob/master/ripple.js
 // ripple.js是用的fixed定位, 有一个小问题, 就是出现水波的时候拖动页面, 水波纹也会移动.
 // 所以稍微改了下吗, 定位方式改为absolute.
+// 支持background参数, 可以修改水波纹颜色.
+// 支持zIndex参数, 可以修改水波纹z-index.
+
 var position = '';
 const init = (el, binding) => {
     position = el.style.position;
     el.style.position = 'relative'
     let background = 'rgba(0,0,0, .1)';
+    let zIndex = 100;
     if (undefined !== binding.value) {
         // 是否禁用
         if (binding.value.disabled) return;
         if (undefined !== binding.value.background) {
             background = binding.value.background;
+        }
+        if (undefined !== binding.value.zIndex) {
+            zIndex = binding.value.zIndex;
         }
     }
     el.addEventListener('click', event => {
@@ -24,7 +31,7 @@ const init = (el, binding) => {
         rippleContainerNode = document.createElement('div');
         // 在目标元素相同位置制作一个一样尺寸的div
         rippleContainerNode.style.position = 'absolute';
-        rippleContainerNode.style.zIndex = 99;
+        rippleContainerNode.style.zIndex = zIndex;
         rippleContainerNode.style.top = 0;
         rippleContainerNode.style.right = 0;
         rippleContainerNode.style.bottom = 0;
@@ -57,7 +64,6 @@ const init = (el, binding) => {
 Vue.directive('ripple', {
     bind() {
         // bind中还没有插入元素, 所以没法获取尺寸
-        
     },
 
     inserted(el, binding) {

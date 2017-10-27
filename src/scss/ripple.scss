@@ -1,4 +1,5 @@
 .ripple-container {
+    pointer-events: none;
     .ripple {
         animation: ripple 2000ms forwards cubic-bezier(0, 0, 0.2, 1);
     }
