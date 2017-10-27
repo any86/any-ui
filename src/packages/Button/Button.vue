@@ -1,7 +1,7 @@
 <template>
-    <a v-on="$listeners" v-bind="$attrs" :class="classArray" class="btn">
+    <button v-ripple="{background: 'rgba(255,255,255, 0.5)'}" v-on="$listeners" v-bind="$attrs" :class="classArray" class="btn">
         <slot></slot>
-    </a>
+    </button>
 </template>
 <script>
 export default {
@@ -28,7 +28,7 @@ export default {
             default: false
         },
 
-        ghost: {
+        isGhost: {
             type: Boolean,
             default: false
         }
@@ -43,7 +43,7 @@ export default {
     computed: {
         classArray() {
             return [
-                `btn${this.ghost ? '-ghost' : ''}-${this.type}`,
+                `btn${this.isGhost ? '-ghost' : ''}-${this.type}`,
                 this.disabled && 'btn-disabled ',
                 this.block && 'btn-block',
                 this.radius && 'btn-radius'
@@ -60,40 +60,6 @@ export default {
     background: $color;
     border-color: rgba($color, 1);
     color: $sub;
-
-    // &:not(.btn-disabled):active {
-    //     // opacity: 0.7;
-    //     :after {
-    //         transition: all 1000ms;
-    //         width: 300px;
-    //         transform: scale(2);
-    //     }
-    // }
-
-
-    &:active {
-        &:after {
-            transition: all 200ms;
-            width: 300px;
-            transform: scale(2);
-        }
-    }
-
-
-    &:after {
-        content: ' ';
-        display: block;
-        position: absolute;
-        z-index: 100;
-        pointer-events: none;
-        border-radius: 50%;
-        transform: scale(1);
-        background: #fff;
-        opacity: .3;
-        width: 200px;
-        height: 200px;
-    }
-
     &-disabled {
         pointer-events: none;
         background: dark($color);
@@ -109,8 +75,15 @@ export default {
         opacity: 0.7;
     }
 }
-
+button {
+    -webkit-appearance: none;
+    outline: none;
+    border: 0 none;
+    border-radius: 0;
+}
 .btn {
+    position: relative;
+    overflow: hidden;
     display: inline-block;
     user-select: none;
     vertical-align: middle;
@@ -122,8 +95,7 @@ export default {
     text-decoration: none;
     border: 1px solid transparent;
     transition: all $duration;
-    position: relative;
-    overflow: hidden;
+
     font-size: $big;
 
     .icon-loading {
