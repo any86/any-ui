@@ -1,10 +1,8 @@
 <template>
     <span class="atom-stepper">
-        <template>
-            <i :class="['btn', 'btn-minus', min == value && 'disabled']" value="minus" @click="minus"></i>
-            <span class="content" @click="click">{{value}}</span>
-            <i :class="['btn', 'btn-plus', max == value && 'disabled']" value="plus" @click="plus"></i>
-        </template>
+        <i :class="['atom-stepper__btn', 'atom-stepper__btn-minus', min == value && 'disabled']" @click="minus"></i>
+        <span class="atom-stepper__content" @click="click">{{value}}</span>
+        <i :class="['atom-stepper__btn', 'atom-stepper__btn-plus', max == value && 'disabled']"  @click="plus"></i>
     </span>
 </template>
 <script>
@@ -64,45 +62,40 @@ export default {
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
-$height: 0.5rem;
+$height: 0.6rem;
 .atom-stepper {
+    box-sizing: content-box;
     position: relative;
-    display: inline-block;
+    display: inline-flex;
     border: 1px solid $lighter;
     height: $height;
-    overflow: hidden;
-    > .btn {
-        display: inline-block;
+    &__btn {
+        display: block;
         height: $height;
         line-height: $height;
         width: $height;
         color: $darker;
-        font-size: $bigger;
         text-align: center;
-        &.disabled {
-            border-color: $disabled;
-            color: $disabled;
-        }
-        &:not(.disabled):active {
-            color: $base;
-        }
-        &.btn-minus {
-            background: url(../../assets/add.svg) center center no-repeat;
-            background-size: 60%;
-            border-right: 1px solid $lighter;
-        }
-        &.btn-plus {
-            border-left: 1px solid $lighter;
-        }
     }
-    > .content {
+    &__btn-minus {
+        background: url('../../assets/subtract.svg') center center no-repeat;
+        background-size: 60%;
+        border-right: 1px solid $lighter;
+    }
+    &__btn-plus {
+        background: url('../../assets/add.svg') center center no-repeat;
+        background-size: 60%;
+        border-left: 1px solid $lighter;
+    }
+
+    &__content {
         display: inline-block;
+        position: relative;
         padding: 0 $gutter;
         min-width: $height * 1.4;
         color: $darkest;
-        font-size: $bigger;
         text-align: center;
-        position: relative;
+        line-height: $height;
         &.disabled {
             color: $disabled;
         }
