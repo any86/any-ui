@@ -1,5 +1,5 @@
 <template>
-    <a v-ripple v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" @click="clickHandler" class="atom-cell">
+    <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" @click="clickHandler" class="atom-cell">
         <span class="atom-cell__body">
             <slot></slot>
         </span>
@@ -25,6 +25,11 @@ export default {
         },
 
         border: {
+            type: Boolean,
+            default: true
+        },
+
+        hasRipple: {
             type: Boolean,
             default: true
         }
