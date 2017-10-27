@@ -1,7 +1,7 @@
 <template>
     <!-- 明天控制下外层的height, 应该能解决bottom的问题. -->
     <div :style="{height: `${warpHeight}px`}" v-on="$listeners" class="atom-affix">
-        <div :class="{'atom-affix__body--fixed': isFixed}" :style="style" class="atom-affix__body">
+        <div v-dom-portal="isFixed"  :class="{'atom-affix__body--fixed': isFixed}" :style="style" class="atom-affix__body">
             <slot></slot>
         </div>
     </div>
