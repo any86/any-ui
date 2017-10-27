@@ -1,6 +1,7 @@
 import Vue from 'vue';
 // 参考 https://github.com/davinder17s/material-ripple-effect/blob/master/ripple.js
-
+// ripple.js是用的fixed定位, 有一个小问题, 就是出现水波的时候拖动页面, 水波纹也会移动.
+// 所以稍微改了下吗, 定位方式改为absolute.
 var position = '';
 const init = (el, binding) => {
     position = el.style.position;
