@@ -22,11 +22,12 @@ export default {
 
         max: {
             type: Number,
-            default: 99
+            default: 100
         },
 
         step: {
-            type: Number
+            type: Number,
+            default: 1
         },
 
         value: {
@@ -43,7 +44,7 @@ export default {
         minus() {
             const number = parseInt(this.value);
             if (this.min < number) {
-                this.$emit('input', number - 1);
+                this.$emit('input', Math.max(this.min, number - this.step));
             } else {
                 this.$emit('reachMin');
             }
@@ -52,7 +53,7 @@ export default {
         plus() {
             const number = parseInt(this.value);
             if (this.max > number) {
-                this.$emit('input', number + 1);
+                this.$emit('input',  Math.min(this.max, number + this.step));
             } else {
                 this.$emit('reachMax');
             }
@@ -91,8 +92,7 @@ $height: 0.6rem;
     &__content {
         display: inline-block;
         position: relative;
-        padding: 0 $gutter;
-        min-width: $height * 1.4;
+        min-width: $height * 1.25;
         color: $darkest;
         text-align: center;
         line-height: $height;
