@@ -45,6 +45,7 @@ export default {
     data() {
         return { size: 100, borderWidth: 3 };
     },
+
     computed: {
         c() {
             return this.radius + this.borderWidth;

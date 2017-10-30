@@ -18,10 +18,14 @@
                 <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
             </v-tabs>
 
-            <v-circle v-model="tabsIndex"></v-circle>
+            <v-circle v-model="tabsIndex">
+                <h1 style="margin:1rem auto;text-align:center">标题</h1>
+                <p>描述问题</p>
+                <h3>{{tabsIndex}}%</h3>
+            </v-circle>
             
             <v-cell :has-ripple="false">
-                <v-stepper v-model="tabsIndex"></v-stepper>
+                <v-stepper :step="2" v-model="tabsIndex"></v-stepper>
             </v-cell>
             <v-cell>
                 <v-switch v-model="isShowDrawer">打开弹窗</v-switch>
@@ -56,6 +60,7 @@
             </v-affix>
 
             <v-cell v-for="n in 50" :key="n" class="abc">第{{5+n}}次</v-cell>
+
             <v-spinner v-show="isBottom"></v-spinner>
         </v-infinite-scroll>
     </v-drawer>
