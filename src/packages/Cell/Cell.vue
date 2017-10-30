@@ -1,6 +1,6 @@
 <template>
     <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" @click="clickHandler" class="atom-cell">
-        <span class="atom-cell__body">
+        <span :style="bodyStyle" class="atom-cell__body">
             <slot></slot>
         </span>
 
@@ -16,6 +16,11 @@ export default {
     name: 'Cell',
 
     props: {
+        bodyStyle: {
+            type: String,
+            default: {}
+        },
+
         to: {
             type: Object
         },
