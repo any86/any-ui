@@ -1,5 +1,9 @@
 <template>
     <v-scroll v-model="pos">
+        <v-popup :value="true"> 
+            <v-button :block="true">ok</v-button>
+            <v-button :block="true">cancel</v-button>
+        </v-popup>
         <v-cell>
             <v-switch v-model="isShow">显示{{text2}}</v-switch>
         </v-cell>
@@ -13,6 +17,8 @@
 </template>
 <script>
 import Mock from 'mockjs'
+import VPopup from '@/packages/Dialog/Popup';
+import VButton from '@/packages/Button/Button';
 import VSlider from '@/packages/Slider/Slider';
 import VSliderItem from '@/packages/Slider/SliderItem';
 import VSwitch from '@/packages/Switch/Switch';
@@ -53,7 +59,7 @@ export default {
         }
     },
 
-    components: { VirtualScroll, VInput, VInfiniteScroll, VPicker, VSwitch, VCell, VSlider, VSliderItem, VScroll }
+    components: { VButton,VirtualScroll, VInput, VInfiniteScroll, VPicker, VSwitch, VCell, VSlider, VSliderItem, VScroll,VPopup }
 }
 </script>
 <style scoped lang="scss">

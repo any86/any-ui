@@ -28,14 +28,14 @@ $danger: #e60044;
 $info: #2db7f5;
 
 $theme_colors: (
-    default: $base,
+    default: $white,
     primary: $base,
     success: $success,
     warning: $warning,
     danger: $danger,
     info: $info,
     dark: $dark,
-    light: $light
+    light: $light,
 );
 
 // 间隙

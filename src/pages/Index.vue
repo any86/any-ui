@@ -18,12 +18,14 @@
                 <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
             </v-tabs>
 
-            <v-circle v-model="tabsIndex">
+            <v-progress-line style="width:98%;margin:auto;" :hasBorderRadius="true" v-model="tabsIndex"></v-progress-line>
+
+            <v-progress-circle v-model="tabsIndex">
                 <h1 style="margin:1rem auto;text-align:center">标题</h1>
                 <p>描述问题</p>
                 <h3>{{tabsIndex}}%</h3>
-            </v-circle>
-            
+            </v-progress-circle>
+
             <v-cell :has-ripple="false">
                 <v-stepper :step="2" v-model="tabsIndex"></v-stepper>
             </v-cell>
@@ -60,17 +62,17 @@
             </v-affix>
 
             <v-cell v-for="n in 50" :key="n" class="abc">第{{5+n}}次</v-cell>
-
             <v-spinner v-show="isBottom"></v-spinner>
         </v-infinite-scroll>
     </v-drawer>
 </template>
 <script>
 import QRCode from 'qrcode';
-import VCircle from '@/packages/Progress/Circle';
-
+import VSpinnerCircle from '@/packages/Spinner/Android';
+import VProgressCircle from '@/packages/Progress/Circle';
+import VProgressLine from '@/packages/Progress/Line';
 import VDrawer from '@/packages/Drawer/Drawer';
-import VSpinner from '@/packages/Spinner/Spinner';
+import VSpinner from '@/packages/Spinner/ThreeDots';
 import VAffix from '@/packages/Affix/Affix';
 import VTabs from '@/packages/Tabs/Tabs';
 import VTabsItem from '@/packages/Tabs/TabsItem';
@@ -130,7 +132,6 @@ export default {
 
     components: {
         VCell,
-        VCircle,
         VSwitch,
         VRadio,
         VDialog,
@@ -144,7 +145,10 @@ export default {
         VTabs,
         VTag,
         VTabsItem,
-        VStepper
+        VStepper,
+        VProgressLine,
+        VSpinnerCircle,
+        VProgressCircle
     }
 };
 </script>

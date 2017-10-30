@@ -18,7 +18,7 @@ export default {
     props: {
         bodyStyle: {
             type: String,
-            default: {}
+            default: ()=> {}
         },
 
         to: {
