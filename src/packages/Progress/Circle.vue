@@ -1,13 +1,13 @@
 <template>
-    <div class="atom-circle">
+    <div class="atom-progress-circle">
         <svg :viewBox="`0 0 ${2*c} ${2*c}`" xmlns="http://www.w3.org/2000/svg">
             <g :stroke-width="borderWidth" fill="none" :transform="`rotate(-90, ${c} ${c})`">
                 <circle :r="radius" :cy="c" :cx="c" class="backdrop" stroke="#ddd" />
-                <circle :r="radius" :cy="c" :cx="c" class="progress" stroke="none" :stroke-dasharray="strokeDasharray" :style="{'transition-duration': `${duration}ms`}" />
+                <circle :stroke-linecap="0 === value ? 'butt' : 'round'" :r="radius" :cy="c" :cx="c" class="progress" stroke="none" :stroke-dasharray="strokeDasharray" :style="{'transition-duration': `${duration}ms`}" />
             </g>
             <text v-if="hasNumber && undefined ===$slots.default" x="50%" y="50%" :font-size="radius/2" text-anchor="middle" dominant-baseline="middle">{{value}}%</text>
         </svg>
-        <div v-if="undefined !== $slots.default" class="atom-circle__slot">
+        <div v-if="undefined !== $slots.default" class="atom-progress-circle__slot">
             <slot></slot>
         </div>
     </div>
@@ -66,7 +66,7 @@ export default {
 
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.atom-circle {
+.atom-progress-circle {
     position: relative;
     svg {
         g {
