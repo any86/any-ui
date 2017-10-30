@@ -1,48 +1,57 @@
 <template>
     <div class="atom-circle">
-        <!-- <p>{{value}}%</p> -->
         <svg :viewBox="`0 0 ${2*c} ${2*c}`" xmlns="http://www.w3.org/2000/svg">
-            <g :r="radius" :cy="c" :cx="c" :stroke-width="borderWidth">
-                <circle class="backdrop" stroke="#ddd" fill="none" />
-                <circle class="progress" stroke="none" fill="none" :stroke-dasharray="strokeDasharray" :style="{'transition-duration': `${duration}ms`}" />
+            <g :stroke-width="borderWidth" fill="none" :transform="`rotate(-90, ${c} ${c})`">
+                <circle :r="radius" :cy="c" :cx="c" class="backdrop" stroke="#ddd" />
+                <circle :r="radius" :cy="c" :cx="c" class="progress" stroke="none" :stroke-dasharray="strokeDasharray" :style="{'transition-duration': `${duration}ms`}" />
             </g>
-            <!-- <text x="40" y="40" font-size="16">{{value}}%</text> -->
+            <text v-if="hasNumber && undefined ===$slots.default" x="50%" y="50%" :font-size="radius/2" text-anchor="middle" dominant-baseline="middle">{{value}}%</text>
         </svg>
+        <div v-if="undefined !== $slots.default" class="atom-circle__slot">
+            <slot></slot>
+        </div>
     </div>
 </template>
+
 <script>
 // 假定viewBox为100 * 100
 export default {
     name: 'Circle',
-
     props: {
         value: {
             type: Number,
             default: 80
         },
+
         duration: {
             type: Number,
-            default: 0
+            default: 300
         },
 
-        radius: {
-            type: Number,
-            default: 40
+        hasNumber: {
+            type: Boolean,
+            default: true
         },
 
-        borderWidth: {
-            type: Number,
-            default: 3
+        trailColor: {
+            type: String
+        },
+
+        strokeColor: {
+            type: String,
+            default: '#000'
         }
     },
-
     data() {
-        return {};
+        return { size: 100, borderWidth: 3 };
     },
-
     computed: {
         c() {
             return this.radius + this.borderWidth;
+        },
+
+        radius() {
+            return (this.size - this.borderWidth) / 2;
         },
 
         strokeDasharray() {
@@ -53,36 +62,34 @@ export default {
     }
 };
 </script>
+
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-circle {
     position: relative;
-    overflow: hidden;
-    p {
-        font-size: $biggest;
-        margin: auto;
-        text-align: center;
-        position: absolute;
-        z-index: 2;
-        width: 100%;
-        transform: translateY(-50%);
-        top: 50%;
-        color: $primary;
-    }
     svg {
         g {
-            transform: rotate(-90deg);
             .backdrop {
                 stroke: $lightest;
             }
             .progress {
-                stroke: $base;
+                stroke: $primary;
                 transition-property: stroke-dasharray;
             }
         }
-
         text {
             fill: $primary;
+        }
+    }
+    &__slot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        > * {
+            text-align: center;
         }
     }
 }
