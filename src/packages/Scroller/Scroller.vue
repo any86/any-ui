@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-scroller" v-on="$listeners">
+    <div class="atom-scroller">
         <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="bodyClass" class="atom-scroller__body">
             <slot></slot>
         </div>
