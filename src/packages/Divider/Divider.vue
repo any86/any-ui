@@ -16,8 +16,8 @@ export default {
     margin: 0;
     height: 1px;
     border: none;
-    background-color: rgba(0, 0, 0, 0.12);
+    background: $lightest;
     width: 100%;
-    overflow: visible;
+    overflow: hidden;
 }
 </style>
