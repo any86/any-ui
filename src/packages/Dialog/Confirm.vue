@@ -1,6 +1,6 @@
 <template>
     <v-dialog :isShow.sync="isShow" :align="'bottom'" :hasClose="false">
-        <h4 slot="header" class="title">{{title}}</h4>
+        <template slot="header">{{title}}</template>
         {{content}}
         <div slot="footer" class="footer">
             <a class="button" @click="cancel">取消</a>
@@ -16,7 +16,7 @@ export default {
     data() {
         return {
             okCallback: null,
-            cancellCallback: null,
+            cancelCallback: null,
             isShow: false,
             title: '提示',
             content: ''
@@ -34,7 +34,7 @@ export default {
         cancel() {
             this.isShow = false;
             this.$nextTick(() => {
-                this.cancellCallback();
+                this.cancelCallback();
             });
         }
     },

@@ -21,7 +21,7 @@ export default {
         return {
             value: '',
             okCallback: ()=>{},
-            cancellCallback: ()=>{},
+            cancelCallback: ()=>{},
             isShow: false,
             title: '提示',
             content: ''
@@ -40,7 +40,7 @@ export default {
         cancel() {
             this.isShow = false;
             this.$nextTick(() => {
-                this.cancellCallback();
+                this.cancelCallback();
             });
         }
     },
