@@ -148,6 +148,7 @@ export default {
             display: block;
             text-align: center;
             color: $dark;
+            font-size: $big;
             &.active {
                 color: $darkest;
             }
