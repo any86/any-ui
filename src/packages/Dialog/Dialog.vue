@@ -1,5 +1,5 @@
 <template>
-    <VMask :isShow="isShow" :portal="true" @update:isShow="close">
+    <VMask :isShow="isShow" :portal="portal" @update:isShow="close">
         <transition name="zoom">
             <div v-show="isShow" :class="['atom-dialog-' + align]" class="atom-dialog">
                 <header>
@@ -26,6 +26,10 @@ export default {
     name: 'Dialog',
 
     props: {
+        portal: {
+            default: false,
+        },
+        
         isShow: {
             type: Boolean
         },
@@ -93,8 +97,10 @@ export default {
     > header {
         padding: $gutter/2 $gutter 0 $gutter;
         overflow: hidden;
+        font-size: $big;
     }
     > main {
+        font-size: $normal;
         padding: $gutter;
         overflow-x: hidden;
         overflow-y: auto;
