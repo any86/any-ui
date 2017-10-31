@@ -65,13 +65,11 @@ export default {
         position: relative;
         align-self: center;
         color: $darkest;
-        &--as-button{
-            font-size: $big;
-            text-align: center;
-        }
+        font-size: $big;
     }
     &__extra {
         flex: 1;
+        font-size: $big;
         position: relative;
         align-self: center;
         text-align: right;

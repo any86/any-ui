@@ -1,5 +1,5 @@
 <template>
-    <button v-ripple="{background: 'rgba(255,255,255, 0.5)'}" v-on="$listeners" v-bind="$attrs" :class="classArray" class="btn">
+    <button v-ripple="{background: rippleColor}" v-on="$listeners" v-bind="$attrs" :class="classArray" class="btn">
         <slot></slot>
     </button>
 </template>
@@ -48,6 +48,14 @@ export default {
                 this.block && 'btn-block',
                 this.radius && 'btn-radius'
             ];
+        },
+
+        rippleColor(){
+            if(['default', 'light'].includes(this.type)) {
+                return 'rgba(0,0,0, 0.1)';
+            } else {
+                return 'rgba(255,255,255, 0.5)';
+            }
         }
     }
 };
@@ -58,8 +66,7 @@ export default {
 // 纯色背景按钮
 @mixin btn($color) {
     background: $color;
-    border-color: rgba($color, 1);
-    color: $sub;
+    border-color: rgba($color, 0);
     &-disabled {
         pointer-events: none;
         background: dark($color);
@@ -95,7 +102,6 @@ button {
     text-decoration: none;
     border: 1px solid transparent;
     transition: all $duration;
-
     font-size: $big;
 
     .icon-loading {
@@ -117,6 +123,12 @@ button {
 @each $color, $value in $theme_colors {
     .btn-#{$color} {
         @include btn($value);
+        @if 'default' == $color or 'light' == $color {
+            color:$darkest;
+        } 
+        @else {
+            color: $sub;
+        }
     }
 
     .btn-ghost-#{$color} {
