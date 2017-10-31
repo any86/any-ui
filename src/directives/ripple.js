@@ -7,6 +7,8 @@ import Vue from 'vue';
 
 var position = '';
 const init = (el, binding) => {
+    // 解除事件, 主要为了dev阶段, 改变指令的binding的时候, 可以刷新事件.
+    el.removeEventListener('click', handler);
     position = el.style.position;
     el.style.position = 'relative'
     let background = 'rgba(0,0,0, .1)';
@@ -21,7 +23,8 @@ const init = (el, binding) => {
             zIndex = binding.value.zIndex;
         }
     }
-    el.addEventListener('click', event => {
+
+    const handler = event=>{
         var rippleContainerNode = el.querySelector('.ripple-container');
         if (rippleContainerNode) {
             rippleContainerNode.remove();
@@ -58,7 +61,9 @@ const init = (el, binding) => {
                 rippleContainerNode.remove();
             });
         });
-    });
+    };
+
+    el.addEventListener('click', handler);
 };
 
 Vue.directive('ripple', {
