@@ -1,7 +1,6 @@
 <template>
     <v-dialog :isShow.sync="isShow" :hasClose="false">
-        <h4 slot="header" class="title">{{title}}</h4>
-        <!-- <p>{{content}}</p> -->
+        <template slot="header">{{title}}</template>
         <div>
             <v-input v-model="value" :placeholder="content" class="input"></v-input>
         </div>
@@ -21,8 +20,8 @@ export default {
     data() {
         return {
             value: '',
-            okCallback: null,
-            cancellCallback: null,
+            okCallback: ()=>{},
+            cancellCallback: ()=>{},
             isShow: false,
             title: '提示',
             content: ''

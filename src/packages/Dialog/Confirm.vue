@@ -56,9 +56,10 @@ export default {
     }
     .button:first-child {
         border-right: 1px solid $lightest;
+        color:$darkest;
     }
     .button:last-child {
-        color: $base;
+        color: $primary;
     }
 }
 </style>
