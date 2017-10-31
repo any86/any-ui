@@ -1,14 +1,14 @@
 <template>
-    <VMask v-model="isShow" :background="'rgba(0,0,0,0)'">
+    <VMask :isShow="isShow" :background="'rgba(0, 0, 0, 0)'">
         <transition name="fade">
-            <div v-if="isShow" :class="['component-toast', position]">
+            <div v-if="isShow" :class="['atom-toast', position]">
                 <p>{{text}}</p>
             </div>
         </transition>
     </VMask>
 </template>
 <script>
-import VMask from '@/packages/Dialog/Mask'
+import VMask from '@/packages/Dialog/Mask';
 
 export default {
     name: 'Toast',
@@ -45,14 +45,14 @@ export default {
     components: {
         VMask
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 $height: $minHeight;
-.component-toast {
+.atom-toast {
     position: fixed;
-    background: rgba(0, 0, 0, .7);
+    background: rgba(0, 0, 0, 0.7);
     color: $sub;
     border-radius: $borderRadius;
     box-shadow: $shadowUp, $shadowDown; // overflow: hidden;
@@ -89,7 +89,7 @@ $height: $minHeight;
             line-height: 2*$height;
         }
     }
-    >p {
+    > p {
         text-align: center;
         color: $sub;
     }
@@ -97,11 +97,11 @@ $height: $minHeight;
 
 // 动画
 .toast-enter-active {
-    animation: toast-in .3s;
+    animation: toast-in 0.3s;
 }
 
 .toast-leave-active {
-    animation: toast-out .3s;
+    animation: toast-out 0.3s;
 }
 
 @keyframes toast-in {

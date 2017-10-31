@@ -1,6 +1,6 @@
 <template>
     <v-scroller v-model="pos">
-        <v-cell>{{text}}</v-cell>
+        <v-cell @click="handler">{{text}}</v-cell>
         <v-cell :has-ripple="false"><v-input placeholder="快点输入" type="bankCode" v-model="text"></v-input></v-cell>
         <v-popup v-model="isShow">
             <v-cell @click="handler" text-align="center">本地相册</v-cell>
@@ -57,11 +57,7 @@ export default {
     },
     methods: {
         handler(){
-            this.$prompt(123, {
-                onOk: text=>{
-                    alert(text)
-                }
-            })
+            this.$toast(123)
         }
     },
 
