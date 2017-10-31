@@ -62,7 +62,7 @@ Atom.install = function(Vue) {
     // =================================================
     {
         let vm = null;
-        Vue.prototype.$prompt = (content = '', options = {}) => {
+        Vue.prototype.$prompt = (content = '', options = {onOk: ()=>{}, onCancel: ()=>{}}) => {
             if (null === vm) {
                 vm = createVueChild(VPrompt);
             }
