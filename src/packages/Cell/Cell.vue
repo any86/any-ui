@@ -1,6 +1,6 @@
 <template>
     <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" @click="clickHandler" class="atom-cell">
-        <span :style="bodyStyle" class="atom-cell__body">
+        <span :style="[bodyStyle, {textAlign}]" class="atom-cell__body">
             <slot></slot>
         </span>
 
@@ -19,6 +19,11 @@ export default {
         bodyStyle: {
             type: String,
             default: ()=> {}
+        },
+
+        textAlign: {
+            type: String,
+            default: 'left'
         },
 
         to: {
@@ -60,6 +65,10 @@ export default {
         position: relative;
         align-self: center;
         color: $darkest;
+        &--as-button{
+            font-size: $big;
+            text-align: center;
+        }
     }
     &__extra {
         flex: 1;
