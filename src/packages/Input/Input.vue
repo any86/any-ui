@@ -3,8 +3,7 @@
         <span class="title" v-if="!!$slots.default">
             <slot></slot>
         </span>
-        <input v-bind="$attrs" ref="input" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
-        <!-- <input v-on="$listeners" v-bind="$attrs" ref="input" :value="value" @input="input"> -->
+        <input v-bind="$attrs"  ref="input" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
         <transition name="fadeLeft">
             <v-close v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="btn-close"></v-close>
         </transition>
@@ -23,7 +22,9 @@ export default {
 
         value: {
             required: true
-        }
+        },
+
+        type: {}
     },
 
     data() {
@@ -40,7 +41,7 @@ export default {
 
         focus(e) {
             // 默认选中文字
-            e.target.select();
+            // e.target.select();
             if ('' != this.value) {
                 this.isShowEmpty = true;
             }
@@ -51,7 +52,7 @@ export default {
         },
 
         keyup(e) {
-            var value = e.target.value;
+            let value = e.target.value;
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
             } else if ('letter' == this.type) {
