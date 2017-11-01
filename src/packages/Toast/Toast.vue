@@ -9,22 +9,32 @@ export default {
             default: false
         },
 
-        text: {}
-    },
+        render: {
+            type: Function
+        },
 
-    data() {
-        return {
-            timer: null,
-            delay: 3000,
-            position: 'center',
-            type: 'default'
-        };
+        text: {
+            type: String
+        },
+
+        delay: {
+            type: Number,
+            default: 3000
+        },
+
+        position: {
+            type: String,
+            default: 'center'
+        },
+
+        type: {
+            type: String,
+            default: 'default'
+        }
     },
 
     render(h) {
-        if (undefined !== this.text) {
-            var vnode =
-                undefined !== this.text.render ? h(this.text) : this.text;
+        if (this.isShow) {
             return h(
                 'v-mask',
                 {
@@ -35,34 +45,14 @@ export default {
                         background: 'rgba(255,255,255, 0)'
                     }
                 },
-                this.isShow && [
-                    h('transition'),
-                    { attrs: { name: 'zoom' } },
-                    [
+                [
+                    h('transition', { attrs: { name: 'zoom' } }, [
                         h('div', { class: [this.position, 'atom-toast'] }, [
-                            vnode
+                            this.text
                         ])
-                    ]
+                    ])
                 ]
             );
-        }
-    },
-
-    methods: {
-        close() {
-            if (-1 != this.delay) {
-                this.timer = setTimeout(() => {
-                    this.isShow = false;
-                }, this.delay);
-            }
-        }
-    },
-
-    watch: {
-        isShow(value) {
-            if (value) {
-                this.close();
-            }
         }
     },
 
@@ -76,11 +66,12 @@ export default {
 $height: $minHeight;
 .atom-toast {
     position: fixed;
-    background: $background;
+    background: rgba($darkest, 0.8);
+    color: $sub;
     border-radius: $borderRadius;
     box-shadow: $shadowDown;
     border: 1px solid $lightest;
-    padding: $gutter 1.2*$gutter;
+    padding: $gutter $gutter*1.5;
     text-align: center;
     &.top {
         z-index: $toastZIndex;
@@ -102,47 +93,6 @@ $height: $minHeight;
         left: 50%;
         transform: translate(-50%, -50%);
         transform-style: preserve-3d;
-    }
-    .icon {
-        width: 2*$height;
-        height: 2*$height;
-        margin: 0 auto;
-        text-align: center;
-        i {
-            font-size: 1rem;
-            line-height: 2*$height;
-        }
-    }
-}
-
-// 动画
-.toast-enter-active {
-    animation: toast-in 0.3s;
-}
-
-.toast-leave-active {
-    animation: toast-out 0.3s;
-}
-
-@keyframes toast-in {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1.1);
-    }
-    100% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-
-@keyframes toast-out {
-    0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1.1);
     }
 }
 </style>

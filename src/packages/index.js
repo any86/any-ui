@@ -99,8 +99,9 @@ Atom.install = function(Vue) {
         let toastVM = null;
         Vue.prototype.$toast = (
             text = '',
-            { position = 'center', delay = 3000 } = {}
+            { position = 'center', delay = 30000 } = {}
         ) => {
+           
             if (null === toastVM) {
                 toastVM = createVueChild(Toast);
             }
@@ -108,7 +109,9 @@ Atom.install = function(Vue) {
             toastVM.isShow = true;
             toastVM.text = text;
             toastVM.delay = delay;
-            return toastVM;
+            setTimeout(() => {
+                toastVM.isShow = false;
+            }, delay);
         };
     }
 };

@@ -58,7 +58,8 @@ export default {
     },
     methods: {
         handler(){
-            this.$toast(VAndroid);
+            const h = this.$createElement;
+            this.$toast(h('v-android', {style: {height: '100px', width: '100px'}}));
             // this.$loading.open();
         }
     },
