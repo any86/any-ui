@@ -1,18 +1,31 @@
 <template>
-    <VMask :isShow="isShow" class="component-mask" :background="`rgba(0,0,0,0})`">
+    <v-mask :isShow="isShow" class="atom-mask" background="rgba(0,0,0,.5})">
         <transition name="zoom" @after-enter="afterEnter">
-            <div v-show="isShow" class="dialog">
-                <!-- <img src="../../assets/heart.svg" class="heart"> -->
-                <p>LOADING</p>
+            <div v-show="isShow" class="atom-mask__body">
+                <v-android></v-android>
+                <p class="body__text">LOADING</p>
             </div>
         </transition>
-    </VMask>
+    </v-mask>
 </template>
 <script>
-import VMask from '@/packages/Dialog/Mask'
+import VMask from '@/packages/Dialog/Mask';
+import VAndroid from '@/packages/Spinner/Android';
 
 export default {
     name: 'Loading',
+
+    data() {
+        text: 'loading';
+    },
+
+    render(){
+
+    },
+
+    mounted() {
+        dir(this.$createElement('v-android'));
+    },
 
     data() {
         return { isShow: false, afterEnterCallback: null };
@@ -25,52 +38,31 @@ export default {
     },
 
     components: {
-        VMask
+        VMask,
+        VAndroid
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-mask {
+.atom-mask {
     position: fixed;
     z-index: $loadingZIndex;
     display: flex;
     justify-content: center;
-    .dialog {
+    &__body {
         border-radius: $borderRadius;
-        min-height: 2.4rem;
         align-self: center;
-        background: rgba(#000, .5);
+        background: rgba(#fff, 1);
+        box-shadow: $shadowDown;
         padding: $gutter 2*$gutter;
-        >img {
-            display: block;
-            width: 100%;
-        }
-        >p {
+        border: 1px solid $lightest;
+        > .body__text {
             text-align: center;
-            color: $sub;
+            color: $darkest;
             font-size: $normal;
             margin-top: $gutter;
         }
-    }
-}
-
-.heart {
-    animation: heart 1200ms ease-in-out infinite;
-}
-
-@keyframes heart {
-    0% {
-        opacity: .6; // transform:translateY(5px) scale(1);
-    }
-
-
-    50% {
-        opacity: 1; // transform:translateY(0) scale(1);
-    }
-
-    100% {
-        opacity: .6; // transform:translateY(5px) scale(1);
     }
 }
 </style>

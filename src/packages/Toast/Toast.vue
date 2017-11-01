@@ -1,27 +1,51 @@
-<template>
-    <VMask :isShow="isShow" :background="'rgba(0, 0, 0, 0)'">
-        <transition name="fade">
-            <div v-if="isShow" :class="['atom-toast', position]">
-                <p>{{text}}</p>
-            </div>
-        </transition>
-    </VMask>
-</template>
 <script>
 import VMask from '@/packages/Dialog/Mask';
-
 export default {
     name: 'Toast',
+
+    props: {
+        isShow: {
+            type: Boolean,
+            default: false
+        },
+
+        text: {}
+    },
 
     data() {
         return {
             timer: null,
-            text: '',
-            isShow: false,
             delay: 3000,
             position: 'center',
             type: 'default'
         };
+    },
+
+    render(h) {
+        if (undefined !== this.text) {
+            var vnode =
+                undefined !== this.text.render ? h(this.text) : this.text;
+            return h(
+                'v-mask',
+                {
+                    props: {
+                        isShow: true
+                    },
+                    style: {
+                        background: 'rgba(255,255,255, 0)'
+                    }
+                },
+                this.isShow && [
+                    h('transition'),
+                    { attrs: { name: 'zoom' } },
+                    [
+                        h('div', { class: [this.position, 'atom-toast'] }, [
+                            vnode
+                        ])
+                    ]
+                ]
+            );
+        }
     },
 
     methods: {
@@ -52,12 +76,12 @@ export default {
 $height: $minHeight;
 .atom-toast {
     position: fixed;
-    background: rgba(0, 0, 0, 0.7);
-    color: $sub;
+    background: $background;
     border-radius: $borderRadius;
-    box-shadow: $shadowUp, $shadowDown; // overflow: hidden;
-    padding: $gutter 1.2*$gutter; // word-break: keep-all;
-    // white-space:nowrap;
+    box-shadow: $shadowDown;
+    border: 1px solid $lightest;
+    padding: $gutter 1.2*$gutter;
+    text-align: center;
     &.top {
         z-index: $toastZIndex;
         top: 50%;
@@ -88,10 +112,6 @@ $height: $minHeight;
             font-size: 1rem;
             line-height: 2*$height;
         }
-    }
-    > p {
-        text-align: center;
-        color: $sub;
     }
 }
 

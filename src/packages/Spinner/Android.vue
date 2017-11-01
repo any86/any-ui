@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'SpinnerCircle',
+    name: 'SpinnerAndroid',
 
     props: {
         color: {

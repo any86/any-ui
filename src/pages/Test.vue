@@ -30,6 +30,7 @@ import VInput from '@/packages/Input/Input';
 import VirtualScroll from '@/packages/Scroller/Scroller';
 import VScroller from '@/packages/Scroller/Scroller';
 import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
+import VAndroid from '@/packages/Spinner/Android';
 export default {
     name: 'Test',
 
@@ -57,14 +58,15 @@ export default {
     },
     methods: {
         handler(){
-            this.$toast(123)
+            this.$toast(VAndroid);
+            // this.$loading.open();
         }
     },
 
     watch: {
     },
 
-    components: {
+    components: {VAndroid,
         VButton,
         VirtualScroll,
         VInput,
