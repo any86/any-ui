@@ -9,10 +9,6 @@ export default {
             default: false
         },
 
-        render: {
-            type: Function
-        },
-
         text: {
             type: String
         },
@@ -33,8 +29,12 @@ export default {
         }
     },
 
+    data() {
+        return { isShowMask: true };
+    },
+
     render(h) {
-        if (this.isShow) {
+        if (this.isShowMask ) {
             return h(
                 'v-mask',
                 {
@@ -46,13 +46,37 @@ export default {
                     }
                 },
                 [
-                    h('transition', { attrs: { name: 'zoom' } }, [
-                        h('div', { class: [this.position, 'atom-toast'] }, [
-                            this.text
-                        ])
-                    ])
+                    this.isShow &&
+                        h(
+                            'transition',
+                            {
+                                attrs: { name: 'fade'},
+                                on: {'after-leave': this.afterLeave }
+                            },
+                            [
+                                h(
+                                    'div',
+                                    { class: [this.position, 'atom-toast'] },
+                                    [this.text]
+                                )
+                            ]
+                        )
                 ]
             );
+        }
+    },
+
+    methods: {
+        afterLeave() {
+            this.isShowMask = false;
+        }
+    },
+
+    watch: {
+        isShow(value) {
+            if(value){
+                this.isShowMask = value;
+            }
         }
     },
 
