@@ -59,10 +59,8 @@ export default {
     methods: {
         handler(){
             const h = this.$createElement;
-            this.$toast(h('v-android', {style: {height: '100px', width: '100px'}}));
-            // dir(h('v-android', {style: {height: '100px', width: '100px'}}))
-            // this.$toast(123);
-            // this.$loading.open();
+            this.$toast(h('v-android', {style: {height: '60px', width: '60px', margin:'15px'}}));
+
         }
     },
 
