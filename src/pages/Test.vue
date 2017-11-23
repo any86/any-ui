@@ -1,5 +1,5 @@
 <template>
-    <v-scroller v-model="pos">
+    <v-infinite-scroll v-model="pos">
         <v-cell @click="handler">{{text}}</v-cell>
         <v-cell :has-ripple="false"><v-input placeholder="快点输入" type="bankCode" v-model="text"></v-input></v-cell>
         <v-popup v-model="isShow">
@@ -14,21 +14,17 @@
         
         <v-cell v-for="n in 5" :key="n">{{n}}</v-cell>
         <p v-for="n in 35" :key="n+5">{{n+5}}</p>
-    </v-scroller>
+    </v-infinite-scroll>
 </template>
 <script>
 import Mock from 'mockjs';
-import VPopup from '@/packages/Dialog/Popup';
+import VPopup from '@/packages/Popup/Popup';
 import VButton from '@/packages/Button/Button';
 import VDivider from '@/packages/Divider/Divider';
-import VSlider from '@/packages/Slider/Slider';
-import VSliderItem from '@/packages/Slider/SliderItem';
 import VSwitch from '@/packages/Switch/Switch';
 import VCell from '@/packages/Cell/Cell';
 import VPicker from '@/packages/Picker/Picker';
 import VInput from '@/packages/Input/Input';
-import VirtualScroll from '@/packages/Scroller/Scroller';
-import VScroller from '@/packages/Scroller/Scroller';
 import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
 import VAndroid from '@/packages/Spinner/Android';
 export default {
@@ -75,9 +71,7 @@ export default {
         VPicker,
         VSwitch,
         VCell,
-        VSlider,
-        VSliderItem,
-        VScroller,VDivider,
+        VDivider,
         VPopup
     }
 };

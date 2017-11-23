@@ -91,6 +91,7 @@ export default {
         height: 24px;
         line-height: 24px;
         box-sizing: content-box;
+        font-size: $big;
         &--line {
             border-bottom: 1px solid $lightest;
         }

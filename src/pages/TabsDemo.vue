@@ -4,11 +4,6 @@
             <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
         </v-tabs>
 
-        <v-swiper v-model="index">
-            <v-swiper-item v-for="text in tabs.list" :key="text">
-                <v-cell v-for="n in 30" :key="n">{{n}} : {{text}}</v-cell>
-            </v-swiper-item>
-        </v-swiper>
         <v-popup v-model="isShow">
             <v-cell><button class="button button-danger">xxx xxx</button></v-cell>
             <v-cell v-for="n in 10" :key="n">{{n}}</v-cell>
@@ -22,10 +17,7 @@ import VAffix from '@/packages/Affix/Affix';
 import VTabs from '@/packages/Tabs/Tabs';
 import VTabsItem from '@/packages/Tabs/TabsItem';
 import VCell from '@/packages/Cell/Cell';
-import VSwiper from '@/packages/Swiper/Swiper';
-import VSwiperItem from '@/packages/Swiper/SwiperItem';
-
-import VPopup from '@/packages/Dialog/Popup';
+import VPopup from '@/packages/Popup/Popup';
 
 export default {
     name: 'TabsDemo',
@@ -44,8 +36,6 @@ export default {
     methods: {},
 
     components: {
-        VSwiper,
-        VSwiperItem,
         VInfiniteScroll,
         VCell,
         VTabs,

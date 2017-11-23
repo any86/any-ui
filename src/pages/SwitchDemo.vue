@@ -1,16 +1,16 @@
 <template>
     <main>
         <v-cell>
-            <v-switch v-model="isSelect1">正常情况</v-switch>
+            <v-switch v-model="isSelect1">打开状态</v-switch>
         </v-cell>
         <v-cell>
-          xxx xx
+            <v-switch v-model="isSelect2">关闭状态</v-switch>
         </v-cell>
         <v-cell>
-            <v-switch v-model="isSelect2" :disabled="true">禁用状态的打开</v-switch>
+            <v-switch v-model="isSelect3" :disabled="true">禁用状态的打开</v-switch>
         </v-cell>
         <v-cell>
-            <v-switch v-model="isSelect3" :disabled="true">禁用情况的关闭</v-switch>
+            <v-switch v-model="isSelect4" :disabled="true">禁用情况的关闭</v-switch>
         </v-cell>
     </main>
 </template>
@@ -23,9 +23,9 @@ export default {
     data() {
         return {
             isSelect1: true,
-            isSelect2: true,
-            isSelect3: false
-
+            isSelect2: false,
+            isSelect3: true,
+            isSelect4: false,
         };
     },
 
