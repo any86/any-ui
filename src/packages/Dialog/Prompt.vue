@@ -69,6 +69,7 @@ export default {
     overflow: hidden;
     border-top: 1px solid $lightest;
     .button {
+        user-select: none;
         flex: 1;
         line-height: .4rem;
         text-align: center;

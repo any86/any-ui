@@ -3,32 +3,24 @@
         <div class="swiper-wrapper">
             <slot></slot>
         </div>
-        <div v-if="hasPagination" class="swiper-pagination"></div>
+        <div class="swiper-pagination swiper-pagination-bullets"></div>
     </div>
 </template>
 <script>
 import Swiper from 'swiper';
+import 'swiper/dist/css/swiper.css';
 export default {
     name: 'Swiper',
 
     props: {
         options: {
-            type: Object
-        },
-
-        delay: {
-            type: Number,
-            default: 3000
-        },
-
-        loop: {
-            type: Boolean,
-            default: false
+            type: Object,
+            default: () => ({})
         },
 
         hasPagination: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         value: {
@@ -44,30 +36,24 @@ export default {
     },
 
     mounted() {
-        // 合并配置
-        let opts = Object.assign(
-            {
-                initialSlide: this.value,
-                loop: this.loop,
-                autoplay: {
-                    delay: this.delay
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    type: 'bullets'
-                    // modifierClass: 'atom-swiper__pagination-',
-                    // bulletClass: 'pagination-bullet',
-                    // bulletActiveClass: 'pagination__bullet--active',
-                    // currentClass: 'atom-swiper__pagination--current',
-                    // totalClass: 'atom-swiper__pagination--total',
-                    // hiddenClass: 'atom-swiper__pagination--hidden',
-                    // progressbarFillClass: 'pagination__progressbar--fill',
-                    // clickableClass: 'atom-swiper__pagination--clickable'
-                }
+        // 默认配置
+        const defaultOpts = {
+            initialSlide: this.value,
+            autoplay: {
+                delay: 3000
             },
-            this.options
-        );
-        this.swiper = new Swiper(this.$el, opts);
+            loop: true,
+            lazy: false,
+            // autoHeight: true,
+            pagination: {
+                el: '.swiper-pagination',
+                type: 'bullets'
+            }
+        };
+
+        // 合并用户配置
+        let opts = Object.assign(defaultOpts, this.options);
+        this.swiper = new Swiper(this.$el, defaultOpts);
 
         this.swiper.on('slideChange', swiper => {
             this.$emit('slide-change', this.swiper);
@@ -99,13 +85,22 @@ export default {
 </script>
 <style lang="scss">
 @import '../../scss/theme.scss';
-@import '~swiper/dist/css/swiper.css';
+// @import '~swiper/dist/css/swiper.css';
+.atom-swiper {
+    position: relative;
+}
+
+.swiper-pagination-bullets {
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+}
+
 .swiper-pagination-bullet {
-    
-    &-active{
+    &-active {
         border-radius: $big;
-        background: rgba($base, .7);
-        width: $big;;
+        background: rgba($base, 0.7);
+        width: $big;
     }
 }
 </style>

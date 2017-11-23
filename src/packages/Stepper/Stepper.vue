@@ -1,8 +1,8 @@
 <template>
     <span class="atom-stepper">
-        <i :class="['atom-stepper__btn', 'atom-stepper__btn-minus', min == value && 'disabled']" @click="minus"></i>
+        <i v-ripple :class="['atom-stepper__btn', 'atom-stepper__btn-minus', min == value && 'disabled']" @click="minus"></i>
         <span class="atom-stepper__content" @click="click">{{value}}</span>
-        <i :class="['atom-stepper__btn', 'atom-stepper__btn-plus', max == value && 'disabled']"  @click="plus"></i>
+        <i v-ripple :class="['atom-stepper__btn', 'atom-stepper__btn-plus', max == value && 'disabled']"  @click="plus"></i>
     </span>
 </template>
 <script>
@@ -63,7 +63,7 @@ export default {
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
-$height: 0.6rem;
+$height: 0.5rem;
 .atom-stepper {
     box-sizing: content-box;
     position: relative;

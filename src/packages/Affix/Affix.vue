@@ -1,19 +1,14 @@
 <template>
     <!-- 明天控制下外层的height, 应该能解决bottom的问题. -->
-    <div :style="{height: `${warpHeight}px`}" v-on="$listeners" class="atom-affix">
-        <div v-dom-portal="isFixed"  :class="{'atom-affix__body--fixed': isFixed}" :style="style" class="atom-affix__body">
+    <div :style="{height: 0 < warpHeight && isFixed ? `${warpHeight}px` : 'auto'}" v-on="$listeners" class="atom-affix">
+        <div :class="{'atom-affix__body--fixed': isFixed}" :style="style" class="atom-affix__body">
             <slot></slot>
         </div>
     </div>
 </template>
 <script>
 // 待解决: 加入sticky
-import {
-    getHeight,
-    getScrollTop,
-    getIsInView,
-    getScrollParent
-} from '@/utils/dom';
+import { getHeight, getScrollTop, getIsInView, getScrollParent } from '@/utils/dom';
 export default {
     name: 'Affix',
 
@@ -30,17 +25,7 @@ export default {
         events: {
             type: Array,
             default() {
-                return [
-                    'scroll',
-                    'wheel',
-                    'mousewheel',
-                    'resize',
-                    'animationend',
-                    'transitionend',
-                    'webkitAnimationend',
-                    'webkitTransitionend',
-                    'touchmove'
-                ];
+                return ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'webkitAnimationend', 'webkitTransitionend', 'touchmove'];
             }
         }
     },
@@ -48,7 +33,7 @@ export default {
     data() {
         return {
             isFixed: false,
-            warpHeight: 'auto',
+            warpHeight: 0,
             scrollParentNode: null
         };
     },
@@ -56,8 +41,11 @@ export default {
     mounted() {
         // 固定占位容器的高度为内容高度
         // 防止内容定位变成fixed时抖动
-        if (undefined === this.offsetBottom && 0 >= this.offsetTop) {
-            this.warpHeight = getHeight(this.$el);
+
+        if (undefined === this.offsetBottom && 0 <= this.offsetTop) {
+            // 返回精准到小数的高度
+            this.warpHeight = this.$el.getBoundingClientRect().height;
+            this.getIsFixed();
         }
         this.scrollParentNode = getScrollParent(this.$el);
         this.events.forEach(eventName => {
@@ -65,7 +53,6 @@ export default {
         });
 
         window.addEventListener('resize', this.getIsFixed);
-        this.getIsFixed();
     },
 
     methods: {
@@ -86,15 +73,13 @@ export default {
             if (undefined === this.offsetBottom) {
                 // 减去2是为了有个动画, 让进入不突兀
                 return {
-                    top: `${this.isFixed
-                        ? this.offsetTop
-                        : this.offsetTop - 2}px`
+                    // top: `${this.isFixed ? this.offsetTop : this.offsetTop - 2}px`
+                    top: `${this.offsetTop}px`
+                    
                 };
             } else {
                 return {
-                    bottom: `${this.isFixed
-                        ? this.offsetBottom
-                        : this.offsetBottom - 2}px`
+                    bottom: `${this.isFixed ? this.offsetBottom : this.offsetBottom - 2}px`
                 };
             }
         }
@@ -108,10 +93,7 @@ export default {
 
     destroyed() {
         this.events.forEach(eventName => {
-            this.scrollParentNode.removeEventListener(
-                eventName,
-                this.getIsFixed
-            );
+            this.scrollParentNode.removeEventListener(eventName, this.getIsFixed);
         });
         window.removeEventListener('resize', this.getIsFixed);
     }

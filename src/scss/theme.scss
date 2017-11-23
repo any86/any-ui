@@ -1,5 +1,5 @@
 // 主色
-$base: #e60044;
+$base: #333;
 
 
 $white: #fff;
@@ -35,7 +35,11 @@ $theme_colors: (
     danger: $danger,
     info: $info,
     dark: $dark,
+    darker: $darker,
+    darkest: $darkest,
     light: $light,
+    lighter: $lighter,
+    lightest: $lightest,
 );
 
 // 间隙
@@ -67,6 +71,16 @@ $big: 16px;
 $bigger: 18px;
 $biggest: 24px;
 $large: 28px;
+
+$font_sizes: (
+    small: $small,
+    normal: $normal,
+    big: $big,
+    bigger: $bigger,
+    biggest: $biggest,
+    large: $large
+);
+
 // 阴影
 $shadowUp: 0 -1px 6px rgba(0, 0, 0, 0.1);
 $shadowDown: 0 1px 6px rgba(0, 0, 0, 0.1);

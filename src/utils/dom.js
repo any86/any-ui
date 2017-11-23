@@ -155,6 +155,7 @@ const getScrollParent = el => {
  * @param {Number} viewRate 
  */
 const getIsInView = (el, viewRate = 1) => {
+    
     const { top, right, bottom, left } = el.getBoundingClientRect();
     const winWidth = getWidth(window);
     const winHeight = getHeight(window);

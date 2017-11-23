@@ -1,5 +1,5 @@
 <template>
-    <div class="component-group">
+    <div class="atom-group">
         <header v-if="$slots.header">
             <slot name="header"></slot>
         </header>
@@ -26,13 +26,14 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-group{
-    padding:$gutter $gutter 0 $gutter;
+.atom-group{
+    margin-top:$gutter/2;
+    background: $background;
     >header{
+        font-size: $big;
+        padding: $gutter/2 $gutter;
         color:$darkest;
         border-bottom: 1px solid $lightest;
-        min-height: .8rem;
-        line-height: .8rem;
     }
 }
 </style>

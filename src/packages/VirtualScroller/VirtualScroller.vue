@@ -9,7 +9,7 @@
 import { getHeight, getWidth, getTime } from '@/utils/dom';
 import debounce from 'lodash/debounce';
 export default {
-    name: 'Scroller',
+    name: 'VirtualScroller',
 
     props: {
         isDisableTouch: {

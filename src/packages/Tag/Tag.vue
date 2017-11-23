@@ -15,18 +15,15 @@ export default {
     },
 
     render(createElement) {
-        return createElement(
-            'span',
-            { class: ['atom-tag', `atom-tag${this.isGhost ? '-ghost' : ''}--${this.type}`] },
-            this.$slots.default
-        );
+        return createElement('span', { class: ['atom-tag', `atom-tag${this.isGhost ? '-ghost' : ''}--${this.type}`] }, this.$slots.default);
     }
 };
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-tag {
-    padding: 2px $gutter / 2;
+    display: inline-block;
+    padding: 0 $gutter / 4;
     border-radius: $borderRadius;
 }
 
@@ -44,5 +41,4 @@ export default {
         color: $sub;
     }
 }
-
 </style>

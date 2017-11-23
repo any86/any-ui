@@ -1,5 +1,5 @@
 <template>
-    <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" @click="clickHandler" class="atom-cell">
+    <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" class="atom-cell">
         <span :style="[bodyStyle, {textAlign}]" class="atom-cell__body">
             <slot></slot>
         </span>
@@ -18,7 +18,7 @@ export default {
     props: {
         bodyStyle: {
             type: String,
-            default: ()=> {}
+            default: () => {}
         },
 
         textAlign: {
@@ -43,14 +43,6 @@ export default {
             type: Boolean,
             default: true
         }
-    },
-
-    methods: {
-        clickHandler() {
-            if (undefined !== this.to) {
-                this.$router.push(this.to);
-            }
-        }
     }
 };
 </script>
@@ -60,20 +52,19 @@ export default {
     display: flex;
     padding: 0 $gutter;
     min-height: 1rem;
+    background: $background;
+    // color: $darkest;
     &__body {
         flex: 1;
         position: relative;
         align-self: center;
-        color: $darkest;
         font-size: $big;
     }
     &__extra {
-        flex: 1;
         font-size: $big;
         position: relative;
         align-self: center;
         text-align: right;
-        color: $darkest;
     }
 
     &__arrow {

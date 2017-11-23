@@ -15,8 +15,8 @@ export default {
 
     data() {
         return {
-            okCallback: null,
-            cancelCallback: null,
+            afterOk: null,
+            afterCancel: null,
             isShow: false,
             title: '提示',
             content: ''
@@ -27,14 +27,14 @@ export default {
         ok() {
             this.isShow = false;
             this.$nextTick(() => {
-                this.okCallback();
+                this.afterOk();
             });
         },
 
         cancel() {
             this.isShow = false;
             this.$nextTick(() => {
-                this.cancelCallback();
+                this.afterCancel();
             });
         }
     },
@@ -50,8 +50,10 @@ export default {
     overflow: hidden;
     border-top: 1px solid $lightest;
     .button {
+        user-select: none;
         flex: 1;
-        line-height: .4rem;
+        height: 1rem;
+        line-height: 1rem;
         text-align: center;
     }
     .button:first-child {

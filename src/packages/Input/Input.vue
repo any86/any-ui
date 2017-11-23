@@ -100,6 +100,7 @@ $height: 0.8rem;
     width: 100%;
     position: relative;
     display: flex;
+    align-items:center;
     .title {
         height: $height;
         line-height: $height;
@@ -121,10 +122,11 @@ $height: 0.8rem;
     }
 
     .btn-close {
+        margin-right:$gutter/2;
         width: $height/2;
         height: $height/2;
         display: block;
-        margin: auto;
+        align-self: center;
     }
 }
 </style>

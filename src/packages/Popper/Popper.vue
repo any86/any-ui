@@ -64,6 +64,8 @@ export default {
     mounted() {
         this.createPopper();
         document.addEventListener('click', this.handleDocumentClick);
+        document.addEventListener('touchstart', this.handleDocumentClick);
+        
         this.triggers.forEach(eventName => {
             this.referenceElm.addEventListener(eventName, this.togglePopper);
         });
@@ -140,6 +142,7 @@ export default {
 
     breforeDestory() {
         document.removeEventListener('click', this.handleDocumentClick);
+        document.removeEventListener('touchstart', this.handleDocumentClick);
         this.triggers.forEach(eventName => {
             this.referenceElm.removeEventListener(eventName, this.togglePopper);
         });

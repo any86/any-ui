@@ -1,5 +1,5 @@
 <template>
-    <img :status="status" :src="url" class="atom-lazyload" :lazy="status">
+    <img :status="status" :src="url" class="atom-lazyload" :lazy="status"></img>
 </template>
 <script>
 // 借鉴了vue-lazyload, 我这就一简化版
@@ -8,13 +8,7 @@
 // https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API
 // 未来想借助了indexeddb对每个图片标记id, 让加载过的图片可以省去一些流程判断.
 // 还要加入对每个图片加载事件的统计事件, 方便找出加载慢的图片
-import {
-    getWidth,
-    getHeight,
-    getScrollParent,
-    getTime,
-    getIsInView
-} from '@/utils/dom';
+import { getWidth, getHeight, getScrollParent, getTime, getIsInView } from '@/utils/dom';
 import throttle from 'lodash/throttle';
 export default {
     name: 'LazyLoad',
@@ -26,14 +20,13 @@ export default {
 
         placeholderBackgroundColor: {
             type: String,
-            default: '#fff'
+            default: '#eee'
         },
 
         placeholder: {
             type: String,
             default() {
-                return `data:image/svg+xml;utf8,<svg width="1" height="1" version="1.1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="${this
-                    .placeholderBackgroundColor}"/></svg>`;
+                return `data:image/svg+xml;utf8,<svg width="1" height="1" version="1.1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="${this.placeholderBackgroundColor}"/></svg>`;
             }
         },
 
@@ -48,7 +41,8 @@ export default {
         },
 
         errorImg: {
-            type: String
+            type: String,
+            default: ''
         },
 
         preLoadRate: {
@@ -59,17 +53,7 @@ export default {
         events: {
             type: Array,
             default() {
-                return [
-                    'scroll',
-                    'wheel',
-                    'mousewheel',
-                    'resize',
-                    'animationend',
-                    'transitionend',
-                    'webkitAnimationend',
-                    'webkitTransitionend',
-                    'touchmove'
-                ];
+                return ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'webkitAnimationend', 'webkitTransitionend', 'touchmove'];
             }
         },
 
@@ -79,17 +63,27 @@ export default {
             // 一般只有出现2组图片的父元素是通过v-show来控制的情况才需要
             // 如果不愿意用refreshTime去强制触发刷新,
             // 那么就需要在图片元素或者父元素上使用v-if进行控制渲染开始的时机, 来触发mounted中的代码.
+        },
+
+        isRefresh: {
+            type: Boolean,
+            default: false
         }
     },
 
     data() {
         return {
             status: 'ready',
-            url: '',
+            url: this.placeholder,
             costTime: 0,
             attemptCount: 0,
             scrollParentNode: null
         };
+    },
+
+    created() {
+        // 初始化加载图片
+        // this.url = this.placeholder;
     },
 
     mounted() {
@@ -97,13 +91,8 @@ export default {
         this.scrollParentNode = getScrollParent(this.$el);
         // 绑定事件
         this.events.forEach(eventName => {
-            this.scrollParentNode.addEventListener(
-                eventName,
-                this.loadInViewImg
-            );
+            this.scrollParentNode.addEventListener(eventName, this.loadInViewImg);
         });
-        // 初始化加载图片
-        this.url = this.placeholder;
         this.loadInViewImg();
     },
 
@@ -113,13 +102,12 @@ export default {
          * 否则移除监听
          */
         loadInViewImg() {
-            // 不cancel能自动释放吗?
+            // 不throttle.cancel能自动释放吗?
             throttle(() => {
                 if ('loaded' === this.status) {
-                    this.scrollParentNode.removeEventListener(
-                        'scroll',
-                        this.loadInViewImg
-                    );
+                    this.events.forEach(eventName => {
+                        this.scrollParentNode.removeEventListener(eventName, this.loadInViewImg);
+                    });
                 } else if ('ready' === this.status) {
                     if (getIsInView(this.$el, this.preLoadRate)) {
                         this.loadImg();
@@ -132,6 +120,21 @@ export default {
             const startTime = getTime();
             var img = new Image();
             img.src = this.src;
+
+            // if (img.complete) {
+            //     this.status = 'loaded';
+            //     this.url = this.src;
+            //     this.costTime = getTime() - startTime;
+            //     this.$emit('loaded', {
+            //         width: img.naturalWidth,
+            //         height: img.naturalHeight,
+            //         url: this.url,
+            //         costTime: this.costTime
+            //     });
+            //     img = null;
+            //     return;
+            // }
+
             if (this.attempt > this.attemptCount) {
                 this.attemptCount++;
                 // 这里有每个图都有placeholder, 所以不能判断img.complete,
@@ -161,7 +164,9 @@ export default {
                     this.loadImg();
                 };
             } else {
-                this.url = this.errorImg;
+                if ('' == this.errorImg) {
+                    this.url = this.errorImg;
+                }
                 this.status = 'fail';
                 this.$emit('fail', {
                     url: this.url,
@@ -175,37 +180,49 @@ export default {
     watch: {
         refreshTime() {
             this.loadInViewImg();
+        },
+
+        isRefresh() {
+            this.loadInViewImg();
         }
     },
 
     beforeDestroy() {
         this.events.forEach(eventName => {
-            this.scrollParentNode.removeEventListener(
-                eventName,
-                this.loadInViewImg
-            );
+            this.scrollParentNode.removeEventListener(eventName, this.loadInViewImg);
         });
     }
 };
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+$size: 0.6rem;
 .atom-lazyload {
-    width: 100%;
+    max-width: 100%;
     display: block;
+    background-position: center center;
     // &[lazy='loading'] {
-
+    //     animation: ripple 1000ms infinite;
     // }
     &[lazy='loaded'] {
-        animation: fadeIn 1s;
+        animation: loaded 1000ms;
     }
 
     // &[lazy='attempt'] {
 
     // }
 
-    &[lazy='fail'] {
-        animation: fadeIn 1s;
+    // &[lazy='fail'] {
+    //     animation: fadeIn 1s;
+    // }
+    @keyframes loaded {
+        0% {
+            transform: scale(1.1);
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 }
 </style>

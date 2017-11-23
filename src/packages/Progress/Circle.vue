@@ -19,8 +19,8 @@ export default {
     name: 'Circle',
     props: {
         value: {
-            type: Number,
-            default: 80
+            type: [Number, String],
+            default: 0
         },
 
         duration: {

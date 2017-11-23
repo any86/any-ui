@@ -1,5 +1,5 @@
 <template>
-    <v-popup v-model="_isShow" class="atom-popup-pickcer">
+    <v-popup :is-show.sync="_isShow" class="atom-popup-pickcer">
         <header class="flex">
             <span @click="cancel" class="flex-item button-cancel">cancel</span>
             <span v-if="!!$slots.default" class="flex-item title">
@@ -11,9 +11,8 @@
     </v-popup>
 </template>
 <script>
-import VPicker from '@/packages/Picker/Picker'
-import VPopup from '@/packages/Dialog/Popup'
-
+import VPicker from '@/packages/Picker/Picker';
+import VPopup from '@/packages/Popup/Popup';
 export default {
     name: 'PopupPicker',
 
@@ -76,11 +75,12 @@ export default {
     },
 
     components: { VPicker, VPopup }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 @mixin button() {
+    user-select: none;
     text-align: center;
     font-size: $bigger;
     padding: $gutter $gutter*2;
@@ -97,9 +97,9 @@ export default {
         }
         .title {
             align-self: center;
-            text-align:center;
+            text-align: center;
             font-size: $big;
-            color:$darker;
+            color: $darker;
         }
         .button-ok {
             @include button;

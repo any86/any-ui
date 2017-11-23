@@ -1,6 +1,6 @@
 <template>
-    <div v-bind="$attrs" v-on="$listeners" class="atom-collapse__item">
-        <header @click="toggle" class="item__header">
+    <div v-bind="$attrs" v-on="$listeners" :is-unfolded="isUnfolded" class="atom-collapse__item">
+        <header @click="toggle" :class="{'item__header--line': hasLine}" class="item__header">
             <span :class="[`header__arrow--${isUnfolded ? 'open' : 'close'}`]" class="header__arrow"></span>
             <!-- 这只有vue2.4以上$attrs默认才是{} -->
             <slot name="header">{{$attrs.title}}</slot>
@@ -8,7 +8,6 @@
         <div v-show="isUnfolded" class="item__body">
             <slot></slot>
         </div>
-        </transition>
     </div>
 </template>
 <script>
@@ -18,6 +17,11 @@ export default {
 
     props: {
         isOpen: {
+            type: Boolean,
+            default: false
+        },
+
+        hasLine: {
             type: Boolean,
             default: false
         }
@@ -31,6 +35,7 @@ export default {
     },
 
     mounted() {
+        if (this.$isServer) return;
         this.index = this.$parent.count;
         this.$parent.count++;
         this.$parent.status.push(this.isOpen);
@@ -79,12 +84,16 @@ export default {
 .atom-collapse__item {
     position: relative;
     border-bottom: 1px solid $lighter;
+
     > .item__header {
         display: flex;
         padding: $gutter;
         height: 24px;
         line-height: 24px;
         box-sizing: content-box;
+        &--line {
+            border-bottom: 1px solid $lightest;
+        }
         .header__arrow {
             display: inline-block;
             background: url('../../assets/more_unfold.svg');
@@ -102,10 +111,20 @@ export default {
             }
         }
     }
+
     > .item__body {
         padding: 0 $gutter $gutter $gutter;
         overflow: hidden;
         line-height: 1.5;
+    }
+    .item__header--line + .item__body {
+        padding: $gutter;
+    }
+
+    &:not([is-unfolded]) {
+        .item__header--line {
+            border-bottom: 0 none;
+        }
     }
 }
 </style>

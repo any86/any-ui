@@ -1,5 +1,5 @@
 <template>
-    <VMask :isShow="isShow" :portal="portal" @update:isShow="close">
+    <v-mask :isShow="isShow" :portal="portal" @update:isShow="close">
         <transition name="zoom">
             <div v-show="isShow" :class="['atom-dialog-' + align]" class="atom-dialog">
                 <header>
@@ -16,10 +16,10 @@
             </div>
         </transition>
         <v-icon-close v-if="hasClose" @click="close" class="button-close"></v-icon-close>
-    </VMask>
+    </v-mask>
 </template>
 <script>
-import VMask from './Mask';
+import VMask from '@/packages/Mask/Mask';
 import VIconClose from '@/packages/Icon/Close';
 import { getHeight } from '@/utils/dom';
 export default {
@@ -27,9 +27,9 @@ export default {
 
     props: {
         portal: {
-            default: false,
+            default: false
         },
-        
+
         isShow: {
             type: Boolean
         },
@@ -87,7 +87,7 @@ export default {
     width: 90%;
     max-width: 640px;
     border-radius: 4px;
-    background: $background;
+    background: rgba($background, 0.95);
     &-top {
         top: 20%;
     }

@@ -56,6 +56,7 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .button-ok {
+    user-select: none;
     border-top: 1px solid $lightest;
     width: 100%;
     text-align: center;

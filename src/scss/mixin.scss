@@ -1,5 +1,3 @@
-
-
 @mixin ellipsis($row_count: 1) {
     @if $row_count <= 1 {
         overflow: hidden;
@@ -13,4 +11,13 @@
         -webkit-line-clamp: $row_count;
         -webkit-box-orient: vertical;
     }
+}
+
+@mixin fulScreen(){
+    position: absolute;
+    top:0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin:auto;
 }

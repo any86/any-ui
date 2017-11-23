@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-    name: 'Spinner'
+    name: 'SpinnerThreeDots'
 };
 </script>
 

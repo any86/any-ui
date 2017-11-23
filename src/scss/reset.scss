@@ -8,7 +8,10 @@
     -webkit-touch-callout: none;
     -webkit-appearance: none;
     // text-rendering: optimizeLegibility;
-    
+    &:after,
+    :before {
+        box-sizing: border-box;
+    }
 }
 
 a,
@@ -144,3 +147,17 @@ footer {
     width: 100%;
 }
 
+table {
+    width: 100%;
+    border: none;
+    border-spacing: 0;
+    border-collapse: collapse;
+    tr {
+        border-bottom: 1px solid $lightest;
+        width: 100%;
+        height: 0.8rem;
+        // td {
+
+        // }
+    }
+}

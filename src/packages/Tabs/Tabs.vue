@@ -11,7 +11,7 @@
 </template>
 <script>
 import { getWidth } from '@/utils/dom';
-import VScroller from '@/packages/Scroller/Scroller';
+import VScroller from '@/packages/VirtualScroller/VirtualScroller';
 export default {
     name: 'Tabs',
 
@@ -128,7 +128,7 @@ $height: 1rem;
             width: 0;
             height: 2px;
             text-align: center;
-            background: $base;
+            background: $primary;
         }
     }
 }

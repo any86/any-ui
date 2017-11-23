@@ -1,5 +1,5 @@
 <script>
-import VMask from '@/packages/Dialog/Mask';
+import VMask from '@/packages/Mask/Mask';
 export default {
     name: 'Toast',
 
@@ -93,8 +93,6 @@ $height: $minHeight;
     background: rgba($darkest, 0.8);
     color: $sub;
     border-radius: $borderRadius;
-    box-shadow: $shadowDown;
-    border: 1px solid $lightest;
     padding: $gutter $gutter*1.5;
     text-align: center;
     &.top {

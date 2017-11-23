@@ -9,7 +9,7 @@
     </v-mask>
 </template>
 <script>
-import VMask from '@/packages/Dialog/Mask';
+import VMask from '@/packages/Mask/Mask';
 import VAndroid from '@/packages/Spinner/Android';
 
 export default {

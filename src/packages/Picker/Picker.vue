@@ -1,5 +1,5 @@
 <template>
-    <div :style="{height: `${itemHeight * 7}px`}" class="component-picker">
+    <div :style="{height: `${itemHeight * 7}px`}" class="atom-picker">
         <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
         <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @scroll-buffer="isMoving = $event" :body-style="bodyStyle" class="list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
@@ -9,7 +9,7 @@
     </div>
 </template>
 <script>
-import VScroller from '@/packages/Scroller/Scroller';
+import VScroller from '@/packages/VirtualScroller/VirtualScroller';
 export default {
     name: 'Picker',
 
@@ -126,7 +126,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-picker {
+.atom-picker {
     position: relative;
     overflow: hidden;
     display: flex;

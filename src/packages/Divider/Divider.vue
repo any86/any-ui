@@ -10,7 +10,7 @@ export default {
 
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 @import '../../scss/theme.scss';
 .atom-divider {
     margin: 0;

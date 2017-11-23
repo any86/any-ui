@@ -9,27 +9,36 @@ import debounce from 'lodash/debounce'
 export default {
     name: 'InfiniteScroll',
 
-    model: {
-        prop: 'value',
-        event: 'scroll'
-    },
+    // model: {
+    //     prop: 'value',
+    //     event: 'scroll'
+    // },
 
     props: {
+        /** 
+         * 滚动条高度
+        */
         value: {
             type: Number,
             default: 0
         },
-
+        /**
+         * 阈值
+         */
         threshold: {
             type: Number,
             default: 50
         },
-
+        /**
+         * 是否开启滚动监听
+         */
         isListenBottom: {
             type: Boolean,
-            default: false
+            default: true
         },
-
+        /**
+         * 键盘弹出offset
+         */
         keyboardOffset: {
             type: Number,
             default: 10
@@ -94,8 +103,10 @@ export default {
         _checkBottom: debounce(function() {
             if (this.isListenBottom && 'down' == this.direction) {
                 this.contentHeight = getHeight(this.$el, { isScroll: true });
+                
                 // 超过阈值
                 if (this.contentHeight < this.scrollTop + this.viewHeight + this.threshold) {
+                    
                     this.$emit('scroll-bottom', this.scrollTop);
                 }
             }
@@ -106,7 +117,7 @@ export default {
         scroll() {
             this.scrollTop = getScrollTop(this.$el);
             this._checkBottom();
-            this.$emit('scroll', this.scrollTop);
+            this.$emit('input', this.scrollTop);
         },
         /**
          * 滚动到指定位置
@@ -118,9 +129,19 @@ export default {
     },
 
     watch: {
+        value(value){
+            this.scrollTo(value);
+        },
+
         scrollTop(oldVal, newVal) {
             this.direction = oldVal < newVal ? 'up' : 'down';
+        },
+
+        direction(v){
+            
+            this.$emit('change-direction', v);
         }
+
     },
 
     destroyed() {
@@ -135,6 +156,7 @@ export default {
     position: relative;
     touch-action: pan-y;
     width: 100%;
+    height: 1vh;
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;

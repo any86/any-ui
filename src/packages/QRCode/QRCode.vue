@@ -1,6 +1,6 @@
 <template>
-    <canvas class="atom-qrcode">
-    </canvas>
+    <!-- canvas默认是宽度300, 高度300, 为了避免渲染初期影响父元素的尺寸, 所以初期限制为0 -->
+    <canvas width="0" height="0" class="atom-qrcode"/>
 </template>
 <script>
 import QRCode from 'qrcode';
@@ -10,12 +10,16 @@ export default {
 
     props: {
         value: {
-            default: window.location.href
+            default(){
+                return this.$isServer ? '' : window.location.href;
+            }
         }
     },
 
     mounted() {
-        this.renderQRCode(this.value);
+        if(!this.$isServer) {
+            this.renderQRCode(this.value);
+        }
     },
 
     methods: {

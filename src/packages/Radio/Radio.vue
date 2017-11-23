@@ -1,11 +1,11 @@
 <template>
     <!-- radio改为圆形, 为了区别checkbox-->
-    <label :class="['component-radio', disabled && 'component-radio-disabled']">
-        <span v-if="!!$slots.default" class="title">
+    <label :class="{'atom-radio--reverse': isReverse}" class="atom-radio">
+        <span v-if="!!$slots.default" class="atom-radio__title">
             <slot></slot>
         </span>
         <input :class="{checked: isChecked}" :disabled="disabled" :value="value" :checked="isChecked" @change="change" @click.stop="()=>{}" type="radio">
-        <span class="appearance"></span>
+        <span class="atom-radio__appearance"></span>
     </label>
 </template>
 <script>
@@ -30,6 +30,11 @@ export default {
 
         value: {
             required: true
+        },
+
+        isReverse: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
@@ -45,15 +50,24 @@ export default {
             return this.value == this.referenceValue;
         }
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$size: .5rem;
-label.component-radio {
+$size: 0.5rem;
+label.atom-radio {
     display: flex;
     align-items: center;
-    >.title {
+    flex-wrap: nowrap;
+
+    &--reverse {
+        .atom-radio__title {
+            order: 1;
+            margin-left: $gutter;
+        }
+    }
+
+    > .atom-radio__title {
         flex: 1;
         font-size: $normal;
         &.active {
@@ -61,8 +75,8 @@ label.component-radio {
         }
     }
 
-    >input {
-        &+.appearance {
+    > input {
+        & + .atom-radio__appearance {
             display: flex;
             border: 1px solid $base;
             width: $size;
@@ -75,14 +89,14 @@ label.component-radio {
             }
         }
 
-        &:disabled+.appearance{
+        &:disabled + .atom-radio__appearance {
             border: 1px solid $disabled;
             background: $lightest;
         }
     }
 
-    >input:checked {
-        &+.appearance {
+    > input:checked {
+        & + .atom-radio__appearance {
             display: flex;
             border: 1px solid $base;
             width: $size;
@@ -100,21 +114,19 @@ label.component-radio {
             }
         }
 
-        &:disabled+.appearance{
+        &:disabled + .atom-radio__appearance {
             border: 1px solid $disabled;
             background: $lightest;
-            &:after{
+            &:after {
                 background: $light;
             }
         }
     }
 
-
-
     @keyframes zoom-in {
         0% {
             opacity: 0;
-            transform: scale(.8);
+            transform: scale(0.8);
         }
         100% {
             opacity: 1;
