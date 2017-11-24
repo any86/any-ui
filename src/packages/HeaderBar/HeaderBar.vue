@@ -1,0 +1,52 @@
+<template>
+    <header class="atom-header-bar">
+        <span class="bar__left">
+            <i v-if="hasArrow" @click="$router.push({path: '/'})" class="icon-back"></i>
+            <slot name="left"></slot>
+        </span>
+        <span class="bar__center">
+            <slot></slot>
+        </span>
+        <span class="bar__right">
+            <slot name="right"></slot>
+        </span>
+    </header>
+</template>
+<script>
+export default {
+    name: 'HeaderBar',
+
+    props: {
+        hasArrow: {
+            type: Boolean,
+            default: true
+        }
+    }
+};
+</script>
+<style scoped lang="scss">
+@import '../../scss/theme.scss';
+.atom-header-bar {
+    position: relative;
+    display: flex;
+    height: 55px;
+    line-height: 55px;
+    box-shadow: $shadowDown;
+    > span {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        > .icon-back {
+            display: inline-block;
+            height: 32px;
+            width: 32px;
+            background: url('../../assets/back.svg');
+            background-size: 100%;
+        }
+        &.bar__center {
+            justify-content: center;
+            font-size: $biggest;
+        }
+    }
+}
+</style>
