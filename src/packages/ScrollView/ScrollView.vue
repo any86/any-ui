@@ -1,18 +1,13 @@
 <template>
-    <div class="atom-infinite-scroll" @scroll="scroll">
+    <div class="atom-scroll-view" @scroll="scroll">
         <slot></slot>
     </div>
 </template>
 <script>
-import { getHeight, getScrollTop } from '@/utils/dom'
-import debounce from 'lodash/debounce'
+import { getHeight, getScrollTop } from '@/utils/dom';
+import debounce from 'lodash/debounce';
 export default {
-    name: 'InfiniteScroll',
-
-    // model: {
-    //     prop: 'value',
-    //     event: 'scroll'
-    // },
+    name: 'ScrollView',
 
     props: {
         /** 
@@ -51,8 +46,8 @@ export default {
             winHeight: 0,
             direction: '',
             scrollTop: 0,
-            formInput: null,
-        }
+            formInput: null
+        };
     },
 
     mounted() {
@@ -103,10 +98,9 @@ export default {
         _checkBottom: debounce(function() {
             if (this.isListenBottom && 'down' == this.direction) {
                 this.contentHeight = getHeight(this.$el, { isScroll: true });
-                
+
                 // 超过阈值
                 if (this.contentHeight < this.scrollTop + this.viewHeight + this.threshold) {
-                    
                     this.$emit('scroll-bottom', this.scrollTop);
                 }
             }
@@ -129,7 +123,7 @@ export default {
     },
 
     watch: {
-        value(value){
+        value(value) {
             this.scrollTo(value);
         },
 
@@ -137,11 +131,9 @@ export default {
             this.direction = oldVal < newVal ? 'up' : 'down';
         },
 
-        direction(v){
-            
+        direction(v) {
             this.$emit('change-direction', v);
         }
-
     },
 
     destroyed() {
@@ -151,7 +143,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.atom-infinite-scroll {
+.atom-scroll-view {
     /*暂时关闭x轴拖动 pinch-zoom*/
     position: relative;
     touch-action: pan-y;
