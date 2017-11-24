@@ -1,18 +1,31 @@
 <template>
-    <transition :name="'zoom'">
-        <router-view></router-view>
-    </transition>
+    <v-view>
+        <v-header-bar :has-arrow="'index' !== $route.name">
+            Atom-UI
+        </v-header-bar>
+        <transition :name="'zoom'">
+            <router-view></router-view>
+        </transition>
+    </v-view>
+
 </template>
 <script>
-export default {
-    name: 'App'
-}
+import VView from '@/packages/View/View';
+import VHeaderBar from '@/packages/HeaderBar/HeaderBar';
 
+export default {
+    name: 'App',
+
+    mounted(){
+
+    },
+
+    components: { VView, VHeaderBar }
+};
 </script>
 <style lang="scss" scoped>
 $animate_speed: 1000ms;
 @import './scss/theme.scss';
-
 
 //切换动画, 未完, 还没有判断进入和离开方向
 .in-enter {

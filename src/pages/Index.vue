@@ -10,9 +10,7 @@
             <li>All Personalized</li>
             <li>Personalized</li>
         </ul>
-        <v-infinite-scroll>
-            <h1 align="center" class="gutter-top">atom-ui</h1>
-
+        <v-scroll-view>
             <v-collapse :is-accordion="true">
                 <v-collapse-item>
                     <h4 slot="header">表单</h4>
@@ -42,7 +40,7 @@
                 </v-collapse-item>
 
             </v-collapse>
-        </v-infinite-scroll>
+        </v-scroll-view>
     </v-drawer>
 </template>
 <script>
@@ -51,7 +49,7 @@ import VCell from '@/packages/Cell/Cell';
 import VDrawer from '@/packages/Drawer/Drawer';
 import VCollapse from '@/packages/Collapse/Collapse';
 import VCollapseItem from '@/packages/Collapse/CollapseItem';
-import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
+import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'Index',
 
@@ -70,7 +68,7 @@ export default {
     components: {
         VCell,
         VDrawer,
-        VInfiniteScroll,
+        VScrollView,
         VCollapse,
         VCollapseItem
     }

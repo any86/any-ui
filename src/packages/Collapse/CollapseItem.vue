@@ -5,9 +5,10 @@
             <!-- 这只有vue2.4以上$attrs默认才是{} -->
             <slot name="header">{{$attrs.title}}</slot>
         </header>
-        <div v-show="isUnfolded" class="item__body">
+        <div v-show="isUnfolded" :class="{'zoom-enter-active': hasAnimate}" class="item__body">
             <slot></slot>
         </div>
+
     </div>
 </template>
 <script>
@@ -24,6 +25,11 @@ export default {
         hasLine: {
             type: Boolean,
             default: false
+        },
+
+        hasAnimate: {
+            type: Boolean,
+            default: true
         }
     },
 

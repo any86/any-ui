@@ -3,17 +3,13 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 // 定义路由
-const Index = () => ({
-    component: import('@/pages/Index')
-});
-
+import Index from '@/pages/Index';
 const SwitchDemo = () => ({
     component: import('@/pages/SwitchDemo')
 });
 
-const CollapseDemo = () => ({
-    component: import('@/pages/CollapseDemo')
-});
+import InputDemo from '@/pages/InputDemo';
+import CollapseDemo from '@/pages/CollapseDemo';
 
 
 export default new Router({
@@ -24,15 +20,23 @@ export default new Router({
             redirect: '/index'
         },
         {
+            name: 'index',
             path: '/index',
             component: Index
         },
         {
+            name: 'switch',
             path: '/demos/switch',
             component: SwitchDemo
         }, {
+            name: 'collapse',
             path: '/demos/collapse',
             component: CollapseDemo
+        }, {
+            name: 'input',
+            path: '/demos/input',
+            component: InputDemo
         },
+        
     ]
 });

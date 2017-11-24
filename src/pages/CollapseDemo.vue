@@ -1,5 +1,5 @@
 <template>
-    <v-infinite-scroll>
+    <v-scroll-view>
         <v-cell>
             <v-switch v-model="isAccordion">是否开启accordion模式</v-switch>
         </v-cell>
@@ -17,22 +17,14 @@
                 对了, collapse-item还支持name="header"的slot
             </v-collapse-item>
         </v-collapse>
-
-
-        <v-cell>
-            <h4>props</h4>
-        </v-cell>
-        <v-cell>
-            is-accordion : 是否一次只能展开一个选项卡
-        </v-cell>
-    </v-infinite-scroll>
+    </v-scroll-view>
 </template>
 <script>
 import VCell from '@/packages/Cell/Cell';
 import VSwitch from '@/packages/Switch/Switch';
 import VCollapse from '@/packages/Collapse/Collapse';
 import VCollapseItem from '@/packages/Collapse/CollapseItem';
-import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
+import VScrollView from '@/packages/ScrollView/ScrollView';
 
 export default {
     name: 'CollapseDemo',
@@ -48,7 +40,7 @@ export default {
         VSwitch,
         VCollapseItem,
         VCollapse,
-        VInfiniteScroll
+        VScrollView
     }
 };
 </script>
