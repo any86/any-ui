@@ -24,7 +24,7 @@ const init = (el, binding) => {
         }
     }
 
-    const handler = event=>{
+    const handler = event => {
         var rippleContainerNode = el.querySelector('.ripple-container');
         if (rippleContainerNode) {
             rippleContainerNode.remove();
@@ -42,8 +42,9 @@ const init = (el, binding) => {
         rippleContainerNode.className = 'ripple-container';
         rippleContainerNode.style.overflow = 'hidden';
         el.appendChild(rippleContainerNode);
-        const radius = Math.max(width, height);
+        const radius = Math.sqrt(width * width + height * height);
         const diameter = 2 * radius;
+
         // 水波纹元素
         var rippleNode = document.createElement('div');
         rippleNode.style.position = 'relative';
@@ -61,6 +62,13 @@ const init = (el, binding) => {
                 rippleContainerNode.remove();
             });
         });
+        // 防止动画未执行完毕父元素display:none,
+        // 这样rippleContainerNode就没法删除了,
+        // 随着父元素的显示/隐藏, 水波纹动画会一直出现
+        setTimeout(() => {
+            el.style.position = position;
+            rippleContainerNode.remove();
+        }, 510); // 510 > animation-duration
     };
 
     el.addEventListener('click', handler);
@@ -77,5 +85,7 @@ Vue.directive('ripple', {
 
     update(el, binding) {
         init(el, binding);
-    }
+    },
+
+    unbind(el) { }
 });

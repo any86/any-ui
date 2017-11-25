@@ -1,7 +1,11 @@
 .ripple-container {
+    -webkit-appearance: none;
     pointer-events: none;
+    user-select: none;
+    outline: none;
     .ripple {
-        animation: ripple 500ms forwards cubic-bezier(0, 0, 0.2, 1);
+        animation: ripple 500ms forwards ease-in-out;
+        // cubic-bezier(0, 0, 0.2, 1)
         animation-fill-mode: forwards;
     }
 }
