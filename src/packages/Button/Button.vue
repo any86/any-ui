@@ -24,7 +24,6 @@ export default {
         },
         
         hasRipple: {
-            type: Boolean,
             default: true
         },
 

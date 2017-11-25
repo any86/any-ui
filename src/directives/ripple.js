@@ -1,17 +1,18 @@
 import Vue from 'vue';
+import Ripple from './core.js'
 // 参考 https://github.com/davinder17s/material-ripple-effect/blob/master/ripple.js
 // ripple.js是用的fixed定位, 有一个小问题, 就是出现水波的时候拖动页面, 水波纹也会移动.
 // 所以稍微改了下吗, 定位方式改为absolute.
 // 支持background参数, 可以修改水波纹颜色.
 // 支持zIndex参数, 可以修改水波纹z-index.
+const duration = 1000;
+let position = '';
 
-var position = '';
 const init = (el, binding) => {
-    // 解除事件, 主要为了dev阶段, 改变指令的binding的时候, 可以刷新事件.
-    el.removeEventListener('click', handler);
     position = el.style.position;
     el.style.position = 'relative'
-    let background = 'rgba(0,0,0, .1)';
+    // 默认值
+    let background;
     let zIndex = 100;
     if (undefined !== binding.value) {
         // 是否禁用
@@ -23,55 +24,53 @@ const init = (el, binding) => {
             zIndex = binding.value.zIndex;
         }
     }
+    let rippleNode;
+    let rippleContainerNode;
 
-    const handler = event => {
-        var rippleContainerNode = el.querySelector('.ripple-container');
+    /**
+     * 触发准备工作
+     * @param {Event} event 
+     */
+    const touchstartHandler = event => {
+        rippleContainerNode = el.querySelector('.ripple-container');
         if (rippleContainerNode) {
             rippleContainerNode.remove();
         }
         const { top, left, width, height } = el.getBoundingClientRect();
-
-        rippleContainerNode = document.createElement('div');
         // 在目标元素相同位置制作一个一样尺寸的div
-        rippleContainerNode.style.position = 'absolute';
-        rippleContainerNode.style.zIndex = zIndex;
-        rippleContainerNode.style.top = 0;
-        rippleContainerNode.style.right = 0;
-        rippleContainerNode.style.bottom = 0;
-        rippleContainerNode.style.left = 0;
+        rippleContainerNode = document.createElement('div');
         rippleContainerNode.className = 'ripple-container';
-        rippleContainerNode.style.overflow = 'hidden';
+        // 插入到目标元素
         el.appendChild(rippleContainerNode);
         const radius = Math.sqrt(width * width + height * height);
         const diameter = 2 * radius;
-
+        const pageY = event.touches[0].pageY;
+        const pageX = event.touches[0].pageX;
         // 水波纹元素
-        var rippleNode = document.createElement('div');
+        rippleNode = document.createElement('div');
         rippleNode.style.position = 'relative';
         rippleNode.style.width = diameter + 'px';
         rippleNode.style.height = diameter + 'px';
         rippleNode.style.borderRadius = diameter + 'px';
-        rippleNode.style.left = event.pageX - left - radius + 'px';
-        rippleNode.style.top = event.pageY - top - radius + 'px';
-        rippleNode.style.backgroundColor = background;
-        rippleNode.className = 'ripple';
+        rippleNode.style.left = pageX - left - radius + 'px';
+        rippleNode.style.top = pageY - top - radius + 'px';
+        rippleNode.style.background = background;
+        rippleNode.style.transitionDuration = duration + 'ms';
+        rippleNode.className = 'ripple--start';
         rippleContainerNode.appendChild(rippleNode);
-        ['animationend', 'webkitAnimationend'].forEach(eventName => {
-            rippleNode.addEventListener(eventName, () => {
-                el.style.position = position;
-                rippleContainerNode.remove();
-            });
-        });
-        // 防止动画未执行完毕父元素display:none,
-        // 这样rippleContainerNode就没法删除了,
-        // 随着父元素的显示/隐藏, 水波纹动画会一直出现
-        setTimeout(() => {
-            el.style.position = position;
-            rippleContainerNode.remove();
-        }, 510); // 510 > animation-duration
     };
 
-    el.addEventListener('click', handler);
+    /**
+     * 触发css动画
+     * @param {Event} event 
+     */
+    const touchendHandler = event => {
+        rippleNode.className = 'ripple--end';
+    }
+
+    el.addEventListener('touchstart', touchstartHandler);
+    // 切换class, 驱动css动画
+    el.addEventListener('touchend', touchendHandler);
 };
 
 Vue.directive('ripple', {
@@ -80,11 +79,12 @@ Vue.directive('ripple', {
     },
 
     inserted(el, binding) {
-        init(el, binding);
+        new Ripple(el);
+        // init(el, binding);
     },
 
     update(el, binding) {
-        init(el, binding);
+  
     },
 
     unbind(el) { }

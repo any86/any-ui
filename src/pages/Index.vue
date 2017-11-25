@@ -11,6 +11,11 @@
             <li>Personalized</li>
         </ul>
         <v-scroll-view>
+
+                <v-button type="success" style="width:200px;" :is-circle="true" class="f-bottom">购物车</v-button>
+
+            
+
             <v-collapse :is-accordion="true">
                 <v-collapse-item>
                     <h4 slot="header">表单</h4>
@@ -44,8 +49,10 @@
     </v-drawer>
 </template>
 <script>
+
 import QRCode from 'qrcode';
 import VCell from '@/packages/Cell/Cell';
+import VButton from '@/packages/Button/Button';
 import VDrawer from '@/packages/Drawer/Drawer';
 import VCollapse from '@/packages/Collapse/Collapse';
 import VCollapseItem from '@/packages/Collapse/CollapseItem';
@@ -66,7 +73,7 @@ export default {
     methods: {},
 
     components: {
-        VCell,
+        VCell,VButton,
         VDrawer,
         VScrollView,
         VCollapse,
@@ -76,4 +83,5 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
+.f-bottom{margin-top:15px;margin-left:100px;}
 </style>

@@ -1,23 +1,22 @@
+$duration : 1000ms;
 .ripple-container {
+    position: absolute;
+    top:0;right: 0;left:0;bottom: 0;z-index: 1986;
+    overflow: hidden;
     -webkit-appearance: none;
     pointer-events: none;
     user-select: none;
     outline: none;
-    .ripple {
-        animation: ripple 500ms forwards ease-in-out;
-        // cubic-bezier(0, 0, 0.2, 1)
-        animation-fill-mode: forwards;
-    }
-}
-@keyframes ripple {
-    0% {
+
+    .ripple--start {
         transform: scale(0);
-        opacity: 1;
+        opacity: .2; 
     }
-    80% {
+
+    .ripple--end {
+        background: currentColor;
+        transition: transform $duration, opacity $duration;
         transform: scale(1);
-    }
-    100% {
         opacity: 0;
     }
 }
