@@ -13,10 +13,10 @@
         <v-scroll-view>
 
                 <v-button type="success" style="width:200px;" :is-circle="true" class="f-bottom">购物车</v-button>
-
+<v-cell>Switch</v-cell>
             
 
-            <v-collapse :is-accordion="true">
+            <!-- <v-collapse :is-accordion="true">
                 <v-collapse-item>
                     <h4 slot="header">表单</h4>
                     <v-cell>Input</v-cell>
@@ -44,7 +44,7 @@
                     <v-cell @click="$router.push({'path': '/demos/collapse'})">Collapse</v-cell>
                 </v-collapse-item>
 
-            </v-collapse>
+            </v-collapse> -->
         </v-scroll-view>
     </v-drawer>
 </template>
