@@ -1,4 +1,5 @@
 import { dirname } from "path";
+import { clearTimeout } from "timers";
 
 /**
  * 参考
@@ -16,7 +17,9 @@ import { dirname } from "path";
 const EVENTS = ['touchstart', 'touchend'];
 export default class Ripple {
     constructor(el, options = { zIndex: 1986, opacity: 0.2, duration: 1000, background: 'rgb(0,0,0)' }) {
-        this.el = el;
+        this.$el = el;
+        this.timer = null;
+        this.duration = options.duration;
         this._touchstartHandler_bind = this._touchstartHandler.bind(this, options);
         this._touchendHandler_bind = this._touchendHandler.bind(this, options);
         this.$rippleNode = null;
@@ -33,7 +36,7 @@ export default class Ripple {
      * @param {Event} event 
      */
     _touchstartHandler(options, event) {
-        const el = this.el;
+        const el = this.$el;
         // 如果非下列定位, 那么设置目标元素的position为relative
         if (!/absolute|relative|fixed|sticky/.test(this.orgPosition)) {
             el.style.position = 'relative';
@@ -65,10 +68,9 @@ export default class Ripple {
      */
     _createRippleContainerNode(event) {
         let $rippleContainerNode;
-        console.log(event.target)
-        $rippleContainerNode = event.target.querySelector('.ripple-container');
+        $rippleContainerNode = this.$el.querySelector('.ripple-container');
         if ($rippleContainerNode) {
-            $rippleContainerNode.remove();
+            this.$el.removeChild($rippleContainerNode);
         }
         // 在目标元素相同位置制作一个一样尺寸的div
         $rippleContainerNode = document.createElement('div');
@@ -102,11 +104,18 @@ export default class Ripple {
         $rippleNode.className = 'ripple--ready';
         return $rippleNode;
     }
-
-    destroy() {
-        this.el.removeEventListener('touchstart', this._touchstartHandler_bind);
-        this.el.removeEventListener('touchend', this._touchendHandler_bind);
-        dir(this.$rippleContainerNode)
-        // this.el.removeChild($rippleContainer);
+    /**
+     * 由于vue指令的钩子之间没法共享函数, 所以只好通过参数来实现.
+     * @param {Element} el 
+     */
+    destroy(el) {
+        const $el = el || this.$el;
+        $el.removeEventListener('touchstart', this._touchstartHandler_bind);
+        $el.removeEventListener('touchend', this._touchendHandler_bind);
+        // fixed for vue directive
+        const $rippleContainer = $el.querySelector('.ripple-container');
+        if($rippleContainer) {
+            $el.removeChild($rippleContainer);
+        }
     }
 }

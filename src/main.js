@@ -35,6 +35,7 @@ Vue.use(DomPortal);
 import '@/directives/ripple/ripple.scss';
 import '@/directives/ripple/index.js';
 
+
 // 关闭错误提示
 Vue.config.silent = false
 // 生产环境提示

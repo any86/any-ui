@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Ripple from './ripple.js'
-var ripple;
+let ripple;
 Vue.directive('ripple', {
     bind() {
         // bind中还没有插入元素, 所以没法获取尺寸
@@ -15,6 +15,6 @@ Vue.directive('ripple', {
     },
 
     unbind(el) {
-        ripple.destroy();
+        ripple.destroy(el);
     }
 });
