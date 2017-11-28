@@ -28,10 +28,10 @@ export default class Ripple {
         this.$rippleNode = null;
         this.$rippleContainerNode = null;
         // touchstart准备水波纹动画css
-        el.addEventListener('touchstart', this._touchstartHandler_bind);
+        el.addEventListener('touchstart', this._touchstartHandler_bind, false);
 
         // touchend时切换class触发动画
-        el.addEventListener('touchend', this._touchendHandler_bind);
+        el.addEventListener('touchend', this._touchendHandler_bind, false);
     }
 
     /**
@@ -39,6 +39,8 @@ export default class Ripple {
      * @param {Event} event 
      */
     _touchstartHandler(options, event) {
+        
+        event.stopPropagation();
         const el = this.$el;
         // 如果非下列定位, 那么设置目标元素的position为relative
         if (!/absolute|relative|fixed|sticky/.test(this.orgPosition)) {
@@ -63,6 +65,7 @@ export default class Ripple {
      * @param {Event} event 
      */
     _touchendHandler(options, event) {
+        event.stopPropagation();
         this.$rippleNode.className = 'ripple--start';
     }
 
@@ -85,9 +88,10 @@ export default class Ripple {
      * 建立水波纹
      */
     _createRippleNode(event, options) {
+        
         const { background, duration } = options;
         // 获取目标元素的信息
-        const el = event.target;
+        const el = this.$el;
         const { top, left, width, height } = el.getBoundingClientRect();
         const radius = Math.sqrt(width * width + height * height);
         const diameter = 2 * radius;
