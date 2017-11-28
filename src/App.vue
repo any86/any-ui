@@ -1,31 +1,50 @@
 <template>
-    <v-view>
-        <v-header-bar :has-arrow="'index' !== $route.name">
-            Atom-UI
-        </v-header-bar>
+    <v-drawer v-model="isShowDrawer" mode="overlay">
+
+        <ul class="menu" slot="side">
+            <v-q-r-code></v-q-r-code>
+            <router-link tag="li" :to="{path: '/index'}">What's New
+            </router-link>
+            <router-link :to="{path: '/checkout'}" tag="li">Checkout
+            </router-link>
+            <router-link :to="{path: '/payment'}" tag="li">payment
+            </router-link>
+            <li>All Personalized</li>
+            <li>Personalized</li>
+        </ul>
+
+        <v-header-bar :has-arrow="'index' !== $route.name">Atom-UI</v-header-bar>
         <transition :name="'zoom'">
             <router-view></router-view>
         </transition>
-    </v-view>
-
+    </v-drawer>
 </template>
 <script>
-import VView from '@/packages/View/View';
+import VQRCode from '@/packages/QRCode/QRCode';
+import VDrawer from '@/packages/Drawer/Drawer';
 import VHeaderBar from '@/packages/HeaderBar/HeaderBar';
-
 export default {
     name: 'App',
 
-    mounted(){
-
+    data() {
+        return {
+            isShowDrawer: false
+        };
     },
 
-    components: { VView, VHeaderBar }
+    components: {
+        VHeaderBar,
+        VDrawer,VQRCode
+    }
 };
 </script>
 <style lang="scss" scoped>
 $animate_speed: 1000ms;
 @import './scss/theme.scss';
+
+.menu{
+    li{padding:$gutter;border-bottom: 1px solid $lightest;}
+}
 
 //切换动画, 未完, 还没有判断进入和离开方向
 .in-enter {

@@ -49,6 +49,8 @@ $gutter: 0.3rem;
 $minHeight: 0.5rem;
 // 圆角
 $borderRadius: 4px;
+$radius: 4px;
+
 // z-index管理
 $tabBarZIndex: 10;
 $affixZIndex: 20;
@@ -86,8 +88,6 @@ $shadowUp: 0 -1px 6px rgba(0, 0, 0, 0.1);
 $shadowDown: 0 1px 6px rgba(0, 0, 0, 0.1);
 // 底部tab高度
 $bottomTabHeight: 60px;
-
-
 $duration: 300ms;
 
 @mixin theme($type) {

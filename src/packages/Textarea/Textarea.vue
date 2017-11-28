@@ -1,6 +1,5 @@
 <template>
-    <div class="component-textarea">
-        <label>留言</label>
+    <div class="atom-textarea">
         <textarea :maxLength="maxLength" :placeholder="placeholder" :value="value" @input="input"></textarea>
         <p class="prompt"><span>{{length}}</span>/{{maxLength}}</p>
     </div>
@@ -11,10 +10,11 @@ export default {
 
     props: {
         maxLength: {
-            type: Number
+            type: Number,
+            default: 100
         },
         value: {
-
+            type: String
         },
         placeholder: {
             default: '请输入'
@@ -22,12 +22,7 @@ export default {
     },
 
     data() {
-        return {
-            props: {
-                a: 123
-            },
-            prompt: '1/100'
-        };
+        return {};
     },
 
     methods: {
@@ -50,7 +45,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-.component-textarea {
+.atom-textarea {
     background: $background;
     border: 1px solid $lighter;
     border-width: 1px 0 1px 0;

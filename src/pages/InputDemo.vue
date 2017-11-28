@@ -1,9 +1,31 @@
 <template>
     <v-scroll-view>
-        <div v-show="isShow">
-            <!-- <v-cell>InputDem</v-cell> -->
-            <div class="zoom-enter-active">11112222233333</div>
-        </div>
+        <v-cell>
+            <template slot="title">姓名</template>
+            <v-input v-model="text1" />
+            <template slot="tip">xxx xxxx xxx xxx</template>
+        </v-cell>
+
+        <v-cell>
+            <template slot="title">银行卡</template>
+            <v-input maxlength="14" v-model="text2" type="bankCode" />
+        </v-cell>
+
+        <v-cell>
+            <template slot="title">手机</template>
+            <v-input maxlength="13" v-model="text3" type="phone" />
+        </v-cell>
+
+        <v-cell>
+            <template slot="title">流水号</template>
+            <v-input maxlength="13" v-model="text4" type="number" />
+        </v-cell>
+
+        <v-cell>
+            <template slot="title">字母</template>
+            <v-input maxlength="13" v-model="text5" type="letter" />
+        </v-cell>
+
     </v-scroll-view>
 </template>
 <script>
@@ -15,21 +37,19 @@ export default {
 
     data() {
         return {
-            isShow: false,
-            value: 'hello vue !'
+            text1: 'hello vue !',
+            text2: '0000 0000 0000 0000',
+            text3: '133123456789',
+            text4: '01234567',
+            text5: 'abc'
         };
-    },
-
-    mounted(){
-        // setInterval(()=>{
-        //     this.isShow = !this.isShow;
-        // },  600);
     },
 
     methods: {},
 
     components: {
-        VInput,VCell,
+        VInput,
+        VCell,
         VScrollView
     }
 };

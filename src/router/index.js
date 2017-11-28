@@ -10,6 +10,8 @@ const SwitchDemo = () => ({
 
 import InputDemo from '@/pages/InputDemo';
 import CollapseDemo from '@/pages/CollapseDemo';
+import TextareaDemo from '@/pages/TextareaDemo';
+
 
 
 export default new Router({
@@ -36,6 +38,10 @@ export default new Router({
             name: 'input',
             path: '/demos/input',
             component: InputDemo
+        },, {
+            name: 'textarea',
+            path: '/demos/textarea',
+            component: TextareaDemo
         },
         
     ]
