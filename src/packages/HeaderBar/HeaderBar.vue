@@ -31,6 +31,7 @@ export default {
     display: flex;
     height: 55px;
     line-height: 55px;
+    border-bottom: 1px solid $lightest;
     box-shadow: $shadowDown;
     > span {
         display: flex;
