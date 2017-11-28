@@ -1,7 +1,16 @@
 <template>
     <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" class="atom-cell">
+        <span v-if="$slots.title" class="atom-cell__title">
+            <slot name="title"></slot>
+        </span>
+
         <span :style="[bodyStyle, {textAlign}]" class="atom-cell__body">
-            <slot></slot>
+            <div class="body__content">
+                <slot></slot>
+            </div>
+            <p v-show="$slots.tip" class="body__tip">
+                <slot name="tip"></slot>
+            </p>
         </span>
 
         <span v-if="undefined !== $slots.extra" class="atom-cell__extra">
@@ -26,10 +35,6 @@ export default {
             default: 'left'
         },
 
-        to: {
-            type: Object
-        },
-
         arrow: {
             type: Number
         },
@@ -49,17 +54,34 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-cell {
+    position: relative;
     display: flex;
     padding: 0 $gutter;
     min-height: 1rem;
     background: $background;
-    // color: $darkest;
+
+    &__title {
+        font-size: $big;
+        align-self: center;
+        min-width: 1rem;
+    }
+
     &__body {
+        display: block;
         flex: 1;
         position: relative;
+        height: 100%;
         align-self: center;
         font-size: $big;
+
+        > .body__tip {
+            position: absolute;
+            left: $gutter;
+            color: rgba($danger, 1);
+            font-size: $small;
+        }
     }
+
     &__extra {
         font-size: $big;
         position: relative;
@@ -76,6 +98,7 @@ export default {
         display: inline-block;
         transition: transform $duration;
     }
+
     &-border {
         border-bottom: 1px solid $lightest;
     }
