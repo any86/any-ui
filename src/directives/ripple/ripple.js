@@ -1,5 +1,3 @@
-import { dirname } from "path";
-import { clearTimeout } from "timers";
 /**
  * 参考
  * https://github.com/davinder17s/material-ripple-effect/blob/master/ripple.js
@@ -47,9 +45,7 @@ export default class Ripple {
             el.style.position = 'relative';
         }
 
-        // 目标元素样式
-        this._orgStyle = getComputedStyle(el).position;
-        this.orgPosition = this._orgStyle.position;
+
 
         // 创建元素
         this.$rippleNode = this._createRippleNode(event, options);
@@ -81,6 +77,10 @@ export default class Ripple {
         // 在目标元素相同位置制作一个一样尺寸的div
         $rippleContainerNode = document.createElement('div');
         $rippleContainerNode.className = 'ripple-container';
+        // 目标元素样式
+        this.orgStyle = getComputedStyle(this.$el);
+        this.orgPosition = this.orgStyle.position;
+        $rippleContainerNode.style.borderRadius = this.orgStyle.borderRadius;
         return $rippleContainerNode;
     }
 
