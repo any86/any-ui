@@ -253,10 +253,11 @@ export default {
         -webkit-overflow-scrolling: touch;
         overflow: hidden;
         .main__handler {
-            height: 100%;
+            height: calc(100% - 120px); // 减去头部和尾部高度
             position: absolute;
             z-index: $drawerZIndex;
             background: rgba(0, 0, 0, 0);
+            top:60px;
             &--left {
                 left: 0;
             }
