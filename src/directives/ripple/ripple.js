@@ -45,8 +45,6 @@ export default class Ripple {
             el.style.position = 'relative';
         }
 
-
-
         // 创建元素
         this.$rippleNode = this._createRippleNode(event, options);
         this.$rippleContainerNode = this._createRippleContainerNode(event);
@@ -61,7 +59,10 @@ export default class Ripple {
      * @param {Event} event 
      */
     _touchendHandler(options, event) {
-        event.stopPropagation();
+        clearTimeout(this.timer);
+        this.timer = setTimeout(()=>{
+            this.$el.removeChild(this.$rippleContainerNode);
+        }, options.duration + 100);
         this.$rippleNode.className = 'ripple--start';
     }
 
@@ -119,10 +120,5 @@ export default class Ripple {
         const $el = el || this.$el;
         $el.removeEventListener('touchstart', this._touchstartHandler_bind);
         $el.removeEventListener('touchend', this._touchendHandler_bind);
-        // fixed for vue directive
-        const $rippleContainer = $el.querySelector('.ripple-container');
-        if($rippleContainer) {
-            $el.removeChild($rippleContainer);
-        }
     }
 }
