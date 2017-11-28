@@ -1,11 +1,8 @@
 <template>
     <div class="atom-input">
-        <span class="title" v-if="!!$slots.default">
-            <slot></slot>
-        </span>
-        <input v-bind="$attrs"  ref="input" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
+        <input v-bind="$attrs" ref="input" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
         <transition name="fadeLeft">
-            <v-close v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="btn-close"></v-close>
+            <v-close v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="atom-input__close"></v-close>
         </transition>
     </div>
 </template>
@@ -63,10 +60,7 @@ export default {
                 if (valueLen > 3 && valueLen < 8) {
                     value = `${value.substr(0, 3)} ${value.substr(3)}`;
                 } else if (valueLen >= 8) {
-                    value = `${value.substr(0, 3)} ${value.substr(
-                        3,
-                        4
-                    )} ${value.substr(7)}`;
+                    value = `${value.substr(0, 3)} ${value.substr(3, 4)} ${value.substr(7)}`;
                 }
             } else if ('number' == this.type) {
                 value = value.replace(/\D/g, '');
@@ -95,34 +89,27 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: 0.8rem;
+$height: 0.6rem;
 .atom-input {
-    width: 100%;
     position: relative;
     display: flex;
-    align-items:center;
-    .title {
-        height: $height;
-        line-height: $height;
-        font-size: $normal;
-        margin-right: 5%;
-    }
-
-    input {
+    align-items: center;
+    width: 100%;
+    background: $background;
+    > input {
         padding-left: $gutter;
         background: rgba(255, 255, 255, 0);
         font-size: $normal;
         flex: 1;
-        box-sizing: border-box;
         border: 0 none;
         outline: none;
         width: 100%;
-        height: $height;
-        line-height: $height;
+        // height: $height;
+        // line-height: $height;
     }
 
-    .btn-close {
-        margin-right:$gutter/2;
+    &__close {
+        margin-right: $gutter/2;
         width: $height/2;
         height: $height/2;
         display: block;
