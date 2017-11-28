@@ -1,10 +1,13 @@
 import { dirname } from "path";
 import { clearTimeout } from "timers";
-
 /**
  * 参考
  * https://github.com/davinder17s/material-ripple-effect/blob/master/ripple.js
  * https://github.com/samthor/rippleJS
+ * 看了https://github.com/samthor/rippleJS对touchend部分的处理, 
+ * touchend定时删除元素, 
+ * 不知道是不是为了防止在目标元素在使用插件的时候变形, 
+ * 在指定时间复位, 降低影响?
  * 
  * 如果, 未来需要实现实例的方法的解构
  * 参考http://es6.ruanyifeng.com/#docs/class#this-的指向
