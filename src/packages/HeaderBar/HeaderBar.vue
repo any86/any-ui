@@ -27,12 +27,12 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-header-bar {
-    position: relative;
     display: flex;
     height: 55px;
     line-height: 55px;
-    border-bottom: 1px solid $lightest;
     box-shadow: $shadowDown;
+    padding: 0 $gutter/2;
+    background: $background;
     > span {
         display: flex;
         align-items: center;
