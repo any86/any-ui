@@ -49,21 +49,24 @@ export default class Ripple {
         this.$rippleNode = this._createRippleNode(event, options);
         this.$rippleContainerNode = this._createRippleContainerNode(event);
         this.$rippleContainerNode.appendChild(this.$rippleNode);
-
         // 插入到目标元素
         el.appendChild(this.$rippleContainerNode);
     }
 
     /**
      * touchend
+     * 水波纹开始扩散
      * @param {Event} event 
      */
     _touchendHandler(options, event) {
+        event.stopPropagation();
+        this.$rippleNode.className = 'ripple--start';
         clearTimeout(this.timer);
         this.timer = setTimeout(()=>{
-            this.$el.removeChild(this.$rippleContainerNode);
+            if(this.$el.contains(this.$rippleContainerNode)) {
+                this.$el.removeChild(this.$rippleContainerNode);
+            }
         }, options.duration + 100);
-        this.$rippleNode.className = 'ripple--start';
     }
 
     /**
@@ -73,7 +76,9 @@ export default class Ripple {
         let $rippleContainerNode;
         $rippleContainerNode = this.$el.querySelector('.ripple-container');
         if ($rippleContainerNode) {
-            this.$el.removeChild($rippleContainerNode);
+            if(this.$el.contains(this.$rippleContainerNode)) {
+                this.$el.removeChild(this.$rippleContainerNode);
+            }
         }
         // 在目标元素相同位置制作一个一样尺寸的div
         $rippleContainerNode = document.createElement('div');
