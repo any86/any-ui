@@ -1,13 +1,13 @@
 <template>
-    <span class="atom-stepper">
-        <i v-ripple :class="['atom-stepper__btn', 'atom-stepper__btn-minus', min == value && 'disabled']" @click="minus"></i>
-        <span class="atom-stepper__content" @click="click">{{value}}</span>
-        <i v-ripple :class="['atom-stepper__btn', 'atom-stepper__btn-plus', max == value && 'disabled']"  @click="plus"></i>
+    <span class="atom-count">
+        <i v-ripple :class="['atom-count__btn', 'atom-count__btn-minus', min == value && 'disabled']" @click="minus"></i>
+        <span class="atom-count__content" @click="click">{{value}}</span>
+        <i v-ripple :class="['atom-count__btn', 'atom-count__btn-plus', max == value && 'disabled']"  @click="plus"></i>
     </span>
 </template>
 <script>
 export default {
-    name: 'Stepper',
+    name: 'Count',
 
     props: {
         disabled: {
@@ -64,7 +64,7 @@ export default {
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
 $height: 0.5rem;
-.atom-stepper {
+.atom-count {
     box-sizing: content-box;
     position: relative;
     display: inline-flex;
