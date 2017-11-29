@@ -4,7 +4,7 @@
             <slot name="side"></slot>
         </aside>
         <main class="atom-drawer__main" :style="mainTranslateXStyle">
-            <span @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" :style="{width: `${handlerWidth}px`}" :class="[`main__handler--${placement}`]" class="main__handler"></span>
+            <span v-if="0 < handlerWidth" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" :style="{width: `${handlerWidth}px`}" :class="[`main__handler--${placement}`]" class="main__handler"></span>
             <slot></slot>
             <v-mask :portal="portal" :fixed="false" :isShow="isMaskShow" @click="hide"></v-mask>
         </main>
@@ -29,7 +29,7 @@ export default {
 
         handlerWidth: {
             type: Number,
-            default: 20
+            default: 10
         },
 
         speed: {
