@@ -148,7 +148,6 @@ export default {
     position: relative;
     touch-action: pan-y;
     width: 100%;
-    height: 1vh;
     height: 100%;
     overflow-x: hidden;
     overflow-y: scroll;

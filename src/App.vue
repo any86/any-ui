@@ -1,5 +1,5 @@
 <template>
-    <v-drawer v-model="isShowDrawer" mode="overlay">
+    <v-drawer v-model="isShowDrawer" :handler-width="10" mode="overlay">
 
         <ul class="menu" slot="side">
             <v-q-r-code></v-q-r-code>
@@ -13,7 +13,10 @@
             <li>Personalized</li>
         </ul>
 
-        <v-header-bar :has-arrow="'index' !== $route.name">Atom-UI</v-header-bar>
+        <v-header-bar :has-arrow="'index' !== $route.name" class="fixed-top">Atom-UI</v-header-bar>
+        <div style="height:60px;">
+            <!-- 间距 -->
+        </div>
         <transition :name="'zoom'">
             <router-view></router-view>
         </transition>

@@ -11,6 +11,10 @@ const SwitchDemo = () => ({
 import InputDemo from '@/pages/InputDemo';
 import CollapseDemo from '@/pages/CollapseDemo';
 import TextareaDemo from '@/pages/TextareaDemo';
+import RadioDemo from '@/pages/RadioDemo';
+import CheckboxDemo from '@/pages/CheckboxDemo';
+import PickerDemo from '@/pages/PickerDemo';
+import CountDemo from '@/pages/CountDemo';
 
 
 
@@ -38,10 +42,28 @@ export default new Router({
             name: 'input',
             path: '/demos/input',
             component: InputDemo
-        },, {
+        }, {
             name: 'textarea',
             path: '/demos/textarea',
             component: TextareaDemo
+        }, {
+            name: 'radio',
+            path: '/demos/radio',
+            component: RadioDemo
+        }, {
+            name: 'checkbox',
+            path: '/demos/checkbox',
+            component: CheckboxDemo
+        },
+        {
+            name: 'picker',
+            path: '/demos/picker',
+            component: PickerDemo
+        },
+        {
+            name: 'count',
+            path: '/demos/count',
+            component: CountDemo
         },
         
     ]

@@ -1,8 +1,8 @@
 <template>
-    <span class="atom-count">
-        <i v-ripple :class="['atom-count__btn', 'atom-count__btn-minus', min == value && 'disabled']" @click="minus"></i>
-        <span class="atom-count__content" @click="click">{{value}}</span>
-        <i v-ripple :class="['atom-count__btn', 'atom-count__btn-plus', max == value && 'disabled']"  @click="plus"></i>
+    <span :class="{'atom-count--disabled': isDisabled}" class="atom-count">
+        <i v-ripple="!isDisabled && hasRipple && min != value" :class="['atom-count__btn', 'atom-count__btn-minus', min == value && 'atom-count__btn--disabled']" @click="minus"></i>
+        <span v-ripple="{disabled: true}" class="atom-count__content" v-on="$listeners">{{value - !isDisabled && hasRipple && max != value}}</span>
+        <i v-ripple="!isDisabled && hasRipple && max != value" :class="['atom-count__btn', 'atom-count__btn-plus', max == value && 'atom-count__btn--disabled']" @click="plus"></i>
     </span>
 </template>
 <script>
@@ -10,7 +10,12 @@ export default {
     name: 'Count',
 
     props: {
-        disabled: {
+        hasRipple: {
+            type: Boolean,
+            default: true
+        },
+
+        isDisabled: {
             type: Boolean,
             default: false
         },
@@ -22,7 +27,7 @@ export default {
 
         max: {
             type: Number,
-            default: 100
+            default: 10
         },
 
         step: {
@@ -37,10 +42,6 @@ export default {
     },
 
     methods: {
-        click() {
-            this.$emit('click');
-        },
-
         minus() {
             const number = parseInt(this.value);
             if (this.min < number) {
@@ -53,7 +54,7 @@ export default {
         plus() {
             const number = parseInt(this.value);
             if (this.max > number) {
-                this.$emit('input',  Math.min(this.max, number + this.step));
+                this.$emit('input', Math.min(this.max, number + this.step));
             } else {
                 this.$emit('reachMax');
             }
@@ -70,6 +71,16 @@ $height: 0.5rem;
     display: inline-flex;
     border: 1px solid $lighter;
     height: $height;
+    background: $background;
+
+    &--disabled {
+        background: $lightest;
+        pointer-events: none;
+        &__btn {
+            background: $lightest;
+        }
+    }
+
     &__btn {
         display: block;
         height: $height;
@@ -77,21 +88,26 @@ $height: 0.5rem;
         width: $height;
         color: $darker;
         text-align: center;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 60%;
+        &--disabled {
+            background-color: $lightest;
+        }
     }
     &__btn-minus {
-        background: url('../../assets/subtract.svg') center center no-repeat;
-        background-size: 60%;
+        background-image: url('../../assets/subtract.svg');
         border-right: 1px solid $lighter;
     }
     &__btn-plus {
-        background: url('../../assets/add.svg') center center no-repeat;
-        background-size: 60%;
+        background-image: url('../../assets/add.svg');
         border-left: 1px solid $lighter;
     }
 
     &__content {
         display: inline-block;
         position: relative;
+        transition: transform $duration;
         min-width: $height * 1.25;
         color: $darkest;
         text-align: center;

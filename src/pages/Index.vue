@@ -1,16 +1,16 @@
 <template>
     <v-scroll-view>
         <v-button type="success" style="width:200px;" :is-circle="true" class="f-bottom">购物车</v-button>
-        <v-collapse :is-accordion="true">
+        <v-collapse :is-accordion="false">
             <v-collapse-item>
                 <h4 slot="header">表单</h4>
                 <v-cell @click="$router.push({'path': '/demos/input'})">Input</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/textarea'})">Textarea</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/switch'})">Switch</v-cell>
-                <v-cell>Radio</v-cell>
-                <v-cell>Checkbox</v-cell>
-                <v-cell>Picker</v-cell>
-                <v-cell>Stepper</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/radio'})">Radio</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/checkbox'})">Checkbox</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/picker'})">Picker</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/count'})">Count</v-cell>
                 <v-cell>Button</v-cell>
             </v-collapse-item>
 

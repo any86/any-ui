@@ -1,8 +1,8 @@
 <template>
-    <v-scroll-view v-model="top" class="full-screen">
+    <v-scroll-view class="full-screen">
         <v-group>
             <template slot="header">
-                正常情况 - {{select1}}
+                正常情况
             </template>
 
             <v-cell>
@@ -29,24 +29,20 @@
     </v-scroll-view>
 </template>
 <script>
-import VScrollView from '@/packages/InfiniteScroll/InfiniteScroll';
+import VScrollView from '@/packages/ScrollView/ScrollView';
 import VCheckbox from '@/packages/Checkbox/Checkbox';
-import VButton from '@/packages/Button/Button';
 import VCell from '@/packages/Cell/Cell';
 import VGroup from '@/packages/Group/Group';
-import VCircle from '@/packages/Loading/Circle';
 
 export default {
     name: 'CheckboxDemo',
 
     data() {
         return {
-            is1: false,
             select1: 1,
-            select2: 1,
+            select2: 2,
             select3: 1,
             select4: 2,
-            top: 0,
         };
     },
 
@@ -56,7 +52,7 @@ export default {
     },
 
     components: {
-        VCell, VCheckbox, VGroup, VButton, VCircle, VScrollView
+        VCell, VCheckbox, VGroup, VScrollView
     }
 }
 </script>

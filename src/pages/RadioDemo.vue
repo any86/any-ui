@@ -1,12 +1,9 @@
 <template>
-    <v-scroll-view v-model="top" class="full-screen">
+    <v-scroll-view class="full-screen">
         <v-group>
             <template slot="header">
                 正常情况
             </template>
-            <v-cell :arrow="0">
-                123
-            </v-cell>
 
             <v-cell>
                 <v-radio v-model="select1" :value="1">选项1</v-radio>
@@ -15,8 +12,6 @@
             <v-cell>
                 <v-radio v-model="select1" :value="2">选项2</v-radio>
             </v-cell>
-
-            <v-button :isLoading="true" class="gutter-top" type="primary" block>primary</v-button>
 
         </v-group>
 
@@ -34,34 +29,31 @@
     </v-scroll-view>
 </template>
 <script>
-import VScrollView from '@/packages/InfiniteScroll/InfiniteScroll';
+import VScrollView from '@/packages/ScrollView/ScrollView';
 import VRadio from '@/packages/Radio/Radio';
-import VButton from '@/packages/Button/Button';
 import VCell from '@/packages/Cell/Cell';
 import VGroup from '@/packages/Group/Group';
-import VCircle from '@/packages/Loading/Circle';
 
 export default {
     name: 'RadioDemo',
 
     data() {
         return {
-            is1: false,
             select1: 1,
             select2: 1,
-            top: 0,
         };
     },
 
     methods: {
-        click(e) {
-        }
     },
 
     components: {
-        VCell, VRadio, VGroup, VButton, VCircle,VScrollView
+        VCell,
+        VRadio,
+        VGroup,
+        VScrollView
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
