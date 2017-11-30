@@ -8,11 +8,13 @@
     outline: none;
 
     .ripple--ready {
+        position: relative;
         transform: scale(0);
         opacity: .2; 
     }
 
     .ripple--start {
+        position: relative;
         background: currentColor;
         transition-property: transform, opacity;
         transform: scale(1);

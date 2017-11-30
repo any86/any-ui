@@ -135,11 +135,6 @@ export default class Ripple {
         const $el = el || this.$el;
         $el.removeEventListener('touchstart', this._touchstartHandler_bind);
         $el.removeEventListener('touchend', this._touchendHandler_bind);
-
-        setTimeout(() => {
-            el.addEventListener('touchstart', this._touchstartHandler_bind);
-            el.addEventListener('touchend', this._touchendHandler_bind);
-        }, 0);
     }
 
     /**

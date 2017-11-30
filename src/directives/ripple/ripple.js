@@ -1,33 +1,48 @@
+const findRippleContainer = ($el) => {
+    let $rippleContainerNode = null;
+
+    for (let $child of $el.childNodes) {
+        if ('ripple-container' == $child.className) {
+            $rippleContainerNode = $child;
+            break;
+        }
+    }
+
+    return $rippleContainerNode;
+}
+
 /**
  * 创建水波纹容器
  * @param {Element}  
  */
-const createContainerNode = ($el, { borderRadius }) => {
-    let $rippleContainerNode = $el.querySelector('.ripple-container');
-    // 如果已经存在Container那么删除
-    if ($rippleContainerNode && $el.contains($rippleContainerNode)) {
-        $el.removeChild($rippleContainerNode);
+const createRippleContainerNode = (event) => {
+    let $el = event.currentTarget;
+    let $rippleContainerNode = findRippleContainer($el);
+
+    if (null != $rippleContainerNode) {
+        // dir($rippleContainerNode.parentNode)
+        if ($el.contains($rippleContainerNode)) {
+            $el.removeChild($rippleContainerNode);
+        }
     }
-    // 在目标元素相同位置制作一个一样尺寸的div
     $rippleContainerNode = document.createElement('div');
     $rippleContainerNode.className = 'ripple-container';
-    // 目标元素样式
-    $rippleContainerNode.style.borderRadius = borderRadius;
     return $rippleContainerNode;
 }
 
 /**
  * 建立水波纹
  */
-const createRippleNode = ($el, { background, duration }, event) => {
+const createRippleNode = (event) => {
+    const $el = event.currentTarget;
     // 获取目标元素的信息
     const { top, left, width, height } = $el.getBoundingClientRect();
-    log(top, left)
+    // 计算尺寸
     const radius = Math.sqrt(width * width + height * height);
     const diameter = 2 * radius;
-    const pageY = event.touches[0].pageY;
-    const pageX = event.touches[0].pageX;
-    
+    // 坐标
+    const pageY = event.touches[0].pageY || 0;
+    const pageX = event.touches[0].pageX || 0;
     // 创建水波纹元素
     let $rippleNode;
     $rippleNode = document.createElement('div');
@@ -36,54 +51,48 @@ const createRippleNode = ($el, { background, duration }, event) => {
     $rippleNode.style.borderRadius = diameter + 'px';
     $rippleNode.style.left = pageX - left - radius + 'px';
     $rippleNode.style.top = pageY - top - radius + 'px';
-    $rippleNode.style.background = background;
-    $rippleNode.style.transitionDuration = duration + 'ms';
-    $rippleNode.className = 'ripple--ready';
+    $rippleNode.style.background = $el.dataset.background;
+    $rippleNode.style.transitionDuration = $el.dataset.duration + 'ms';
+    $rippleNode.className = 'ripple ripple--ready';
     return $rippleNode;
 }
 
-const touchStartHandler = ($el, { background, duration }, event) => {
+const touchStartHandler = (event) => {
     event.stopPropagation();
-    const style = getComputedStyle($el);
-    const { borderRadius, position } = style;
-    const $rippleNode = createRippleNode($el, { background, duration }, event);
-    const $containerNode = createContainerNode($el, { borderRadius });
-    $containerNode.appendChild($rippleNode);
-    $el.appendChild($containerNode);
+    const $el = event.currentTarget;
+    // 如果非下列定位, 那么设置目标元素的position为relative
+    const style = getComputedStyle($el, null);
+    const position = style.position;
+    $el.dataset.position = position;
+    if (!/absolute|relative|fixed|sticky/.test(position)) {
+        $el.style.position = 'relative';
+    }
+
+    // 插入ripple
+    let $rippleContainerNode = createRippleContainerNode(event);
+    let $rippleNode = createRippleNode(event);
+    $rippleContainerNode.appendChild($rippleNode);
+    $el.appendChild($rippleContainerNode);
+
 }
 
 
-const touchendHandler = ($el, timer, {duration}, event) => {
+const touchendHandler = (event) => {
     event.stopPropagation();
-    let $containerNode = $el.querySelector('.ripple-container');
-    let $rippleNode = $containerNode.childNodes[0];
+    const $el = event.currentTarget;
+    const duration = parseInt($el.dataset.duration);
+    let $rippleContainerNode = findRippleContainer($el);
+    let $rippleNode = $rippleContainerNode.childNodes[0];
     $rippleNode.className = 'ripple--start';
-    // clearTimeout(timer);
-    // timer = setTimeout(() => {
-    //     if ($el.contains($containerNode)) {
-    //         $el.removeChild($containerNode);
-    //     }
-    // }, duration + 100);
+
+    // 动画结束后删除水波纹.
+    // 防止可能出现排版错乱
+    clearTimeout($el.dataset.timer);
+    $el.dataset.timer = setTimeout(() => {
+        $el.removeChild($rippleContainerNode);
+    }, duration + 100);
 }
 
 export {
     touchStartHandler, touchendHandler
 }
-
-// const touchstartHandler = ($el, event) => {
-//     event.stopPropagation();
-//     // 如果非下列定位, 那么设置目标元素的position为relative
-//     if (!/absolute|relative|fixed|sticky/.test(this.orgPosition)) {
-//         $el.style.position = 'relative';
-//     }
-//     // 创建元素
-//     this.$rippleNode = this._createRippleNode(event);
-//     this.$rippleContainerNode = this._createRippleContainerNode(event);
-//     this.$rippleContainerNode.appendChild(this.$rippleNode);
-//     // 插入到目标元素
-//     $el.appendChild(this.$rippleContainerNode);
-// }
-
-
-
-
