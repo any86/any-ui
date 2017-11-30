@@ -1,8 +1,8 @@
 <template>
     <span :class="{'atom-count--disabled': isDisabled}" class="atom-count">
         <i v-ripple="!isDisabled && hasRipple && min != value" :class="['atom-count__btn', 'atom-count__btn-minus', min == value && 'atom-count__btn--disabled']" @click="minus"></i>
-        <span v-ripple="{disabled: true}" class="atom-count__content" v-on="$listeners">{{value - !isDisabled && hasRipple && max != value}}</span>
-        <i v-ripple :class="['atom-count__btn', 'atom-count__btn-plus', max == value && 'atom-count__btn--disabled']" @click="plus"></i>
+        <span v-ripple="{disabled: true}" class="atom-count__content" v-on="$listeners">{{value}}</span>
+        <i v-ripple="!isDisabled && hasRipple && max != value" :class="['atom-count__btn', 'atom-count__btn-plus', max == value && 'atom-count__btn--disabled']" @click="plus"></i>
     </span>
 </template>
 <script>
