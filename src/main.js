@@ -36,6 +36,12 @@ import '@/directives/ripple/ripple.scss';
 import '@/directives/ripple/index.js';
 
 
+require('vue-touch-ripple/component.css')
+import VueTouchRipple from 'vue-touch-ripple'
+Vue.use(VueTouchRipple)
+
+
+
 // 关闭错误提示
 Vue.config.silent = false
 // 生产环境提示

@@ -3,31 +3,37 @@ import { touchStartHandler, touchendHandler } from './ripple.js'
 
 
 Vue.directive('ripple', {
-    bind() {
+    bind(el) {
         // bind中还没有插入元素, 所以没法获取尺寸
     },
 
     inserted(el, binding) {
         // 默认值
-        let duration = 1000;
-        let background = 'rgba(0,0,0,0.2)';
-        let timer = null;
-        const opts = !binding.value ? { disabled: true } : binding.value;
-        if (undefined !== opts.background) background = opts.background;
-        if (undefined !== opts.duration) duration = opts.duration;
-
-        el.addEventListener('touchstart', event => {
-            touchStartHandler(el, { background, duration }, event);
-        });
-        
-
-        el.addEventListener('touchend', event => {
-            touchendHandler(el, timer, {duration}, event);
-        });
-        
+        const duration = 1000;
+        const background = 'rgba(0,0,0,1)';
+        const timer = null;
+        let opts = {};
+        if (undefined === binding.value) {
+            opts = { disabled: false };
+        }else if (false === binding.value) {
+            opts = { disabled: true };
+        } else if (true === binding.value) {
+            opts = { disabled: false };
+        } else {
+            opts = binding.value;
+        }
+        // opts存储到dataset
+        el.dataset.duration = 1000;
+        el.dataset.background = (undefined === opts.background) ? background : opts.background;
+        el.dataset.timer = null;
+        // 绑定事件
+        el.addEventListener('touchstart', touchStartHandler);
+        el.addEventListener('touchend', touchendHandler);
     },
 
     update(el, binding) {
+
+
     },
 
     unbind(el) {

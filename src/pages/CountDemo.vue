@@ -1,6 +1,9 @@
 <template>
     <v-cell :has-ripple="true">
         <v-count v-model="value" />
+
+
+
     </v-cell>
 </template>
 <script>
@@ -14,6 +17,10 @@ export default {
         return {
             value: 9
         };
+    },
+
+    mounted(){
+ 
     },
 
     components: {
