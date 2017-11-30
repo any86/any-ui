@@ -60,8 +60,12 @@ const createRippleNode = (event) => {
 const touchStartHandler = (event) => {
     event.stopPropagation();
     const $el = event.currentTarget;
+    // console.log($el.dataset.disabled)
+    if('true' == $el.dataset.disabled) return;
+    
     // 如果非下列定位, 那么设置目标元素的position为relative
     const style = getComputedStyle($el, null);
+
     const position = style.position;
     $el.dataset.position = position;
     if (!/absolute|relative|fixed|sticky/.test(position)) {
@@ -80,6 +84,7 @@ const touchStartHandler = (event) => {
 const touchendHandler = (event) => {
     event.stopPropagation();
     const $el = event.currentTarget;
+    if('true' == $el.dataset.disabled) return;
     const duration = parseInt($el.dataset.duration);
     let $rippleContainerNode = findRippleContainer($el);
     let $rippleNode = $rippleContainerNode.childNodes[0];
