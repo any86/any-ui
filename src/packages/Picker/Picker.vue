@@ -1,8 +1,8 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="atom-picker">
-        <div class="graticule" :style="{height: `${itemHeight}px`}"></div>
-        <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @scroll-buffer="isMoving = $event" :body-style="bodyStyle" class="list">
-            <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="item">
+        <div class="atom-picker__graticule" :style="{height: `${itemHeight}px`}"></div>
+        <v-scroller v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @scroll-buffer="isMoving = $event" :body-style="bodyStyle" class="atom-picker__list">
+            <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="list__item">
                 {{item.label}}
             </div>
         </v-scroller>
@@ -130,7 +130,7 @@ export default {
     position: relative;
     overflow: hidden;
     display: flex;
-    .graticule {
+    &__graticule {
         position: absolute;
         top: 0;
         left: 0;
@@ -139,10 +139,10 @@ export default {
         margin: auto;
         box-shadow: $shadowUp, $shadowDown;
     }
-    .list {
+    &__list {
         flex: 1;
         box-sizing: border-box;
-        .item {
+        .list__item {
             box-sizing: border-box;
             width: 100%;
             display: block;
