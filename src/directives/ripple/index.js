@@ -15,10 +15,10 @@ const updateRipple = (el, binding) => {
         opts = binding.value;
     }
     // opts存储到dataset
-    el.dataset.duration = undefined === opts.duration ? duration : opts.duration;
-    el.dataset.background = undefined === opts.background ? background : opts.background;
-    el.dataset.disabled = opts.disabled;
-    el.dataset.timer = el.dataset.timer || null;
+    el.dataset.rippleDuration = undefined === opts.duration ? duration : opts.duration;
+    el.dataset.rippleBackground = undefined === opts.background ? background : opts.background;
+    el.dataset.rippleDisabled = opts.disabled;
+    el.dataset.rippleTimer = el.dataset.rippleTimer || null;
 }
 export default {
     bind(el) {

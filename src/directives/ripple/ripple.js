@@ -54,8 +54,8 @@ const createRippleNode = (event) => {
     $rippleNode.style.borderRadius = diameter + 'px';
     $rippleNode.style.left = pageX - left - radius + 'px';
     $rippleNode.style.top = pageY - top - radius + 'px';
-    $rippleNode.style.background = $el.dataset.background;
-    $rippleNode.style.transitionDuration = $el.dataset.duration + 'ms';
+    $rippleNode.style.background = $el.dataset.rippleBackground;
+    $rippleNode.style.transitionDuration = $el.dataset.rippleDuration + 'ms';
     $rippleNode.className = 'ripple ripple--ready';
     return $rippleNode;
 }
@@ -63,13 +63,13 @@ const createRippleNode = (event) => {
 const touchStartHandler = (event) => {
     event.stopPropagation();
     const $el = event.currentTarget;
-    if ('true' == $el.dataset.disabled) return;
+    if ('true' == $el.dataset.rippleDisabled) return;
 
     // 如果非下列定位, 那么设置目标元素的position为relative
     const style = getComputedStyle($el, null);
 
     const position = style.position;
-    $el.dataset.position = position;
+    $el.dataset.ripplePosition = position;
     if (!/absolute|relative|fixed|sticky/.test(position)) {
         $el.style.position = 'relative';
     }
@@ -86,16 +86,16 @@ const touchStartHandler = (event) => {
 const touchendHandler = (event) => {
     event.stopPropagation();
     const $el = event.currentTarget;
-    if ('true' == $el.dataset.disabled) return;
-    const duration = parseInt($el.dataset.duration);
+    if ('true' == $el.dataset.rippleDisabled) return;
+    const duration = parseInt($el.dataset.rippleDuration);
     let $rippleContainerNode = findRippleContainer($el);
     let $rippleNode = $rippleContainerNode.childNodes[0];
     $rippleNode.className = 'ripple--start';
 
     // 动画结束后删除水波纹.
     // 防止可能出现排版错乱
-    clearTimeout($el.dataset.timer);
-    $el.dataset.timer = setTimeout(() => {
+    clearTimeout($el.dataset.rippleTimer);
+    $el.dataset.rippleTimer = setTimeout(() => {
         $el.removeChild($rippleContainerNode);
     }, duration + 100);
 }
