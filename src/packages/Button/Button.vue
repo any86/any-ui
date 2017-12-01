@@ -62,28 +62,26 @@ export default {
     computed: {
         classArray() {
             return [`btn${this.isGhost ? '-ghost' : ''}-${this.type}`, this.disabled && 'btn-disabled ', this.isBlock && 'btn-block', this.hasRadius && 'btn-radius', ('sm' === this.size) && 'btn-sm', this.isCircle ? 'btn--circle' : ''];
-        },
-
-        rippleColor() {
-            if (['default', 'light'].includes(this.type)) {
-                return 'rgba(0,0,0, 0.1)';
-            } else {
-                return 'rgba(255,255,255, 0.5)';
-            }
         }
     }
 };
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+@import '../../scss/function.scss';
 $height:1rem;
 // 纯色背景按钮
 @mixin btn($color) {
+    $lightness: lightness($color);
     background: $color;
     border-color: rgba($color, 0);
+    color: color-yiq($color);
+    width: $lightness;
+    
     &-disabled {
         pointer-events: none;
         background: dark($color);
+        
     }
 }
 
@@ -146,12 +144,12 @@ button {
 @each $color, $value in $theme_colors {
     .btn-#{$color} {
         @include btn($value);
-        @if 'default' == $color or 'light' == $color {
-            background: $color;
-            color: $darkest;
-        } @else {
-            color: $sub;
-        }
+        // @if 'default' == $color or 'light' == $color {
+        //     background: $color;
+        //     color: $darkest;
+        // } @else {
+        //     color: $sub;
+        // }
     }
 
     .btn-ghost-#{$color} {

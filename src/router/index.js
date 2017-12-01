@@ -15,6 +15,7 @@ import RadioDemo from '@/pages/RadioDemo';
 import CheckboxDemo from '@/pages/CheckboxDemo';
 import PickerDemo from '@/pages/PickerDemo';
 import CountDemo from '@/pages/CountDemo';
+import ButtonDemo from '@/pages/ButtonDemo';
 
 
 
@@ -65,6 +66,11 @@ export default new Router({
             path: '/demos/count',
             component: CountDemo
         },
-        
+        {
+            name: 'button',
+            path: '/demos/button',
+            component: ButtonDemo
+        },
+
     ]
 });

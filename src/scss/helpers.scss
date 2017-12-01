@@ -65,14 +65,14 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999;
+    z-index: $headerZIndex;
 }
 
 .fixed-bottom {
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 9999;
+    z-index: $headerZIndex;
 }
 
 /*

@@ -9,6 +9,7 @@ const updateRipple = (el, binding) => {
     };
     // 合并参数
     // 支持Boolean/Undefined/Object
+
     if (false === binding.value) {
         opts = { ...opts, disabled: true };
     } else if ('[object Object]' === Object.prototype.toString.call(binding.value)) {
@@ -39,7 +40,6 @@ export default {
     // },
 
     componentUpdated(el, binding) {
-        // log(binding.value, binding.oldValue)
         updateRipple(el, binding);
     },
 

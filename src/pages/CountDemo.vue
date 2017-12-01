@@ -1,16 +1,19 @@
 <template>
     <main>
-        <v-cell :has-ripple="isOn">
-            <v-count  v-model="value"/>
+        <v-cell :has-ripple="false">
+            默认: 最小值0, 最大值10
+            <v-count slot="extra" v-model="value1"/>
         </v-cell>
-        <!-- <div v-ripple="{duration: isOn ? 3000 : 300}" class="item">packages</div>
-        <div v-ripple="{duration: isOn ? 200 : 3000}" class="item">packages2</div>
 
-        <v-cell>
-            <v-switch v-model="isOn">开启水波纹</v-switch>
-        </v-cell> -->
+        <v-cell :has-ripple="false">
+            最大值5
+            <v-count :max="5" slot="extra" v-model="value2"/>
+        </v-cell>
 
-        <!-- <i v-ripple>ripple</i> -->
+        <v-cell :has-ripple="false">
+            每步2
+            <v-count :step="2" slot="extra" v-model="value3"/>
+        </v-cell>
     </main>
 </template>
 <script>
@@ -23,8 +26,10 @@ export default {
 
     data() {
         return {
-            value: 5,
-            isOn: true
+            value1: 10,
+            value2: 1,
+            value3: 1,
+            
         };
     },
 
