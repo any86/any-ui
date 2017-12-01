@@ -6,18 +6,15 @@
     pointer-events: none;
     user-select: none;
     outline: none;
-
-    .ripple--ready {
+    .ripple{
         position: relative;
-        transform: scale(0);
-        opacity: .2; 
-    }
-
-    .ripple--start {
-        position: relative;
-        background: currentColor;
-        transition-property: transform, opacity;
-        transform: scale(1);
-        opacity: 0;
+        &--ready {
+            transform: scale(0);
+        }
+        &--move {
+            background: currentColor;
+            transition-property: transform, opacity;
+            transform: scale(1);
+        }
     }
 }
