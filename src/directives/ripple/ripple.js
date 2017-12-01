@@ -1,3 +1,7 @@
+/**
+ * 查找紧邻的子节点
+ * @param {Element}  
+ */
 const findRippleContainer = ($el) => {
     let $rippleContainerNode = null;
 
@@ -20,7 +24,6 @@ const createRippleContainerNode = (event) => {
     let $rippleContainerNode = findRippleContainer($el);
 
     if (null != $rippleContainerNode) {
-        // dir($rippleContainerNode.parentNode)
         if ($el.contains($rippleContainerNode)) {
             $el.removeChild($rippleContainerNode);
         }
@@ -60,9 +63,8 @@ const createRippleNode = (event) => {
 const touchStartHandler = (event) => {
     event.stopPropagation();
     const $el = event.currentTarget;
-    // console.log($el.dataset.disabled)
-    if('true' == $el.dataset.disabled) return;
-    
+    if ('true' == $el.dataset.disabled) return;
+
     // 如果非下列定位, 那么设置目标元素的position为relative
     const style = getComputedStyle($el, null);
 
@@ -84,7 +86,7 @@ const touchStartHandler = (event) => {
 const touchendHandler = (event) => {
     event.stopPropagation();
     const $el = event.currentTarget;
-    if('true' == $el.dataset.disabled) return;
+    if ('true' == $el.dataset.disabled) return;
     const duration = parseInt($el.dataset.duration);
     let $rippleContainerNode = findRippleContainer($el);
     let $rippleNode = $rippleContainerNode.childNodes[0];
