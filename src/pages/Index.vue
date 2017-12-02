@@ -12,6 +12,8 @@
                 <v-cell @click="$router.push({'path': '/demos/picker'})">Picker</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/count'})">Count</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/button'})">Button</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/button-group'})">ButtonGroup</v-cell>
+
             </v-collapse-item>
 
             <v-collapse-item title="对话框">
@@ -43,13 +45,29 @@ export default {
     name: 'Index',
 
     data() {
-        return {
-        };
+        return {};
     },
 
     created() {},
 
-    mounted() {},
+    mounted() {
+        function Abc() {
+            this.a = 1;
+            this.b = 2;
+            this.getA = () => {
+                return this.a;
+            };
+        }
+
+        Abc.prototype.getB = () => {
+            return this.b;
+        };
+
+    var a = new Abc().getB;
+    var b = new Abc().getB;
+console.dir(Abc)
+// console.dir(Abc());
+    },
 
     methods: {},
 
