@@ -1,5 +1,5 @@
 <template>
-    <button :type="nativeType" v-ripple="{disabled: !hasRipple}" v-on="$listeners" :class="className" class="btn">
+    <button :type="nativeType" v-ripple="{disabled: !hasRipple}" v-on="$listeners" :class="className" class="atom-btn">
         <slot></slot>
     </button>
 </template>
@@ -61,12 +61,12 @@ export default {
     computed: {
         className() {
             return {
-                ['btn--' + this.type]: !this.isGhost,
-                ['btn--ghost-' + this.type]: this.isGhost,
-                'btn--disabled': this.isDisabled,
-                'btn--block': this.isBlock,
-                'btn--round': this.isRound,
-                'btn--loading': this.isLoading
+                ['atom-btn--' + this.type]: !this.isGhost,
+                ['atom-btn--ghost-' + this.type]: this.isGhost,
+                'atom-btn--disabled': this.isDisabled,
+                'atom-btn--block': this.isBlock,
+                'atom-btn--round': this.isRound,
+                'atom-btn--loading': this.isLoading
             };
         }
     }
@@ -81,12 +81,12 @@ $height: 1rem;
 @mixin btn($color) {
     $lightness: lightness($color);
     background: $color;
-    border-color: rgba($color, 0);
+    border-color: transparent;
     color: color-yiq($color);
     border-radius: $radius;
     // width: $lightness;
     @if (98% < $lightness) {
-        border: 1px solid $lightest;
+        border: 1px solid $lightness;
     } @else {
         border: 1px solid transparent;
     }
@@ -97,10 +97,20 @@ $height: 1rem;
 
 // 幽灵按钮
 @mixin btn-ghost($color) {
-    background: $sub;
-    border-color: $color;
-    color: $color;
+    // $r: red($color);
+    // $g: green($color);
+    // $b: blue($color);
+    $lightness: lightness($color);
+    // @debug $color;
+    background: transparent;
     border-radius: $radius;
+    @if (98% < $lightness) {
+        border: 1px solid $dark;
+        color: $darker;
+    } @else {
+        border: 1px solid $color;
+        color: $color;
+    }    
     &:before {
         border-color: transparent transparent $color $color;
     }
@@ -113,7 +123,7 @@ button {
     border-radius: 0;
 }
 
-.btn {
+.atom-btn {
     overflow: hidden;
     display: inline-block;
     user-select: none;
@@ -160,12 +170,12 @@ button {
     }
 }
 
-@each $color, $value in $theme_colors {
-    .btn--#{$color} {
+@each $key, $value in $theme_colors {
+    .atom-btn--#{$key} {
         @include btn($value);
     }
 
-    .btn--ghost-#{$color} {
+    .atom-btn--ghost-#{$key} {
         @include btn-ghost($value);
     }
 }
