@@ -1,7 +1,8 @@
 <template>
     <div class="atom-group">
-        <header v-if="$slots.header">
+        <header v-if="title || $slots.header">
             <slot name="header"></slot>
+            {{title}}
         </header>
         <slot></slot>
     </div>
@@ -11,16 +12,7 @@ export default {
     name: 'Group',
 
     props: {
-        value: {}
-    },
-
-    data() {
-        return {
-        };
-    },
-
-    mounted() {
-
+        title: {}
     }
 }
 </script>
