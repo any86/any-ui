@@ -1,5 +1,5 @@
 <template>
-    <button v-ripple="hasRipple" v-on="$listeners" :class="classArray" class="btn">
+    <button :type="nativeType" v-ripple="{disabled: !hasRipple}" v-on="$listeners" :class="className" class="btn">
         <slot></slot>
     </button>
 </template>
@@ -13,23 +13,23 @@ export default {
             default: 'default'
         },
 
+        nativeType: {
+            type: String,
+            default: 'button' //button / submit / reset
+        },
+
         isBlock: {
             type: Boolean,
             default: false
         },
 
-        disabled: {
+        isDisabled: {
             type: Boolean,
             default: false
-        },
-        
-        hasRipple: {
-            default: true
         },
 
-        hasRadius: {
-            type: Boolean,
-            default: false
+        hasRipple: {
+            default: true
         },
 
         isGhost: {
@@ -42,7 +42,7 @@ export default {
             default: ''
         },
 
-        isCircle: {
+        isRound: {
             type: Boolean,
             default: false
         },
@@ -50,18 +50,24 @@ export default {
         isCenter: {
             type: Boolean,
             default: false
+        },
+
+        isLoading: {
+            type: Boolean,
+            default: false
         }
     },
 
-    data() {
-        return {};
-    },
-
-    mounted() {},
-
     computed: {
-        classArray() {
-            return [`btn${this.isGhost ? '-ghost' : ''}-${this.type}`, this.disabled && 'btn-disabled ', this.isBlock && 'btn-block', this.hasRadius && 'btn-radius', ('sm' === this.size) && 'btn-sm', this.isCircle ? 'btn--circle' : ''];
+        className() {
+            return {
+                ['btn--' + this.type]: !this.isGhost,
+                ['btn--ghost-' + this.type]: this.isGhost,
+                'btn--disabled': this.isDisabled,
+                'btn--block': this.isBlock,
+                'btn--round': this.isRound,
+                'btn--loading': this.isLoading
+            };
         }
     }
 };
@@ -69,19 +75,23 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 @import '../../scss/function.scss';
-$height:1rem;
+$height: 1rem;
+
 // 纯色背景按钮
 @mixin btn($color) {
     $lightness: lightness($color);
     background: $color;
     border-color: rgba($color, 0);
     color: color-yiq($color);
-    width: $lightness;
-    
-    &-disabled {
-        pointer-events: none;
-        background: dark($color);
-        
+    border-radius: $radius;
+    // width: $lightness;
+    @if (98% < $lightness) {
+        border: 1px solid $lightest;
+    } @else {
+        border: 1px solid transparent;
+    }
+    &:before {
+        border-color: transparent transparent color-yiq($color) color-yiq($color);
     }
 }
 
@@ -90,77 +100,82 @@ $height:1rem;
     background: $sub;
     border-color: $color;
     color: $color;
-    &:not(.disabled):active {
-        opacity: 0.7;
+    border-radius: $radius;
+    &:before {
+        border-color: transparent transparent $color $color;
     }
 }
+
 button {
     -webkit-appearance: none;
     outline: none;
     border: 0 none;
     border-radius: 0;
 }
+
 .btn {
     overflow: hidden;
     display: inline-block;
     user-select: none;
     vertical-align: top;
-    overflow: hidden;
     padding: 0 $gutter;
     height: $height;
+    line-height: $height;
     text-align: center;
     white-space: nowrap;
     letter-spacing: 1px;
     text-decoration: none;
     border: 1px solid transparent;
+    font-size: $big;
     transition: all $duration;
-    font-size: $bigger;
-    .icon-loading {
-        align-self: center;
-        width: 0.3rem;
-        height: 0.3rem;
-        display: block;
-        margin-right: $gutter / 2;
+
+    &--loading {
+        pointer-events: none;
+        opacity: 0.5;
+        &:before {
+            content: '';
+            display: inline-block;
+            height: 12px;
+            width: 12px;
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 50%;
+            margin-right: $gutter/2;
+            animation: rotation infinite $duration*2 linear;
+        }
     }
-}
 
-.btn--circle{
-    border-radius: $height;
-}
-.btn-radius {
-    border-radius: $borderRadius;
-}
-.btn-block {
-    display: block;
-    width: 100%;
-}
+    &--disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
 
-.btn-sm {
-    height: $height/2;
-    padding:0 $gutter/4;
-    font-size: $small;
+    &--round {
+        border-radius: $height !important;
+    }
+
+    &--block {
+        display: block;
+        width: 100%;
+    }
 }
 
 @each $color, $value in $theme_colors {
-    .btn-#{$color} {
+    .btn--#{$color} {
         @include btn($value);
-        // @if 'default' == $color or 'light' == $color {
-        //     background: $color;
-        //     color: $darkest;
-        // } @else {
-        //     color: $sub;
-        // }
     }
 
-    .btn-ghost-#{$color} {
+    .btn--ghost-#{$color} {
         @include btn-ghost($value);
-        @if 'default' == $color or 'light' == $color {
-            color: $darkest;
-            border-color: $light;
-        } @else {
-            color: $color;
-            border-color: $color;
-        }
+    }
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
 </style>
