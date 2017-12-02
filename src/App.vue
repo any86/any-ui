@@ -13,13 +13,12 @@
             <li>Personalized</li>
         </ul>
 
-        <v-header-bar :has-arrow="'index' !== $route.name" class="fixed-top">Atom-UI</v-header-bar>
-        <div style="height:60px;">
-            <!-- 间距 -->
-        </div>
-        <transition :name="'zoom'">
-            <router-view></router-view>
-        </transition>
+        <v-header-bar :has-arrow="'index' !== $route.name">Atom-UI</v-header-bar>
+        <main class="main">
+            <transition :name="'zoom'">
+                <router-view></router-view>
+            </transition>
+        </main>
     </v-drawer>
 </template>
 <script>
@@ -37,7 +36,8 @@ export default {
 
     components: {
         VHeaderBar,
-        VDrawer,VQRCode
+        VDrawer,
+        VQRCode
     }
 };
 </script>
@@ -45,9 +45,14 @@ export default {
 $animate_speed: 1000ms;
 @import './scss/theme.scss';
 
-.menu{
-    li{padding:$gutter;border-bottom: 1px solid $lightest;}
+.menu {
+    li {
+        padding: $gutter;
+        border-bottom: 1px solid $lightest;
+    }
 }
+.main{height: calc(100% - 55px);}
+
 
 //切换动画, 未完, 还没有判断进入和离开方向
 .in-enter {

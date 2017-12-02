@@ -89,29 +89,29 @@ $shadowDown: 0 1px 6px rgba(0, 0, 0, 0.1);
 $bottomTabHeight: 60px;
 $duration: 300ms;
 
-@mixin theme($type) {
-    @if 'default'==$type {
-        color: $dark;
-        background: $default;
-    } @else if 'success'==$type {
-        color: #fff;
-        background: $success;
-    } @else if 'info'==$type {
-        color: #fff;
-        background: $info;
-    } @else if 'warning'==$type {
-        color: #fff;
-        background: $warning;
-    } @else if 'danger'==$type {
-        color: #fff;
-        background: $danger;
-    } @else if 'primary'==$type {
-        color: #fff;
-        background: $primary;
-    }
-}
+// @mixin theme($type) {
+//     @if 'default'==$type {
+//         color: $dark;
+//         background: $default;
+//     } @else if 'success'==$type {
+//         color: #fff;
+//         background: $success;
+//     } @else if 'info'==$type {
+//         color: #fff;
+//         background: $info;
+//     } @else if 'warning'==$type {
+//         color: #fff;
+//         background: $warning;
+//     } @else if 'danger'==$type {
+//         color: #fff;
+//         background: $danger;
+//     } @else if 'primary'==$type {
+//         color: #fff;
+//         background: $primary;
+//     }
+// }
 
-@mixin disabled() {
-    background: $lighter;
-    color: $light;
-}
+// @mixin disabled() {
+//     background: $lighter;
+//     color: $light;
+// }

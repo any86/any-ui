@@ -16,6 +16,7 @@ import CheckboxDemo from '@/pages/CheckboxDemo';
 import PickerDemo from '@/pages/PickerDemo';
 import CountDemo from '@/pages/CountDemo';
 import ButtonDemo from '@/pages/ButtonDemo';
+import ButtonGroupDemo from '@/pages/ButtonGroupDemo';
 
 
 
@@ -70,7 +71,14 @@ export default new Router({
             name: 'button',
             path: '/demos/button',
             component: ButtonDemo
+        },{
+            name: 'buttonGroup',
+            path: '/demos/button-group',
+            component: ButtonGroupDemo
         },
+
+
+        
 
     ]
 });
