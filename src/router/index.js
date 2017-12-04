@@ -18,6 +18,11 @@ import CountDemo from '@/pages/CountDemo';
 import ButtonDemo from '@/pages/ButtonDemo';
 import ButtonGroupDemo from '@/pages/ButtonGroupDemo';
 
+// 对话框
+import AlertDemo from '@/pages/AlertDemo';
+import ConfirmDemo from '@/pages/ConfirmDemo';
+import PromptDemo from '@/pages/PromptDemo';
+import PopupDemo from '@/pages/PopupDemo';
 
 
 export default new Router({
@@ -75,10 +80,24 @@ export default new Router({
             name: 'buttonGroup',
             path: '/demos/button-group',
             component: ButtonGroupDemo
+        },{
+            name: 'alert',
+            path: '/demos/alert',
+            component: AlertDemo
         },
-
-
-        
-
+        {
+            name: 'confirm',
+            path: '/demos/confirm',
+            component: ConfirmDemo
+        },
+        {
+            name: 'prompt',
+            path: '/demos/prompt',
+            component: PromptDemo
+        },{
+            name: 'popup',
+            path: '/demos/popup',
+            component: PopupDemo
+        },
     ]
 });

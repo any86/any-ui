@@ -13,14 +13,13 @@
                 <v-cell @click="$router.push({'path': '/demos/count'})">Count</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/button'})">Button</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/button-group'})">ButtonGroup</v-cell>
-
             </v-collapse-item>
 
             <v-collapse-item title="对话框">
-                <v-cell>Alert</v-cell>
-                <v-cell>Confirm</v-cell>
-                <v-cell>Confirm</v-cell>
-                <v-cell>Popup</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/alert'})">Alert</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/confirm'})">Confirm</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/prompt'})">Prompt</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/popup'})">Popup</v-cell>
                 <v-cell>Dialog</v-cell>
                 <v-cell>Mask</v-cell>
             </v-collapse-item>
@@ -51,22 +50,7 @@ export default {
     created() {},
 
     mounted() {
-        function Abc() {
-            this.a = 1;
-            this.b = 2;
-            this.getA = () => {
-                return this.a;
-            };
-        }
 
-        Abc.prototype.getB = () => {
-            return this.b;
-        };
-
-    var a = new Abc().getB;
-    var b = new Abc().getB;
-console.dir(Abc)
-// console.dir(Abc());
     },
 
     methods: {},

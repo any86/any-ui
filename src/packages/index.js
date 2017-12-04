@@ -69,8 +69,8 @@ Atom.install = function (Vue) {
             }
             vm.isShow = true;
             vm.content = content;
-            vm.okCallback = onOk;
-            vm.cancelCallback = onCancel;
+            vm.onOk = onOk;
+            vm.onCancel = onCancel;
         };
     }
 

@@ -138,7 +138,6 @@ button {
     border: 1px solid transparent;
     font-size: $big;
     transition: all $duration;
-
     &--loading {
         pointer-events: none;
         opacity: 0.7;

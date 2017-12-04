@@ -21,16 +21,15 @@ export default {
     name: 'ButtonGroupDemo',
 
     data() {
-        return {
-
-        };
+        return {};
     },
 
     mounted() {},
 
     components: {
         VButton,
-        VButtonGorup,VScrollView
+        VButtonGorup,
+        VScrollView
     }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
     <v-mask :is-show="isShow" :portal="isPortal" @update:isShow="closeMask" @after-leave="afterMaskLeave">
-        <transition :name="'slide-' + from" @after-leave="afterDialogLeave">
-            <div v-show="isShow" :class="['atom-popup', 'atom-popup--'+from]">
+        <transition :name="'slide-from-' + from" @after-leave="afterDialogLeave">
+            <div v-show="isShow" :class="['atom-popup', 'atom-popup--from-'+from]">
                 <header class="atom-popup__header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </header>
@@ -33,7 +33,7 @@ export default {
 
         from: {
             type: String,
-            default: 'down' // or up
+            default: 'bottom' // or top
         }
     },
 
@@ -61,15 +61,23 @@ export default {
     position: absolute;
     width: 100%;
     background: $background;
-    &--down {
+    &--from-bottom {
         bottom: 0;
         left: 0;
     }
 
-    &--up {
+    &--from-top {
         top: 0;
         left: 0;
     }
+
+
+    &--from-left {
+        top: 0;
+        left: 0;
+        height: 100vh;
+    }
+
     &__header {
         box-sizing: border-box;
         padding: $gutter;
@@ -88,15 +96,15 @@ export default {
 * 动画
 */
 // 上方下滑
-.slide-up-enter-active {
-    animation: slide-up-in $duration;
+.slide-from-top-enter-active {
+    animation: slide-from-top-in $duration;
 }
 
-.slide-up-leave-active {
-    animation: slide-up-out $duration;
+.slide-from-top-leave-active {
+    animation: slide-from-top-out $duration;
 }
 
-@keyframes slide-up-in {
+@keyframes slide-from-top-in {
     0% {
         opacity: 0;
         transform: translateY(-100%);
@@ -107,7 +115,7 @@ export default {
     }
 }
 
-@keyframes slide-up-out {
+@keyframes slide-from-top-out {
     0% {
         opacity: 1;
         transform: translateY(0);
@@ -119,15 +127,15 @@ export default {
 }
 
 // 下方上滑
-.slide-down-enter-active {
-    animation: slide-down-in $duration;
+.slide-from-bottom-enter-active {
+    animation: slide-from-bottom-in $duration;
 }
 
-.slide-down-leave-active {
-    animation: slide-down-out $duration;
+.slide-from-bottom-leave-active {
+    animation: slide-from-bottom-out $duration;
 }
 
-@keyframes slide-down-in {
+@keyframes slide-from-bottom-in {
     0% {
         opacity: 0;
         transform: translateY(100%);
@@ -138,7 +146,7 @@ export default {
     }
 }
 
-@keyframes slide-down-out {
+@keyframes slide-from-bottom-out {
     0% {
         opacity: 1;
         transform: translateY(0);

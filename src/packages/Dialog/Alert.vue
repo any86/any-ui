@@ -1,6 +1,6 @@
 <template>
     <v-dialog :isShow.sync="isShow" :align="'bottom'" :hasClose="false">
-        <template slot="header">{{title}}</template>
+        <template v-if="undefined !== title" slot="header">{{title}}</template>
         {{content}}
         <a slot="footer" @click="ok" class="button-ok">{{btnOkText}}</a>
     </v-dialog>
@@ -62,7 +62,6 @@ export default {
     text-align: center;
     display: block;
     color: $darkest;
-    font-size: $big;
     text-align: center;
     padding: $gutter 0;
 }

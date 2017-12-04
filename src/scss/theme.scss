@@ -115,3 +115,11 @@ $duration: 300ms;
 //     background: $lighter;
 //     color: $light;
 // }
+
+
+$minHeight: 55px;
+
+$inputHeight:50px;
+$alert_button_height: $minHeight;
+$confirm_button_height: $minHeight;
+$prompt_button_height: $minHeight;

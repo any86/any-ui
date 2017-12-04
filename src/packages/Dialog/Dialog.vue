@@ -21,7 +21,6 @@
 <script>
 import VMask from '@/packages/Mask/Mask';
 import VIconClose from '@/packages/Icon/Close';
-import { getHeight } from '@/utils/dom';
 export default {
     name: 'Dialog',
 
@@ -71,7 +70,7 @@ export default {
     left: 0;
     margin: auto;
     width: 90%;
-    max-width: 640px;
+    max-width: 400px;
     border-radius: 4px;
     background: rgba($background,1);
     box-shadow: 1px 2px 15px rgba(0,0,0,0.1);
@@ -90,8 +89,8 @@ export default {
         padding: $gutter;
         overflow-x: hidden;
         overflow-y: auto;
-        min-height: 2rem;
         max-height: 61.8vh;
+        min-height:80px;
     }
 }
 

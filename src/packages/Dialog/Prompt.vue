@@ -1,8 +1,8 @@
 <template>
     <v-dialog :isShow.sync="isShow" :hasClose="false">
         <template slot="header">{{title}}</template>
-        <div>
-            <v-input v-model="value" :placeholder="content" class="input"></v-input>
+        <div class="input">
+            <v-input v-model="value" :placeholder="content"></v-input>
         </div>
         <div slot="footer" class="footer">
             <a class="button" @click="cancel">取消</a>
@@ -20,8 +20,8 @@ export default {
     data() {
         return {
             value: '',
-            okCallback: ()=>{},
-            cancelCallback: ()=>{},
+            onOk: ()=>{},
+            onCancel: ()=>{},
             isShow: false,
             title: '提示',
             content: ''
@@ -32,7 +32,7 @@ export default {
         ok() {
             this.isShow = false;
             this.$nextTick(() => {
-                this.okCallback(this.value);
+                this.onOk(this.value);
             });
 
         },
@@ -40,7 +40,7 @@ export default {
         cancel() {
             this.isShow = false;
             this.$nextTick(() => {
-                this.cancelCallback();
+                this.onCancel();
             });
         }
     },
@@ -59,9 +59,9 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-
 .input {
     border: 1px solid $lightest;
+    padding:$gutter/1.2 0;
 }
 
 .footer {
@@ -71,7 +71,7 @@ export default {
     .button {
         user-select: none;
         flex: 1;
-        line-height: .4rem;
+        line-height: $prompt_button_height;
         text-align: center;
     }
     .button:first-child {
