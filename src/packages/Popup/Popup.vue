@@ -76,6 +76,7 @@ export default {
         top: 0;
         left: 0;
         height: 100vh;
+        width:80%;
     }
 
     &__header {
@@ -156,4 +157,37 @@ export default {
         transform: translateY(100%);
     }
 }
+
+
+// 左侧
+.slide-from-left-enter-active {
+    animation: slide-from-left-in $duration;
+}
+
+.slide-from-left-leave-active {
+    animation: slide-from-left-out $duration;
+}
+
+@keyframes slide-from-left-in {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-from-left-out {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
 </style>
