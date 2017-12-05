@@ -57,6 +57,8 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+$panelWidth: 80%;
+
 .atom-popup {
     position: absolute;
     width: 100%;
@@ -71,12 +73,18 @@ export default {
         left: 0;
     }
 
-
     &--from-left {
         top: 0;
         left: 0;
         height: 100vh;
         width:80%;
+    }
+
+    &--from-right {
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width:$panelWidth;
     }
 
     &__header {
@@ -159,7 +167,9 @@ export default {
 }
 
 
-// 左侧
+
+
+// 左侧滑出
 .slide-from-left-enter-active {
     animation: slide-from-left-in $duration;
 }
@@ -187,6 +197,39 @@ export default {
     100% {
         opacity: 0;
         transform: translateX(-100%);
+    }
+}
+
+
+
+// 右侧滑出
+.slide-from-right-enter-active {
+    animation: slide-from-right-in $duration;
+}
+
+.slide-from-right-leave-active {
+    animation: slide-from-right-out $duration;
+}
+
+@keyframes slide-from-right-in {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-from-right-out {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
     }
 }
 

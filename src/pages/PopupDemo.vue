@@ -1,6 +1,6 @@
 <template>
     <v-scroll-view class="fill">
-        <v-popup :is-show.sync="isShow1" :from="from">
+        <v-popup :is-show.sync="isShow" :from="from">
             <v-cell>正常</v-cell>
             <v-cell>困难</v-cell>
             <v-cell>地狱</v-cell>
@@ -8,7 +8,7 @@
             <div class="fill">
                 <v-button type="success" :is-block="true">开始游戏</v-button>
 
-                <v-button :is-ghost="true" :is-block="true" @click="isShow1=false" class="gutter-top">离开</v-button>
+                <v-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</v-button>
             </div>
 
         </v-popup>
@@ -26,6 +26,10 @@
             从左侧打开
         </v-button>
 
+        <v-button :is-ghost="true" :is-block="true" @click="handle('right')" class="gutter-top">
+            从右侧打开
+        </v-button>
+
     </v-scroll-view>
 </template>
 <script>
@@ -39,14 +43,14 @@ export default {
     data() {
         return {
             from: 'top',
-            isShow1: false
+            isShow: false
         };
     },
 
     methods: {
         handle(from){
             this.from = from;
-            this.isShow1 = true;
+            this.isShow = true;
         }
     },
 
