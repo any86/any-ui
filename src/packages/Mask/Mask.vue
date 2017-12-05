@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter" >
+    <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
         <div v-show="isShow" v-dom-portal="portal" @click.self="close" :style="{position, background}" v-on="$listeners" v-bind="$attrs" class="atom-mask">
             <slot></slot>
         </div>
@@ -24,7 +24,7 @@ export default {
             default: 'rgba(0,0,0, 0.618)'
         },
 
-        lock: {
+        isLock: {
             type: Boolean,
             default: false
         },
@@ -49,7 +49,7 @@ export default {
         },
 
         close() {
-            if (!this.lock) {
+            if (!this.isLock) {
                 this.$emit('update:isShow', false);
             }
         }
