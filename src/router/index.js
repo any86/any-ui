@@ -23,6 +23,12 @@ import AlertDemo from '@/pages/AlertDemo';
 import ConfirmDemo from '@/pages/ConfirmDemo';
 import PromptDemo from '@/pages/PromptDemo';
 import PopupDemo from '@/pages/PopupDemo';
+import DialogDemo from '@/pages/DialogDemo';
+import MaskDemo from '@/pages/MaskDemo';
+
+// 容器
+import ScrollViewDemo from '@/pages/ScrollViewDemo';
+
 
 
 export default new Router({
@@ -98,6 +104,18 @@ export default new Router({
             name: 'popup',
             path: '/demos/popup',
             component: PopupDemo
+        },{
+            name: 'dialog',
+            path: '/demos/dialog',
+            component: DialogDemo
+        },{
+            name: 'mask',
+            path: '/demos/mask',
+            component: MaskDemo
+        },{
+            name: 'scrollView',
+            path: '/demos/scroll-view',
+            component: ScrollViewDemo
         },
     ]
 });

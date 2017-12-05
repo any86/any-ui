@@ -109,7 +109,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
-$height: 1rem;
+$height: 55px;
 .atom-tabs {
     position: relative;
     background: $background;

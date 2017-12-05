@@ -51,8 +51,7 @@ $animate_speed: 1000ms;
         border-bottom: 1px solid $lightest;
     }
 }
-.main{height: calc(100% - 55px);}
-
+.main{height: calc(100% - 55px);position: relative;}
 
 //切换动画, 未完, 还没有判断进入和离开方向
 .in-enter {

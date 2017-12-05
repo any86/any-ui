@@ -1,7 +1,7 @@
 <template>
     <header class="atom-header-bar">
         <span class="bar__left">
-            <i v-if="hasArrow" @click="$router.push({path: '/'})" class="icon-back"></i>
+            <i v-if="hasArrow" v-ripple="true" @click="$router.push({path: '/'})" class="icon-back"></i>
             <slot name="left"></slot>
         </span>
         <span class="bar__center">
@@ -27,6 +27,8 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-header-bar {
+    position: relative;
+    z-index: 2;
     display: flex;
     height: 55px;
     line-height: 55px;

@@ -6,14 +6,14 @@
         <v-collapse :is-accordion="isAccordion">
             <v-collapse-item :is-open="true">
                 <template slot="header">
-                    is-accordion?
+                    props: is-accordion
                 </template>
                 设置is-accordion="ture"后, 同时只能打开一个选项卡
             </v-collapse-item>
-            <v-collapse-item title="title属性" :is-open="false">
+            <v-collapse-item title="props: title" :is-open="false">
                 collapse-item标签上设置可设置title/is-open属性
             </v-collapse-item>
-            <v-collapse-item title="slot" :is-open="false">
+            <v-collapse-item title="slot: header" :is-open="false">
                 对了, collapse-item还支持name="header"的slot
             </v-collapse-item>
         </v-collapse>
