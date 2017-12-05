@@ -11,8 +11,8 @@
     </v-dialog>
 </template>
 <script>
-import VDialog from '@/packages/Dialog/Dialog'
-import VInput from '@/packages/Input/Input'
+import VDialog from '@/packages/Dialog/Dialog';
+import VInput from '@/packages/Input/Input';
 
 export default {
     name: 'Prompt',
@@ -20,18 +20,18 @@ export default {
     data() {
         return {
             value: '',
-            onOk: ()=>{},
-            onCancel: ()=>{},
+            onOk: () => {},
+            onCancel: () => {},
             isShow: false,
             title: '提示',
             content: ''
         };
     },
 
-    mounted(){
-        this.$nextTick(()=>{
+    mounted() {
+        this.$nextTick(() => {
             console.dir(this.$refs.input.$el.querySelector('input'));
-        })
+        });
     },
 
     methods: {
@@ -40,7 +40,6 @@ export default {
             this.$nextTick(() => {
                 this.onOk(this.value);
             });
-
         },
 
         cancel() {
@@ -53,26 +52,27 @@ export default {
 
     watch: {
         isShow(value) {
-            const $input = this.$refs.input.$el.querySelector('input');
-            this.$nextTick(()=>{
-                $input.focus();
-            });
-            // console.log(this.$refs.input.$el.querySelector('input'))
-            // 初始化value为空
             if (value) {
+                // 初始化value为空
                 this.value = '';
+
+                // 自动focus
+                const $input = this.$refs.input.$el.querySelector('input');
+                this.$nextTick(() => {
+                    $input.focus();
+                });
             }
         }
     },
 
     components: { VDialog, VInput }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .input {
     border: 1px solid $lightest;
-    padding:$gutter/1.2 0;
+    padding: $gutter/1.2 0;
 }
 
 .footer {
