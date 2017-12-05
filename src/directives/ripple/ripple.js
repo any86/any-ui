@@ -11,7 +11,6 @@ const findRippleContainer = ($el) => {
             break;
         }
     }
-
     return $rippleContainerNode;
 }
 
