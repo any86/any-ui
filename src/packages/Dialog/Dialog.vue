@@ -54,10 +54,6 @@ export default {
     components: {
         VMask,
         VIconClose
-    },
-
-    destroyed() {
-        window.removeEventListener('resize', this.getWindowHeight);
     }
 };
 </script>
