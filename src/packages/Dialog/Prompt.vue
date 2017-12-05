@@ -2,7 +2,7 @@
     <v-dialog :isShow.sync="isShow" :hasClose="false">
         <template slot="header">{{title}}</template>
         <div class="input">
-            <v-input v-model="value" :placeholder="content"></v-input>
+            <v-input ref="input" v-model="value" :placeholder="content"></v-input>
         </div>
         <div slot="footer" class="footer">
             <a class="button" @click="cancel">取消</a>
@@ -28,6 +28,12 @@ export default {
         };
     },
 
+    mounted(){
+        this.$nextTick(()=>{
+            console.dir(this.$refs.input.$el.querySelector('input'));
+        })
+    },
+
     methods: {
         ok() {
             this.isShow = false;
@@ -47,6 +53,11 @@ export default {
 
     watch: {
         isShow(value) {
+            const $input = this.$refs.input.$el.querySelector('input');
+            this.$nextTick(()=>{
+                $input.focus();
+            });
+            // console.log(this.$refs.input.$el.querySelector('input'))
             // 初始化value为空
             if (value) {
                 this.value = '';
