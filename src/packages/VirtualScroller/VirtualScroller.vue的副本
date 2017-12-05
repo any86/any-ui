@@ -1,6 +1,6 @@
 <template>
-    <div class="atom-virtual-scroller" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
-        <div ref="body" :style="style" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="bodyClass" class="atom-virtual-scroller__body">
+    <div class="atom-virtual-scroller">
+        <div ref="body" :style="[{transform: `translate3d(${translateX}px, ${translateY}px, 0)`, transitionDuration: `${transitionDuration}ms`}, bodyStyle]" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="bodyClass" class="atom-virtual-scroller__body">
             <slot></slot>
         </div>
     </div>
@@ -112,22 +112,50 @@ export default {
             maxTranslateX: 0,
             maxTranslateY: 0,
             startTranslateX: 0,
-            startTranslateY: 0
+            startTranslateY: 0,
+            events: [
+                'touchstart',
+                'touchmove',
+                'touchend',
+                'transitionend',
+                'webkitTransitionend'
+            ]
         };
     },
 
     created() {
-        // 初始位置
+        // 初始scroll-body位置
         this.translateX = -this.value.scrollLeft;
         this.translateY = -this.value.scrollTop;
     },
 
     mounted() {
+        this.addEvents(this.isBindBody ? this.$refs.body : this.$el);
         this.updateSize();
         window.addEventListener('resize', this.updateSize);
     },
 
     methods: {
+        /**
+         * 绑定touch系列事件
+         * @argument {Element}
+         */
+        addEvents(el) {
+            this.events.forEach(evnetName => {
+                el.addEventListener(evnetName, this[evnetName], {
+                    passive: !this.preventDefault
+                });
+            });
+        },
+        /**
+         * 解除绑定touch系列事件
+         * @argument {Element}
+         */
+        removeEvents(el) {
+            this.events.forEach(evnetName => {
+                el.removeEventListener(evnetName, this[evnetName]);
+            });
+        },
         /**
          * 获取内容高/宽, 
          * 不加节流, 否者其他使用updateSize方法的实例没法触发, 会被节流掉
@@ -138,10 +166,14 @@ export default {
         updateSize() {
             if (this.isLockY) {
                 this.viewWidth = getWidth(this.$el);
-                this.maxTranslateX = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
+                this.maxTranslateX =
+                    getWidth(this.$refs.body, { isScroll: true }) -
+                    this.viewWidth;
             } else if (this.isLockX) {
                 this.viewHeight = getHeight(this.$el);
-                this.maxTranslateY = getHeight(this.$refs.body, { isScroll: true }) - this.viewHeight;
+                this.maxTranslateY =
+                    getHeight(this.$refs.body, { isScroll: true }) -
+                    this.viewHeight;
             }
         },
 
@@ -156,8 +188,6 @@ export default {
 
             // ========== 计算滑动 ==========
             const point = e.touches ? e.touches[0] : e;
-
-            // 动画时间0
             this.transitionDuration = 0;
 
             // 记录触摸时间
@@ -196,11 +226,13 @@ export default {
             let absDeltaX = Math.abs(deltaX);
 
             // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
-            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
+            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX)
+                return;
 
             // ========== 计算滑动 ==========
             if (!this.isLockX && this.isLockY) {
                 // X轴可拖拽
+
                 // 如果x轴向移动没超过y轴+阈值[停止运行]
                 if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
 
@@ -209,18 +241,22 @@ export default {
 
                 // 超出边界减慢拖拽移动速度
                 this.moveRatio = this.isOutOfXLimit ? 0.3 : 1;
-                this.translateX = this.startTranslateX + deltaX * this.moveRatio;
+                this.translateX =
+                    this.startTranslateX + deltaX * this.moveRatio;
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
                 if (absDeltaY < absDeltaX + this.directionLockThreshold) return;
                 if (!this.isOverflowY) return;
                 this.moveRatio = this.isOutOfYLimit ? 0.3 : 1;
-                this.translateY = this.startTranslateY + deltaY * this.moveRatio;
+                this.translateY =
+                    this.startTranslateY + deltaY * this.moveRatio;
             } else {
                 // 自由移动, 最上面已经对禁用移动判断过了
                 this.moveRatio = 1;
-                this.translateX = this.startTranslateX + deltaX * this.moveRatio;
-                this.translateY = this.startTranslateY + deltaY * this.moveRatio;
+                this.translateX =
+                    this.startTranslateX + deltaX * this.moveRatio;
+                this.translateY =
+                    this.startTranslateY + deltaY * this.moveRatio;
             }
 
             // 当手指一直按住突然拖动, 那么重置起始值
@@ -306,6 +342,7 @@ export default {
 
                 if (absDeltaY < absDeltaX + this.directionLockThreshold) {
                 } else if (0.02 > Math.abs(speedY)) {
+                    
                 } else if (this.maxHolderTime > costTime) {
                     this.translateY += speedY * 500;
                 }
@@ -333,10 +370,6 @@ export default {
     },
 
     computed: {
-        style() {
-            return [{ transform: `translate3d(${this.translateX}px, ${this.translateY}px, 0)`, transitionDuration: `${this.transitionDuration}ms` }, this.bodyStyle];
-        },
-
         isOverflowX() {
             return 0 < this.maxTranslateX;
         },
@@ -388,12 +421,17 @@ export default {
             deep: true,
             handler(value) {
                 // if (!this.isBufferMoving) {
-                // this.transitionDuration = 500;
+                this.transitionDuration = 500;
                 this.translateY = -value.scrollTop;
                 this.translateX = -value.scrollLeft;
                 // }
             }
         }
+    },
+
+    beforeDestroy() {
+        window.removeEventListener('resize', this.updateSize);
+        this.removeEvents(this.isBindBody ? this.$refs.body : this.$el);
     }
 };
 </script>

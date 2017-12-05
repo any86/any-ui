@@ -13,7 +13,7 @@
                 <v-cell @click="$router.push({'path': '/demos/button'})">Button</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/button-group'})">ButtonGroup</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/range'})">Range</v-cell>
-
+                <v-cell @click="$router.push({'path': '/demos/picker'})">Picker</v-cell>
             </v-collapse-item>
 
             <v-collapse-item title="对话框">
@@ -27,6 +27,7 @@
 
             <v-collapse-item title="容器">
                 <v-cell @click="$router.push({'path': '/demos/scroll-view'})">ScrollView</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/virtual-scroller'})">VirtualScroller</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/draw'})">Draw</v-cell>
             </v-collapse-item>
 
@@ -37,7 +38,7 @@
             </v-collapse-item>
 
             <v-collapse-item title="切换">
-                <v-cell @click="$router.push({'path': '/demos/tabs'})">tabs</v-cell>
+                <v-cell @click="$router.push({'path': '/demos/tabs'})">Tabs</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/collapse'})">Collapse</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/carousel'})">Carousel</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/segment'})">Segment</v-cell>

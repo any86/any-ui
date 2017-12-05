@@ -1,3 +1,3 @@
-import TabBar from './TabBar';
-import TabBarItem from './TabBarItem';
-export {TabBar, TabBarItem};
+import Tabs from './Tabs';
+import TabsItem from './TabsItem';
+export {Tabs, TabsItem};

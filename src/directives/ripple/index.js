@@ -4,7 +4,7 @@ const updateRipple = (el, binding) => {
     // 默认值
     let opts = {
         duration: 1000,
-        opacity: 0.3,
+        opacity: 0.2,
         disabled: false
     };
     // 合并参数

@@ -8,6 +8,7 @@
     outline: none;
     .ripple{
         position: relative;
+        transition-timing-function: ease-in-out;
         &--ready {
             transform: scale(0);
         }

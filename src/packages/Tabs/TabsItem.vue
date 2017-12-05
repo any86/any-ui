@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import { getWidth } from '@/utils/dom'
+import { getWidth } from '@/utils/dom';
 export default {
     name: 'TabsItem',
 
@@ -14,18 +14,12 @@ export default {
         };
     },
 
-    beforeMount() {
-        // 此时还没有$el
-        // syslog(this.$el)
-    },
-
     mounted() {
         const width = getWidth(this.$el);
         this.index = this.$parent.$parent.count;
         this.$parent.$parent.count++;
         this.$parent.$parent.itemWidthList.push(width);
-        this.$parent.$parent.countWidth+= width;
-        
+        this.$parent.$parent.countWidth += width;
     },
 
     methods: {
@@ -34,7 +28,7 @@ export default {
             this.$parent.$parent.$emit('input', this.index);
         }
     }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';

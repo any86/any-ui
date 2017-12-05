@@ -28,8 +28,7 @@ import MaskDemo from '@/pages/MaskDemo';
 
 // 容器
 import ScrollViewDemo from '@/pages/ScrollViewDemo';
-
-
+import VirtualScrollerDemo from '@/pages/VirtualScrollerDemo';
 
 export default new Router({
     // mode: "history",
@@ -116,6 +115,10 @@ export default new Router({
             name: 'scrollView',
             path: '/demos/scroll-view',
             component: ScrollViewDemo
+        },{
+            name: 'virtual-scroller',
+            path: '/demos/virtual-scroller',
+            component: VirtualScrollerDemo
         },
     ]
 });
