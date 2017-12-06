@@ -5,7 +5,8 @@ const updateRipple = (el, binding) => {
     let opts = {
         duration: 1000,
         opacity: 0.2,
-        disabled: false
+        disabled: false,
+        stop: false,
     };
     // 合并参数
     // 支持Boolean/Undefined/Object
@@ -19,6 +20,7 @@ const updateRipple = (el, binding) => {
     // opts存储到dataset
     if (undefined !== opts.background) el.dataset.rippleBackground = opts.background;
     el.dataset.rippleDuration = undefined === opts.duration ? duration : opts.duration;
+    el.dataset.rippleStop = opts.stop;
     el.dataset.rippleOpacity = opts.opacity;
     el.dataset.rippleDisabled = opts.disabled;
     el.dataset.rippleTimer = el.dataset.rippleTimer || null;
