@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-virtual-scroller" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+    <div @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="atom-virtual-scroller">
         <div ref="body" :style="style" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="bodyClass" class="atom-virtual-scroller__body">
             <slot></slot>
         </div>
@@ -8,6 +8,7 @@
 <script>
 import { getHeight, getWidth, getTime } from '@/utils/dom';
 import debounce from 'lodash/debounce';
+const DURATION = 500;
 export default {
     name: 'VirtualScroller',
 
@@ -35,7 +36,7 @@ export default {
 
         preventDefault: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         value: {
@@ -97,8 +98,7 @@ export default {
 
     data() {
         return {
-            isBufferMoving: false,
-            moveRatio: 1,
+            isMoving: false,
             speed: 0,
             startTime: 0,
             endTime: 0,
@@ -112,7 +112,8 @@ export default {
             maxTranslateX: 0,
             maxTranslateY: 0,
             startTranslateX: 0,
-            startTranslateY: 0
+            startTranslateY: 0,
+            moveRatio: 1
         };
     },
 
@@ -138,10 +139,8 @@ export default {
         updateSize() {
             if (this.isLockY) {
                 this.viewWidth = getWidth(this.$el);
-                this.maxTranslateX = getWidth(this.$refs.body, { isScroll: true }) - this.viewWidth;
             } else if (this.isLockX) {
                 this.viewHeight = getHeight(this.$el);
-                this.maxTranslateY = getHeight(this.$refs.body, { isScroll: true }) - this.viewHeight;
             }
         },
 
@@ -170,7 +169,6 @@ export default {
             // 记录滑动当前translate信息
             this.startTranslateY = this.translateY;
             this.startTranslateX = this.translateX;
-
             // 定义组件事件
             this.$emit('scroll-start', { ...this.moveData, e });
         },
@@ -180,49 +178,36 @@ export default {
             this.preventDefault && e.preventDefault();
             // 禁用touch事件[停止运行]
             if (this.isDisableTouch) return;
-
             // x/y都lock了[停止运行]
             if (this.isLockX && this.isLockY) return;
-
             const now = getTime();
             // 这句没看懂iscroll的意图, 先直接拿过来[停止运行]
             // if(300 < now - this.endTime) return;
-
             // 基础位置数据
             const point = e.touches ? e.touches[0] : e;
-            let deltaY = point.pageY - this.startPointY;
-            let deltaX = point.pageX - this.startPointX;
-            let absDeltaY = Math.abs(deltaY);
-            let absDeltaX = Math.abs(deltaX);
+            const deltaY = point.pageY - this.startPointY;
+            const deltaX = point.pageX - this.startPointX;
+            const absDeltaY = Math.abs(deltaY);
+            const absDeltaX = Math.abs(deltaX);
 
             // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
             if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
-
             // ========== 计算滑动 ==========
+
             if (!this.isLockX && this.isLockY) {
                 // X轴可拖拽
-                // 如果x轴向移动没超过y轴+阈值[停止运行]
                 if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
-
-                // 如果X轴向内容没有溢出[停止运行]
-                if (!this.isOverflowX) return;
-
-                // 超出边界减慢拖拽移动速度
-                this.moveRatio = this.isOutOfXLimit ? 0.3 : 1;
+                // X位移
                 this.translateX = this.startTranslateX + deltaX * this.moveRatio;
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
                 if (absDeltaY < absDeltaX + this.directionLockThreshold) return;
-                if (!this.isOverflowY) return;
-                this.moveRatio = this.isOutOfYLimit ? 0.3 : 1;
+                // Y位移
                 this.translateY = this.startTranslateY + deltaY * this.moveRatio;
             } else {
-                // 自由移动, 最上面已经对禁用移动判断过了
-                this.moveRatio = 1;
                 this.translateX = this.startTranslateX + deltaX * this.moveRatio;
                 this.translateY = this.startTranslateY + deltaY * this.moveRatio;
             }
-
             // 当手指一直按住突然拖动, 那么重置起始值
             if (this.maxHolderTime < now - this.startTime) {
                 this.startTime = now;
@@ -231,28 +216,50 @@ export default {
                 this.startTranslateY = this.translateY;
                 this.startTranslateX = this.translateX;
             }
-            // 派发组件事件
-            this.$emit('input', {
-                scrollTop: -this.translateY,
-                scrollLeft: -this.translateX
-            });
-            this.$emit('scroll-move', { ...this.moveData, e });
+            // // 派发组件事件
+            // this.$emit('input', {
+            //     scrollTop: -this.translateY,
+            //     scrollLeft: -this.translateX
+            // });
+            // this.$emit('scroll-move', { ...this.moveData, e });
         },
 
         touchend(e) {
             e.stopPropagation();
             this.preventDefault && e.preventDefault();
-            // 禁用touch事件
+            // // 禁用touch事件
             if (this.isDisableTouch) return;
-            this.transitionDuration = 500;
+            this.transitionDuration = DURATION;
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
+            const timeDiff = this.endTime - this.startTime;
 
-            // 缓冲运动
-            if (this.hasBufferMove) {
-                this.bufferMove(point);
-                // 派发事件
-                this.$emit('scroll-buffer', true);
+            if (!this.isLockY) {
+                const translateYDiff = this.translateY - this.startTranslateY;
+                // 150ms内的快速滑动才有缓冲动画
+                if (150 > timeDiff) {
+                    // log(this.translateY, timeDiff, translateYDiff)
+                    this.translateY = this.translateY + timeDiff / 10 * translateYDiff;
+                }
+                // 复位
+                if (this.maxTranslateY < this.translateY) {
+                    this.translateY = this.maxTranslateY;
+                } else if (this.minTranslateY > this.translateY) {
+                    this.translateY = this.minTranslateY;
+                }
+            } else if (!this.isLockX) {
+                const translateXDiff = this.translateX - this.startTranslateX;
+                // 150ms内的快速滑动才有缓冲动画
+                if (150 > timeDiff) {
+                    // log(this.translateY, timeDiff, translateYDiff)
+                    this.translateX = this.translateX + timeDiff / 10 * translateXDiff;
+                }
+                // 复位
+                if (this.maxTranslateX < this.translateX) {
+                    this.translateX = this.maxTranslateX;
+                } else if (this.minTranslateX > this.translateX) {
+                    this.translateX = this.minTranslateX;
+                }
             }
 
             // 派发事件
@@ -260,75 +267,21 @@ export default {
                 scrollTop: -this.translateY,
                 scrollLeft: -this.translateX
             });
-            this.$emit('scroll-leave', { ...this.moveData, e });
+            // this.$emit('scroll-leave', { ...this.moveData, e });
         },
 
         transitionend() {
-            if (this.isDisableTouch) return;
-            if (this.hasBufferMove) {
-                this.$emit('scroll-buffer', false);
-            }
-            this.$nextTick(() => {
-                this.isBufferMoving = false;
-                this.$emit('scroll-end', {
-                    scrollTop: -this.translateY,
-                    scrollLeft: -this.translateX
-                });
-            });
-        },
-        /**
-         * 开启缓冲运动
-         */
-        bufferMove(point) {
-            const costTime = this.endTime - this.startTime;
-            const deltaX = point.pageX - this.startPointX;
-            const deltaY = point.pageY - this.startPointY;
-            const absDeltaX = Math.abs(deltaX);
-            const absDeltaY = Math.abs(deltaY);
-
-            this.isBufferMoving = true;
-            if (!this.isLockX && this.isLockY) {
-                // X轴可拖拽
-                if (absDeltaX > absDeltaY + this.directionLockThreshold) {
-                    this.hasReset && this.resetX();
-                    return;
-                }
-                // 缓冲滑动
-                if (this.maxHolderTime > costTime) {
-                    const speedX = deltaX / costTime;
-                    this.translateX += speedX * 500;
-                }
-                // 自动复位到最近的边缘
-                this.hasReset && this.resetX();
-            } else if (this.isLockX && !this.isLockY) {
-                // Y轴可拖拽, 前提是Y的移动增量要大于X轴移动增量和阈值的和
-                const speedY = deltaY / costTime;
-
-                if (absDeltaY < absDeltaX + this.directionLockThreshold) {
-                } else if (0.02 > Math.abs(speedY)) {
-                } else if (this.maxHolderTime > costTime) {
-                    this.translateY += speedY * 500;
-                }
-                this.hasReset && this.resetY();
-            }
-        },
-
-        resetX() {
-            if (0 < this.translateX) {
-                // 向下拉
-                this.translateX = 0;
-            } else if (this.maxTranslateX < 0 - this.translateX) {
-                // 向上拉
-                this.translateX = 0 - this.maxTranslateX;
-            }
-        },
-
-        resetY() {
-            if (0 < this.translateY) {
-                this.translateY = 0;
-            } else if (this.maxTranslateY < 0 - this.translateY) {
-                this.translateY = 0 - this.maxTranslateY;
-            }
+            // if (this.isDisableTouch) return;
+            // if (this.hasBufferMove) {
+            //     this.$emit('scroll-buffer', false);
+            // }
+            // this.$nextTick(() => {
+            //     this.isBufferMoving = false;
+            //     this.$emit('scroll-end', {
+            //         scrollTop: -this.translateY,
+            //         scrollLeft: -this.translateX
+            //     });
+            // });
         }
     },
 
@@ -337,37 +290,20 @@ export default {
             return [{ transform: `translate3d(${this.translateX}px, ${this.translateY}px, 0)`, transitionDuration: `${this.transitionDuration}ms` }, this.bodyStyle];
         },
 
-        isOverflowX() {
-            return 0 < this.maxTranslateX;
+        /**
+         * minTranslateY为负值
+         */
+        minTranslateY() {
+            return this.viewHeight - getHeight(this.$refs.body, { isScroll: true });
         },
 
-        isOverflowY() {
-            return 0 < this.maxTranslateY;
+        /**
+         * minTranslateX为负值
+         */
+        minTranslateX() {
+            return this.viewWidth - getWidth(this.$refs.body, { isScroll: true });
         },
 
-        isOutOfTopLimit() {
-            return 0 < this.translateY;
-        },
-
-        isOutOfBottomLimit() {
-            return this.maxTranslateY < 0 - this.translateY;
-        },
-
-        isOutOfLeftLimit() {
-            return 0 < this.translateX;
-        },
-
-        isOutOfRightLimit() {
-            return this.maxTranslateX < 0 - this.translateX;
-        },
-
-        isOutOfXLimit() {
-            return this.isOutOfRightLimit || this.isOutOfLeftLimit;
-        },
-
-        isOutOfYLimit() {
-            return this.isOutOfTopLimit || this.isOutOfBottomLimit;
-        },
         /**
          * 运动数据
          */
@@ -384,14 +320,32 @@ export default {
     },
 
     watch: {
+        translateY(translateY) {
+            if (this.maxTranslateY < translateY) {
+                this.moveRatio = 0.3;
+            } else if (this.minTranslateY > translateY) {
+                this.moveRatio = 0.3;
+            } else {
+                this.moveRatio = 1;
+            }
+        },
+
+        translateX(translateX) {
+            if (this.maxTranslateX < translateX) {
+                this.moveRatio = 0.3;
+            } else if (this.minTranslateX > translateX) {
+                this.moveRatio = 0.3;
+            } else {
+                this.moveRatio = 1;
+            }
+        },
+
         value: {
             deep: true,
             handler(value) {
-                // if (!this.isBufferMoving) {
-                // this.transitionDuration = 500;
-                this.translateY = -value.scrollTop;
+                this.transitionDuration = DURATION;
                 this.translateX = -value.scrollLeft;
-                // }
+                this.translateY = -value.scrollTop;
             }
         }
     }
@@ -413,8 +367,8 @@ export default {
         position: relative;
         width: 100%;
         user-select: none;
-        transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-        transition-duration: 0ms;
+        transition-timing-function: ease-in-out;
+        /* transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); */
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         .table {
             /* 没有display: table, 子元素的子元元素没法撑起其父元素的宽度 */
