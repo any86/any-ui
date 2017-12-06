@@ -267,6 +267,7 @@ export default {
                 scrollTop: -this.translateY,
                 scrollLeft: -this.translateX
             });
+            console.log('touch-end')
             // this.$emit('scroll-leave', { ...this.moveData, e });
         },
 

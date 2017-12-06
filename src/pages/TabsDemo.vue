@@ -11,8 +11,6 @@
     </v-infinite-scroll>
 </template>
 <script>
-import Mock from 'mockjs';
-import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
 import VAffix from '@/packages/Affix/Affix';
 import VTabs from '@/packages/Tabs/Tabs';
 import VTabsItem from '@/packages/Tabs/TabsItem';

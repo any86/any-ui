@@ -1,5 +1,5 @@
 <template>
-    <div @click.stop="showHidden($event)" class="atom-tabs">
+    <div class="atom-tabs">
         <virtual-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->
@@ -48,6 +48,7 @@ export default {
         */
         showHidden() {
             const prevIndex = this.activeIndex - 1;
+            
             if (1 <= prevIndex) {
                 // 获取前一项的距离左边距的距离 == 前一项的前面项的width和
                 let countWidth = this.countRightWidthByIndex(prevIndex - 1);
