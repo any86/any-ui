@@ -91,6 +91,7 @@ $height: 0.5rem;
         background-position: center center;
         background-repeat: no-repeat;
         background-size: 60%;
+        transition: background $duration;
         &--disabled {
             background-color: $lightest;
         }
