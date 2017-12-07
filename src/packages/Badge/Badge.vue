@@ -75,9 +75,9 @@ $dotSize: 8px;
         font-size: $small;
         &--fixed {
             position: absolute;
-            top: 0;
+            top: -5px;
             transform: translate(100%, 0);
-            right: 10px;
+            right: 0;
         }
     }
 }
