@@ -8,9 +8,15 @@ export default {
     name: 'PickerDemo',
 
     data() {
+        let data2 = [];
+        let i = 0;
+        while(i <= 12) {
+            i++;
+            data2.push({value: i, label: i + '月份'});
+        }
         return {
             data1: [{ value: 1, label: '休息' }, { value: 2, label: '出差' }],
-            data2: [{ value: 1, label: '公交' }, { value: 2, label: '火车' }],
+            data2: data2,
             value: [1, 2]
         };
     },
