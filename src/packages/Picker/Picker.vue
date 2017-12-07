@@ -133,6 +133,7 @@ export default {
     overflow: hidden;
     display: flex;
     &__graticule {
+        pointer-events: none;
         position: absolute;
         top: 0;
         left: 0;

@@ -21,7 +21,7 @@
                 <v-input v-model="pos2.scrollTop"></v-input>
             </v-cell>
             <virtual-scroller v-model="pos2" class="border-bottom">
-                <div v-for="n in 20" :key="n" class="cell fill">第{{n}}行信息
+                <div v-for="n in 70" :key="n" class="cell fill">第{{n}}行信息
                 </div>
             </virtual-scroller>
         </section>
