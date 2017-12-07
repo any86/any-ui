@@ -32,6 +32,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+$height:55px;
 .atom-tabs__item {
     // 有剩余空间是否自动占满
     flex-grow: 1; // 空间不够是否缩小

@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-tabs">
+    <div :class="{'atom-tabs--more-in-right': hasItemsInRight, 'atom-tabs--more-in-left': hasItemsInLeft}" class="atom-tabs">
         <virtual-scroller v-model="tabPos" :prevent-default="false" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->
@@ -31,7 +31,7 @@ export default {
             activeIndex: 0,
             tabPos: { scrollLeft: 0, scrollTop: 0 },
             stateBarStyle: { position: 'absolute', bottom: 0 },
-            isDisableTouch: true, // 少量选项的时候关闭拖拽
+            isDisableTouch: true // 少量选项的时候关闭拖拽
         };
     },
 
@@ -73,8 +73,8 @@ export default {
             // 让当前item居中显示
             if (this.isLeftHidden || this.isRightHidden) {
                 this.tabPos.scrollLeft = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
-            } 
-        
+            }
+
             // 边界处理
             if (0 > this.tabPos.scrollLeft) {
                 this.tabPos.scrollLeft = 0;
@@ -88,9 +88,9 @@ export default {
         /**
          * 否右当前item右侧被遮挡
          */
-        isRightHidden(){
+        isRightHidden() {
             return this.warpWidth + this.tabPos.scrollLeft < this.indicatorTranslateX + this.itemWidthList[this.activeIndex];
-        },  
+        },
 
         /**
          * 否右当前item左侧被遮挡
@@ -98,16 +98,35 @@ export default {
         isLeftHidden() {
             return this.tabPos.scrollLeft > this.indicatorTranslateX;
         },
-
+        /**
+         * 状态条scrollTop
+         * 其实就是当前item左边的距离
+         */
         indicatorTranslateX() {
             return this.countLeftItemWidth(this.activeIndex);
+        },
+
+        /**
+         * 右侧有item被遮挡
+         */
+        hasItemsInRight() {
+            return this.tabPos.scrollLeft + this.warpWidth < this.countWidth;
+        },
+
+        /**
+         * 左侧有item被遮挡
+         */
+        hasItemsInLeft() {
+            return 0 < this.tabPos.scrollLeft;
         }
     },
 
     watch: {
         value(index, oldIndex) {
             this.activeIndex = index;
-            this.scrollIntoView();
+            if (this.countWidth > this.warpWidth) {
+                this.scrollIntoView();
+            }
             this.$emit('input', index);
         }
     },
@@ -123,6 +142,33 @@ $height: 55px;
     background: $background;
     width: 100%;
     border-bottom: 1px solid $lightest;
+    &--more-in-right {
+        &:before {
+            pointer-events: none;
+            content: '';
+            height: 100%;
+            width: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 3;
+            background: linear-gradient(left, rgba(#fff, 1), rgba($primary, 0));
+        }
+    }
+    &--more-in-left {
+        &:after {
+            pointer-events: none;
+            content: '';
+            height: 100%;
+            width: 50px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 3;
+            background: linear-gradient(right, rgba(#fff, 1), rgba($primary, 0));
+        }
+    }
+
     &__state-bar {
         position: absolute;
         z-index: 2;
