@@ -1,6 +1,6 @@
 <template>
     <div class="atom-tabs">
-        <virtual-scroller v-model="tabPos" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
+        <virtual-scroller v-model="tabPos" :prevent-default="false" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->
             <div class="atom-tabs__state-bar">
@@ -31,7 +31,7 @@ export default {
             activeIndex: 0,
             tabPos: { scrollLeft: 0, scrollTop: 0 },
             stateBarStyle: { position: 'absolute', bottom: 0 },
-            isDisableTouch: true // 少量选项的时候关闭拖拽
+            isDisableTouch: true, // 少量选项的时候关闭拖拽
         };
     },
 
@@ -43,61 +43,72 @@ export default {
 
     methods: {
         /**
-        * 通过控制滚动条, 显示边缘的隐藏项 
-        * @argument {Event} 
-        */
-        showHidden() {
-            const prevIndex = this.activeIndex - 1;
-            
-            if (1 <= prevIndex) {
-                // 获取前一项的距离左边距的距离 == 前一项的前面项的width和
-                let countWidth = this.countRightWidthByIndex(prevIndex - 1);
-                // 判断前一项是否完全可见, 不能有部分被遮挡
-                // 判断后一项是否完全可见
-                if (countWidth < this.tabPos.scrollLeft) {
-                    this.tabPos.scrollLeft = countWidth;
-                } else {
-                    const nextIndex = this.activeIndex + 1;
-                    // 是否有下一项
-                    if (nextIndex < this.count) {
-                        let countWidth = this.countRightWidthByIndex(nextIndex);
-                        // 下一项是否被隐藏
-                        if (countWidth > this.tabPos.scrollLeft + this.warpWidth) {
-                            this.tabPos.scrollLeft = countWidth - this.warpWidth;
-                        }
-                    }
-                }
-            }
-        },
-
-        countRightWidthByIndex(index) {
+         * 计算左边item的宽度总和
+         * @augments {Number} 
+         */
+        countLeftItemWidth(index) {
             let countWidth = 0;
-            if (0 < index) {
-                for (var i in this.itemWidthList) {
-                    countWidth += this.itemWidthList[i];
-                    if (i == index) break;
-                }
+            for (let i = 0; i < index; i++) {
+                countWidth += this.itemWidthList[i];
             }
             return countWidth;
+        },
+
+        /**
+         * 计算右边item的宽度总和
+         * @augments {Number} 
+         */
+        countRightItemWidth(index) {
+            let countWidth = 0;
+            for (let i = index + 1; i < index; i++) {
+                countWidth += this.itemWidthList[i];
+            }
+            return countWidth;
+        },
+
+        /**
+         * 当点击不完全显示的item时, 自动滑动以便显示完整
+         */
+        scrollIntoView() {
+            // 让当前item居中显示
+            if (this.isLeftHidden || this.isRightHidden) {
+                this.tabPos.scrollLeft = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
+            } 
+        
+            // 边界处理
+            if (0 > this.tabPos.scrollLeft) {
+                this.tabPos.scrollLeft = 0;
+            } else if (this.countWidth - this.warpWidth < this.tabPos.scrollLeft) {
+                this.tabPos.scrollLeft = this.countWidth - this.warpWidth;
+            }
         }
     },
 
     computed: {
+        /**
+         * 否右当前item右侧被遮挡
+         */
+        isRightHidden(){
+            return this.warpWidth + this.tabPos.scrollLeft < this.indicatorTranslateX + this.itemWidthList[this.activeIndex];
+        },  
+
+        /**
+         * 否右当前item左侧被遮挡
+         */
+        isLeftHidden() {
+            return this.tabPos.scrollLeft > this.indicatorTranslateX;
+        },
+
         indicatorTranslateX() {
-            let translateX = 0;
-            for (var i in this.itemWidthList) {
-                if (this.activeIndex == i) break;
-                translateX += this.itemWidthList[i];
-            }
-            return translateX;
+            return this.countLeftItemWidth(this.activeIndex);
         }
     },
 
     watch: {
-        value(value) {
-            this.activeIndex = value;
-            this.showHidden();
-            this.$emit('input', value);
+        value(index, oldIndex) {
+            this.activeIndex = index;
+            this.scrollIntoView();
+            this.$emit('input', index);
         }
     },
 
