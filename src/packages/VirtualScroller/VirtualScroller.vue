@@ -221,7 +221,7 @@ export default {
                 this.startTranslateY = this.translateY;
                 this.startTranslateX = this.translateX;
             }
-            // // 派发组件事件
+            // 派发组件事件
             // this.$emit('input', {
             //     scrollTop: -this.translateY,
             //     scrollLeft: -this.translateX
@@ -273,7 +273,7 @@ export default {
                 scrollLeft: -this.translateX
             });
             // console.log('touch-end')
-            // this.$emit('scroll-leave', { ...this.moveData, e });
+            this.$emit('scroll-leave', { ...this.moveData, e });
         },
 
         transitionend() {

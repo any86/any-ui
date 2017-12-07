@@ -6,7 +6,7 @@
             <v-cell>地狱</v-cell>
 
             <div class="fill">
-                <v-button type="success" :is-block="true">开始游戏</v-button>
+                <v-button type="primary" :is-block="true">开始游戏</v-button>
 
                 <v-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</v-button>
             </div>

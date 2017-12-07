@@ -6,7 +6,6 @@
                 <v-cell @click="$router.push({'path': '/demos/switch'})">Switch</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/radio'})">Radio</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/checkbox'})">Checkbox</v-cell>
-                <v-cell @click="$router.push({'path': '/demos/picker'})">Picker</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/count'})">Count</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/input'})">Input</v-cell>
                 <v-cell @click="$router.push({'path': '/demos/textarea'})">Textarea</v-cell>
