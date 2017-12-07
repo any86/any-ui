@@ -39,6 +39,11 @@ export default {
             default: true
         },
 
+        stopPropagation: {
+            type: Boolean,
+            default: false
+        },
+
         value: {
             type: Object,
             default: () => ({ scrollLeft: 0, scrollTop: 0 }) // 注意返回对象, 要用括号包起来
@@ -146,7 +151,7 @@ export default {
 
         touchstart(e) {
             // stopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
-            e.stopPropagation();
+            this.stopPropagation && e.stopPropagation();
             // 阻止浏览器默认行为
             this.preventDefault && e.preventDefault();
 
@@ -174,7 +179,7 @@ export default {
         },
 
         touchmove(e) {
-            e.stopPropagation();
+            this.stopPropagation && e.stopPropagation();
             this.preventDefault && e.preventDefault();
             // 禁用touch事件[停止运行]
             if (this.isDisableTouch) return;
@@ -225,7 +230,7 @@ export default {
         },
 
         touchend(e) {
-            e.stopPropagation();
+            this.stopPropagation && e.stopPropagation();
             this.preventDefault && e.preventDefault();
             // // 禁用touch事件
             if (this.isDisableTouch) return;
@@ -267,7 +272,7 @@ export default {
                 scrollTop: -this.translateY,
                 scrollLeft: -this.translateX
             });
-            console.log('touch-end')
+            // console.log('touch-end')
             // this.$emit('scroll-leave', { ...this.moveData, e });
         },
 
