@@ -30,6 +30,10 @@ import MaskDemo from '@/pages/MaskDemo';
 import ScrollViewDemo from '@/pages/ScrollViewDemo';
 import VirtualScrollerDemo from '@/pages/VirtualScrollerDemo';
 
+// 
+import TabsDemo from '@/pages/TabsDemo';
+
+
 export default new Router({
     // mode: "history",
     routes: [
@@ -119,6 +123,11 @@ export default new Router({
             name: 'virtual-scroller',
             path: '/demos/virtual-scroller',
             component: VirtualScrollerDemo
+        },{
+            name: 'tabs',
+            path: '/demos/tabs',
+            component: TabsDemo
         },
+        
     ]
 });

@@ -1,6 +1,5 @@
-window.log = (...val) => console.log.apply(null, val);
-window.info = (...val) => console.info.apply(null, val);
-window.dir = (...val) => console.dir.apply(null, val);
+window.log = console.log;
+window.dir = console.dir;
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';

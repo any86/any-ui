@@ -1,5 +1,5 @@
 <template>
-    <div v-ripple="{stop: false}" @touchstart="select" :class="['atom-tabs__item', index == $parent.$parent.activeIndex && 'atom-tabs__item--active']">
+    <div v-ripple @click="select" :class="['atom-tabs__item', index == $parent.$parent.activeIndex && 'atom-tabs__item--active']">
         <slot></slot>
     </div>
 </template>
@@ -32,6 +32,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
+$height:55px;
 .atom-tabs__item {
     // 有剩余空间是否自动占满
     flex-grow: 1; // 空间不够是否缩小

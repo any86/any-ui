@@ -15,7 +15,10 @@
                 </footer>
             </div>
         </transition>
-        <v-icon-close v-if="hasClose" @click="close" class="button-close"></v-icon-close>
+
+        <transition name="fadeDown">
+            <v-icon-close v-if="hasClose && isShow" @click="close" class="button-close"></v-icon-close>
+        </transition>
     </v-mask>
 </template>
 <script>

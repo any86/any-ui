@@ -1,68 +1,47 @@
 <template>
-    <v-infinite-scroll v-model="scrollTop">
-        <v-tabs v-model="index">
-            <v-tabs-item v-for="text in tabs.list" :key="text">{{text}}</v-tabs-item>
+    <main>
+        <v-tabs v-model="index1">
+            <v-tabs-item>详情</v-tabs-item>
+            <v-tabs-item>
+                <v-badge value="5">评论</v-badge>
+            </v-tabs-item>
+            <v-tabs-item>规格</v-tabs-item>
+            <v-tabs-item>认证</v-tabs-item>
         </v-tabs>
 
-        <v-popup v-model="isShow">
-            <v-cell><button class="button button-danger">xxx xxx</button></v-cell>
-            <v-cell v-for="n in 10" :key="n">{{n}}</v-cell>
-        </v-popup>
-    </v-infinite-scroll>
+        <v-tabs v-model="index2" class="gutter-top">
+            <v-tabs-item>
+                <v-badge>国内</v-badge>
+            </v-tabs-item>
+            <v-tabs-item v-for="text in list2" :key="text">{{text}}</v-tabs-item>
+        </v-tabs>
+    </main>
 </template>
 <script>
-import VAffix from '@/packages/Affix/Affix';
 import VTabs from '@/packages/Tabs/Tabs';
 import VTabsItem from '@/packages/Tabs/TabsItem';
-import VCell from '@/packages/Cell/Cell';
-import VPopup from '@/packages/Popup/Popup';
+import VBadge from '@/packages/Badge/Badge';
 
 export default {
     name: 'TabsDemo',
 
     data() {
         return {
-            scrollTop: 0,
-            tabs: Mock.mock({
-                'list|2': ['@province()']
-            }),
-            isShow: true,
-            index: 0
+            index1: 0,
+            index2: 1,
+            list2: ['科技', '政治', '娱乐', '汽车', '电影', '音乐', '游戏', '天气', '直播', '微博', '微信', '生活常识', '怀孕', '养生', '计算机', '宠物', '时尚', '演员', '话剧', '非常6+1']
         };
     },
 
     methods: {},
 
     components: {
-        VInfiniteScroll,
-        VCell,
         VTabs,
         VTabsItem,
-        VAffix,
-        VPopup
+        VBadge
     }
 };
 </script>
 <style scoped lang="scss">
 @import '../scss/theme.scss';
-.swiper-item {
-    height: 300px;
-    &:nth-child(2n + 1) {
-        background: $info;
-    }
-
-    &:nth-child(2n) {
-        background: $success;
-    }
-}
-
-.item {
-    &:nth-child(2n + 1) {
-        background: $white;
-    }
-
-    &:nth-child(2n) {
-        background: $lightest;
-    }
-}
 </style>

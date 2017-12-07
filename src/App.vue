@@ -1,7 +1,6 @@
 <template>
     <v-drawer v-model="isShowDrawer" :handler-width="10" mode="overlay">
-
-        <ul class="menu" slot="side">
+        <ul class="app-menu" slot="side">
             <v-q-r-code></v-q-r-code>
             <router-link tag="li" :to="{path: '/index'}">What's New
             </router-link>
@@ -14,8 +13,8 @@
         </ul>
 
         <v-header-bar :has-arrow="'index' !== $route.name">Atom-UI</v-header-bar>
-        <main class="main">
-            <transition :name="'zoom'">
+        <main class="app-main">
+            <transition name="zoom" mode="out-in">
                 <router-view></router-view>
             </transition>
         </main>
@@ -42,57 +41,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$animate_speed: 1000ms;
 @import './scss/theme.scss';
-
-.menu {
+.app-menu {
     li {
         padding: $gutter;
         border-bottom: 1px solid $lightest;
     }
 }
-.main{height: calc(100% - 55px);position: relative;}
-
-//切换动画, 未完, 还没有判断进入和离开方向
-.in-enter {
-    transform: translate3d(100%, 0, 0);
-}
-
-.in-enter-active {
-    will-change: transform;
-    transition: transform $animate_speed linear;
-    backface-visibility: hidden;
-    perspective: 1000;
-}
-
-.in-leave-active {
-    will-change: transform;
-    transform: translate3d(-100%, 0, 0);
-    transition: transform $animate_speed linear;
-    backface-visibility: hidden;
-    perspective: 1000;
-}
-
-.out-enter {
-    transform: translate3d(-100%, 0, 0);
-}
-
-.out-enter-active {
-    will-change: transform;
-    transition: transform $animate_speed linear;
-    backface-visibility: hidden;
-    perspective: 1000;
-}
-
-.out-leave {
-    transform: translate3d(0, 0, 0);
-}
-
-.out-leave-active {
-    will-change: transform;
-    transform: translate3d(100%, 0, 0);
-    transition: transform $animate_speed linear;
-    backface-visibility: hidden;
-    perspective: 1000;
+.app-main {
+    height: calc(100% - 55px);
+    position: relative;
 }
 </style>

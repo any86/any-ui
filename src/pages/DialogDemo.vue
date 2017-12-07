@@ -5,7 +5,7 @@
             <v-cell>困难</v-cell>
             <v-cell>地狱</v-cell>
 
-            <v-button type="success" :is-block="true" class="gutter-top">开始游戏</v-button>
+            <v-button type="primary" :is-block="true" class="gutter-top">开始游戏</v-button>
             <v-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</v-button>
         </v-dialog>
 

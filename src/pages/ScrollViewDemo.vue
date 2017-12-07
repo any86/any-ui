@@ -5,6 +5,7 @@
             <v-tabs-item>events: scroll</v-tabs-item>
             <v-tabs-item>events: scroll-bottom</v-tabs-item>
             <v-tabs-item>events: change-direction</v-tabs-item>
+            <v-tabs-item v-for="n in 10" :key="n">events: {{n}}</v-tabs-item>
         </v-tabs>
 
         <v-scroll-view v-if="0 == index" style="height: calc(100% - 55px);" class="border-bottom">
