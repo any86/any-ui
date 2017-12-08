@@ -61,14 +61,6 @@ export default {
 
         itemWidth() {
             return 100 / this.$parent.slidesPerView;
-        },
-
-        className() {
-            return {
-                // 'atom-carousel-item--prev': this.$parent.prevIndex === this.index,
-                // 'atom-carousel-item--active': this.$parent.activeIndex === this.index,
-                // 'atom-carousel-item--next': this.$parent.nextIndex === this.index
-            };
         }
     },
 
