@@ -58,7 +58,8 @@ export default {
         startTranslateX: 0,
         hasPaging: true,
         headOrder: -1,
-        lastOrder: 9999
+        lastOrder: 9999,
+        matrix: []
     }),
 
     created() {
@@ -95,7 +96,6 @@ export default {
             // 反之, 拖拽超过阈值, 可以滑动
             if (this.threshold >= absDeltaX) {
                 // 向右拖拽情况
-                // 否则向左
                 if (0 < deltaX) {
                     //  交换order
                     // 如果当前第一张
@@ -104,15 +104,21 @@ export default {
                     } else if (-1 === this.activeIndex) {
                         this.headOrder = -1;
                         this.$nextTick(()=>{
-                            this.slideTo(2, 0);
+                            this.slideTo(this.count - 1, 0);
                         });
                     }
                 } else {
+                    // 向左拖拽
                     // 交换order
                     // 如果当前最后一张
                     if (this.count - 1 === this.activeIndex) {
                         // 和第一张交换位置
                         this.lastOrder = 0;
+                    }else if (this.count === this.activeIndex) {
+                        this.lastOrder = this.count;
+                        this.$nextTick(()=>{
+                            this.slideTo(0, 0);
+                        });
                     }
                 }
             } else {
@@ -166,11 +172,15 @@ export default {
         },
 
         minTranslateX() {
-            return 0 - (this.count - (this.isLoop ? 0 : 1)) * this.viewWidth;
+            return 0 - (this.count - (this.isLoop ? -1 : 1)) * this.viewWidth;
         },
 
         maxStep() {
             return this.viewWidth / this.slidesPerView;
+        },
+
+        lastIndex(){
+            return this.count - 1;
         }
     },
 

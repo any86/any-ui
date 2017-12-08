@@ -1,10 +1,11 @@
 <template>
     <v-scroll-view>
         <v-carousel v-model="index">
-            <v-carousel-item v-for="n in 3" :key="n">
+            <v-carousel-item v-for="n in 4" :key="n">
                 <div :class="['carousel-item', 'carousel-item-'+n]">{{n}}</div>
             </v-carousel-item>
         </v-carousel>
+        <h1>{{index}}</h1>
     </v-scroll-view>
 </template>
 <script>
@@ -55,7 +56,9 @@ export default {
     &-3{
         background: $info;
     }
-
+    &-4{
+        background: $warning;
+    }
     
 }
 </style>

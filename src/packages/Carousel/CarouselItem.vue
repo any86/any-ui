@@ -89,6 +89,8 @@ export default {
             if(0 === this.index) {
                 if(0 == lastOrder) {
                     this.order = this.$parent.count;
+                } else {
+                    this.order = 0;
                 }
             }
         }
