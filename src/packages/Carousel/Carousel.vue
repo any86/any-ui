@@ -1,9 +1,9 @@
 <template>
     <div @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" class="atom-carousel">
         <div :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" class="atom-carousel__body">
-            <div v-if="isLoop" :style="{order: -2}" class="atom-carousel-item"></div>
+            <div v-if="isLoop" :style="{order: headOrder}" class="atom-carousel-item"></div>
             <slot></slot>
-            <div v-if="isLoop" :style="{order: count}" class="atom-carousel-item"></div>
+            <div v-if="isLoop" :style="{order: lastOrder}" class="atom-carousel-item"></div>
         </div>
     </div>
 </template>
@@ -42,7 +42,7 @@ export default {
 
         threshold: {
             type: Number,
-            default: 10
+            default: 30
         }
     },
 
@@ -57,7 +57,8 @@ export default {
         translateX: 0,
         startTranslateX: 0,
         hasPaging: true,
-        fakeVNodes: null
+        headOrder: -1,
+        lastOrder: 9999
     }),
 
     created() {
@@ -69,7 +70,9 @@ export default {
         this.slideTo(this.value, 0);
     },
 
-    mounted() {},
+    mounted() {
+        this.lastOrder = this.count;
+    },
 
     methods: {
         touchStart(e) {
@@ -88,9 +91,34 @@ export default {
             const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
 
-            // 拖拽超过阈值才可以滑动
-            if (this.threshold < absDeltaX) {
-                this.translateX = this.startTranslateX + deltaX + this.threshold;
+            // 如果, 阈值范围内, 那么进行order交换操作
+            // 反之, 拖拽超过阈值, 可以滑动
+            if (this.threshold >= absDeltaX) {
+                // 向右拖拽情况
+                // 否则向左
+                if (0 < deltaX) {
+                    //  交换order
+                    // 如果当前第一张
+                    if (0 === this.activeIndex) {
+                        this.headOrder = this.count;
+                    } else if (-1 === this.activeIndex) {
+                        this.headOrder = -1;
+                        this.$nextTick(()=>{
+                            this.slideTo(2, 0);
+                        });
+                    }
+                } else {
+                    // 交换order
+                    // 如果当前最后一张
+                    if (this.count - 1 === this.activeIndex) {
+                        // 和第一张交换位置
+                        this.lastOrder = 0;
+                    }
+                }
+            } else {
+                // 拖拽超过阈值, 可以滑动
+                // absDeltaX / deltaX 判断下方向
+                this.translateX = this.startTranslateX + deltaX - (absDeltaX / deltaX) * this.threshold;
             }
         },
 
@@ -127,7 +155,7 @@ export default {
     watch: {
         value(value) {
             // if (this.count > value && -1 < value) {
-                this.slideTo(value);
+            this.slideTo(value);
             // }
         }
     },
@@ -138,7 +166,7 @@ export default {
         },
 
         minTranslateX() {
-            return 0 - (this.count - 1) * this.viewWidth;
+            return 0 - (this.count - (this.isLoop ? 0 : 1)) * this.viewWidth;
         },
 
         maxStep() {

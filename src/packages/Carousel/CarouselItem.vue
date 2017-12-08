@@ -40,6 +40,9 @@ export default {
         this.viewWidth = this.$parent.viewWidth;
         this.order = this.index = this.$parent.count;
         this.$parent.count++;
+        // if(0 == this.$parent.activeIndex && this.$parent.count == this.index) {
+        //     this.order = -1;
+        // }
         // this.order = -1;
     },
 
@@ -66,6 +69,28 @@ export default {
                 // 'atom-carousel-item--active': this.$parent.activeIndex === this.index,
                 // 'atom-carousel-item--next': this.$parent.nextIndex === this.index
             };
+        }
+    },
+
+    watch: {
+        ['$parent.headOrder'](headerOrder){
+            // 如果当前是最后一项, 那么改变order为-1;
+            if(this.$parent.count -1 === this.index) {
+                if(-1 == headerOrder) {
+                    this.order = this.index;
+                } else {
+                    this.order = -1;
+                }
+            }
+        },
+
+        ['$parent.lastOrder'](lastOrder){
+            // 如果本页是第一张
+            if(0 === this.index) {
+                if(0 == lastOrder) {
+                    this.order = this.$parent.count;
+                }
+            }
         }
     },
 
