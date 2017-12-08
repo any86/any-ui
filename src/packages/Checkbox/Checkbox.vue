@@ -65,7 +65,6 @@ label.component-checkbox {
     overflow: hidden;
     .title {
         flex: 1;
-        font-size: $big;
         &.reverse {
             order: 1;
             padding-left: $gutter*2;
