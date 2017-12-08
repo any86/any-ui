@@ -1,6 +1,7 @@
 <template>
     <div :class="{'atom-tabs--more-in-right': hasItemsInRight, 'atom-tabs--more-in-left': hasItemsInLeft}" class="atom-tabs">
-        <virtual-scroller v-model="tabPos" :prevent-default="false" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
+        <!-- is-prevent-default一定要是false, 不然click事件会被过滤掉 -->
+        <virtual-scroller v-model="tabPos" :is-prevent-default="false" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
             <slot></slot>
             <!-- 状态条 -->
             <div class="atom-tabs__state-bar">
@@ -177,7 +178,7 @@ $height: 55px;
         width: 100%;
 
         .indicator {
-            transition-duration: 300ms;
+            transition-duration: $duration;
             transition-timing-function: ease-in-out;
             width: 0;
             height: 2px;

@@ -61,11 +61,16 @@ const createRippleNode = (event) => {
 }
 
 const touchStartHandler = (event) => {
-    
     const $el = event.currentTarget;
     ('true' == $el.dataset.rippleStop) && event.stopPropagation();
     if ('true' == $el.dataset.rippleDisabled) return;
 
+    // 记录touch开始事件
+    const point = event.touches ? event.touches[0] : event;
+    $el.dataset.startTime = Date.now();
+    $el.dataset.startPageX = point.pageX;
+    $el.dataset.startPageY = point.pageY;
+    
     // 如果非下列定位, 那么设置目标元素的position为relative
     const style = getComputedStyle($el, null);
 
@@ -86,6 +91,13 @@ const touchStartHandler = (event) => {
 
 const touchendHandler = (event) => {
     const $el = event.currentTarget;
+    // 尽量判断意图是click还是touchmove
+    const costTime = Date.now() - $el.dataset.startTime;
+    if(100 < costTime) return;
+    const point = event.changedTouches ? event.changedTouches[0] : event;
+    if(10 < Math.abs($el.dataset.startPageX - point.pageX)) return;
+    if(10 < Math.abs($el.dataset.startPageY - point.pageY)) return;
+
     ('true' == $el.dataset.rippleStop) && event.stopPropagation();
     if ('true' == $el.dataset.rippleDisabled) return;
     const duration = parseInt($el.dataset.rippleDuration);

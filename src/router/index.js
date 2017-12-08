@@ -30,8 +30,17 @@ import MaskDemo from '@/pages/MaskDemo';
 import ScrollViewDemo from '@/pages/ScrollViewDemo';
 import VirtualScrollerDemo from '@/pages/VirtualScrollerDemo';
 
-// 
+// 布局
+import CellDemo from '@/pages/CellDemo';
+import GroupDemo from '@/pages/GroupDemo';
+
+// 定位
+import AffixDemo from '@/pages/AffixDemo';
+
+
+// 切换
 import TabsDemo from '@/pages/TabsDemo';
+import CarouselDemo from '@/pages/CarouselDemo';
 
 
 export default new Router({
@@ -127,6 +136,22 @@ export default new Router({
             name: 'tabs',
             path: '/demos/tabs',
             component: TabsDemo
+        },{
+            name: 'cell',
+            path: '/demos/cell',
+            component: CellDemo
+        },{
+            name: 'group',
+            path: '/demos/group',
+            component: GroupDemo
+        },{
+            name: 'affix',
+            path: '/demos/affix',
+            component: AffixDemo
+        },{
+            name: 'carousel',
+            path: '/demos/carousel',
+            component: CarouselDemo
         },
         
     ]

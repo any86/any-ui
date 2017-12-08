@@ -12,12 +12,11 @@
             <v-cell v-for="n in 30" :key="n">{{n}}</v-cell>
         </v-scroll-view>
 
-        <template v-else>
+        <template v-else-if="1 == index">
             <v-scroll-view style="height:300px;" class="border-bottom">
                 <v-cell v-for="n in 30" :key="n">{{n}}</v-cell>
             </v-scroll-view>
         </template>
-
     </v-view>
 </template>
 <script>
@@ -35,7 +34,11 @@ export default {
         };
     },
 
-    methods: {},
+    methods: {
+        handle(){
+            alert(1)
+        }
+    },
 
     components: {
         VCell,

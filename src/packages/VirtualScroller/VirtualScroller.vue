@@ -219,13 +219,13 @@ export default {
                 this.translateY = this.startTranslateY + deltaY * this.moveRatio;
             }
             // 当手指一直按住突然拖动, 那么重置起始值
-            // if (this.maxHolderTime < now - this.startTime) {
-            //     this.startTime = now;
-            //     this.startPointY = point.pageY;
-            //     this.startPointX = point.pageX;
-            //     this.startTranslateY = this.translateY;
-            //     this.startTranslateX = this.translateX;
-            // }
+            if (this.maxHolderTime < now - this.startTime) {
+                this.startTime = now;
+                this.startPointY = point.pageY;
+                this.startPointX = point.pageX;
+                this.startTranslateY = this.translateY;
+                this.startTranslateX = this.translateX;
+            }
             // 派发组件事件
             // this.$emit('input', {
             //     scrollTop: -this.translateY,

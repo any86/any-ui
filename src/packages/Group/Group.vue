@@ -19,11 +19,11 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-group{
-    margin-top:$gutter/2;
+    margin-top:$gutter;
     background: $background;
+    
     >header{
-        font-size: $big;
-        padding: $gutter/2 $gutter;
+        padding:  $gutter;
         color:$darkest;
         border-bottom: 1px solid $lightest;
     }

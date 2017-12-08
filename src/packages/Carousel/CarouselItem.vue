@@ -1,7 +1,7 @@
 <template>
-    <div class="atom-carousel-item" :style="{width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
-        <v-lazy-load :src="src" :preLoad-rate="20" @loaded="isImgLoaded = true" style="margin:auto;"/>
-        <v-spinner-ripple v-show="!isImgLoaded" class="item__loading"/>
+    <div class="atom-carousel-item" :style="{order: order, width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
+        <!-- <v-lazy-load :src="src" :preLoad-rate="20" @loaded="isImgLoaded = true" style="margin:auto;"/> -->
+        <!-- <v-spinner-ripple v-show="!isImgLoaded" class="item__loading"/> -->
         <slot></slot>
     </div>
 </template>
@@ -32,13 +32,15 @@ export default {
             width: 0,
             viewWidth: 0,
             isImgLoaded: false,
+            order: 0
         };
     },
 
     mounted() {
         this.viewWidth = this.$parent.viewWidth;
-        // this.index = this.$parent.count;
-        // this.$parent.count++;
+        this.order = this.index = this.$parent.count;
+        this.$parent.count++;
+        // this.order = -1;
     },
 
     computed: {
@@ -73,27 +75,5 @@ export default {
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
 @import '../../scss/mixin.scss';
-.atom-carousel-item {
-    position: relative;
-    height: 100%;
-    flex-shrink: 0;
-    width: 100%;
-    transition-duration: 1000ms;
-    transition-property: transform;
-    transition-timing-function: ease-in-out;
-    >.item__loading{
-        @include fulScreen;
-    }
-    &--prev {
-        display: block;
-    }
 
-    &--active {
-        display: block;
-    }
-
-    &--next {
-        display: block;
-    }
-}
 </style>

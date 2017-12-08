@@ -1,6 +1,15 @@
+<template>
+    <div @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" class="atom-carousel">
+        <div :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" class="atom-carousel__body">
+            <div v-if="isLoop" :style="{order: -2}" class="atom-carousel-item"></div>
+            <slot></slot>
+            <div v-if="isLoop" :style="{order: count}" class="atom-carousel-item"></div>
+        </div>
+    </div>
+</template>
+
 <script>
 import { getHeight, getWidth } from '@/utils/dom';
-import { cloneVNodes } from '@/utils/vnode';
 import throttle from 'lodash/throttle';
 import times from 'lodash/times';
 
@@ -29,6 +38,11 @@ export default {
         spaceBetween: {
             type: [Number, String],
             default: 0
+        },
+
+        threshold: {
+            type: Number,
+            default: 10
         }
     },
 
@@ -45,102 +59,19 @@ export default {
         hasPaging: true,
         fakeVNodes: null
     }),
-    /*
-    * render真的好乱, 稍后尝试下jsx.
-    */
-    render(h) {
-        // 真的是没办法才用的%做单位, 不清楚为什么beforeMount中的代码(translateX)不会让render响应,
-        // 且render中取$el如果用了$isServer判断执行顺序会被放后
-        // 猜测可能是nuxt强制created阶段和beforeMount阶段渲染出来的html要一致
-
-        // {element group} 分页按钮组合
-        const pageButtons = Array.apply(null, {
-            length: this.count
-        }).map((item, index) => {
-            return h('span', {
-                class: {
-                    'paging__button': true,
-                    'paging__button--active': this.activeIndex == index || (this.activeIndex == this.count && 0 == index) || (-1 == this.activeIndex && this.count - 1 == index)
-                }
-            });
-        });
-
-        // {element} 分页条
-        const paging = h('div', { class: ['atom-carousel__paging'] }, pageButtons);
-
-        // {element} 覆盖层
-        if (undefined !== this.$slots.overlay) {
-            const overlay = h(
-                'div',
-                {
-                    class: ['atom-carousel__overlay']
-                },
-                this.$slots.overlay
-            );
-        }
-
-        // {element} 容器body
-        const body = h(
-            'div',
-            {
-                class: ['atom-carousel__body'],
-                style: {
-                    transform: `translateX(${this.translateX - this.offsetLeft}%)`,
-                    transitionDuration: `${this.transitionDuration}ms`
-                }
-            },
-            [this.fakeVNodes]
-        );
-
-        // 插入body的vnode
-        return h(
-            'div',
-            {
-                class: ['atom-carousel'],
-                on: {
-                    transitionend: this.transitionEnd,
-                    webkittransitionEnd: this.transitionEnd,
-                    touchstart: this.touchStart,
-                    touchmove: this.touchMove,
-                    touchend: this.touchEnd
-                }
-            },
-            undefined === this.$slots.overlay ? [body, paging] : [body, paging, overlay]
-        );
-    },
 
     created() {
-        this.fakeVNodes = this.buildFakeVNode();
-        this.slideTo(this.value, 0);
+        // this.slideTo(this.value, 0);
     },
 
     beforeMount() {
         this.viewWidth = getWidth(this.$el);
+        this.slideTo(this.value, 0);
     },
 
+    mounted() {},
+
     methods: {
-        buildFakeVNode() {
-            // {filter} 过滤掉v-if产生的注释node
-            let $slots = this.$slots.default.filter(item => {
-                return undefined !== item.tag;
-            });
-
-            // {slot} 构造轮播item的伪头和伪尾
-            this.count = $slots.length;
-            const $cloneSlot = cloneVNodes($slots, true);
-            let fakeTailArray = [];
-            for (let i = this.count - this.slidesPerView; i < this.count; i++) {
-                fakeTailArray.push($cloneSlot[i]);
-            }
-
-            let fakeHeaderArray = [];
-            for (let i = 0; i < this.slidesPerView; i++) {
-                fakeHeaderArray.push($cloneSlot[i]);
-            }
-
-            return [...fakeTailArray, ...$slots, ...fakeHeaderArray];
-        },
-
         touchStart(e) {
             e.stopPropagation();
             e.preventDefault();
@@ -153,19 +84,13 @@ export default {
         touchMove(e) {
             e.stopPropagation();
             e.preventDefault();
-            // 如果是fake的item, 那么切换到real的item
-            
-            if (this.count <= this.activeIndex) {
-                // 正翻, 超过count代表已经到达尾部的fake
-                this.slideTo(0, 0);
-            } else if (0 > this.activeIndex) {
-                // 回翻,
-                this.slideTo(this.count - 1, 0);
-            } else {
-                const point = e.touches ? e.touches[0] : e;
-                const deltaX = point.pageX - this.startPointX;
-                const absDeltaX = Math.abs(deltaX);
-                this.translateX = this.startTranslateX + Math.round(deltaX / this.viewWidth * 100);
+            const point = e.touches ? e.touches[0] : e;
+            const deltaX = point.pageX - this.startPointX;
+            const absDeltaX = Math.abs(deltaX);
+
+            // 拖拽超过阈值才可以滑动
+            if (this.threshold < absDeltaX) {
+                this.translateX = this.startTranslateX + deltaX + this.threshold;
             }
         },
 
@@ -174,21 +99,11 @@ export default {
             const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
 
-            // next / prev
-            const absTranslateX = Math.abs(this.translateX);
-            if (0 > deltaX) {
-                
-                // next
-                if (0.3 < absDeltaX / this.oneSliderTranslateX) {
-                    this.activeIndex = Math.ceil((absTranslateX - 100) / this.oneSliderTranslateX);
-                } else {
-                    this.activeIndex = Math.floor((absTranslateX - 100) / this.oneSliderTranslateX);
-                }
-            } else {
-                if (0.3 < absDeltaX / this.oneSliderTranslateX) {
-                    this.activeIndex = Math.floor((absTranslateX - 100) / this.oneSliderTranslateX);
-                } else {
-                    this.activeIndex = Math.ceil((absTranslateX - 100) / this.oneSliderTranslateX);
+            // 判断边界
+            if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
+                // next / prev
+                if (15 < absDeltaX) {
+                    this.activeIndex -= absDeltaX / deltaX;
                 }
             }
 
@@ -199,49 +114,35 @@ export default {
             this.isAnimating = 0 < duration && true;
             this.transitionDuration = duration;
             this.activeIndex = index;
-            this.translateX = 0 - 100 - index * this.oneSliderTranslateX;
-            this.startTranslateX = this.translateX;
-        },
-
-        setTranslateX(percent, duration = 300) {
-            this.isAnimating = 0 < duration && true;
-            this.transitionDuration = duration;
-            this.translateX = percent;
+            this.translateX = ((this.isLoop ? -1 : 0) - index) * this.viewWidth;
             this.startTranslateX = this.translateX;
         },
 
         transitionEnd() {
             this.isAnimating = false;
             this.transitionDuration = 0;
-            // let activeIndex = this.activeIndex;
-            // if (this.count == this.activeIndex) {
-            //     activeIndex = 0;
-            // } else if (-1 === this.activeIndex) {
-            //     activeIndex = this.count - 1;
-            // }
-            // this.slideTo(activeIndex, 0);
-            // this.$nextTick(() => {
-            //     this.$emit('input', this.activeIndex);
-            // });
-            // this.$emit('transitionEnd', this.activeIndex);
         }
     },
 
     watch: {
         value(value) {
-            if (this.count > value && -1 < value) {
+            // if (this.count > value && -1 < value) {
                 this.slideTo(value);
-            }
+            // }
         }
     },
 
     computed: {
-        oneSliderTranslateX() {
-            return 100 / this.slidesPerView;
+        maxTranslateX() {
+            return 0;
         },
 
-        offsetLeft() {
-            return 0;
+        minTranslateX() {
+            return 0 - (this.count - 1) * this.viewWidth;
+        },
+
+        maxStep() {
+            return this.viewWidth / this.slidesPerView;
         }
     },
 
@@ -264,6 +165,16 @@ $height: 0.5rem;
         height: 100%;
         width: 100%;
         transition-duration: 0ms;
+
+        >>>.atom-carousel-item {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            flex-shrink: 0;
+            transition-duration: 1000ms;
+            transition-property: transform;
+            transition-timing-function: ease-in-out;
+        }
     }
 
     &__paging {
