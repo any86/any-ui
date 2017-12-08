@@ -1,5 +1,5 @@
 <template>
-    <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" :class="{'atom-cell-border': border}" class="atom-cell">
+    <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" class="atom-cell">
         <span v-if="$slots.title" class="atom-cell__title">
             <slot name="title"></slot>
         </span>
@@ -39,11 +39,6 @@ export default {
             type: Number
         },
 
-        border: {
-            type: Boolean,
-            default: true
-        },
-
         hasRipple: {
             default: true
         }
@@ -58,7 +53,7 @@ export default {
     padding: 0 $gutter;
     min-height: 1rem;
     background: $background;
-
+    border-bottom: 1px solid $lightest;
     &__title {
         font-size: $big;
         align-self: center;
@@ -96,10 +91,6 @@ export default {
         height: 24px;
         display: inline-block;
         transition: transform $duration;
-    }
-
-    &-border {
-        border-bottom: 1px solid $lightest;
     }
 }
 </style>
