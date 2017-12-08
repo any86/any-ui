@@ -34,7 +34,7 @@ export default {
             default: 150
         },
 
-        preventDefault: {
+        isPreventDefault: {
             type: Boolean,
             default: true
         },
@@ -57,6 +57,11 @@ export default {
         isLockY: {
             type: Boolean,
             default: false
+        },
+
+        minMoveRatio: {
+            type: Number,
+            default: 0.3
         },
 
         directionLockThreshold: {
@@ -153,7 +158,7 @@ export default {
             // stopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
             this.stopPropagation && e.stopPropagation();
             // 阻止浏览器默认行为
-            this.preventDefault && e.preventDefault();
+            this.isPreventDefault && e.preventDefault();
 
             // 禁用touch事件
             if (this.isDisableTouch) return;
@@ -180,7 +185,7 @@ export default {
 
         touchmove(e) {
             this.stopPropagation && e.stopPropagation();
-            this.preventDefault && e.preventDefault();
+            
             // 禁用touch事件[停止运行]
             if (this.isDisableTouch) return;
             // x/y都lock了[停止运行]
@@ -231,7 +236,7 @@ export default {
 
         touchend(e) {
             this.stopPropagation && e.stopPropagation();
-            this.preventDefault && e.preventDefault();
+            this.isPreventDefault && e.preventDefault();
             // // 禁用touch事件
             if (this.isDisableTouch) return;
             this.transitionDuration = DURATION;
@@ -328,9 +333,9 @@ export default {
     watch: {
         translateY(translateY) {
             if (this.maxTranslateY < translateY) {
-                this.moveRatio = 0.3;
+                this.moveRatio = this.minMoveRatio;
             } else if (this.minTranslateY > translateY) {
-                this.moveRatio = 0.3;
+                this.moveRatio = this.minMoveRatio;
             } else {
                 this.moveRatio = 1;
             }
@@ -338,9 +343,9 @@ export default {
 
         translateX(translateX) {
             if (this.maxTranslateX < translateX) {
-                this.moveRatio = 0.3;
+                this.moveRatio = this.minMoveRatio;
             } else if (this.minTranslateX > translateX) {
-                this.moveRatio = 0.3;
+                this.moveRatio = this.minMoveRatio;
             } else {
                 this.moveRatio = 1;
             }
