@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-carousel-item" :style="{order: order, width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
+    <div class="atom-carousel-item" :style="{order: $parent.orderMatrix[index+1], width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
         <!-- <v-lazy-load :src="src" :preLoad-rate="20" @loaded="isImgLoaded = true" style="margin:auto;"/> -->
         <!-- <v-spinner-ripple v-show="!isImgLoaded" class="item__loading"/> -->
         <slot></slot>
@@ -22,8 +22,6 @@ export default {
         src: {
             type: String
         },
-
-        
     },
 
     data() {
@@ -32,18 +30,13 @@ export default {
             width: 0,
             viewWidth: 0,
             isImgLoaded: false,
-            order: 0
         };
     },
 
     mounted() {
         this.viewWidth = this.$parent.viewWidth;
-        this.order = this.index = this.$parent.count;
+        this.index = this.$parent.count;
         this.$parent.count++;
-        // if(0 == this.$parent.activeIndex && this.$parent.count == this.index) {
-        //     this.order = -1;
-        // }
-        // this.order = -1;
     },
 
     computed: {
@@ -61,30 +54,6 @@ export default {
 
         itemWidth() {
             return 100 / this.$parent.slidesPerView;
-        }
-    },
-
-    watch: {
-        ['$parent.headOrder'](headerOrder){
-            // 如果当前是最后一项, 那么改变order为-1;
-            if(this.$parent.count -1 === this.index) {
-                if(-1 == headerOrder) {
-                    this.order = this.index;
-                } else {
-                    this.order = -1;
-                }
-            }
-        },
-
-        ['$parent.lastOrder'](lastOrder){
-            // 如果本页是第一张
-            if(0 === this.index) {
-                if(0 == lastOrder) {
-                    this.order = this.$parent.count;
-                } else {
-                    this.order = 0;
-                }
-            }
         }
     },
 
