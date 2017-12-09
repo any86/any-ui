@@ -145,6 +145,7 @@ export default {
         touchMove(e) {
             e.stopPropagation();
             e.preventDefault();
+            // if(this.isAnimating) return;
             const point = e.touches ? e.touches[0] : e;
             const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
@@ -166,6 +167,8 @@ export default {
                     } else if (this.count === this.activeIndex) {
                         this.orderMatrix = this.calcMatrix(this.count);
                         this.slideTo(0, 0);
+                    } else {
+                        this.orderMatrix = this.calcMatrix(this.count);
                     }
                 } else {
                     // 向左拖拽
@@ -180,6 +183,8 @@ export default {
                     } else if (-1 == this.activeIndex) {
                         this.orderMatrix = this.calcMatrix(this.count);
                         this.slideTo(this.lastIndex, 0);
+                    }else {
+                        this.orderMatrix = this.calcMatrix(this.count);
                     }
                 }
             } else {
