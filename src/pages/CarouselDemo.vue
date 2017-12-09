@@ -1,11 +1,11 @@
 <template>
     <v-scroll-view>
-        <v-carousel v-model="index">
+        <v-carousel v-model="index" :is-loop="true" :speed="600" :autoplay="{delay: 3000}">
             <v-carousel-item v-for="n in 3" :key="n">
                 <div :class="['carousel-item', 'carousel-item-'+n]">{{n}}</div>
             </v-carousel-item>
         </v-carousel>
-        <h1>{{index}}</h1>
+        
     </v-scroll-view>
 </template>
 <script>

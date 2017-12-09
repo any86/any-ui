@@ -1,12 +1,10 @@
 <template>
     <div @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" class="atom-carousel">
-        <div :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
-            <div v-if="isLoop" :style="{order: orderMatrix[0]}" class="atom-carousel-item"></div>
+        <div :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" class="atom-carousel__body">
+            <div v-if="isLoop" :style="{order: headOrder}" class="atom-carousel-item"></div>
             <slot></slot>
-            <div v-if="isLoop" :style="{order: orderMatrix[count + 1]}" class="atom-carousel-item"></div>
+            <div v-if="isLoop" :style="{order: lastOrder}" class="atom-carousel-item"></div>
         </div>
-        <h2>{{orderMatrix}}</h2>
-        <h3>{{activeIndex}}</h3>
     </div>
 </template>
 
@@ -45,18 +43,6 @@ export default {
         threshold: {
             type: Number,
             default: 30
-        },
-
-        autoplay: {
-            type: [Object, Boolean],
-            default: () => ({
-                delay: 1000
-            })
-        },
-
-        speed: {
-            type: Number,
-            default: 300
         }
     },
 
@@ -71,14 +57,13 @@ export default {
         translateX: 0,
         startTranslateX: 0,
         hasPaging: true,
-        orderMatrix: [],
-        timer: null,
-        afterSliderTransitonend: () => {}
+        headOrder: -1,
+        lastOrder: 9999,
+        orderMatrix: []
     }),
 
     created() {
         // this.slideTo(this.value, 0);
-        // this.orderMatrix = this.calcMatrix(3);
     },
 
     beforeMount() {
@@ -87,47 +72,26 @@ export default {
     },
 
     mounted() {
-        this.orderMatrix = this.calcMatrix(this.count);
-        if (this.isLoop) {
-            this.timer = setInterval(() => {
-                this.activeIndex++;
-                this.slideTo(this.activeIndex, this.speed, index => {
-                    if (this.count - 1 == this.activeIndex) {
-                        // 当到达最后一页, 准备fake第一页
-                        this.orderMatrix = this.calcMatrix(this.count, this.lastIndex, 0);
-                    } else if (this.count == this.activeIndex) {
-                        this.orderMatrix = this.calcMatrix(this.count);
-                        this.slideTo(0, 0);
-                    }
-                });
-            }, this.autoplay.delay);
-        }
+        this.orderMatrix = this.calcMatrix(this.value, this.value+1, this.count);
+        this.lastOrder = this.count;
     },
 
     methods: {
-        /**
-         * 这里的index都是slider的索引, 不算入两端fake的slider
-         * @argument {Number} length
-         * @argument {Number} fromIndex
-         * @argument {Number} toIndex
-         */
-        calcMatrix(length, fromIndex, toIndex) {
+        calcMatrix(fromIndex, toIndex, length) {
             let array = [];
             const lastIndex = length - 1;
             for (let i = -1; i <= length; i++) {
                 array.push(i);
             }
-            // 如果值传入length, 那么返回一般情况的排序
-            if (1 < arguments.length) {
-                if (lastIndex === fromIndex && 0 === toIndex) {
-                    // 从尾部到头部
-                    array[1] = array[length + 1];
-                    array[length + 1] = 0;
-                } else if (0 === fromIndex && lastIndex === toIndex) {
-                    // 从头部到尾部
-                    array[0] = lastIndex;
-                    array[length] = -1;
-                }
+
+            // 从尾部到头部
+            if (lastIndex === fromIndex && 0 === toIndex) {
+                array[1] = length;
+                array[length + 1] = 0;
+            } else if (0 == fromIndex && lastIndex == toIndex) {
+                // 从头部到尾部
+                array[0] = lastIndex;
+                array[length] = -1;
             }
             return array;
         },
@@ -139,7 +103,6 @@ export default {
             this.startPointX = point.pageX;
             this.startTranslateX = this.translateX;
             this.transitionDuration = 0;
-            clearInterval(this.timer);
         },
 
         touchMove(e) {
@@ -149,23 +112,20 @@ export default {
             const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
 
-            // 在滑动发生前做些对2端faker的定位处理
             // 如果, 阈值范围内, 那么进行order交换操作
             // 反之, 拖拽超过阈值, 可以滑动
-            if (this.threshold >= absDeltaX && this.isLoop) {
+            if (this.threshold >= absDeltaX) {
                 // 向右拖拽情况
                 if (0 < deltaX) {
                     //  交换order
                     // 如果当前第一张
                     if (0 === this.activeIndex) {
-                        this.orderMatrix = this.calcMatrix(this.count, 0, this.lastIndex);
+                        this.headOrder = this.count;
                     } else if (-1 === this.activeIndex) {
-                        // 返回一般情况矩阵
-                        this.orderMatrix = this.calcMatrix(this.count);
-                        this.slideTo(this.count - 1, 0);
-                    } else if (this.count === this.activeIndex) {
-                        this.orderMatrix = this.calcMatrix(this.count);
-                        this.slideTo(0, 0);
+                        this.headOrder = -1;
+                        this.$nextTick(() => {
+                            this.slideTo(this.count - 1, 0);
+                        });
                     }
                 } else {
                     // 向左拖拽
@@ -173,13 +133,12 @@ export default {
                     // 如果当前最后一张
                     if (this.count - 1 === this.activeIndex) {
                         // 和第一张交换位置
-                        this.orderMatrix = this.calcMatrix(this.count, this.lastIndex, 0);
+                        this.lastOrder = 0;
                     } else if (this.count === this.activeIndex) {
-                        this.orderMatrix = this.calcMatrix(this.count);
-                        this.slideTo(0, 0);
-                    } else if (-1 == this.activeIndex) {
-                        this.orderMatrix = this.calcMatrix(this.count);
-                        this.slideTo(this.lastIndex, 0);
+                        this.lastOrder = this.count;
+                        this.$nextTick(() => {
+                            this.slideTo(0, 0);
+                        });
                     }
                 }
             } else {
@@ -205,19 +164,17 @@ export default {
             this.slideTo(this.activeIndex);
         },
 
-        slideTo(index, duration = this.speed, callback = () => {}) {
+        slideTo(index, duration = 300) {
             this.isAnimating = 0 < duration && true;
             this.transitionDuration = duration;
             this.activeIndex = index;
             this.translateX = ((this.isLoop ? -1 : 0) - index) * this.viewWidth;
             this.startTranslateX = this.translateX;
-            this.afterSliderTransitonend = callback;
         },
 
         transitionEnd() {
             this.isAnimating = false;
             this.transitionDuration = 0;
-            this.afterSliderTransitonend(this.activeIndex);
         }
     },
 
@@ -226,10 +183,6 @@ export default {
             // if (this.count > value && -1 < value) {
             this.slideTo(value);
             // }
-        },
-
-        activeIndex(activeIndex) {
-            // this.slideTo(activeIndex);
         }
     },
 
