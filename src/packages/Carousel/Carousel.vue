@@ -1,6 +1,6 @@
 <template>
     <div @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" class="atom-carousel">
-        <div :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" class="atom-carousel__body">
+        <div :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
             <div v-if="isLoop" :style="{order: orderMatrix[0]}" class="atom-carousel-item"></div>
             <slot></slot>
             <div v-if="isLoop" :style="{order: orderMatrix[count + 1]}" class="atom-carousel-item"></div>
@@ -45,6 +45,18 @@ export default {
         threshold: {
             type: Number,
             default: 30
+        },
+
+        autoplay: {
+            type: [Object, Boolean],
+            default: () => ({
+                delay: 1000
+            })
+        },
+
+        speed: {
+            type: Number,
+            default: 300
         }
     },
 
@@ -59,7 +71,9 @@ export default {
         translateX: 0,
         startTranslateX: 0,
         hasPaging: true,
-        orderMatrix: []
+        orderMatrix: [],
+        timer: null,
+        afterSliderTransitonend: () => {}
     }),
 
     created() {
@@ -74,9 +88,29 @@ export default {
 
     mounted() {
         this.orderMatrix = this.calcMatrix(this.count);
+        this.timer = setInterval(() => {
+            this.activeIndex++;
+            this.slideTo(this.activeIndex, this.speed, index => {
+                if(this.count - 1 == this.activeIndex){
+                    // 当到达最后一页, 准备fake第一页
+                    this.orderMatrix = this.calcMatrix(this.count, this.lastIndex, 0);
+                    // this.slideTo(0, 0);
+                } else  if(this.count == this.activeIndex) {
+                    this.orderMatrix = this.calcMatrix(this.count);
+                    this.slideTo(0, 0);
+                }
+            });
+
+        }, this.autoplay.delay);
     },
 
     methods: {
+        /**
+         * 这里的index都是slider的索引, 不算入两端fake的slider
+         * @argument {Number} length
+         * @argument {Number} fromIndex
+         * @argument {Number} toIndex
+         */
         calcMatrix(length, fromIndex, toIndex) {
             let array = [];
             const lastIndex = length - 1;
@@ -105,6 +139,7 @@ export default {
             this.startPointX = point.pageX;
             this.startTranslateX = this.translateX;
             this.transitionDuration = 0;
+            clearInterval(this.timer);
         },
 
         touchMove(e) {
@@ -114,9 +149,10 @@ export default {
             const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
 
+            // 在滑动发生前做些对2端faker的定位处理
             // 如果, 阈值范围内, 那么进行order交换操作
             // 反之, 拖拽超过阈值, 可以滑动
-            if (this.threshold >= absDeltaX) {
+            if (this.threshold >= absDeltaX && this.isLoop) {
                 // 向右拖拽情况
                 if (0 < deltaX) {
                     //  交换order
@@ -169,17 +205,19 @@ export default {
             this.slideTo(this.activeIndex);
         },
 
-        slideTo(index, duration = 300) {
+        slideTo(index, duration = this.speed, callback = () => {}) {
             this.isAnimating = 0 < duration && true;
             this.transitionDuration = duration;
             this.activeIndex = index;
             this.translateX = ((this.isLoop ? -1 : 0) - index) * this.viewWidth;
             this.startTranslateX = this.translateX;
+            this.afterSliderTransitonend = callback;
         },
 
         transitionEnd() {
             this.isAnimating = false;
             this.transitionDuration = 0;
+            this.afterSliderTransitonend(this.activeIndex);
         }
     },
 
@@ -188,6 +226,10 @@ export default {
             // if (this.count > value && -1 < value) {
             this.slideTo(value);
             // }
+        },
+
+        activeIndex(activeIndex) {
+            // this.slideTo(activeIndex);
         }
     },
 
