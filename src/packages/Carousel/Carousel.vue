@@ -132,6 +132,7 @@ export default {
             if (this.isAnimating) {
                 const currentTranslateX = this.getTranslateX();
                 this.startTranslateX = currentTranslateX;
+                // log(this.startTranslateX)
                 // this.startPointX = point.pageX;
                 this.translateX = this.startTranslateX;
                 this.isAnimating = false;
@@ -139,15 +140,21 @@ export default {
             this.translateX = this.startTranslateX + deltaX + this.threshold;
 
             // 边界自动复位
-            // if (this.isLoop) {
-            //     if (this.count <= this.activeIndex) {
-            //         // 正翻, 超过count代表已经到达尾部的fake
-            //         this.slideTo(0, 0);
-            //     } else if (0 > this.activeIndex) {
-            //         // 回翻,
-            //         this.slideTo(this.count - 1, 0);
-            //     }
-            // }
+            if (this.isLoop) {
+                if (this.count <= this.activeIndex) {
+                    // 正翻, 超过count代表已经到达尾部的fake
+                    // const offset = this.startTranslateX % this.warpWidth;
+                    // this.translateX = offset;
+                    // this.startTranslateX = this.translateX;
+                    // this.activeIndex = 0;
+                    this.slideTo(0, 0);
+                    
+                    
+                } else if (0 > this.activeIndex) {
+                    // 回翻,
+                    this.slideTo(this.count - 1, 0);
+                }
+            }
 
             // 超过阈值开始滑动
             // if (this.threshold < absDeltaX) {
@@ -170,7 +177,7 @@ export default {
             // 判断边界
             if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
                 let activeIndex = absTranlateX / this.warpWidth - 1;
-                if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
+                if (0.2 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
                     this.activeIndex = Math.ceil(activeIndex);
                 } else {
                     this.activeIndex = Math.floor(activeIndex);
@@ -185,6 +192,7 @@ export default {
             this.transitionDuration = duration;
             this.activeIndex = index;
             this.translateX = ((this.isLoop ? -1 : 0) - index) * this.warpWidth;
+            this.startTranslateX = this.translateX;
             this.afterSliderTransitonend = callback;
         },
 
