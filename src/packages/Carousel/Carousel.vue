@@ -170,8 +170,7 @@ export default {
             // 判断边界
             if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
                 let activeIndex = absTranlateX / this.warpWidth - 1;
-                log(activeIndex)
-                if (0.1 < Math.abs(activeIndex)) {
+                if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
                     this.activeIndex = Math.ceil(activeIndex);
                 } else {
                     this.activeIndex = Math.floor(activeIndex);
