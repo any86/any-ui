@@ -56,7 +56,6 @@ export default {
             return 100 / this.$parent.slidesPerView;
         }
     },
-
     components: {VLazyLoad, VSpinnerRipple}
 };
 </script>
