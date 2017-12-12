@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-carousel-item" :style="{order: $parent.orderMatrix[index+1], width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
+    <div class="atom-carousel-item" :style="{order: index, width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
         <!-- <v-lazy-load :src="src" :preLoad-rate="20" @loaded="isImgLoaded = true" style="margin:auto;"/> -->
         <!-- <v-spinner-ripple v-show="!isImgLoaded" class="item__loading"/> -->
         <slot></slot>
@@ -56,7 +56,6 @@ export default {
             return 100 / this.$parent.slidesPerView;
         }
     },
-
     components: {VLazyLoad, VSpinnerRipple}
 };
 </script>

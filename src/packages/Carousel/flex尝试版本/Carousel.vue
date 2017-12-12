@@ -74,8 +74,7 @@ export default {
         hasPaging: true,
         orderMatrix: [],
         timer: null,
-        afterSliderTransitonend: () => {},
-        deltaX: 0
+        afterSliderTransitonend: () => {}
     }),
 
     created() {
@@ -88,45 +87,22 @@ export default {
         this.slideTo(this.value, 0);
         this.orderMatrix = this.calcMatrix(this.count);
         // if (this.isLoop) {
-        //     this.playLoopSlider();
-        // } else {
-        //     this.playSlider();
+        //     this.timer = setInterval(() => {
+        //         this.activeIndex++;
+        //         this.slideTo(this.activeIndex, this.speed, index => {
+        //             if (this.count - 1 == this.activeIndex) {
+        //                 // 当到达最后一页, 准备fake第一页
+        //                 this.orderMatrix = this.calcMatrix(this.count, this.lastIndex, 0);
+        //             } else if (this.count == this.activeIndex) {
+        //                 this.orderMatrix = this.calcMatrix(this.count);
+        //                 this.slideTo(0, 0);
+        //             }
+        //         });
+        //     }, this.autoplay.delay);
         // }
     },
 
     methods: {
-        playSlider() {
-            this.timer = setInterval(() => {
-                this.activeIndex++;
-                if (this.count <= this.activeIndex) {
-                    this.activeIndex = 0;
-                    this.orderMatrix = this.calcMatrix(this.count, this.last, 0);
-                }
-                this.slideTo(this.activeIndex, this.speed);
-            }, this.autoplay.delay);
-        },
-
-        playLoopSlider() {
-            this.timer = setInterval(() => {
-                this.activeIndex++;
-                if (this.count === this.activeIndex) {
-                    // 到达尾部fake的第一页;
-                    this.slideTo(this.activeIndex, this.speed, activeIndex => {
-                        this.slideTo(0, 0);
-                    });
-                } else if (-1 === this.activeIndex) {
-                    this.slideTo(this.activeIndex, this.speed, activeIndex => {
-                        // 暂时走不到这个流程
-                        // 因为只是正向播放
-                        // 后期如果加入反向播放, 还需要在其他部分加入代码
-                        this.slideTo(this.count - 1, 0);
-                    });
-                } else {
-                    this.slideTo(this.activeIndex, this.speed);
-                }
-            }, this.autoplay.delay);
-        },
-
         /**
          * 这里的index都是slider的索引, 不算入两端fake的slider
          * @argument {Number} length
@@ -155,17 +131,6 @@ export default {
         },
 
         /**
-         * @argument {Number} translateX
-         * @returns {Int} activeIndex
-         * */
-        calcActiveIndex(translateX){
-            if(this.isLoop) {
-                let activeIndex = translateX / this.warpWidth;
-                return activeIndex;
-            }
-        },
-
-        /**
          * 获取动画过程中的body的实时的translateX
          */
         getTranslateX() {
@@ -191,20 +156,15 @@ export default {
             e.preventDefault();
             // if(this.isAnimating) return;
             const point = e.touches ? e.touches[0] : e;
-            const deltaX = this.deltaX = point.pageX - this.startPointX;
+            const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
 
-            // 运动中发生拖拽
-            // 暂停在当前translateX
             if (this.isAnimating) {
                 const currentTranslateX = this.getTranslateX();
                 this.startTranslateX = currentTranslateX;
                 this.translateX = this.startTranslateX;
                 this.isAnimating = false;
             }
-
-            // 实时计算order矩阵
-
 
             // 在滑动发生前做些对2端faker的定位处理
             // 如果, 阈值范围内, 那么进行order交换操作
@@ -214,17 +174,39 @@ export default {
                 if (0 < deltaX) {
                     //  交换order
                     // 如果当前第一张
-                 
+                    if (0 === this.activeIndex) {
+                        this.orderMatrix = this.calcMatrix(this.count, 0, this.lastIndex);
+                    } else if (-1 === this.activeIndex) {
+                        // 返回一般情况矩阵
+                        this.orderMatrix = this.calcMatrix(this.count);
+                        this.slideTo(this.count - 1, 0);
+                    } else if (this.count === this.activeIndex) {
+                        this.orderMatrix = this.calcMatrix(this.count);
+                        this.slideTo(0, 0);
+                    } else {
+                        this.orderMatrix = this.calcMatrix(this.count);
+                    }
                 } else {
                     // 向左拖拽
                     // 交换order
-                   
+                    // 如果当前最后一张
+                    if (this.count - 1 === this.activeIndex) {
+                        // 和第一张交换位置
+                        this.orderMatrix = this.calcMatrix(this.count, this.lastIndex, 0);
+                    } else if (this.count === this.activeIndex) {
+                        this.orderMatrix = this.calcMatrix(this.count);
+                        this.slideTo(0, 0);
+                    } else if (-1 == this.activeIndex) {
+                        this.orderMatrix = this.calcMatrix(this.count);
+                        this.slideTo(this.lastIndex, 0);
+                    } else {
+                        this.orderMatrix = this.calcMatrix(this.count);
+                    }
                 }
 
                 this.translateX = this.startTranslateX + deltaX - absDeltaX / deltaX * this.threshold;
-                this.activeIndex = Math.round(this.calcActiveIndex(-this.translateX)) - (this.isLoop ? 1: 0);
-                log(this.activeIndex)
             }
+
         },
 
         touchEnd(e) {
@@ -234,15 +216,15 @@ export default {
             const absTranlateX = Math.abs(this.translateX);
 
             // 判断边界
-            // if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
-            //     // 针对isLoop做activeIndex的偏移
-            //     let activeIndex = absTranlateX / this.warpWidth - 1 + (this.isLoop ? 0 : 1);
-            //     if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
-            //         this.activeIndex = Math.ceil(activeIndex);
-            //     } else {
-            //         this.activeIndex = Math.floor(activeIndex);
-            //     }
-            // }
+            if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
+                // 针对isLoop做activeIndex的偏移
+                let activeIndex = absTranlateX / this.warpWidth - 1 + (this.isLoop ? 0 : 1);
+                if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
+                    this.activeIndex = Math.ceil(activeIndex);
+                } else {
+                    this.activeIndex = Math.floor(activeIndex);
+                }
+            }
 
             this.slideTo(this.activeIndex);
         },
@@ -265,12 +247,9 @@ export default {
 
     watch: {
         value(value) {
-            // 取消自动播放
-            // clearInterval(this.timer);
-            // 只能返回总数范围内的
-            if (this.count > this.activeIndex && -1 < this.activeIndex) {
-                this.slideTo(value);
-            }
+            // if (this.count > value && -1 < value) {
+            // this.slideTo(value);
+            // }
         },
 
         activeIndex(activeIndex) {

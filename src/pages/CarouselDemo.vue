@@ -1,10 +1,9 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :is-loop="true" :speed="300" :autoplay="{delay: 1000}">
-            <v-carousel-item v-for="image in imageList" :key="image">
-                <!-- <div :class="['carousel-item', 'carousel-item-'+n]">{{n}}</div> -->
-                <v-lazy-load :src="image" width="100%" />
+        <v-carousel v-model="index" :is-loop="true" :speed="1000" :autoplay="{delay: 1000}" @change="activeIndex=$event.activeIndex">
+            <v-carousel-item v-for="(image, n) in imageList" :key="image">
+                <v-lazy-load :src="image" width="100%" height="200" />
             </v-carousel-item>
         </v-carousel>
         <!-- </section> -->
@@ -42,10 +41,11 @@ export default {
     name: 'CarouselDemo',
 
     data() {
-        const longImages = ['http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/11/43/1143dc058ee817f1c08074ced118b5cf.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/b2/f9/b2f9453ff2b87e81867e003ea66551ea.png', 'https://dn-geekpark-new.qbox.me/uploads/image/file/65/36/653617a7ab15d06e1630389e7e5e058a.jpg'];
+        const longImages = ['http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/11/43/1143dc058ee817f1c08074ced118b5cf.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/b2/f9/b2f9453ff2b87e81867e003ea66551ea.png', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/4f/d7/4fd7010e128fdf69e4c3edcd30aa1f00.jpeg'];
 
         return {
             index: 0,
+            activeIndex: 0,
             imageList: longImages
         };
     },
@@ -54,7 +54,7 @@ export default {
         // var swiper = new Swiper('.swiper-container', {
         //     slidesPerView: 1,
         //     spaceBetween: 30,
-        //     speed: 3000,
+        //     speed: 300,
         //     loop: true,
         //     pagination: {
         //         el: '.swiper-pagination',
@@ -65,6 +65,10 @@ export default {
         //         prevEl: '.swiper-button-prev'
         //     }
         // });
+
+        // swiper.on('slideChange', e=>{
+        //     log(e)
+        // })
     },
 
     methods: {

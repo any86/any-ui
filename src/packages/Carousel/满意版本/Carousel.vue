@@ -1,18 +1,22 @@
 <template>
     <div @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" class="atom-carousel">
         <div ref="body" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
-            <div v-if="isLoop" :style="{order: orderMatrix[0]}" class="atom-carousel-item"></div>
             <slot></slot>
-            <div v-if="isLoop" :style="{order: orderMatrix[count + 1]}" class="atom-carousel-item"></div>
         </div>
-        <h2>{{orderMatrix}}</h2>
-        <h3>{{activeIndex}}</h3>
-        <h2>{{translateX}}</h2>
+
+        <div class="atom-carousel__paging">
+            <span v-for="n in count" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
+        </div>
+
+        <!-- <h3>activeIndex: {{activeIndex}}</h3>
+        <h3>translateX: {{translateX}}</h3>
+        <h3>startTranslateX: {{startTranslateX}}</h3>
+        <h3>realIndex: {{realIndex}}</h3> -->
     </div>
 </template>
 
 <script>
-import { getHeight, getWidth } from '@/utils/dom';
+import { getTime, getWidth } from '@/utils/dom';
 import throttle from 'lodash/throttle';
 import times from 'lodash/times';
 
@@ -63,7 +67,6 @@ export default {
 
     data: () => ({
         count: 0,
-        indexCounter: 0,
         warpWidth: 0,
         activeIndex: 0,
         isAnimating: false,
@@ -71,27 +74,30 @@ export default {
         transitionDuration: 0,
         translateX: 0,
         startTranslateX: 0,
-        hasPaging: true,
-        orderMatrix: [],
-        timer: null,
         afterSliderTransitonend: () => {},
-        deltaX: 0
+        timer: null
     }),
 
-    created() {
-        // this.slideTo(this.value, 0);
-        // this.orderMatrix = this.calcMatrix(3);
-    },
+    created() {},
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
+        // 构造loop所需dom结构
+        // 因为用了order控制顺序了, 就不用insertBefore了
+        if (this.isLoop) {
+            const headFakeNode = this.$children[this.$children.length - 1].$el.cloneNode(true);
+            const lastFakeNode = this.$children[0].$el.cloneNode(true);
+            headFakeNode.style.order = -1;
+            lastFakeNode.style.order = this.count;
+            this.$refs.body.appendChild(headFakeNode);
+            this.$refs.body.appendChild(lastFakeNode);
+        }
         this.slideTo(this.value, 0);
-        this.orderMatrix = this.calcMatrix(this.count);
-        // if (this.isLoop) {
-        //     this.playLoopSlider();
-        // } else {
-        //     this.playSlider();
-        // }
+        if (this.isLoop) {
+            this.playLoopSlider();
+        } else {
+            this.playSlider();
+        }
     },
 
     methods: {
@@ -100,7 +106,6 @@ export default {
                 this.activeIndex++;
                 if (this.count <= this.activeIndex) {
                     this.activeIndex = 0;
-                    this.orderMatrix = this.calcMatrix(this.count, this.last, 0);
                 }
                 this.slideTo(this.activeIndex, this.speed);
             }, this.autoplay.delay);
@@ -126,45 +131,6 @@ export default {
                 }
             }, this.autoplay.delay);
         },
-
-        /**
-         * 这里的index都是slider的索引, 不算入两端fake的slider
-         * @argument {Number} length
-         * @argument {Number} fromIndex
-         * @argument {Number} toIndex
-         */
-        calcMatrix(length, fromIndex, toIndex) {
-            let array = [];
-            const lastIndex = length - 1;
-            for (let i = -1; i <= length; i++) {
-                array.push(i);
-            }
-            // 如果值传入length, 那么返回一般情况的排序
-            if (1 < arguments.length) {
-                if (lastIndex === fromIndex && 0 === toIndex) {
-                    // 从尾部到头部
-                    array[1] = array[length + 1];
-                    array[length + 1] = 0;
-                } else if (0 === fromIndex && lastIndex === toIndex) {
-                    // 从头部到尾部
-                    array[0] = lastIndex;
-                    array[length] = -1;
-                }
-            }
-            return array;
-        },
-
-        /**
-         * @argument {Number} translateX
-         * @returns {Int} activeIndex
-         * */
-        calcActiveIndex(translateX){
-            if(this.isLoop) {
-                let activeIndex = translateX / this.warpWidth;
-                return activeIndex;
-            }
-        },
-
         /**
          * 获取动画过程中的body的实时的translateX
          */
@@ -183,47 +149,56 @@ export default {
             this.startPointX = point.pageX;
             this.startTranslateX = this.translateX;
             this.transitionDuration = 0;
-            clearInterval(this.timer);
         },
 
         touchMove(e) {
             e.stopPropagation();
             e.preventDefault();
+            clearInterval(this.timer);
             // if(this.isAnimating) return;
             const point = e.touches ? e.touches[0] : e;
-            const deltaX = this.deltaX = point.pageX - this.startPointX;
+            const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
-
-            // 运动中发生拖拽
-            // 暂停在当前translateX
             if (this.isAnimating) {
                 const currentTranslateX = this.getTranslateX();
                 this.startTranslateX = currentTranslateX;
+                // log(this.startTranslateX)
+                // this.startPointX = point.pageX;
                 this.translateX = this.startTranslateX;
                 this.isAnimating = false;
             }
 
-            // 实时计算order矩阵
+            // 超过阈值, 才可以滑动
+            if(this.threshold < absDeltaX) {
+                this.translateX = this.startTranslateX + deltaX - (deltaX/absDeltaX) * this.threshold;
+            }
 
-
-            // 在滑动发生前做些对2端faker的定位处理
-            // 如果, 阈值范围内, 那么进行order交换操作
-            // 反之, 拖拽超过阈值, 可以滑动
-            if (this.threshold < absDeltaX) {
-                // 向右拖拽情况
-                if (0 < deltaX) {
-                    //  交换order
-                    // 如果当前第一张
-                 
-                } else {
-                    // 向左拖拽
-                    // 交换order
-                   
+            // 边界自动复位
+            if (this.isLoop) {
+                if (this.count == this.activeIndex) {
+                    // 正翻, 超过count代表已经到达尾部的fake
+                    const offset = this.startTranslateX % this.warpWidth;
+                    // 2种情况
+                    // 1. 从静止状态拖拽
+                    // 2. 从运动状态拖拽
+                    if (0 === offset) {
+                        this.slideTo(0, 0);
+                    } else {
+                        this.translateX = offset;
+                        this.startTranslateX = this.translateX;
+                        this.activeIndex = 0;
+                    }
+                } else if (-1 == this.activeIndex) {
+                    // 回翻,
+                    const offset = this.startTranslateX % this.warpWidth;
+                    if (0 === offset) {
+                        this.slideTo(this.count - 1, 0);
+                    } else {
+                        this.translateX = this.minTranslateX + (this.warpWidth + offset);
+                        this.startTranslateX = this.translateX;
+                        this.activeIndex = this.count - 1;
+                    }
                 }
-
-                this.translateX = this.startTranslateX + deltaX - absDeltaX / deltaX * this.threshold;
-                this.activeIndex = Math.round(this.calcActiveIndex(-this.translateX)) - (this.isLoop ? 1: 0);
-                log(this.activeIndex)
             }
         },
 
@@ -234,15 +209,15 @@ export default {
             const absTranlateX = Math.abs(this.translateX);
 
             // 判断边界
-            // if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
-            //     // 针对isLoop做activeIndex的偏移
-            //     let activeIndex = absTranlateX / this.warpWidth - 1 + (this.isLoop ? 0 : 1);
-            //     if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
-            //         this.activeIndex = Math.ceil(activeIndex);
-            //     } else {
-            //         this.activeIndex = Math.floor(activeIndex);
-            //     }
-            // }
+            if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
+                // 针对isLoop做activeIndex的偏移
+                let activeIndex = absTranlateX / this.warpWidth - 1 + (this.isLoop ? 0 : 1);
+                if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
+                    this.activeIndex = Math.ceil(activeIndex);
+                } else {
+                    this.activeIndex = Math.floor(activeIndex);
+                }
+            }
 
             this.slideTo(this.activeIndex);
         },
@@ -259,6 +234,7 @@ export default {
         transitionEnd() {
             this.isAnimating = false;
             this.transitionDuration = 0;
+            // this.startTranslateX = this.translateX;
             this.afterSliderTransitonend(this.activeIndex);
         }
     },
@@ -266,9 +242,9 @@ export default {
     watch: {
         value(value) {
             // 取消自动播放
-            // clearInterval(this.timer);
+            clearInterval(this.timer);
             // 只能返回总数范围内的
-            if (this.count > this.activeIndex && -1 < this.activeIndex) {
+            if(this.count > this.activeIndex && -1 < this.activeIndex ){
                 this.slideTo(value);
             }
         },
@@ -297,6 +273,16 @@ export default {
 
         lastIndex() {
             return this.count - 1;
+        },
+
+        realIndex() {
+            let realIndex = this.activeIndex;
+            if (this.count === this.activeIndex) {
+                realIndex = 0;
+            } else if (-1 === this.activeIndex) {
+                realIndex = this.count - 1;
+            }
+            return realIndex;
         }
     },
 
@@ -318,6 +304,7 @@ $height: 0.5rem;
         justify-content: space-between;
         height: 100%;
         width: 100%;
+        transition-timing-function: linear;
         transition-duration: 0ms;
 
         >>>.atom-carousel-item {

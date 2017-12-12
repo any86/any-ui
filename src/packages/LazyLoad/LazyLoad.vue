@@ -57,11 +57,11 @@ export default {
             }
         },
 
-        refreshTime: {
+        refresh: {
             type: Number
             // default: getTime()
             // 一般只有出现2组图片的父元素是通过v-show来控制的情况才需要
-            // 如果不愿意用refreshTime去强制触发刷新,
+            // 如果不愿意用refresh去强制触发刷新,
             // 那么就需要在图片元素或者父元素上使用v-if进行控制渲染开始的时机, 来触发mounted中的代码.
         },
 
@@ -178,7 +178,7 @@ export default {
     },
 
     watch: {
-        refreshTime() {
+        refresh() {
             this.loadInViewImg();
         },
 
