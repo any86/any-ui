@@ -6,7 +6,7 @@
         <h3>activeIndex: {{activeIndex}}</h3>
         <h3>translateX: {{translateX}}</h3>
         <h3>startTranslateX: {{startTranslateX}}</h3>
-        <h3>startPointX: {{startPointX}}</h3>
+        <h3>realIndex: {{realIndex}}</h3>
     </div>
 </template>
 
@@ -141,18 +141,29 @@ export default {
 
             // 边界自动复位
             if (this.isLoop) {
-                if (this.count <= this.activeIndex) {
+                if (this.count == this.activeIndex) {
                     // 正翻, 超过count代表已经到达尾部的fake
-                    // const offset = this.startTranslateX % this.warpWidth;
-                    // this.translateX = offset;
-                    // this.startTranslateX = this.translateX;
-                    // this.activeIndex = 0;
-                    this.slideTo(0, 0);
-                    
-                    
-                } else if (0 > this.activeIndex) {
+                    const offset = this.startTranslateX % this.warpWidth;
+                    // 2种情况
+                    // 1. 从静止状态拖拽
+                    // 2. 从运动状态拖拽
+                    if (0 === offset) {
+                        this.slideTo(0, 0);
+                    } else {
+                        this.translateX = offset;
+                        this.startTranslateX = this.translateX;
+                        this.activeIndex = 0;
+                    }
+                } else if (-1 == this.activeIndex) {
                     // 回翻,
-                    this.slideTo(this.count - 1, 0);
+                    const offset = this.startTranslateX % this.warpWidth;
+                    if (0 === offset) {
+                        this.slideTo(this.count - 1, 0);
+                    } else {
+                        this.translateX = this.minTranslateX + (this.warpWidth + offset);
+                        this.startTranslateX = this.translateX;
+                        this.activeIndex = this.count - 1;
+                    }
                 }
             }
 
@@ -176,8 +187,9 @@ export default {
 
             // 判断边界
             if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
-                let activeIndex = absTranlateX / this.warpWidth - 1;
-                if (0.2 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
+                // 针对isLoop做activeIndex的偏移
+                let activeIndex = absTranlateX / this.warpWidth - 1 + (this.isLoop ? 0 : 1);
+                if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
                     this.activeIndex = Math.ceil(activeIndex);
                 } else {
                     this.activeIndex = Math.floor(activeIndex);
@@ -231,6 +243,16 @@ export default {
 
         lastIndex() {
             return this.count - 1;
+        },
+
+        realIndex(){
+            let realIndex = this.activeIndex;
+            if (this.count === this.activeIndex){
+                realIndex = 0;
+            } else if(-1 === this.activeIndex){
+                realIndex = this.count - 1;
+            }
+            return realIndex;
         }
     },
 

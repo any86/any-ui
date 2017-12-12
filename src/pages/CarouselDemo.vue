@@ -1,7 +1,7 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :is-loop="true" :speed="1000" :autoplay="{delay: 3000}">
+        <v-carousel v-model="index" :is-loop="true" :speed="300" :autoplay="{delay: 3000}">
             <v-carousel-item v-for="n in 3" :key="n">
                 <div :class="['carousel-item', 'carousel-item-'+n]">{{n}}</div>
             </v-carousel-item>
