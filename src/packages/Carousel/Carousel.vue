@@ -3,15 +3,20 @@
         <div ref="body" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
             <slot></slot>
         </div>
-        <h3>activeIndex: {{activeIndex}}</h3>
+
+        <div class="atom-carousel__paging">
+            <span v-for="n in count" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
+        </div>
+
+        <!-- <h3>activeIndex: {{activeIndex}}</h3>
         <h3>translateX: {{translateX}}</h3>
         <h3>startTranslateX: {{startTranslateX}}</h3>
-        <h3>realIndex: {{realIndex}}</h3>
+        <h3>realIndex: {{realIndex}}</h3> -->
     </div>
 </template>
 
 <script>
-import { getHeight, getWidth } from '@/utils/dom';
+import { getTime, getWidth } from '@/utils/dom';
 import throttle from 'lodash/throttle';
 import times from 'lodash/times';
 
@@ -44,7 +49,7 @@ export default {
 
         threshold: {
             type: Number,
-            default: 0
+            default: 30
         },
 
         autoplay: {
@@ -62,28 +67,18 @@ export default {
 
     data: () => ({
         count: 0,
-        indexCounter: 0,
         warpWidth: 0,
         activeIndex: 0,
         isAnimating: false,
-        startTime: 0,
         startPointX: 0,
         transitionDuration: 0,
         translateX: 0,
         startTranslateX: 0,
-        hasPaging: true,
-        orderMatrix: [],
-        timer: null,
         afterSliderTransitonend: () => {},
-        isItemAllMounted: false
+        timer: null
     }),
 
-    created() {
-        // this.slideTo(this.value, 0);
-        // this.orderMatrix = this.calcMatrix(3);
-    },
-
-    beforeMount() {},
+    created() {},
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
@@ -98,9 +93,44 @@ export default {
             this.$refs.body.appendChild(lastFakeNode);
         }
         this.slideTo(this.value, 0);
+        if (this.isLoop) {
+            this.playLoopSlider();
+        } else {
+            this.playSlider();
+        }
     },
 
     methods: {
+        playSlider() {
+            this.timer = setInterval(() => {
+                this.activeIndex++;
+                if (this.count <= this.activeIndex) {
+                    this.activeIndex = 0;
+                }
+                this.slideTo(this.activeIndex, this.speed);
+            }, this.autoplay.delay);
+        },
+
+        playLoopSlider() {
+            this.timer = setInterval(() => {
+                this.activeIndex++;
+                if (this.count === this.activeIndex) {
+                    // 到达尾部fake的第一页;
+                    this.slideTo(this.activeIndex, this.speed, activeIndex => {
+                        this.slideTo(0, 0);
+                    });
+                } else if (-1 === this.activeIndex) {
+                    this.slideTo(this.activeIndex, this.speed, activeIndex => {
+                        // 暂时走不到这个流程
+                        // 因为只是正向播放
+                        // 后期如果加入反向播放, 还需要在其他部分加入代码
+                        this.slideTo(this.count - 1, 0);
+                    });
+                } else {
+                    this.slideTo(this.activeIndex, this.speed);
+                }
+            }, this.autoplay.delay);
+        },
         /**
          * 获取动画过程中的body的实时的translateX
          */
@@ -119,12 +149,12 @@ export default {
             this.startPointX = point.pageX;
             this.startTranslateX = this.translateX;
             this.transitionDuration = 0;
-            this.startTime = Date.now();
         },
 
         touchMove(e) {
             e.stopPropagation();
             e.preventDefault();
+            clearInterval(this.timer);
             // if(this.isAnimating) return;
             const point = e.touches ? e.touches[0] : e;
             const deltaX = point.pageX - this.startPointX;
@@ -137,7 +167,11 @@ export default {
                 this.translateX = this.startTranslateX;
                 this.isAnimating = false;
             }
-            this.translateX = this.startTranslateX + deltaX + this.threshold;
+
+            // 超过阈值, 才可以滑动
+            if(this.threshold < absDeltaX) {
+                this.translateX = this.startTranslateX + deltaX - (deltaX/absDeltaX) * this.threshold;
+            }
 
             // 边界自动复位
             if (this.isLoop) {
@@ -166,17 +200,6 @@ export default {
                     }
                 }
             }
-
-            // 超过阈值开始滑动
-            // if (this.threshold < absDeltaX) {
-            //     if (0 < deltaX) {
-            //         // 向右拖拽0->-1 / 3->2->1
-            //         this.translateX = this.startTranslateX + deltaX - this.threshold;
-            //     } else {
-            //         // 向左拖拽
-            //         this.translateX = this.startTranslateX + deltaX + this.threshold;
-            //     }
-            // }
         },
 
         touchEnd(e) {
@@ -218,13 +241,20 @@ export default {
 
     watch: {
         value(value) {
-            // if (this.count > value && -1 < value) {
-            // this.slideTo(value);
-            // }
+            // 取消自动播放
+            clearInterval(this.timer);
+            // 只能返回总数范围内的
+            if(this.count > this.activeIndex && -1 < this.activeIndex ){
+                this.slideTo(value);
+            }
         },
 
         activeIndex(activeIndex) {
-            // this.slideTo(activeIndex);
+            this.$emit('change', { realIndex: this.realIndex, activeIndex: this.activeIndex });
+        },
+
+        realIndex(realIndex) {
+            this.$emit('input', realIndex);
         }
     },
 
@@ -245,11 +275,11 @@ export default {
             return this.count - 1;
         },
 
-        realIndex(){
+        realIndex() {
             let realIndex = this.activeIndex;
-            if (this.count === this.activeIndex){
+            if (this.count === this.activeIndex) {
                 realIndex = 0;
-            } else if(-1 === this.activeIndex){
+            } else if (-1 === this.activeIndex) {
                 realIndex = this.count - 1;
             }
             return realIndex;
@@ -274,6 +304,7 @@ $height: 0.5rem;
         justify-content: space-between;
         height: 100%;
         width: 100%;
+        transition-timing-function: linear;
         transition-duration: 0ms;
 
         >>>.atom-carousel-item {

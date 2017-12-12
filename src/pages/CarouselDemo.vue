@@ -1,12 +1,16 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :is-loop="true" :speed="300" :autoplay="{delay: 3000}">
-            <v-carousel-item v-for="n in 3" :key="n">
-                <div :class="['carousel-item', 'carousel-item-'+n]">{{n}}</div>
+        <v-carousel v-model="index" :is-loop="true" :speed="300" :autoplay="{delay: 1000}">
+            <v-carousel-item v-for="image in imageList" :key="image">
+                <!-- <div :class="['carousel-item', 'carousel-item-'+n]">{{n}}</div> -->
+                <v-lazy-load :src="image" width="100%" />
             </v-carousel-item>
         </v-carousel>
         <!-- </section> -->
+        <h1>{{index}}</h1>
+
+        <button v-for="n in 3" :key="n" class="fill gutter" @click="index=n-1">{{n-1}}</button>
 
         <!-- <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -32,15 +36,17 @@ import VSwitch from '@/packages/Switch/Switch';
 import VCarousel from '@/packages/Carousel/Carousel';
 import VCarouselItem from '@/packages/Carousel/CarouselItem';
 import VScrollView from '@/packages/ScrollView/ScrollView';
+import VLazyLoad from '@/packages/LazyLoad/LazyLoad';
 
 export default {
     name: 'CarouselDemo',
 
     data() {
-        const image = faker.image.food(400, 240);
+        const longImages = ['http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/11/43/1143dc058ee817f1c08074ced118b5cf.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/b2/f9/b2f9453ff2b87e81867e003ea66551ea.png', 'https://dn-geekpark-new.qbox.me/uploads/image/file/65/36/653617a7ab15d06e1630389e7e5e058a.jpg'];
+
         return {
             index: 0,
-            imageList: [image + '?id=1', image + '?id=2', image + '?id=3']
+            imageList: longImages
         };
     },
 
@@ -72,7 +78,8 @@ export default {
         VSwitch,
         VCarousel,
         VCarouselItem,
-        VScrollView
+        VScrollView,
+        VLazyLoad
     }
 };
 </script>
