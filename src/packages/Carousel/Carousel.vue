@@ -77,8 +77,6 @@ export default {
         afterSliderTransitonend: () => {},
         timer: null,
         imgStore: [],
-        headFakeNode: null,
-        lastFakeNode: null
     }),
 
     created() {},
@@ -89,37 +87,48 @@ export default {
         // 构造loop所需dom结构
         // 因为用了order控制顺序了, 就不用insertBefore了
         if (this.isLoop) {
-            this.headFakeNode = this.$children[this.$children.length - 1].$el.cloneNode(true);
-            this.lastFakeNode = this.$children[0].$el.cloneNode(true);
-            this.headFakeNode.style.order = -1;
-            this.lastFakeNode.style.order = this.count;
-            this.$refs.body.appendChild(this.headFakeNode);
-            this.$refs.body.appendChild(this.lastFakeNode);
+            let headFakeNode = this.$children[
+                this.$children.length - 1
+            ].$el.cloneNode(true);
+            let lastFakeNode = this.$children[0].$el.cloneNode(true);
+            headFakeNode.style.order = -1;
+            lastFakeNode.style.order = this.count;
+            this.$refs.body.insertBefore(headFakeNode, this.$children[0].$el);
+            this.$refs.body.appendChild(lastFakeNode);
+
         }
 
         // 遍历所有lazy-src
         // 不能用$children, 因为还要传递el. $children没法区分fake/real
-        this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
-            this.imgStore[index] = [];
-            $item.querySelectorAll('img').forEach($img => {
-                this.imgStore[index].push({ el: $img, url: $img.attributes['lazy-src'].value, status: 'ready' });
+        this.$el
+            .querySelectorAll('.atom-carousel-item')
+            .forEach(($item, index) => {
+                this.imgStore[index] = [];
+                $item.querySelectorAll('img').forEach($img => {
+                    this.imgStore[index].push({
+                        el: $img,
+                        url: $img.attributes['lazy-src'].value,
+                        status: 'ready'
+                    });
+                });
             });
-        });
 
         // this.loadImageByRealIndex(this.value - 1);
-        this.loadImageByRealIndex(this.value);
-        this.loadImageByRealIndex(this.value + 1);
+        this.loadImageByActiveIndex(0);
         // const nextImg = this.
 
         this.slideTo(this.value, 0);
-        if (this.isLoop) {
-            this.playLoopSlider();
-        } else {
-            this.playSlider();
-        }
+        // if (this.isLoop) {
+        //     this.playLoopSlider();
+        // } else {
+        //     this.playSlider();
+        // }
     },
 
     methods: {
+        /**
+        * 预加载图片
+         */
         loadImage(src, callback) {
             let img = new Image();
             img.src = src;
@@ -129,17 +138,14 @@ export default {
             };
         },
 
-        loadImageByRealIndex(realIndex) {
-            if (0 === realIndex) {
-                const activeItem = this.imgStore[realIndex];
-            }
-
+        loadImageByActiveIndex(activeIndex) {
             // lazyload
-            activeItem.forEach(item => {
+            this.imgStore[activeIndex + 1].forEach(item => {
                 this.loadImage(item.url, info => {
                     item.el.src = item.url;
                     item.el.setAttribute('lazy', 'done');
                     item.el.removeAttribute('lazy-src');
+                    item.status = 'done';
                 });
             });
         },
@@ -216,7 +222,10 @@ export default {
 
             // 超过阈值, 才可以滑动
             if (this.threshold < absDeltaX) {
-                this.translateX = this.startTranslateX + deltaX - deltaX / absDeltaX * this.threshold;
+                this.translateX =
+                    this.startTranslateX +
+                    deltaX -
+                    deltaX / absDeltaX * this.threshold;
             }
 
             // 边界自动复位
@@ -240,7 +249,8 @@ export default {
                     if (0 === offset) {
                         this.slideTo(this.count - 1, 0);
                     } else {
-                        this.translateX = this.minTranslateX + (this.warpWidth + offset);
+                        this.translateX =
+                            this.minTranslateX + (this.warpWidth + offset);
                         this.startTranslateX = this.translateX;
                         this.activeIndex = this.count - 1;
                     }
@@ -255,9 +265,13 @@ export default {
             const absTranlateX = Math.abs(this.translateX);
 
             // 判断边界
-            if (this.maxTranslateX >= this.translateX && this.minTranslateX <= this.translateX) {
+            if (
+                this.maxTranslateX >= this.translateX &&
+                this.minTranslateX <= this.translateX
+            ) {
                 // 针对isLoop做activeIndex的偏移
-                let activeIndex = absTranlateX / this.warpWidth - 1 + (this.isLoop ? 0 : 1);
+                let activeIndex =
+                    absTranlateX / this.warpWidth - 1 + (this.isLoop ? 0 : 1);
                 if (0.1 < 0 - deltaX / absDeltaX * Math.abs(activeIndex)) {
                     this.activeIndex = Math.ceil(activeIndex);
                 } else {
@@ -296,10 +310,20 @@ export default {
         },
 
         activeIndex(activeIndex) {
-            this.$emit('change', { realIndex: this.realIndex, activeIndex: this.activeIndex });
+            this.$emit('change', {
+                realIndex: this.realIndex,
+                activeIndex: this.activeIndex
+            });
         },
 
         realIndex(realIndex) {
+            this.loadImageByActiveIndex(realIndex);
+            if (0 === realIndex) {
+                this.loadImageByActiveIndex(this.count);
+            } else if (this.lastIndex === realIndex) {
+                this.loadImageByActiveIndex(-1);
+            }
+
             this.$emit('input', realIndex);
         }
     },
