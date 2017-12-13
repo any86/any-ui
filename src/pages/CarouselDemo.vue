@@ -1,13 +1,16 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :is-loop="true" :speed="1000" :autoplay="{delay: 1000}" @change="activeIndex=$event.activeIndex">
+        <v-carousel v-model="index" :is-loop="true" :speed="1000" :autoplay="{delay: 2000}" @change="activeIndex=$event.activeIndex">
             <v-carousel-item v-for="(image, n) in imageList" :key="image">
-                <v-lazy-load :src="image" width="100%" height="200" />
+                <!-- <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
+                    {{n+1}}
+                </div> -->
+                <img :lazy-src="image" width="100%" height="200" />
             </v-carousel-item>
         </v-carousel>
         <!-- </section> -->
-        <h1>{{index}}</h1>
+        <!-- <h1>{{index}}</h1> -->
 
         <button v-for="n in 3" :key="n" class="fill gutter" @click="index=n-1">{{n-1}}</button>
 
@@ -42,7 +45,7 @@ export default {
 
     data() {
         const longImages = ['http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/11/43/1143dc058ee817f1c08074ced118b5cf.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/b2/f9/b2f9453ff2b87e81867e003ea66551ea.png', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/4f/d7/4fd7010e128fdf69e4c3edcd30aa1f00.jpeg'];
-
+        // const longImages = ['http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/11/43/1143dc058ee817f1c08074ced118b5cf.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/b2/f9/b2f9453ff2b87e81867e003ea66551ea.png'];
         return {
             index: 0,
             activeIndex: 0,
@@ -119,7 +122,7 @@ export default {
 .carousel-item {
     height: 200px;
     line-height: 200px;
-    color: $sub;
+    color: #ddd;
     font-size: $biggest;
     text-align: center;
 

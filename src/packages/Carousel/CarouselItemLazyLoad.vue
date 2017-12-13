@@ -1,9 +1,7 @@
 <template>
-     <v-lazy-load :src="src" class="atom-carousel-item-lazy-load"/>
-     <!-- <div>{{$parent.index}}</div> -->
+    <img/>
 </template>
 <script>
-import VLazyLoad from '@/packages/LazyLoad/LazyLoad';
 export default {
     name: 'CarouselItemLazyLoad',
 
@@ -22,8 +20,6 @@ export default {
     mounted(){
 
     },
-
-    components: {VLazyLoad}
 };
 </script>
 <style scoped lang=scss>
