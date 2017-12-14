@@ -80,7 +80,7 @@ export default {
         startTranslateX: 0,
         afterSliderTransitonend: () => {},
         timer: null,
-        imgStore: []
+        imageStore: []
     }),
 
     mounted() {
@@ -90,7 +90,7 @@ export default {
             this.cloneNodeForLoop();
         }
         // 需要在cloneNodeForLoop后面执行
-        this.imgToStore();
+        this.imageToStore();
         this.slideTo(this.value, 0);
 
         // 自动播放
@@ -117,14 +117,14 @@ export default {
         /**
          * 存储所有lazy-src的图片地址, 还包括所在img元素/status
          */
-        imgToStore() {
+        imageToStore() {
             // 遍历所有lazy-src
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
             this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
-                this.imgStore[index] = [];
+                this.imageStore[index] = [];
                 $item.querySelectorAll('img').forEach($imgEl => {
                     $imgEl.setAttribute('lazy-status', 'ready');
-                    this.imgStore[index].push({
+                    this.imageStore[index].push({
                         el: $imgEl,
                         url: $imgEl.attributes['lazy-src'].value,
                         status: 'ready'
@@ -149,7 +149,7 @@ export default {
 
         loadImageByActiveIndex(activeIndex) {
             // 每页的图片
-            const pageImgStore = this.imgStore[activeIndex + (this.isLoop ? 1 : 0)];
+            const pageImgStore = this.imageStore[activeIndex + (this.isLoop ? 1 : 0)];
             // 判断active是否有效
             if (undefined !== pageImgStore) {
                 pageImgStore.forEach(item => {
@@ -210,7 +210,7 @@ export default {
         /**
          * 停止播放
          */
-        stopSlider(){
+        stopSlider() {
             clearInterval(this.timer);
         },
 
@@ -444,16 +444,6 @@ $height: 0.5rem;
         width: 100%;
         transition-timing-function: ease-in-out;
         transition-duration: 0ms;
-
-        >>>.atom-carousel-item {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            flex-shrink: 0;
-            transition-duration: 1000ms;
-            transition-property: transform;
-            transition-timing-function: ease-in-out;
-        }
     }
 
     &__paging {
@@ -469,10 +459,9 @@ $height: 0.5rem;
             width: 8px;
             border-radius: 8px;
             background: rgba($dark, 0.6);
-            transition: all $duration;
+            transition: transform $duration;
             &--active {
-                width: 16px;
-                /* transform: scale(1.2); */
+                transform: scale(1.2);
                 background: rgba($base, 0.7);
             }
         }
