@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-carousel-item" :style="{order: index, width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
+    <div class="atom-carousel-item" :style="{order: index, width: `${itemWidth}px`, marginRight: `${$parent.spaceBetween}px`}">
         <slot></slot>
         <v-spinner-ripple  class="item__loading"/>
     </div>
@@ -33,7 +33,7 @@ export default {
 
     computed: {
         itemWidth() {
-            return 100 / this.$parent.slidesPerView;
+            return this.$parent.warpWidth / this.$parent.slidesPerView;
         }
     },
     components: { VSpinnerRipple }
