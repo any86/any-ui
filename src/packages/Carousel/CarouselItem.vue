@@ -1,7 +1,7 @@
 <template>
     <div class="atom-carousel-item" :style="{order: index, width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
         <slot></slot>
-        <v-spinner-ripple v-if="hasImage" class="item__loading"/>
+        <v-spinner-ripple  class="item__loading"/>
     </div>
 </template>
 <script>
@@ -54,10 +54,14 @@ export default {
         bottom: 0;
         margin: auto;
         z-index: 6;
+        opacity: 0;
     }
 
     img[lazy-src] {
         opacity: 0;
+        & + .item__loading {
+            opacity: 1;
+        }
     }
 
     img[lazy-status='done'] {
@@ -66,6 +70,9 @@ export default {
             display: none;
         }
     }
+
+
+
 
     /* 关于一页多张图片加载的逻辑, 慢慢想 */
     /* img:not([lazy-status='done']) {

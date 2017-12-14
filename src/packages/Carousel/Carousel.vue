@@ -46,13 +46,19 @@ export default {
             default: 15
         },
 
-        autoplay: {
-            type: [Object, Boolean],
-            default: () => ({
-                delay: 3000,
-                disableOnInteraction: false,
-                stopOnLast: false
-            })
+        delay: {
+            type: [Number, String],
+            default: 3000
+        },
+
+        disableOnInteraction: {
+            type: Boolean,
+            default: false
+        },
+
+        stopOnLast: {
+            type: Boolean,
+            default: false
         },
 
         speed: {
@@ -60,13 +66,15 @@ export default {
             default: 300
         },
 
-        lazy: {
-            type: [Object, Boolean],
-            default: () => ({
-                loadPrevNext: true,
-                loadPrevNextAmount: 1
-            })
-        }
+        loadPrevNext: {
+            type: Boolean,
+            default: true
+        },
+
+        loadPrevNextAmount: {
+            type: Number,
+            default: 1
+        },
     },
 
     data: () => ({
@@ -175,7 +183,7 @@ export default {
                     this.activeIndex = 0;
                 }
                 this.slideTo(this.activeIndex, this.speed);
-            }, this.autoplay.delay);
+            }, this.delay);
         },
 
         /**
@@ -204,7 +212,7 @@ export default {
                 } else {
                     this.slideTo(this.activeIndex, this.speed);
                 }
-            }, this.autoplay.delay);
+            }, this.delay);
         },
 
         /**
@@ -341,7 +349,7 @@ export default {
             this.stopSlider();
 
             // 是否恢复播放
-            if (!this.autoplay.disableOnInteraction) {
+            if (!this.disableOnInteraction) {
                 if (this.isLoop) {
                     this.playLoopSlider();
                 } else {
@@ -350,7 +358,7 @@ export default {
             }
 
             // 到达尾部停止自动播放
-            if (this.autoplay.stopOnLast && this.lastIndex === this.realIndex) {
+            if (this.stopOnLast && this.lastIndex === this.realIndex) {
                 this.stopSlider();
             }
 
@@ -381,9 +389,9 @@ export default {
                 this.loadImageByActiveIndex(realIndex);
 
                 // 预加载next/prev的图片
-                if (this.lazy.loadPrevNext && 0 < this.lazy.loadPrevNextAmount) {
-                    this.loadImageByActiveIndex(realIndex - this.lazy.loadPrevNextAmount);
-                    this.loadImageByActiveIndex(realIndex + this.lazy.loadPrevNextAmount);
+                if (this.loadPrevNext && 0 < this.loadPrevNextAmount) {
+                    this.loadImageByActiveIndex(realIndex - this.loadPrevNextAmount);
+                    this.loadImageByActiveIndex(realIndex + this.loadPrevNextAmount);
                 }
 
                 // 针对边界对fake的图片也同时加载
