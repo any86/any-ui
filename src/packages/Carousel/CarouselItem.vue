@@ -1,12 +1,10 @@
 <template>
     <div class="atom-carousel-item" :style="{order: index, width: `${itemWidth}%`, marginRight: `${$parent.spaceBetween}px`}">
-        <!-- <v-lazy-load :src="src" :preLoad-rate="20" @loaded="isImgLoaded = true" style="margin:auto;"/> -->
-        <!-- <v-spinner-ripple v-show="!isImgLoaded" class="item__loading"/> -->
         <slot></slot>
+        <v-spinner-ripple v-show="!isImgLoaded" class="item__loading" />
     </div>
 </template>
 <script>
-import VLazyLoad from '@/packages/LazyLoad/LazyLoad';
 import VSpinnerRipple from '@/packages/Spinner/Ripple';
 export default {
     name: 'CarouselItem',
@@ -21,7 +19,7 @@ export default {
 
         src: {
             type: String
-        },
+        }
     },
 
     data() {
@@ -29,7 +27,7 @@ export default {
             index: 0,
             width: 0,
             viewWidth: 0,
-            isImgLoaded: false,
+            isImgLoaded: false
         };
     },
 
@@ -40,27 +38,35 @@ export default {
     },
 
     computed: {
-        // /**
-        //  * 加载图片
-        //  * @argument {String} 图片地址
-        //  */
-        // lazyLoad(src) {
-        //     let img = new Image();
-        //     img.src = src;
-        //     img.onload = e => {
-
-        //     };
-        // },
-
         itemWidth() {
             return 100 / this.$parent.slidesPerView;
         }
     },
-    components: {VLazyLoad, VSpinnerRipple}
+    components: { VSpinnerRipple }
 };
 </script>
 <style scoped lang=scss>
 @import '../../scss/theme.scss';
-@import '../../scss/mixin.scss';
+.atom-carousel-item {
+    > .item__loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        z-index: 6;
+    }
 
+    img[lazy-src] {
+        opacity: 0;
+    }
+
+    img[lazy-status='done'] {
+        animation: fadeIn 1000ms;
+        &+.item__loading{
+            display: none;
+        }
+    }
+}
 </style>
