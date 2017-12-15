@@ -119,7 +119,9 @@ export default {
          * 构造loop所需dom结构
          */
         cloneNodeForLoop() {
-            let headFakeNode = this.$children[this.$children.length - 1].$el.cloneNode(true);
+            let headFakeNode = this.$children[
+                this.$children.length - 1
+            ].$el.cloneNode(true);
             let lastFakeNode = this.$children[0].$el.cloneNode(true);
             headFakeNode.style.order = -1;
             lastFakeNode.style.order = this.count;
@@ -133,17 +135,19 @@ export default {
         imageToStore() {
             // 遍历所有lazy-src
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
-            this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
-                this.imageStore[index] = [];
-                $item.querySelectorAll('img').forEach($imgEl => {
-                    $imgEl.setAttribute('lazy-status', 'ready');
-                    this.imageStore[index].push({
-                        el: $imgEl,
-                        url: $imgEl.attributes['lazy-src'].value,
-                        status: 'ready'
+            this.$el
+                .querySelectorAll('.atom-carousel-item')
+                .forEach(($item, index) => {
+                    this.imageStore[index] = [];
+                    $item.querySelectorAll('img').forEach($imgEl => {
+                        $imgEl.setAttribute('lazy-status', 'ready');
+                        this.imageStore[index].push({
+                            el: $imgEl,
+                            url: $imgEl.attributes['lazy-src'].value,
+                            status: 'ready'
+                        });
                     });
                 });
-            });
         },
 
         /**
@@ -162,7 +166,9 @@ export default {
 
         loadImageByActiveIndex(activeIndex) {
             // 每页的图片
-            const pageImgStore = this.imageStore[activeIndex + (this.isLoop ? 1 : 0)];
+            const pageImgStore = this.imageStore[
+                activeIndex + (this.isLoop ? 1 : 0)
+            ];
             // 判断active是否有效
             if (undefined !== pageImgStore) {
                 pageImgStore.forEach(item => {
@@ -210,13 +216,21 @@ export default {
                         });
                     } else if (this.count === this.activeIndex) {
                         // 从最后一页=> 尾部的fake页;
-                        this.slideTo(this.activeIndex, this.speed, activeIndex => {
-                            this.slideTo(0, 0);
-                        });
+                        this.slideTo(
+                            this.activeIndex,
+                            this.speed,
+                            activeIndex => {
+                                this.slideTo(0, 0);
+                            }
+                        );
                     } else if (-1 === this.activeIndex) {
-                        this.slideTo(this.activeIndex, this.speed, activeIndex => {
-                            this.slideTo(this.count - 1, 0);
-                        });
+                        this.slideTo(
+                            this.activeIndex,
+                            this.speed,
+                            activeIndex => {
+                                this.slideTo(this.count - 1, 0);
+                            }
+                        );
                     } else {
                         this.slideTo(this.activeIndex, this.speed);
                     }
@@ -285,7 +299,10 @@ export default {
 
             // 超过阈值, 才可以滑动
             if (this.threshold < absDeltaX) {
-                this.translateX = this.startTranslateX + deltaX - deltaX / absDeltaX * this.threshold;
+                this.translateX =
+                    this.startTranslateX +
+                    deltaX -
+                    deltaX / absDeltaX * this.threshold;
             }
 
             // 边界逻辑, fake/real切换
@@ -362,14 +379,26 @@ export default {
          */
         activeIndex() {
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
-            if (.5 < Math.abs(this.momentum)) {
-                if(0 < Math.sign(this.momentum)) {
-                    return 0 - Math.ceil(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+            if (0.5 < Math.abs(this.momentum)) {
+                if (0 < Math.sign(this.momentum)) {
+                    return (
+                        0 -
+                        Math.ceil(this.translateX / this.stepWidth) -
+                        (this.isLoop ? 1 : 0)
+                    );
                 } else {
-                    return 0 - Math.floor(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                    return (
+                        0 -
+                        Math.floor(this.translateX / this.stepWidth) -
+                        (this.isLoop ? 1 : 0)
+                    );
                 }
             } else {
-                return 0 - Math.round(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                return (
+                    0 -
+                    Math.round(this.translateX / this.stepWidth) -
+                    (this.isLoop ? 1 : 0)
+                );
             }
         },
 
@@ -425,8 +454,12 @@ export default {
 
             // 预加载next/prev的图片
             if (this.loadPrevNext && 0 < this.loadPrevNextAmount) {
-                this.loadImageByActiveIndex(realIndex - this.loadPrevNextAmount);
-                this.loadImageByActiveIndex(realIndex + this.loadPrevNextAmount);
+                this.loadImageByActiveIndex(
+                    realIndex - this.loadPrevNextAmount
+                );
+                this.loadImageByActiveIndex(
+                    realIndex + this.loadPrevNextAmount
+                );
             }
 
             // 针对边界对fake的图片也同时加载
