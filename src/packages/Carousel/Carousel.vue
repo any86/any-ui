@@ -74,7 +74,7 @@ export default {
         loadPrevNextAmount: {
             type: Number,
             default: 1
-        },
+        }
     },
 
     data: () => ({
@@ -93,10 +93,12 @@ export default {
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
+        this.$nextTick(() => {
+            if (this.isLoop) {
+                this.cloneNodeForLoop();
+            }
+        });
 
-        if (this.isLoop) {
-            this.cloneNodeForLoop();
-        }
         // 需要在cloneNodeForLoop后面执行
         this.imageToStore();
         this.slideTo(this.value, 0);
@@ -243,6 +245,7 @@ export default {
             this.startPointX = point.pageX;
             this.startTranslateX = this.translateX;
             this.transitionDuration = 0;
+            this.$emit('touchstart');
         },
 
         /**
@@ -294,6 +297,7 @@ export default {
                     }
                 }
             }
+            this.$emit('touchmove');
         },
 
         /**
