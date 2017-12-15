@@ -1,7 +1,7 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :slides-per-view="1" :load-prev-next="true"  :is-loop="true" :speed="300"  @change="activeIndex=$event.activeIndex">
+        <v-carousel v-model="index" :slides-per-view="1" :load-prev-next="false"  :is-loop="true" :speed="300"  @change="activeIndex=$event.activeIndex">
             <v-carousel-item v-for="(image, n) in imageList" :key="image">
                 <!-- <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
                     {{n+1}}

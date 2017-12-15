@@ -93,11 +93,9 @@ export default {
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
-        this.$nextTick(() => {
-            if (this.isLoop) {
-                this.cloneNodeForLoop();
-            }
-        });
+        if (this.isLoop) {
+            this.cloneNodeForLoop();
+        }
 
         // 需要在cloneNodeForLoop后面执行
         this.imageToStore();
