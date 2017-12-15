@@ -1,12 +1,12 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :slides-per-view="1" :load-prev-next="false"  :is-loop="true" :speed="300"  @change="activeIndex=$event.activeIndex">
+        <v-carousel v-model="index" :slides-per-view="1" :load-prev-next="false" :delay="-1"  :is-loop="true" :speed="1000"  @change="activeIndex=$event.activeIndex">
             <v-carousel-item v-for="(image, n) in imageList" :key="image">
-                <!-- <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
+                <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
                     {{n+1}}
-                </div> -->
-                <img :lazy-src="image" width="100%" height="200" />
+                </div>
+                <!-- <img :lazy-src="image" width="100%" height="200" /> -->
             </v-carousel-item>
         </v-carousel>
         <!-- </section> -->
@@ -16,9 +16,9 @@
 
         <!-- <div class="swiper-container" style="background:#eee; height:200px;">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" style="width:30%;">Slide 1</div>
-                <div class="swiper-slide" style="width:60%;">Slide 2</div>
-                <div class="swiper-slide" style="width:40%;">Slide 3</div>
+                <div class="swiper-slide" >Slide 1</div>
+                <div class="swiper-slide" >Slide 2</div>
+                <div class="swiper-slide" >Slide 3</div>
             </div>
 
             <div class="swiper-pagination"></div>
@@ -57,8 +57,7 @@ export default {
     //     var swiper = new Swiper('.swiper-container', {
     //         // slidesPerView: 1,
     //         slidesPerView: 'auto',
-    //   spaceBetween: 30,
-    //         spaceBetween: 30,
+    //         // spaceBetween: 30,
     //         speed: 300,
     //         loop: true,
     //         pagination: {
@@ -129,16 +128,16 @@ export default {
 
     &-1 {
         background: $dark;
-        width: 4rem;
+        // width: 4rem;
     }
     &-2 {
         background: $success;
-        width:6rem;
+        // width:6rem;
     }
 
     &-3 {
         background: $info;
-        width:3rem;
+        // width:3rem;
     }
     &-4 {
         background: $warning;
