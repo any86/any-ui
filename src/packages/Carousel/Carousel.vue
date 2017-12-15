@@ -379,7 +379,7 @@ export default {
          */
         activeIndex() {
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
-            if (0.5 < Math.abs(this.momentum)) {
+            if (0.3 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
                     return (
                         0 -
