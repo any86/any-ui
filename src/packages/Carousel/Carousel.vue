@@ -381,20 +381,10 @@ export default {
          */
         activeIndex() {
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
-<<<<<<< HEAD
             // if (.5 < Math.abs(this.momentum)) {
-            if (0 < Math.abs(this.momentum)) {
+            if (.5 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
                     return 0 - Math.ceil(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
-=======
-            if (0.3 < Math.abs(this.momentum)) {
-                if (0 < Math.sign(this.momentum)) {
-                    return (
-                        0 -
-                        Math.ceil(this.translateX / this.stepWidth) -
-                        (this.isLoop ? 1 : 0)
-                    );
->>>>>>> b51d2afd4e5f933a9744c23781b8897b05107831
                 } else {
                     return (
                         0 -
