@@ -120,9 +120,7 @@ export default {
          * 构造loop所需dom结构
          */
         cloneNodeForLoop() {
-            let headFakeNode = this.$children[
-                this.$children.length - 1
-            ].$el.cloneNode(true);
+            let headFakeNode = this.$children[this.$children.length - 1].$el.cloneNode(true);
             let lastFakeNode = this.$children[0].$el.cloneNode(true);
             headFakeNode.style.order = -1;
             lastFakeNode.style.order = this.count;
@@ -136,19 +134,17 @@ export default {
         imageToStore() {
             // 遍历所有lazy-src
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
-            this.$el
-                .querySelectorAll('.atom-carousel-item')
-                .forEach(($item, index) => {
-                    this.imageStore[index] = [];
-                    $item.querySelectorAll('img').forEach($imgEl => {
-                        $imgEl.setAttribute('lazy-status', 'ready');
-                        this.imageStore[index].push({
-                            el: $imgEl,
-                            url: $imgEl.attributes['lazy-src'].value,
-                            status: 'ready'
-                        });
+            this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
+                this.imageStore[index] = [];
+                $item.querySelectorAll('img').forEach($imgEl => {
+                    $imgEl.setAttribute('lazy-status', 'ready');
+                    this.imageStore[index].push({
+                        el: $imgEl,
+                        url: $imgEl.attributes['lazy-src'].value,
+                        status: 'ready'
                     });
                 });
+            });
         },
 
         /**
@@ -167,9 +163,7 @@ export default {
 
         loadImageByActiveIndex(activeIndex) {
             // 每页的图片
-            const pageImgStore = this.imageStore[
-                activeIndex + (this.isLoop ? 1 : 0)
-            ];
+            const pageImgStore = this.imageStore[activeIndex + (this.isLoop ? 1 : 0)];
             // 判断active是否有效
             if (undefined !== pageImgStore) {
                 pageImgStore.forEach(item => {
@@ -191,11 +185,12 @@ export default {
                 // 正向播放
                 this.timer = setInterval(() => {
                     // 翻页
-                    this.activeIndex++;
-                    if (this.count <= this.activeIndex) {
-                        this.activeIndex = 0;
+                    let activeIndex = this.activeIndex;
+                    activeIndex++;
+                    if (this.count <= activeIndex) {
+                        activeIndex = 0;
                     }
-                    this.slideTo(this.activeIndex, this.speed);
+                    this.slideTo(activeIndex, this.speed);
                 }, this.delay);
             }
         },
@@ -207,33 +202,26 @@ export default {
             if (-1 < this.delay) {
                 this.timer = setInterval(() => {
                     // 累加页码
-                    this.activeIndex++;
+                    let activeIndex = this.activeIndex;
+                    activeIndex++;
 
-                    if (this.count + 1 === this.activeIndex) {
+                    if (this.count + 1 === activeIndex) {
                         // 从尾部的fake页 => 0
                         this.slideTo(0, 0);
                         this.$nextTick(() => {
                             this.slideTo(1);
                         });
-                    } else if (this.count === this.activeIndex) {
+                    } else if (this.count === activeIndex) {
                         // 从最后一页=> 尾部的fake页;
-                        this.slideTo(
-                            this.activeIndex,
-                            this.speed,
-                            activeIndex => {
-                                this.slideTo(0, 0);
-                            }
-                        );
-                    } else if (-1 === this.activeIndex) {
-                        this.slideTo(
-                            this.activeIndex,
-                            this.speed,
-                            activeIndex => {
-                                this.slideTo(this.count - 1, 0);
-                            }
-                        );
+                        this.slideTo(activeIndex, this.speed, activeIndex => {
+                            this.slideTo(0, 0);
+                        });
+                    } else if (-1 === activeIndex) {
+                        this.slideTo(activeIndex, this.speed, activeIndex => {
+                            this.slideTo(this.count - 1, 0);
+                        });
                     } else {
-                        this.slideTo(this.activeIndex, this.speed);
+                        this.slideTo(activeIndex, this.speed);
                     }
                 }, this.delay);
             }
@@ -244,6 +232,19 @@ export default {
          */
         stopSlider() {
             clearInterval(this.timer);
+        },
+
+        /** 
+        * 恢复播放 
+        */
+        resumeSlider() {
+            if (!this.disableOnInteraction) {
+                if (this.isLoop) {
+                    this.playLoopSlider();
+                } else {
+                    this.playSlider();
+                }
+            }
         },
 
         /**
@@ -265,6 +266,7 @@ export default {
             // e.preventDefault();
             const point = e.touches ? e.touches[0] : e;
             this.startPointX = point.pageX;
+            this.startPointY = point.pageY;
             this.startTranslateX = this.translateX;
             this.transitionDuration = 0;
             this.startTime = getTime();
@@ -276,11 +278,15 @@ export default {
          */
         touchMove(e) {
             e.stopPropagation();
-            e.preventDefault();
-
+            this.stopSlider();
             const point = e.touches ? e.touches[0] : e;
             const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
+            const deltaY = point.pageY - this.startPointY;
+            const absDeltaY = Math.abs(deltaY);
+
+            // X轴拖拽多才可以
+            if (absDeltaX < absDeltaY + 15) return;
 
             // 重置缓冲量, touchend中累加
             this.momentum = 0;
@@ -301,7 +307,6 @@ export default {
             // 超过阈值, 才可以滑动
             if (this.threshold < absDeltaX) {
                 this.translateX = this.startTranslateX + deltaX - Math.sign(deltaX) * this.threshold;
-                this.translateX = ~~this.translateX;
             }
 
             // 边界逻辑, fake/real切换
@@ -326,6 +331,8 @@ export default {
             const absDeltaX = Math.abs(deltaX);
             this.momentum = deltaX / (getTime() - this.startTime);
             this.slideTo(this.activeIndex);
+            // 恢复播放
+            this.resumeSlider();
             this.$emit('touchend');
         },
         /**
@@ -338,8 +345,8 @@ export default {
             this.isAnimating = 0 < duration && true;
             // 防止拖拽快的时候, duration = 0 被其他值覆盖
             // 覆盖原因, 暂未查明
-            if(0 == duration) {
-                this.$nextTick(()=>{
+            if (0 == duration) {
+                this.$nextTick(() => {
                     this.transitionDuration = 0;
                 });
             } else {
@@ -381,23 +388,14 @@ export default {
          */
         activeIndex() {
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
-            // if (.5 < Math.abs(this.momentum)) {
-            if (.5 < Math.abs(this.momentum)) {
+            if (0.5 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
                     return 0 - Math.ceil(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
                 } else {
-                    return (
-                        0 -
-                        Math.floor(this.translateX / this.stepWidth) -
-                        (this.isLoop ? 1 : 0)
-                    );
+                    return 0 - Math.floor(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
                 }
             } else {
-                return (
-                    0 -
-                    Math.round(this.translateX / this.stepWidth) -
-                    (this.isLoop ? 1 : 0)
-                );
+                return 0 - Math.round(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
             }
         },
 
@@ -416,15 +414,8 @@ export default {
         value(value) {
             // 停止自动播放
             this.stopSlider();
-
-            // 是否恢复播放
-            if (!this.disableOnInteraction) {
-                if (this.isLoop) {
-                    this.playLoopSlider();
-                } else {
-                    this.playSlider();
-                }
-            }
+            // 重新计时, 播放(防止切换后, 没有delay就播放了)
+            this.resumeSlider();
 
             // 到达尾部停止自动播放
             if (this.stopOnLast && this.lastIndex === this.realIndex) {
@@ -453,12 +444,8 @@ export default {
 
             // 预加载next/prev的图片
             if (this.loadPrevNext && 0 < this.loadPrevNextAmount) {
-                this.loadImageByActiveIndex(
-                    realIndex - this.loadPrevNextAmount
-                );
-                this.loadImageByActiveIndex(
-                    realIndex + this.loadPrevNextAmount
-                );
+                this.loadImageByActiveIndex(realIndex - this.loadPrevNextAmount);
+                this.loadImageByActiveIndex(realIndex + this.loadPrevNextAmount);
             }
 
             // 针对边界对fake的图片也同时加载
@@ -468,7 +455,7 @@ export default {
                 this.loadImageByActiveIndex(-1);
             }
 
-            // this.$emit('input', realIndex);
+            this.$emit('input', realIndex);
         }
     }
 };
@@ -489,6 +476,7 @@ $height: 0.5rem;
         height: 100%;
         width: 100%;
         will-change: transform;
+        transition-property: transform;
         transition-timing-function: ease-in-out;
         transition-duration: 0ms;
     }
