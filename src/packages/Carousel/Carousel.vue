@@ -9,6 +9,7 @@
         <h1>activeIndex: {{activeIndex}}</h1>
         <h1>realIndex: {{realIndex}}</h1>
         <h1>translateX: {{translateX}}</h1>
+        <h1>transitionDuration: {{transitionDuration}}</h1>
 
     </div>
 </template>
@@ -285,20 +286,17 @@ export default {
 
             // 超过阈值, 才可以滑动
             if (this.threshold < absDeltaX) {
-                this.translateX = this.startTranslateX + deltaX - deltaX / absDeltaX * this.threshold;
+                this.translateX = this.startTranslateX + deltaX - Math.sign(deltaX) * this.threshold;
+                this.translateX = ~~this.translateX;
             }
 
             // 边界逻辑, fake/real切换
             if (this.isLoop) {
                 // 必须要<=, 因为拖拽的太快时, 会超过边界index
-                if (this.count <= this.activeIndex) {
-                    if (this.minTranslateX > this.translateX) {
-                        this.slideTo(0, 0);
-                    }
-                } else if (-1 >= this.activeIndex) {
-                    if (this.maxTranslateX < this.translateX) {
-                        this.slideTo(this.lastIndex, 0);
-                    }
+                if (this.minTranslateX > this.translateX) {
+                    this.slideTo(0, 0);
+                } else if (this.maxTranslateX < this.translateX) {
+                    this.slideTo(this.lastIndex, 0);
                 }
             }
             this.$emit('touchmove');
@@ -313,7 +311,6 @@ export default {
             const deltaX = point.pageX - this.startPointX;
             const absDeltaX = Math.abs(deltaX);
             this.momentum = deltaX / (getTime() - this.startTime);
-
             this.slideTo(this.activeIndex);
             this.$emit('touchend');
         },
@@ -325,7 +322,15 @@ export default {
          * */
         slideTo(index, duration = this.speed, callback = () => {}) {
             this.isAnimating = 0 < duration && true;
-            this.transitionDuration = duration;
+            // 防止拖拽快的时候, duration = 0 被其他值覆盖
+            // 覆盖原因, 暂未查明
+            if(0 == duration) {
+                this.$nextTick(()=>{
+                    this.transitionDuration = 0;
+                });
+            } else {
+                this.transitionDuration = duration;
+            }
             this.translateX = ((this.isLoop ? -1 : 0) - index) * this.stepWidth;
             this.startTranslateX = this.translateX;
             this.afterSliderTransitonend = callback;
@@ -362,8 +367,9 @@ export default {
          */
         activeIndex() {
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
-            if (.5 < Math.abs(this.momentum)) {
-                if(0 < Math.sign(this.momentum)) {
+            // if (.5 < Math.abs(this.momentum)) {
+            if (0 < Math.abs(this.momentum)) {
+                if (0 < Math.sign(this.momentum)) {
                     return 0 - Math.ceil(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
                 } else {
                     return 0 - Math.floor(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
