@@ -1,12 +1,12 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :slides-per-view="1" :load-prev-next="true" :delay="-1"  :is-loop="true" :speed="300"  @change="activeIndex=$event.activeIndex">
+        <v-carousel v-model="index" :slides-per-view="1.7" :load-prev-next="true" :delay="1000" :is-loop="false" :speed="300" @change="activeIndex=$event.activeIndex">
             <v-carousel-item v-for="(image, n) in imageList" :key="image">
-                <!-- <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
+                <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
                     {{n+1}}
-                </div> -->
-                <img :lazy-src="image" width="100%" height="200" />
+                </div>
+                <!-- <img :lazy-src="image" width="100%" height="200" /> -->
             </v-carousel-item>
         </v-carousel>
         <!-- </section> -->
@@ -16,9 +16,9 @@
 
         <div class="swiper-container" style="background:#eee; height:200px;">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" >Slide 1</div>
-                <div class="swiper-slide" >Slide 2</div>
-                <div class="swiper-slide" >Slide 3</div>
+                <div class="swiper-slide">Slide 1</div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
             </div>
 
             <div class="swiper-pagination"></div>
@@ -45,11 +45,10 @@ export default {
 
     data() {
         const longImages = ['http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/11/43/1143dc058ee817f1c08074ced118b5cf.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/b2/f9/b2f9453ff2b87e81867e003ea66551ea.png', 'https://dn-geekpark-new.qbox.me/uploads/image/file/65/36/653617a7ab15d06e1630389e7e5e058a.jpg', 'https://dn-geekpark-new.qbox.me/uploads/image/file/2d/cc/2dccb0fb30d695295c2566f43aa82fcd.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/97/cb/97cb0602bdf36aff4dd0586fd4f1ab41.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/50/6a/506a2477e321039984b438cce6961c6d.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/4f/d7/4fd7010e128fdf69e4c3edcd30aa1f00.jpeg', 'https://dn-geekpark-new.qbox.me/uploads/image/file/44/ed/44ed15cfada71a4063411cf20af31877.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/e0/b8/e0b850d7e31d4ee7ef1b829eda0423cf.JPG', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/d6/aa/d6aae7975bdb38da5c5982681b84ffd4.jpeg'];
-        const imageList = [longImages[0], longImages[1], longImages[4]];
         return {
             index: 0,
             activeIndex: 0,
-            imageList: imageList
+            imageList: longImages.slice(0,5)
         };
     },
 
@@ -69,9 +68,9 @@ export default {
                 prevEl: '.swiper-button-prev'
             }
         });
-        swiper.on('slideChange', e=>{
-            log(e)
-        })
+        swiper.on('slideChange', e => {
+            log(e);
+        });
     },
 
     methods: {
@@ -125,9 +124,14 @@ export default {
     color: #ddd;
     font-size: $biggest;
     text-align: center;
+    background: $dark;
 
+    &-0 {
+        background: $primary;
+        // width: 4rem;
+    }
     &-1 {
-        background: $dark;
+        background: $danger;
         // width: 4rem;
     }
     &-2 {
@@ -141,7 +145,9 @@ export default {
     }
     &-4 {
         background: $warning;
-        width:6rem;
+    }
+    &-5 {
+        background: $light;
     }
 }
 </style>

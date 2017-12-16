@@ -9,7 +9,7 @@
         <h1>activeIndex: {{activeIndex}}</h1>
         <h1>realIndex: {{realIndex}}</h1>
         <h1>translateX: {{translateX}}</h1>
-        <h1>transitionDuration: {{transitionDuration}}</h1>
+        <h1>minTranslateX: {{minTranslateX}}</h1>
 
     </div>
 </template>
@@ -18,6 +18,7 @@
 import { getWidth, getTime } from '@/utils/dom';
 /**
  * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址
+ * 2. 改变tranlateX来驱动activeIndex变化, 其他变化都是根据activeIndex变化
  */
 export default {
     name: 'Carousel',
@@ -94,14 +95,22 @@ export default {
         timer: null,
         imageStore: [],
         momentum: 0,
-        startTime: 0
+        startTime: 0,
     }),
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
         if (this.isLoop) {
-            this.cloneNodeForLoop();
+            this.$nextTick(()=>{
+                this.cloneNodeForLoop();
+            });
         }
+
+        // 针对slidesPerView > 1的请款重新算总页数
+        // 注意min/maxTranlateX的计算
+        this.$nextTick(()=>{
+            this.count = this.count + 1 - Math.floor(this.slidesPerView);
+        });
 
         // 需要在cloneNodeForLoop后面执行
         this.imageToStore();
@@ -120,10 +129,13 @@ export default {
          * 构造loop所需dom结构
          */
         cloneNodeForLoop() {
+            const itemWidth = `${this.warpWidth / this.slidesPerView}px`;
             let headFakeNode = this.$children[this.$children.length - 1].$el.cloneNode(true);
             let lastFakeNode = this.$children[0].$el.cloneNode(true);
             headFakeNode.style.order = -1;
+            headFakeNode.style.width = itemWidth;
             lastFakeNode.style.order = this.count;
+            lastFakeNode.style.width = itemWidth;
             this.$refs.body.insertBefore(headFakeNode, this.$children[0].$el);
             this.$refs.body.appendChild(lastFakeNode);
         },
@@ -190,7 +202,7 @@ export default {
                     if (this.count <= activeIndex) {
                         activeIndex = 0;
                     }
-                    this.slideTo(activeIndex, this.speed);
+                    this.slideTo(activeIndex);
                 }, this.delay);
             }
         },
@@ -341,7 +353,7 @@ export default {
          * @argument {Number} duration 速度
          * @argument {Function} callback 滑动动画结束后触发
          * */
-        slideTo(index, duration = this.speed, callback = () => {}) {
+        slideTo(activeIndex, duration = this.speed, callback = () => {}) {
             this.isAnimating = 0 < duration && true;
             // 防止拖拽快的时候, duration = 0 被其他值覆盖
             // 覆盖原因, 暂未查明
@@ -352,7 +364,16 @@ export default {
             } else {
                 this.transitionDuration = duration;
             }
-            this.translateX = ((this.isLoop ? -1 : 0) - index) * this.stepWidth;
+            
+            this.translateX = ((this.isLoop ? -1 : 0) - activeIndex) * this.stepWidth;
+
+
+            if(this.minTranslateX > this.translateX) {
+                this.translateX = this.minTranslateX;
+            } else if(this.maxTranslateX < this.translateX){
+                this.translateX = this.maxTranslateX;
+            }
+
             this.startTranslateX = this.translateX;
             this.afterSliderTransitonend = callback;
         },
@@ -364,6 +385,7 @@ export default {
             this.isAnimating = false;
             this.transitionDuration = 0;
             this.afterSliderTransitonend(this.activeIndex);
+            this.$emit('input', this.realIndex);
         }
     },
 
@@ -373,7 +395,7 @@ export default {
         },
 
         minTranslateX() {
-            return 0 - (this.count - (this.isLoop ? -1 : 1)) * this.warpWidth;
+            return this.warpWidth - ((this.count + Math.floor(this.slidesPerView) - 1)  + (this.isLoop ? 1 : 0)) * this.stepWidth;
         },
 
         stepWidth() {
@@ -387,16 +409,18 @@ export default {
          * 只要冲量大, 那么就切换页
          */
         activeIndex() {
+            let activeIndex;
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
             if (0.5 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
-                    return 0 - Math.ceil(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                    activeIndex = 0 - Math.ceil(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
                 } else {
-                    return 0 - Math.floor(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                    activeIndex = 0 - Math.floor(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
                 }
             } else {
-                return 0 - Math.round(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                activeIndex = 0 - Math.round(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
             }
+            return activeIndex;
         },
 
         realIndex() {
@@ -407,7 +431,7 @@ export default {
                 realIndex = this.count - 1;
             }
             return realIndex;
-        }
+        },
     },
 
     watch: {
@@ -455,7 +479,7 @@ export default {
                 this.loadImageByActiveIndex(-1);
             }
 
-            this.$emit('input', realIndex);
+            
         }
     }
 };

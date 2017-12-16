@@ -1,7 +1,7 @@
 <template>
-    <div class="atom-carousel-item" :style="{order: index,  marginRight: `${$parent.spaceBetween}px`}">
+    <div class="atom-carousel-item" :style="{order: index, width: `${width}px`,  marginRight: `${$parent.spaceBetween}px`}">
         <slot></slot>
-        <v-spinner-ripple  class="item__loading"/>
+        <v-spinner-ripple class="item__loading" />
     </div>
 </template>
 <script>
@@ -20,22 +20,22 @@ export default {
     },
 
     mounted() {
-        // this.warpWidth = this.$parent.warpWidth;
         this.index = this.$parent.count;
         this.$parent.count++;
-        this.$nextTick(()=>{
-            if(0 === this.$parent.imageStore[this.index].length) {
+
+        this.$nextTick(() => {
+            this.width = this.$parent.warpWidth / this.$parent.slidesPerView;
+
+            // if (0 == this.$parent.count) {
+            //     this.$parent.count = 1 - Math.floor(this.$parent.slidesPerView);
+            // }
+
+            if (0 === this.$parent.imageStore[this.index].length) {
                 this.hasImage = false;
             }
-        })
-        
+        });
     },
 
-    computed: {
-        itemWidth() {
-            return this.$parent.warpWidth / this.$parent.slidesPerView;
-        }
-    },
     components: { VSpinnerRipple }
 };
 </script>
@@ -71,15 +71,11 @@ export default {
         }
     }
 
-
-
-
     /* 关于一页多张图片加载的逻辑, 慢慢想 */
     /* img:not([lazy-status='done']) {
         & + .item__loading {
             display: inline-block;
         }
     } */
-
 }
 </style>
