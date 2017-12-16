@@ -14,7 +14,7 @@
 
         <button v-for="n in 3" :key="n" class="fill gutter" @click="index=n-1">{{n-1}}</button>
 
-        <!-- <div class="swiper-container" style="background:#eee; height:200px;">
+        <div class="swiper-container" style="background:#eee; height:200px;">
             <div class="swiper-wrapper">
                 <div class="swiper-slide" >Slide 1</div>
                 <div class="swiper-slide" >Slide 2</div>
@@ -25,7 +25,7 @@
 
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
-        </div> -->
+        </div>
 
     </v-scroll-view>
 </template>
@@ -54,24 +54,24 @@ export default {
     },
 
     mounted() {
-    //     var swiper = new Swiper('.swiper-container', {
-    //         // slidesPerView: 1,
-    //         slidesPerView: 'auto',
-    //         // spaceBetween: 30,
-    //         speed: 300,
-    //         loop: true,
-    //         pagination: {
-    //             el: '.swiper-pagination',
-    //             clickable: true
-    //         },
-    //         navigation: {
-    //             nextEl: '.swiper-button-next',
-    //             prevEl: '.swiper-button-prev'
-    //         }
-    //     });
-    //     swiper.on('slideChange', e=>{
-    //         log(e)
-    //     })
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            // slidesPerView: 'auto',
+            // spaceBetween: 30,
+            speed: 300,
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        });
+        swiper.on('slideChange', e=>{
+            log(e)
+        })
     },
 
     methods: {
