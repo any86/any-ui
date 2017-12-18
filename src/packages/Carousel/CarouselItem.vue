@@ -30,7 +30,7 @@ export default {
             //     this.$parent.count = 1 - Math.floor(this.$parent.slidesPerView);
             // }
 
-            if (0 === this.$parent.imageStore[this.index].length) {
+            if (undefined !== this.$parent.imageStore[this.index] && 0 === this.$parent.imageStore[this.index].length) {
                 this.hasImage = false;
             }
         });

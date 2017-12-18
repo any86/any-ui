@@ -109,17 +109,20 @@ export default {
         if (this.isLoop) {
             this.$nextTick(() => {
                 this.cloneNodeForLoop();
+                // 需要在cloneNodeForLoop后面执行
+                this.$nextTick(()=>{
+                    // 针对slidesPerView > 1的请款重新算总页数
+                    // 注意min/maxTranlateX的计算
+                    this.count = this.count + 1 - Math.floor(this.slidesPerView);
+                    // 存储图片和activeIndex的映射关系
+                    this.imageToStore();
+                }); 
             });
+        } else {
+             this.imageToStore();
         }
 
-        // 针对slidesPerView > 1的请款重新算总页数
-        // 注意min/maxTranlateX的计算
-        this.$nextTick(() => {
-            this.count = this.count + 1 - Math.floor(this.slidesPerView);
-        });
 
-        // 需要在cloneNodeForLoop后面执行
-        this.imageToStore();
         this.slideTo(this.value, 0);
 
         // 自动播放
@@ -194,7 +197,9 @@ export default {
             };
         },
 
-        loadImageByActiveIndex(activeIndex) {
+        async loadImageByActiveIndex(activeIndex) {
+            
+            await this.$nextTick();
             // 每页的图片
             const pageImgStore = this.imageStore[
                 activeIndex + (this.isLoop ? 1 : 0)
@@ -518,9 +523,15 @@ export default {
          * 触发lazyload
          * 此处的watch的realIndex在初始化就执行了(但是this.$emit('input')没有触发), 可能是由于active在初始化后变了, 后续测试
          */
-        realIndex(realIndex) {
+        async realIndex(realIndex) {
+            // 等待this.imageStore填充完毕
+            await this.$nextTick();
+            // log(this.imageStore.length)
             // 加载当前图片
-            this.loadImageByActiveIndex(realIndex);
+            for(let i = 0; i < this.fakeCountOneSide; i++) {
+                let activeIndex = this.fakeCountOneSide + realIndex + i;
+                this.loadImageByActiveIndex(activeIndex);
+            }
 
             // 预加载next/prev的图片
             if (this.loadPrevNext && 0 < this.loadPrevNextAmount) {

@@ -1,12 +1,12 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :slides-per-view="2.3" :load-prev-next="true" :delay="1000" :is-loop="true" :speed="300" @change="activeIndex=$event.activeIndex">
+        <v-carousel v-model="index" :slides-per-view="2.3" :load-prev-next="true" :delay="1000" :is-loop="false" :speed="300" @change="activeIndex=$event.activeIndex">
             <v-carousel-item v-for="(image, n) in imageList" :key="image">
-                <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
+                <!-- <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
                     {{n+1}}
-                </div>
-                <!-- <img :lazy-src="image" width="100%" height="200" /> -->
+                </div> -->
+                <img :lazy-src="image" width="100%" height="200" />
             </v-carousel-item>
         </v-carousel>
         
@@ -49,7 +49,7 @@ export default {
         return {
             index: 0,
             activeIndex: 0,
-            imageList: longImages.slice(0, 7)
+            imageList: longImages.slice(0, 3)
         };
     },
 
