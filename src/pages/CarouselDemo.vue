@@ -9,6 +9,7 @@
                 <!-- <img :lazy-src="image" width="100%" height="200" /> -->
             </v-carousel-item>
         </v-carousel>
+        
         <!-- </section> -->
         <!-- <h1>{{index}}</h1> -->
 
