@@ -147,9 +147,14 @@ export default {
                     this.$refs.body.appendChild(lastFakeNode);
 
                     // 向头部插入
-                    let headFakeNode = this.$children[itemCount - 1 - i].$el.cloneNode(true);
+                    let headFakeNode = this.$children[
+                        itemCount - 1 - i
+                    ].$el.cloneNode(true);
                     headFakeNode.style.width = itemWidth;
-                    this.$refs.body.insertBefore(headFakeNode, this.$refs.body.firstChild);
+                    this.$refs.body.insertBefore(
+                        headFakeNode,
+                        this.$refs.body.firstChild
+                    );
                 }
             });
         },
@@ -160,17 +165,19 @@ export default {
         imageToStore() {
             // 遍历所有lazy-src
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
-            this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
-                this.imageStore[index] = [];
-                $item.querySelectorAll('img').forEach($imgEl => {
-                    $imgEl.setAttribute('lazy-status', 'ready');
-                    this.imageStore[index].push({
-                        el: $imgEl,
-                        url: $imgEl.attributes['lazy-src'].value,
-                        status: 'ready'
+            this.$el
+                .querySelectorAll('.atom-carousel-item')
+                .forEach(($item, index) => {
+                    this.imageStore[index] = [];
+                    $item.querySelectorAll('img').forEach($imgEl => {
+                        $imgEl.setAttribute('lazy-status', 'ready');
+                        this.imageStore[index].push({
+                            el: $imgEl,
+                            url: $imgEl.attributes['lazy-src'].value,
+                            status: 'ready'
+                        });
                     });
                 });
-            });
         },
 
         /**
@@ -189,7 +196,9 @@ export default {
 
         loadImageByActiveIndex(activeIndex) {
             // 每页的图片
-            const pageImgStore = this.imageStore[activeIndex + (this.isLoop ? 1 : 0)];
+            const pageImgStore = this.imageStore[
+                activeIndex + (this.isLoop ? 1 : 0)
+            ];
             // 判断active是否有效
             if (undefined !== pageImgStore) {
                 pageImgStore.forEach(item => {
@@ -327,11 +336,18 @@ export default {
             // 超过阈值, 才可以滑动
             if (this.threshold < absDeltaX) {
                 // 对于超过边界的减速滑动
-                const translateX = this.startTranslateX + deltaX - Math.sign(deltaX) * this.threshold;
+                const translateX =
+                    this.startTranslateX +
+                    deltaX -
+                    Math.sign(deltaX) * this.threshold;
                 if (this.minTranslateX >= this.translateX) {
-                    this.translateX = this.minTranslateX + (translateX - this.minTranslateX) * 0.2;
-                } else if(this.maxTranslateX <= this.translateX){
-                    this.translateX = this.maxTranslateX + (translateX - this.maxTranslateX) * 0.2;
+                    this.translateX =
+                        this.minTranslateX +
+                        (translateX - this.minTranslateX) * 0.2;
+                } else if (this.maxTranslateX <= this.translateX) {
+                    this.translateX =
+                        this.maxTranslateX +
+                        (translateX - this.maxTranslateX) * 0.2;
                 } else {
                     this.translateX = translateX;
                 }
@@ -341,9 +357,15 @@ export default {
             if (this.isLoop) {
                 // 必须要<=, 因为拖拽的太快时, 会超过边界index
                 // 限制只能是在fake页面上拖拽才可以触发位置交换
-                if (this.minTranslateX >= this.translateX && this.minTranslateX >= this.startTranslateX) {
+                if (
+                    this.minTranslateX >= this.translateX &&
+                    this.minTranslateX >= this.startTranslateX
+                ) {
                     this.slideTo(0, 0);
-                } else if (this.maxTranslateX <= this.translateX && this.maxTranslateX <= this.startTranslateX) {
+                } else if (
+                    this.maxTranslateX <= this.translateX &&
+                    this.maxTranslateX <= this.startTranslateX
+                ) {
                     this.slideTo(this.realCount - this.fakeCountOneSide, 0);
                 }
             }
@@ -381,7 +403,15 @@ export default {
         slideTo(activeIndex, duration = this.speed, callback = () => {}) {
             this.isAnimating = 0 < duration;
             this.transitionDuration = duration;
-            this.translateX = 0 - (activeIndex + this.fakeCountOneSide) * this.stepWidth;
+            let translateX =
+                0 - (activeIndex + this.fakeCountOneSide) * this.stepWidth;
+            // 主要是针对sliderPerView造成的边界不对齐而做的自动对齐
+            if (this.minTranslateX > translateX) {
+                translateX = this.minTranslateX;
+            } else if (this.maxTranslateX < translateX) {
+                translateX = this.maxTranslateX;
+            }
+            this.translateX = translateX;
             this.startTranslateX = this.translateX;
             this.afterSliderTransitonend = callback;
         },
@@ -403,7 +433,10 @@ export default {
         },
 
         minTranslateX() {
-            return this.warpWidth - (this.realCount + this.fakeCountOneSide + (this.isLoop ? 1: 0)) * this.stepWidth;
+            return (
+                (this.isLoop ? 0 : 1) * this.warpWidth -
+                (this.realCount + this.fakeCountOneSide) * this.stepWidth
+            );
         },
 
         stepWidth() {
@@ -422,18 +455,25 @@ export default {
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
             if (0.5 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
-                    activeIndex = 0 - Math.ceil(this.translateX / this.stepWidth) - this.fakeCountOneSide;
+                    activeIndex =
+                        0 -
+                        Math.ceil(this.translateX / this.stepWidth) -
+                        this.fakeCountOneSide;
                 } else {
-                    activeIndex = 0 - Math.floor(this.translateX / this.stepWidth) - this.fakeCountOneSide;
+                    activeIndex =
+                        0 -
+                        Math.floor(this.translateX / this.stepWidth) -
+                        this.fakeCountOneSide;
                 }
             } else {
-                activeIndex = Math.round((0 - this.translateX) / this.stepWidth)  - this.fakeCountOneSide;
+                activeIndex =
+                    Math.round((0 - this.translateX) / this.stepWidth) -
+                    this.fakeCountOneSide;
             }
 
-
-            if(this.realCount + this.fakeCountOneSide <= activeIndex) {
+            if (this.realCount + this.fakeCountOneSide <= activeIndex) {
                 activeIndex = this.realCount + this.fakeCountOneSide - 1;
-            } else if(0 - this.fakeCountOneSide > activeIndex) {
+            } else if (0 - this.fakeCountOneSide > activeIndex) {
                 activeIndex = 0 - this.fakeCountOneSide;
             }
             return activeIndex;
@@ -484,8 +524,12 @@ export default {
 
             // 预加载next/prev的图片
             if (this.loadPrevNext && 0 < this.loadPrevNextAmount) {
-                this.loadImageByActiveIndex(realIndex - this.loadPrevNextAmount);
-                this.loadImageByActiveIndex(realIndex + this.loadPrevNextAmount);
+                this.loadImageByActiveIndex(
+                    realIndex - this.loadPrevNextAmount
+                );
+                this.loadImageByActiveIndex(
+                    realIndex + this.loadPrevNextAmount
+                );
             }
 
             // 针对边界对fake的图片也同时加载
