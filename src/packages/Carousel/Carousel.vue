@@ -9,6 +9,7 @@
         <h1>activeIndex: {{activeIndex}}</h1>
         <h1>realIndex: {{realIndex}}</h1>
         <h1>translateX: {{translateX}}</h1>
+        <h1>startTranslateX: {{startTranslateX}}</h1>
         <h1>minTranslateX: {{minTranslateX}}</h1>
 
     </div>
@@ -84,6 +85,7 @@ export default {
     },
 
     data: () => ({
+        realCount: 0,
         count: 0,
         warpWidth: 0,
         isAnimating: false,
@@ -96,19 +98,23 @@ export default {
         imageStore: [],
         momentum: 0,
         startTime: 0,
+        fakeCountOneSide: 0,
+        deltaX: 0
     }),
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
+        this.realCount = this.$children.length;
+        this.fakeCountOneSide = this.isLoop ? Math.ceil(this.slidesPerView) : 0;
         if (this.isLoop) {
-            this.$nextTick(()=>{
+            this.$nextTick(() => {
                 this.cloneNodeForLoop();
             });
         }
 
         // 针对slidesPerView > 1的请款重新算总页数
         // 注意min/maxTranlateX的计算
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
             this.count = this.count + 1 - Math.floor(this.slidesPerView);
         });
 
@@ -129,15 +135,23 @@ export default {
          * 构造loop所需dom结构
          */
         cloneNodeForLoop() {
-            const itemWidth = `${this.warpWidth / this.slidesPerView}px`;
-            let headFakeNode = this.$children[this.$children.length - 1].$el.cloneNode(true);
-            let lastFakeNode = this.$children[0].$el.cloneNode(true);
-            headFakeNode.style.order = -1;
-            headFakeNode.style.width = itemWidth;
-            lastFakeNode.style.order = this.count;
-            lastFakeNode.style.width = itemWidth;
-            this.$refs.body.insertBefore(headFakeNode, this.$children[0].$el);
-            this.$refs.body.appendChild(lastFakeNode);
+            this.$nextTick(() => {
+                const itemWidth = `${this.warpWidth / this.slidesPerView}px`;
+                // 对一屏幕多个item的情况进行生成多个fake
+                const itemCount = this.$children.length;
+                const fakeCount = this.fakeCountOneSide;
+                for (let i = 0; i < fakeCount; i++) {
+                    // 向尾部插入
+                    let lastFakeNode = this.$children[i].$el.cloneNode(true);
+                    lastFakeNode.style.width = itemWidth;
+                    this.$refs.body.appendChild(lastFakeNode);
+
+                    // 向头部插入
+                    let headFakeNode = this.$children[itemCount - 1 - i].$el.cloneNode(true);
+                    headFakeNode.style.width = itemWidth;
+                    this.$refs.body.insertBefore(headFakeNode, this.$refs.body.firstChild);
+                }
+            });
         },
 
         /**
@@ -193,6 +207,7 @@ export default {
          * 自动播放(false === isLoop)
          */
         playSlider() {
+            return;
             if (-1 < this.delay) {
                 // 正向播放
                 this.timer = setInterval(() => {
@@ -211,6 +226,7 @@ export default {
          * 自动播放(true === isLoop)
          */
         playLoopSlider() {
+            return;
             if (-1 < this.delay) {
                 this.timer = setInterval(() => {
                     // 累加页码
@@ -293,10 +309,9 @@ export default {
             this.stopSlider();
             const point = e.touches ? e.touches[0] : e;
             const deltaX = point.pageX - this.startPointX;
-            const absDeltaX = Math.abs(deltaX);
             const deltaY = point.pageY - this.startPointY;
+            const absDeltaX = Math.abs(deltaX);
             const absDeltaY = Math.abs(deltaY);
-
             // X轴拖拽多才可以
             if (absDeltaX < absDeltaY + 15) return;
 
@@ -309,6 +324,30 @@ export default {
                 this.startTime = now;
             }
 
+            // 超过阈值, 才可以滑动
+            if (this.threshold < absDeltaX) {
+                // 对于超过边界的减速滑动
+                const translateX = this.startTranslateX + deltaX - Math.sign(deltaX) * this.threshold;
+                if (this.minTranslateX >= this.translateX) {
+                    this.translateX = this.minTranslateX + (translateX - this.minTranslateX) * 0.2;
+                } else if(this.maxTranslateX <= this.translateX){
+                    this.translateX = this.maxTranslateX + (translateX - this.maxTranslateX) * 0.2;
+                } else {
+                    this.translateX = translateX;
+                }
+            }
+
+            // 边界逻辑, fake/real切换
+            if (this.isLoop) {
+                // 必须要<=, 因为拖拽的太快时, 会超过边界index
+                // 限制只能是在fake页面上拖拽才可以触发位置交换
+                if (this.minTranslateX >= this.translateX && this.minTranslateX >= this.startTranslateX) {
+                    this.slideTo(0, 0);
+                } else if (this.maxTranslateX <= this.translateX && this.maxTranslateX <= this.startTranslateX) {
+                    this.slideTo(this.realCount - this.fakeCountOneSide, 0);
+                }
+            }
+
             // 拖拽正在移动的item
             if (this.isAnimating) {
                 this.startTranslateX = this.getTranslateX();
@@ -316,20 +355,6 @@ export default {
                 this.isAnimating = false;
             }
 
-            // 超过阈值, 才可以滑动
-            if (this.threshold < absDeltaX) {
-                this.translateX = this.startTranslateX + deltaX - Math.sign(deltaX) * this.threshold;
-            }
-
-            // 边界逻辑, fake/real切换
-            if (this.isLoop) {
-                // 必须要<=, 因为拖拽的太快时, 会超过边界index
-                if (this.minTranslateX > this.translateX) {
-                    this.slideTo(0, 0);
-                } else if (this.maxTranslateX < this.translateX) {
-                    this.slideTo(this.lastIndex, 0);
-                }
-            }
             this.$emit('touchmove');
         },
 
@@ -354,26 +379,9 @@ export default {
          * @argument {Function} callback 滑动动画结束后触发
          * */
         slideTo(activeIndex, duration = this.speed, callback = () => {}) {
-            this.isAnimating = 0 < duration && true;
-            // 防止拖拽快的时候, duration = 0 被其他值覆盖
-            // 覆盖原因, 暂未查明
-            if (0 == duration) {
-                this.$nextTick(() => {
-                    this.transitionDuration = 0;
-                });
-            } else {
-                this.transitionDuration = duration;
-            }
-            
-            this.translateX = ((this.isLoop ? -1 : 0) - activeIndex) * this.stepWidth;
-
-
-            if(this.minTranslateX > this.translateX) {
-                this.translateX = this.minTranslateX;
-            } else if(this.maxTranslateX < this.translateX){
-                this.translateX = this.maxTranslateX;
-            }
-
+            this.isAnimating = 0 < duration;
+            this.transitionDuration = duration;
+            this.translateX = 0 - (activeIndex + this.fakeCountOneSide) * this.stepWidth;
             this.startTranslateX = this.translateX;
             this.afterSliderTransitonend = callback;
         },
@@ -395,7 +403,7 @@ export default {
         },
 
         minTranslateX() {
-            return this.warpWidth - ((this.count + Math.floor(this.slidesPerView) - 1)  + (this.isLoop ? 1 : 0)) * this.stepWidth;
+            return this.warpWidth - (this.realCount + this.fakeCountOneSide + (this.isLoop ? 1: 0)) * this.stepWidth;
         },
 
         stepWidth() {
@@ -403,22 +411,30 @@ export default {
         },
 
         lastIndex() {
-            return this.count - 1;
+            return this.realCount - 1;
         },
         /**
          * 只要冲量大, 那么就切换页
          */
         activeIndex() {
+            // let activeIndex = Math.round((0 - this.translateX) / this.stepWidth) - this.fakeCountOneSide;
             let activeIndex;
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
             if (0.5 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
-                    activeIndex = 0 - Math.ceil(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                    activeIndex = 0 - Math.ceil(this.translateX / this.stepWidth) - this.fakeCountOneSide;
                 } else {
-                    activeIndex = 0 - Math.floor(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                    activeIndex = 0 - Math.floor(this.translateX / this.stepWidth) - this.fakeCountOneSide;
                 }
             } else {
-                activeIndex = 0 - Math.round(this.translateX / this.stepWidth) - (this.isLoop ? 1 : 0);
+                activeIndex = Math.round((0 - this.translateX) / this.stepWidth)  - this.fakeCountOneSide;
+            }
+
+
+            if(this.realCount + this.fakeCountOneSide <= activeIndex) {
+                activeIndex = this.realCount + this.fakeCountOneSide - 1;
+            } else if(0 - this.fakeCountOneSide > activeIndex) {
+                activeIndex = 0 - this.fakeCountOneSide;
             }
             return activeIndex;
         },
@@ -431,7 +447,7 @@ export default {
                 realIndex = this.count - 1;
             }
             return realIndex;
-        },
+        }
     },
 
     watch: {
@@ -478,8 +494,6 @@ export default {
             } else if (this.lastIndex === realIndex) {
                 this.loadImageByActiveIndex(-1);
             }
-
-            
         }
     }
 };

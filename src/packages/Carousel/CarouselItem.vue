@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-carousel-item" :style="{order: index, width: `${width}px`,  marginRight: `${$parent.spaceBetween}px`}">
+    <div class="atom-carousel-item" :style="{width: `${width}px`,  marginRight: `${$parent.spaceBetween}px`}">
         <slot></slot>
         <v-spinner-ripple class="item__loading" />
     </div>
