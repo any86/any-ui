@@ -1,7 +1,11 @@
 <template>
     <v-scroll-view>
         <!-- <section style="width:300px;margin:auto;"> -->
-        <v-carousel v-model="index" :slides-per-view="2.3" :load-prev-next="true" :delay="1000" :is-loop="false" :speed="300" @change="activeIndex=$event.activeIndex">
+        <v-carousel v-model="index" :realIndex.sync="realIndex"  
+        :slides-per-view="1" :is-loop="false" :stopOnLast="false"
+         :load-prev-next="true" :loadPrevNextAmount="2" :delay="1000"
+          
+         :speed="300" @change="activeIndex=$event.activeIndex">
             <v-carousel-item v-for="(image, n) in imageList" :key="image">
                 <!-- <div :class="['carousel-item-' + (n+1)]" class="carousel-item">
                     {{n+1}}
@@ -9,13 +13,13 @@
                 <img :lazy-src="image" width="100%" height="200" />
             </v-carousel-item>
         </v-carousel>
-        
+
         <!-- </section> -->
         <!-- <h1>{{index}}</h1> -->
 
-        <button v-for="n in 3" :key="n" class="fill gutter" @click="index=n-1">{{n-1}}</button>
+        <button v-for="n in 10" :key="n" class="fill gutter" :class="{'btn-active': realIndex+1 ==n}" @click="index=n-1">{{n-1}}</button>
 
-        <div class="swiper-container" style="background:#eee; height:200px;">
+        <!-- <div class="swiper-container" style="background:#eee; height:200px;">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">Slide 1</div>
                 <div class="swiper-slide">Slide 2</div>
@@ -26,7 +30,7 @@
 
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
-        </div>
+        </div> -->
 
     </v-scroll-view>
 </template>
@@ -45,33 +49,37 @@ export default {
     name: 'CarouselDemo',
 
     data() {
+        const images = ['https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR05_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR06_3.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR09_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/R/2/R215_2.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR17_3.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR20.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL374.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL401.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL219.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL433.png'];
+
         const longImages = ['http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/11/43/1143dc058ee817f1c08074ced118b5cf.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/b2/f9/b2f9453ff2b87e81867e003ea66551ea.png', 'https://dn-geekpark-new.qbox.me/uploads/image/file/65/36/653617a7ab15d06e1630389e7e5e058a.jpg', 'https://dn-geekpark-new.qbox.me/uploads/image/file/2d/cc/2dccb0fb30d695295c2566f43aa82fcd.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/97/cb/97cb0602bdf36aff4dd0586fd4f1ab41.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/50/6a/506a2477e321039984b438cce6961c6d.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/4f/d7/4fd7010e128fdf69e4c3edcd30aa1f00.jpeg', 'https://dn-geekpark-new.qbox.me/uploads/image/file/44/ed/44ed15cfada71a4063411cf20af31877.jpg', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/e0/b8/e0b850d7e31d4ee7ef1b829eda0423cf.JPG', 'http://ovsnhdoi9.bkt.clouddn.com/uploads/image/file/d6/aa/d6aae7975bdb38da5c5982681b84ffd4.jpeg'];
         return {
             index: 0,
+            realIndex: 0,
             activeIndex: 0,
             imageList: longImages.slice(0, 3)
+            // imageList:images.slice(0, 3),
         };
     },
 
     mounted() {
-        var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 1,
-            // slidesPerView: 'auto',
-            // spaceBetween: 30,
-            speed: 300,
-            loop: true,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
-            }
-        });
-        swiper.on('slideChange', e => {
-            log(e);
-        });
+        // var swiper = new Swiper('.swiper-container', {
+        //     slidesPerView: 1,
+        //     // slidesPerView: 'auto',
+        //     // spaceBetween: 30,
+        //     speed: 300,
+        //     loop: true,
+        //     pagination: {
+        //         el: '.swiper-pagination',
+        //         clickable: true
+        //     },
+        //     navigation: {
+        //         nextEl: '.swiper-button-next',
+        //         prevEl: '.swiper-button-prev'
+        //     }
+        // });
+        // swiper.on('slideChange', e => {
+        //     log(e);
+        // });
     },
 
     methods: {
@@ -150,5 +158,8 @@ export default {
     &-5 {
         background: $light;
     }
+}
+.btn-active {
+    background: $danger;
 }
 </style>

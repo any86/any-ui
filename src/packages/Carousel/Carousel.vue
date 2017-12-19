@@ -3,15 +3,12 @@
         <div ref="body" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
             <slot></slot>
         </div>
-        <div class="atom-carousel__paging">
-            <span v-for="n in count" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
+        <div v-if="0 < pageBtnCount" class="atom-carousel__paging">
+            <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
         </div>
-        <h1>activeIndex: {{activeIndex}}</h1>
-        <h1>realIndex: {{realIndex}}</h1>
-        <h1>translateX: {{translateX}}</h1>
-        <h1>startTranslateX: {{startTranslateX}}</h1>
-        <h1>minTranslateX: {{minTranslateX}}</h1>
-
+        <h1>translateX: {{translateX}} </h1>
+        <h1>activeIndex: {{activeIndex}} </h1>
+        <h1>realIndex: {{realIndex}} </h1>
     </div>
 </template>
 
@@ -32,7 +29,7 @@ export default {
         value: {
             default: 0
         },
-
+        // 不支持'auto'
         slidesPerView: {
             type: [Number, String],
             default: 1
@@ -41,11 +38,6 @@ export default {
         isLoop: {
             type: Boolean,
             default: true
-        },
-
-        spaceBetween: {
-            type: [Number, String],
-            default: 0
         },
 
         threshold: {
@@ -98,30 +90,31 @@ export default {
         imageStore: [],
         momentum: 0,
         startTime: 0,
-        fakeCountOneSide: 0,
+        fakeCountOneSide: 0, // 每一侧fake的数量
+        itemInViewCount: 0, // 每屏显示多少个item
         deltaX: 0
     }),
 
     mounted() {
         this.warpWidth = getWidth(this.$el);
         this.realCount = this.$children.length;
-        this.fakeCountOneSide = this.isLoop ? Math.ceil(this.slidesPerView) : 0;
+        this.itemInViewCount = Math.ceil(this.slidesPerView);
+        this.fakeCountOneSide = this.isLoop ? this.itemInViewCount : 0;
         if (this.isLoop) {
             this.$nextTick(() => {
                 this.cloneNodeForLoop();
                 // 需要在cloneNodeForLoop后面执行
-                this.$nextTick(()=>{
+                this.$nextTick(() => {
                     // 针对slidesPerView > 1的请款重新算总页数
                     // 注意min/maxTranlateX的计算
-                    this.count = this.count + 1 - Math.floor(this.slidesPerView);
+                    // this.count = this.count + 1 - Math.floor(this.slidesPerView);
                     // 存储图片和activeIndex的映射关系
                     this.imageToStore();
-                }); 
+                });
             });
         } else {
-             this.imageToStore();
+            this.imageToStore();
         }
-
 
         this.slideTo(this.value, 0);
 
@@ -150,14 +143,9 @@ export default {
                     this.$refs.body.appendChild(lastFakeNode);
 
                     // 向头部插入
-                    let headFakeNode = this.$children[
-                        itemCount - 1 - i
-                    ].$el.cloneNode(true);
+                    let headFakeNode = this.$children[itemCount - 1 - i].$el.cloneNode(true);
                     headFakeNode.style.width = itemWidth;
-                    this.$refs.body.insertBefore(
-                        headFakeNode,
-                        this.$refs.body.firstChild
-                    );
+                    this.$refs.body.insertBefore(headFakeNode, this.$refs.body.firstChild);
                 }
             });
         },
@@ -168,19 +156,17 @@ export default {
         imageToStore() {
             // 遍历所有lazy-src
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
-            this.$el
-                .querySelectorAll('.atom-carousel-item')
-                .forEach(($item, index) => {
-                    this.imageStore[index] = [];
-                    $item.querySelectorAll('img').forEach($imgEl => {
-                        $imgEl.setAttribute('lazy-status', 'ready');
-                        this.imageStore[index].push({
-                            el: $imgEl,
-                            url: $imgEl.attributes['lazy-src'].value,
-                            status: 'ready'
-                        });
+            this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
+                this.imageStore[index] = [];
+                $item.querySelectorAll('img').forEach($imgEl => {
+                    $imgEl.setAttribute('lazy-status', 'ready');
+                    this.imageStore[index].push({
+                        el: $imgEl,
+                        url: $imgEl.attributes['lazy-src'].value,
+                        status: 'ready'
                     });
                 });
+            });
         },
 
         /**
@@ -198,15 +184,12 @@ export default {
         },
 
         async loadImageByActiveIndex(activeIndex) {
-            
             await this.$nextTick();
             // 每页的图片
-            const pageImgStore = this.imageStore[
-                activeIndex + (this.isLoop ? 1 : 0)
-            ];
+            const eachImageStore = this.imageStore[activeIndex + this.fakeCountOneSide];
             // 判断active是否有效
-            if (undefined !== pageImgStore) {
-                pageImgStore.forEach(item => {
+            if (undefined !== eachImageStore) {
+                eachImageStore.forEach(item => {
                     this.loadImage(item.url, info => {
                         item.el.src = item.url;
                         item.el.setAttribute('lazy-status', 'done');
@@ -221,17 +204,22 @@ export default {
          * 自动播放(false === isLoop)
          */
         playSlider() {
-            return;
             if (-1 < this.delay) {
                 // 正向播放
                 this.timer = setInterval(() => {
                     // 翻页
                     let activeIndex = this.activeIndex;
                     activeIndex++;
-                    if (this.count <= activeIndex) {
-                        activeIndex = 0;
-                    }
                     this.slideTo(activeIndex);
+                    // 到达尾部后, 返回第一页
+                    if (this.realCount <= activeIndex) {
+                        if (this.stopOnLast) {
+                            // 到达尾部停止自动播放
+                            this.stopSlider();
+                        } else {
+                            this.slideTo(0);
+                        }
+                    }
                 }, this.delay);
             }
         },
@@ -240,30 +228,21 @@ export default {
          * 自动播放(true === isLoop)
          */
         playLoopSlider() {
-            return;
             if (-1 < this.delay) {
+                // 因为只做正序播放, 逻辑还是比较精简的
                 this.timer = setInterval(() => {
                     // 累加页码
                     let activeIndex = this.activeIndex;
                     activeIndex++;
-
-                    if (this.count + 1 === activeIndex) {
-                        // 从尾部的fake页 => 0
+                    if (this.pageBtnCount < activeIndex) {
                         this.slideTo(0, 0);
+                        // 此处如不直接执行slideTo(1)
+                        // 那么第一页会等待2个周期的时间
                         this.$nextTick(() => {
                             this.slideTo(1);
                         });
-                    } else if (this.count === activeIndex) {
-                        // 从最后一页=> 尾部的fake页;
-                        this.slideTo(activeIndex, this.speed, activeIndex => {
-                            this.slideTo(0, 0);
-                        });
-                    } else if (-1 === activeIndex) {
-                        this.slideTo(activeIndex, this.speed, activeIndex => {
-                            this.slideTo(this.count - 1, 0);
-                        });
                     } else {
-                        this.slideTo(activeIndex, this.speed);
+                        this.slideTo(activeIndex);
                     }
                 }, this.delay);
             }
@@ -341,18 +320,11 @@ export default {
             // 超过阈值, 才可以滑动
             if (this.threshold < absDeltaX) {
                 // 对于超过边界的减速滑动
-                const translateX =
-                    this.startTranslateX +
-                    deltaX -
-                    Math.sign(deltaX) * this.threshold;
+                const translateX = this.startTranslateX + deltaX - Math.sign(deltaX) * this.threshold;
                 if (this.minTranslateX >= this.translateX) {
-                    this.translateX =
-                        this.minTranslateX +
-                        (translateX - this.minTranslateX) * 0.2;
+                    this.translateX = this.minTranslateX + (translateX - this.minTranslateX) * 0.2;
                 } else if (this.maxTranslateX <= this.translateX) {
-                    this.translateX =
-                        this.maxTranslateX +
-                        (translateX - this.maxTranslateX) * 0.2;
+                    this.translateX = this.maxTranslateX + (translateX - this.maxTranslateX) * 0.2;
                 } else {
                     this.translateX = translateX;
                 }
@@ -362,15 +334,9 @@ export default {
             if (this.isLoop) {
                 // 必须要<=, 因为拖拽的太快时, 会超过边界index
                 // 限制只能是在fake页面上拖拽才可以触发位置交换
-                if (
-                    this.minTranslateX >= this.translateX &&
-                    this.minTranslateX >= this.startTranslateX
-                ) {
+                if (this.minTranslateX >= this.translateX && this.minTranslateX >= this.startTranslateX) {
                     this.slideTo(0, 0);
-                } else if (
-                    this.maxTranslateX <= this.translateX &&
-                    this.maxTranslateX <= this.startTranslateX
-                ) {
+                } else if (this.maxTranslateX <= this.translateX && this.maxTranslateX <= this.startTranslateX) {
                     this.slideTo(this.realCount - this.fakeCountOneSide, 0);
                 }
             }
@@ -408,8 +374,7 @@ export default {
         slideTo(activeIndex, duration = this.speed, callback = () => {}) {
             this.isAnimating = 0 < duration;
             this.transitionDuration = duration;
-            let translateX =
-                0 - (activeIndex + this.fakeCountOneSide) * this.stepWidth;
+            let translateX = 0 - (activeIndex + this.fakeCountOneSide) * this.stepWidth;
             // 主要是针对sliderPerView造成的边界不对齐而做的自动对齐
             if (this.minTranslateX > translateX) {
                 translateX = this.minTranslateX;
@@ -428,20 +393,25 @@ export default {
             this.isAnimating = false;
             this.transitionDuration = 0;
             this.afterSliderTransitonend(this.activeIndex);
-            this.$emit('input', this.realIndex);
+            this.$emit('input', this.activeIndex);
         }
     },
 
     computed: {
+        pageBtnCount() {
+            if (this.isLoop) {
+                return this.realCount;
+            } else {
+                return Math.ceil((this.realCount * this.stepWidth - this.warpWidth) / this.stepWidth) + 1;
+            }
+        },
+
         maxTranslateX() {
             return 0;
         },
 
         minTranslateX() {
-            return (
-                (this.isLoop ? 0 : 1) * this.warpWidth -
-                (this.realCount + this.fakeCountOneSide) * this.stepWidth
-            );
+            return (this.isLoop ? 0 : 1) * this.warpWidth - (this.realCount + this.fakeCountOneSide) * this.stepWidth;
         },
 
         stepWidth() {
@@ -455,25 +425,23 @@ export default {
          * 只要冲量大, 那么就切换页
          */
         activeIndex() {
-            // let activeIndex = Math.round((0 - this.translateX) / this.stepWidth) - this.fakeCountOneSide;
             let activeIndex;
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
             if (0.5 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
-                    activeIndex =
-                        0 -
-                        Math.ceil(this.translateX / this.stepWidth) -
-                        this.fakeCountOneSide;
+                    activeIndex = 0 - Math.ceil(this.translateX / this.stepWidth) - this.fakeCountOneSide;
                 } else {
-                    activeIndex =
-                        0 -
-                        Math.floor(this.translateX / this.stepWidth) -
-                        this.fakeCountOneSide;
+                    activeIndex = 0 - Math.floor(this.translateX / this.stepWidth) - this.fakeCountOneSide;
                 }
             } else {
-                activeIndex =
-                    Math.round((0 - this.translateX) / this.stepWidth) -
-                    this.fakeCountOneSide;
+                // 如果sliderPerView > 1, 产生了每一页不对齐
+                // 那么当通过外部控制value到达了最后一页时, 不进行round, 防止回退到前一页, 而是ceil直接跳到尾页
+                // 拖拽的翻页不会发生如此情况, 因为拖拽产生的translateX的值会超过尾页所需translatex, 所以会触发round
+                if (this.minTranslateX >= this.translateX) {
+                    activeIndex = Math.ceil((0 - this.translateX) / this.stepWidth) - this.fakeCountOneSide;
+                } else {
+                    activeIndex = Math.round((0 - this.translateX) / this.stepWidth) - this.fakeCountOneSide;
+                }
             }
 
             if (this.realCount + this.fakeCountOneSide <= activeIndex) {
@@ -486,10 +454,10 @@ export default {
 
         realIndex() {
             let realIndex = this.activeIndex;
-            if (this.count === this.activeIndex) {
+            if (this.count <= this.activeIndex) {
                 realIndex = 0;
-            } else if (-1 === this.activeIndex) {
-                realIndex = this.count - 1;
+            } else if (-1 >= this.activeIndex) {
+                realIndex = this.count + this.activeIndex;
             }
             return realIndex;
         }
@@ -502,18 +470,11 @@ export default {
             // 重新计时, 播放(防止切换后, 没有delay就播放了)
             this.resumeSlider();
 
-            // 到达尾部停止自动播放
-            if (this.stopOnLast && this.lastIndex === this.realIndex) {
-                this.stopSlider();
-            }
-
-            // 只能返回总数范围内的
-            if (this.count > this.activeIndex && -1 < this.activeIndex) {
-                this.slideTo(value);
-            }
+            this.slideTo(value);
         },
 
         activeIndex(activeIndex) {
+            this.$emit('update:realIndex', this.realIndex);
             this.$emit('change', {
                 realIndex: this.realIndex,
                 activeIndex: this.activeIndex
@@ -526,28 +487,32 @@ export default {
         async realIndex(realIndex) {
             // 等待this.imageStore填充完毕
             await this.$nextTick();
-            // log(this.imageStore.length)
             // 加载当前图片
-            for(let i = 0; i < this.fakeCountOneSide; i++) {
-                let activeIndex = this.fakeCountOneSide + realIndex + i;
+            // this.itemInViewCount, 这里针对isLoop = false的情况, 因为fakeCountOneSide = 0 ,  所以不能直接使用
+            for (let i = 0; i < this.itemInViewCount; i++) {
+                let activeIndex = realIndex + i;
                 this.loadImageByActiveIndex(activeIndex);
             }
 
             // 预加载next/prev的图片
             if (this.loadPrevNext && 0 < this.loadPrevNextAmount) {
-                this.loadImageByActiveIndex(
-                    realIndex - this.loadPrevNextAmount
-                );
-                this.loadImageByActiveIndex(
-                    realIndex + this.loadPrevNextAmount
-                );
+                for (let i = 1; i <= this.loadPrevNextAmount; i++) {
+                    this.loadImageByActiveIndex(realIndex - i);
+                    this.loadImageByActiveIndex(realIndex + i);
+                }
             }
 
             // 针对边界对fake的图片也同时加载
-            if (0 === realIndex) {
-                this.loadImageByActiveIndex(this.count);
-            } else if (this.lastIndex === realIndex) {
-                this.loadImageByActiveIndex(-1);
+            if (this.isLoop) {
+                if (0 === realIndex) {
+                    for (let i = 0; i < this.fakeCountOneSide; i++) {
+                        this.loadImageByActiveIndex(this.realCount + i);
+                    }
+                } else if (this.lastIndex === realIndex) {
+                    for (let i = 1; i <= this.fakeCountOneSide; i++) {
+                        this.loadImageByActiveIndex(0 - i);
+                    }
+                }
             }
         }
     }
