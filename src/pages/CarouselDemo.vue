@@ -9,8 +9,7 @@
             </v-carousel>
         </v-group>
 
-        <!-- 多图 -->
-        <v-group title="每屏多图 | 循环 | 自动播放">
+        <!-- <v-group title="每屏多图 | 循环 | 自动播放">
             <v-carousel v-model="activeIndex2" :slides-per-view="2.2" :delay="1000">
                 <v-carousel-item v-for="image in shortImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200" />
@@ -18,16 +17,15 @@
             </v-carousel>
         </v-group>
 
-        <!-- 外部控制 -->
         <v-group title="不循环 | 不自动播放 | 外部控制 | 不显示默认分页按钮">
             <v-carousel @init="carouselInit" v-model="activeIndex3" :real-index.sync="realIndex3" :is-auto-play="false" :is-loop="false" :has-page-btn="false">
                 <v-carousel-item v-for="image in longImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200" />
                 </v-carousel-item>
             </v-carousel>
-        </v-group>
+        </v-group> -->
 
-        <v-button v-for="n in pageBtnCount" :key="n" type="primary" :class="{'btn-active': realIndex3+1 ==n}" @click="activeIndex3=n-1" class="gutter-sm">{{n-1}}</v-button>
+        <!-- <v-button v-for="n in pageBtnCount" :key="n" type="primary"  @click="activeIndex3=n-1" class="gutter-sm" :class="{'active': realIndex3+1 ==n}">{{n-1}}</v-button> -->
 
     </v-scroll-view>
 </template>
@@ -54,9 +52,8 @@ export default {
             activeIndex2: 0,
             activeIndex3: 0,
             realIndex3: 0,
-            longImages: longImages.slice(0, 8),
+            longImages: longImages.slice(0, 3),
             shortImages
-            // imageList:images.slice(0, 3),
         };
     },
 
@@ -82,60 +79,7 @@ export default {
 </script>
 <style scope lang="scss">
 @import '../scss/theme.scss';
-
-.swiper-container {
-    width: 100%;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-}
-.swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-
-    /* Center slide text vertically */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-}
-
-.carousel-item {
-    height: 200px;
-    line-height: 200px;
-    color: #ddd;
-    font-size: $biggest;
-    text-align: center;
-    background: $dark;
-
-
-    &-1 {
-        background: $light;
-    }
-    &-2 {
-        background: $success;
-    }
-
-    &-3 {
-        background: $info;
-    }
-    &-4 {
-        background: $warning;
-    }
-    &-5 {
-        background: $primary;
-    }
-}
-.btn-active {
-    background: $danger;
+.active {
+    background: $danger !important;
 }
 </style>

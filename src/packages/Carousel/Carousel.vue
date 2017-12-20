@@ -6,6 +6,7 @@
         <div v-if="hasPageBtn && 0 < pageBtnCount" class="atom-carousel__paging">
             <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
         </div>
+        <h1>activeIndex : {{activeIndex}}</h1>
     </div>
 </template>
 
@@ -134,6 +135,11 @@ export default {
         this.$nextTick(()=>{
             this.$emit('init', {pageBtnCount: this.pageBtnCount});
         });
+
+        // this.$refs.body.addEventListener('transitionend', ()=>{
+        //     alert(321)
+        // })
+        // this.$refs.body.transitionend()
     },
 
     methods: {
@@ -232,10 +238,10 @@ export default {
             clearTimeout(this.playTimeOutId);
             this.playTimeOutId = setTimeout(()=>{
                 if(this.pageBtnCount <= this.activeIndex) {
-                    this.slideTo(0, 0);
-                    this.$nextTick(()=>{
+                    this.slideTo(0, 0, ()=>{
                         this.slideTo(1);
                     });
+                    
                 } else {
                     this.slideTo(this.activeIndex+1);
                 }
@@ -255,9 +261,9 @@ export default {
         playSlider() {
             if (this.isAutoPlay && !this.disableOnInteraction) {
                 if (this.isLoop) {
-                    return this.playLoopSlider();
+                    this.playLoopSlider();
                 } else {
-                    return this.playNoLoopSlider();
+                    this.playNoLoopSlider();
                 }
             }
         },
@@ -376,6 +382,14 @@ export default {
             this.translateX = translateX;
             this.startTranslateX = this.translateX;
             this.afterSliderTransitonend = callback;
+            if(0 === duration) {
+                // this.$nextTick(()=>{
+                    setTimeout(()=>{
+                        callback();
+                    }, 100)
+                // });
+            }
+            // dir(this.$refs.body['transition-end']())
         },
 
         /**
