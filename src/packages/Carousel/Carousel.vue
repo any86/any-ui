@@ -3,17 +3,20 @@
         <div ref="body" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
             <slot></slot>
         </div>
-        <div v-if="0 < pageBtnCount" class="atom-carousel__paging">
+        <div v-if="hasPageBtn && 0 < pageBtnCount" class="atom-carousel__paging">
             <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
         </div>
-        <h1>activeIndex: {{activeIndex}}</h1>
     </div>
 </template>
 
 <script>
 import { getWidth, getTime } from '@/utils/dom';
 /**
- * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址
+ * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址, 
+ *    如果一页有多个src-lazy会当第一个src-lazy加载完毕, 
+ *    隐藏等待指示器, 不建议一页多个图, 不要权衡哪一个先限制.
+ *    当然也可以通过lazy-weight来排序权重, 但是感觉现实开发中就应该避免一页多图的设计,
+ *    如日后遇见此类需求再加,暂且开发到这
  * 2. 改变tranlateX来驱动activeIndex变化, 其他变化都是根据activeIndex变化
  */
 export default {
@@ -31,6 +34,11 @@ export default {
         slidesPerView: {
             type: [Number, String],
             default: 1
+        },
+
+        hasPageBtn: {
+            type: Boolean,
+            default: true
         },
 
         isAutoPlay: {
@@ -67,7 +75,7 @@ export default {
             type: Number,
             default: 300
         },
-
+        
         loadPrevNext: {
             type: Boolean,
             default: true
@@ -122,6 +130,10 @@ export default {
         this.slideTo(this.value, 0);
         // 启动轮播, 此处不启动, 没法触发translateEnd
         this.playSlider();
+
+        this.$nextTick(()=>{
+            this.$emit('init', {pageBtnCount: this.pageBtnCount});
+        });
     },
 
     methods: {
@@ -520,6 +532,7 @@ $height: 0.5rem;
 
     &__paging {
         position: absolute;
+        z-index: 10;
         bottom: 15px;
         left: 0;
         text-align: center;
@@ -533,7 +546,7 @@ $height: 0.5rem;
             background: rgba($dark, 0.6);
             transition: transform $duration;
             &--active {
-                transform: scale(1.2);
+                transform: scale(1.4);
                 background: rgba($base, 0.7);
             }
         }
