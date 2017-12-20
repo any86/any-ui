@@ -122,7 +122,7 @@ export default {
         if (this.isLoop) {
             this.playLoopSlider();
         } else {
-            this.playSlider();
+            this.playNoLoopSlider();
         }
     },
 
@@ -203,7 +203,7 @@ export default {
         /**
          * 自动播放(false === isLoop)
          */
-        playSlider() {
+        playNoLoopSlider() {
             if (-1 < this.delay) {
                 // 正向播放
                 this.timer = setInterval(() => {
@@ -258,12 +258,12 @@ export default {
         /** 
         * 恢复播放 
         */
-        resumeSlider() {
+        playSlider() {
             if (!this.disableOnInteraction) {
                 if (this.isLoop) {
                     this.playLoopSlider();
                 } else {
-                    this.playSlider();
+                    this.playNoLoopSlider();
                 }
             }
         },
@@ -362,7 +362,7 @@ export default {
             this.momentum = deltaX / (getTime() - this.startTime);
             this.slideTo(this.activeIndex);
             // 恢复播放
-            this.resumeSlider();
+            this.playSlider();
             this.$emit('touchend');
         },
         /**
@@ -468,7 +468,7 @@ export default {
             // 停止自动播放
             this.stopSlider();
             // 重新计时, 播放(防止切换后, 没有delay就播放了)
-            this.resumeSlider();
+            this.playSlider();
 
             this.slideTo(value);
         },
