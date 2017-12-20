@@ -37,11 +37,6 @@ export default {
             default: false
         },
 
-        size: {
-            type: String,
-            default: ''
-        },
-
         isRound: {
             type: Boolean,
             default: false
