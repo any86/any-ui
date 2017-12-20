@@ -6,9 +6,7 @@
         <div v-if="0 < pageBtnCount" class="atom-carousel__paging">
             <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
         </div>
-        <h1>translateX: {{translateX}} </h1>
-        <h1>activeIndex: {{activeIndex}} </h1>
-        <h1>realIndex: {{realIndex}} </h1>
+        <h1>activeIndex: {{activeIndex}}</h1>
     </div>
 </template>
 
@@ -35,6 +33,11 @@ export default {
             default: 1
         },
 
+        isAutoPlay: {
+            type: Boolean,
+            default: true
+        },
+
         isLoop: {
             type: Boolean,
             default: true
@@ -47,7 +50,7 @@ export default {
 
         delay: {
             type: [Number, String],
-            default: -1
+            default: 3000
         },
 
         disableOnInteraction: {
@@ -86,7 +89,7 @@ export default {
         translateX: 0,
         startTranslateX: 0,
         afterSliderTransitonend: () => {},
-        timer: null,
+        playTimeOutId: null,
         imageStore: [],
         momentum: 0,
         startTime: 0,
@@ -117,13 +120,8 @@ export default {
         }
 
         this.slideTo(this.value, 0);
-
-        // 自动播放
-        if (this.isLoop) {
-            this.playLoopSlider();
-        } else {
-            this.playNoLoopSlider();
-        }
+        // 启动轮播, 此处不启动, 没法触发translateEnd
+        this.playSlider();
     },
 
     methods: {
@@ -204,66 +202,50 @@ export default {
          * 自动播放(false === isLoop)
          */
         playNoLoopSlider() {
-            if (-1 < this.delay) {
-                // 正向播放
-                this.timer = setInterval(() => {
-                    // 翻页
-                    let activeIndex = this.activeIndex;
-                    activeIndex++;
-                    this.slideTo(activeIndex);
-                    // 到达尾部后, 返回第一页
-                    if (this.realCount <= activeIndex) {
-                        if (this.stopOnLast) {
-                            // 到达尾部停止自动播放
-                            this.stopSlider();
-                        } else {
-                            this.slideTo(0);
-                        }
-                    }
-                }, this.delay);
-            }
+            clearTimeout(this.playTimeOutId);
+            this.playTimeOutId = setTimeout(()=>{
+                const nextIndex = this.activeIndex+1;
+                if(this.pageBtnCount <= nextIndex) {
+                    this.slideTo(0);
+                } else {
+                    this.slideTo(nextIndex);
+                }
+            }, this.delay);
         },
 
         /**
          * 自动播放(true === isLoop)
          */
         playLoopSlider() {
-            if (-1 < this.delay) {
-                // 因为只做正序播放, 逻辑还是比较精简的
-                this.timer = setInterval(() => {
-                    // 累加页码
-                    let activeIndex = this.activeIndex;
-                    activeIndex++;
-                    if (this.pageBtnCount < activeIndex) {
-                        this.slideTo(0, 0);
-                        // 此处如不直接执行slideTo(1)
-                        // 那么第一页会等待2个周期的时间
-                        this.$nextTick(() => {
-                            this.slideTo(1);
-                        });
-                    } else {
-                        this.slideTo(activeIndex);
-                    }
-                }, this.delay);
-            }
+            clearTimeout(this.playTimeOutId);
+            this.playTimeOutId = setTimeout(()=>{
+                if(this.pageBtnCount <= this.activeIndex) {
+                    this.slideTo(0, 0);
+                    this.$nextTick(()=>{
+                        this.slideTo(1);
+                    });
+                } else {
+                    this.slideTo(this.activeIndex+1);
+                }
+            }, this.delay);
         },
 
         /**
          * 停止播放
          */
         stopSlider() {
-            clearInterval(this.timer);
+            clearTimeout(this.playTimeOutId);
         },
 
         /** 
-        * 恢复播放 
+        * 恢复播放
         */
         playSlider() {
-            if (!this.disableOnInteraction) {
+            if (this.isAutoPlay && !this.disableOnInteraction) {
                 if (this.isLoop) {
-                    this.playLoopSlider();
+                    return this.playLoopSlider();
                 } else {
-                    this.playNoLoopSlider();
+                    return this.playNoLoopSlider();
                 }
             }
         },
@@ -361,8 +343,6 @@ export default {
             const absDeltaX = Math.abs(deltaX);
             this.momentum = deltaX / (getTime() - this.startTime);
             this.slideTo(this.activeIndex);
-            // 恢复播放
-            this.playSlider();
             this.$emit('touchend');
         },
         /**
@@ -393,7 +373,11 @@ export default {
             this.isAnimating = false;
             this.transitionDuration = 0;
             this.afterSliderTransitonend(this.activeIndex);
+            // 自动播放下一张
+            this.playSlider();
+
             this.$emit('input', this.activeIndex);
+
         }
     },
 
@@ -465,11 +449,6 @@ export default {
 
     watch: {
         value(value) {
-            // 停止自动播放
-            this.stopSlider();
-            // 重新计时, 播放(防止切换后, 没有delay就播放了)
-            this.playSlider();
-
             this.slideTo(value);
         },
 
