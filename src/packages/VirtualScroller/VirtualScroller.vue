@@ -154,6 +154,19 @@ export default {
             }
         },
 
+        /**
+         * 获取动画过程中的body的实时的translateX
+         */
+        getTranslateX() {
+            // https://github.com/nolimits4web/Swiper/blob/master/src/utils/utils.js
+            // 写的兼容性不完整, 后期修改参考swiper.js的getTranslate
+            const style = getComputedStyle(this.$refs.body, null);
+            const matrix = style.transform.split(',');
+            log(matrix)
+            return Math.round(matrix[4]);
+        },
+
+
         touchstart(e) {
             // stopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
             this.stopPropagation && e.stopPropagation();
@@ -226,6 +239,14 @@ export default {
                 this.startTranslateY = this.translateY;
                 this.startTranslateX = this.translateX;
             }
+
+            // 拖拽正在移动的item
+            if (this.isMoving) {
+                this.startTranslateX = this.getTranslateX();
+                this.translateX = this.startTranslateX;
+                this.isMoving = false;
+            }
+
             // 派发组件事件
             // this.$emit('input', {
             //     scrollTop: -this.translateY,
