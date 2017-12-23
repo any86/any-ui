@@ -1,11 +1,11 @@
 <template>
-    <div class="atom-group">
+    <section class="atom-group">
         <header v-if="title || $slots.header">
             <slot name="header"></slot>
             {{title}}
         </header>
         <slot></slot>
-    </div>
+    </section>
 </template>
 <script>
 export default {
@@ -19,9 +19,8 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-group{
-    margin-top:$gutter;
     background: $background;
-    
+    overflow: hidden;
     >header{
         padding:  $gutter;
         color:$darkest;

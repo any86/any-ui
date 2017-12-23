@@ -134,11 +134,6 @@ export default {
         this.$nextTick(() => {
             this.$emit('init', { pageBtnCount: this.pageBtnCount });
         });
-
-        // this.$refs.body.addEventListener('transitionend', ()=>{
-        //     alert(321)
-        // })
-        // this.$refs.body.transitionend()
     },
 
     methods: {
@@ -283,7 +278,6 @@ export default {
             // 写的兼容性不完整, 后期修改参考swiper.js的getTranslate
             const style = getComputedStyle(this.$refs.body, null);
             const matrix = style.transform.split(',');
-            log(matrix);
             return Math.round(matrix[4]);
         },
 
