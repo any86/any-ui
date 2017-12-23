@@ -161,3 +161,21 @@ table {
         // }
     }
 }
+
+
+dl{
+    
+    dt{  
+        float: left;
+        width: 160px;
+        overflow: hidden;
+        clear: left;
+        text-align: right;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        
+    }
+    dd{margin-left: 180px;clear: both;
+        &:after{content: '';clear:both;display: table;}
+    }
+}

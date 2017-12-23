@@ -1,0 +1,19 @@
+.ripple-container {
+    pointer-events: none;
+    .ripple {
+        animation: ripple 2000ms forwards cubic-bezier(0, 0, 0.2, 1);
+        animation-fill-mode: forwards;
+    }
+}
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    80% {
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+    }
+}

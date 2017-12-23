@@ -1,0 +1,46 @@
+// 文字溢出隐藏
+.text-hidden {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+// 文字颜色
+@each $key, $value in $theme_colors {
+    .text-#{$key} {
+        color: $value;
+    }
+
+    small.text-#{$key} {
+        font-size: $small;
+    }
+}
+
+// 文字大小
+@each $key, $value in $font_sizes {
+    .font-#{$key}, .text-#{$key}  {
+        font-size: $value;
+    }
+}
+
+// 文字对齐
+$align_map: (
+    right: right,
+    left: left,
+    center: center
+);
+@each $key, $value in $align_map {
+    .text-#{$key} {
+        text-align: $value;
+    }
+}
+
+
+// 划线
+.text-line-center{
+    text-decoration: line-through
+}
+
+.text-line-under{
+   text-decoration: underline; 
+}
