@@ -155,7 +155,7 @@ const getScrollParent = el => {
  * @param {Number} viewRate 
  */
 const getIsInView = (el, viewRate = 1) => {
-    
+
     const { top, right, bottom, left } = el.getBoundingClientRect();
     const winWidth = getWidth(window);
     const winHeight = getHeight(window);
@@ -172,7 +172,28 @@ const getIsInView = (el, viewRate = 1) => {
  */
 const getBCR = el => el.getBoundingClientRect();
 
+const parseTime = (number) => {
+    const second = number % 60;
+    const minute = Math.floor(number / 60) % 60;
+    const hour = Math.floor(number / 3660) % 60;
+    const day = Math.floor(hour / 24) % 24;
+    return { second, minute, hour, day };
+}
+
+const countDownTime = (number, callback) => {
+    if (0 < number) {
+        setTimeout(() => {
+            number--;
+            callback(parseTime(number));
+            countDownTime(number, callback);
+        }, 1000);
+    }
+}
+
+
 export {
+    countDownTime,
+    parseTime,
     getTime,
     getScrollParent,
     getElementTopFromDocument,
