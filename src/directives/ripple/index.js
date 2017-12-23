@@ -25,28 +25,34 @@ const updateRipple = (el, binding) => {
     el.dataset.rippleDisabled = opts.disabled;
     el.dataset.rippleTimer = el.dataset.rippleTimer || null;
 }
-export default {
-    // bind(el) {
-    //     // bind中还没有插入元素, 所以没法获取尺寸
-    // },
 
-    inserted(el, binding) {
-        updateRipple(el, binding);
-        // 绑定事件
-        el.addEventListener('touchstart', touchStartHandler);
-        el.addEventListener('touchend', touchendHandler);
-    },
 
-    // updated(el, binding) {
+const plugin = {
+    install(Vue) {
+        Vue.directive('ripple', {
+            inserted(el, binding) {
+                updateRipple(el, binding);
+                // 绑定事件
+                el.addEventListener('touchstart', touchStartHandler);
+                el.addEventListener('touchend', touchendHandler);
+            },
 
-    // },
+            // updated(el, binding) {
 
-    componentUpdated(el, binding) {
-        updateRipple(el, binding);
-    },
+            // },
 
-    unbind(el) {
-        el.removeEventListener('touchstart', touchStartHandler);
-        el.removeEventListener('touchend', touchendHandler);
+            componentUpdated(el, binding) {
+                updateRipple(el, binding);
+            },
+
+            unbind(el) {
+                el.removeEventListener('touchstart', touchStartHandler);
+                el.removeEventListener('touchend', touchendHandler);
+            }
+        });
     }
 };
+export default plugin;
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(plugin);
+}

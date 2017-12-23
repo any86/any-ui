@@ -1,7 +1,7 @@
 <template>
-    <div class="atom-carousel-item" :style="{width: `${width}px`,  marginRight: `${$parent.spaceBetween}px`}">
+    <div class="atom-carousel-item" :style="{width: `${width}px`}">
         <slot></slot>
-        <v-spinner-ripple class="item__loading" />
+        <v-spinner-ripple v-if="ready" class="item__loading" />
     </div>
 </template>
 <script>
@@ -15,7 +15,8 @@ export default {
         return {
             index: 0,
             width: 0,
-            hasImage: true
+            hasImage: true,
+            ready: false
         };
     },
 
@@ -25,10 +26,7 @@ export default {
 
         this.$nextTick(() => {
             this.width = this.$parent.warpWidth / this.$parent.slidesPerView;
-
-            // if (0 == this.$parent.count) {
-            //     this.$parent.count = 1 - Math.floor(this.$parent.slidesPerView);
-            // }
+            this.ready = true;
 
             if (undefined !== this.$parent.imageStore[this.index] && 0 === this.$parent.imageStore[this.index].length) {
                 this.hasImage = false;

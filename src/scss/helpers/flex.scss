@@ -1,0 +1,21 @@
+.flex {
+    display: flex;
+}
+
+.flex-item {
+    flex: 1;
+    min-width:0;
+}
+
+.flex-item--vcenter {
+    align-self: center;
+}
+
+.flex-item--hcenter {
+    justify-self: center;
+}
+
+.flex-item--center {
+    justify-self: center;
+    align-self: center;
+}

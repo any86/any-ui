@@ -1,11 +1,11 @@
 import Toast from '@/packages/Toast/Toast';
-import Loading from '@/packages/Loading/Loading';
+import VLoading from '@/packages/Loading/Loading';
 import VAlert from '@/packages/Dialog/Alert';
 import VConfirm from '@/packages/Dialog/Confirm';
 import VPrompt from '@/packages/Dialog/Prompt';
 
 var Atom = {};
-var ZIndexManger = 0;
+var ZIndexManger = 0; // 稍后做zindex管理
 Atom.install = function (Vue) {
     // Vue.component(ScrollView.name, ScrollView);
     const createVueChild = component => {
@@ -102,6 +102,22 @@ Atom.install = function (Vue) {
         Vue.prototype.$toast.close = Vue.prototype.$toast.hide = () => {
             toastVM.isShow = false;
         }
+    }
+
+    // ==========================================loading==================================
+    {
+        let loadingVM = null;
+        Vue.prototype.$loading = () => {
+            if (null === loadingVM) {
+                loadingVM = createVueChild(VLoading);
+                loadingVM.isShow = true;
+                return loadingVM;
+            }
+        };
+
+        Vue.prototype.$loading.close = ()=>{
+            loadingVM.isShow = false;
+        };
     }
 };
 

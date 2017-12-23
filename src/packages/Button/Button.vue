@@ -78,7 +78,6 @@ $height: 1rem;
     background: $color;
     border-color: transparent;
     color: color-yiq($color);
-    border-radius: $radius;
     // width: $lightness;
     @if (98% < $lightness) {
         border: 1px solid $lightness;

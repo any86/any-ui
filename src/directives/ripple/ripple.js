@@ -1,3 +1,4 @@
+import './ripple.scss'
 /**
  * 查找紧邻的子节点
  * @param {Element}  
@@ -54,7 +55,7 @@ const createRippleNode = (event) => {
     $rippleNode.style.left = pageX - left - radius + 'px';
     $rippleNode.style.top = pageY - top - radius + 'px';
     $rippleNode.style.background = $el.dataset.rippleBackground;
-    $rippleNode.style.opacity = $el.dataset.rippleOpacity;
+    // $rippleNode.style.opacity = $el.dataset.rippleOpacity;
     $rippleNode.style.transitionDuration = $el.dataset.rippleDuration + 'ms';
     $rippleNode.className = 'ripple ripple--ready';
     return $rippleNode;
@@ -104,13 +105,13 @@ const touchendHandler = (event) => {
     let $rippleContainerNode = findRippleContainer($el);
     let $rippleNode = $rippleContainerNode.childNodes[0];
     $rippleNode.className = 'ripple ripple--move';
-    $rippleNode.style.opacity = 0;
+    // $rippleNode.style.opacity = 0;
     // 动画结束后删除水波纹.
     // 防止可能出现排版错乱
     clearTimeout($el.dataset.rippleTimer);
     $el.dataset.rippleTimer = setTimeout(() => {
         // $el.removeChild($rippleContainerNode);
-        $rippleContainerNode.remove();
+        // $rippleContainerNode.remove();
     }, duration + 100);
 }
 

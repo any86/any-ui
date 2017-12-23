@@ -13,7 +13,7 @@ export default {
     name: 'VirtualScroller',
 
     props: {
-        isDisableTouch: {
+        isDisable: {
             type: Boolean,
             default: false
         },
@@ -108,7 +108,7 @@ export default {
 
     data() {
         return {
-            isMoving: false,
+            isAnimating: false,
             speed: 0,
             startTime: 0,
             endTime: 0,
@@ -154,6 +154,18 @@ export default {
             }
         },
 
+        /**
+         * 获取动画过程中的body的实时的translateX
+         */
+        getTranslate() {
+            // https://github.com/nolimits4web/Swiper/blob/master/src/utils/utils.js
+            // 写的兼容性不完整, 后期修改参考swiper.js的getTranslate
+            const style = getComputedStyle(this.$refs.body, null);
+            const matrix = style.transform.split(',');
+            return {x: Math.round(matrix[4]), y: Math.round(parseFloat(matrix[5]))};
+        },
+
+
         touchstart(e) {
             // stopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
             this.stopPropagation && e.stopPropagation();
@@ -161,7 +173,7 @@ export default {
             this.isPreventDefault && e.preventDefault();
 
             // 禁用touch事件
-            if (this.isDisableTouch) return;
+            if (this.isDisable) return;
 
             // ========== 计算滑动 ==========
             const point = e.touches ? e.touches[0] : e;
@@ -187,7 +199,7 @@ export default {
             this.stopPropagation && e.stopPropagation();
             
             // 禁用touch事件[停止运行]
-            if (this.isDisableTouch) return;
+            if (this.isDisable) return;
             // x/y都lock了[停止运行]
             if (this.isLockX && this.isLockY) return;
             const now = getTime();
@@ -201,18 +213,26 @@ export default {
             const absDeltaX = Math.abs(deltaX);
 
             // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
-            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
-            // ========== 计算滑动 ==========
+            // if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
 
+            if (this.sensitivity <= absDeltaY){
+                this.translateY = this.startTranslateY + (deltaY - this.sensitivity) * this.moveRatio;
+                log(this.translateY)
+            }
+
+return ;
+
+
+            // ========== 计算滑动 ==========
             if (!this.isLockX && this.isLockY) {
                 // X轴可拖拽
+                // y轴位移远远大于x轴, 才可以移动
                 if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
-                // X位移
                 this.translateX = this.startTranslateX + deltaX * this.moveRatio;
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
                 if (absDeltaY < absDeltaX + this.directionLockThreshold) return;
-                // Y位移
+                // x轴位移远远大于y轴, 才可以移动
                 this.translateY = this.startTranslateY + deltaY * this.moveRatio;
             } else {
                 this.translateX = this.startTranslateX + deltaX * this.moveRatio;
@@ -226,6 +246,17 @@ export default {
                 this.startTranslateY = this.translateY;
                 this.startTranslateX = this.translateX;
             }
+
+            // 拖拽正在移动的item
+            if (this.isAnimating) {
+                let {x, y} = this.getTranslate();
+                this.startTranslateX = x;
+                this.startTranslateY = y;
+                this.translateX = this.startTranslateX;
+                this.translateY = this.startTranslateY;
+                this.isAnimating = false;
+            }
+
             // 派发组件事件
             // this.$emit('input', {
             //     scrollTop: -this.translateY,
@@ -238,12 +269,12 @@ export default {
             this.stopPropagation && e.stopPropagation();
             this.isPreventDefault && e.preventDefault();
             // // 禁用touch事件
-            if (this.isDisableTouch) return;
+            if (this.isDisable) return;
             this.transitionDuration = DURATION;
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
             const timeDiff = this.endTime - this.startTime;
-
+this.isAnimating = true;
             if (!this.isLockY) {
                 const translateYDiff = this.translateY - this.startTranslateY;
                 // 150ms内的快速滑动才有缓冲动画
@@ -282,7 +313,7 @@ export default {
         },
 
         transitionend() {
-            // if (this.isDisableTouch) return;
+            // if (this.isDisable) return;
             // if (this.hasBufferMove) {
             //     this.$emit('scroll-buffer', false);
             // }

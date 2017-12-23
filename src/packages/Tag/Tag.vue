@@ -22,8 +22,9 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/theme.scss';
 .atom-tag {
-    display: inline-block;
+    display: inline-table;
     padding: 0 $gutter / 4;
+    font-size: $small;
     border-radius: $borderRadius;
 }
 

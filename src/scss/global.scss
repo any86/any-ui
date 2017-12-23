@@ -4,7 +4,10 @@
 @import './reset.scss';
 @import './animate.scss';
 @import './helpers.scss';
-
+@import '../scss/ripple.scss';
+[v-cloak] {
+    display: none;
+}
 html {
     font-size: 16px;
 }
@@ -23,3 +26,92 @@ body {
 .page-leave-active {
     opacity: 0;
 }
+
+
+.svg-icon{
+    display: inline-block;
+    vertical-align: middle;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position:center center;
+}
+
+.icon-star{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/star.svg');
+}
+
+.icon-star-sm{
+    width: 16px;
+    height: 16px;
+    background-image: url('../assets/star.svg');
+}
+
+
+.icon-star-o{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/star-o.svg');
+    
+}
+
+.icon-add-wish-list {
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/add_wish_list.svg');
+}
+
+.icon-customer-service{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/customer_service.svg');
+}
+
+.icon-goods-reduce{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/goods_reduce.svg');
+}
+
+.icon-goods-add{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/goods_add.svg');
+}
+
+.icon-add-to-cart{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/add_to_cart.svg');
+}
+
+.icon-edit{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/edit.svg');
+}
+
+.icon-avatar{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/avatar.svg');
+}
+
+.icon-select-circle-green{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/select_circle_green.svg');
+}
+.icon-select-circle-blue{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/select_circle_blue.svg');
+}
+
+.icon-select-circle-yellow{
+    width: 26px;
+    height: 26px;
+    background-image: url('../assets/select_circle_yellow.svg');
+}
+

@@ -97,7 +97,6 @@ $height: 0.6rem;
     width: 100%;
     background: $background;
     > input {
-        padding-left: $gutter;
         background: rgba(255, 255, 255, 0);
         font-size: $normal;
         flex: 1;

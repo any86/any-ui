@@ -6,7 +6,6 @@
         <div v-if="hasPageBtn && 0 < pageBtnCount" class="atom-carousel__paging">
             <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
         </div>
-        <h1>activeIndex : {{activeIndex}}</h1>
     </div>
 </template>
 
@@ -135,11 +134,6 @@ export default {
         this.$nextTick(() => {
             this.$emit('init', { pageBtnCount: this.pageBtnCount });
         });
-
-        // this.$refs.body.addEventListener('transitionend', ()=>{
-        //     alert(321)
-        // })
-        // this.$refs.body.transitionend()
     },
 
     methods: {
@@ -368,6 +362,7 @@ export default {
                 this.translateX = this.startTranslateX;
                 this.isAnimating = false;
             }
+            this.startTranslateX = this.getTranslateX();
 
             this.$emit('touchmove');
         },

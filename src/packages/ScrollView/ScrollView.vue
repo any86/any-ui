@@ -36,7 +36,7 @@ export default {
          */
         keyboardOffset: {
             type: Number,
-            default: 10
+            default: 60
         }
     },
 

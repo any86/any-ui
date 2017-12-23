@@ -1,0 +1,26 @@
+/*
+* 间距/缝隙/槽: gutter
+*/
+.gutter {
+    margin: $gutter;
+}
+
+@each $direction in top, left, right, bottom {
+    .gutter-#{$direction} {
+        margin-#{$direction}: $gutter;
+    }
+}
+
+
+/*
+* 间距/缝隙/槽(小): gutter
+*/
+.gutter-sm {
+    margin: $gutter/2;
+}
+
+@each $direction in top, left, right, bottom {
+    .gutter-#{$direction}-sm {
+        margin-#{$direction}: $gutter/2;
+    }
+}

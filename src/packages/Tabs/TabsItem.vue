@@ -35,6 +35,7 @@ export default {
 $height:55px;
 .atom-tabs__item {
     // 有剩余空间是否自动占满
+    position: relative;
     flex-grow: 1; // 空间不够是否缩小
     flex-shrink: 0; // 默认尺寸
     flex-basis: auto;

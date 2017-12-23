@@ -1,9 +1,8 @@
 <template>
-    <v-mask :isShow="isShow" class="atom-mask" background="rgba(0,0,0,.5})">
-        <transition name="zoom" @after-enter="afterEnter">
+    <v-mask :isShow="isShow" class="atom-mask" style="background: rgba(0,0,0,0);">
+        <transition name="zoom">
             <div v-show="isShow" class="atom-mask__body">
                 <v-android></v-android>
-                <p class="body__text">LOADING</p>
             </div>
         </transition>
     </v-mask>
@@ -15,25 +14,10 @@ import VAndroid from '@/packages/Spinner/Android';
 export default {
     name: 'Loading',
 
-    data() {
-        text: 'loading';
-    },
-
-    render(){
-
-    },
-
-    mounted() {
-        dir(this.$createElement('v-android'));
-    },
-
-    data() {
-        return { isShow: false, afterEnterCallback: null };
-    },
-
-    methods: {
-        afterEnter() {
-            this.afterEnterCallback();
+    props: {
+        isShow: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -50,13 +34,14 @@ export default {
     z-index: $loadingZIndex;
     display: flex;
     justify-content: center;
+    
     &__body {
-        border-radius: $borderRadius;
+        border-radius: $radius;
         align-self: center;
-        background: rgba(#fff, 1);
-        box-shadow: $shadowDown;
-        padding: $gutter 2*$gutter;
+        background: rgba(#000, .8);
+        padding: $gutter;
         border: 1px solid $lightest;
+        box-shadow: $shadowDown;
         > .body__text {
             text-align: center;
             color: $darkest;

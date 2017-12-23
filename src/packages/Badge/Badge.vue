@@ -1,7 +1,7 @@
 <template>
-    <span class="atom-badge">
+    <span :class="['atom-badge--' + type]" class="atom-badge">
         <slot></slot>
-        <span :class="classNames" class="atom-badge">
+        <span :class="classNames">
             {{value}}
         </span>
     </span>
@@ -14,23 +14,28 @@ export default {
     props: {
         value: {
             type: [Number, String]
+        },
+
+        type: {
+            type: [String],
+            default: 'danger'
         }
     },
 
     computed: {
-        classNames(){
+        classNames() {
             // 如果是内容
             // 否则是点
-            if(undefined !== this.value) {
+            if (undefined !== this.value) {
                 let className = ['atom-badge__content'];
-                if(this.$slots.default) {
-                    className.push('atom-badge__content--fixed')
+                if (this.$slots.default) {
+                    className.push('atom-badge__content--fixed');
                 }
                 return className;
             } else {
                 let className = ['atom-badge__dot'];
-                if(this.$slots.default) {
-                    className.push('atom-badge__dot--fixed')
+                if (this.$slots.default) {
+                    className.push('atom-badge__dot--fixed');
                 }
                 return className;
             }
@@ -53,7 +58,7 @@ $dotSize: 8px;
         width: $dotSize;
         height: $dotSize;
         border-radius: 100%;
-        background: $danger;
+
         &--fixed {
             position: absolute;
             top: 0;
@@ -70,7 +75,6 @@ $dotSize: 8px;
         white-space: nowrap;
         padding: 0 $gutter/3;
         border-radius: $big;
-        background: $danger;
         color: $sub;
         font-size: $small;
         &--fixed {
@@ -78,6 +82,19 @@ $dotSize: 8px;
             top: -5px;
             transform: translate(100%, 0);
             right: 0;
+        }
+    }
+}
+
+@each $key, $value in $theme_colors {
+    // @debug $key;
+    .atom-badge--#{$key} {
+        .atom-badge__dot {
+            background: $value;
+        }
+
+        .atom-badge__content {
+            background: $value;
         }
     }
 }
