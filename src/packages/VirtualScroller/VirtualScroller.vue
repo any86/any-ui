@@ -162,9 +162,11 @@ export default {
             // 写的兼容性不完整, 后期修改参考swiper.js的getTranslate
             const style = getComputedStyle(this.$refs.body, null);
             const matrix = style.transform.split(',');
-            return {x: Math.round(matrix[4]), y: Math.round(parseFloat(matrix[5]))};
+            return {
+                x: Math.round(matrix[4]),
+                y: Math.round(parseFloat(matrix[5]))
+            };
         },
-
 
         touchstart(e) {
             // stopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
@@ -197,7 +199,7 @@ export default {
 
         touchmove(e) {
             this.stopPropagation && e.stopPropagation();
-            
+
             // 禁用touch事件[停止运行]
             if (this.isDisable) return;
             // x/y都lock了[停止运行]
@@ -213,30 +215,30 @@ export default {
             const absDeltaX = Math.abs(deltaX);
 
             // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
-            // if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
-
-            if (this.sensitivity <= absDeltaY){
-                this.translateY = this.startTranslateY + (deltaY - this.sensitivity) * this.moveRatio;
-                log(this.translateY)
-            }
-
-return ;
-
+            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
+            // this.translateY = this.startTranslateY + (deltaY - this.sensitivity) * this.moveRatio;
+            // return ;
 
             // ========== 计算滑动 ==========
             if (!this.isLockX && this.isLockY) {
                 // X轴可拖拽
                 // y轴位移远远大于x轴, 才可以移动
                 if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
-                this.translateX = this.startTranslateX + deltaX * this.moveRatio;
+                this.translateX =
+                    this.startTranslateX + deltaX * this.moveRatio;
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
-                if (absDeltaY < absDeltaX + this.directionLockThreshold) return;
-                // x轴位移远远大于y轴, 才可以移动
-                this.translateY = this.startTranslateY + deltaY * this.moveRatio;
+                if (absDeltaY < absDeltaX + this.directionLockThreshold){
+                    this.startPointY = point.pageY;
+                } else {
+                    // x轴位移远远大于y轴, 才可以移动
+                    this.translateY = this.startTranslateY + (deltaY - this.sensitivity) * this.moveRatio;
+                }
             } else {
-                this.translateX = this.startTranslateX + deltaX * this.moveRatio;
-                this.translateY = this.startTranslateY + deltaY * this.moveRatio;
+                this.translateX =
+                    this.startTranslateX + deltaX * this.moveRatio;
+                this.translateY =
+                    this.startTranslateY + deltaY * this.moveRatio;
             }
             // 当手指一直按住突然拖动, 那么重置起始值
             if (this.maxHolderTime < now - this.startTime) {
@@ -249,7 +251,7 @@ return ;
 
             // 拖拽正在移动的item
             if (this.isAnimating) {
-                let {x, y} = this.getTranslate();
+                let { x, y } = this.getTranslate();
                 this.startTranslateX = x;
                 this.startTranslateY = y;
                 this.translateX = this.startTranslateX;
@@ -274,13 +276,14 @@ return ;
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
             const timeDiff = this.endTime - this.startTime;
-this.isAnimating = true;
+            this.isAnimating = true;
             if (!this.isLockY) {
                 const translateYDiff = this.translateY - this.startTranslateY;
                 // 150ms内的快速滑动才有缓冲动画
                 if (150 > timeDiff) {
                     // log(this.translateY, timeDiff, translateYDiff)
-                    this.translateY = this.translateY + timeDiff / 10 * translateYDiff;
+                    this.translateY =
+                        this.translateY + timeDiff / 10 * translateYDiff;
                 }
                 // 复位
                 if (this.maxTranslateY < this.translateY) {
@@ -293,7 +296,8 @@ this.isAnimating = true;
                 // 150ms内的快速滑动才有缓冲动画
                 if (150 > timeDiff) {
                     // log(this.translateY, timeDiff, translateYDiff)
-                    this.translateX = this.translateX + timeDiff / 10 * translateXDiff;
+                    this.translateX =
+                        this.translateX + timeDiff / 10 * translateXDiff;
                 }
                 // 复位
                 if (this.maxTranslateX < this.translateX) {
@@ -329,21 +333,32 @@ this.isAnimating = true;
 
     computed: {
         style() {
-            return [{ transform: `translate3d(${this.translateX}px, ${this.translateY}px, 0)`, transitionDuration: `${this.transitionDuration}ms` }, this.bodyStyle];
+            return [
+                {
+                    transform: `translate3d(${this.translateX}px, ${this
+                        .translateY}px, 0)`,
+                    transitionDuration: `${this.transitionDuration}ms`
+                },
+                this.bodyStyle
+            ];
         },
 
         /**
          * minTranslateY为负值
          */
         minTranslateY() {
-            return this.viewHeight - getHeight(this.$refs.body, { isScroll: true });
+            return (
+                this.viewHeight - getHeight(this.$refs.body, { isScroll: true })
+            );
         },
 
         /**
          * minTranslateX为负值
          */
         minTranslateX() {
-            return this.viewWidth - getWidth(this.$refs.body, { isScroll: true });
+            return (
+                this.viewWidth - getWidth(this.$refs.body, { isScroll: true })
+            );
         },
 
         /**
