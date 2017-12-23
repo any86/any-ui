@@ -9,7 +9,7 @@
             </v-carousel>
         </v-group>
 
-        <!-- <v-group title="每屏多图 | 循环 | 自动播放">
+        <v-group title="每屏多图 | 循环 | 自动播放">
             <v-carousel v-model="activeIndex2" :slides-per-view="2.2" :delay="1000">
                 <v-carousel-item v-for="image in shortImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200" />
@@ -23,9 +23,9 @@
                     <img :lazy-src="image" width="100%" height="200" />
                 </v-carousel-item>
             </v-carousel>
-        </v-group> -->
+        </v-group>
 
-        <!-- <v-button v-for="n in pageBtnCount" :key="n" type="primary"  @click="activeIndex3=n-1" class="gutter-sm" :class="{'active': realIndex3+1 ==n}">{{n-1}}</v-button> -->
+        <v-button v-for="n in pageBtnCount" :key="n" type="primary"  @click="activeIndex3=n-1" class="gutter-sm" :class="{'active': realIndex3+1 ==n}">{{n-1}}</v-button>
 
     </v-scroll-view>
 </template>

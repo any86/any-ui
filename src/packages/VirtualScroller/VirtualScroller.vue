@@ -157,12 +157,21 @@ export default {
         /**
          * 获取动画过程中的body的实时的translateX
          */
+<<<<<<< HEAD
         getTranslate() {
+=======
+        getTranslateX() {
+>>>>>>> ebfa121ecd4c48cc2c26868dd9e25e0ac601fd3a
             // https://github.com/nolimits4web/Swiper/blob/master/src/utils/utils.js
             // 写的兼容性不完整, 后期修改参考swiper.js的getTranslate
             const style = getComputedStyle(this.$refs.body, null);
             const matrix = style.transform.split(',');
+<<<<<<< HEAD
             return {x: Math.round(matrix[4]), y: Math.round(parseFloat(matrix[5]))};
+=======
+            log(matrix)
+            return Math.round(matrix[4]);
+>>>>>>> ebfa121ecd4c48cc2c26868dd9e25e0ac601fd3a
         },
 
 
