@@ -209,55 +209,90 @@ export default {
             // if(300 < now - this.endTime) return;
             // 基础位置数据
             const point = e.touches ? e.touches[0] : e;
-            const deltaY = point.pageY - this.startPointY;
-            const deltaX = point.pageX - this.startPointX;
-            const absDeltaY = Math.abs(deltaY);
-            const absDeltaX = Math.abs(deltaX);
+            let deltaY = point.pageY - this.startPointY;
+            let deltaX = point.pageX - this.startPointX;
+            let absDeltaY = Math.abs(deltaY);
+            let absDeltaX = Math.abs(deltaX);
 
-            // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
-            if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
+            if (
+                now - this.endTime > 300 &&
+                (absDeltaX < 10 && absDeltaY < 10)
+            ) {
+                return;
+            }
+
+
+            if(absDeltaX > absDeltaY + 15) {
+                deltaY = 0;
+            }
+
+
+            this.translateY = this.startTranslateY + deltaY;
+
+
+            // if (300 < now - this.startTime) {
+            //     this.startTime = now;
+            //     this.startPointY = point.pageY;
+            //     this.startPointX = point.pageX;
+            //     this.startTranslateY = this.translateY;
+            //     this.startTranslateX = this.translateX;
+            // }
+
+
+            return;
+
+            // // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
+            // if (this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
             // this.translateY = this.startTranslateY + (deltaY - this.sensitivity) * this.moveRatio;
             // return ;
 
             // ========== 计算滑动 ==========
-            if (!this.isLockX && this.isLockY) {
+            if (
+                !this.isLockX &&
+                this.isLockY &&
+                this.sensitivity <= absDeltaX
+            ) {
+                log('x');
                 // X轴可拖拽
                 // y轴位移远远大于x轴, 才可以移动
-                if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
-                this.translateX =
-                    this.startTranslateX + deltaX * this.moveRatio;
+                // if (absDeltaX < absDeltaY + this.directionLockThreshold) return;
+                // this.translateX =
+                //     this.startTranslateX + deltaX * this.moveRatio;
             } else if (this.isLockX && !this.isLockY) {
                 // Y轴可拖拽
-                if (absDeltaY < absDeltaX + this.directionLockThreshold){
-                    this.startPointY = point.pageY;
+                if (absDeltaY < absDeltaX + this.directionLockThreshold) {
+                    // this.startPointY = point.pageY;
+                    log(absDeltaX, absDeltaY);
                 } else {
                     // x轴位移远远大于y轴, 才可以移动
-                    this.translateY = this.startTranslateY + (deltaY - this.sensitivity) * this.moveRatio;
+                    this.translateY = this.startTranslateY + deltaY;
                 }
-            } else {
-                this.translateX =
-                    this.startTranslateX + deltaX * this.moveRatio;
-                this.translateY =
-                    this.startTranslateY + deltaY * this.moveRatio;
-            }
-            // 当手指一直按住突然拖动, 那么重置起始值
-            if (this.maxHolderTime < now - this.startTime) {
-                this.startTime = now;
-                this.startPointY = point.pageY;
-                this.startPointX = point.pageX;
-                this.startTranslateY = this.translateY;
-                this.startTranslateX = this.translateX;
             }
 
-            // 拖拽正在移动的item
-            if (this.isAnimating) {
-                let { x, y } = this.getTranslate();
-                this.startTranslateX = x;
-                this.startTranslateY = y;
-                this.translateX = this.startTranslateX;
-                this.translateY = this.startTranslateY;
-                this.isAnimating = false;
-            }
+            //  else {
+            //     this.translateX =
+            //         this.startTranslateX + deltaX * this.moveRatio;
+            //     this.translateY =
+            //         this.startTranslateY + deltaY * this.moveRatio;
+            // }
+            // 当手指一直按住突然拖动, 那么重置起始值
+            // if (this.maxHolderTime < now - this.startTime) {
+            //     this.startTime = now;
+            //     this.startPointY = point.pageY;
+            //     this.startPointX = point.pageX;
+            //     this.startTranslateY = this.translateY;
+            //     this.startTranslateX = this.translateX;
+            // }
+
+            // // 拖拽正在移动的item
+            // if (this.isAnimating) {
+            //     let { x, y } = this.getTranslate();
+            //     this.startTranslateX = x;
+            //     this.startTranslateY = y;
+            //     this.translateX = this.startTranslateX;
+            //     this.translateY = this.startTranslateY;
+            //     this.isAnimating = false;
+            // }
 
             // 派发组件事件
             // this.$emit('input', {
