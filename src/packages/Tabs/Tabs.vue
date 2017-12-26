@@ -72,9 +72,7 @@ export default {
          */
         scrollIntoView() {
             // 让当前item居中显示
-            if (this.isLeftHidden || this.isRightHidden) {
-                this.tabPos.scrollLeft = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
-            }
+            this.tabPos.scrollLeft = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
 
             // 边界处理
             if (0 > this.tabPos.scrollLeft) {
@@ -87,19 +85,6 @@ export default {
 
     computed: {
         /**
-         * 否右当前item右侧被遮挡
-         */
-        isRightHidden() {
-            return this.warpWidth + this.tabPos.scrollLeft < this.indicatorTranslateX + this.itemWidthList[this.activeIndex];
-        },
-
-        /**
-         * 否右当前item左侧被遮挡
-         */
-        isLeftHidden() {
-            return this.tabPos.scrollLeft > this.indicatorTranslateX;
-        },
-        /**
          * 状态条scrollTop
          * 其实就是当前item左边的距离
          */
@@ -108,6 +93,7 @@ export default {
         },
 
         /**
+         * 用来给侧面加遮罩阴影
          * 右侧有item被遮挡
          */
         hasItemsInRight() {
@@ -143,7 +129,7 @@ $height: 55px;
     background: $background;
     width: 100%;
     border-bottom: 1px solid $lightest;
-    &--more-in-right {
+    &--more-in-left {
         &:before {
             pointer-events: none;
             content: '';
@@ -156,7 +142,7 @@ $height: 55px;
             background: linear-gradient(left, rgba(#fff, 1), rgba($primary, 0));
         }
     }
-    &--more-in-left {
+    &--more-in-right {
         &:after {
             pointer-events: none;
             content: '';
