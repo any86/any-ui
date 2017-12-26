@@ -84,6 +84,10 @@ export default {
         loadPrevNextAmount: {
             type: Number,
             default: 1
+        },
+
+        width: {
+            type: [Number, String]
         }
     },
 
@@ -107,7 +111,8 @@ export default {
     }),
 
     mounted() {
-        this.warpWidth = getWidth(this.$el);
+        this.warpWidth = (0 < this.width) ? this.width : getWidth(this.$el);
+
         this.realCount = this.$children.length;
         this.itemInViewCount = Math.ceil(this.slidesPerView);
         this.fakeCountOneSide = this.isLoop ? this.itemInViewCount : 0;
@@ -153,14 +158,9 @@ export default {
                     this.$refs.body.appendChild(lastFakeNode);
 
                     // 向头部插入
-                    let headFakeNode = this.$children[
-                        itemCount - 1 - i
-                    ].$el.cloneNode(true);
+                    let headFakeNode = this.$children[itemCount - 1 - i].$el.cloneNode(true);
                     headFakeNode.style.width = itemWidth;
-                    this.$refs.body.insertBefore(
-                        headFakeNode,
-                        this.$refs.body.firstChild
-                    );
+                    this.$refs.body.insertBefore(headFakeNode, this.$refs.body.firstChild);
                 }
             });
         },
@@ -171,19 +171,17 @@ export default {
         imageToStore() {
             // 遍历所有lazy-src
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
-            this.$el
-                .querySelectorAll('.atom-carousel-item')
-                .forEach(($item, index) => {
-                    this.imageStore[index] = [];
-                    $item.querySelectorAll('img').forEach($imgEl => {
-                        $imgEl.setAttribute('lazy-status', 'ready');
-                        this.imageStore[index].push({
-                            el: $imgEl,
-                            url: $imgEl.attributes['lazy-src'].value,
-                            status: 'ready'
-                        });
+            this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
+                this.imageStore[index] = [];
+                $item.querySelectorAll('img').forEach($imgEl => {
+                    $imgEl.setAttribute('lazy-status', 'ready');
+                    this.imageStore[index].push({
+                        el: $imgEl,
+                        url: $imgEl.attributes['lazy-src'].value,
+                        status: 'ready'
                     });
                 });
+            });
         },
 
         /**
@@ -203,9 +201,7 @@ export default {
         async loadImageByActiveIndex(activeIndex) {
             await this.$nextTick();
             // 每页的图片
-            const eachImageStore = this.imageStore[
-                activeIndex + this.fakeCountOneSide
-            ];
+            const eachImageStore = this.imageStore[activeIndex + this.fakeCountOneSide];
             // 判断active是否有效
             if (undefined !== eachImageStore) {
                 eachImageStore.forEach(item => {
@@ -322,18 +318,11 @@ export default {
             // 超过阈值, 才可以滑动
             if (this.threshold < absDeltaX) {
                 // 对于超过边界的减速滑动
-                const translateX =
-                    this.startTranslateX +
-                    deltaX -
-                    Math.sign(deltaX) * this.threshold;
+                const translateX = this.startTranslateX + deltaX - Math.sign(deltaX) * this.threshold;
                 if (this.minTranslateX >= this.translateX) {
-                    this.translateX =
-                        this.minTranslateX +
-                        (translateX - this.minTranslateX) * 0.2;
+                    this.translateX = this.minTranslateX + (translateX - this.minTranslateX) * 0.2;
                 } else if (this.maxTranslateX <= this.translateX) {
-                    this.translateX =
-                        this.maxTranslateX +
-                        (translateX - this.maxTranslateX) * 0.2;
+                    this.translateX = this.maxTranslateX + (translateX - this.maxTranslateX) * 0.2;
                 } else {
                     this.translateX = translateX;
                 }
@@ -343,15 +332,9 @@ export default {
             if (this.isLoop) {
                 // 必须要<=, 因为拖拽的太快时, 会超过边界index
                 // 限制只能是在fake页面上拖拽才可以触发位置交换
-                if (
-                    this.minTranslateX >= this.translateX &&
-                    this.minTranslateX >= this.startTranslateX
-                ) {
+                if (this.minTranslateX >= this.translateX && this.minTranslateX >= this.startTranslateX) {
                     this.slideTo(0, 0);
-                } else if (
-                    this.maxTranslateX <= this.translateX &&
-                    this.maxTranslateX <= this.startTranslateX
-                ) {
+                } else if (this.maxTranslateX <= this.translateX && this.maxTranslateX <= this.startTranslateX) {
                     this.slideTo(this.realCount - this.fakeCountOneSide, 0);
                 }
             }
@@ -388,8 +371,7 @@ export default {
         slideTo(activeIndex, duration = this.speed, callback = () => {}) {
             this.isAnimating = 0 < duration;
             this.transitionDuration = duration;
-            let translateX =
-                0 - (activeIndex + this.fakeCountOneSide) * this.stepWidth;
+            let translateX = 0 - (activeIndex + this.fakeCountOneSide) * this.stepWidth;
             // 主要是针对sliderPerView造成的边界不对齐而做的自动对齐
             if (this.minTranslateX > translateX) {
                 translateX = this.minTranslateX;
@@ -425,12 +407,7 @@ export default {
             if (this.isLoop) {
                 return this.realCount;
             } else {
-                return (
-                    Math.ceil(
-                        (this.realCount * this.stepWidth - this.warpWidth) /
-                            this.stepWidth
-                    ) + 1
-                );
+                return Math.ceil((this.realCount * this.stepWidth - this.warpWidth) / this.stepWidth) + 1;
             }
         },
 
@@ -439,10 +416,7 @@ export default {
         },
 
         minTranslateX() {
-            return (
-                (this.isLoop ? 0 : 1) * this.warpWidth -
-                (this.realCount + this.fakeCountOneSide) * this.stepWidth
-            );
+            return (this.isLoop ? 0 : 1) * this.warpWidth - (this.realCount + this.fakeCountOneSide) * this.stepWidth;
         },
 
         stepWidth() {
@@ -460,28 +434,18 @@ export default {
             // 对于快速拖拽可以认为是要翻页, 所以给与translateX一个增量
             if (0.5 < Math.abs(this.momentum)) {
                 if (0 < Math.sign(this.momentum)) {
-                    activeIndex =
-                        0 -
-                        Math.ceil(this.translateX / this.stepWidth) -
-                        this.fakeCountOneSide;
+                    activeIndex = 0 - Math.ceil(this.translateX / this.stepWidth) - this.fakeCountOneSide;
                 } else {
-                    activeIndex =
-                        0 -
-                        Math.floor(this.translateX / this.stepWidth) -
-                        this.fakeCountOneSide;
+                    activeIndex = 0 - Math.floor(this.translateX / this.stepWidth) - this.fakeCountOneSide;
                 }
             } else {
                 // 如果sliderPerView > 1, 产生了每一页不对齐
                 // 那么当通过外部控制value到达了最后一页时, 不进行round, 防止回退到前一页, 而是ceil直接跳到尾页
                 // 拖拽的翻页不会发生如此情况, 因为拖拽产生的translateX的值会超过尾页所需translatex, 所以会触发round
                 if (this.minTranslateX >= this.translateX) {
-                    activeIndex =
-                        Math.ceil((0 - this.translateX) / this.stepWidth) -
-                        this.fakeCountOneSide;
+                    activeIndex = Math.ceil((0 - this.translateX) / this.stepWidth) - this.fakeCountOneSide;
                 } else {
-                    activeIndex =
-                        Math.round((0 - this.translateX) / this.stepWidth) -
-                        this.fakeCountOneSide;
+                    activeIndex = Math.round((0 - this.translateX) / this.stepWidth) - this.fakeCountOneSide;
                 }
             }
 

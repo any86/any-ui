@@ -1,0 +1,55 @@
+.pos-a{
+    position: absolute;
+}
+
+.pos-a-top{
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+.pos-a-bottom{
+    position: absolute;
+    bottom:0;
+    left:0;
+}
+
+
+.pos-f{
+    position: fixed;
+}
+
+.pos-f-top{
+    position: fixed;
+    top:0;
+    left:0;
+}
+
+.pos-f-bottom{
+    position: fixed;
+    bottom:0;
+    left:0;
+}
+
+
+.pos-r{
+    position: relative;
+}
+
+.pos-s{
+    position: sticky;
+}
+
+
+.pos-s-top{
+    position: sticky;
+    top:0;
+    left:0;
+}
+
+.pos-s-bottom{
+    position: sticky;
+    bottom:0;
+    left:0;
+}
+

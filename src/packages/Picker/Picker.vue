@@ -1,9 +1,7 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="atom-picker">
         <div class="atom-picker__graticule" :style="{height: `${itemHeight}px`}"></div>
-        <v-scroller :minMoveRatio="1" v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" 
-        @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" 
-        @scroll-buffer="isMoving = $event" :body-style="bodyStyle" class="atom-picker__list">
+        <v-scroller :minMoveRatio="1" v-model="positions[i]" v-for="(list, i) in dataSource" :key="i" @scroll-leave="scrollLeave(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @scroll-buffer="isMoving = $event" :body-style="bodyStyle" class="atom-picker__list">
             <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{active: j == activeIndexList[i]}" class="list__item">
                 {{item.label}}
             </div>

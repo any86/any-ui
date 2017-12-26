@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-carousel-item" :style="{width: `${width}px`}">
+    <div v-on="$listeners" :style="{width: `${width}px`}" class="atom-carousel-item">
         <slot></slot>
         <v-spinner-ripple v-if="ready" class="item__loading" />
     </div>
