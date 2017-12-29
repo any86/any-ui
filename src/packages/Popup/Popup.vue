@@ -1,11 +1,11 @@
 <template>
     <v-mask :is-show="isShow" :portal="isPortal" @update:isShow="closeMask" @after-leave="afterMaskLeave">
         <transition :name="'slide-from-' + from" @after-leave="afterDialogLeave">
-            <div v-show="isShow" :class="['atom-popup', 'atom-popup--from-'+from]">
+            <div v-show="isShow" :style="{width: -1 === ['top', 'bottom'].indexOf(from) ? width : '100%'}" :class="['atom-popup', 'atom-popup--from-'+from]">
                 <header class="atom-popup__header" v-if="undefined != $slots.header">
                     <slot name="header"></slot>
                 </header>
-                <main class="atom-popup__body">
+                <main :class="['atom-popup--from-'+ from +'__body']">
                     <slot></slot>
                 </main>
                 <footer class="atom-popup__footer" v-if="undefined != $slots.footer">
@@ -34,6 +34,11 @@ export default {
         from: {
             type: String,
             default: 'bottom' // or top
+        },
+
+        width: {
+            type: String,
+            default: '80%'
         }
     },
 
@@ -66,36 +71,50 @@ $panelWidth: 80%;
     &--from-bottom {
         bottom: 0;
         left: 0;
+        &__body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 61.8vh;
+        }
     }
 
     &--from-top {
         top: 0;
         left: 0;
+        &__body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 61.8vh;
+        }
     }
 
     &--from-left {
         top: 0;
         left: 0;
         height: 100vh;
-        width:80%;
+        &__body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 100vh;
+        }
     }
 
     &--from-right {
         top: 0;
         right: 0;
         height: 100vh;
-        width:$panelWidth;
+        &__body {
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 100%;
+        }
     }
 
     &__header {
         box-sizing: border-box;
         padding: $gutter;
     }
-    &__body {
-        overflow-x: hidden;
-        overflow-y: auto;
-        max-height: 61.8vh;
-    }
+
     &__footer {
         box-sizing: border-box;
     }
@@ -166,9 +185,6 @@ $panelWidth: 80%;
     }
 }
 
-
-
-
 // 左侧滑出
 .slide-from-left-enter-active {
     animation: slide-from-left-in $duration;
@@ -200,8 +216,6 @@ $panelWidth: 80%;
     }
 }
 
-
-
 // 右侧滑出
 .slide-from-right-enter-active {
     animation: slide-from-right-in $duration;
@@ -232,5 +246,4 @@ $panelWidth: 80%;
         transform: translateX(100%);
     }
 }
-
 </style>

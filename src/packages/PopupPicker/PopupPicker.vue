@@ -1,13 +1,13 @@
 <template>
     <v-popup :is-show.sync="_isShow" class="atom-popup-pickcer">
-        <header class="flex">
-            <span @click="cancel" class="flex-item button-cancel">cancel</span>
-            <span v-if="!!$slots.default" class="flex-item title">
+        <header>
+            <span @click="cancel" class=" button-cancel">cancel</span>
+            <span v-if="!!$slots.default" class="title">
                 <slot></slot>
             </span>
-            <span @click="ok" class="flex-item button-ok">ok</span>
+            <span @click="ok" class="button-ok">ok</span>
         </header>
-        <v-picker :data-source="dataSource" v-model="selfValue" @change="change"></v-picker>
+        <v-picker v-model="tempValue" :data-source="dataSource" @change="change"/>
     </v-popup>
 </template>
 <script>
@@ -37,23 +37,24 @@ export default {
                 value: null,
                 label: null
             }, // 当前选项
-            selfValue: []
+            tempValue: []
         };
     },
 
     created() {
-        this.selfValue = [...this.value];
+        this.tempValue = [...this.value];
     },
 
     methods: {
         change({ columnIndex, rowIndex, value, label }) {
-            this.selfValue[columnIndex] = value;
+            log({ columnIndex, rowIndex, value, label })
+            this.tempValue[columnIndex] = value;
             this.active = { columnIndex, rowIndex, value, label };
             this.$emit('change', this.active);
         },
 
         ok() {
-            this.$emit('input', this.selfValue);
+            this.$emit('input', this.tempValue);
             this.$emit('update:isShow', false);
         },
 
@@ -90,10 +91,12 @@ export default {
     header {
         overflow: hidden;
         border-bottom: 1px solid $lightest;
+        display: flex;
         .button-cancel {
             @include button;
             color: $light;
             text-align: left;
+            flex: 1;
         }
         .title {
             align-self: center;
@@ -103,8 +106,9 @@ export default {
         }
         .button-ok {
             @include button;
-            color: $base;
+            color: $darkest;
             text-align: right;
+            flex: 1;
         }
     }
 }

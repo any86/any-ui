@@ -1,13 +1,20 @@
 <template>
     <!-- 明天控制下外层的height, 应该能解决bottom的问题. -->
-    <div :style="{height: 0 < warpHeight && isFixed ? `${warpHeight}px` : 'auto'}" v-on="$listeners" class="atom-affix">
+    <section :style="{height: 0 < warpHeight && isFixed ? `${warpHeight}px` : 'auto'}" v-on="$listeners" class="atom-affix">
         <div :class="{'atom-affix__body--fixed': isFixed}" :style="style" class="atom-affix__body">
             <slot></slot>
         </div>
-    </div>
+    </section>
 </template>
 <script>
-// 待解决: 加入sticky
+/**
+ * 没有用sticky的原因, 有如下局限性:
+ * 1. 父元素不能overflow:hidden或者overflow:auto属性。
+ * 2. 必须指定top、bottom、left、right4个值之一，否则只会处于相对定位
+ * 3. 父元素的高度不能低于sticky元素的高度
+ * 4. sticky元素仅在其父元素内生效
+ * 主要是因为第4条
+ */
 import { getHeight, getScrollTop, getIsInView, getScrollParent } from '@/utils/dom';
 export default {
     name: 'Affix',
@@ -16,10 +23,6 @@ export default {
         offsetTop: {
             type: Number,
             default: 0
-        },
-
-        offsetBottom: {
-            type: Number
         },
 
         events: {
@@ -42,11 +45,9 @@ export default {
         // 固定占位容器的高度为内容高度
         // 防止内容定位变成fixed时抖动
 
-        if (undefined === this.offsetBottom && 0 <= this.offsetTop) {
-            // 返回精准到小数的高度
-            this.warpHeight = this.$el.getBoundingClientRect().height;
-            this.getIsFixed();
-        }
+        // 返回精准到小数的高度
+        this.warpHeight = this.$el.getBoundingClientRect().height;
+        this.getIsFixed();
         this.scrollParentNode = getScrollParent(this.$el);
         this.events.forEach(eventName => {
             this.scrollParentNode.addEventListener(eventName, this.getIsFixed);
@@ -57,31 +58,16 @@ export default {
 
     methods: {
         getIsFixed() {
-            if (undefined === this.offsetBottom) {
-                const { top } = this.$el.getBoundingClientRect();
-                this.isFixed = this.offsetTop >= top;
-            } else {
-                const { bottom } = this.$el.getBoundingClientRect();
-                const winHeight = getHeight();
-                this.isFixed = winHeight >= bottom + this.offsetBottom;
-            }
+            const { top } = this.$el.getBoundingClientRect();
+            this.isFixed = this.offsetTop >= top;
         }
     },
 
     computed: {
         style() {
-            if (undefined === this.offsetBottom) {
-                // 减去2是为了有个动画, 让进入不突兀
-                return {
-                    // top: `${this.isFixed ? this.offsetTop : this.offsetTop - 2}px`
-                    top: `${this.offsetTop}px`
-                    
-                };
-            } else {
-                return {
-                    bottom: `${this.isFixed ? this.offsetBottom : this.offsetBottom - 2}px`
-                };
-            }
+            return {
+                top: `${this.offsetTop}px`
+            };
         }
     },
 

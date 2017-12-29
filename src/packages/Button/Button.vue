@@ -15,7 +15,7 @@ export default {
 
         nativeType: {
             type: String,
-            default: 'button' //button / submit / reset
+            default: 'button' // button / submit / reset
         },
 
         isBlock: {
@@ -50,7 +50,7 @@ export default {
         isLoading: {
             type: Boolean,
             default: false
-        }
+        },
     },
 
     computed: {
@@ -61,7 +61,8 @@ export default {
                 'atom-btn--disabled': this.isDisabled,
                 'atom-btn--block': this.isBlock,
                 'atom-btn--round': this.isRound,
-                'atom-btn--loading': this.isLoading
+                'atom-btn--loading': this.isLoading,
+                'atom-btn--radius': !this.isBlock
             };
         }
     }
@@ -104,7 +105,7 @@ $height: 1rem;
     } @else {
         border: 1px solid $color;
         color: $color;
-    }    
+    }
     &:before {
         border-color: transparent transparent $color $color;
     }
@@ -122,7 +123,7 @@ button {
     display: inline-block;
     user-select: none;
     vertical-align: top;
-    padding: 0 $gutter;
+    padding: 0 $gutter*2;
     height: $height;
     line-height: $height;
     text-align: center;
@@ -160,6 +161,10 @@ button {
     &--block {
         display: block;
         width: 100%;
+    }
+
+    &--radius{
+        border-radius: $radius;
     }
 }
 

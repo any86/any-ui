@@ -10,7 +10,7 @@ export default {
 
     data() {
         return {
-            index: 0
+            index: -1 // 不能为0, 防止初始化阶段都为0产生全部高亮
         };
     },
 

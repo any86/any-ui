@@ -1,7 +1,7 @@
 <template>
     <header class="atom-header-bar">
         <span class="bar__left">
-            <i v-if="hasArrow" v-ripple="true" @click="$router.push({path: '/'})" class="icon-back"></i>
+            <i v-if="hasArrow" @click="clickArrow" v-ripple="true" class="icon-back"></i>
             <slot name="left"></slot>
         </span>
         <span class="bar__center">
@@ -20,6 +20,12 @@ export default {
         hasArrow: {
             type: Boolean,
             default: true
+        }
+    },
+
+    methods: {
+        clickArrow(){
+            this.$emit('click-arrow');
         }
     }
 };

@@ -57,7 +57,7 @@ const getHeight = (obj = window, { isScroll = false } = {}) => {
  * {IE} document.documentElement 或 document.body的clientWidth
  * {CHROME} window.innerWidth
  */
-const getWidth = (obj = window, { isScroll = false } = {}) => {
+const getWidth = (obj = window, { isScroll = false, isComputed = false } = {}) => {
     if (window === obj) {
         return (
             window.innerWidth ||
@@ -68,6 +68,9 @@ const getWidth = (obj = window, { isScroll = false } = {}) => {
         if (isScroll) {
             //  父元素overflow: hidden/scroll/auto
             return obj.scrollWidth;
+        } else if(isComputed){
+            const style = getComputedStyle(obj)
+            return parseInt(style.width);
         } else {
             // 轮廓尺寸(包括边框)/ 滚动条尺寸算在盒子内容尺寸里(待验证)
             return obj.offsetWidth;
