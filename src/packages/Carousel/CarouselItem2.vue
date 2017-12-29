@@ -44,6 +44,7 @@ export default {
     width: 100%;
     height: 100%;
     flex-shrink: 0;
+    overflow: hidden;
     > .item__loading {
         position: absolute;
         top: 0;

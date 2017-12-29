@@ -11,6 +11,8 @@
 
 <script>
 import { getWidth, getTime } from '@/utils/dom';
+import loadImage from '@/utils/loadImage';
+
 /**
  * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址, 
  *    如果一页有多个src-lazy会当第一个src-lazy加载完毕, 
@@ -111,7 +113,7 @@ export default {
     }),
 
     mounted() {
-        this.warpWidth = (0 < this.width) ? this.width : getWidth(this.$el);
+        this.warpWidth = 0 < this.width ? this.width : getWidth(this.$el);
 
         this.realCount = this.$children.length;
         this.itemInViewCount = Math.ceil(this.slidesPerView);
@@ -173,8 +175,10 @@ export default {
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
             this.$el.querySelectorAll('.atom-carousel-item').forEach(($item, index) => {
                 this.imageStore[index] = [];
-                $item.querySelectorAll('img').forEach($imgEl => {
-                    $imgEl.setAttribute('lazy-status', 'ready');
+
+                // 只扫描lazy-src的<img/>
+                $item.querySelectorAll('img[lazy-src]').forEach($imgEl => {
+                    // $imgEl.setAttribute('lazy-status', 'ready');
                     this.imageStore[index].push({
                         el: $imgEl,
                         url: $imgEl.attributes['lazy-src'].value,
@@ -184,20 +188,6 @@ export default {
             });
         },
 
-        /**
-        * 预加载图片
-         */
-        loadImage(src, callback) {
-            let img = new Image();
-            img.src = src;
-            img.setAttribute('lazy-status', 'loading');
-            img.onload = event => {
-                img.setAttribute('lazy-status', 'done');
-                img = null;
-                callback(img);
-            };
-        },
-
         async loadImageByActiveIndex(activeIndex) {
             await this.$nextTick();
             // 每页的图片
@@ -205,12 +195,21 @@ export default {
             // 判断active是否有效
             if (undefined !== eachImageStore) {
                 eachImageStore.forEach(item => {
-                    this.loadImage(item.url, info => {
-                        item.el.src = item.url;
-                        item.el.setAttribute('lazy-status', 'done');
-                        item.el.removeAttribute('lazy-src');
-                        item.status = 'done';
-                    });
+                    if ('ready' === item.status) {
+                        // 加载图片
+                        loadImage(item.url, {
+                            onInit: () => {
+                                item.el.setAttribute('lazy-status', 'loading');
+                            },
+
+                            onSuccess: () => {
+                                item.el.src = item.url;
+                                item.el.setAttribute('lazy-status', 'done');
+                                item.el.removeAttribute('lazy-src');
+                                item.status = 'done';
+                            }
+                        });
+                    }
                 });
             }
         },
