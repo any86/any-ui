@@ -1,5 +1,5 @@
 <template>
-    <v-scroll-view>
+    <v-scroll-view ref="main" @touchstart.native="touchstart">
         <v-collapse :is-accordion="false">
             <v-collapse-item class="group">
                 <h4 slot="header">表单</h4>
@@ -79,7 +79,7 @@ import VButton from '@/packages/Button/Button';
 import VCollapse from '@/packages/Collapse/Collapse';
 import VCollapseItem from '@/packages/Collapse/CollapseItem';
 import VScrollView from '@/packages/ScrollView/ScrollView';
-
+import Finger from '../utils/finger'
 export default {
     name: 'Index',
 
@@ -89,9 +89,18 @@ export default {
 
     created() {},
 
-    mounted() {},
+    mounted() {
+        const finger = new Finger(this.$refs.main.$el);
+        finger.on('rotate', angel=>{
+            log(angel);
+        });
+    },
 
-    methods: {},
+    methods: {
+        touchstart(e){
+            // log(e)
+        }
+    },
 
     components: {
         VCell,

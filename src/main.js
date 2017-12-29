@@ -66,17 +66,3 @@ router.beforeEach(function(to, from, next) {
 router.afterEach(function(to) {
     document.title = to.name;
 });
-
-
-
-// var arr = [-1,0,1,2];
-// var arr2 = [];
-
-
-// var activeIndex = 1;
-
-// for(var k in arr) {
-//     arr2[]
-// }
-
-// console.log(arr2);

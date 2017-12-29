@@ -71,7 +71,6 @@ export default class Finger {
         if (r < -1) r = -1;
         // 解值并结合方向转化为角度值；
         return Math.acos(r) * direction * 180 / Math.PI;
-
     }
 
 
