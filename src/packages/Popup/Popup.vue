@@ -106,7 +106,11 @@ $panelWidth: 80%;
         &__body {
             overflow-x: hidden;
             overflow-y: auto;
+<<<<<<< HEAD
             height: 100%;
+=======
+            height: 100vh;
+>>>>>>> b1eb03a12c2460a07f8e0aa68b1c621a5a3b42be
         }
     }
 
