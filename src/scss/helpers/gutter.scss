@@ -4,6 +4,9 @@
 .gutter {
     margin: $gutter;
 }
+.gutter-auto{
+    margin:auto;
+}
 
 @each $direction in top, left, right, bottom {
     .gutter-#{$direction} {
