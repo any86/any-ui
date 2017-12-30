@@ -1,3 +1,11 @@
+/**
+ * https://segmentfault.com/a/1190000010511484#articleHeader0
+ * https://segmentfault.com/a/1190000007448808#articleHeader1
+ */
+// 私有属性
+const _noop = () => { };
+// let _action = '';
+
 export default class Finger {
     /**
      * 
@@ -5,29 +13,135 @@ export default class Finger {
      * @param {Object} param1 
      */
     constructor(el) {
-        this._action = '';
-        this.deltaX = 0;
-        this.deltaY = 0;
-        this.startPageX = 0;
-        this.startPageY = 0;
-        this.distanceX = 0;
-        this.distanceY = 0;
-        this.startDistance = 0;
-        this.distance = 0;
+        this.startTime = null;
+        this.lastTime = null;
         this.startScale = 1;
-        this.scale = 1;
+        this.activeScale = 1;
         this.startAngel = 0;
-        this.angel = 0;
+        this.activeAngel = 0;
+        this.startV = { x: null, y: null };
+        this.activeV = { x: null, y: null };
+        this.startPoint = { x: null, y: null };
+        this.activePoint = { x: null, y: null };
+        this.isDoubleTap = false;
         this._rotateHandle = () => { };
         this._pinchHandle = () => { };
-        el.addEventListener('touchstart', this.touchStartHandle.bind(this));
-        el.addEventListener('touchmove', this.touchMoveHandle.bind(this));
-        el.addEventListener('touchend', this.touchEndHandle.bind(this));
+        this._tapHandle = () => { };
 
 
-        // var angel = this._getAngle({x: 1, y: 0}, {x: 2, y: 1});
-        // console.log(angel)
+        // 替换事件中的this(元素)为class
+        this._touchstart = this.touchStartHandle.bind(this);
+        this._touchmove = this.touchMoveHandle.bind(this);
+        this._touchend = this.touchEndHandle.bind(this);
+        this._touchcancel = this.touchEndHandle.bind(this);
+
+        // 绑定事件
+        el.addEventListener('touchstart', this._touchstart);
+        el.addEventListener('touchmove', this._touchmove);
+        el.addEventListener('touchend', this._touchend);
+        el.addEventListener('touchcancel', this._touchcancel);
     }
+
+    touchStartHandle(e) {
+        if (!e.touches) return;
+        e.stopPropagation();
+        const points = e.touches;
+        this.lastTime = this.startTime;
+        this.startTime = Date.now();
+        this.interval = this.startTime - (this.lastTime || this.startTime);
+        // [!tap] 为tap系列做准备
+        this.activePoint.x = points[0].pageX;
+        this.activePoint.y = points[0].pageY;
+
+        // [!doubleTap]
+        if (null !== this.startPoint.x) {
+            this.isDoubleTap = (this.interval > 0 && this.interval <= 250 && Math.abs(this.activePoint.x - this.startPoint.x) < 30 && Math.abs(this.activePoint.y - this.startPoint.y) < 30);
+            log(this.isDoubleTap)
+        }
+
+        // [!tap]设置当前点为起始点
+        this.startPoint.x = this.activePoint.x;
+        this.startPoint.y = this.activePoint.y;
+
+        
+
+        // 
+        if (1 < points.length) {
+            // 向量的x/y投影距离
+            const vx = points[1].pageX - points[0].pageX;
+            const vy = points[1].pageY - points[0].pageY;
+
+            // 起始向量
+            this.startV = { x: vx, y: vy };
+
+            // 初始向量模
+            this.startVModule = this._getVLength(this.startV);
+
+            // 获取之前操作值作为起始值
+            this.startScale = this.activeScale;
+            this.startAngel = this.activeAngle;
+
+        }
+    }
+
+    touchMoveHandle(e) {
+        e.stopPropagation();
+        const points = e.touches;
+        this.isDoubleTap = false;
+        if (1 < points.length) {
+            // 当前2个触点间距离
+            const vx = points[1].pageX - points[0].pageX;
+            const vy = points[1].pageY - points[0].pageY;
+
+            // [!rotate][!pinch], 当前向量
+            this.activeV = { x: vx, y: vy };
+
+            // [!pinch], 当前向量模
+            this.activeVModule = this._getVLength(this.activeV);
+
+            // [!pinch], 当前缩放比例
+            this.activeScale = this.activeVModule / this.startVModule;
+
+            // [!rotate], 本次touchmove和上次touchmove的夹角
+            this.activeAngle = this._getAngle(this.activeV, this.startV);
+
+            // [!rotate], 重置, 起始向量为当前向量, 这样activeAngel是每次touchmove的夹角
+            this.startV = this.activeV;
+
+            // [!pinch], 重置
+            this.startVModule = this.activeVModule;
+
+            this._rotateHandle(this.activeAngle);
+
+            this._pinchHandle(this.activeScale);
+        }
+    }
+
+    touchEndHandle(e) {
+        e.stopPropagation();
+        const points = e.touches ? e.touches[0] : e;
+        if(this.isDoubleTap) {
+            // this._doubleTapHandle();
+        }
+    }
+
+    touchCancelHandle(e) {
+        e.stopPropagation();
+    }
+
+    on(type, handle) {
+        switch (type) {
+            case 'rotate': {
+                this._rotateHandle = handle;
+                break;
+            }
+            case 'pinch': {
+                this._pinchHandle = handle;
+                break;
+            }
+        }
+    }
+
     /**
      * 获取向量长度
      * @param {Object} 向量  
@@ -46,75 +160,38 @@ export default class Finger {
     }
 
     /**
-     * 向量夹角
+     * 向量夹角(弧度)
+     * @param {Object} v1 
+     * @param {Object} v2 
+     */
+    _getRadian(v1, v2) {
+        var mr = this._getVLength(v1) * this._getVLength(v2);
+        if (mr === 0) return 0;
+        var r = this._getDotProduct(v1, v2) / mr;
+        if (r > 1) r = 1;
+        return Math.acos(r);
+    }
+
+    /**
+     * 求旋转方向
+     * 顺时针/逆时针
+     */
+    _getCross(v1, v2) {
+        return v1.x * v2.y - v2.x * v1.y;
+    }
+
+    /**
+     * 向量夹角(角度)
      * @param {Object} v1 
      * @param {Object} v2 
      */
     _getAngle(v1, v2) {
-        if (typeof v1 !== 'object' || typeof v2 !== 'object') {
-            console.error('getAngle error!');
-            return;
+        var angle = this._getRadian(v1, v2);
+        if (this._getCross(v1, v2) > 0) {
+            angle *= -1;
         }
-        // 判断方向，顺时针为 1 ,逆时针为 -1；
-        let direction = v1.x * v2.y - v2.x * v1.y > 0 ? 1 : -1,
-            // 两个向量的模；
-            len1 = this._getVLength(v1),
-            len2 = this._getVLength(v2),
-            mr = len1 * len2,
-            dot, r;
-        if (mr === 0) return 0;
-        // 通过数量积公式可以推导出：
-        // cos = (x1 * x2 + y1 * y2)/(|a| * |b|);
-        dot = v1.x * v2.x + v1.y * v2.y;
-        r = dot / mr;
-        if (r > 1) r = 1;
-        if (r < -1) r = -1;
-        // 解值并结合方向转化为角度值；
-        return Math.acos(r) * direction * 180 / Math.PI;
+        return angle * 180 / Math.PI;
     }
 
 
-    on(type, handle) {
-        switch (type) {
-            case 'rotate': {
-                this._rotateHandle = handle;
-                break;
-            }
-            case 'pinch': {
-                this._pinchHandle = handle;
-                break;
-            }
-        }
-    }
-
-    touchStartHandle(e) {
-        const points = e.touches;
-        if (1 < points.length) {
-            this.distanceX = points[1].pageX - points[0].pageX;
-            this.distanceY = points[1].pageY - points[0].pageY;
-            this.startDistance = Math.round(Math.sqrt(this.distanceX * this.distanceX + this.distanceY * this.distanceY));
-            this.startScale = this.scale;
-            // this.startAngel = this.angel;
-            this._rotateHandle({ angel: this.angel, x1: Math.round(points[1].pageX), x0: Math.round(points[0].pageX), y1: Math.round(points[1].pageY), y0: Math.round(points[0].pageY) });
-        }
-    }
-
-    touchMoveHandle(e) {
-        const points = e.touches;
-        if (1 < points.length) {
-            this.distanceX = points[1].pageX - points[0].pageX;
-            this.distanceY = points[1].pageY - points[0].pageY;
-            this.distance = Math.round(Math.sqrt(this.distanceX * this.distanceX + this.distanceY * this.distanceY));
-            this.scale = this.distance / this.startDistance * this.startScale;
-            this.angel = this._getAngle({ x: points[1].pageX, y: points[1].pageY }, { x: points[0].pageX, y: points[0].pageY });
-
-            if (0 >= this.scale) this.scale = 0.01;
-            this._rotateHandle({ angel: this.angel, x1: Math.round(points[1].pageX), x0: Math.round(points[0].pageX), y1: Math.round(points[1].pageY), y0: Math.round(points[0].pageY) });
-
-        }
-    }
-
-    touchEndHandle(e) {
-        const points = e.touches ? e.touches[0] : e;
-    }
 }
