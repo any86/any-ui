@@ -39,10 +39,8 @@ Vue.directive('ripple', ripple);
 // import VueTouchRipple from 'vue-touch-ripple'
 // Vue.use(VueTouchRipple)
 
-
-
 // 关闭错误提示
-Vue.config.silent = false
+Vue.config.silent = false;
 // 生产环境提示
 Vue.config.productionTip = false;
 // 设置为 true 以在浏览器开发工具中启用对组件初始化、编译、渲染和打补丁的性能追踪。只适用于开发模式和支持 performance.mark API 的浏览器上。
@@ -50,19 +48,60 @@ Vue.config.performance = true;
 
 /* eslint-disable no-new */
 var vm = new Vue({
-    el: '#app',
-    router,
-    template: '<App/>',
-    components: {
-        App
-    }
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: {
+    App
+  }
 });
 
 router.beforeEach(function(to, from, next) {
-    next();
+  next();
 });
 
 // 路由切换后触发
 router.afterEach(function(to) {
-    document.title = to.name;
+  document.title = to.name;
 });
+
+// 测试
+
+// function extend1(parent, sub) {
+//   sub.prototype = new parent();
+// }
+
+// function P() {
+//     this.a = [1, 2, 3];
+// }
+
+// function S() {
+  
+//   this.setA = function() {
+//     this.a.push(54);
+//   };
+// }
+
+// function inheritObject(o) {
+//   function F() {}
+//   F.prototype = o;
+//   return new F();
+// }
+
+// function extend(parent, sub) {
+//   var p = inheritObject(parent.prototype);
+//   p.constructor = sub;
+//   sub.prototype = p;
+// }
+
+// extend(P, S);
+
+// var s = new S();
+// var s1 = new S();
+// // var p = new P();
+// // // s.setA();
+// s.a.push(100);
+// log(s.a);
+
+// log(s1.a);
+// // log(p.a)
