@@ -10,9 +10,8 @@
 </template>
 
 <script>
-import { getWidth, getTime } from '@/utils/dom';
+import { getWidth, getHeight, getTime } from '@/utils/dom';
 import loadImage from '@/utils/loadImage';
-
 /**
  * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址, 
  *    如果一页有多个src-lazy会当第一个src-lazy加载完毕, 
@@ -32,6 +31,12 @@ export default {
         value: {
             default: 0
         },
+
+        isZoom: {
+            type: Boolean,
+            default: false
+        },
+
         // 不支持'auto'
         slidesPerView: {
             type: [Number, String],
@@ -90,10 +95,15 @@ export default {
 
         width: {
             type: [Number, String]
+        },
+
+        height: {
+            type: [Number, String]
         }
     },
 
     data: () => ({
+        isDisabled: false,
         realCount: 0,
         count: 0,
         warpWidth: 0,
@@ -114,6 +124,7 @@ export default {
 
     mounted() {
         this.warpWidth = 0 < this.width ? this.width : getWidth(this.$el);
+        this.warpHeight = 0 < this.height ? this.height : getHeight(this.$el);
 
         this.realCount = this.$children.length;
         this.itemInViewCount = Math.ceil(this.slidesPerView);
@@ -280,6 +291,7 @@ export default {
          * 收集起始位置信息
          */
         touchStart(e) {
+            if (this.isDisabled) return;
             e.stopPropagation();
             // e.preventDefault();
             const point = e.touches ? e.touches[0] : e;
@@ -295,6 +307,7 @@ export default {
          * 计算滑动距离等逻辑
          */
         touchMove(e) {
+            if (this.isDisabled) return;
             e.stopPropagation();
             this.stopSlider();
             const point = e.touches ? e.touches[0] : e;
@@ -353,6 +366,7 @@ export default {
          * 自动捏合等逻辑
          */
         touchEnd(e) {
+            if (this.isDisabled) return;
             // 自动翻页
             const point = e.changedTouches ? e.changedTouches[0] : e;
             const deltaX = point.pageX - this.startPointX;
@@ -385,6 +399,16 @@ export default {
                     callback();
                 }, 199);
             }
+        },
+
+        prev(callback = () => {}) {
+            const prevActiveIndex = 0 > this.activeIndex - 1 ? 0 : this.activeIndex - 1;
+            this.slideTo(prevActiveIndex, this.speed, callback);
+        },
+
+        next(callback = () => {}) {
+            const nextActiveIndex = this.lastIndex > this.activeIndex + 1 ? this.activeIndex + 1 : this.lastIndex;
+            this.slideTo(nextActiveIndex, this.speed, callback);
         },
 
         /**
