@@ -275,24 +275,6 @@ export default {
             if (!this.isLockY) {
                 this.translateY += touchDeltaY * (0 < this.translateY || this.minTranslateY > this.translateY ? 0.3 : 1);
             }
-            // console.log(this.touchDirection)
-            // 确定方向后, 忽略其他方向的位移
-            if ('x' === this.touchDirection) {
-                touchDeltaY = 0;
-            } else if ('y' === this.touchDirection) {
-                touchDeltaX = 0;
-            } else if ('n' === this.touchDirection) {
-                touchDeltaY = 0;
-                touchDeltaX = 0;
-            }
-
-            if (!this.isLockX) {
-                this.translateX += touchDeltaX * (0 < this.translateX || this.minTranslateX > this.translateX ? 0.3 : 1);
-            }
-
-            if (!this.isLockY) {
-                this.translateY += touchDeltaY * (0 < this.translateY || this.minTranslateY > this.translateY ? 0.3 : 1);
-            }
 
             // 当手指一直按住突然拖动, 那么重置起始值
             if (this.maxHolderTime < now - this.startTime) {
@@ -356,23 +338,6 @@ export default {
                 this.$emit('animate-start');
             } else {
                 this.$emit('animate-none-end');
-            }
-        },
-
-        resetPosition() {
-            if ('x' === this.touchDirection) {
-                if (0 < this.translateX) {
-                    this.translateX = 0;
-                } else if (this.minTranslateX > this.translateX) {
-                    this.translateX = this.minTranslateX;
-                }
-            } else if ('y' === this.touchDirection) {
-                if (0 < this.translateY) {
-                    this.translateY = 0;
-                } else if (this.minTranslateY > this.translateY) {
-                    this.translateY = this.minTranslateY;
-                }
-            } else if ('n' === this.touchDirection) {
             }
         },
 
