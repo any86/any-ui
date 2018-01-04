@@ -12,8 +12,7 @@ export default class Finger {
      * @param {Element} el 
      * @param {Object} param1 
      */
-    constructor(el, { isStopPropagation = false } = {}) {
-        this.isStopPropagation = isStopPropagation;
+    constructor(el) {
         this.startTime = null;
         this.lastTime = null;
         this.startScale = 1;
@@ -22,8 +21,8 @@ export default class Finger {
         this.activeAngel = 0;
         this.startV = { x: null, y: null };
         this.activeV = { x: null, y: null };
-        this.startPoint = [{ x: null, y: null }, { x: null, y: null }];
-        this.activePoint = [{ x: null, y: null }, { x: null, y: null }];
+        this.startPoint = { x: null, y: null };
+        this.activePoint = { x: null, y: null };
         this.isDoubleTap = false;
         this.tapTimeout = null;
         this.singleTapTimeout = null;
@@ -52,13 +51,9 @@ export default class Finger {
         el.addEventListener('touchcancel', this._touchcancel);
     }
 
-    set({ isStopPropagation = false } = {}) {
-        this.isStopPropagation = isStopPropagation;
-    }
-
     touchStartHandle(e) {
         if (!e.touches) return;
-        this.isStopPropagation && e.stopPropagation();
+        e.stopPropagation();
         const points = e.touches;
         const pointCount = points.length;
 
@@ -66,12 +61,12 @@ export default class Finger {
         this.startTime = Date.now();
         this.interval = this.startTime - (this.lastTime || this.startTime);
         // [!tap] 为tap系列做准备
-        this.activePoint[0].x = points[0].pageX;
-        this.activePoint[0].y = points[0].pageY;
+        this.activePoint.x = points[0].pageX;
+        this.activePoint.y = points[0].pageY;
 
         // [!doubleTap]
-        if (null !== this.startPoint[0].x) {
-            this.isDoubleTap = (this.interval > 0 && this.interval <= 250 && Math.abs(this.activePoint[0].x - this.startPoint[0].x) < 30 && Math.abs(this.activePoint[0].y - this.startPoint[0].y) < 30);
+        if (null !== this.startPoint.x) {
+            this.isDoubleTap = (this.interval > 0 && this.interval <= 250 && Math.abs(this.activePoint.x - this.startPoint.x) < 30 && Math.abs(this.activePoint.y - this.startPoint.y) < 30);
         }
 
         // [!press] 点击超过750ms,且时间内没有触发touchmove和touchstart, 那么触发press
@@ -81,8 +76,8 @@ export default class Finger {
         }, 750);
 
         // [!tap]设置当前点为起始点
-        this.startPoint[0].x = this.activePoint[0].x;
-        this.startPoint[0].y = this.activePoint[0].y;
+        this.startPoint.x = this.activePoint.x;
+        this.startPoint.y = this.activePoint.y;
 
         // 接触点超过1个
         if (1 < pointCount) {
@@ -108,14 +103,11 @@ export default class Finger {
     }
 
     touchMoveHandle(e) {
-        this.isStopPropagation && e.stopPropagation();
+        e.stopPropagation();
         const points = e.touches;
         const pointCount = points.length;
         this.isDoubleTap = false;
         if (1 < pointCount) {
-            this.activePoint[1].x = points[1].pageX;
-            this.activePoint[1].y = points[1].pageY;
-
             // 当前2个触点间距离
             const vx = points[1].pageX - points[0].pageX;
             const vy = points[1].pageY - points[0].pageY;
@@ -143,41 +135,31 @@ export default class Finger {
             this._pinchHandle(this.activeScale, e);
         } else {
             // [!pressMove]
-            let deltaX = 0;
-            let deltaY = 0;
-            if (null !== this.startPoint[0].x) {
-                deltaX = points[0].pageX - this.activePoint[0].x;
-                deltaY = points[0].pageY - this.activePoint[0].y;
-            } else {
-                // 2指移开一个1指, 那么重新给起始点赋值, 
-                // 防止一直进行上面null !== this.startPoint[0].x的逻辑
-                // 这样移开一个手指后, 另一个手指也可以继续拖拽移动
-                this.startPoint[0].x = this.activePoint[0].x;
-                this.startPoint[0].y = this.activePoint[0].y;
-            }
-            this._pressMoveHandle({ deltaX, deltaY }, e);
+            const deltaX = points[0].pageX - this.activePoint.x;
+            const deltaY = points[0].pageY - this.activePoint.y;
+            this._pressMoveHandle({ deltaX, deltaY}, e);
         }
 
         // 重置当前起点
-        this.activePoint[0].x = points[0].pageX;
-        this.activePoint[0].y = points[0].pageY;
-
+        this.activePoint.x = points[0].pageX;
+        this.activePoint.y = points[0].pageY;
+        
         // [!long-tap] 发生移动, 取消long-tap
         this._cancelPress();
-        if (1 < pointCount) {
+        if(1 < pointCount) {
             e.preventDefault();
         }
     }
 
     touchEndHandle(e) {
-        this.isStopPropagation && e.stopPropagation();
+        e.stopPropagation();
         const points = e.changedTouches;
-        this.activePoint[0].x = points[0].pageX;
-        this.activePoint[0].y = points[0].pageY;
+        this.activePoint.x = points[0].pageX;
+        this.activePoint.y = points[0].pageY;
 
         // [!tap]
-        const deltaX = this.activePoint[0].x - this.startPoint[0].x;
-        const deltaY = this.activePoint[0].y - this.startPoint[0].y;
+        const deltaX = this.activePoint.x - this.startPoint.x;
+        const deltaY = this.activePoint.y - this.startPoint.y;
         const absDeltaX = Math.abs(deltaX);
         const absDeltaY = Math.abs(deltaY);
 
@@ -207,13 +189,11 @@ export default class Finger {
 
         // [!long-tap] 手指离开屏幕, 取消long-tap
         this._cancelPress();
-        // [!pressMove] 用来当发生pinch/rotate时, 避免同时发生pressMove
-        this.startPoint[0] = { x: null, y: null };
-        this.startPoint[1] = { x: null, y: null };
+
     }
 
     touchCancelHandle(e) {
-        // this.isStopPropagation && e.stopPropagation();
+        e.stopPropagation();
     }
 
     on(type, handle) {
