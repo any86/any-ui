@@ -1,6 +1,6 @@
 <template>
-    <div class="component-breadcrumb">
-        <span v-for="item in dataSource">{{item.text}}</span>
+    <div class="atom-breadcrumb">
+        <span v-for="(item, index) in dataSource" :key="item" @click="clickItem(index)">{{item}}</span>
     </div>
 </template>
 <script>
@@ -11,12 +11,18 @@ export default {
         dataSource: {
             type: Array
         }
+    },
+
+    methods: {
+        clickItem(index){
+            this.$emit('click-item', index);
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 @import '../../scss/theme.scss';
-.component-breadcrumb {
+.atom-breadcrumb {
     margin: $gutter;
     span {
         font-size: $small;

@@ -54,20 +54,17 @@
             </v-collapse-item>
 
             <v-collapse-item title="等待" class="group">
-                <div class="group__item" @click="$router.push({'path': '/demos/badge'})">Spinner</div>
-                <div class="group__item" @click="$router.push({'path': '/demos/Steps'})">Steps</div>
-                <div class="group__item" @click="$router.push({'path': '/demos/Tag'})">Tag</div>
-                <div class="group__item" @click="$router.push({'path': '/demos/Progess'})">Progess</div>
-                <div class="group__item" @click="$router.push({'path': '/demos/Countdown'})">Countdown</div>
+                <div class="group__item" @click="$router.push({'path': '/demos/spinner'})">Spinner</div>
+                <div class="group__item" @click="$router.push({'path': '/demos/progress'})">Progess</div>
             </v-collapse-item>
 
             <v-collapse-item title="轻提示" class="group">
-                <div class="group__item" @click="$router.push({'path': '/demos/Toast'})">Toast</div>
-                <div class="group__item" @click="$router.push({'path': '/demos/Popper'})">Popper</div>
+                <div class="group__item" @click="$router.push({'path': '/demos/toast'})">Toast</div>
+                <div class="group__item" @click="$router.push({'path': '/demos/popper'})">Popper</div>
             </v-collapse-item>
 
             <v-collapse-item title="二维码" class="group">
-                <div class="group__item" @click="$router.push({'path': '/demos/QRCode'})">QRCode</div>
+                <div class="group__item" @click="$router.push({'path': '/demos/qr-code'})">QRCode</div>
             </v-collapse-item>
 
         </v-collapse>
@@ -90,10 +87,10 @@ export default {
     created() {},
 
     mounted() {
-        const finger = new Finger(this.$refs.main.$el);
-        finger.on('rotate', angel=>{
-            log(angel);
-        });
+        // const finger = new Finger(this.$refs.main.$el);
+        // finger.on('rotate', angel=>{
+        //     log(angel);
+        // });
     },
 
     methods: {

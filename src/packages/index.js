@@ -77,6 +77,7 @@ Atom.install = function (Vue) {
     // ==========================================toast==================================
     {
         let toastVM = null;
+        let timeout = null;
         Vue.prototype.$toast = (
             text = '',
             { position = 'center', delay = 0 } = {}
@@ -89,8 +90,9 @@ Atom.install = function (Vue) {
             toastVM.text = text;
             toastVM.delay = delay;
             if (0 < delay) {
-                setTimeout(() => {
+                timeout = setTimeout(() => {
                     toastVM.isShow = false;
+                    this.timeout = null;
                 }, delay);
             }
             toastVM.close = () => {

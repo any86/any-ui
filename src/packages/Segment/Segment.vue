@@ -25,7 +25,8 @@ $height: 0.3rem;
 .atom-segment {
     position: relative;
     display: table;
-    margin: auto;
+    margin-right: auto;
+    margin-left: auto;
     text-align: center;
     border: 1px solid $base;
     border-radius: $borderRadius;

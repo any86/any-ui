@@ -2,6 +2,7 @@ export default function (src, { onInit = () => { }, onSuccess = () => { }, onErr
     const startTime = Date.now();
     let img = new Image();
     img.src = src;
+    image.crossOrigin = 'anonymous';
     onInit(img);
     img.onload = event => {
         const costTime = Date.now() - startTime;
@@ -10,13 +11,13 @@ export default function (src, { onInit = () => { }, onSuccess = () => { }, onErr
     };
 
     img.onerror = event => {
-        img.costTime = Date.now() - startTime;
+        const costTime = Date.now() - startTime;
         onError({...event, costTime});
         img.null;
     };
 
     img.onabort = event => {
-        img.costTime = Date.now() - startTime;
+        const costTime = Date.now() - startTime;
         onAbort({...event, costTime});
         img.null;
     };

@@ -19,7 +19,7 @@ export default {
 
         hasBorderRadius: {
             type: Boolean,
-            default: false
+            default: true
         }
     }
 }
@@ -36,8 +36,6 @@ $height:.1rem;
         width: 0;
         height: $height;
         background: $base;
-        box-shadow: 0 0 10px $darkest;
-        
     }
 }
 .smooth{

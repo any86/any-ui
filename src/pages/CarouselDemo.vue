@@ -30,8 +30,8 @@
     </v-scroll-view>
 </template>
 <script>
-import Swiper from 'swiper';
-import 'swiper/dist/css/swiper.min.css';
+// import Swiper from 'swiper';
+// import 'swiper/dist/css/swiper.min.css';
 import VCell from '@/packages/Cell/Cell';
 import VGroup from '@/packages/Group/Group';
 import VCarousel from '@/packages/Carousel/Carousel';

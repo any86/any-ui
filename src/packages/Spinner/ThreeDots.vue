@@ -16,13 +16,12 @@ export default {
 @mixin loading() {
     @at-root& {
         overflow: hidden;
-        margin: 0.5rem auto;
-        width: 150px;
         text-align: center;
+        display: inline-block;
         > div {
             width: 20px;
             height: 20px;
-            background: $light;
+            background: $primary;
             border-radius: 100%;
             display: inline-block;
             animation: bouncedelay 1.4s infinite ease-in-out;
