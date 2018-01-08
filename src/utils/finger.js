@@ -2,10 +2,6 @@
  * https://segmentfault.com/a/1190000010511484#articleHeader0
  * https://segmentfault.com/a/1190000007448808#articleHeader1
  */
-// 私有属性
-const _noop = () => {};
-// let _action = '';
-
 export default class Finger {
   /**
    *
@@ -23,6 +19,9 @@ export default class Finger {
     this.activeScale = 1;
     this.startAngel = 0;
     this.activeAngel = 0;
+    this.isPreventSwipe = false;
+    this.preventSwipeTimeout = null;
+    this.panThreshold = 10;
     this.startV = {
       x: null,
       y: null
@@ -91,7 +90,7 @@ export default class Finger {
 
   touchStartHandle(e) {
     if (!e.touches) return;
-    e.preventDefault();
+
     this.isStopPropagation && e.stopPropagation();
     const points = e.touches;
     const pointCount = points.length;
@@ -144,7 +143,7 @@ export default class Finger {
 
   touchMoveHandle(e) {
     this.isStopPropagation && e.stopPropagation();
-    e.preventDefault();
+
     const points = e.touches;
     const pointCount = points.length;
     this.isDoubleTap = false;
@@ -180,6 +179,12 @@ export default class Finger {
       this._rotateHandle(this.activeAngle, e);
 
       this._pinchHandle(this.activeScale, e);
+
+      this.isPreventSwipe = true;
+      this.preventSwipeTimeout = setTimeout(()=>{
+          this.isPreventSwipe = false;
+      }, 300);
+      
     } else {
       // [!pan]
       let deltaX = 0;
@@ -194,12 +199,14 @@ export default class Finger {
         this.startPoint[0].x = this.activePoint[0].x;
         this.startPoint[0].y = this.activePoint[0].y;
       }
-      this._panHandle({
-          deltaX,
-          deltaY
-        },
-        e
-      );
+
+      //
+      const touchMoveX = Math.abs(points[0].pageX - this.startPoint[0].pageX);
+      const touchMoveY = Math.abs(points[0].pageY - this.startPoint[0].pageY);
+
+    //   if(this.panThreshold < Math.max(touchMoveX, touchMoveY)) {
+        this._panHandle({deltaX,deltaY}, e);
+    //   }
     }
 
     // 重置当前起点
@@ -215,7 +222,7 @@ export default class Finger {
 
   touchEndHandle(e) {
     this.isStopPropagation && e.stopPropagation();
-    e.preventDefault();
+
     // 触发end的时候, 屏幕上剩余的接触点个数
     const remainTouchsCount = e.touches.length;
     const points = e.changedTouches;
@@ -255,7 +262,7 @@ export default class Finger {
         } else {
           direction = 0 < Math.sign(deltaY) ? 'down' : 'up';
         }
-        if (0 == remainTouchsCount && null != this.startPoint[0].x) {
+        if (0 == remainTouchsCount && !this.isPreventSwipe) {
           // [!swiper]
           this.swipeTimeout = setTimeout(() => {
             this._swipeHandle({
@@ -269,7 +276,6 @@ export default class Finger {
             }, e);
           }, 0);
         }
-
       }
     }
 
@@ -361,6 +367,10 @@ export default class Finger {
 
   _cancelSwipe() {
     clearTimeout(this.swipeTimeout);
+  }
+
+  _cancelPinch() {
+    clearTimeout(this.pinchTimeout);
   }
 
   _cancelALl() {
