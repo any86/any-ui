@@ -86,7 +86,6 @@ const touchStartHandler = (event) => {
     let $rippleNode = createRippleNode(event);
     $rippleContainerNode.appendChild($rippleNode);
     $el.appendChild($rippleContainerNode);
-
 }
 
 

@@ -25,12 +25,11 @@ const updateRipple = (el, binding) => {
     el.dataset.rippleDisabled = opts.disabled;
     el.dataset.rippleTimer = el.dataset.rippleTimer || null;
 }
-
-
 const plugin = {
     install(Vue) {
         Vue.directive('ripple', {
             inserted(el, binding) {
+                console.log(7777)
                 updateRipple(el, binding);
                 // 绑定事件
                 el.addEventListener('touchstart', touchStartHandler);

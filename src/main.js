@@ -31,10 +31,9 @@ Vue.use(Atom);
 // 移动组件指令
 import DomPortal from 'vue-dom-portal';
 Vue.use(DomPortal);
-import '@/directives/ripple/ripple.scss';
-import ripple from '@/directives/ripple/index.js';
-Vue.directive('ripple', ripple);
-
+// import '@/directives/ripple/ripple.scss';
+// import ripple from '@/directives/ripple/index.js';
+// Vue.directive('ripple', ripple);
 // require('vue-touch-ripple/component.css')
 // import VueTouchRipple from 'vue-touch-ripple'
 // Vue.use(VueTouchRipple)
@@ -48,21 +47,21 @@ Vue.config.performance = true;
 
 /* eslint-disable no-new */
 var vm = new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: {
-    App
-  }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: {
+        App
+    }
 });
 
 router.beforeEach(function(to, from, next) {
-  next();
+    next();
 });
 
 // 路由切换后触发
 router.afterEach(function(to) {
-  document.title = to.name;
+    document.title = to.name;
 });
 
 // 测试
@@ -76,7 +75,7 @@ router.afterEach(function(to) {
 // }
 
 // function S() {
-  
+
 //   this.setA = function() {
 //     this.a.push(54);
 //   };

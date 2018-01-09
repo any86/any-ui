@@ -1,9 +1,10 @@
 <template>
-    <button :type="nativeType" v-ripple="{disabled: !hasRipple}" v-on="$listeners" :class="className" class="atom-btn">
+    <button :type="nativeType" v-on="$listeners" :class="className" class="atom-btn">
         <slot></slot>
     </button>
 </template>
 <script>
+import Ripple from '@/directives/ripple/ripple.class.js';
 export default {
     name: 'Button',
 
@@ -51,6 +52,10 @@ export default {
             type: Boolean,
             default: false
         },
+    },
+
+    mounted(){
+        new Ripple(this.$el);
     },
 
     computed: {
