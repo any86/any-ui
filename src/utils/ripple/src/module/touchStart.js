@@ -5,9 +5,20 @@ import createContainerNode from './createContainerNode';
  * 创建水波纹所需要的dom结构和预备样式
  * @param {Event} event 
  */
-export default function(options, event) {
+export default function(event) {
     event.stopPropagation();
     const $el = event.currentTarget;
+    if('true' === $el.dataset.rippleIsDisabled) {
+        return;
+    }
+
+    // 获取dataset上的参数
+    const options = {
+        cssNameSpace: $el.dataset.rippleCssNameSpace,
+        background: $el.dataset.rippleBackground,
+        duration: $el.dataset.rippleDuration,
+    };
+
     // 如果没有记录过position
     if (!$el.dataset.ripplePosition) {
         const position = getComputedStyle($el).position;

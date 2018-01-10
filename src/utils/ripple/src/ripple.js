@@ -15,6 +15,18 @@ import defaultConfig from './module/config';
 import touchStart from './module/touchStart';
 import touchMove from './module/touchMove';
 import touchEnd from './module/touchEnd';
+
+const copyOptsToEl = (el, options) => {
+    for (let k in options) {
+        let value = options[k];
+        let letterArray = k.split('');
+        letterArray[0] = letterArray[0].toUpperCase();
+        let key = letterArray.join('');
+        el.dataset[`ripple${key}`] = value;
+    }
+}
+
+
 export default class Ripple {
     /**
      * @param {Element} el 
@@ -28,21 +40,21 @@ export default class Ripple {
             ...defaultConfig,
             ...config
         };
-        if(options.isDisabled) return;
+        
+        if (options.isDisabled) return;
+        this.$el = el;
 
-        // 替换函数的this
-        this.touchStart = touchStart.bind(this, options);
-        this.touchMove = touchMove.bind(this, options);
-        this.touchEnd = touchEnd.bind(this, options);
+        // 参数存储到dataset, 方便vue指令的各个钩子中共享数据
+        copyOptsToEl(el, options);
 
         // touchstart准备水波纹动画css
-        el.addEventListener('touchstart', this.touchStart);
+        this.$el.addEventListener('touchstart', touchStart);
 
         // 发生移动, 取消动画 
-        el.addEventListener('touchmove', this.touchMove)
+        this.$el.addEventListener('touchmove', touchMove)
 
         // touchend时切换class触发动画
-        el.addEventListener('touchend', this.touchEnd);
+        this.$el.addEventListener('touchend', touchEnd);
     }
 
     /**
@@ -53,18 +65,17 @@ export default class Ripple {
             ...defaultConfig,
             ...config
         };
-        if(options.isDisabled) return;
-        this.touchStart = touchStart.bind(this, options);
-        this.touchMove = touchMove.bind(this, options);
-        this.touchEnd = touchEnd.bind(this, options);
+        if (options.isDisabled) return;
+        copyOptsToEl(el, options);
     }
 
     /**
      * 销毁
      */
     destroy(el) {
-        el.removeEventListener('touchstart', this.touchStart);
-        el.removeEventListener('touchmove', this.touchMove);
-        el.removeEventListener('touchend', this.touchEnd);
+        this.$el = el || this.$el;
+        this.$el.removeEventListener('touchstart', touchStart);
+        this.$el.removeEventListener('touchmove', touchMove);
+        this.$el.removeEventListener('touchend', touchEnd);
     }
 }

@@ -1,27 +1,51 @@
 import Vue from 'vue';
-// import { touchStartHandler, touchendHandler } from './ripple.js';
-import Ripple from '@/utils/ripple/src/ripple.js';
+import touchStart from '@/utils/ripple/src/module/touchStart.js';
+import touchMove from '@/utils/ripple/src/module/touchMove.js';
+import touchEnd from '@/utils/ripple/src/module/touchEnd.js';
+import defaultConfig from '@/utils/ripple/src/module/config.js';
+
+/**
+ * 
+ * @param {Element} el 
+ * @param {Object} binding 
+ */
+const runRipple = (el, binding) => {
+    // 默认参数
+    const {
+        cssNameSpace,
+        background,
+        duration,
+        zIndex,
+        isDisabled
+    } = defaultConfig;
+
+
+    el.dataset.rippleBackground = binding.value.background || background;
+    el.dataset.rippleDuration = binding.value.duration || duration;
+    el.dataset.rippleIsDisabled = (false === binding.value || binding.value.isDisabled);
+    el.dataset.rippleCssNameSpace = binding.value.cssNameSpace || cssNameSpace;
+
+    // 绑定事件
+    el.addEventListener('touchstart', touchStart);
+    el.addEventListener('touchmove', touchMove);
+    el.addEventListener('touchend', touchEnd);
+};
+
 const plugin = {
     install(Vue) {
         Vue.directive('ripple', {
             inserted(el, binding) {
-                new Ripple(el);
-                // // 绑定事件
-                // el.addEventListener('touchstart', touchStartHandler);
-                // el.addEventListener('touchend', touchendHandler);
+                runRipple(el, binding);
             },
 
-            // updated(el, binding) {
-
-            // },
-
             componentUpdated(el, binding) {
-                // updateRipple(el, binding);
+                runRipple(el, binding);
             },
 
             unbind(el) {
-                // el.removeEventListener('touchstart', touchStartHandler);
-                // el.removeEventListener('touchend', touchendHandler);
+                el.removeEventListener('touchstart', touchStart);
+                el.removeEventListener('touchmove', touchMove);
+                el.removeEventListener('touchend', touchEnd);
             }
         });
     }
