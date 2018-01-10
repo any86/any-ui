@@ -1,0 +1,24 @@
+.ripple-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1986;
+    overflow: hidden;
+    -webkit-appearance: none;
+    pointer-events: none;
+    user-select: none;
+    outline: none;
+    .ripple--ready {
+        position: absolute;
+        transform: scale(0);
+        opacity: .618;
+    }
+    .ripple--start {
+        position: absolute; // background: currentColor;
+        transition-property: transform, opacity;
+        transform: scale(1);
+        opacity: 0;
+    }
+}
