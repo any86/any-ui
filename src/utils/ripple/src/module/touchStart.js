@@ -23,7 +23,7 @@ export default function(options, event) {
     }
 
     // 查找容器元素
-    // 为了防止2个ripple嵌套的时候, 查找container出错, 所以制造子元素的container
+    // 为了防止2个ripple嵌套的时候, 查找container出错, 所以只找子元素的container
     let $containerNode;
     for(let childNode of $el.children) {
         if(`${options.cssNameSpace}-container` === childNode.className){

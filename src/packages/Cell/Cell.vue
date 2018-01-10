@@ -1,5 +1,5 @@
 <template>
-    <a v-ripple="{disabled: !hasRipple}" v-on="$listeners" v-bind="$attrs" class="atom-cell">
+    <a v-ripple v-on="$listeners" v-bind="$attrs" class="atom-cell">
         <span v-if="$slots.title" class="atom-cell__title">
             <slot name="title"></slot>
         </span>

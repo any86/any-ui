@@ -32,8 +32,9 @@ Vue.use(Atom);
 import DomPortal from 'vue-dom-portal';
 Vue.use(DomPortal);
 // import '@/directives/ripple/ripple.scss';
-// import ripple from '@/directives/ripple/index.js';
-// Vue.directive('ripple', ripple);
+import ripple from '@/directives/ripple/index.js';
+Vue.use(ripple)
+
 // require('vue-touch-ripple/component.css')
 // import VueTouchRipple from 'vue-touch-ripple'
 // Vue.use(VueTouchRipple)
