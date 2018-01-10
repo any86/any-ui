@@ -1,6 +1,6 @@
 <template>
     <v-scroll-view ref="main" @touchstart.native="touchstart">
-        <v-collapse :is-accordion="false">
+        <v-collapse :is-accordion="true">
             <v-collapse-item class="group">
                 <h4 slot="header">表单</h4>
                 <div class="group__item" @click="$router.push({'path': '/demos/switch'})">Switch</div>

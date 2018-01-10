@@ -18,12 +18,12 @@ const runRipple = (el, binding) => {
         zIndex,
         isDisabled
     } = defaultConfig;
+    const bindingValue = binding.value || {};
 
-
-    el.dataset.rippleBackground = binding.value.background || background;
-    el.dataset.rippleDuration = binding.value.duration || duration;
-    el.dataset.rippleIsDisabled = (false === binding.value || binding.value.isDisabled);
-    el.dataset.rippleCssNameSpace = binding.value.cssNameSpace || cssNameSpace;
+    el.dataset.rippleBackground = bindingValue.background || background;
+    el.dataset.rippleDuration = bindingValue.duration || duration;
+    el.dataset.rippleIsDisabled = (false === bindingValue || bindingValue.isDisabled);
+    el.dataset.rippleCssNameSpace = bindingValue.cssNameSpace || cssNameSpace;
 
     // 绑定事件
     el.addEventListener('touchstart', touchStart);

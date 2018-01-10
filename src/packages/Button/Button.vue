@@ -51,11 +51,11 @@ export default {
         isLoading: {
             type: Boolean,
             default: false
-        },
+        }
     },
 
-    mounted(){
-        new Ripple(this.$el);
+    mounted() {
+        new Ripple(this.$el, { duration: 1000, isDisabled: false });
     },
 
     computed: {
@@ -168,7 +168,7 @@ button {
         width: 100%;
     }
 
-    &--radius{
+    &--radius {
         border-radius: $radius;
     }
 }

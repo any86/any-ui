@@ -30,18 +30,11 @@
 
 
 export default function(current, start, aDuration) {
-    // 求加速度
-    // s = Vo*t + a*t²/2;
     const distance = current - start;
-    const acceleration = 2 * distance / (aDuration * aDuration);
-    const maxSpeed = acceleration * aDuration;
-
+    const maxSpeed = distance / aDuration;
     // 减速
     const deceleration = 0.0006; // 约定俗成的减速度
     const duration = Math.abs(maxSpeed / deceleration);
-    let destination = current + maxSpeed * duration + (deceleration * duration * duration / 2 * Math.sign(distance));
-    return {
-        destination,
-        duration
-    };
+    let destination = current + maxSpeed / deceleration;
+    return  {destination, duration};
 }

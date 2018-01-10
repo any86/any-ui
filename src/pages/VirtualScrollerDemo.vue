@@ -18,7 +18,7 @@
         <v-group class="gutter ">
             <h4 class="border-bottom fill-bottom">Y轴滚动, scrollTop: {{pos2.scrollTop}} </h4>
             <virtual-scroller v-model="pos2" class="border-bottom" style="height:300px;">
-                <div v-for="n in 30" :key="n" class="cell fill">第{{n}}行信息
+                <div v-for="n in 100" :key="n" class="cell fill">第{{n}}行信息
                 </div>
             </virtual-scroller>
         </v-group>
@@ -72,6 +72,8 @@ export default {
 .column:nth-child(2n) {
     background: #ddd;
 }
+
+.cell{height: 200px;}
 
 .cell:nth-child(2n) {
     background: #ddd;

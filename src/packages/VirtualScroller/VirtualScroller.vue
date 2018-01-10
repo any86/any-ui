@@ -7,6 +7,7 @@
 </template>
 <script>
 import { getHeight, getWidth, getTime } from '@/utils/dom';
+import momentum from '@/utils/momentum';
 import debounce from 'lodash/debounce';
 export default {
     name: 'VirtualScroller',
@@ -184,7 +185,7 @@ export default {
             // 写的兼容性不完整, 后期修改参考swiper.js的getTranslate
             const style = getComputedStyle(this.$refs.body, null);
             const matrix = style.transform.split(',');
-            return { x: Math.round(matrix[4]), y: Math.round(parseFloat(matrix[5])) };
+            return { x: Math.round(parseFloat(matrix[4] || matrix[12])), y: Math.round(parseFloat(matrix[5] || matrix[13])) };
         },
 
         touchstart(e) {
@@ -245,7 +246,7 @@ export default {
             const absDeltaY = Math.abs(this.deltaY);
 
             // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
-            if (now - this.endTime > 300 && this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
+            // if (now - this.endTime > 300 && this.sensitivity > absDeltaY && this.sensitivity > absDeltaX) return;
 
             // 一旦开始touchmove, 那么方向就定了, 除非重新touchstart
             if (undefined == this.touchDirection && !(!this.isLockX && !this.isLockY)) {
@@ -308,19 +309,29 @@ export default {
             // this.isPreventDefault && e.preventDefault();
             // // 禁用touch事件
             if (this.isDisable) return;
-            this.transitionDuration = this.speed;
+
             this.endTime = getTime();
             const point = e.changedTouches ? e.changedTouches[0] : e;
             const timeDiff = this.endTime - this.startTime;
-            this.isAnimating = true;
+            
 
             const translateXDiff = this.translateX - this.startTranslateX;
             const translateYDiff = this.translateY - this.startTranslateY;
             // 150ms内的快速滑动才有缓冲动画
             if (150 > timeDiff) {
-                // log(this.translateY, timeDiff, translateYDiff)
-                this.translateX = this.translateX + timeDiff / 10 * translateXDiff;
-                this.translateY = this.translateY + timeDiff / 10 * translateYDiff;
+                this.isAnimating = true;
+                
+                if (!this.isLockX) {
+                    const { destination, duration } = momentum(0, translateXDiff, timeDiff);
+                    this.translateX = this.translateX - destination;
+                    this.transitionDuration = duration;
+                }
+
+                if (!this.isLockY) {
+                    const { destination, duration } = momentum(0, translateYDiff, timeDiff);
+                    this.translateY = this.translateY - destination;
+                    this.transitionDuration = duration;
+                }
             }
 
             // 超过边界进行复位
@@ -457,8 +468,8 @@ export default {
         position: relative;
         width: 100%;
         user-select: none;
-        transition-timing-function: ease-out;
-        /* transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); */
+        /* transition-timing-function: ease-out; */
+        transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         .table {
             /* 没有display: table, 子元素的子元元素没法撑起其父元素的宽度 */
