@@ -2,7 +2,7 @@
     <div :class="{'atom-tabs--more-in-right': hasItemsInRight, 'atom-tabs--more-in-left': hasItemsInLeft}" class="atom-tabs">
         <!-- is-prevent-default一定要是false, 不然click事件会被过滤掉 -->
         <virtual-scroller 
-            v-model="tabPos" 
+            v-model="position" 
             :is-prevent-default="false" 
             :is-lock-x="false" 
             :is-lock-y="true" 
@@ -36,7 +36,7 @@ export default {
             countWidth: 0,
             count: 0,
             activeIndex: 0,
-            tabPos: { x: 0, y: 0 },
+            position: { x: 0, y: 0 },
             stateBarStyle: { position: 'absolute', bottom: 0 },
             isDisabled: true // 少量选项的时候关闭拖拽
         };
@@ -78,13 +78,13 @@ export default {
          */
         scrollIntoView() {
             // 让当前item居中显示
-            this.tabPos.x = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
+            this.position.x = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
 
             // 边界处理
-            if (0 > this.tabPos.x) {
-                this.tabPos.x = 0;
-            } else if (this.countWidth - this.warpWidth < this.tabPos.x) {
-                this.tabPos.x = this.countWidth - this.warpWidth;
+            if (0 > this.position.x) {
+                this.position.x = 0;
+            } else if (this.countWidth - this.warpWidth < this.position.x) {
+                this.position.x = this.countWidth - this.warpWidth;
             }
         }
     },
@@ -103,14 +103,14 @@ export default {
          * 右侧有item被遮挡
          */
         hasItemsInRight() {
-            return this.tabPos.x + this.warpWidth < this.countWidth;
+            return this.position.x + this.warpWidth < this.countWidth;
         },
 
         /**
          * 左侧有item被遮挡
          */
         hasItemsInLeft() {
-            return 0 < this.tabPos.x;
+            return 0 < this.position.x;
         }
     },
 

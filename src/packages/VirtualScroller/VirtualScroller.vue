@@ -37,7 +37,7 @@ export default {
             default: 300
         },
 
-        isDisable: {
+        isDisabled: {
             type: Boolean,
             default: false
         },
@@ -207,7 +207,7 @@ export default {
      */
         touchstart(e) {
             // 禁用touch事件
-            if (this.isDisable) return;
+            if (this.isDisabled) return;
             // 防止scroll被隐藏的时候, 高度计算不对
             this.updateSize();
             // isStopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
@@ -255,7 +255,7 @@ export default {
 
         touchmove(e) {
             // 禁用touch事件[停止运行]
-            if (this.isDisable) return;
+            if (this.isDisabled) return;
 
             // x/y都lock了[停止运行]
             if (this.isLockX && this.isLockY) return;
@@ -351,7 +351,7 @@ export default {
 
         touchend(e) {
             // 禁用touch事件
-            if (this.isDisable) return;
+            if (this.isDisabled) return;
 
             this.isStopPropagation && e.stopPropagation();
             this.isPreventDefault && e.preventDefault();
