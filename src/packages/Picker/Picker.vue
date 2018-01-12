@@ -1,9 +1,22 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="atom-picker">
         <div class="atom-picker__graticule" :style="{height: `${itemHeight}px`}"></div>
-        <v-scroller :stopPropagation="true" :minMoveRatio="1" v-model="positions[i]" v-for="(list, i) in dataSource" :key="i"
-         @touch-end="touchEnd(i, $event)" :is-lock-x="true" :is-lock-y="false" :is-bind-body="true" :prevent-default="true" :max-holder-time="50" @scroll-buffer="isMoving = $event" :body-style="bodyStyle" class="atom-picker__list">
-            <div v-for="(item, j) in list" :key="j" :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" :class="{'list__item--active': j == activeIndexList[i]}" class="list__item">
+        <v-scroller 
+            v-model="positions[i]" 
+            v-for="(list, i) in dataSource" :key="i" 
+            :is-prevent-default="true"
+            :is-stop-propagation="true" 
+            :is-lock-x="true" 
+            :is-lock-y="false" 
+            :is-bind-body="true" 
+            :body-style="bodyStyle" 
+            @scroll-end="scrollEnd(i, $event)" 
+            class="atom-picker__list">
+            <div 
+                v-for="(item, j) in list" :key="j" 
+                :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" 
+                :class="{'list__item--active': j == activeIndexList[i]}" 
+                class="list__item">
                 {{item.label}}
             </div>
         </v-scroller>
@@ -33,8 +46,8 @@ export default {
 
     data() {
         return {
+            // activeIndexList
             positions: [],
-            isMoving: false,
             bodyStyle: {
                 paddingTop: 3 * this.itemHeight + 'px',
                 paddingBottom: 3 * this.itemHeight + 'px'
@@ -43,7 +56,7 @@ export default {
     },
 
     created() {
-        this._syncPositionition();
+        this._syncPos();
     },
 
     methods: {
@@ -51,13 +64,19 @@ export default {
         * @param {Number} 列表索引
         * @param {Object} 滚动条距离数据
         */
-        touchEnd(columnIndex, scrollData) {
+        scrollEnd(columnIndex, position) {
+            if(0 === position.y % this.itemHeight) {
+
+            }
+            
             // 选项index
-            const index = Math.round(scrollData.scrollTop / this.itemHeight);
-            const absIndex = Math.abs(index);
+            const index = Math.round(position.y / this.itemHeight);
+            
             // 当前列scrollTop
-            this.positions[columnIndex].scrollTop = index * this.itemHeight;
-            const activeItem = this.dataSource[columnIndex][absIndex];
+            this.positions[columnIndex].y = index * this.itemHeight;
+
+            
+            const activeItem = this.dataSource[columnIndex][index];
             const _value = [...this.value];
             _value.splice(columnIndex, 1, activeItem.value);
             // 同步value
@@ -65,25 +84,23 @@ export default {
             // 携带更详细的信息
             this.$emit('change', {
                 columnIndex,
-                rowIndex: absIndex,
+                rowIndex: index,
                 ...activeItem
             });
         },
         /**
          * 设置scrollTop
          */
-        _syncPositionition() {
-            if (!this.isMoving) {
-                // 下面有positions的push操作才敢直接赋值为空, 不然数据不响应
-                this.positions = [];
-                this.value.forEach((v, i) => {
-                    var index = this._findIndexByValue(i, v);
-                    this.positions.push({
-                        scrollLeft: 0,
-                        scrollTop: index * this.itemHeight
-                    });
+        _syncPos() {
+            // 下面有positions的push操作才敢直接赋值为空, 不然数据不响应
+            this.positions = [];
+            this.value.forEach((v, i) => {
+                var index = this._findIndexByValue(i, v);
+                this.positions.push({
+                    x: 0,
+                    y: index * this.itemHeight
                 });
-            }
+            });
         },
         /**
          * 获取索引通过给定值
@@ -111,13 +128,13 @@ export default {
 
     watch: {
         value() {
-            this._syncPositionition();
+            this._syncPos();
         },
 
         dataSource: {
             deep: true,
             handler() {
-                this._syncPositionition();
+                this._syncPos();
             }
         }
     },

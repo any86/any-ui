@@ -1,7 +1,13 @@
 <template>
     <div :class="{'atom-tabs--more-in-right': hasItemsInRight, 'atom-tabs--more-in-left': hasItemsInLeft}" class="atom-tabs">
         <!-- is-prevent-default一定要是false, 不然click事件会被过滤掉 -->
-        <virtual-scroller v-model="tabPos" :is-prevent-default="false" :is-lock-x="false" :is-lock-y="true" :body-class="{flex: true}" :is-disable-touch="isDisableTouch">
+        <virtual-scroller 
+            v-model="tabPos" 
+            :is-prevent-default="false" 
+            :is-lock-x="false" 
+            :is-lock-y="true" 
+            :body-class="{flex: true}" 
+            :is-disabled="isDisabled">
             <slot></slot>
             <!-- 状态条 -->
             <div class="atom-tabs__state-bar">
@@ -30,16 +36,16 @@ export default {
             countWidth: 0,
             count: 0,
             activeIndex: 0,
-            tabPos: { scrollLeft: 0, scrollTop: 0 },
+            tabPos: { x: 0, y: 0 },
             stateBarStyle: { position: 'absolute', bottom: 0 },
-            isDisableTouch: true // 少量选项的时候关闭拖拽
+            isDisabled: true // 少量选项的时候关闭拖拽
         };
     },
 
     mounted() {
         this.activeIndex = this.value;
         this.warpWidth = getWidth(this.$el);
-        this.isDisableTouch = this.countWidth <= this.warpWidth;
+        this.isDisabled = this.countWidth <= this.warpWidth;
     },
 
     methods: {
@@ -72,13 +78,13 @@ export default {
          */
         scrollIntoView() {
             // 让当前item居中显示
-            this.tabPos.scrollLeft = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
+            this.tabPos.x = this.indicatorTranslateX - this.warpWidth / 2 + this.itemWidthList[this.activeIndex] / 2;
 
             // 边界处理
-            if (0 > this.tabPos.scrollLeft) {
-                this.tabPos.scrollLeft = 0;
-            } else if (this.countWidth - this.warpWidth < this.tabPos.scrollLeft) {
-                this.tabPos.scrollLeft = this.countWidth - this.warpWidth;
+            if (0 > this.tabPos.x) {
+                this.tabPos.x = 0;
+            } else if (this.countWidth - this.warpWidth < this.tabPos.x) {
+                this.tabPos.x = this.countWidth - this.warpWidth;
             }
         }
     },
@@ -97,14 +103,14 @@ export default {
          * 右侧有item被遮挡
          */
         hasItemsInRight() {
-            return this.tabPos.scrollLeft + this.warpWidth < this.countWidth;
+            return this.tabPos.x + this.warpWidth < this.countWidth;
         },
 
         /**
          * 左侧有item被遮挡
          */
         hasItemsInLeft() {
-            return 0 < this.tabPos.scrollLeft;
+            return 0 < this.tabPos.x;
         }
     },
 
