@@ -195,7 +195,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $size: 0.6rem;
 .atom-lazyload {
     max-width: 100%;

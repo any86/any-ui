@@ -23,7 +23,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 svg.dark {
     stroke: $dark;
 }

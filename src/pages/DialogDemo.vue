@@ -1,5 +1,5 @@
 <template>
-    <v-scroll-view class="fill">
+    <v-scroll-view class="fill flex">
         <v-dialog :is-show.sync="isShow">
             <v-cell>正常</v-cell>
             <v-cell>困难</v-cell>
@@ -9,7 +9,7 @@
             <v-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</v-button>
         </v-dialog>
 
-        <v-button :is-ghost="true" :is-block="true" @click="handle('bottom')" class="gutter-top">
+        <v-button :is-ghost="true"  type="primary" @click="handle('bottom')" class="gutter-top flex-item--center">
             打开dialog
         </v-button>
 

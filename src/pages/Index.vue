@@ -109,7 +109,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../scss/theme.scss';
+@import '../scss/variables.scss';
 .group{
     &__item{
         height:55px;line-height: 55px; border-bottom: 1px solid $lightest;

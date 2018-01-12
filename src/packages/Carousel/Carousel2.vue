@@ -542,7 +542,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $height: 0.5rem;
 .atom-carousel {
     position: relative;

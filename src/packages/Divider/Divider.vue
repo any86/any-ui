@@ -11,7 +11,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-divider {
     margin: 0;
     height: 1px;

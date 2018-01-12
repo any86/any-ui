@@ -1,7 +1,7 @@
 <template>
-    <v-scroll-view>
-        <v-button :is-ghost="true" @click="$alert('hello atom !')" class="gutter">
-            hello atom
+    <v-scroll-view class="flex">
+        <v-button type="primary" :is-radius="true" :is-ghost="true" @click="$alert('hello atom !')" class="gutter flex-item--center">
+            Alert
         </v-button>
     </v-scroll-view>
 </template>

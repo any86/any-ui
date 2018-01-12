@@ -31,7 +31,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $height:55px;
 .atom-tabs__item {
     // 有剩余空间是否自动占满

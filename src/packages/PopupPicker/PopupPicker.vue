@@ -79,7 +79,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 @mixin button() {
     user-select: none;
     text-align: center;

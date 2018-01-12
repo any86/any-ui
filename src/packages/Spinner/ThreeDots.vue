@@ -12,7 +12,7 @@ export default {
 </script>
 
 <style scoped lang=scss>
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 @mixin loading() {
     @at-root& {
         overflow: hidden;

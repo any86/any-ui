@@ -8,7 +8,7 @@
 
         <v-button-gorup class="gutter-top">
             <v-button :is-ghost="true" type="info">info</v-button>
-            <v-button :is-loading="true" :is-ghost="true" type="danger">danger</v-button>
+            <v-button :is-loading="true" :is-ghost="false" type="danger">danger</v-button>
         </v-button-gorup>
     </v-scroll-view>
 </template>
@@ -34,5 +34,5 @@ export default {
 };
 </script>
 <style scope lang="scss">
-@import '../scss/theme.scss';
+@import '../scss/variables.scss';
 </style>

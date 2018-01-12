@@ -53,7 +53,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $size: 0.5rem;
 label.atom-radio {
     display: flex;

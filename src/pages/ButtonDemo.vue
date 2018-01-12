@@ -105,7 +105,7 @@ export default {
 };
 </script>
 <style scope lang="scss">
-@import '../scss/theme.scss';
+@import '../scss/variables.scss';
 .item {
     padding: $gutter;
     border: 1px solid $lightest;

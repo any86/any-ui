@@ -10,7 +10,7 @@ export default {
 </script>
 
 <style scoped lang=scss>
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $size: .6rem;
 .atom-spinner-ripple {
     display: inline-block;

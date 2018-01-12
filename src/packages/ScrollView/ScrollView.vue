@@ -142,7 +142,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-scroll-view {
     /*暂时关闭x轴拖动 pinch-zoom*/
     position: relative;

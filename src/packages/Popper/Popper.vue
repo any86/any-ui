@@ -155,7 +155,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $arrowSize: 8px;
 $arrowBorderSize: 1px;
 

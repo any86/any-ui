@@ -41,7 +41,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import './scss/theme.scss';
+@import './scss/variables.scss';
 .app-menu {
     li {
         padding: $gutter;

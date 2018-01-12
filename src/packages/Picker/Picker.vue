@@ -143,7 +143,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-picker {
     position: relative;
     overflow: hidden;

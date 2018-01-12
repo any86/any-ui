@@ -9,7 +9,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-view {
     position: absolute;
     top: 0;

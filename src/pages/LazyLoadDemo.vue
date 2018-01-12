@@ -75,7 +75,7 @@ export default {
 };
 </script>
 <style scop lang="scss">
-@import '../scss/theme.scss';
+@import '../scss/variables.scss';
 .seg {
     width: 230px;
     height: 50px;

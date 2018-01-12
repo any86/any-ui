@@ -1,5 +1,5 @@
 <template>
-    <button :type="nativeType" v-on="$listeners" :class="className" class="atom-btn">
+    <button v-ripple="hasRipple" :type="nativeType" v-on="$listeners" :class="className" class="atom-btn">
         <slot></slot>
     </button>
 </template>
@@ -43,6 +43,11 @@ export default {
             default: false
         },
 
+        isRadius: {
+            type: Boolean,
+            default: true
+        },
+
         isCenter: {
             type: Boolean,
             default: false
@@ -54,10 +59,6 @@ export default {
         }
     },
 
-    mounted() {
-        new Ripple(this.$el, { duration: 1000, isDisabled: false });
-    },
-
     computed: {
         className() {
             return {
@@ -67,14 +68,14 @@ export default {
                 'atom-btn--block': this.isBlock,
                 'atom-btn--round': this.isRound,
                 'atom-btn--loading': this.isLoading,
-                'atom-btn--radius': !this.isBlock
+                'atom-btn--radius': !this.isBlock || this.isRadius
             };
         }
     }
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 @import '../../scss/function.scss';
 $height: 1rem;
 
@@ -103,7 +104,6 @@ $height: 1rem;
     $lightness: lightness($color);
     // @debug $color;
     background: transparent;
-    border-radius: $radius;
     @if (98% < $lightness) {
         border: 1px solid $dark;
         color: $darker;
@@ -141,11 +141,13 @@ button {
     &--loading {
         pointer-events: none;
         opacity: 0.7;
+        color:$lighter !important;
         &:before {
             content: '';
             display: inline-block;
             height: 12px;
             width: 12px;
+            border-color:transparent transparent $lighter $lighter !important;
             border-style: solid;
             border-width: 2px;
             border-radius: 50%;

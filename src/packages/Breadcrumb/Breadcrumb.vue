@@ -21,7 +21,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-breadcrumb {
     margin: $gutter;
     span {

@@ -12,7 +12,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $height: .3rem;
 .component-warning {
     display: flex;

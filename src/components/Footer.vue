@@ -29,7 +29,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '../scss/theme.scss';
+@import '../scss/variables.scss';
 footer {
     display: flex;
     border-top: 1px solid $lightest;

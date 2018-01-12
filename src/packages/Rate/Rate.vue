@@ -32,7 +32,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-rate {
     display: flex;
     >svg {

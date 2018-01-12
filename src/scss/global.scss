@@ -1,10 +1,9 @@
-@import './theme.scss';
+@import './variables.scss';
 @import './mixin.scss';
 // @import "./font.scss";
 @import './reset.scss';
 @import './animate.scss';
 @import './helpers.scss';
-@import '../scss/ripple.scss';
 [v-cloak] {
     display: none;
 }

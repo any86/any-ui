@@ -1,7 +1,7 @@
 <template>
-    <v-scroll-view>
-        <v-button :is-ghost="true" @click="handle" class="gutter">
-            hello atom
+    <v-scroll-view class="flex">
+        <v-button :is-ghost="true" type="primary" @click="handle" class="gutter flex-item--center">
+            Prompt
         </v-button>
     </v-scroll-view>
 </template>

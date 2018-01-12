@@ -128,7 +128,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $height: 55px;
 .atom-tabs {
     position: relative;

@@ -43,7 +43,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../scss/theme.scss';
+@import '../scss/variables.scss';
 .popperNode {
     padding: 30px;
     box-shadow: $shadowDown;

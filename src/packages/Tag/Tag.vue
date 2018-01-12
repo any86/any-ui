@@ -20,7 +20,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-tag {
     display: inline-table;
     padding: 0 $gutter / 4;

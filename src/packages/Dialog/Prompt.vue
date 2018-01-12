@@ -69,7 +69,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .input {
     border: 1px solid $lightest;
     padding: $gutter/1.2 0;

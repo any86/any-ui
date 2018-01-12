@@ -30,7 +30,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 $width: 0.5rem;
 .atom-steps__item {
     display: flex;

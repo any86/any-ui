@@ -44,7 +44,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import '../../scss/theme.scss';
+@import '../../scss/variables.scss';
 .atom-textarea {
     background: $background;
     border: 1px solid $lighter;

@@ -1,5 +1,5 @@
 <template>
-    <v-scroll-view class="fill">
+    <v-scroll-view class="fill flex">
         <v-mask :is-show.sync="isShow">
             <div style="margin-top:90%;" class="fill">
                 <p class="text-lightest">轻轻的我走了，正如我轻轻的来； 我轻轻的招手，作别西天的云彩。</p>
@@ -7,7 +7,7 @@
             </div>
         </v-mask>
 
-        <v-button :is-ghost="true" :is-block="true" @click="handle('bottom')" class="gutter-top">
+        <v-button :is-ghost="true" type="primary" @click="handle('bottom')" class="gutter-top flex-item--center">
             打开mask
         </v-button>
 
