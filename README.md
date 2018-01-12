@@ -3,6 +3,8 @@
 > 基于vue2的移动端组件库
 
 ### 待解决
-1. 加了fastClick, 发现Switch切换会变慢
-2. 同一组件的多个实例的方法如果调用节流函数, 只有第一个组件会触发方法, 其他组件的方法不会执行, 被节流了. 需要看看webpack生成的代码分析.
-3. 需要js做一个全局的z-index管理
+1. 对scss整体架构重构.
+2. 做一个doc官网
+3. 优化组件, 重点virtualscroll/carousel组件
+4. 需要js做一个全局的z-index管理
+5. 兼容fastClick
