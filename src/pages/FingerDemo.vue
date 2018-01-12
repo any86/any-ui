@@ -1,11 +1,19 @@
 <template>
-    <v-scroll-view class="demo-page">
-        <section ref="panel" class="atom-img-panel gutter border ovh">
+    <v-scroll-view class="demo-page fill">
+        <section ref="panel" class="atom-img-panel  border ovh">
             <img :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
-        <v-button  type="success" @click="reset" class="gutter">复位</v-button>
-        <v-button  type="warning" @click="zoom" class="gutter">放大</v-button>
+        <p class="text-danger gutter-top-sm">请拖动图片尝试</p>
+        <h3 class="gutter-top">支持: </h3>
+        <p class="text-darkest gutter-top-sm font-big">tap(单击)</p>
+        <p class="text-darkest gutter-top-sm font-big">doubleTap(双击)</p>
+        <p class="text-darkest gutter-top-sm font-big">pan(单指滑动)</p>
+        <p class="text-darkest gutter-top-sm font-big">swiper(单指快速滑动)</p>
+        <p class="text-darkest gutter-top-sm font-big">pinch(双指缩放)</p>
+        <p class="text-darkest gutter-top-sm font-big">rotate(双指旋转)</p>
+
         
+        <v-button  type="primary" :is-ghost="true" :is-block="true" @click="reset" class="gutter-top">复位</v-button>
     </v-scroll-view>
 </template>
 <script>
@@ -64,26 +72,12 @@ export default {
             this.transitionDuration = 0;
             this.x += deltaX;
             this.y += deltaY;
-            // this.x = Math.min(this.maxX, this.x);
-            // this.y = Math.min(this.maxY, this.y);
-
-            // this.x = Math.max(0-this.maxX, this.x);
-            // this.y = Math.max(0-this.maxY, this.y);
-            
-
-            // log(deltaX, deltaY);
         });
 
         finger.on('swipe', ({ deltaX, deltaY, direction, holdTime, velocityX, velocityY, velocity }) => {
             this.transitionDuration = 1000;
             this.x += velocityX * 200 * Math.sign(deltaX);
             this.y += velocityY * 200 * Math.sign(deltaY);
-
-            // this.x = Math.min(this.maxX, this.x);
-            // this.y = Math.min(this.maxY, this.y);
-
-            // this.x = Math.max(0-this.maxX, this.x);
-            // this.y = Math.max(0-this.maxY, this.y);
 
         });
     },

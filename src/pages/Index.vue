@@ -63,9 +63,15 @@
                 <div class="group__item" @click="$router.push({'path': '/demos/popper'})">Popper</div>
             </v-collapse-item>
 
+            <v-collapse-item title="手势" class="group">
+                <div class="group__item" @click="$router.push({'path': '/demos/finger'})">Finger</div>
+            </v-collapse-item>
+
             <v-collapse-item title="二维码" class="group">
                 <div class="group__item" @click="$router.push({'path': '/demos/qr-code'})">QRCode</div>
             </v-collapse-item>
+
+
 
         </v-collapse>
     </v-scroll-view>

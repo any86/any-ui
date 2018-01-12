@@ -35,11 +35,6 @@ export default {
         };
     },
 
-    created() {
-        // var h = this.$createElement;
-        // this.$slots.default = [h('h1', )];
-    },
-
     methods: {
         ok() {
             this.isShow = false;
