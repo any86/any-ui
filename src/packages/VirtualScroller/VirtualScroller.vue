@@ -83,7 +83,7 @@ export default {
             default: false
         },
 
-        minMoveRatio: {
+        moveRatio: {
             type: Number,
             default: 0.3
         },
@@ -137,6 +137,7 @@ export default {
 
     data() {
         return {
+            isInTransition: false,
             transitionTimingFunction: 'cubic-bezier(0.1, 0.57, 0.1, 1)',
             isMoved: false,
             isDragging: false,
@@ -154,7 +155,6 @@ export default {
             maxTranslateY: 0,
             startX: 0,
             startY: 0,
-            moveRatio: 1,
             deltaX: 0,
             deltaY: 0,
             direction: undefined,
@@ -309,11 +309,11 @@ export default {
             }
 
             if (!this.isLockX) {
-                this.x += deltaX * (0 < this.x || this.minX > this.x ? 0.3 : 1);
+                this.x += deltaX * (0 < this.x || this.minX > this.x ? this.moveRatio : 1);
             }
 
             if (!this.isLockY) {
-                this.y += deltaY * (0 < this.y || this.minY > this.y ? 0.3 : 1);
+                this.y += deltaY * (0 < this.y || this.minY > this.y ? this.moveRatio : 1);
             }
 
             // pull-down/pull-up
@@ -382,14 +382,20 @@ export default {
                 if (!this.isLockX) {
                     const { destination, duration } = momentum(this.x, this.startX, timeDiff, this.minX, this.isBounce ? this.warpWidth : 0, 0.0006);
                     this.scrollTo(destination, 0, duration);
+                    if (0 === duration) {
+                        this.$emit('scroll-end', this.position);
+                    }
                 }
 
                 if (!this.isLockY) {
                     const { destination, duration } = momentum(this.y, this.startY, timeDiff, this.minY, this.isBounce ? this.warpHeight : 0, 0.0006);
                     this.scrollTo(0, destination, duration);
+                    if (0 === duration) {
+                        this.$emit('scroll-end', this.position);
+                    }
                 }
             } else {
-                // 派发事件
+                // 没有缓动, 已经停止滑动
                 this.$emit('input', this.position);
                 this.$emit('scroll-end', this.position);
             }
@@ -397,8 +403,10 @@ export default {
 
         transitionend() {
             this.isAnimating = false;
-            this.resetPosition(this.bounceTime);
-            this.$emit('transition-end');
+            if (!this.resetPosition(this.bounceTime)) {
+                this.isInTransition = false;
+            }
+            this.$emit('transition-end', this.position);
             this.$emit('input', this.position);
             this.$emit('scroll-end', this.position);
         },
@@ -444,6 +452,7 @@ export default {
             this.y = y;
             this.transitionDuration = duration;
             this.transitionTimingFunction = easing;
+            this.isInTransition = 0 < duration;
         }
     },
 
@@ -493,26 +502,6 @@ export default {
     },
 
     watch: {
-        y(y) {
-            if (this.maxTranslateY < y) {
-                this.moveRatio = this.minMoveRatio;
-            } else if (this.minY > y) {
-                this.moveRatio = this.minMoveRatio;
-            } else {
-                this.moveRatio = 1;
-            }
-        },
-
-        x(x) {
-            if (this.maxTranslateX < x) {
-                this.moveRatio = this.minMoveRatio;
-            } else if (this.minX > x) {
-                this.moveRatio = this.minMoveRatio;
-            } else {
-                this.moveRatio = 1;
-            }
-        },
-
         value: {
             deep: true,
             handler(value) {
