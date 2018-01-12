@@ -1,5 +1,5 @@
 <template>
-    <img :status="status" :src="url" class="atom-lazyload" :lazy="status"></img>
+    <img :status="status" :src="url" class="atom-lazyload" :lazy="status"/>
 </template>
 <script>
 // 借鉴了vue-lazyload, 我这就一简化版

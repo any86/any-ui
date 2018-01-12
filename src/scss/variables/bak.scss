@@ -26,7 +26,6 @@ $warning: #fa0;
 $danger: #e60044;
 $info: #2db7f5;
 
-$disabled: $light;
 $theme_colors: (
     default: $white,
     primary: $base,
@@ -40,7 +39,6 @@ $theme_colors: (
     light: $light,
     lighter: $lighter,
     lightest: $lightest,
-    disabled: $light
 );
 
 // 间隙

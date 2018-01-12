@@ -1,0 +1,42 @@
+// 主色
+$base: #e60044;
+
+$white: #fff;
+// 辅色
+$sub: $white;
+// 禁用色
+$disabled: #ccc;
+// 背景色
+$background: $white;
+
+// 浅灰
+$light: #aaa9ae;
+$lighter: #ddd;
+$lightest: #eee;
+
+// 深灰
+$dark: #888;
+$darker: #6a6a6a;
+$darkest: #000;
+
+// 彩色
+$primary: $base;
+$success: #50d185;
+$warning: #fa0;
+$danger: #e60044;
+$info: #2db7f5;
+
+$theme_colors: (
+    default: $white,
+    primary: $base,
+    success: $success,
+    warning: $warning,
+    danger: $danger,
+    info: $info,
+    dark: $dark,
+    darker: $darker,
+    darkest: $darkest,
+    light: $light,
+    lighter: $lighter,
+    lightest: $lightest,
+);

@@ -1,0 +1,21 @@
+// 间隙
+$gutter: 0.3rem;
+// 最小高度
+$minHeight: 0.5rem;
+// 圆角
+$borderRadius: 4px;
+$radius: 4px;
+// 阴影
+$shadowUp: 0 -1px 6px rgba(0, 0, 0, 0.1);
+$shadowDown: 0 1px 6px rgba(0, 0, 0, 0.1);
+
+// 底部tab高度
+$bottomTabHeight: 60px;
+// 动画时间
+$duration: 300ms;
+// 组件最小高度
+$minHeight: 55px;
+
+$alert_button_height: $minHeight;
+$confirm_button_height: $minHeight;
+$prompt_button_height: $minHeight;
