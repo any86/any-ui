@@ -4,7 +4,7 @@
         <section class="border-bottom gutter ovh">
             <h4 class="border-bottom fill-bottom">X轴滚动</h4>
             <v-cell>
-                <v-input v-model="pos1.scrollLeft"></v-input>
+                <v-input v-model="pos1.x"></v-input>
             </v-cell>
             <virtual-scroller v-model="pos1" :is-prevent-default="false" :is-lock-x="false" :is-lock-y="true" class="gutter-top">
                 <div class="flex">
@@ -16,7 +16,10 @@
 
         <!-- Y轴滚动 -->
         <v-group class="gutter ">
-            <h4 class="border-bottom fill-bottom">Y轴滚动, scrollTop: {{pos2.scrollTop}} </h4>
+            <h4 class="border-bottom fill-bottom">Y轴滚动, scrollTop: {{pos2.y}} </h4>
+            <v-cell>
+                <v-input v-model="pos2.y"></v-input>
+            </v-cell>
             <virtual-scroller v-model="pos2" class="border-bottom" style="height:300px;">
                 <div v-for="n in 100" :key="n" class="cell fill">第{{n}}行信息
                 </div>
@@ -37,13 +40,13 @@ export default {
     data() {
         return {
             pos1: {
-                scrollTop: 0,
-                scrollLeft: 0
+                y: 0,
+                x: 0
             },
 
             pos2: {
-                scrollTop: 0,
-                scrollLeft: 0
+                y: 0,
+                x: 0
             }
         };
     },
@@ -51,7 +54,8 @@ export default {
     methods: {},
 
     components: {
-        VCell,VGroup,
+        VCell,
+        VGroup,
         VInput,
         VCount,
         VScrollView,
@@ -73,7 +77,9 @@ export default {
     background: #ddd;
 }
 
-.cell{height: 200px;}
+.cell {
+    height: 200px;
+}
 
 .cell:nth-child(2n) {
     background: #ddd;
