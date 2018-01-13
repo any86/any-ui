@@ -1,25 +1,20 @@
 <template>
-    <div class="component-slider">
-        <span class="title">
-            <slot></slot>
+    <div class="atom-range">
+        <span @click="slideToMin" class="min">{{min}}</span>
+        <span class="content" @click="slideTo">
+            <div ref="runway" class="runway"></div>
+            <div :style="{width: touch.translateXNew + 'px'}" :class="['progress', 2 > touch.status && 'transition']">
+            </div>
+            <div ref="handle" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}" :class="['handle', 2 > touch.status && 'transition']" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
+                <a v-show="0 < touch.status">{{value}}</a>
+            </div>
         </span>
-        <main class="control">
-            <span @click="slideToMin" class="min">{{min}}</span>
-            <span class="content" @click="slideTo">
-                <div ref="runway" class="runway"></div>
-                <div :style="{width: touch.translateXNew + 'px'}" :class="['progress', 2 > touch.status && 'transition']">
-                </div>
-                <div ref="handle" :style="{transform: `translate3d(${touch.translateXNew}px, 0, 0)`}" :class="['handle', 2 > touch.status && 'transition']" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
-                    <a v-show="0 < touch.status">{{value}}</a>
-                </div>
-            </span>
-            <span @click="slideToMax" class="max">{{max}}</span>
-        </main>
+        <span @click="slideToMax" class="max">{{max}}</span>
     </div>
 </template>
 <script>
 export default {
-    name: 'Slider',
+    name: 'Range',
 
     props: {
         disabled: {
@@ -68,30 +63,29 @@ export default {
         // 默认值
         this.touch.translateXNew = (this.value - this.min) / (this.max - this.min) * this.maxDistance;
         this.touch.translateXOld = this.touch.translateXNew;
-
     },
 
     methods: {
         /**
-         * 滑动到最小值
-         */
+             * 滑动到最小值
+             */
         slideToMin() {
             this.touch.status = 1;
             this.touch.translateXNew = 0;
             this.touch.translateXOld = this.touch.translateXNew;
         },
         /**
-         * 滑动到最大值
-         */
+             * 滑动到最大值
+             */
         slideToMax() {
             this.touch.status = 1;
             this.touch.translateXNew = this.maxDistance;
             this.touch.translateXOld = this.touch.translateXNew;
         },
         /**
-         * 活动到鼠标位置
-         * @param  {Object} e 
-         */
+             * 活动到鼠标位置
+             * @param  {Object} e 
+             */
         slideTo(e) {
             this.touch.status = 0;
             var translateXNew = e.offsetX;
@@ -105,16 +99,15 @@ export default {
             }
         },
         /**
-         * 点击handle
-         */
+             * 点击handle
+             */
         touchstart(e) {
             this.touch.status = 1;
             this.touch.start = e.touches[0].clientX;
-
         },
         /**
-         * 拖动
-         */
+             * 拖动
+             */
         touchmove(e) {
             this.touch.status = 2;
             this.touch.current = e.touches[0].clientX;
@@ -136,8 +129,8 @@ export default {
             e.stopPropagation();
         },
         /**
-         * 松手
-         */
+             * 松手
+             */
         touchend(e) {
             this.touch.status = 0;
 
@@ -163,79 +156,70 @@ export default {
             }
         }
     }
-}
+};
 </script>
 <style scoped lang=scss>
 @import '../../scss/variables.scss';
-$height: .5rem;
-.component-slider {
+$height: 0.5rem;
+.atom-range {
     position: relative;
     display: flex;
-    /*标题*/
-    >.title {
-        display: block;
+
+    /*控制*/
+
+    .min {
+        padding: 0 $gutter;
         font-size: $big;
         line-height: $height;
-        margin-right: 5%;
     }
-    /*控制*/
-    >.control {
-        display: flex;
+    .content {
         flex: 1;
-        .min {
-            padding: 0 $gutter;
-            font-size: $big;
-            line-height: $height;
+        position: relative;
+        height: $height;
+        box-sizing: border-box;
+        .runway {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background: $light;
+            height: 2px;
+            width: 100%;
         }
-        .content {
-            flex: 1;
-            position: relative;
+        .progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background: $base;
+            height: 2px;
+            width: 0;
+        }
+        .handle {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: block;
             height: $height;
-            box-sizing: border-box;
-            .runway {
-                position: absolute;
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%);
-                background: $light;
-                height: 2px;
-                width: 100%;
-            }
-            .progress {
-                position: absolute;
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%);
-                background: $base;
-                height: 2px;
-                width: 0;
-            }
-            .handle {
-                position: absolute;
-                z-index: 2;
-                top: 0;
-                left: 0;
-                cursor: move;
-                display: block;
-                height: $height;
-                line-height: $height;
-                width: $height;
-                text-align: center;
-                color: $sub;
-                border-radius: 100%;
-                background: $base;
-                box-shadow: $shadowDown, $shadowUp;
-            }
-        }
-        .max {
-            padding: 0 $gutter;
-            font-size: $big;
             line-height: $height;
+            width: $height;
+            text-align: center;
+            color: $sub;
+            border-radius: 100%;
+            background: $base;
+            box-shadow: $shadowDown, $shadowUp;
         }
+    }
+    .max {
+        padding: 0 $gutter;
+        font-size: $big;
+        line-height: $height;
     }
 }
 
 .transition {
-    transition: all .3s;
+    transition: all $duration;
 }
 </style>
