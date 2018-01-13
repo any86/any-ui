@@ -1,5 +1,5 @@
 <template>
-    <a v-ripple="{background: '#ccc'}" v-on="$listeners" v-bind="$attrs" class="atom-cell">
+    <a v-ripple="rippleConfig" v-on="$listeners" v-bind="$attrs" class="atom-cell">
         <span v-if="$slots.title" class="atom-cell__title">
             <slot name="title"></slot>
         </span>
@@ -41,6 +41,12 @@ export default {
 
         hasRipple: {
             default: true
+        }
+    },
+
+    computed: {
+        rippleConfig(){
+            return undefined === this.arrow ? {isDisabled: true} : {background: '#ccc', isDisabled: this.hasRipple};
         }
     }
 };
