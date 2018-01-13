@@ -1,7 +1,7 @@
 <template>
-    <v-drawer v-model="isShowDrawer" :handler-width="10" mode="overlay">
+    <v-drawer v-model="isShowDrawer" mode="overlay">
         <ul class="app-menu" slot="side">
-            <v-q-r-code></v-q-r-code>
+            <v-q-r-code/>
             <router-link tag="li" :to="{path: '/index'}">What's New
             </router-link>
             <router-link :to="{path: '/checkout'}" tag="li">Checkout
@@ -15,7 +15,9 @@
         <v-header-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-header-bar>
         <main class="app-main">
             <transition name="zoom" mode="out-in">
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
             </transition>
         </main>
     </v-drawer>

@@ -16,16 +16,10 @@ export default {
         };
     },
 
-
-
     methods: {
         clickItem(index){
-            alert(index)
+            this.$alert(index);
         }
-    },
-
-    computed: {
-       
     },
 
     components: {

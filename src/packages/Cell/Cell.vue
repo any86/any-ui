@@ -1,7 +1,8 @@
 <template>
     <a v-ripple="rippleConfig" v-on="$listeners" v-bind="$attrs" class="atom-cell">
-        <span v-if="$slots.title" class="atom-cell__title">
-            <slot name="title"></slot>
+        <span v-if="$slots.title || undefined !== title" class="atom-cell__title">
+            <template v-if="undefined !== title">{{title}}</template>    
+            <slot v-else name="title"></slot>
         </span>
 
         <span :style="[bodyStyle, {textAlign}]" class="atom-cell__body">
@@ -13,8 +14,9 @@
             </p>
         </span>
 
-        <span v-if="undefined !== $slots.extra" class="atom-cell__extra">
-            <slot name="extra"></slot>
+        <span v-if="undefined !== $slots.extra || undefined !== extra" class="atom-cell__extra">
+            <template v-if="undefined !== extra">{{extra}}</template>    
+            <slot v-else name="extra"></slot>
         </span>
 
         <i v-if="undefined !== arrow" class="atom-cell__arrow" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
@@ -25,6 +27,14 @@ export default {
     name: 'Cell',
 
     props: {
+        title: {
+            type: String
+        },
+
+        extra: {
+            type: String
+        },
+
         bodyStyle: {
             type: String,
             default: () => {}
@@ -45,8 +55,8 @@ export default {
     },
 
     computed: {
-        rippleConfig(){
-            return undefined === this.arrow ? {isDisabled: true} : {background: '#ccc', isDisabled: this.hasRipple};
+        rippleConfig() {
+            return undefined === this.arrow ? { isDisabled: true } : { background: '#ccc', isDisabled: !this.hasRipple };
         }
     }
 };

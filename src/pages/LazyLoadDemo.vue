@@ -1,72 +1,51 @@
 <template>
-    <v-infinite-scroll v-model="scrollTop">
-        <h1 @click="index=1">{{index}}</h1>
-        <v-segment v-model="index" ref="trigger">
-            <v-segment-item>你想去哪</v-segment-item>
-            <v-segment-item>好友去哪</v-segment-item>
+    <v-scroll-view  class="demo-page" >
+        <v-segment v-model="index" @input="changeSegment" class="gutter-top">
+            <v-segment-item>竖着排</v-segment-item>
+            <v-segment-item>横着排</v-segment-item>
         </v-segment>
 
-            <div v-show="0 == index" class="warp">
-                <div class="box" v-for="item in dataSource.list" :key="item">
-                    <v-lazy-load :src="item" class="image" @loaded="loaded"></v-lazy-load>
-                </div>
+        <div v-show="0 == index" class="list">
+            <div class="list__item" v-for="item in images" :key="item">
+                <v-lazy-load :src="item" class="image" :refresh="refreshTime"/>
             </div>
+        </div>
 
-            <div v-show="1 == index" class="warp">
-                
-                <div class="box" v-for="item in dataSource.list2" :key="item">
-                    <v-lazy-load :src="item" class="image" :refreshTime="refreshTime" @loaded="loaded"></v-lazy-load>
-                </div>
+        <div v-show="1 == index" class="list-h">
+            <div class="list-h__item" v-for="item in images" :key="item">
+                <v-lazy-load :src="item" class="image" :refresh="refreshTime"/>
             </div>
-
-
-        <!-- <v-cell v-for="item in dataSource.list" :key="item">
-                <v-lazy-load :src="item" :watch="scrollTop" class="image"></v-lazy-load>
-            </v-cell> -->
-
-    </v-infinite-scroll>
+        </div>
+    </v-scroll-view>
 </template>
 <script>
-import Mock from 'mockjs';
 import VLazyLoad from '@/packages/LazyLoad/LazyLoad';
-import VInfiniteScroll from '@/packages/InfiniteScroll/InfiniteScroll';
+import VScrollView from '@/packages/ScrollView/ScrollView';
 import VCell from '@/packages/Cell/Cell';
 import VSegment from '@/packages/Segment/Segment';
 import VSegmentItem from '@/packages/Segment/SegmentItem';
 
+const images = ['https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR05_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR06_3.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR09_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/R/2/R215_2.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR17_3.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR20.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL374.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL401.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL219.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL433.png'];
 export default {
-    name: 'TabsDemo',
+    name: 'LazyLoadDemo',
 
     data() {
         return {
-            scrollTop: 0,
-            dataSource: Mock.mock({
-                'list|4': ["@image('300x300')"],
-                'list2|6': ["@image('400x400')"]
-            }),
+            images,
             isShow: true,
             index: 0,
             refreshTime: new Date().getTime()
         };
     },
-    mounted() {
-        // dir(getComputedStyle(this.$refs.warp).getPropertyValue('overflow'));
-    },
 
     methods: {
-        loaded(e){
-            log(e)
-        }
-    },
-
-    watch: {
-        index(){
-            this.refreshTime =  new Date().getTime()
-        }
+        changeSegment() {
+            this.refreshTime = new Date().getTime();
+        }   
     },
 
     components: {
-        VInfiniteScroll,
+        VScrollView,
         VCell,
         VLazyLoad,
         VSegment,
@@ -76,6 +55,10 @@ export default {
 </script>
 <style scop lang="scss">
 @import '../scss/variables.scss';
+.demo-page {
+    height: calc(100% - 55px);
+}
+
 .seg {
     width: 230px;
     height: 50px;
@@ -103,17 +86,23 @@ export default {
     }
 }
 
-.image {
-    margin: $gutter auto;
-    min-height: 300px;
+.list{
+    width: 100%;
+    &__item{padding:15px;
+        img{width:60%;display: block;margin:auto;}
+    }
 }
 
-.warp {
+.list-h {
     width: 100%;
     overflow: scroll;
     display: flex;
-    .box {
-        flex: 0 0 68%;
+    &__item {
+        flex: 0 0 60%;
+        img {
+            margin: $gutter auto;
+            min-height: 300px;
+        }
     }
 }
 </style>

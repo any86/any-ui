@@ -5,9 +5,9 @@ Vue.use(Router);
 // 定义路由
 import Index from '@/pages/Index';
 const SwitchDemo = () => ({
-  component: import ('@/pages/SwitchDemo')
+    component: import ('@/pages/SwitchDemo')
 });
-
+// 表单元素
 import InputDemo from '@/pages/InputDemo';
 import CollapseDemo from '@/pages/CollapseDemo';
 import TextareaDemo from '@/pages/TextareaDemo';
@@ -17,6 +17,9 @@ import PickerDemo from '@/pages/PickerDemo';
 import CountDemo from '@/pages/CountDemo';
 import ButtonDemo from '@/pages/ButtonDemo';
 import ButtonGroupDemo from '@/pages/ButtonGroupDemo';
+import RangeDemo from '@/pages/RangeDemo';
+import RateDemo from '@/pages/RateDemo';
+
 
 // 对话框
 import AlertDemo from '@/pages/AlertDemo';
@@ -26,16 +29,16 @@ import PopupDemo from '@/pages/PopupDemo';
 import DialogDemo from '@/pages/DialogDemo';
 import MaskDemo from '@/pages/MaskDemo';
 
-// 容器
+// 滚动
 import ScrollViewDemo from '@/pages/ScrollViewDemo';
 import VirtualScrollerDemo from '@/pages/VirtualScrollerDemo';
+import AffixDemo from '@/pages/AffixDemo';
+import LazyLoadDemo from '@/pages/LazyLoadDemo';
+
 
 // 布局
 import CellDemo from '@/pages/CellDemo';
 import GroupDemo from '@/pages/GroupDemo';
-
-// 定位
-import AffixDemo from '@/pages/AffixDemo';
 
 
 // 切换
@@ -43,6 +46,7 @@ import TabsDemo from '@/pages/TabsDemo';
 import CarouselDemo from '@/pages/CarouselDemo';
 import FingerDemo from '@/pages/FingerDemo';
 import SegmentDemo from '@/pages/SegmentDemo';
+import DrawerDemo from '@/pages/DrawerDemo';
 
 // 辅助
 import BadgeDemo from '@/pages/BadgeDemo';
@@ -59,170 +63,189 @@ import ToastDemo from '@/pages/ToastDemo'
 import PopperDemo from '@/pages/PopperDemo'
 import QRCodeDemo from '@/pages/QRCodeDemo'
 
+// 组合
+import PopupPickerDemo from '@/pages/PopupPickerDemo'
 
 export default new Router({
-  // mode: "history",
-  routes: [{
-      path: '/',
-      redirect: '/index'
-    },
-    {
-      name: 'index',
-      path: '/index',
-      component: Index
-    },
-    {
-      name: 'switch',
-      path: '/demos/switch',
-      component: SwitchDemo
-    }, {
-      name: 'collapse',
-      path: '/demos/collapse',
-      component: CollapseDemo
-    }, {
-      name: 'input',
-      path: '/demos/input',
-      component: InputDemo
-    }, {
-      name: 'textarea',
-      path: '/demos/textarea',
-      component: TextareaDemo
-    }, {
-      name: 'radio',
-      path: '/demos/radio',
-      component: RadioDemo
-    }, {
-      name: 'checkbox',
-      path: '/demos/checkbox',
-      component: CheckboxDemo
-    },
-    {
-      name: 'picker',
-      path: '/demos/picker',
-      component: PickerDemo
-    },
-    {
-      name: 'count',
-      path: '/demos/count',
-      component: CountDemo
-    },
-    {
-      name: 'button',
-      path: '/demos/button',
-      component: ButtonDemo
-    }, {
-      name: 'buttonGroup',
-      path: '/demos/button-group',
-      component: ButtonGroupDemo
-    }, {
-      name: 'alert',
-      path: '/demos/alert',
-      component: AlertDemo
-    },
-    {
-      name: 'confirm',
-      path: '/demos/confirm',
-      component: ConfirmDemo
-    },
-    {
-      name: 'prompt',
-      path: '/demos/prompt',
-      component: PromptDemo
-    }, {
-      name: 'popup',
-      path: '/demos/popup',
-      component: PopupDemo
-    }, {
-      name: 'dialog',
-      path: '/demos/dialog',
-      component: DialogDemo
-    }, {
-      name: 'mask',
-      path: '/demos/mask',
-      component: MaskDemo
-    }, {
-      name: 'scrollView',
-      path: '/demos/scroll-view',
-      component: ScrollViewDemo
-    }, {
-      name: 'virtual-scroller',
-      path: '/demos/virtual-scroller',
-      component: VirtualScrollerDemo
-    }, {
-      name: 'tabs',
-      path: '/demos/tabs',
-      component: TabsDemo
-    }, {
-      name: 'cell',
-      path: '/demos/cell',
-      component: CellDemo
-    }, {
-      name: 'group',
-      path: '/demos/group',
-      component: GroupDemo
-    }, {
-      name: 'affix',
-      path: '/demos/affix',
-      component: AffixDemo
-    }, {
-      name: 'carousel',
-      path: '/demos/carousel',
-      component: CarouselDemo
-    }, {
-      name: 'finger',
-      path: '/demos/finger',
-      component: FingerDemo
-    },
-    {
-      name: 'segment',
-      path: '/demos/segment',
-      component: SegmentDemo
-    },
-    {
-      name: 'badge',
-      path: '/demos/badge',
-      component: BadgeDemo
-    }, {
-      name: 'steps',
-      path: '/demos/steps',
-      component: StepsDemo
-    }, {
-      name: 'tag',
-      path: '/demos/tag',
-      component: TagDemo
-    }, {
-      name: 'bread-crumb',
-      path: '/demos/bread-crumb',
-      component: BreadCrumbDemo
-    },
+    // mode: "history",
+    routes: [{
+            path: '/',
+            redirect: '/index'
+        },
+        {
+            name: 'index',
+            path: '/index',
+            component: Index
+        },
+        {
+            name: 'switch',
+            path: '/switch',
+            component: SwitchDemo
+        }, {
+            name: 'collapse',
+            path: '/collapse',
+            component: CollapseDemo
+        }, {
+            name: 'input',
+            path: '/input',
+            component: InputDemo
+        }, {
+            name: 'textarea',
+            path: '/textarea',
+            component: TextareaDemo
+        }, {
+            name: 'radio',
+            path: '/radio',
+            component: RadioDemo
+        }, {
+            name: 'checkbox',
+            path: '/checkbox',
+            component: CheckboxDemo
+        },
+        {
+            name: 'picker',
+            path: '/picker',
+            component: PickerDemo
+        },
+        {
+            name: 'count',
+            path: '/count',
+            component: CountDemo
+        },
+        {
+            name: 'button',
+            path: '/button',
+            component: ButtonDemo
+        }, {
+            name: 'buttonGroup',
+            path: '/button-group',
+            component: ButtonGroupDemo
+        }, {
+            name: 'alert',
+            path: '/alert',
+            component: AlertDemo
+        },
+        {
+            name: 'confirm',
+            path: '/confirm',
+            component: ConfirmDemo
+        },
+        {
+            name: 'prompt',
+            path: '/prompt',
+            component: PromptDemo
+        }, {
+            name: 'popup',
+            path: '/popup',
+            component: PopupDemo
+        }, {
+            name: 'dialog',
+            path: '/dialog',
+            component: DialogDemo
+        }, {
+            name: 'mask',
+            path: '/mask',
+            component: MaskDemo
+        }, {
+            name: 'scrollView',
+            path: '/scroll-view',
+            component: ScrollViewDemo
+        }, {
+            name: 'virtual-scroller',
+            path: '/virtual-scroller',
+            component: VirtualScrollerDemo
+        }, {
+            name: 'tabs',
+            path: '/tabs',
+            component: TabsDemo
+        }, {
+            name: 'cell',
+            path: '/cell',
+            component: CellDemo
+        }, {
+            name: 'group',
+            path: '/group',
+            component: GroupDemo
+        }, {
+            name: 'affix',
+            path: '/affix',
+            component: AffixDemo
+        }, {
+            name: 'carousel',
+            path: '/carousel',
+            component: CarouselDemo
+        }, {
+            name: 'finger',
+            path: '/finger',
+            component: FingerDemo
+        },
+        {
+            name: 'segment',
+            path: '/segment',
+            component: SegmentDemo
+        },
+        {
+            name: 'badge',
+            path: '/badge',
+            component: BadgeDemo
+        }, {
+            name: 'steps',
+            path: '/steps',
+            component: StepsDemo
+        }, {
+            name: 'tag',
+            path: '/tag',
+            component: TagDemo
+        }, {
+            name: 'bread-crumb',
+            path: '/bread-crumb',
+            component: BreadCrumbDemo
+        },
 
-    {
-      name: 'spinner',
-      path: '/demos/spinner',
-      component: SpinnerDemo
-    },
-    {
-      name: 'progress',
-      path: '/demos/progress',
-      component: ProgressDemo
-    },
-    {
-      name: 'toast',
-      path: '/demos/toast',
-      component: ToastDemo
-    },
-
-    {
-      name: 'popper',
-      path: '/demos/popper',
-      component: PopperDemo
-    },
-
-    {
-      name: 'qrcode',
-      path: '/demos/qrcode',
-      component: QRCodeDemo
-    },
-
-  ]
+        {
+            name: 'spinner',
+            path: '/spinner',
+            component: SpinnerDemo
+        },
+        {
+            name: 'progress',
+            path: '/progress',
+            component: ProgressDemo
+        },
+        {
+            name: 'toast',
+            path: '/toast',
+            component: ToastDemo
+        },
+        {
+            name: 'popper',
+            path: '/popper',
+            component: PopperDemo
+        },
+        {
+            name: 'qrcode',
+            path: '/qrcode',
+            component: QRCodeDemo
+        }, {
+            name: 'drawer',
+            path: '/drawer',
+            component: DrawerDemo
+        }, {
+            name: 'range',
+            path: '/range',
+            component: RangeDemo
+        },{
+            name: 'rate',
+            path: '/rate',
+            component: RateDemo
+        },{
+            name: 'popupPicker',
+            path: '/popup-picker',
+            component: PopupPickerDemo
+        },{
+            name: 'lazyload',
+            path: '/lazyload',
+            component: LazyLoadDemo
+        },
+    ]
 });

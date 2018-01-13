@@ -23,7 +23,7 @@ export default {
 @import '../../scss/variables.scss';
 .atom-tag {
     display: inline-table;
-    padding: 0 $gutter / 4;
+    padding: $gutter/8 $gutter/2;
     font-size: $small;
     border-radius: $borderRadius;
 }

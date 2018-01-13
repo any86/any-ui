@@ -47,18 +47,19 @@ export default {
 
     methods: {
         change({ columnIndex, rowIndex, value, label }) {
-            log({ columnIndex, rowIndex, value, label })
             this.tempValue[columnIndex] = value;
             this.active = { columnIndex, rowIndex, value, label };
             this.$emit('change', this.active);
         },
 
         ok() {
+            this.$emit('ok');
             this.$emit('input', this.tempValue);
             this.$emit('update:isShow', false);
         },
 
         cancel() {
+            this.$emit('cancel');
             this.$emit('update:isShow', false);
         }
     },

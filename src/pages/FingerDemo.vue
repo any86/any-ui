@@ -13,7 +13,7 @@
         <p class="text-darkest gutter-top-sm font-big">rotate(双指旋转)</p>
 
         
-        <v-button  type="primary" :is-ghost="true" :is-block="true" @click="reset" class="gutter-top">复位</v-button>
+        <v-button  type="primary" :is-ghost=" true" :is-block="true" @click="reset" class="gutter-top">复位</v-button>
     </v-scroll-view>
 </template>
 <script>
