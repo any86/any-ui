@@ -1,11 +1,11 @@
 # atom-mobile开发中...
 
-> 基于vue2的移动端组件库
+> 玩积木一样玩组件
 
 ### 演示
 [预览地址](https://383514580.github.io/atom)
 
-### 扫一下在手机上看
+### 在手机上看
 ![image](https://user-images.githubusercontent.com/8264787/34904356-3395a8d2-f87f-11e7-85f4-7ae1a94fc587.png)
 
 
