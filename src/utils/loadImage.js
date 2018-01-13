@@ -1,8 +1,8 @@
-export default function (src, { onInit = () => { }, onSuccess = () => { }, onError = () => { }, onAbort = () => { } }) {
+export default function (src, {isCrossOrigin = false, onInit = () => { }, onSuccess = () => { }, onError = () => { }, onAbort = () => { } }) {
     const startTime = Date.now();
     let img = new Image();
     img.src = src;
-    image.crossOrigin = 'anonymous';
+    if(isCrossOrigin) img.crossOrigin = 'anonymous';
     onInit(img);
     img.onload = event => {
         const costTime = Date.now() - startTime;

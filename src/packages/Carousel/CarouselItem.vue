@@ -1,13 +1,9 @@
 <template>
     <div v-on="$listeners" :style="{width: `${width}px`}" class="atom-carousel-item">
-        <div v-if="$parent.isZoom" class="item__zoom-warp" @touchstart="touchStart" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`}">
+        <div class="item__zoom-warp" @touchstart="touchStart" @touchend="touchEnd" :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`}">
             <slot></slot>
             <v-spinner-ripple v-if="ready" class="item__loading" />
         </div>
-        <template v-else>
-            <slot></slot>
-            <v-spinner-ripple v-if="ready" class="item__loading" />
-        </template>
     </div>
 </template>
 <script>
@@ -32,6 +28,42 @@ export default {
     },
 
     mounted() {
+        // this.$parent.isDisabled = true;
+        let finger = new Finger(this.$el);
+
+        finger.on('pinch', scale => {
+            this.scale *= scale;
+            if (1 > this.scale) {
+                this.scale = 1;
+            }
+        });
+
+        finger.on('pressMove', ({ deltaX, deltaY }) => {
+            if (1 == this.scale) return;
+            let x = this.x + deltaX;
+            let y = this.y + deltaY;
+
+            if (this.minZoomTranslateX < x && this.maxZoomTranslateX > x) {
+                this.x = x;
+            } else if (this.minZoomTranslateX > x) {
+                this.resetZoom();
+                this.$parent.next(() => {
+                    // this.resetZoom();
+                });
+            } else if (this.maxZoomTranslateX < x) {
+                this.resetZoom();
+                this.$parent.prev(() => {
+                    // this.resetZoom();
+                });
+            }
+
+            if (this.minZoomTranslateY < y && this.maxZoomTranslateY > y) {
+                this.y = y;
+            } else {
+                // this.$parent.isDisabled = false;
+            }
+        });
+
         this.index = this.$parent.count;
         this.$parent.count++;
 
@@ -43,62 +75,15 @@ export default {
                 this.hasImage = false;
             }
         });
-
-        if (this.$parent.isZoom) {
-            this.supportZoom();
-        }
     },
 
     methods: {
-        supportZoom() {
-            let finger = new Finger(this.$el);
-
-            finger.on('pinch', scale => {
-                const willScale = this.scale * scale;
-                if (2 < willScale) {
-                    this.scale = 2;
-                } else if (1 > willScale) {
-                    this.scale = 1;
-                } else {
-                    this.scale = willScale;
-                }
-            });
-
-            finger.on('swipe', ({ deltaX, deltaY, direction, velocity, velocityX, velocityY }) => {
-                this.transitionDuration = 500;
-                this.x += velocityX * 200 * Math.sign(deltaX);
-                this.y += velocityY * 200 * Math.sign(deltaY);
-            });
-
-            finger.on('pan', ({ deltaX, deltaY }) => {
-                if (1 == this.scale) return;
-                let x = this.x + deltaX;
-                let y = this.y + deltaY;
-
-                // 限制在x轴范围内移动
-                if (this.minZoomTranslateX < x && this.maxZoomTranslateX > x) {
-                    this.x = x;
-                } else if (this.minZoomTranslateX > x) {
-                    this.resetZoom();
-                    this.$parent.next(() => {});
-                } else if (this.maxZoomTranslateX < x) {
-                    this.resetZoom();
-                    this.$parent.prev(() => {});
-                }
-
-                // 限制在y轴范围内移动
-                if (this.minZoomTranslateY < y && this.maxZoomTranslateY > y) {
-                    this.y = y;
-                }
-            });
-        },
-
-        touchStart() {
+        touchStart(){
             this.transitionDuration = 0;
         },
 
-        transitionEnd() {
-            this.transitionDuration = 0;
+        touchEnd() {
+            // this.$parent.isDisabled = true;
         },
 
         resetZoom() {
@@ -130,10 +115,6 @@ export default {
     watch: {
         scale(scale) {
             this.$parent.isDisabled = 1 < scale;
-        },
-
-        ['$parent.activeIndex']() {
-            this.resetZoom();
         }
     },
 
@@ -158,7 +139,7 @@ export default {
         left: 0;
     }
 
-    .item__loading {
+    > .item__loading {
         position: absolute;
         top: 0;
         left: 0;
