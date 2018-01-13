@@ -4,6 +4,7 @@ Vue.use(Router);
 
 // 定义路由
 import Index from '@/pages/Index';
+
 const SwitchDemo = () => ({
     component: import ('@/pages/SwitchDemo')
 });
@@ -246,6 +247,6 @@ export default new Router({
             name: 'lazyload',
             path: '/lazyload',
             component: LazyLoadDemo
-        },
+        }
     ]
 });

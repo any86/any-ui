@@ -2,7 +2,7 @@
     <v-dialog :isShow.sync="isShow" :hasClose="false">
         <template slot="header">{{title}}</template>
         <div class="input">
-            <v-input ref="input" v-model="value" :placeholder="content"></v-input>
+            <v-input ref="input" v-model="value" :placeholder="content"/>
         </div>
         <div slot="footer" class="footer">
             <a class="button" @click="cancel">取消</a>
@@ -28,13 +28,7 @@ export default {
         };
     },
 
-    mounted() {
-        this.$nextTick(() => {
-            console.dir(this.$refs.input.$el.querySelector('input'));
-        });
-    },
-
-    methods: {
+methods: {
         ok() {
             this.isShow = false;
             this.$nextTick(() => {
@@ -72,7 +66,9 @@ export default {
 @import '../../scss/variables.scss';
 .input {
     border: 1px solid $lightest;
-    padding: $gutter/1.2 0;
+    padding-top: $gutter/1.2;
+    padding-bottom: $gutter/1.2;
+    padding-left: $gutter/2;
 }
 
 .footer {
@@ -85,11 +81,14 @@ export default {
         line-height: $prompt_button_height;
         text-align: center;
     }
+
     .button:first-child {
         border-right: 1px solid $lightest;
+        color: $darker;
     }
+    
     .button:last-child {
-        color: $base;
+        color: $primary;
     }
 }
 </style>
