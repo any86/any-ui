@@ -22,8 +22,8 @@
     </v-mask>
 </template>
 <script>
-import VMask from '@/packages/Mask/Mask';
-import VIconClose from '@/packages/Icon/Close';
+import VMask from '../../packages/Mask/Mask';
+import VIconClose from '../../packages/Icon/Close';
 export default {
     name: 'Dialog',
 

@@ -1,5 +1,5 @@
 <script>
-import VMask from '@/packages/Mask/Mask';
+import VMask from '../../packages/Mask/Mask';
 export default {
     name: 'Toast',
 

@@ -4,7 +4,7 @@
     </button>
 </template>
 <script>
-import Ripple from '@/utils/ripple/src/ripple.js';
+import Ripple from '../../utils/ripple/src/ripple.js';
 export default {
     name: 'Button',
 

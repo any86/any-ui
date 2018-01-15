@@ -23,7 +23,7 @@
     </div>
 </template>
 <script>
-import VScroller from '@/packages/VirtualScroller/VirtualScroller';
+import VScroller from '../../packages/VirtualScroller/VirtualScroller';
 export default {
     name: 'Picker',
 

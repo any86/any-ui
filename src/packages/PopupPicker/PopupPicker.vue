@@ -11,8 +11,8 @@
     </v-popup>
 </template>
 <script>
-import VPicker from '@/packages/Picker/Picker';
-import VPopup from '@/packages/Popup/Popup';
+import VPicker from '../../packages/Picker/Picker';
+import VPopup from '../../packages/Popup/Popup';
 export default {
     name: 'PopupPicker',
 

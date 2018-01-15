@@ -15,7 +15,7 @@
  * 4. sticky元素仅在其父元素内生效
  * 主要是因为第4条
  */
-import { getHeight, getScrollTop, getIsInView, getScrollParent } from '@/utils/dom';
+import { getHeight, getScrollTop, getIsInView, getScrollParent } from '../../utils/dom';
 export default {
     name: 'Affix',
 

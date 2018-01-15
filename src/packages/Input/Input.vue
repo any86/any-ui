@@ -7,7 +7,7 @@
     </div>
 </template>
 <script>
-import VClose from '@/packages/Icon/Close';
+import VClose from '../../packages/Icon/Close';
 export default {
     name: 'Input',
 

@@ -5,8 +5,7 @@ import ALoading from './Loading/Loading';
 // 其他组件
 import * as components from './components.js'
 // 水波纹特效
-import ripple from '@/directives/ripple/index.js';
-
+import ripple from '../directives/ripple/index.js';
 var Atom = {};
 // var ZIndexManger = 0; // 稍后做zindex管理
 Atom.install = function(Vue) {

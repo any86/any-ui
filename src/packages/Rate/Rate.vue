@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import VStar from '@/packages/Svg/Star';
+import VStar from '../../packages/Svg/Star';
 export default {
     name: 'Rate',
 

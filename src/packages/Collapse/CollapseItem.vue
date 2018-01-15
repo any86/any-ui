@@ -12,7 +12,7 @@
     </div>
 </template>
 <script>
-import { getHeight } from '@/utils/dom';
+import { getHeight } from '../../utils/dom';
 export default {
     name: 'CollapseItem',
 

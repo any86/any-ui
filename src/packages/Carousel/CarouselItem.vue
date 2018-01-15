@@ -8,7 +8,7 @@
 </template>
 <script>
 import Finger from '../../utils/finger.js';
-import VSpinnerRipple from '@/packages/Spinner/Ripple';
+import VSpinnerRipple from '../../packages/Spinner/Ripple';
 export default {
     name: 'CarouselItem',
 

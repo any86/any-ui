@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { getWidth, getHeight, getTime } from '@/utils/dom';
-import loadImage from '@/utils/loadImage';
+import { getWidth, getHeight, getTime } from '../../utils/dom';
+import loadImage from '../../utils/loadImage';
 /**
  * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址, 
  *    如果一页有多个src-lazy会当第一个src-lazy加载完毕, 

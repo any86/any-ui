@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import { getHeight, getScrollTop } from '@/utils/dom';
+import { getHeight, getScrollTop } from '../../utils/dom';
 import debounce from 'lodash/debounce';
 export default {
     name: 'ScrollView',
