@@ -5,7 +5,7 @@
 </template>
 <script>
 import VGroup from '@/packages/Group/Group';
-import VBreadCrumb from '@/packages/BreadCrumb/BreadCrumb';
+import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb';
 import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'BreadCrumbDemo',
@@ -23,7 +23,7 @@ export default {
     },
 
     components: {
-        VGroup,VBreadCrumb,
+        VGroup,VBreadcrumb,
         VScrollView
     }
 };
