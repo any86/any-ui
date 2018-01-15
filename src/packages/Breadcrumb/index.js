@@ -1,5 +1,2 @@
-import VBreadcrumb from './Breadcrumb.vue'
-
-export {
-  VBreadcrumb
-}
+import ABreadcrumb from './Breadcrumb.vue'
+export default ABreadcrumb

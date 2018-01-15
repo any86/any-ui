@@ -1,3 +1,3 @@
-import Tabs from './Tabs';
-import TabsItem from './TabsItem';
-export {Tabs, TabsItem};
+import ATabs from './Tabs';
+import ATabsItem from './TabsItem';
+export {ATabs, ATabsItem};

@@ -1,6 +1,6 @@
-import VCircle from './Circle.vue'
-import VLine from './Line.vue'
+import ACircle from './Circle.vue'
+import ALine from './Line.vue'
 export {
-    VLine,
-    VCircle
+    ALine,
+    ACircle
 }

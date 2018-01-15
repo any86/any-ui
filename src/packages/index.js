@@ -1,12 +1,63 @@
-import Toast from '@/packages/Toast/Toast';
-import VLoading from '@/packages/Loading/Loading';
-import VAlert from '@/packages/Dialog/Alert';
-import VConfirm from '@/packages/Dialog/Confirm';
-import VPrompt from '@/packages/Dialog/Prompt';
+import VAlert from './Dialog/Alert';
+import VConfirm from './Dialog/Confirm';
+import VPrompt from './Dialog/Prompt';
+import VLoading from './Loading/Loading';
+import * as components from './components.js'
+const {
+    VAffix,
+    VBadge,
+    VBreadcrumb,
+    VButton,
+    VButtonGroup,
+    VCarousel,
+    VCarouselItem,
+    VCell,
+    VCheckbox,
+    VCollapse,
+    VCount,
+    VDialog,
+    VDivider,
+    VDrawer,
+    VGroup,
+    VHeaderBar,
+    VInput,
+    VLazyLoad,
+    VMask,
+    VPicker,
+    VPopper,
+    VPopup,
+    VPopupPicker,
+    VLine,
+    VCircle,
+    VQRCode,
+    VRadio,
+    VRange,
+    VRate,
+    VScrollView,
+    VSegment,
+    VSteps,
+    VSwitch,
+    VTabs,
+    VTag,
+    VTextarea,
+    VToast,
+    VVirtualScroller,
+    VWarning,
+    VAndroid,
+    VThreeDots,
+    VRipple
+} = components;
 
 var Atom = {};
 var ZIndexManger = 0; // 稍后做zindex管理
-Atom.install = function (Vue) {
+Atom.install = function(Vue) {
+
+    // for(let k in components) {
+    //     let component = components[k];
+    //     // console.log(component.toLocaleLowerCase());
+    //     // Vue.component(component.name.toLocaleLowerCase(), component);
+    // }
+
     // Vue.component(ScrollView.name, ScrollView);
     const createVueChild = component => {
         // 创建一个挂载点
@@ -27,7 +78,9 @@ Atom.install = function (Vue) {
     // =================================================
     {
         let vm = null;
-        Vue.prototype.$alert = (content = '', options = { onOk: () => { } }) => {
+        Vue.prototype.$alert = (content = '', options = {
+            onOk: () => {}
+        }) => {
             if (null === vm) {
                 vm = createVueChild(VAlert);
             }
@@ -43,8 +96,10 @@ Atom.install = function (Vue) {
     {
         let vm = null;
         Vue.prototype.$confirm = (
-            content = '',
-            { ok = () => { }, cancel = () => { } } = {}
+            content = '', {
+                ok = () => {},
+                cancel = () => {}
+            } = {}
         ) => {
             if (null === vm) {
                 vm = createVueChild(VConfirm);
@@ -61,8 +116,10 @@ Atom.install = function (Vue) {
     {
         let vm = null;
         Vue.prototype.$prompt = (
-            content = '',
-            { onOk = () => { }, onCancel = () => { } } = {}
+            content = '', {
+                onOk = () => {},
+                onCancel = () => {}
+            } = {}
         ) => {
             if (null === vm) {
                 vm = createVueChild(VPrompt);
@@ -79,11 +136,13 @@ Atom.install = function (Vue) {
         let toastVM = null;
         let timeout = null;
         Vue.prototype.$toast = (
-            text = '',
-            { position = 'center', delay = 0 } = {}
+            text = '', {
+                position = 'center',
+                delay = 0
+            } = {}
         ) => {
             if (null === toastVM) {
-                toastVM = createVueChild(Toast);
+                toastVM = createVueChild(VToast);
             }
             toastVM.position = position;
             toastVM.isShow = true;
@@ -117,7 +176,7 @@ Atom.install = function (Vue) {
             }
         };
 
-        Vue.prototype.$loading.close = ()=>{
+        Vue.prototype.$loading.close = () => {
             loadingVM.isShow = false;
         };
     }

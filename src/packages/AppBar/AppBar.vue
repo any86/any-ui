@@ -1,5 +1,5 @@
 <template>
-    <header class="atom-header-bar">
+    <header class="atom-app-bar">
         <span class="bar__left">
             <i v-if="hasArrow" @click="clickArrow" v-ripple="true" class="icon-back"></i>
             <slot name="left"></slot>
@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-    name: 'HeaderBar',
+    name: 'AppBar',
 
     props: {
         hasArrow: {
@@ -32,7 +32,7 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
-.atom-header-bar {
+.atom-app-bar {
     position: relative;
     z-index: 2;
     display: flex;

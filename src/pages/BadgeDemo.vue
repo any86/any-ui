@@ -12,7 +12,7 @@
             <v-badge>邮件</v-badge>
         </v-cell>  
 
-        <v-cell @click="$router.push({path: '/demos/tabs'})">
+        <v-cell @click="$router.push({path: '/tabs'})">
             与Tabs结合, 点击查看
         </v-cell>  
 

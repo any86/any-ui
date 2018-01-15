@@ -1,3 +1,3 @@
-import VCarousel from './Carousel'
-import VCarouselItem from './CarouselItem'
-export {VCarousel, VCarouselItem}
+import ACarousel from './Carousel'
+import ACarouselItem from './CarouselItem'
+export {ACarousel, ACarouselItem}

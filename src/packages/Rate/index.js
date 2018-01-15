@@ -1,2 +1,2 @@
-import Rate from './Rate';
-export default Rate;
+import ARate from './ARate';
+export default ARate;

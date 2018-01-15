@@ -1,8 +1,8 @@
-import VAndroid from './Android'
-import VRipple from './Ripple'
-import VThreeDots from './ThreeDots'
+import AAndroid from './Android'
+import ARipple from './Ripple'
+import AThreeDots from './ThreeDots'
 export {
-    VAndroid,
-    VRipple,
-    VThreeDots
+    AAndroid,
+    ARipple,
+    AThreeDots
 }
