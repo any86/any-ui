@@ -31,13 +31,6 @@ Vue.use(Atom);
 // 移动组件指令
 import DomPortal from 'vue-dom-portal';
 Vue.use(DomPortal);
-// import '@/directives/ripple/ripple.scss';
-import ripple from '@/directives/ripple/index.js';
-Vue.use(ripple)
-
-// require('vue-touch-ripple/component.css')
-// import VueTouchRipple from 'vue-touch-ripple'
-// Vue.use(VueTouchRipple)
 
 // 关闭错误提示
 Vue.config.silent = false;
@@ -64,44 +57,3 @@ router.beforeEach(function(to, from, next) {
 router.afterEach(function(to) {
     document.title = to.name;
 });
-
-// 测试
-
-// function extend1(parent, sub) {
-//   sub.prototype = new parent();
-// }
-
-// function P() {
-//     this.a = [1, 2, 3];
-// }
-
-// function S() {
-
-//   this.setA = function() {
-//     this.a.push(54);
-//   };
-// }
-
-// function inheritObject(o) {
-//   function F() {}
-//   F.prototype = o;
-//   return new F();
-// }
-
-// function extend(parent, sub) {
-//   var p = inheritObject(parent.prototype);
-//   p.constructor = sub;
-//   sub.prototype = p;
-// }
-
-// extend(P, S);
-
-// var s = new S();
-// var s1 = new S();
-// // var p = new P();
-// // // s.setA();
-// s.a.push(100);
-// log(s.a);
-
-// log(s1.a);
-// // log(p.a)

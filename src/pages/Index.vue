@@ -1,8 +1,8 @@
 <template>
-    <v-scroll-view ref="main" @touchstart.native="touchstart">
-        <v-collapse :is-accordion="true">
-            <v-collapse-item class="group">
-                <h4 slot="header"><v-badge value="2">表单</v-badge></h4>
+    <a-scroll-view ref="main" @touchstart.native="touchstart">
+        <a-collapse :is-accordion="true">
+            <a-collapse-item class="group">
+                <h4 slot="header"><a-badge value="2">表单</a-badge></h4>
                 <div class="group__item" @click="$router.push({'path': '/switch'})">Switch</div>
                 <div class="group__item" @click="$router.push({'path': '/radio'})">Radio</div>
                 <div class="group__item" @click="$router.push({'path': '/checkbox'})">Checkbox</div>
@@ -11,75 +11,70 @@
                 <div class="group__item" @click="$router.push({'path': '/textarea'})">Textarea</div>
                 <div class="group__item" @click="$router.push({'path': '/button'})">Button</div>
                 <div class="group__item" @click="$router.push({'path': '/button-group'})">ButtonGroup</div>
-                <div class="group__item" @click="$router.push({'path': '/range'})">Range<v-badge value="new"></v-badge></div>
-                <div class="group__item" @click="$router.push({'path': '/rate'})">Rate<v-badge value="new"></v-badge></div>
+                <div class="group__item" @click="$router.push({'path': '/range'})">Range<a-badge value="new"></a-badge></div>
+                <div class="group__item" @click="$router.push({'path': '/rate'})">Rate<a-badge value="new"></a-badge></div>
                 <div class="group__item" @click="$router.push({'path': '/picker'})">Picker</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="对话框" class="group">
+            <a-collapse-item title="对话框" class="group">
                 <div class="group__item" @click="$router.push({'path': '/alert'})">Alert</div>
                 <div class="group__item" @click="$router.push({'path': '/confirm'})">Confirm</div>
                 <div class="group__item" @click="$router.push({'path': '/prompt'})">Prompt</div>
                 <div class="group__item" @click="$router.push({'path': '/popup'})">Popup</div>
                 <div class="group__item" @click="$router.push({'path': '/dialog'})">Dialog</div>
                 <div class="group__item" @click="$router.push({'path': '/mask'})">Mask</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="滚动" class="group">
+            <a-collapse-item title="滚动" class="group">
                 <div class="group__item" @click="$router.push({'path': '/affix'})">Affix(滚动固定)</div>
                 <div class="group__item" @click="$router.push({'path': '/lazyLoad'})">Lazyload(懒加载)</div>
                 <div class="group__item" @click="$router.push({'path': '/scroll-view'})">ScrollView(滚动容器)</div>
                 <div class="group__item" @click="$router.push({'path': '/virtual-scroller'})">VirtualScroller(虚拟滚动容器)</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="布局" class="group">
+            <a-collapse-item title="布局" class="group">
                 <div class="group__item" @click="$router.push({'path': '/cell'})">Cell</div>
                 <div class="group__item" @click="$router.push({'path': '/group'})">Group</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="切换" class="group">
+            <a-collapse-item title="切换" class="group">
                 <div class="group__item" @click="$router.push({'path': '/drawer'})">Draw(抽屉)</div>
                 <div class="group__item" @click="$router.push({'path': '/tabs'})">Tabs(选项卡)</div>
                 <div class="group__item" @click="$router.push({'path': '/collapse'})">Collapse(折叠)</div>
                 <div class="group__item" @click="$router.push({'path': '/carousel'})">Carousel(轮播)</div>
                 <div class="group__item" @click="$router.push({'path': '/segment'})">Segment(分段)</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="辅助显示" class="group">
+            <a-collapse-item title="辅助显示" class="group">
                 <div class="group__item" @click="$router.push({'path': '/badge'})">Badge</div>
                 <div class="group__item" @click="$router.push({'path': '/steps'})">Steps</div>
                 <div class="group__item" @click="$router.push({'path': '/tag'})">Tag</div>
                 <div class="group__item" @click="$router.push({'path': '/bread-crumb'})">Breadcrumb(面包靴)</div>
                 <div class="group__item" @click="$router.push({'path': '/qrcode'})">QRCode(二维码)</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="等待" class="group">
+            <a-collapse-item title="等待" class="group">
                 <div class="group__item" @click="$router.push({'path': '/spinner'})">Spinner</div>
                 <div class="group__item" @click="$router.push({'path': '/progress'})">Progess</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="轻提示" class="group">
+            <a-collapse-item title="轻提示" class="group">
                 <div class="group__item" @click="$router.push({'path': '/toast'})">Toast</div>
                 <div class="group__item" @click="$router.push({'path': '/popper'})">Popper</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-            <v-collapse-item title="手势" class="group">
+            <a-collapse-item title="手势" class="group">
                 <div class="group__item" @click="$router.push({'path': '/finger'})">Finger</div>
-            </v-collapse-item>
+            </a-collapse-item>
             
-            <v-collapse-item title="组合" class="group">
+            <a-collapse-item title="组合" class="group">
                 <div class="group__item" @click="$router.push({'path': '/popup-picker'})">PopupPicker</div>
-            </v-collapse-item>
+            </a-collapse-item>
 
-        </v-collapse>
-    </v-scroll-view>
+        </a-collapse>
+    </a-scroll-view>
 </template>
 <script>
-import VCell from '@/packages/Cell/Cell';
-import VBadge from '@/packages/Badge/Badge';
-import VCollapse from '@/packages/Collapse/Collapse';
-import VCollapseItem from '@/packages/Collapse/CollapseItem';
-import VScrollView from '@/packages/ScrollView/ScrollView';
 import Finger from '../utils/finger';
 export default {
     name: 'Index',
@@ -101,14 +96,6 @@ export default {
         touchstart(e) {
             // log(e)
         }
-    },
-
-    components: {
-        VCell,
-        VBadge,
-        VScrollView,
-        VCollapse,
-        VCollapseItem
     }
 };
 </script>

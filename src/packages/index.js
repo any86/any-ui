@@ -1,62 +1,21 @@
-import VAlert from './Dialog/Alert';
-import VConfirm from './Dialog/Confirm';
-import VPrompt from './Dialog/Prompt';
-import VLoading from './Loading/Loading';
+import AAlert from './Dialog/Alert';
+import AConfrim from './Dialog/Confirm';
+import APrompt from './Dialog/Prompt';
+import ALoading from './Loading/Loading';
+// 其他组件
 import * as components from './components.js'
-const {
-    VAffix,
-    VBadge,
-    VBreadcrumb,
-    VButton,
-    VButtonGroup,
-    VCarousel,
-    VCarouselItem,
-    VCell,
-    VCheckbox,
-    VCollapse,
-    VCount,
-    VDialog,
-    VDivider,
-    VDrawer,
-    VGroup,
-    VHeaderBar,
-    VInput,
-    VLazyLoad,
-    VMask,
-    VPicker,
-    VPopper,
-    VPopup,
-    VPopupPicker,
-    VLine,
-    VCircle,
-    VQRCode,
-    VRadio,
-    VRange,
-    VRate,
-    VScrollView,
-    VSegment,
-    VSteps,
-    VSwitch,
-    VTabs,
-    VTag,
-    VTextarea,
-    VToast,
-    VVirtualScroller,
-    VWarning,
-    VAndroid,
-    VThreeDots,
-    VRipple
-} = components;
+// 水波纹特效
+import ripple from '@/directives/ripple/index.js';
 
 var Atom = {};
-var ZIndexManger = 0; // 稍后做zindex管理
+// var ZIndexManger = 0; // 稍后做zindex管理
 Atom.install = function(Vue) {
-
-    // for(let k in components) {
-    //     let component = components[k];
-    //     // console.log(component.toLocaleLowerCase());
-    //     // Vue.component(component.name.toLocaleLowerCase(), component);
-    // }
+    // 水波纹特效
+    Vue.use(ripple)
+    for(let k in components) {
+        let component = components[k];
+        Vue.component(`A${component.name}`, component);
+    }
 
     // Vue.component(ScrollView.name, ScrollView);
     const createVueChild = component => {
@@ -82,7 +41,7 @@ Atom.install = function(Vue) {
             onOk: () => {}
         }) => {
             if (null === vm) {
-                vm = createVueChild(VAlert);
+                vm = createVueChild(AAlert);
             }
             vm.isShow = true;
             vm.content = content;
@@ -102,7 +61,7 @@ Atom.install = function(Vue) {
             } = {}
         ) => {
             if (null === vm) {
-                vm = createVueChild(VConfirm);
+                vm = createVueChild(AConfrim);
             }
             vm.isShow = true;
             vm.content = content;
@@ -122,7 +81,7 @@ Atom.install = function(Vue) {
             } = {}
         ) => {
             if (null === vm) {
-                vm = createVueChild(VPrompt);
+                vm = createVueChild(APrompt);
             }
             vm.isShow = true;
             vm.content = content;
@@ -170,7 +129,7 @@ Atom.install = function(Vue) {
         let loadingVM = null;
         Vue.prototype.$loading = () => {
             if (null === loadingVM) {
-                loadingVM = createVueChild(VLoading);
+                loadingVM = createVueChild(ALoading);
                 loadingVM.isShow = true;
                 return loadingVM;
             }

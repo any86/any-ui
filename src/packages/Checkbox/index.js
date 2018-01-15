@@ -1,2 +1,2 @@
-import ACheckbox from './Cell';
-export default ACheckbox;
+import Checkbox from './Checkbox';
+export default Checkbox;

@@ -12,7 +12,7 @@
             <li>Personalized</li>
         </ul>
 
-        <v-header-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-header-bar>
+        <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-app-bar>
         <main class="app-main">
             <transition name="zoom" mode="out-in">
                 <keep-alive>
@@ -25,7 +25,7 @@
 <script>
 import VQRCode from '@/packages/QRCode/QRCode';
 import VDrawer from '@/packages/Drawer/Drawer';
-import VHeaderBar from '@/packages/HeaderBar/HeaderBar';
+import VAppBar from '@/packages/AppBar/AppBar';
 export default {
     name: 'App',
 
@@ -36,7 +36,7 @@ export default {
     },
 
     components: {
-        VHeaderBar,
+        VAppBar,
         VDrawer,
         VQRCode
     }
