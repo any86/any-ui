@@ -1,49 +1,25 @@
 <template>
-    <v-scroll-view class="demo-page">
-        <v-cell>
+    <a-scroll-view class="demo-page">
+        <a-cell>
             购物车<v-badge :value="10"/>
-        </v-cell>   
+        </a-cell>   
 
-        <v-cell>
+        <a-cell>
             <v-badge :value="13">新好友</v-badge>
-        </v-cell>   
+        </a-cell>   
 
-        <v-cell>
+        <a-cell>
             <v-badge>邮件</v-badge>
-        </v-cell>  
+        </a-cell>  
 
-        <v-cell @click="$router.push({path: '/tabs'})">
+        <a-cell @click="$router.push({path: '/tabs'})">
             与Tabs结合, 点击查看
-        </v-cell>  
-
-
-    </v-scroll-view>
+        </a-cell>  
+    </a-scroll-view>
 </template>
 <script>
-import VBadge from '@/packages/Badge/Badge';
-import VCell from '@/packages/Cell/Cell';
-import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
-    name: 'BadgeDemo',
-
-    data() {
-        return {
-        };
-    },
-
-
-
-    methods: {
-    },
-
-    computed: {
-       
-    },
-
-    components: {
-        VBadge,VCell,
-        VScrollView
-    }
+    name: 'BadgeDemo'
 };
 </script>
 <style scoped lang="scss">

@@ -17,7 +17,6 @@ Atom.install = function(Vue) {
         Vue.component(`A${component.name}`, component);
     }
 
-    // Vue.component(ScrollView.name, ScrollView);
     const createVueChild = component => {
         // 创建一个挂载点
         const node = document.createElement('div');
@@ -90,7 +89,9 @@ Atom.install = function(Vue) {
         };
     }
 
-    // ==========================================toast==================================
+    // =================================================
+    // ==============组件内调用: this.$toast=============
+    // =================================================
     {
         let toastVM = null;
         let timeout = null;

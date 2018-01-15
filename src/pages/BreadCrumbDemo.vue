@@ -1,6 +1,6 @@
 <template>
     <v-scroll-view class="demo-page">
-        <v-bread-crumb :data-source="dataSource" @click-item="clickItem" />
+        <v-breadcrumb :data-source="dataSource" @click-item="clickItem" />
     </v-scroll-view>
 </template>
 <script>
@@ -8,7 +8,7 @@ import VGroup from '@/packages/Group/Group';
 import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb';
 import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
-    name: 'BreadCrumbDemo',
+    name: 'BreadcrumbDemo',
 
     data() {
         return {
@@ -20,11 +20,6 @@ export default {
         clickItem(index){
             this.$alert(index);
         }
-    },
-
-    components: {
-        VGroup,VBreadcrumb,
-        VScrollView
     }
 };
 </script>

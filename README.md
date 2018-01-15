@@ -1,5 +1,4 @@
-# atom-mobile开发中...
-
+# vue-atom-ui
 > 玩积木一样玩组件
 
 ### 演示
