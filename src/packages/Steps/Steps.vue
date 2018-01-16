@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'Steps',
+    name: 'AtomSteps',
 
     props: {
         value: {

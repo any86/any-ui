@@ -10,7 +10,7 @@ import { getHeight, getWidth, getTime } from '../../utils/dom';
 import momentum from './momentum';
 import debounce from 'lodash/debounce';
 export default {
-    name: 'VirtualScroller',
+    name: 'AtomVirtualScroller',
 
     props: {
         // isCalcByTouch: {

@@ -9,7 +9,7 @@
 <script>
 import VClose from '../../packages/Icon/Close';
 export default {
-    name: 'Input',
+    name: 'AtomInput',
 
     props: {
         hasRemove: {

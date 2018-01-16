@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-    name: 'Group',
+    name: 'AtomGroup',
 
     props: {
         title: {}

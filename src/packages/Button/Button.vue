@@ -6,7 +6,7 @@
 <script>
 import Ripple from '../../utils/ripple/src/ripple.js';
 export default {
-    name: 'Button',
+    name: 'AtomButton',
 
     props: {
         type: {

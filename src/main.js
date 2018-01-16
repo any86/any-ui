@@ -28,9 +28,7 @@ import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
 Vue.use(Atom);
-// 移动组件指令
-import DomPortal from 'vue-dom-portal';
-Vue.use(DomPortal);
+
 
 // 关闭错误提示
 Vue.config.silent = false;

@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import touchStart from '@/utils/ripple/src/module/touchStart.js';
-import touchMove from '@/utils/ripple/src/module/touchMove.js';
-import touchEnd from '@/utils/ripple/src/module/touchEnd.js';
-import defaultConfig from '@/utils/ripple/src/module/config.js';
+import touchStart from '../../utils/ripple/src/module/touchStart.js';
+import touchMove from '../../utils/ripple/src/module/touchMove.js';
+import touchEnd from '../../utils/ripple/src/module/touchEnd.js';
+import defaultConfig from '../../utils/ripple/src/module/config.js';
 
 /**
  * 

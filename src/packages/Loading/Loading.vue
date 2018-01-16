@@ -12,7 +12,7 @@ import VMask from '../../packages/Mask/Mask';
 import VAndroid from '../../packages/Spinner/Android';
 
 export default {
-    name: 'Loading',
+    name: 'AtomLoading',
 
     props: {
         isShow: {

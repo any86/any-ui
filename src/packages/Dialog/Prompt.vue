@@ -15,7 +15,7 @@ import VDialog from '../../packages/Dialog/Dialog';
 import VInput from '../../packages/Input/Input';
 
 export default {
-    name: 'Prompt',
+    name: 'AtomPrompt',
 
     data() {
         return {

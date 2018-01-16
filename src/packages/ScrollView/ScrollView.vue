@@ -7,7 +7,7 @@
 import { getHeight, getScrollTop } from '../../utils/dom';
 import debounce from 'lodash/debounce';
 export default {
-    name: 'ScrollView',
+    name: 'AtomScrollView',
 
     props: {
         /** 

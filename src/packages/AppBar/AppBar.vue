@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-    name: 'AppBar',
+    name: 'AtomAppBar',
 
     props: {
         hasArrow: {

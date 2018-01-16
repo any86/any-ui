@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'Tag',
+    name: 'AtomTag',
 
     props: {
         type: {

@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'View'
+    name: 'AtomView'
 };
 </script>
 <style scoped lang="scss">

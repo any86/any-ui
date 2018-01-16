@@ -12,7 +12,7 @@
  * 待解决: 为什么加了fastClick点击切换特别慢
  */
 export default {
-    name: 'Switch',
+    name: 'AtomSwitch',
 
     props: {
         value: {

@@ -17,7 +17,7 @@
  */
 import { getHeight, getScrollTop, getIsInView, getScrollParent } from '../../utils/dom';
 export default {
-    name: 'Affix',
+    name: 'AtomAffix',
 
     props: {
         offsetTop: {

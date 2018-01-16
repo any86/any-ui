@@ -6,14 +6,20 @@ import ALoading from './Loading/Loading';
 import * as components from './components.js'
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
+// 移动dom指令
+import DomPortal from 'vue-dom-portal';
+
 var Atom = {};
 // var ZIndexManger = 0; // 稍后做zindex管理
 Atom.install = function(Vue) {
     // 水波纹特效
     Vue.use(ripple)
-    for(let k in components) {
+    // 移动dom指令
+    Vue.use(DomPortal);
+
+    for (let k in components) {
         let component = components[k];
-        Vue.component(`A${component.name}`, component);
+        Vue.component(`${component.name.replace('Atom', 'A')}`, component);
     }
 
     const createVueChild = component => {

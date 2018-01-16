@@ -8,7 +8,7 @@
 <script>
 import VDialog from '../../packages/Dialog/Dialog'
 export default {
-    name: 'Alert',
+    name: 'AtomAlert',
 
     props: {
         title: {

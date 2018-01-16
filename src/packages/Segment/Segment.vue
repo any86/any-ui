@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'Segment',
+    name: 'AtomSegment',
 
     props: {
         value: {
