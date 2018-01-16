@@ -1,9 +1,9 @@
 <template>
     <a-scroll-view ref="main" @touchstart.native="touchstart">
         <a-collapse :is-accordion="true">
-            <a-collapse-item class="group">
+            <a-collapse-item :has-line="false" class="group">
                 <h4 slot="header"><a-badge value="2">表单</a-badge></h4>
-                <div class="group__item" @click="$router.push({'path': '/switch'})">Switch</div>
+                <div  class="group__item" @click="$router.push({'path': '/switch'})">Switch</div>
                 <div class="group__item" @click="$router.push({'path': '/radio'})">Radio</div>
                 <div class="group__item" @click="$router.push({'path': '/checkbox'})">Checkbox</div>
                 <div class="group__item" @click="$router.push({'path': '/count'})">Count</div>

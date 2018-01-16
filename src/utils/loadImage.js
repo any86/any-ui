@@ -5,20 +5,20 @@ export default function (src, {isCrossOrigin = false, onInit = () => { }, onSucc
     if(isCrossOrigin) img.crossOrigin = 'anonymous';
     onInit(img);
     img.onload = event => {
-        const costTime = Date.now() - startTime;
-        onSuccess({...event, costTime});
+        event.costTime = Date.now() - startTime;
+        onSuccess(event);
         img.null;
     };
 
     img.onerror = event => {
-        const costTime = Date.now() - startTime;
-        onError({...event, costTime});
+        event.costTime = Date.now() - startTime;
+        onError(event);
         img.null;
     };
 
     img.onabort = event => {
-        const costTime = Date.now() - startTime;
-        onAbort({...event, costTime});
+        event.costTime = Date.now() - startTime;
+        onAbort(event);
         img.null;
     };
 };
