@@ -6,7 +6,7 @@
 <script>
 import VStar from '../../packages/Svg/Star';
 export default {
-    name: 'AtRate',
+    name: 'AtomRate',
 
     props: {
         count: {

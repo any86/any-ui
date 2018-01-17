@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-    name: 'AtMask',
+    name: 'AtomMask',
 
     props: {
         portal: {

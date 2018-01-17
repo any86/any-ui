@@ -11,7 +11,7 @@
 <script>
 import VDialog from '../../packages/Dialog/Dialog'
 export default {
-    name: 'AtConfirm',
+    name: 'AtomConfirm',
 
     data() {
         return {

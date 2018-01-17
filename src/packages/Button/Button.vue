@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'AtButton',
+    name: 'AtomButton',
 
     props: {
         type: {

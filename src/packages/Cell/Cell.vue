@@ -24,7 +24,7 @@
 </template>
 <script>
 export default {
-    name: 'AtCell',
+    name: 'AtomCell',
 
     props: {
         title: {

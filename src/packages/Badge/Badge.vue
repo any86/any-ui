@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-    name: 'AtBadge',
+    name: 'AtomBadge',
 
     props: {
         value: {

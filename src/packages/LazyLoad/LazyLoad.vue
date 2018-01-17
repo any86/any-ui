@@ -11,7 +11,7 @@
 import { getWidth, getHeight, getScrollParent, getTime, getIsInView } from '../../utils/dom';
 import throttle from 'lodash/throttle';
 export default {
-    name: 'AtLazyLoad',
+    name: 'AtomLazyLoad',
 
     props: {
         src: {

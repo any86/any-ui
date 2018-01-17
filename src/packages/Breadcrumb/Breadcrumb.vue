@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'AtBreadcrumb',
+    name: 'AtomBreadcrumb',
 
     props: {
         dataSource: {

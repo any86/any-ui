@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-    name: 'AtRadio',
+    name: 'AtomRadio',
 
     model: {
         prop: 'referenceValue',

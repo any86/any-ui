@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-    name: 'AtCheckbox',
+    name: 'AtomCheckbox',
 
     props: {
         disabled: {

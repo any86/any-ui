@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-    name: 'AtTextarea',
+    name: 'AtomTextarea',
 
     props: {
         maxLength: {

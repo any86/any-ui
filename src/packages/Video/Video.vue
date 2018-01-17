@@ -11,7 +11,7 @@
 // import videojs from 'video.js';
 // require('video.js/dist/video-js.min.css');
 export default {
-    name: 'AtVideo',
+    name: 'AtomVideo',
 
     data() {
         return { player: null };

@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'AtButtonGroup',
+    name: 'AtomButtonGroup',
 
     render(h) {
         return h(

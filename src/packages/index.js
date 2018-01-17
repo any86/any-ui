@@ -21,7 +21,7 @@ Atom.install = function(Vue) {
 
     for (let k in components) {
         let component = components[k];
-        Vue.component(`${component.name.replace('Atom', 'A')}`, component);
+        Vue.component(`${component.name.replace('At', 'A')}`, component);
     }
 
     const createVueChild = component => {

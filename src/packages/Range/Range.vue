@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-    name: 'AtRange',
+    name: 'AtomRange',
 
     props: {
         disabled: {

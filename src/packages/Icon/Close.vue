@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-    name: 'AtIconClose',
+    name: 'AtomIconClose',
 
     props: {
         size: {

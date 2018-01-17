@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'AtSegmentItem',
+    name: 'AtomSegmentItem',
 
     data() {
         return { index: 0 };
