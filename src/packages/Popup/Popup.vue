@@ -191,7 +191,7 @@ $panelWidth: 80%;
 }
 
 .slide-from-left-leave-active {
-    animation: slide-from-left-out $duration;
+    animation: slide-from-left-out $duration*2;
 }
 
 @keyframes slide-from-left-in {
@@ -222,7 +222,7 @@ $panelWidth: 80%;
 }
 
 .slide-from-right-leave-active {
-    animation: slide-from-right-out $duration;
+    animation: slide-from-right-out $duration*2;
 }
 
 @keyframes slide-from-right-in {
