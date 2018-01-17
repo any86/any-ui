@@ -1,3 +1,7 @@
-.radius {
+.radius, is-radius {
     border-radius: $borderRadius;
+}
+
+.is-circle{
+    border-radius: 100%;
 }

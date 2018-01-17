@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import videojs from 'video.js';
-require('video.js/dist/video-js.min.css');
+// import videojs from 'video.js';
+// require('video.js/dist/video-js.min.css');
 export default {
     name: 'AtomVideo',
 

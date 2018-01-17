@@ -25,6 +25,7 @@ import router from '@/router';
 
 //全局样式
 import './scss/global.scss';
+import './utils/ripple/src/ripple.scss';
 // UI
 import Atom from '@/packages/index.js';
 Vue.use(Atom);

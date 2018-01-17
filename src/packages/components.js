@@ -33,8 +33,8 @@ import APopper from './Popper/Popper';
 import APopup from './Popup/Popup';
 import APopupPicker from './PopupPicker/PopupPicker';
 import {
-    ALine,
-    ACircle
+    AProgressLine,
+    AProgressCircle
 } from './Progress';
 import AQRCode from './QRCode/QRCode';
 import ARadio from './Radio/Radio';
@@ -79,8 +79,8 @@ export {
     APopper,
     APopup,
     APopupPicker,
-    ALine,
-    ACircle,
+    AProgressLine,
+    AProgressCircle,
     AQRCode,
     ARadio,
     ARange,

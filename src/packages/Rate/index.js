@@ -1,2 +1,2 @@
-import ARate from './ARate';
+import ARate from './Rate';
 export default ARate;

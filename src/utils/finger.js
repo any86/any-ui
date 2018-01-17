@@ -10,7 +10,7 @@ export default class Finger {
      */
     constructor(el, {
         isStopPropagation = false,
-        isPreventDefault = true
+        isPreventDefault = false
     } = {}) {
         this.isStopPropagation = isStopPropagation;
         this.isPreventDefault = isPreventDefault;

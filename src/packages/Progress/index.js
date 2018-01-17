@@ -1,6 +1,6 @@
-import ACircle from './Circle.vue'
-import ALine from './Line.vue'
+import AProgressCircle from './Circle.vue'
+import AProgressLine from './Line.vue'
 export {
-    ALine,
-    ACircle
+    AProgressLine,
+    AProgressCircle
 }

@@ -2,6 +2,8 @@ import AAlert from './Dialog/Alert';
 import AConfrim from './Dialog/Confirm';
 import APrompt from './Dialog/Prompt';
 import ALoading from './Loading/Loading';
+import AToast from './Toast/Toast';
+
 // 其他组件
 import * as components from './components.js'
 // 水波纹特效
@@ -107,7 +109,7 @@ Atom.install = function(Vue) {
             } = {}
         ) => {
             if (null === toastVM) {
-                toastVM = createVueChild(VToast);
+                toastVM = createVueChild(AToast);
             }
             toastVM.position = position;
             toastVM.isShow = true;
@@ -136,9 +138,9 @@ Atom.install = function(Vue) {
         Vue.prototype.$loading = () => {
             if (null === loadingVM) {
                 loadingVM = createVueChild(ALoading);
-                loadingVM.isShow = true;
-                return loadingVM;
             }
+            loadingVM.isShow = true;
+            return loadingVM;
         };
 
         Vue.prototype.$loading.close = () => {

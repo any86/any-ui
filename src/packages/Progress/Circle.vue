@@ -16,7 +16,7 @@
 <script>
 // 假定viewBox为100 * 100
 export default {
-    name: 'AtomCircle',
+    name: 'AtomProgressCircle',
     props: {
         value: {
             type: [Number, String],

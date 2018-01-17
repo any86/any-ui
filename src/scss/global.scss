@@ -4,6 +4,8 @@
 @import './reset.scss';
 @import './animate.scss';
 @import './helpers.scss';
+// @import './svg.scss';
+
 [v-cloak] {
     display: none;
 }
@@ -13,3 +15,25 @@ html {
 body {
     font-size: 16px;
 }
+
+#__nuxt {
+    height: 100%;
+    position: relative;
+}
+
+#__layout{
+    height: 100%;
+    position: relative;
+}
+
+
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.5s;
+}
+.page-enter,
+.page-leave-active {
+    opacity: 0;
+}
+
+
