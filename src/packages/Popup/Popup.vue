@@ -18,7 +18,7 @@
 <script>
 import VMask from '../../packages/Mask/Mask';
 export default {
-    name: 'AtomPopup',
+    name: 'AtPopup',
 
     props: {
         isShow: {

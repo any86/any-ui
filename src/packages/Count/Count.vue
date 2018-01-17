@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-    name: 'AtomCount',
+    name: 'AtCount',
 
     props: {
         hasRipple: {

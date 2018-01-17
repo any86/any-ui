@@ -15,7 +15,7 @@
 import { getWidth } from '../../utils/dom';
 import VMask from '../../packages/Mask/Mask';
 export default {
-    name: 'AtomDrawer',
+    name: 'AtDrawer',
 
     props: {
         portal: {

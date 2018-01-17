@@ -10,7 +10,7 @@
 import Finger from '../../utils/finger.js';
 import VSpinnerRipple from '../../packages/Spinner/Ripple';
 export default {
-    name: 'AtomCarouselItem',
+    name: 'AtCarouselItem',
 
     // inject: ['perView'],
 

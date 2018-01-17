@@ -21,7 +21,7 @@ import loadImage from '../../utils/loadImage';
  * 2. 改变tranlateX来驱动activeIndex变化, 其他变化都是根据activeIndex变化
  */
 export default {
-    name: 'AtomCarousel',
+    name: 'AtCarousel',
 
     // provide: {
     //     perView: 1

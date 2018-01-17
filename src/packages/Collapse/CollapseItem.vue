@@ -14,7 +14,7 @@
 <script>
 import { getHeight } from '../../utils/dom';
 export default {
-    name: 'AtomCollapseItem',
+    name: 'AtCollapseItem',
 
     props: {
         isOpen: {

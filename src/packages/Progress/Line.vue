@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'AtomProgressLine',
+    name: 'AtProgressLine',
 
     props: {
         value: {

@@ -20,7 +20,7 @@
 import { getWidth } from '../../utils/dom';
 import VirtualScroller from '../../packages/VirtualScroller/VirtualScroller';
 export default {
-    name: 'AtomTabs',
+    name: 'AtTabs',
 
     props: {
         value: {

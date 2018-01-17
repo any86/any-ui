@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'AtomCollapse',
+    name: 'AtCollapse',
 
     props: {
         isAccordion: {

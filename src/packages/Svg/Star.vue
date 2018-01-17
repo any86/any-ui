@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    name: 'AtomStar',
+    name: 'AtStar',
 
 
     props: {

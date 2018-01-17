@@ -8,7 +8,7 @@
 </template>
 <script>
 export default {
-    name: 'AtomWarning'
+    name: 'AtWarning'
 }
 </script>
 <style scoped lang="scss">

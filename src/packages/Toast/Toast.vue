@@ -1,7 +1,7 @@
 <script>
 import VMask from '../../packages/Mask/Mask';
 export default {
-    name: 'AtomToast',
+    name: 'AtToast',
 
     props: {
         isShow: {

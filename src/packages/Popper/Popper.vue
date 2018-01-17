@@ -12,7 +12,7 @@
 
 import Popper from 'popper.js';
 export default {
-    name: 'AtomPopper',
+    name: 'AtPopper',
 
     props: {
         options: {

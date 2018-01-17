@@ -6,7 +6,7 @@
 import QRCode from 'qrcode';
 
 export default {
-    name: 'AtomQRCode',
+    name: 'AtQRCode',
 
     props: {
         value: {

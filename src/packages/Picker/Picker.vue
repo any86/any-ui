@@ -25,7 +25,7 @@
 <script>
 import VScroller from '../../packages/VirtualScroller/VirtualScroller';
 export default {
-    name: 'AtomPicker',
+    name: 'AtPicker',
 
     props: {
         dataSource: {

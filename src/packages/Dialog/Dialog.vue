@@ -25,7 +25,7 @@
 import VMask from '../../packages/Mask/Mask';
 import VIconClose from '../../packages/Icon/Close';
 export default {
-    name: 'AtomDialog',
+    name: 'AtDialog',
 
     props: {
         portal: {

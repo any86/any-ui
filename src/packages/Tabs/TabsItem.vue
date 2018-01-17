@@ -6,7 +6,7 @@
 <script>
 import { getWidth } from '../../utils/dom';
 export default {
-    name: 'AtomTabsItem',
+    name: 'AtTabsItem',
 
     data() {
         return {

@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-    name: 'AtomStepsItem',
+    name: 'AtStepsItem',
 
     data() {
         return { index: 0, isLast: true };
