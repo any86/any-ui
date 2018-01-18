@@ -62,8 +62,8 @@ Atom.install = function(Vue) {
         let vm = null;
         Vue.prototype.$confirm = (
             content = '', {
-                ok = () => {},
-                cancel = () => {}
+                onOk = () => {},
+                onCancel = () => {}
             } = {}
         ) => {
             if (null === vm) {
@@ -71,8 +71,8 @@ Atom.install = function(Vue) {
             }
             vm.isShow = true;
             vm.content = content;
-            vm.afterOk = ok;
-            vm.afterCancel = cancel;
+            vm.afterOk = onOk;
+            vm.afterCancel = onCancel;
         };
     }
     // =================================================
