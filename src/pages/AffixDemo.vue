@@ -4,7 +4,7 @@
         <a-affix :offset-top="55">
             <div class="fixed-item">offset-top="55", 固定在距离顶部55px的位置</div>    
         </a-affix>
-        <a-cell v-for="n in 42" :key="n">我的代号: 00{{n+3}}</a-cell>
+        <a-cell v-for="n in 42" :key="10+n">我的代号: 00{{n+3}}</a-cell>
     </a-scroll-view>
 </template>
 <script>
