@@ -1,6 +1,6 @@
 {
   "name": "vue-atom-ui",
-  "version": "1.0.83",
+  "version": "1.0.832",
   "description": "vue-atom-ui",
   "author": "宁宁 <383514580@qq.com>",
   "main": "./src/packages/index.js",
