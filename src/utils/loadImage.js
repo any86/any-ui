@@ -1,8 +1,8 @@
 export default function (src, {isCrossOrigin = false, onInit = () => { }, onSuccess = () => { }, onError = () => { }, onAbort = () => { } }) {
     const startTime = Date.now();
     let img = new Image();
-    img.src = src;
     if(isCrossOrigin) img.crossOrigin = 'anonymous';
+    img.src = src;
     onInit(img);
     img.onload = event => {
         event.width = img.width;
