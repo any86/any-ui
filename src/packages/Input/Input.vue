@@ -42,10 +42,12 @@ export default {
             if ('' != this.value) {
                 this.isShowEmpty = true;
             }
+            this.$emit('focus',e);
         },
 
         blur(e) {
             this.isShowEmpty = false;
+            this.$emit('blur',e);
         },
 
         keyup(e) {
@@ -65,6 +67,7 @@ export default {
             } else if ('number' == this.type) {
                 value = value.replace(/\D/g, '');
             }
+            this.$emit('keyup',e);
             this.$emit('input', value);
         },
 
