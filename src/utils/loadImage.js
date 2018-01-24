@@ -1,10 +1,17 @@
-export default function (src, {isCrossOrigin = false, onInit = () => { }, onSuccess = () => { }, onError = () => { }, onAbort = () => { } }) {
+export default function(src, {
+    isCrossOrigin = false,
+    onInit = () => {},
+    onSuccess = () => {},
+    onError = () => {},
+    onAbort = () => {}
+}) {
     const startTime = Date.now();
     let img = new Image();
+    if (isCrossOrigin) img.crossOrigin = 'anonymous';
     img.src = src;
-    if(isCrossOrigin) img.crossOrigin = 'anonymous';
     onInit(img);
     img.onload = event => {
+        event.img = img;
         event.width = img.width;
         event.height = img.height;
         event.costTime = Date.now() - startTime;
@@ -13,6 +20,7 @@ export default function (src, {isCrossOrigin = false, onInit = () => { }, onSucc
     };
 
     img.onerror = event => {
+        event.img = img;
         event.width = img.width;
         event.height = img.height;
         event.costTime = Date.now() - startTime;
@@ -21,8 +29,9 @@ export default function (src, {isCrossOrigin = false, onInit = () => { }, onSucc
     };
 
     img.onabort = event => {
+        event.img = img;
         event.width = img.width;
-        event.height = img.height;   
+        event.height = img.height;
         event.costTime = Date.now() - startTime;
         onAbort(event);
         img.null;
