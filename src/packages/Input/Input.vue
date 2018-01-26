@@ -106,8 +106,8 @@ $height: 0.6rem;
         border: 0 none;
         outline: none;
         width: 100%;
-        // height: $height;
-        // line-height: $height;
+        height: $height/2;
+        line-height: $height/2;
     }
 
     &__close {
