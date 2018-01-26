@@ -37,7 +37,7 @@ export default {
             default: false
         },
 
-        // 不支持'auto'
+        // 暂时不支持'auto'
         slidesPerView: {
             type: [Number, String],
             default: 1
@@ -543,7 +543,6 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
-$height: 0.5rem;
 .atom-carousel {
     position: relative;
     width: 100%;

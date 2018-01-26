@@ -1,9 +1,13 @@
 <template>
     <div v-on="$listeners" :style="{width: `${width}px`}" class="atom-carousel-item">
-        <div class="item__zoom-warp" @touchstart="touchStart" @touchend="touchEnd" :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`}">
+        <div v-if="$parent.isZoom" class="item__zoom-warp" @touchstart="touchStart" @touchend="touchEnd" :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`}">
             <slot></slot>
             <v-spinner-ripple v-if="ready" class="item__loading" />
         </div>
+        <template v-else>
+            <slot></slot>
+            <v-spinner-ripple v-if="ready" class="item__loading" />
+        </template>
     </div>
 </template>
 <script>
@@ -31,38 +35,52 @@ export default {
         // this.$parent.isDisabled = true;
         let finger = new Finger(this.$el);
 
-        finger.on('pinch', scale => {
-            this.scale *= scale;
-            if (1 > this.scale) {
-                this.scale = 1;
-            }
+        // 识别缩放/移动手势
+        if (this.$parent.isZoom) {
+            finger.on('pinch', scale => {
+                this.scale *= scale;
+                if (1 > this.scale) {
+                    this.scale = 1;
+                }
+            });
+
+            finger.on('pressMove', ({ deltaX, deltaY }) => {
+                if (1 == this.scale) return;
+                let x = this.x + deltaX;
+                let y = this.y + deltaY;
+
+                if (this.minZoomTranslateX < x && this.maxZoomTranslateX > x) {
+                    this.x = x;
+                } else if (this.minZoomTranslateX > x) {
+                    this.resetZoom();
+                    this.$parent.next(() => {
+                        // this.resetZoom();
+                    });
+                } else if (this.maxZoomTranslateX < x) {
+                    this.resetZoom();
+                    this.$parent.prev(() => {
+                        // this.resetZoom();
+                    });
+                }
+
+                if (this.minZoomTranslateY < y && this.maxZoomTranslateY > y) {
+                    this.y = y;
+                } else {
+                    // this.$parent.isDisabled = false;
+                }
+            });
+        }
+
+        // 识别tap/doubleTap
+        finger.on('tap', e=>{
+            this.$emit('tap', e);
         });
 
-        finger.on('pressMove', ({ deltaX, deltaY }) => {
-            if (1 == this.scale) return;
-            let x = this.x + deltaX;
-            let y = this.y + deltaY;
-
-            if (this.minZoomTranslateX < x && this.maxZoomTranslateX > x) {
-                this.x = x;
-            } else if (this.minZoomTranslateX > x) {
-                this.resetZoom();
-                this.$parent.next(() => {
-                    // this.resetZoom();
-                });
-            } else if (this.maxZoomTranslateX < x) {
-                this.resetZoom();
-                this.$parent.prev(() => {
-                    // this.resetZoom();
-                });
-            }
-
-            if (this.minZoomTranslateY < y && this.maxZoomTranslateY > y) {
-                this.y = y;
-            } else {
-                // this.$parent.isDisabled = false;
-            }
+        // 识别tap/doubleTap
+        finger.on('doubleTap', e=>{
+            this.$emit('doubleTap', e);
         });
+
 
         this.index = this.$parent.count;
         this.$parent.count++;
@@ -78,7 +96,7 @@ export default {
     },
 
     methods: {
-        touchStart(){
+        touchStart() {
             this.transitionDuration = 0;
         },
 
