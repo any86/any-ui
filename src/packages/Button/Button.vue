@@ -37,12 +37,12 @@ export default {
             default: false
         },
 
-        isRound: {
+        isCircle: {
             type: Boolean,
             default: false
         },
 
-        isRadius: {
+        isRound: {
             type: Boolean,
             default: true
         },
@@ -61,13 +61,13 @@ export default {
     computed: {
         className() {
             return {
-                ['atom-btn--' + this.type]: !this.isGhost,
-                ['atom-btn--ghost-' + this.type]: this.isGhost,
                 'atom-btn--disabled': this.isDisabled,
+                ['atom-btn-' + this.type]: !this.isGhost && !this.isDisabled, // 标准按钮
+                ['atom-btn-ghost-' + this.type]: this.isGhost && !this.isDisabled, // 幽灵按钮
                 'atom-btn--block': this.isBlock,
-                'atom-btn--round': this.isRound,
+                'atom-btn--round': this.isCircle,
                 'atom-btn--loading': this.isLoading,
-                'atom-btn--radius': !this.isBlock || this.isRadius
+                'atom-btn--radius': !this.isBlock || this.isRound
             };
         }
     }
@@ -79,10 +79,11 @@ export default {
 $height: 1rem;
 
 // 纯色背景按钮
+// 根据背景色亮度决定按钮字体颜色
 @mixin btn($color) {
     $lightness: lightness($color);
     background: $color;
-    border-color: transparent;
+    border-color: $color;
     color: color-yiq($color);
     // width: $lightness;
     @if (98% < $lightness) {
@@ -90,6 +91,7 @@ $height: 1rem;
     } @else {
         border: 1px solid transparent;
     }
+
     &:before {
         border-color: transparent transparent color-yiq($color) color-yiq($color);
     }
@@ -120,6 +122,12 @@ button {
     outline: none;
     border: 0 none;
     border-radius: 0;
+
+    &[type='button'],
+    [type='reset'],
+    [type='submit'] {
+        -webkit-appearance: button;
+    }
 }
 
 .atom-btn {
@@ -127,9 +135,7 @@ button {
     display: inline-block;
     user-select: none;
     vertical-align: top;
-    padding: 0 $gutter*2;
-    height: $height;
-    line-height: $height;
+    padding: $gutter $gutter*2;
     text-align: center;
     white-space: nowrap;
     letter-spacing: 1px;
@@ -137,27 +143,12 @@ button {
     border: 1px solid transparent;
     font-size: $big;
     transition: all $duration;
-    &--loading {
-        pointer-events: none;
-        opacity: 0.7;
-        color:$lighter !important;
-        &:before {
-            content: '';
-            display: inline-block;
-            height: 12px;
-            width: 12px;
-            border-color:transparent transparent $lighter $lighter !important;
-            border-style: solid;
-            border-width: 2px;
-            border-radius: 50%;
-            margin-right: $gutter/2;
-            animation: rotation infinite $duration*2 linear;
-        }
-    }
 
     &--disabled {
         pointer-events: none;
-        opacity: 0.5;
+        color: rgba(0, 0, 0, 0.25);
+        background-color: #f5f5f5;
+        border-color: #d9d9d9;
     }
 
     &--round {
@@ -172,14 +163,32 @@ button {
     &--radius {
         border-radius: $radius;
     }
+
+    &--loading {
+        pointer-events: none;
+        opacity: 0.6;
+        &:before {
+            content: '';
+            display: inline-block;
+            height: 12px;
+            width: 12px;
+            // border-color: transparent transparent $lighter $lighter !important;
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 50%;
+            margin-right: $gutter/2;
+            animation: rotation infinite $duration*2 linear;
+        }
+    }
+
 }
 
 @each $key, $value in $theme_colors {
-    .atom-btn--#{$key} {
+    .atom-btn-#{$key} {
         @include btn($value);
     }
 
-    .atom-btn--ghost-#{$key} {
+    .atom-btn-ghost-#{$key} {
         @include btn-ghost($value);
     }
 }
