@@ -1,7 +1,7 @@
 <template>
     <v-scroll-view class="fill-sm">
 
-        <v-group title="标准">
+        <v-group title="多种情景色">
             <v-button type="primary" class="gutter-sm">primary</v-button>
             <v-button type="success" class="gutter-sm">success</v-button>
             <v-button type="info" class="gutter-sm">info</v-button>
@@ -15,16 +15,23 @@
             <v-button type="lightest" class="gutter-sm">lightest</v-button>
         </v-group>
 
+        <v-group title="小尺寸">
+            <v-button type="primary" size="sm" class="gutter-sm">primary</v-button>
+            <v-button type="success" size="sm" class="gutter-sm">success</v-button>
+            <v-button type="info" size="sm" class="gutter-sm">info</v-button>
+            <v-button type="warning" size="sm" class="gutter-sm">warning</v-button>
+            <v-button type="danger" size="sm" class="gutter-sm">danger</v-button>
+        </v-group>
+
+
         <v-group title="禁用">
             <v-button :is-ghost="true" :is-disabled="true" type="warning" class="gutter-sm">warning</v-button>
-            <v-button :is-round="true" :is-disabled="true" type="success" class="gutter-sm">success</v-button>
-            <v-button :is-disabled="true" type="info" class="gutter-sm">info</v-button>
+            <v-button :is-circle="true" :is-disabled="true" type="success" class="gutter-sm">success</v-button>
         </v-group>
 
         <v-group title="加载中">
             <v-button :is-loading="true" :is-ghost="true" type="warning" class="gutter-sm">warning</v-button>
             <v-button :is-loading="true" :is-round="true" type="success" class="gutter-sm">success</v-button>
-            <v-button :is-loading="true" type="info" class="gutter-sm">info</v-button>
         </v-group>
 
         <v-group title="幽灵按钮">
@@ -42,33 +49,23 @@
             <v-button :is-ghost="true" type="light" class="gutter-sm">lightest</v-button>
         </v-group>
 
-        <v-group title="圆角">
-            <v-button :is-round="true" type="primary" class="gutter-sm">primary</v-button>
-            <v-button :is-round="true" type="success" class="gutter-sm">success</v-button>
-            <v-button :is-round="true" type="info" class="gutter-sm">info</v-button>
-            <v-button :is-round="true" type="warning" class="gutter-sm">warning</v-button>
-            <v-button :is-round="true" type="danger" class="gutter-sm">danger</v-button>
-            <v-button :is-round="true" type="dark" class="gutter-sm">darkest</v-button>
-            <v-button :is-round="true" type="dark" class="gutter-sm">darker</v-button>
-            <v-button :is-round="true" type="dark" class="gutter-sm">dark</v-button>
-            <v-button :is-round="true" type="light" class="gutter-sm">light</v-button>
-            <v-button :is-round="true" type="light" class="gutter-sm">lighter</v-button>
-            <v-button :is-round="true" type="light" class="gutter-sm">lightest</v-button>
+        <v-group title="圆形按钮">
+            <v-button :is-circle="true" type="primary" class="gutter-sm">primary</v-button>
+            <v-button :is-circle="true" type="success" class="gutter-sm">success</v-button>
+            <v-button :is-circle="true" type="info" class="gutter-sm">info</v-button>
+            <v-button :is-circle="true" type="warning" class="gutter-sm">warning</v-button>
+            <v-button :is-circle="true" type="danger" class="gutter-sm">danger</v-button>
+            <v-button :is-circle="true" type="dark" class="gutter-sm">darkest</v-button>
+            <v-button :is-circle="true" type="dark" class="gutter-sm">darker</v-button>
+            <v-button :is-circle="true" type="dark" class="gutter-sm">dark</v-button>
+            <v-button :is-circle="true" type="light" class="gutter-sm">light</v-button>
+            <v-button :is-circle="true" type="light" class="gutter-sm">lighter</v-button>
+            <v-button :is-circle="true" type="light" class="gutter-sm">lightest</v-button>
         </v-group>
 
         <v-group title="块">
-            <v-button :is-block="true" class="gutter-top">default</v-button>
             <v-button :is-block="true" type="primary" class="gutter-top">primary</v-button>
-            <v-button :is-block="true" type="success" class="gutter-top">success</v-button>
-            <v-button :is-block="true" :is-ghost="true" type="info" class="gutter-top">info</v-button>
-            <v-button :is-block="true" :is-ghost="true" type="warning" class="gutter-top">warning</v-button>
-            <v-button :is-block="true" type="danger" class="gutter-top">danger</v-button>
-            <v-button :is-block="true" type="dark" class="gutter-top">darkest</v-button>
-            <v-button :is-block="true" type="dark" class="gutter-top">darker</v-button>
-            <v-button :is-block="true" type="dark" class="gutter-top">dark</v-button>
-            <v-button :is-block="true" type="light" class="gutter-top">light</v-button>
-            <v-button :is-block="true" type="light" class="gutter-top">lighter</v-button>
-            <v-button :is-block="true" type="light" class="gutter-top">lightest</v-button>
+            <v-button :is-block="true" :is-ghost="true" type="success" class="gutter-top">success</v-button>
         </v-group>
 
     </v-scroll-view>
