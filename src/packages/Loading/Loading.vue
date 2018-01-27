@@ -1,5 +1,5 @@
 <template>
-    <v-mask :isShow="isShow" class="atom-mask" style="background: rgba(0,0,0,0);">
+    <v-mask :isShow="isShow" class="atom-mask" :style="{background, zIndex}">
         <transition name="zoom">
             <div v-show="isShow" class="atom-mask__body">
                 <v-android></v-android>
@@ -18,6 +18,16 @@ export default {
         isShow: {
             type: Boolean,
             default: false
+        },
+
+        background: {
+            type: String,
+            default: 'rgba(0,0,0,0)'
+        },
+
+        zIndex: {
+            type: Number,
+            default: 1986
         }
     },
 
@@ -40,7 +50,6 @@ export default {
         align-self: center;
         background: rgba(#000, .8);
         padding: $gutter;
-        border: 1px solid $lightest;
         box-shadow: $shadowDown;
         > .body__text {
             text-align: center;

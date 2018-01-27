@@ -135,11 +135,16 @@ Atom.install = function(Vue) {
     // ==========================================loading==================================
     {
         let loadingVM = null;
-        Vue.prototype.$loading = () => {
+        Vue.prototype.$loading = ({
+            background = 'rgba(0,0,0,0)',
+            zIndex = 1986
+        } = {}) => {
             if (null === loadingVM) {
                 loadingVM = createVueChild(ALoading);
             }
             loadingVM.isShow = true;
+            loadingVM.background = background;
+            loadingVM.zIndex = zIndex;
             return loadingVM;
         };
 
