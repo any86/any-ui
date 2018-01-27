@@ -55,6 +55,11 @@ export default {
         isLoading: {
             type: Boolean,
             default: false
+        },
+
+        size: {
+            type: String,
+            default: '' //sm
         }
     },
 
@@ -67,7 +72,8 @@ export default {
                 'atom-btn--block': this.isBlock,
                 'atom-btn--round': this.isCircle,
                 'atom-btn--loading': this.isLoading,
-                'atom-btn--radius': !this.isBlock || this.isRound
+                'atom-btn--radius': !this.isBlock || this.isRound,
+                'atom-btn--sm' : 'sm' == this.size
             };
         }
     }
@@ -135,7 +141,9 @@ button {
     display: inline-block;
     user-select: none;
     vertical-align: top;
-    padding: $gutter $gutter*2;
+    padding: 0 $gutter*2;
+    height: $height;
+    line-height: $height;
     text-align: center;
     white-space: nowrap;
     letter-spacing: 1px;
@@ -143,6 +151,12 @@ button {
     border: 1px solid transparent;
     font-size: $big;
     transition: all $duration;
+
+    &--sm{
+        height: $height*0.6;
+        line-height: $height*0.6;
+        padding: 0 $gutter*0.6;
+    }
 
     &--disabled {
         pointer-events: none;
@@ -180,7 +194,6 @@ button {
             animation: rotation infinite $duration*2 linear;
         }
     }
-
 }
 
 @each $key, $value in $theme_colors {
