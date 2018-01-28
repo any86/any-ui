@@ -7,6 +7,14 @@
     border: 0 none !important;
 }
 
+// 支持情景色
+@each $key, $value in $theme_colors {
+    .border-#{$key} {
+        border:1px solid $value;
+    }
+}
+
+// none
 @each $direction in top, left, right, bottom {
     .border-#{$direction} {
         border-#{$direction}: 1px solid $lightest !important;
@@ -16,4 +24,5 @@
         border-#{$direction}:none !important;
     }
 }
+
 
