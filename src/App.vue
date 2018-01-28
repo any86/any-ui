@@ -13,7 +13,7 @@
         </ul>
 
         <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-app-bar>
-<div class="triangle-success"></div>
+<div class="triangle-info-top"></div>
         
         <main class="app-main">
             <transition name="zoom" mode="out-in">

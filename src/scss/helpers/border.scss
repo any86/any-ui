@@ -16,10 +16,7 @@ $value in $theme_colors {
 }
 
 // none
-@each $direction in top,
-left,
-right,
-bottom {
+@each $direction in $directions{
     .border-#{$direction} {
         border-#{$direction}: 1px solid $lightest !important;
     }

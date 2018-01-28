@@ -1,9 +1,10 @@
 @mixin ellipsis($row_count: 1) {
-    @if $row_count <= 1 {
+    @if $row_count <=1 {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-    } @else {
+    }
+    @else {
         min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -11,4 +12,27 @@
         -webkit-line-clamp: $row_count;
         -webkit-box-orient: vertical;
     }
+}
+
+@mixin triangle($size, $color, $direction) {
+    width: 0;
+    height: 0;
+    @if top == $direction {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-bottom: $size solid $color;
+    } @else if right == $direction {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-left: $size solid $color;
+    } @else if bottom == $direction {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-top: $size solid $color;
+    } @else if left == $direction {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-right: $size solid $color;
+    }
+    
 }

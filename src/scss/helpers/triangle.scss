@@ -1,10 +1,17 @@
 // 文字颜色
-@each $key, $value in $theme_colors {
+@each $key, $color in $theme_colors {
     .triangle-#{$key} {
         width: 0;
         height: 0;
         border-left: 0.1rem solid transparent;
         border-right: 0.1rem solid transparent;
-        border-top: 0.1rem solid $value;
+        border-top: 0.1rem solid $color;
+    }
+
+    @each $direction in $directions{
+        .triangle-#{$key}-#{$direction} {
+            @include triangle(.1rem, $color, $direction);
+        }
     }
 }
+
