@@ -1,7 +1,7 @@
 .clearfix {
-    overflow: hidden;
     &:after {
         content: ' ';
         clear: both;
+        display: block;
     }
 }

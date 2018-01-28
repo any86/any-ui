@@ -13,6 +13,8 @@
         </ul>
 
         <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-app-bar>
+<div class="border-bottom-none border-danger">123</div>
+        
         <main class="app-main">
             <transition name="zoom" mode="out-in">
                 <keep-alive>

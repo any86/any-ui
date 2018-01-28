@@ -1,0 +1,7 @@
+// 支持情景色
+@each $key,
+$value in $theme_colors {
+    .bg-#{$key} {
+        background-color: $value !important;
+    }
+}
