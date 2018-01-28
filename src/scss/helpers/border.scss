@@ -8,21 +8,30 @@
 }
 
 // 支持情景色
-@each $key, $value in $theme_colors {
+@each $key,
+$value in $theme_colors {
     .border-#{$key} {
-        border-color:$value;
+        border-color: $value;
     }
 }
 
 // none
-@each $direction in top, left, right, bottom {
+@each $direction in top,
+left,
+right,
+bottom {
     .border-#{$direction} {
         border-#{$direction}: 1px solid $lightest !important;
     }
 
     .border-#{$direction}-none {
-        border-#{$direction}:none !important;
+        border-#{$direction}: none !important;
     }
+}
+
+// 圆角
+.rounded {
+    border-radius: .25rem !important;
 }
 
 
