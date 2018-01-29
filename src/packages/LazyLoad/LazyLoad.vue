@@ -1,6 +1,3 @@
-<template>
-    <img :status="status" :src="url" class="atom-lazyload" :lazy="status"/>
-</template>
 <script>
 // 借鉴了vue-lazyload, 我这就一简化版
 // https://github.com/hilongjw/vue-lazyload
@@ -68,6 +65,22 @@ export default {
         };
     },
 
+    render(h){
+        return h('img', {
+            attrs: {
+                src: this.url,
+                lazy: this.status,
+            },
+
+            class: ['atom-lazyload'],
+
+            // on: {
+            //     animationend: this.animationend,
+            //     webkitAnimationend: this.animationend
+            // }
+        });
+    },
+
     created() {
         // 初始化加载图片
         // this.url = this.placeholder;
@@ -80,14 +93,15 @@ export default {
         this.events.forEach(eventName => {
             this.scrollParentNode.addEventListener(eventName, this.loadImgIfInView);
         });
+
         this.loadImgIfInView();
-
-
-        this.$el.lazyload = ()=>{
-            this.$nextTick(()=>{
-                this.loadImgIfInView();
-            });
-        }
+        this.$el.lazyload = () => {
+            if ('ready' === this.$el.getAttribute('lazy')) {
+                this.$nextTick(() => {
+                    this.loadImgIfInView();
+                });
+            }
+        };
     },
 
     methods: {
@@ -114,19 +128,18 @@ export default {
             const startTime = getTime();
             var img = new Image();
             img.src = this.src;
-
             // if (img.complete) {
-            //     this.status = 'loaded';
-            //     this.url = this.src;
-            //     this.costTime = getTime() - startTime;
-            //     this.$emit('loaded', {
-            //         width: img.naturalWidth,
-            //         height: img.naturalHeight,
-            //         url: this.url,
-            //         costTime: this.costTime
-            //     });
-            //     img = null;
-            //     return;
+            // this.status = 'loaded';
+            // this.url = this.src;
+            // this.costTime = getTime() - startTime;
+            // this.$emit('loaded', {
+            //     width: img.naturalWidth,
+            //     height: img.naturalHeight,
+            //     url: this.url,
+            //     costTime: this.costTime
+            // });
+            // img = null;
+            // return;
             // }
 
             if (this.attempt > this.attemptCount) {
@@ -168,6 +181,12 @@ export default {
                 });
                 img = null;
             }
+
+            // 删除lazy防止因为display:none/block的切换造成animate
+            setTimeout(()=>{
+                this.$el.removeAttribute('lazy');
+            }, 1050);
+            
         }
     },
 
@@ -180,7 +199,6 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
-$size: 0.6rem;
 .atom-lazyload {
     max-width: 100%;
     display: block;
@@ -203,6 +221,7 @@ $size: 0.6rem;
         0% {
             transform: scale(1.1);
             opacity: 0;
+            overflow: hidden;
         }
         100% {
             opacity: 1;

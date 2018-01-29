@@ -11,8 +11,8 @@
             </div>
         </div>
 
-        <div v-show="1 == index" class="list-h">
-            <div class="list-h__item" v-for="item in images" :key="item">
+        <div v-show="1 == index" class="list-v">
+            <div class="list-v__item" v-for="item in images" :key="item">
                 <v-lazy-load :src="item" class="image" ref="lazy"/>
             </div>
         </div>
@@ -101,15 +101,15 @@ export default {
     }
 }
 
-.list-h {
+.list-v {
     width: 100%;
-    overflow: scroll;
     display: flex;
+    overflow: scroll;
     &__item {
         flex: 0 0 60%;
         img {
             margin: $gutter auto;
-            min-height: 300px;
+            width:100%;
         }
     }
 }
