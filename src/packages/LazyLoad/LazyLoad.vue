@@ -55,19 +55,6 @@ export default {
             default() {
                 return ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'webkitAnimationend', 'webkitTransitionend', 'touchmove'];
             }
-        },
-
-        refresh: {
-            type: Number
-            // default: getTime()
-            // 一般只有出现2组图片的父元素是通过v-show来控制的情况才需要
-            // 如果不愿意用refresh去强制触发刷新,
-            // 那么就需要在图片元素或者父元素上使用v-if进行控制渲染开始的时机, 来触发mounted中的代码.
-        },
-
-        isRefresh: {
-            type: Boolean,
-            default: false
         }
     },
 
@@ -91,9 +78,16 @@ export default {
         this.scrollParentNode = getScrollParent(this.$el);
         // 绑定事件
         this.events.forEach(eventName => {
-            this.scrollParentNode.addEventListener(eventName, this.loadInViewImg);
+            this.scrollParentNode.addEventListener(eventName, this.loadImgIfInView);
         });
-        this.loadInViewImg();
+        this.loadImgIfInView();
+
+
+        this.$el.lazyload = ()=>{
+            this.$nextTick(()=>{
+                this.loadImgIfInView();
+            });
+        }
     },
 
     methods: {
@@ -101,12 +95,12 @@ export default {
          * 如果没加载, 去监测是否能加载
          * 否则移除监听
          */
-        loadInViewImg() {
+        loadImgIfInView() {
             // 不throttle.cancel能自动释放吗?
             throttle(() => {
                 if ('loaded' === this.status) {
                     this.events.forEach(eventName => {
-                        this.scrollParentNode.removeEventListener(eventName, this.loadInViewImg);
+                        this.scrollParentNode.removeEventListener(eventName, this.loadImgIfInView);
                     });
                 } else if ('ready' === this.status) {
                     if (getIsInView(this.$el, this.preLoadRate)) {
@@ -177,19 +171,9 @@ export default {
         }
     },
 
-    watch: {
-        refresh() {
-            this.loadInViewImg();
-        },
-
-        isRefresh() {
-            this.loadInViewImg();
-        }
-    },
-
     beforeDestroy() {
         this.events.forEach(eventName => {
-            this.scrollParentNode.removeEventListener(eventName, this.loadInViewImg);
+            this.scrollParentNode.removeEventListener(eventName, this.loadImgIfInView);
         });
     }
 };

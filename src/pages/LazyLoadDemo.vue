@@ -7,13 +7,13 @@
 
         <div v-show="0 == index" class="list">
             <div class="list__item" v-for="item in images" :key="item">
-                <v-lazy-load :src="item" class="image" :refresh="refreshTime"/>
+                <v-lazy-load :src="item" class="image"/>
             </div>
         </div>
 
         <div v-show="1 == index" class="list-h">
             <div class="list-h__item" v-for="item in images" :key="item">
-                <v-lazy-load :src="item" class="image" :refresh="refreshTime"/>
+                <v-lazy-load :src="item" class="image" ref="lazy"/>
             </div>
         </div>
     </v-scroll-view>
@@ -34,14 +34,17 @@ export default {
             images,
             isShow: true,
             index: 0,
-            refreshTime: new Date().getTime()
         };
     },
 
+    mounted() {},
+
     methods: {
         changeSegment() {
-            this.refreshTime = new Date().getTime();
-        }   
+            this.$refs.lazy.forEach(el => {
+                el.$el.lazyload();
+            });
+        }
     },
 
     components: {
@@ -86,10 +89,15 @@ export default {
     }
 }
 
-.list{
+.list {
     width: 100%;
-    &__item{padding:15px;
-        img{width:60%;display: block;margin:auto;}
+    &__item {
+        padding: 15px;
+        img {
+            width: 60%;
+            display: block;
+            margin: auto;
+        }
     }
 }
 
