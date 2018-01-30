@@ -54,6 +54,8 @@ import BadgeDemo from '@/pages/BadgeDemo';
 import StepsDemo from '@/pages/StepsDemo';
 import TagDemo from '@/pages/TagDemo';
 import BreadCrumbDemo from '@/pages/BreadCrumbDemo';
+import IconDemo from '@/pages/IconDemo';
+
 
 // 加载
 import SpinnerDemo from '@/pages/SpinnerDemo';
@@ -235,18 +237,23 @@ export default new Router({
             name: 'range',
             path: '/range',
             component: RangeDemo
-        },{
+        }, {
             name: 'rate',
             path: '/rate',
             component: RateDemo
-        },{
+        }, {
             name: 'popupPicker',
             path: '/popup-picker',
             component: PopupPickerDemo
-        },{
+        }, {
             name: 'lazyload',
             path: '/lazyload',
             component: LazyLoadDemo
+        },
+        {
+            name: 'icon',
+            path: '/icon',
+            component: IconDemo
         }
     ]
 });

@@ -50,6 +50,7 @@
                 <div class="group__item" @click="$router.push({'path': '/steps'})">Steps</div>
                 <div class="group__item" @click="$router.push({'path': '/tag'})">Tag</div>
                 <div class="group__item" @click="$router.push({'path': '/bread-crumb'})">Breadcrumb(面包靴)</div>
+                <div class="group__item" @click="$router.push({'path': '/icon'})">Icon(图表集)</div>
                 <div class="group__item" @click="$router.push({'path': '/qrcode'})">QRCode(二维码)</div>
             </a-collapse-item>
 
