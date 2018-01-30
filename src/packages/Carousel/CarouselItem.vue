@@ -88,7 +88,6 @@ export default {
         this.$nextTick(() => {
             this.width = this.$parent.warpWidth / this.$parent.slidesPerView;
             this.ready = true;
-
             if (undefined !== this.$parent.imageStore[this.index] && 0 === this.$parent.imageStore[this.index].length) {
                 this.hasImage = false;
             }

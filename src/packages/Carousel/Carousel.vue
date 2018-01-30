@@ -13,8 +13,8 @@
 import { getWidth, getHeight, getTime } from '../../utils/dom';
 import loadImage from '../../utils/loadImage';
 /**
- * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址, 
- *    如果一页有多个src-lazy会当第一个src-lazy加载完毕, 
+ * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址,
+ *    如果一页有多个src-lazy会当第一个src-lazy加载完毕,
  *    隐藏等待指示器, 不建议一页多个图, 不要权衡哪一个先限制.
  *    当然也可以通过lazy-weight来排序权重, 但是感觉现实开发中就应该避免一页多图的设计, 日后增加权重的判断
  *    如日后遇见此类需求再加,暂且开发到这
@@ -50,12 +50,12 @@ export default {
 
         isAutoPlay: {
             type: Boolean,
-            default: true
+            default: false
         },
 
         isLoop: {
             type: Boolean,
-            default: true
+            default: false
         },
 
         threshold: {
@@ -123,8 +123,7 @@ export default {
     }),
 
     mounted() {
-        this.warpWidth = 0 < this.width ? this.width : getWidth(this.$el);
-        this.warpHeight = 0 < this.height ? this.height : getHeight(this.$el);
+        this.updateSize();
 
         this.realCount = this.$children.length;
         this.itemInViewCount = Math.ceil(this.slidesPerView);
@@ -152,9 +151,22 @@ export default {
         this.$nextTick(() => {
             this.$emit('init', { pageBtnCount: this.pageBtnCount });
         });
+
+        // // 刷新
+        // this.$el.update = ()=>{
+        //     this.updateSize();
+        // };
     },
 
     methods: {
+        /**
+         * 重新计算宽高
+         */
+        updateSize() {
+            this.warpWidth = 0 < this.width ? this.width : getWidth(this.$el);
+            this.warpHeight = 0 < this.height ? this.height : getHeight(this.$el);
+        },
+
         /**
          * 构造loop所需dom结构
          */
@@ -263,9 +275,9 @@ export default {
             clearTimeout(this.playTimeOutId);
         },
 
-        /** 
-        * 恢复播放
-        */
+        /**
+         * 恢复播放
+         */
         playSlider() {
             if (this.isAutoPlay && !this.disableOnInteraction) {
                 if (this.isLoop) {
