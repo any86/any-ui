@@ -1,7 +1,7 @@
 <template>
     <header class="atom-app-bar">
         <span class="bar__left">
-            <i v-if="hasArrow" @click="clickArrow" v-ripple="true" class="icon-back"></i>
+            <a-icon @click="clickArrow" v-ripple="true" value="arrow" :angel="180" :size="24"/>
             <slot name="left"></slot>
         </span>
         <span class="bar__center">
@@ -13,6 +13,7 @@
     </header>
 </template>
 <script>
+import AIcon from '../Icon'
 export default {
     name: 'AtomAppBar',
 
@@ -27,7 +28,9 @@ export default {
         clickArrow(){
             this.$emit('click-arrow');
         }
-    }
+    },
+
+    components: {AIcon}
 };
 </script>
 <style scoped lang="scss">
