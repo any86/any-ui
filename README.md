@@ -2,7 +2,7 @@
 > 玩积木一样玩组件
 
 ### 版本
-1.0.86
+1.0.87
 
 ### 演示
 [预览地址](https://383514580.github.io/atom)
@@ -17,3 +17,7 @@
 3. 优化组件, 重点virtualscroll/carousel组件
 4. 需要js做一个全局的z-index管理
 5. 兼容fastClick
+
+### 1.0.87
+1. 制作了几个常用svg, 集成到Icon组件中
+2. 用Icon组件重构了Rate组件
