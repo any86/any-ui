@@ -1,10 +1,10 @@
 <template>
-    <div class="atom-rate">
-        <v-star v-for="n in count" :key="n" :type="value >= n ? 'full' : 'empty'" width="44" height="40"  @click="changeRate(n)"/>
+    <div :readonly="isReadOnly" class="atom-rate">
+        <v-icon v-for="n in count" :key="'atom-star-'+n" :value="value < n ? 'star-o' : 'star'" :size="size"  @click="changeRate(n)" class="svg-icon"/>
     </div>
 </template>
 <script>
-import VStar from '../../packages/Svg/Star';
+import VIcon from '../../packages/Icon';
 export default {
     name: 'AtomRate',
 
@@ -14,34 +14,46 @@ export default {
             default: 5
         },
 
+        size: {
+            default: 40
+        },
+
+        isReadOnly: {
+            type: Boolean,
+            default: false
+        },
+
         value: {
             type: [Number, String],
             required: true,
             default: 1
         }
-
     },
 
     methods: {
-        changeRate(n){
+        changeRate(n) {
             this.$emit('input', n);
         }
     },
 
-    components: { VStar }
+    components: { VIcon }
 };
 </script>
 <style lang="scss">
 @import '../../scss/variables.scss';
 .atom-rate {
     display: flex;
-    >svg {
+    > .svg-icon {
         flex: 1;
-        transition: transform $duration, background $duration;
-        &:active{
-            transform: scale(.618);
-        }
     }
 
+    &:not([readonly]) {
+        > .svg-icon {
+            transition: transform $duration, background $duration;
+            &:active {
+                transform: scale(0.618);
+            }
+        }
+    }
 }
 </style>

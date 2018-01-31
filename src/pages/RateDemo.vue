@@ -11,8 +11,8 @@
         </div>
 
         <div class="fill">
-            <h4>不可修改</h4>
-            <v-rate :value="3" :count="10" class="gutter-top-sm"/>
+            <h4>readonly</h4>
+            <v-rate :value="3" :count="10" :is-read-only="true" class="gutter-top-sm"/>
         </div>
 
 
