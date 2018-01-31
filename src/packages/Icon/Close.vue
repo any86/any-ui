@@ -19,6 +19,6 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
 line {
-    stroke: $dark;
+    stroke: $darkest;
 }
 </style>

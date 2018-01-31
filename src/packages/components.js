@@ -54,7 +54,7 @@ import ATag from './Tag/Tag';
 import ATextarea from './Textarea/Textarea';
 import AToast from './Toast/Toast';
 import AVirtualScroller from './VirtualScroller/VirtualScroller';
-import AWarning from './Warning/Warning';
+import AIcon from './Icon/Icon';
 export {
     AAffix,
     ABadge,
@@ -94,7 +94,7 @@ export {
     ATextarea,
     AToast,
     AVirtualScroller,
-    AWarning,
+    AIcon,
     AAndroid,
     AThreeDots,
     ARipple
