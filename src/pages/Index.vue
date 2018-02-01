@@ -45,12 +45,13 @@
                 <div class="group__item" @click="$router.push({'path': '/segment'})">Segment(分段)</div>
             </a-collapse-item>
 
-            <a-collapse-item title="辅助显示" class="group">
+            <a-collapse-item class="group">
+                <h4 slot="header"><a-badge value="1">辅助显示</a-badge></h4>
                 <div class="group__item" @click="$router.push({'path': '/badge'})">Badge</div>
                 <div class="group__item" @click="$router.push({'path': '/steps'})">Steps</div>
                 <div class="group__item" @click="$router.push({'path': '/tag'})">Tag</div>
                 <div class="group__item" @click="$router.push({'path': '/bread-crumb'})">Breadcrumb(面包靴)</div>
-                <div class="group__item" @click="$router.push({'path': '/icon'})">Icon(图表集)</div>
+                <div class="group__item" @click="$router.push({'path': '/icon'})">Icon(图表集)<a-badge value="new"></a-badge></div>
                 <div class="group__item" @click="$router.push({'path': '/qrcode'})">QRCode(二维码)</div>
             </a-collapse-item>
 

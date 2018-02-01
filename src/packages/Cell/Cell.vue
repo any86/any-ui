@@ -18,11 +18,12 @@
             <template v-if="undefined !== extra">{{extra}}</template>    
             <slot v-else name="extra"></slot>
         </span>
-
-        <i v-if="undefined !== arrow" class="atom-cell__arrow" value="more" :style="{transform: `rotate(${arrow}deg)`}"></i>
+        
+        <a-icon v-if="undefined !== arrow" value="arrow" size="18" :style="{transform: `rotate(${arrow}deg)`}" class="atom-cell__arrow" />
     </a>
 </template>
 <script>
+import AIcon from '../Icon'
 export default {
     name: 'AtomCell',
 
@@ -58,7 +59,9 @@ export default {
         rippleConfig() {
             return undefined === this.arrow ? { isDisabled: true } : { background: '#ccc', isDisabled: !this.hasRipple };
         }
-    }
+    },
+
+    components: {AIcon}
 };
 </script>
 <style scoped lang="scss">
@@ -101,7 +104,7 @@ export default {
 
     &__arrow {
         align-self: center;
-        background: url(../../assets/more.svg) center center;
+        // background: url(../../assets/more.svg) center center;
         background-size: 100%;
         width: 24px;
         height: 24px;

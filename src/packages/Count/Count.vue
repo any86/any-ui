@@ -1,11 +1,14 @@
 <template>
     <span :class="{'atom-count--disabled': isDisabled}" class="atom-count">
-        <i v-ripple="!isDisabled && hasRipple && min != value" :class="['atom-count__btn', 'atom-count__btn-minus', min == value && 'atom-count__btn--disabled']" @click="minus"></i>
-        <span v-ripple="false" class="atom-count__content" v-on="$listeners">{{value}}</span>
-        <i v-ripple="!isDisabled && hasRipple && max != value" :class="['atom-count__btn', 'atom-count__btn-plus', max == value && 'atom-count__btn--disabled']" @click="plus"></i>
+        <a-icon value="minus" size="32" class="atom-count__btn atom-count__btn-minus" :class="{'atom-count__btn--disabled': min == value}" @click="minus"/>
+        
+        <span class="atom-count__content" v-on="$listeners">{{value}}</span>
+
+        <a-icon value="plus" size="32" class="atom-count__btn atom-count__btn-plus" :class="{'atom-count__btn--disabled': max == value}" @click="plus"/>
     </span>
 </template>
 <script>
+import AIcon from '../Icon'
 export default {
     name: 'AtomCount',
 
@@ -59,18 +62,19 @@ export default {
                 this.$emit('reachMax');
             }
         }
-    }
+    },
+
+    components: {AIcon}
 };
 </script>
 <style scoped lang=scss>
 @import '../../scss/variables.scss';
-$height: 0.5rem;
 .atom-count {
     box-sizing: content-box;
     position: relative;
     display: inline-flex;
     border: 1px solid $lighter;
-    height: $height;
+    height: $component_count_height;
     background: $background;
 
     &--disabled {
@@ -83,25 +87,20 @@ $height: 0.5rem;
 
     &__btn {
         display: block;
-        height: $height;
-        line-height: $height;
-        width: $height;
+        height: $component_count_height;
+        line-height: $component_count_height;
+        width: $component_count_height;
         color: $darker;
         text-align: center;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: 60%;
         transition: background $duration;
         &--disabled {
             background-color: $lightest;
         }
     }
     &__btn-minus {
-        background-image: url('../../assets/subtract.svg');
         border-right: 1px solid $lighter;
     }
     &__btn-plus {
-        background-image: url('../../assets/add.svg');
         border-left: 1px solid $lighter;
     }
 
@@ -109,10 +108,10 @@ $height: 0.5rem;
         display: inline-block;
         position: relative;
         transition: transform $duration;
-        min-width: $height * 1.25;
+        min-width: $component_count_height * 1.25;
         color: $darkest;
         text-align: center;
-        line-height: $height;
+        line-height: $component_count_height;
         &.disabled {
             color: $disabled;
         }

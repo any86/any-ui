@@ -48,13 +48,6 @@ export default {
         display: flex;
         align-items: center;
         flex: 1;
-        > .icon-back {
-            display: inline-block;
-            height: 32px;
-            width: 32px;
-            background: url('../../assets/back.svg');
-            background-size: 100%;
-        }
         &.bar__center {
             justify-content: center;
             font-size: $biggest;

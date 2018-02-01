@@ -57,11 +57,4 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/variables.scss';
-.m-icon {
-    background: url(../assets/close.svg) center center;
-    background-size: 100%;
-    width: 32px;
-    height: 32px;
-    display: inline-block;
-}
 </style>
