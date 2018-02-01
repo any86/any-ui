@@ -2,12 +2,12 @@
     <div class="atom-input">
         <input v-bind="$attrs" ref="input" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
         <transition name="fadeLeft">
-            <v-close v-if="hasRemove" v-show="isShowEmpty" @click="empty" class="atom-input__close"></v-close>
+            <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="empty" class="atom-input__close"/>
         </transition>
     </div>
 </template>
 <script>
-import VClose from '../../packages/Icon/Close';
+import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomInput',
 
@@ -87,7 +87,7 @@ export default {
         }
     },
 
-    components: { VClose }
+    components: { AIcon }
 };
 </script>
 <style scoped lang="scss">
