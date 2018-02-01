@@ -17,5 +17,5 @@ export default {
 
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
-polyline{stroke:$darkest;}
+polyline{stroke:currentColor;}
 </style>
