@@ -1,5 +1,5 @@
 <template>
-    <v-mask :isShow="isShow" :portal="portal" @update:isShow="close">
+    <a-mask :isShow="isShow" :portal="portal" @update:isShow="close">
         <transition name="zoom">
             <div v-show="isShow" :class="['atom-dialog-' + align]" class="atom-dialog">
                 <header v-if="this.$slots.header">
@@ -15,15 +15,10 @@
                 </footer>
             </div>
         </transition>
-
-        <transition name="fadeDown">
-            <v-icon-close v-if="hasClose && isShow" @click="close" class="button-close"></v-icon-close>
-        </transition>
-    </v-mask>
+    </a-mask>
 </template>
 <script>
-import VMask from '../../packages/Mask/Mask';
-import VIconClose from '../../packages/Icon/Close';
+import AMask from '../../packages/Mask/Mask';
 export default {
     name: 'AtomDialog',
 
@@ -36,11 +31,6 @@ export default {
             type: Boolean
         },
 
-        hasClose: {
-            type: Boolean,
-            default: true
-        },
-
         align: {
             type: String,
             default: 'top'
@@ -48,15 +38,13 @@ export default {
     },
 
     methods: {
-
         close() {
             this.$emit('update:isShow', false);
         }
     },
 
     components: {
-        VMask,
-        VIconClose
+        AMask
     }
 };
 </script>

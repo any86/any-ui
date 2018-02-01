@@ -1,11 +1,13 @@
 <template>
     <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="isShow" v-dom-portal="portal" @click.self="close" :style="{position, background}" v-on="$listeners" v-bind="$attrs" class="atom-mask">
+        <div v-show="isShow" v-dom-portal="portal" @click.self="close" :style="{position}" v-on="$listeners" v-bind="$attrs" class="atom-mask">
             <slot></slot>
+            <a-icon v-if="hasClose" value="close" @click="close" class="atom-mask__icon-close"/>
         </div>
     </transition>
 </template>
 <script>
+import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomMask',
 
@@ -19,23 +21,19 @@ export default {
             type: Boolean
         },
 
-        background: {
-            type: String,
-            default: 'rgba(0,0,0, 0.618)'
-        },
-
         isLock: {
             type: Boolean,
             default: false
         },
 
-        zIndex: {
-            type: Number
-        },
-
         isFixed: {
             type: Boolean,
             default: true
+        },
+
+        hasClose: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -59,7 +57,9 @@ export default {
         position() {
             return this.isFixed ? 'fixed' : 'absolute';
         }
-    }
+    },
+
+    components: {AIcon}
 };
 </script>
 <style scoped lang="scss">
@@ -70,5 +70,16 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    background: rgba(0,0,0, 0.618);
+    &__icon-close{
+        position: absolute;
+        z-index: 2;
+        left:0;right:0;bottom:$gutter*2;
+        margin: auto;
+        color: $sub;
+        border:1px solid $sub;
+        border-radius: 50%;
+        padding:$gutter/2;
+    }
 }
 </style>
