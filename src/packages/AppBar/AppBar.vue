@@ -44,14 +44,15 @@ export default {
     box-shadow: $shadowDown;
     padding: 0 $gutter/2;
     background: $background;
-    > span {
+    > .bar__left, .bar__right {
         display: flex;
         align-items: center;
         flex: 1;
-        &.bar__center {
-            justify-content: center;
-            font-size: $biggest;
-        }
     }
+
+    >.bar__center {
+            justify-content: center;
+            font-size: $bigger;
+        }
 }
 </style>
