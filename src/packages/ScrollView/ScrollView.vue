@@ -98,7 +98,6 @@ export default {
         _checkBottom: debounce(function() {
             if (this.isListenBottom && 'down' == this.direction) {
                 this.contentHeight = getHeight(this.$el, { isScroll: true });
-
                 // 超过阈值
                 if (this.contentHeight < this.scrollTop + this.viewHeight + this.threshold) {
                     this.$emit('scroll-bottom', this.scrollTop);
@@ -110,6 +109,10 @@ export default {
          */
         scroll() {
             this.scrollTop = getScrollTop(this.$el);
+            // 强制每次刷新高度 2018-02-01
+            // 防止初始化时是隐藏状态而获取不到高度
+            // 稍后增加Api, 实现手动刷新高度
+            this.viewHeight = getHeight(this.$el);
             this._checkBottom();
             this.$emit('input', this.scrollTop);
         },

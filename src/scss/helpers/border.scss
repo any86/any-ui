@@ -11,7 +11,7 @@
 @each $key,
 $value in $theme_colors {
     .border-#{$key} {
-        border-color: $value;
+        border-color: $value !important;
     }
 }
 
@@ -27,7 +27,7 @@ $value in $theme_colors {
 }
 
 // 圆角
-.rounded {
+.border-rounded {
     border-radius: .25rem !important;
 }
 
