@@ -10,6 +10,8 @@ import AClose from './Close';
 import ATick from './Tick';
 import AStar from './Star';
 import AStarO from './StarO';
+import AWarning from './Warning';
+
 export default {
     name: 'AtomIcon',
 
@@ -28,13 +30,13 @@ export default {
         }
     },
 
-    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarO }
+    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarO, AWarning }
 };
 </script>
 
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
-.atom-icon{
+.atom-icon {
     transition: transform $duration;
     will-change: transform;
 }
