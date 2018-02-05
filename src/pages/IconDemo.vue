@@ -8,6 +8,7 @@
         <a-icon value="tick" class="border"/>
         <a-icon value="star" class="border"/>
         <a-icon value="star-o" class="border"/>
+        <a-icon value="warning" class="border"/>
     </a-scroll-view>
 </template>
 <script>
@@ -19,12 +20,13 @@ import AClose from '@/packages/Icon/Close';
 import ATick from '@/packages/Icon/Tick';
 import AStar from '@/packages/Icon/Star';
 import AStarO from '@/packages/Icon/StarO';
+import AWarning from '@/packages/Icon/Warning';
 import AIcon from '@/packages/Icon';
 
 export default {
     name: 'IconDemo',
 
-    components: {AIcon, APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarO }
+    components: {AIcon, APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarO,AWarning }
 };
 </script>
 <style scoped lang="scss">

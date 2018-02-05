@@ -1,10 +1,15 @@
 <template>
-    <div class="atom-input">
-        <input v-bind="$attrs" ref="input" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup">
+    <label class="atom-input">
+        <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
+        <a-popper :is-show.sync="isShowWarning" placement="auto" class="flex-item">
+            <p v-show="isShowWarning" style="padding:15px;">{{warningText}}</p>
+            <input slot="reference" ref="input" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="$emit('keydown',$event)" class="atom-input__input">
+        </a-popper>
+
         <transition name="fadeLeft">
-            <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="empty" class="atom-input__close"/>
+            <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="empty" class="atom-input__btn-empty"/>
         </transition>
-    </div>
+    </label>
 </template>
 <script>
 import AIcon from '../../packages/Icon';
@@ -21,13 +26,14 @@ export default {
             required: true
         },
 
-        type: {}
+        type: {},
     },
 
     data() {
         return {
-            label: '',
-            isShowEmpty: false
+            isShowEmpty: false,
+            isShowWarning: false,
+            warningText: ''
         };
     },
 
@@ -37,17 +43,19 @@ export default {
         },
 
         focus(e) {
+            
             // 默认选中文字
             // e.target.select();
             if ('' != this.value) {
                 this.isShowEmpty = true;
             }
-            this.$emit('focus',e);
+            this.$emit('focus', e);
         },
 
         blur(e) {
             this.isShowEmpty = false;
-            this.$emit('blur',e);
+            this.$emit('warning', '测试!');
+            this.$emit('blur', e);
         },
 
         keyup(e) {
@@ -67,7 +75,7 @@ export default {
             } else if ('number' == this.type) {
                 value = value.replace(/\D/g, '');
             }
-            this.$emit('keyup',e);
+            this.$emit('keyup', e);
             this.$emit('input', value);
         },
 
@@ -92,29 +100,32 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
-$height: 0.6rem;
+$height: 20px;
 .atom-input {
     position: relative;
     display: flex;
-    align-items: center;
+    font-size: inherit;
     width: 100%;
     background: $background;
-    > input {
-        background: rgba(255, 255, 255, 0);
-        font-size: $normal;
+    &__title {
+        align-self: center;
+        padding-right: $gutter;
+        font-size: inherit;
+    }
+    &__input {
         flex: 1;
+        align-self: center;
+        font-size: inherit;
+        background: rgba(255, 255, 255, 0);
+        font-size: inherit;
         border: 0 none;
         outline: none;
         width: 100%;
-        height: $height/2;
-        line-height: $height/2;
+        height: $height;
+        line-height: $height;
     }
 
-    &__close {
-        margin-right: $gutter/2;
-        width: $height/2;
-        height: $height/2;
-        display: block;
+    &__btn-empty {
         align-self: center;
     }
 }
