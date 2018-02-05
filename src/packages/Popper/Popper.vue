@@ -1,7 +1,7 @@
 <template>
     <span>
         <transition name="fadeUp">
-            <span ref="popper" v-show="isShow" class="atom-popper" v-dom-portal="portal">
+            <span ref="popper" v-show="isShow" class="atom-popper" v-dom-portal="isPortal">
                 <slot></slot>
             </span>
         </transition>
@@ -9,7 +9,6 @@
     </span>
 </template>
 <script>
-
 import Popper from 'popper.js';
 export default {
     name: 'AtomPopper',
@@ -17,21 +16,12 @@ export default {
     props: {
         options: {
             type: Object,
-            default() {
-                return {};
-            }
+            default: () => {}
         },
 
-        value: {
+        isShow: {
             type: Boolean,
             default: false
-        },
-
-        triggers: {
-            type: Array,
-            default() {
-                return ['click'];
-            }
         },
 
         placement: {
@@ -44,9 +34,9 @@ export default {
             default: true
         },
 
-        portal: {
+        isPortal: {
             type: Boolean,
-            default: true
+            default: false
         }
     },
 
@@ -55,7 +45,6 @@ export default {
             popper: null,
             top: 0,
             left: 0,
-            isShow: false,
             referenceElm: null,
             popperElm: null
         };
@@ -63,29 +52,18 @@ export default {
 
     mounted() {
         this.createPopper();
-        document.addEventListener('click', this.handleDocumentClick);
-        document.addEventListener('touchstart', this.handleDocumentClick);
-        
-        this.triggers.forEach(eventName => {
-            this.referenceElm.addEventListener(eventName, this.togglePopper);
-        });
+        document.addEventListener('click', this.close);
+        document.addEventListener('touchstart', this.close);
     },
 
     methods: {
-        handleDocumentClick(e) {
+        close(e) {
             if (this.isShow) {
                 // 点击组件外部关闭popper
-                if (
-                    !this.$el.contains(e.target) &
-                    !this.referenceElm.contains(e.target) &
-                    !this.popperElm.contains(e.target)
-                ) {
-                    this.isShow = false;
-                } else if (
-                    this.isCloseAfterClick &&
-                    this.popperElm.contains(e.target)
-                ) {
-                    this.isShow = false;
+                if (!this.$el.contains(e.target) & !this.referenceElm.contains(e.target) & !this.popperElm.contains(e.target)) {
+                    this.$emit('update:isShow', false);
+                } else if (this.isCloseAfterClick && this.popperElm.contains(e.target)) {
+                    this.$emit('update:isShow', false);
                 }
             }
         },
@@ -99,18 +77,21 @@ export default {
             arrow.className = 'popper__arrow';
             this.popperElm.appendChild(arrow);
             this.popper = new Popper(this.referenceElm, this.popperElm, {
+                placement: this.placement,
                 modifiers: {
                     computeStyle: { gpuAcceleration: false }
                 },
-                onUpdate() {}
+                onUpdate(data, options) {
+                    this.$emit('update', { data, options });
+                }
             });
         },
 
-        togglePopper() {
+        toggle() {
             this.isShow = !this.isShow;
         },
 
-        showPopper() {
+        show() {
             this.$nextTick(() => {
                 this.isShow = true;
                 this.updatePopper();
@@ -123,29 +104,27 @@ export default {
     },
 
     watch: {
-        isShow(value) {
-            if (value) {
-                this.$emit('show');
-            } else {
-                this.$emit('hide');
-            }
-        },
-
-        value: {
-            immediate: true,
-
-            handler(value) {
-                this.isShow = value;
-            }
-        }
+        // isShow(value) {
+        //     if (value) {
+        //         this.$emit('show');
+        //     } else {
+        //         this.$emit('hide');
+        //     }
+        // },
+        // value: {
+        //     immediate: true,
+        //     handler(value) {
+        //         this.isShow = value;
+        //     }
+        // }
     },
 
     breforeDestory() {
-        document.removeEventListener('click', this.handleDocumentClick);
-        document.removeEventListener('touchstart', this.handleDocumentClick);
-        this.triggers.forEach(eventName => {
-            this.referenceElm.removeEventListener(eventName, this.togglePopper);
-        });
+        document.removeEventListener('click', this.close);
+        document.removeEventListener('touchstart', this.close);
+        // this.triggers.forEach(eventName => {
+        //     this.referenceElm.removeEventListener(eventName, this.toggle);
+        // });
     },
 
     destroyed() {
@@ -187,8 +166,7 @@ $arrowBorderSize: 1px;
                 right: -($arrowSize - $arrowBorderSize);
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize $arrowSize -
-                    $arrowBorderSize 0 $arrowSize - $arrowBorderSize;
+                border-width: $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize 0 $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-left-color: transparent;
@@ -219,8 +197,7 @@ $arrowBorderSize: 1px;
                 right: -($arrowSize - $arrowBorderSize);
                 width: 0;
                 height: 0;
-                border-width: 0 $arrowSize - $arrowBorderSize $arrowSize -
-                    $arrowBorderSize $arrowSize - $arrowBorderSize;
+                border-width: 0 $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: $sub;
                 border-left-color: transparent;
@@ -251,8 +228,7 @@ $arrowBorderSize: 1px;
                 right: $arrowBorderSize * 2;
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize 0 $arrowSize -
-                    $arrowBorderSize $arrowSize - $arrowBorderSize;
+                border-width: $arrowSize - $arrowBorderSize 0 $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-left-color: $sub;
@@ -283,8 +259,7 @@ $arrowBorderSize: 1px;
                 left: $arrowBorderSize * 2;
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize $arrowSize -
-                    $arrowBorderSize $arrowSize - $arrowBorderSize 0;
+                border-width: $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize 0;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-right-color: $sub;
