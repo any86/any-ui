@@ -6,24 +6,21 @@
         </span>
 
         <span :style="[bodyStyle, {textAlign}]" class="atom-cell__body">
-            <div class="body__content">
-                <slot></slot>
-            </div>
-            <p v-show="$slots.tip" class="body__tip">
-                <slot name="tip"></slot>
-            </p>
+            <slot></slot>
         </span>
 
+        <!-- 追加内容 -->
         <span v-if="undefined !== $slots.extra || undefined !== extra" class="atom-cell__extra">
             <template v-if="undefined !== extra">{{extra}}</template>    
             <slot v-else name="extra"></slot>
         </span>
         
+        <!-- 箭头图标 -->
         <a-icon v-if="undefined !== arrow" value="arrow" size="18" :style="{transform: `rotate(${arrow}deg)`}" class="atom-cell__arrow" />
     </a>
 </template>
 <script>
-import AIcon from '../Icon'
+import AIcon from '../Icon';
 export default {
     name: 'AtomCell',
 
@@ -61,7 +58,7 @@ export default {
         }
     },
 
-    components: {AIcon}
+    components: { AIcon }
 };
 </script>
 <style scoped lang="scss">
@@ -72,11 +69,13 @@ export default {
     padding: 0 $gutter;
     min-height: 1rem;
     background: $background;
+    font-size: $big;
     border-bottom: 1px solid $lightest;
     &__title {
-        font-size: $big;
+        font-size: inherit;
         align-self: center;
-        min-width: 1rem;
+        min-width: 84px;
+        margin-right: $gutter/2;
     }
 
     &__body {
@@ -85,18 +84,11 @@ export default {
         position: relative;
         height: 100%;
         align-self: center;
-        font-size: $big;
-
-        > .body__tip {
-            position: absolute;
-            left: $gutter;
-            color: rgba($danger, 1);
-            font-size: $small;
-        }
+        font-size: inherit;
     }
 
     &__extra {
-        font-size: $big;
+        font-size: inherit;
         position: relative;
         align-self: center;
         text-align: right;
@@ -104,7 +96,6 @@ export default {
 
     &__arrow {
         align-self: center;
-        // background: url(../../assets/more.svg) center center;
         background-size: 100%;
         width: 24px;
         height: 24px;
