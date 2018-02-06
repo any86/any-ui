@@ -80,7 +80,7 @@ export default {
         showWarningDialog(message){
             this.isShowWarning = true;
             this.warningText = message;
-            this.$emit('error', message);
+            this.$emit('warning', message);
         },
 
         input(e) {
@@ -98,7 +98,6 @@ export default {
         blur(e) {
             this.isShowEmpty = false;
             this.verify();
-            this.$emit('warning', '测试!');
             this.$emit('blur', e);
         },
 

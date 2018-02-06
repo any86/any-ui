@@ -42,9 +42,9 @@ export default {
             text5: 'abc',
             isShowWarning: true,
             vaildates: [
-                { required: true, message: '学校不能为空',}, 
+                { required: true, message: '学校不能为空!',}, 
                 { message: '不能相同哦不同哦!',  fn: this.isSame},
-                { regular: /a/, message: '不符合正则',}]
+                { regular: /a/, message: '必须包含a!',}]
         };
     },
 
