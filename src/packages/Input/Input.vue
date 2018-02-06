@@ -1,14 +1,21 @@
 <template>
-    <label class="atom-input">
+    <label :class="{'atom-input--warning': isShowWarning}" class="atom-input">
         <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
-        <a-popper :is-show.sync="isShowWarning" placement="auto" class="flex-item">
-            <p v-show="isShowWarning" style="padding:15px;">{{warningText}}</p>
-            <input slot="reference" ref="input" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="$emit('keydown',$event)" class="atom-input__input">
-        </a-popper>
+        
+        <input ref="input" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="keydown" class="atom-input__input">
 
         <transition name="fadeLeft">
             <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="empty" class="atom-input__btn-empty"/>
         </transition>
+
+        <i class="atom-input__icon-warning">
+            <a-icon value="warning" size="14"/>
+            
+            <span v-if="hasWarningDialog" class="warning__dialog">
+                <div class="triangle triangle-danger"></div>
+                <p>{{warningText}}</p>
+            </span>
+        </i>
     </label>
 </template>
 <script>
@@ -26,7 +33,19 @@ export default {
             required: true
         },
 
-        type: {},
+        type: {
+            type: String
+        },
+
+        hasWarningDialog: {
+            type: Boolean,
+            default: true
+        },
+
+        vaildate: {
+            type: Array,
+            default: () => []
+        }
     },
 
     data() {
@@ -38,12 +57,36 @@ export default {
     },
 
     methods: {
-        input(e) {
-            this.$emit('input', e.target.value);
+        verify() {
+            for (let item of this.vaildate) {
+                if (item.required && '' == this.value) {
+                    // 必填项目为空
+                    this.showWarningDialog(item.message);
+                    break;
+                } else if (undefined !== item.regular && !item.regular.test(this.value)) {
+                    this.showWarningDialog(item.message);
+                    break;
+                } else if (undefined !== item.fn && !item.fn()) {
+                    this.showWarningDialog(item.message);
+                    break;
+                }
+            }
         },
 
+        /**
+         * 显示错误提示
+         * @argument {String} 错误信息
+         */
+        showWarningDialog(message){
+            this.isShowWarning = true;
+            this.warningText = message;
+            this.$emit('error', message);
+        },
+
+        input(e) {
+            this.$emit('input', e.target.value); },
+
         focus(e) {
-            
             // 默认选中文字
             // e.target.select();
             if ('' != this.value) {
@@ -54,6 +97,7 @@ export default {
 
         blur(e) {
             this.isShowEmpty = false;
+            this.verify();
             this.$emit('warning', '测试!');
             this.$emit('blur', e);
         },
@@ -77,6 +121,12 @@ export default {
             }
             this.$emit('keyup', e);
             this.$emit('input', value);
+        },
+
+        keydown(e) {
+            this.isShowWarning = false;
+            this.warningText = '';
+            this.$emit('keydown');
         },
 
         empty() {
@@ -127,6 +177,63 @@ $height: 20px;
 
     &__btn-empty {
         align-self: center;
+    }
+
+    &__icon-warning {
+        display: none;
+        margin-left: $gutter;
+        position: relative;
+        color: $danger;
+        border: 1px solid $danger;
+        padding: $gutter/4;
+        border-radius: 50%;
+        .warning__dialog {
+            position: absolute;
+            top: 30px;
+            right: 0;
+            z-index: 2;
+            width: 150px;
+            background: rgba($danger, 0.8);
+            color: $sub;
+            border-radius: $radius;
+            padding: $gutter/3;
+            .triangle {
+                transform: rotate(180deg);
+                position: absolute;
+                right: 5px;
+                top: -5px;
+                border-top-color: rgba($danger, 0.8);
+            }
+            > p {
+                white-space: pre-wrap;
+                color: $sub;
+            }
+        }
+        svg {
+            display: block;
+        }
+    }
+
+    &--warning {
+        .atom-input__icon-warning {
+            display: inline-block;
+            // animation: showTip 300ms;
+        }
+
+        .atom-input__title,
+        .atom-input__input {
+            color: $danger !important;
+        }
+    }
+
+    @keyframes showTip {
+        from {
+            transform: scale(1.1);
+        }
+
+        to {
+            transform: scale(1);
+        }
     }
 }
 </style>

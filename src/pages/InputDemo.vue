@@ -41,11 +41,18 @@ export default {
             text4: '01234567',
             text5: 'abc',
             isShowWarning: true,
-            vaildates: [{ required: true, message: '请选择活动区域', trigger: 'blur' }, { regular: /^a/, message: '不符合正则', trigger: 'blur' }]
+            vaildates: [
+                { required: true, message: '学校不能为空',}, 
+                { message: '不能相同哦不同哦!',  fn: this.isSame},
+                { regular: /a/, message: '不符合正则',}]
         };
     },
 
-    methods: {},
+    methods: {
+        isSame(){
+            return 1==1;
+        }
+    },
 
     components: {
         VInput,

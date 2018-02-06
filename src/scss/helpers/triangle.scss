@@ -3,14 +3,14 @@
     .triangle-#{$key} {
         width: 0;
         height: 0;
-        border-left: 0.1rem solid transparent;
-        border-right: 0.1rem solid transparent;
-        border-top: 0.1rem solid $color;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid $color;
     }
 
     @each $direction in $directions{
         .triangle-#{$key}-#{$direction} {
-            @include triangle(.1rem, $color, $direction);
+            @include triangle(5px, $color, $direction);
         }
     }
 }
