@@ -76,6 +76,12 @@ export default {
         }
     },
 
+    watch: {
+        _isShow(){
+            this.tempValue = [...this.value];
+        }
+    },
+
     components: { VPicker, VPopup }
 };
 </script>
