@@ -138,9 +138,10 @@ button {
 
 .atom-btn {
     overflow: hidden;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     user-select: none;
-    vertical-align: top;
+    vertical-align: middle;
     padding: 0 $gutter*2;
     height: $height;
     line-height: $height;
