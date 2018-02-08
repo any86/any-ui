@@ -3,7 +3,7 @@
         <div ref="body" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
             <slot></slot>
         </div>
-        <div v-if="hasPageBtn && 0 < pageBtnCount" class="atom-carousel__paging">
+        <div v-if="hasPageBtn && 1 < pageBtnCount" class="atom-carousel__paging">
             <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
         </div>
     </div>
