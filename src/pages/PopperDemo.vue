@@ -1,17 +1,17 @@
 <template>
         <main>
             <v-cell>
-                <v-popper v-model="isShow" :options="{placement: 'top'}">
-                    <p style="padding:15px;">用户名密码不对!</p>
-                    <label slot="reference">用户名: <input type="text"/></label>
+                <v-popper :is-show.sync="isShow" >
+                    <p style="padding:15px;">请输入用户名</p>
+                    <label slot="reference">用户名: <input @focus="isShow=true" type="text"/></label>
                 </v-popper>
             </v-cell>
-            <v-cell>
-                <v-popper v-model="isShow" :options="{placement: 'top'}">
+            <!-- <v-cell>
+                <v-popper :is-show="isShow" placement="top">
                     <p style="padding:15px;">用户名密码不对!</p>
                     <v-button slot="reference" type="warning" class="gutter-sm">弹出</v-button>
                 </v-popper>
-            </v-cell>
+            </v-cell> -->
         </main>
 </template>
 <script>

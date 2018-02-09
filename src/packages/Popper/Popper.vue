@@ -45,40 +45,46 @@ export default {
             popper: null,
             top: 0,
             left: 0,
-            referenceElm: null,
-            popperElm: null
+            referenceNode: null,
+            popperNode: null
         };
     },
 
     mounted() {
         this.createPopper();
-        document.addEventListener('click', this.close);
-        document.addEventListener('touchstart', this.close);
+        if (this.isCloseAfterClick) {
+            const eventName = this.isSupportTouch ? 'touchstart' : 'click';
+            document.addEventListener(eventName, this.close);
+        }
     },
 
     methods: {
+        isTargetInContainer(e) {
+            // 当前目标元素不在组件内部 && 当popper移动到body外的时候, 目标不在reference/popper中
+            return !this.$el.contains(e.target) && !this.referenceNode.contains(e.target) && !this.popperNode.contains(e.target);
+        },
+
         close(e) {
             if (this.isShow) {
                 // 点击组件外部关闭popper
-                if (!this.$el.contains(e.target) & !this.referenceElm.contains(e.target) & !this.popperElm.contains(e.target)) {
-                    this.$emit('update:isShow', false);
-                } else if (this.isCloseAfterClick && this.popperElm.contains(e.target)) {
+                if (this.isTargetInContainer(e)) {
                     this.$emit('update:isShow', false);
                 }
             }
         },
 
         createPopper() {
-            this.referenceElm = this.$slots.reference[0].elm;
-            this.popperElm = this.$refs.popper;
+            this.referenceNode = this.$slots.reference[0].elm;
+            this.popperNode = this.$refs.popper;
             // 插入箭头
-            const arrow = document.createElement('div');
-            arrow.setAttribute('x-arrow', '');
-            arrow.className = 'popper__arrow';
-            this.popperElm.appendChild(arrow);
-            this.popper = new Popper(this.referenceElm, this.popperElm, {
+            const arrowNode = document.createElement('div');
+            arrowNode.setAttribute('x-arrow', '');
+            arrowNode.className = 'popper__arrow';
+            this.popperNode.appendChild(arrowNode);
+            this.popper = new Popper(this.referenceNode, this.popperNode, {
                 placement: this.placement,
                 modifiers: {
+                    // 取消tanslate控制位置, 防止组件定义的动画被影响
                     computeStyle: { gpuAcceleration: false }
                 },
                 onUpdate(data, options) {
@@ -99,32 +105,19 @@ export default {
         },
 
         updatePopper() {
-            this.popperElm ? this.popper.scheduleUpdate() : this.createPopper();
+            this.popperNode ? this.popper.scheduleUpdate() : this.createPopper();
         }
     },
 
-    watch: {
-        // isShow(value) {
-        //     if (value) {
-        //         this.$emit('show');
-        //     } else {
-        //         this.$emit('hide');
-        //     }
-        // },
-        // value: {
-        //     immediate: true,
-        //     handler(value) {
-        //         this.isShow = value;
-        //     }
-        // }
+    computed: {
+        isSupportTouch() {
+            return 'ontouchend' in document ? true : false;
+        }
     },
 
     breforeDestory() {
-        document.removeEventListener('click', this.close);
-        document.removeEventListener('touchstart', this.close);
-        // this.triggers.forEach(eventName => {
-        //     this.referenceElm.removeEventListener(eventName, this.toggle);
-        // });
+        const eventName = this.isSupportTouch ? 'touchstart' : 'click';
+        document.removeEventListener(eventName, this.close);
     },
 
     destroyed() {
