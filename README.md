@@ -17,6 +17,8 @@
 3. 需要js做一个全局的z-index管理
 4. 兼容fastClick
 
+### 1.0.90
+1. 优化Popper组件逻辑, 删除无用代码.
 
 ### 1.0.89
 1. Input组件支持vaildate

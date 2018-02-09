@@ -52,19 +52,22 @@ export default {
 
     mounted() {
         this.createPopper();
+        // 当同一个页面出现多个popper时, close会被执行多次
         if (this.isCloseAfterClick) {
-            const eventName = this.isSupportTouch ? 'touchstart' : 'click';
-            document.addEventListener(eventName, this.close);
+            // touchstart有些时候不执行,不知道为什么?
+            document.addEventListener('touchstart', this.close);
+            document.addEventListener('click', this.close);
         }
     },
 
     methods: {
         isTargetInContainer(e) {
             // 当前目标元素不在组件内部 && 当popper移动到body外的时候, 目标不在reference/popper中
-            return !this.$el.contains(e.target) && !this.referenceNode.contains(e.target) && !this.popperNode.contains(e.target);
+            return !this.referenceNode.contains(e.target) && !this.popperNode.contains(e.target);
         },
 
         close(e) {
+            e.stopPropagation();
             if (this.isShow) {
                 // 点击组件外部关闭popper
                 if (this.isTargetInContainer(e)) {
@@ -109,15 +112,9 @@ export default {
         }
     },
 
-    computed: {
-        isSupportTouch() {
-            return 'ontouchend' in document ? true : false;
-        }
-    },
-
     breforeDestory() {
-        const eventName = this.isSupportTouch ? 'touchstart' : 'click';
-        document.removeEventListener(eventName, this.close);
+        document.removeEventListener('click', this.close);
+        document.removeEventListener('touchstart', this.close);
     },
 
     destroyed() {

@@ -1,17 +1,17 @@
 <template>
         <main>
             <v-cell>
-                <v-popper :is-show.sync="isShow" >
+                <v-popper :is-show.sync="isShow1" >
                     <p style="padding:15px;">请输入用户名</p>
-                    <label slot="reference">用户名: <input @focus="isShow=true" type="text"/></label>
+                    <label slot="reference">用户名: <input @focus="isShow1=true" type="text"/></label>
                 </v-popper>
             </v-cell>
-            <!-- <v-cell>
-                <v-popper :is-show="isShow" placement="top">
+            <v-cell>
+                <v-popper :is-show.sync="isShow2">
                     <p style="padding:15px;">用户名密码不对!</p>
-                    <v-button slot="reference" type="warning" class="gutter-sm">弹出</v-button>
+                    <v-button slot="reference" type="warning" class="gutter-sm" @click="isShow2=true">弹出</v-button>
                 </v-popper>
-            </v-cell> -->
+            </v-cell>
         </main>
 </template>
 <script>
@@ -24,7 +24,8 @@ export default {
 
     data() {
         return {
-            isShow: false
+            isShow1: false,
+            isShow2: false,
         };
     },
 
