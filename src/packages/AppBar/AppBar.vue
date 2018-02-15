@@ -21,12 +21,20 @@ export default {
         hasArrow: {
             type: Boolean,
             default: true
+        },
+        isRouterBack: {
+            type: Boolean,
+            default: true
         }
     },
 
     methods: {
         clickArrow(){
-            this.$emit('click-arrow');
+            if(this.isRouterBack) {
+                this.$router.back();
+            } else {
+                this.$emit('click-arrow');
+            }
         }
     },
 
