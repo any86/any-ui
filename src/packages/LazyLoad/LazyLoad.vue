@@ -191,6 +191,9 @@ export default {
     },
 
     watch: {
+        /**
+         * src变化重新加载
+         */
         src(src){
             this.status = 'ready';
             this.loadImgIfInView();
