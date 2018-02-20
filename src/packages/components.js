@@ -55,6 +55,8 @@ import ATextarea from './Textarea/Textarea';
 import AToast from './Toast/Toast';
 import AVirtualScroller from './VirtualScroller/VirtualScroller';
 import AIcon from './Icon/Icon';
+import ASwipeOut from './SwipeOut/SwipeOut';
+
 export {
     AAffix,
     ABadge,
@@ -97,5 +99,6 @@ export {
     AIcon,
     AAndroid,
     AThreeDots,
-    ARipple
+    ARipple,
+    ASwipeOut
 }

@@ -69,6 +69,9 @@ import QRCodeDemo from '@/pages/QRCodeDemo'
 // 组合
 import PopupPickerDemo from '@/pages/PopupPickerDemo'
 
+import SwipeOutDemo from '@/pages/SwipeOutDemo'
+
+
 export default new Router({
     // mode: "history",
     routes: [{
@@ -254,6 +257,13 @@ export default new Router({
             name: 'icon',
             path: '/icon',
             component: IconDemo
-        }
+        },
+
+        {
+            name: 'swipeOut',
+            path: '/swipe-out',
+            component: SwipeOutDemo
+        },
+        
     ]
 });
