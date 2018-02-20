@@ -190,6 +190,13 @@ export default {
         }
     },
 
+    watch: {
+        src(src){
+            this.status = 'ready';
+            this.loadImgIfInView();
+        }
+    },
+
     beforeDestroy() {
         this.events.forEach(eventName => {
             this.scrollParentNode.removeEventListener(eventName, this.loadImgIfInView);
