@@ -1,5 +1,5 @@
 <template>
-    <span :style="{width: `${width}px`}" class="atom-swipe-out-button">
+    <span :style="{ transform: `translateX(${deltaX}px)`}" class="atom-swipe-out-button">
         <slot></slot>
     </span>
 </template>
@@ -12,10 +12,13 @@ export default {
     },
 
     mounted(){
-        this.$nextTick(()=>{
-            this.width = this.$el.scrollWidth;
-        });
-        
+        this.width = this.$el.scrollWidth;
+    },
+
+    computed: {
+        deltaX(){
+            return this.$parent.deltaX;
+        }
     }
 };
 </script>
@@ -23,7 +26,12 @@ export default {
 @import '../../scss/variables.scss';
 .atom-swipe-out-button {
     position: relative;
-    padding:$gutter;    
+    height: 100%;
     display: flex;
+    align-items: center;
+    padding-left:$gutter;
+    padding-right:$gutter;
+
+    color:$sub;
 }
 </style>
