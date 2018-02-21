@@ -1,2 +1,3 @@
 import ASwipeOut from './SwipeOut';
-export default ASwipeOut;
+import ASwipeOutButton from './SwipeOutButton';
+export {ASwipeOut, ASwipeOutButton};

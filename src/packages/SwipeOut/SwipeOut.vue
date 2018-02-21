@@ -10,7 +10,14 @@
 </template>
 <script>
 export default {
-    name: 'AtomSwipeOut'
+    name: 'AtomSwipeOut',
+
+    data(){
+        return {};
+    },
+
+    mounted(){
+    }
 };
 </script>
 <style scoped lang="scss">

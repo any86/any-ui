@@ -3,7 +3,8 @@
         <a-swipe-out>
             AtomSwipeOut
             <template slot="right">
-                <a-button type="danger">删除</a-button>
+                <a-swipe-out-button type="success">编辑</a-swipe-out-button>
+                <a-swipe-out-button type="danger">删除</a-swipe-out-button>
             </template>
         </a-swipe-out>
     </a-scroll-view>
