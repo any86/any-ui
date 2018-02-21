@@ -9,13 +9,12 @@
             ref="body"
             v-bind="$attrs"
             v-on="$listeners"
-            :style="{transform: `translateX(${deltaX}px)`}"
+            :style="{transform: `translateX(${activeX}px)`, transitionDuration: `${duration}ms`}"
             @touchstart="touchStart" 
             @touchmove="touchMove" 
             @touchend="touchEnd" 
             class="atom-swipe-out__body">
             <slot></slot>
-            {{deltaX}}
         </span>
         <span class="atom-swipe-out__action-right">
             <slot name="right"></slot>
@@ -29,57 +28,74 @@ export default {
 
     data(){
         return {
+            startPointX: 0,
             startX: 0,
-            deltaX: 0,
+            activeX: 0,
+            duration: 0
         };
-    },
-
-    mounted(){
-        
     },
 
     methods: {
         touchStart(e){
             const point = e.touches[0];
-            this.startX = point.pageX;
+            this.startPointX = point.pageX;
+            this.startX = this.activeX;
+            this.duration = 0;
         },
 
         touchMove(e){
             const point = e.touches[0];
-            this.deltaX = point.pageX - this.startX;
+            const deltaX = point.pageX - this.startPointX;
+            this.activeX = this.startX + deltaX;
 
             // 范围限制
-            this.deltaX = Math.max(this.deltaX, 0 - this.maxRightDistance);
-            this.deltaX = Math.min(this.deltaX, this.maxLeftDistance);
+            this.activeX = Math.max(this.activeX, this.minX);
+            this.activeX = Math.min(this.activeX, this.maxX);
         },
 
+        /**
+         * 复位操作
+         */
         touchEnd(e){
-
+            this.duration = 300;
+            if(0 > this.activeX) {
+                if(this.minX / 2 > this.activeX) {
+                    this.activeX = this.minX;
+                } else {
+                    this.activeX = 0;
+                }
+            } else {
+                if(this.maxX / 2 < this.activeX) {
+                    this.activeX = this.maxX;
+                } else {
+                    this.activeX = 0;
+                }
+            }
         },
         
     },
 
     computed: {
-        maxRightDistance(){
-            let maxRight = 0;
+        minX(){
+            let minX = 0;
             this.$slots.right.forEach(item=>{
                 let itemWidth = getWidth(item.elm);
                 if(undefined !== itemWidth) {
-                    maxRight+= itemWidth;
+                    minX-= itemWidth;
                 }
             });
-            return maxRight;
+            return minX;
         },
 
-        maxLeftDistance(){
-            let maxLeft = 0;
+        maxX(){
+            let maxX = 0;
             this.$slots.left.forEach(item=>{
                 let itemWidth = getWidth(item.elm);
                 if(undefined !== itemWidth) {
-                    maxLeft+= itemWidth;
+                    maxX+= itemWidth;
                 }
             });
-            return maxLeft;
+            return maxX;
         }
     }
 };
@@ -91,6 +107,7 @@ export default {
     display: flex;
     align-items: center;
     &__body{
+         
         position: relative;
         flex-grow: 1;
         flex-shrink: 0;

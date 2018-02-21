@@ -1,5 +1,7 @@
 <template>
-    <span :style="{ transform: `translateX(${deltaX}px)`}" class="atom-swipe-out-button">
+    <span 
+        :style="{ transform: `translateX(${activeX}px)`, transitionDuration: `${duration}ms`}" 
+        class="atom-swipe-out-button">
         <slot></slot>
     </span>
 </template>
@@ -7,17 +9,13 @@
 export default {
     name: 'AtomSwipeOutButton',
 
-    data(){
-        return {width: 0}
-    },
-
-    mounted(){
-        this.width = this.$el.scrollWidth;
-    },
-
     computed: {
-        deltaX(){
-            return this.$parent.deltaX;
+        activeX(){
+            return this.$parent.activeX;
+        },
+
+        duration(){
+            return this.$parent.duration;
         }
     }
 };
