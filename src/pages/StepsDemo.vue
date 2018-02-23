@@ -10,7 +10,6 @@
     </v-group>
 </template>
 <script>
-import Mock from 'mockjs';
 import VGroup from '@/packages/Group/Group';
 import VButton from '@/packages/Button/Button';
 import VSteps from '@/packages/Steps/Steps';
@@ -21,11 +20,7 @@ export default {
 
     data() {
         return {
-            activeIndex: 0,
-            dataSource: Mock.mock({
-                'list|4': ["@image('300x300')"],
-                'list2|6': ["@image('400x400')"]
-            })
+            activeIndex: 0
         };
     },
 

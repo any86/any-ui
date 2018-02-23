@@ -1,0 +1,35 @@
+<template>
+    <span 
+        :style="{ transform: `translateX(${activeX}px)`, transitionDuration: `${duration}ms`}" 
+        class="atom-swipe-out-button">
+        <slot></slot>
+    </span>
+</template>
+<script>
+export default {
+    name: 'AtomSwipeOutButton',
+
+    computed: {
+        activeX(){
+            return this.$parent.activeX;
+        },
+
+        duration(){
+            return this.$parent.duration;
+        }
+    }
+};
+</script>
+<style scoped lang="scss">
+@import '../../scss/variables.scss';
+.atom-swipe-out-button {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left:$gutter;
+    padding-right:$gutter;
+
+    color:$sub;
+}
+</style>

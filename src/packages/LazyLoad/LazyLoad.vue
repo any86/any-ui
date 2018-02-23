@@ -190,6 +190,16 @@ export default {
         }
     },
 
+    watch: {
+        /**
+         * src变化重新加载
+         */
+        src(src){
+            this.status = 'ready';
+            this.loadImgIfInView();
+        }
+    },
+
     beforeDestroy() {
         this.events.forEach(eventName => {
             this.scrollParentNode.removeEventListener(eventName, this.loadImgIfInView);
