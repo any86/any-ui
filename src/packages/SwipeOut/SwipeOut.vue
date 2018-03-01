@@ -1,6 +1,5 @@
 <template>
     <section class="atom-swipe-out">
-
         <span class="atom-swipe-out__action-left">
             <slot name="left"></slot>
         </span>
@@ -26,7 +25,19 @@ import { getWidth, getHeight } from '../../utils/dom';
 export default {
     name: 'AtomSwipeOut',
 
-    data(){
+    props: {
+        isShowLeft: {
+            type: Boolean,
+            default: false
+        },
+
+        isShowRight: {
+            type: Boolean,
+            default: false
+        }
+    },
+
+    data() {
         return {
             startPointX: 0,
             startX: 0,
@@ -36,14 +47,18 @@ export default {
     },
 
     methods: {
-        touchStart(e){
+        touchStart(e) {
+            e.preventDefault();
+            e.stopPropagation();
             const point = e.touches[0];
             this.startPointX = point.pageX;
             this.startX = this.activeX;
             this.duration = 0;
         },
 
-        touchMove(e){
+        touchMove(e) {
+            e.preventDefault();
+            e.stopPropagation();
             const point = e.touches[0];
             const deltaX = point.pageX - this.startPointX;
             this.activeX = this.startX + deltaX;
@@ -56,46 +71,60 @@ export default {
         /**
          * 复位操作
          */
-        touchEnd(e){
+        touchEnd(e) {
+            e.preventDefault();
+            e.stopPropagation();
             this.duration = 300;
-            if(0 > this.activeX) {
-                if(this.minX / 2 > this.activeX) {
+            if (0 > this.activeX) {
+                if (this.minX / 2 > this.activeX) {
                     this.activeX = this.minX;
+                    this.$emit('update:isShowRight', true);
+                    this.$emit('open', 'right');
                 } else {
                     this.activeX = 0;
+                    
                 }
             } else {
-                if(this.maxX / 2 < this.activeX) {
+                if (this.maxX / 2 < this.activeX) {
                     this.activeX = this.maxX;
+                    this.$emit('update:isShowLeft', true);
+                    this.$emit('open', 'left');
                 } else {
                     this.activeX = 0;
                 }
             }
-        },
-        
+        }
     },
 
     computed: {
-        minX(){
+        minX() {
+            if (undefined === this.$slots.right) return 0;
             let minX = 0;
-            this.$slots.right.forEach(item=>{
+            this.$slots.right.forEach(item => {
                 let itemWidth = getWidth(item.elm);
-                if(undefined !== itemWidth) {
-                    minX-= itemWidth;
+                if (undefined !== itemWidth) {
+                    minX -= itemWidth;
                 }
             });
             return minX;
         },
 
-        maxX(){
+        maxX() {
+            if (undefined === this.$slots.left) return 0;
             let maxX = 0;
-            this.$slots.left.forEach(item=>{
+            this.$slots.left.forEach(item => {
                 let itemWidth = getWidth(item.elm);
-                if(undefined !== itemWidth) {
-                    maxX+= itemWidth;
+                if (undefined !== itemWidth) {
+                    maxX += itemWidth;
                 }
             });
             return maxX;
+        }
+    },
+
+    watch: {
+        isShowRight(isShowRight){
+            this.activeX = isShowRight ? this.minX : 0;
         }
     }
 };
@@ -106,33 +135,29 @@ export default {
     position: relative;
     display: flex;
     align-items: center;
-    &__body{
-         
+    &__body {
         position: relative;
         flex-grow: 1;
         flex-shrink: 0;
         flex-basis: 100%;
-        display: flex;
-        align-items: center;
         min-height: 44px;
-        align-items: center;
-        border-bottom:1px solid $lightest;
+        border-bottom: 1px solid $lightest;
     }
 
-    &__action-left{
+    &__action-left {
         height: 100%;
         position: absolute;
         left: 0;
-        top:0;
+        top: 0;
         transform: translateX(-100%);
         display: flex;
     }
 
-    &__action-right{
+    &__action-right {
         height: 100%;
         position: absolute;
         right: 0;
-        top:0;
+        top: 0;
         transform: translateX(100%);
         display: flex;
     }

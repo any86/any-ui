@@ -43,6 +43,7 @@
                 <div class="group__item" @click="$router.push({'path': '/collapse'})">Collapse(折叠)</div>
                 <div class="group__item" @click="$router.push({'path': '/carousel'})">Carousel(轮播)</div>
                 <div class="group__item" @click="$router.push({'path': '/segment'})">Segment(分段)</div>
+                <div class="group__item" @click="$router.push({'path': '/swipe-out'})">SwipeOut(分段)</div>
             </a-collapse-item>
 
             <a-collapse-item class="group">
