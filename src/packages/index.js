@@ -7,7 +7,9 @@ import AToast from './Toast/Toast';
 // 其他组件
 import * as components from './components.js'
 // 水波纹特效
-import ripple from '../directives/ripple/index.js';
+// import ripple from '../directives/ripple/index.js';
+import ripple from 'atom-ripple'
+
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 

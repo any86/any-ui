@@ -12,6 +12,7 @@
     "test": "npm run unit"
   },
   "dependencies": {
+    "atom-ripple": "^0.0.2",
     "axios": "^0.16.2",
     "faker": "^4.1.0",
     "fastclick": "^1.0.6",
