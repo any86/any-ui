@@ -1,9 +1,9 @@
 {
   "name": "vue-atom-ui",
-  "version": "1.0.93",
+  "version": "1.0.94",
   "description": "vue-atom-ui",
   "author": "宁宁 <383514580@qq.com>",
-  "main": "./dist/atom-ui.js",
+  "main": "dist/atom.min.js",
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "npm run dev",

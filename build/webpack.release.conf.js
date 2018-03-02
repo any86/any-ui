@@ -23,7 +23,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     },
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     entry: {
-        main: path.resolve(__dirname, '../src/packages/index.js')
+        app: path.resolve(__dirname, '../src/packages/index.js')
     },
 
     output: {
@@ -50,15 +50,15 @@ const webpackConfig = merge(baseWebpackConfig, {
             'process.env': env
         }),
         // UglifyJs do not support ES6+, you can also use babel-minify for better treeshaking: https://github.com/babel/minify
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     },
-        //     sourceMap: true
-        // }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            sourceMap: true
+        }),
         // extract css into its own file
         new ExtractTextPlugin({
-            filename: '../dist/atom.css'
+            filename: '../dist/atom-ui.css'
         }),
         // Compress extracted CSS. We are using this plugin so that possible
         // duplicated CSS from different components can be deduped.
