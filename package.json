@@ -11,6 +11,9 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit"
   },
+  "bin":{
+    "createApp":"/bin/index.js"
+  },
   "dependencies": {
     "atom-ripple": "^0.0.2",
     "axios": "^0.16.2",
