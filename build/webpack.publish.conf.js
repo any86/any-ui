@@ -21,7 +21,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     },
     devtool: config.build.productionSourceMap ? '#source-map' : false,
     entry: {
-        main: path.resolve(__dirname, '../src/packages/index.js')
+        app: path.resolve(__dirname, '../src/packages/index.js')
     },
 
     output: {
