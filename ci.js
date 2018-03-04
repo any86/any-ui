@@ -11,6 +11,7 @@
 // })     
 const shell = require("shelljs");
 const fs = require('fs');
+const chalk = require('chalk')
 let package = require("./package.json");
 /**
  * 更新package.json版本号
@@ -43,11 +44,12 @@ const updateMD = ({version})=>{
 const version = updatePackage();
 updateMD({version});
 // 切换到master分支
+console.log(chalk.green('git开始!\n'));
 shell.exec('git checkout master');
 shell.exec('git add -A');
 shell.exec(`git commit -m ":zap: [build] "${version}`);
 shell.exec(`git push`);
-console.log(chalk.green('git同步完成!\n'))
+console.log(chalk.green('git同步完成!\n'));
 shell.exec(`npm publish`);
 
 
