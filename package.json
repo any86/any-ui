@@ -1,6 +1,6 @@
 {
     "name": "vue-atom-ui",
-    "version": "1.0.110",
+    "version": "1.0.111",
     "description": "vue-atom-ui",
     "author": "宁宁 <383514580@qq.com>",
     "main": "dist/atom.min.js",
@@ -11,9 +11,6 @@
         "build": "node build/build.js",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run unit"
-    },
-    "bin": {
-        "createApp": "/bin/index.js"
     },
     "dependencies": {
         "atom-ripple": "^0.0.2",
