@@ -46,7 +46,7 @@ updateMD({version});
 shell.exec('git checkout master');
 shell.exec('git add -A');
 shell.exec(`git commit -m ":zap: [build] "${version}`);
-
+shell.exec(`git push`);
 
 
 
