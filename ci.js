@@ -45,13 +45,16 @@ const updateMD = ({version})=>{
 const version = updatePackage();
 updateMD({version});
 // 切换到master分支
-ora(chalk.green('git开始!\n')).start();
+console.log(chalk.bgGreen('git开始!\n'));
 shell.exec('git checkout master');
 shell.exec('git add -A');
 shell.exec(`git commit -m ":zap: [build] "${version}`);
 shell.exec(`git push`);
-console.log(chalk.green('git同步完成!\n'));
+console.log(chalk.bgGreen('git同步完成!\n'));
+
+console.log(chalk.bgGreen('正在发布到npm...\n'));
 shell.exec(`npm publish`);
+console.log(chalk.bgGreen('发布到npm成功!\n'));
 
 
 
