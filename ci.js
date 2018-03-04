@@ -11,7 +11,8 @@
 // })     
 const shell = require("shelljs");
 const fs = require('fs');
-const chalk = require('chalk')
+const chalk = require('chalk');
+const ora = require('ora');
 let package = require("./package.json");
 /**
  * 更新package.json版本号
@@ -44,7 +45,7 @@ const updateMD = ({version})=>{
 const version = updatePackage();
 updateMD({version});
 // 切换到master分支
-console.log(chalk.green('git开始!\n'));
+ora(chalk.green('git开始!\n')).start();
 shell.exec('git checkout master');
 shell.exec('git add -A');
 shell.exec(`git commit -m ":zap: [build] "${version}`);
