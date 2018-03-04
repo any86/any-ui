@@ -93,6 +93,7 @@ $panelWidth: 80%;
         left: 0;
         height: 100vh;
         &__body {
+            position: relative;
             overflow-x: hidden;
             overflow-y: auto;
             height: 100vh;
@@ -104,9 +105,10 @@ $panelWidth: 80%;
         right: 0;
         height: 100vh;
         &__body {
+            position: relative;
             overflow-x: hidden;
             overflow-y: auto;
-            height: 100%;
+            height: 100vh;
         }
     }
 
