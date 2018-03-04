@@ -11,20 +11,19 @@
 // })     
 const shell = require("shelljs");
 const fs = require('fs');
-
+let package = require("./package.json");
 /**
  * 更新package.json版本号
  */
-const updateVersion = ()=>{
-    const content = fs.readFileSync('./package.json','utf8');
-    const json = JSON.parse(content);
-    const version = json.version;
+const updatePackage = ()=>{
+    const version = package.version;
     const versionArray = version.split('.');
+    // 版本+1
     versionArray[versionArray.length-1] = ~~versionArray[versionArray.length-1]+1;
-    json.version = versionArray.join('.');
-    fs.writeFileSync('./package.json', JSON.stringify(json, null, 4));
-    console.log('升级package.json完成! 版本: '+ json.version);
-    return json.version;
+    package.version = versionArray.join('.');
+    fs.writeFileSync('./package.json', JSON.stringify(package, null, 4));
+    console.log('升级package.json完成! 版本: '+ package.version);
+    return package.version;
 }
 
 /**
@@ -41,12 +40,13 @@ const updateMD = ({version})=>{
 }
 
 
-// const version = updateVersion();
-// updateMD({version});
+const version = updatePackage();
+updateMD({version});
 // 切换到master分支
 shell.exec('git checkout master');
 shell.exec('git add -A');
-shell.exec('git commit -m ":zap: [build] 2.9.1"');
+shell.exec(`git commit -m ":zap: [build] "${version}`);
+
 
 
 
