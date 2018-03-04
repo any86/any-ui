@@ -145,7 +145,7 @@ $height: 55px;
             top: 0;
             left: 0;
             z-index: 3;
-            background: linear-gradient(left, rgba(#fff, 1), rgba($primary, 0));
+            background: linear-gradient(to right, rgba(#fff, 1), rgba($primary, 0));
         }
     }
     &--more-in-right {
@@ -158,7 +158,7 @@ $height: 55px;
             top: 0;
             right: 0;
             z-index: 3;
-            background: linear-gradient(right, rgba(#fff, 1), rgba($primary, 0));
+            background: linear-gradient(to left, rgba(#fff, 1), rgba($primary, 0));
         }
     }
 
