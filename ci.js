@@ -47,6 +47,7 @@ shell.exec('git checkout master');
 shell.exec('git add -A');
 shell.exec(`git commit -m ":zap: [build] "${version}`);
 shell.exec(`git push`);
+console.log(chalk.green('git同步完成!\n'))
 shell.exec(`npm publish`);
 
 
