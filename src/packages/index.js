@@ -9,6 +9,7 @@ import * as components from './components.js'
 // 水波纹特效
 // import ripple from '../directives/ripple/index.js';
 import ripple from 'atom-ripple';
+import 'atom-ripple/src/ripple.scss'
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
