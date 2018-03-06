@@ -74,7 +74,6 @@ export default {
             
             // 当前列scrollTop
             this.positions[columnIndex].y = index * this.itemHeight;
-
             
             const activeItem = this.dataSource[columnIndex][index];
             const _value = [...this.value];
