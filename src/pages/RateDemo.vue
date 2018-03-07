@@ -1,18 +1,18 @@
 <template>
     <v-scroll-view class="demo-page">
         <div class="fill border-bottom">
-            <h4>style="width:50%;</h4>
-            <v-rate style="width:50%;" v-model="value1" :count="5" class="gutter-top-sm"/>
+            <h4>默认为宽度/高度为24px</h4>
+            <v-rate  v-model="value1" :count="5" class="gutter-top-sm"/>
         </div>
 
         <div class="fill">
-            <h4>当前: {{value2}}</h4>
-            <v-rate v-model="value2" :count="10" class="gutter-top-sm"/>
+            <h4>当前value: {{value2}} | size: 16</h4>
+            <v-rate v-model="value2" :size="16" :count="10" class="gutter-top-sm"/>
         </div>
 
         <div class="fill">
             <h4>readonly</h4>
-            <v-rate :value="3" :count="10" :is-read-only="true" class="gutter-top-sm"/>
+            <v-rate :value="3" :count="10" :size="16" :is-read-only="true" class="gutter-top-sm"/>
         </div>
 
 

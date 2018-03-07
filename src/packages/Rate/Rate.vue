@@ -15,7 +15,7 @@ export default {
         },
 
         size: {
-            default: 40
+            default: 24
         },
 
         isReadOnly: {
@@ -44,7 +44,9 @@ export default {
 .atom-rate {
     display: flex;
     > .svg-icon {
-        flex: 1;
+        flex-shrink: 0;
+        flex-grow: 0;
+        flex-basis: 1;
     }
 
     &:not([readonly]) {
