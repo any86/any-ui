@@ -1,21 +1,25 @@
 <template>
     <div :style="{height: `${itemHeight * 7}px`}" class="atom-picker">
+        <div class="atom-picker__mask"></div>
         <div class="atom-picker__graticule" :style="{height: `${itemHeight}px`}"></div>
         <v-scroller 
-            v-model="positions[i]" 
-            v-for="(list, i) in dataSource" :key="i" 
+            v-for="(list, columnIndex) in dataSource" 
+            :key="columnIndex" 
+            v-model="positions[columnIndex]" 
             :is-prevent-default="true"
             :is-stop-propagation="true" 
             :is-lock-x="true" 
             :is-lock-y="false" 
             :is-bind-body="true" 
             :body-style="bodyStyle" 
-            @scroll-end="scrollEnd(i, $event)" 
+            @scroll-end="scrollEndHandle(columnIndex, $event)" 
+            @transition-end="transitionEndHandle(columnIndex, $event)"
             class="atom-picker__list">
             <div 
-                v-for="(item, j) in list" :key="j" 
+                v-for="(item, rowIndex) in list" 
+                :key="rowIndex" 
                 :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" 
-                :class="{'list__item--active': j == activeIndexList[i]}" 
+                :class="{'list__item--active': rowIndex == activeIndexList[columnIndex]}" 
                 class="list__item">
                 {{item.label}}
             </div>
@@ -23,6 +27,7 @@
     </div>
 </template>
 <script>
+import _ from 'lodash';
 import VScroller from '../../packages/VirtualScroller/VirtualScroller';
 export default {
     name: 'AtomPicker',
@@ -46,7 +51,7 @@ export default {
 
     data() {
         return {
-            // activeIndexList
+            activeIndexList: [], // 当前每列的行索引集合
             positions: [],
             bodyStyle: {
                 paddingTop: 3 * this.itemHeight + 'px',
@@ -60,32 +65,49 @@ export default {
     },
 
     methods: {
-        /**
-        * @param {Number} 列表索引
-        * @param {Object} 滚动条距离数据
-        */
-        scrollEnd(columnIndex, position) {
-            if(0 === position.y % this.itemHeight) {
-
+        transitionEndHandle(columnIndex, { y, type }) {
+            if ('inertia' === type) {
+                const index = Math.round(y / this.itemHeight);
+                const { value } = this.dataSource[columnIndex][index];
+                let newValues = [...this.value];
+                newValues[columnIndex] = value;
+                this.$emit('input', newValues);
             }
-            
+        },
+
+        /**
+         * @param {Number} 列表索引
+         * @param {Object} 滚动条距离数据
+         */
+        scrollEndHandle(columnIndex, position) {
             // 选项index
             const index = Math.round(position.y / this.itemHeight);
-            
-            // 当前列scrollTop
+            this.activeIndexList.splice(columnIndex, 1, index);
+            // 滚动到最近的卡槽位置[驱动VirtualScroller]
             this.positions[columnIndex].y = index * this.itemHeight;
-            
-            const activeItem = this.dataSource[columnIndex][index];
-            const _value = [...this.value];
-            _value.splice(columnIndex, 1, activeItem.value);
-            // 同步value
-            this.$emit('input', _value);
-            // 携带更详细的信息
-            this.$emit('change', {
-                columnIndex,
-                rowIndex: index,
-                ...activeItem
-            });
+            // this.$emit('input', this.activeIndexList);
+            return;
+            // if(0 === position.y % this.itemHeight) {
+
+            // }
+
+            // // 选项index
+            // const index = Math.round(position.y / this.itemHeight);
+
+            // // 当前列scrollTop
+            // this.positions[columnIndex].y = index * this.itemHeight;
+
+            // const activeItem = this.dataSource[columnIndex][index];
+            // const _value = [...this.value];
+            // _value.splice(columnIndex, 1, activeItem.value);
+            // // 同步value
+            // this.$emit('input', _value);
+            // // 携带更详细的信息
+            // this.$emit('change', {
+            //     columnIndex,
+            //     rowIndex: index,
+            //     ...activeItem
+            // });
         },
         /**
          * 设置scrollTop
@@ -93,11 +115,16 @@ export default {
         _syncPos() {
             // 下面有positions的push操作才敢直接赋值为空, 不然数据不响应
             this.positions = [];
-            this.value.forEach((v, i) => {
-                var index = this._findIndexByValue(i, v);
+            this.activeIndexList = [];
+            this.value.forEach((v, columnIndex) => {
+                // 寻找当前列中该值的索引
+                const rowIndex = this._findIndexByValue(columnIndex, v);
+                this.activeIndexList.push(rowIndex);
+
+                // 滑动到指定位置
                 this.positions.push({
                     x: 0,
-                    y: index * this.itemHeight
+                    y: rowIndex * this.itemHeight
                 });
             });
         },
@@ -107,23 +134,14 @@ export default {
          * @param {any} 给定值
          * @returns {number} 对应的索引
          */
-        _findIndexByValue(listIndex, value) {
-            return this.dataSource[listIndex].findIndex(item => {
+        _findIndexByValue(columnIndex, value) {
+            return this.dataSource[columnIndex].findIndex(item => {
                 return value == item.value;
             });
         }
     },
 
-    computed: {
-        activeIndexList() {
-            var array = [];
-            this.value.forEach((v, i) => {
-                var index = this._findIndexByValue(i, v);
-                array.push(index);
-            });
-            return array;
-        }
-    },
+    computed: {},
 
     watch: {
         value() {
@@ -147,6 +165,22 @@ export default {
     position: relative;
     overflow: hidden;
     display: flex;
+
+    &__mask {
+        pointer-events: none;
+        position: absolute;
+        z-index: 3;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6)), linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.6));
+        background-position: top, bottom;
+        background-size: 100% 102px;
+        background-repeat: no-repeat;
+    }
+
     &__graticule {
         pointer-events: none;
         position: absolute;
@@ -165,10 +199,10 @@ export default {
             width: 100%;
             display: block;
             text-align: center;
-            color: $dark;
+            color: $darkest;
             font-size: $big;
             &--active {
-                color: $darkest;
+                font-size: $big;
             }
         }
     }
