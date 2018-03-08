@@ -142,6 +142,7 @@ export default {
             isMoved: false,
             isDragging: false,
             isAnimating: false,
+            isResting: false, // 是否正在执行复位动画
             startTime: 0,
             endTime: 0,
             transitionDuration: 0,
@@ -408,12 +409,14 @@ export default {
             if (!this.resetPosition(this.bounceTime)) {
                 this.isInTransition = false;
             }
-            this.$emit('transition-end', this.position);
             this.$emit('input', this.position);
-            this.$emit('scroll-end', this.position);
+            // this.$emit('scroll-end', this.position);
+            this.$emit('transition-end', {...this.position, type: this.isResting ? 'reset': 'inertia'});
+            if(this.isResting) this.isResting = false;
         },
 
         /**
+         * [!!!应该增加对动画是快速拖拽触发的还是复位触发的!!!, 防止发生2次transiton-end而不知道是谁触发的]
          * 对发生超越边界的滚动进行复位
          * @augments {Number} time
          * @returns {Boolean} 是否发生超越边界
@@ -443,6 +446,8 @@ export default {
 
             //滚动到最近边界
             this.scrollTo(x, y, time, 'cubic-bezier(0.25, 0.46, 0.45, 0.94)');
+            this.isResting = true;
+            this.$emit('rest-position');
             return true;
         },
 
