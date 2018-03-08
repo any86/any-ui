@@ -375,8 +375,8 @@ export default {
             this.endTime = getTime();
             const timeDiff = this.endTime - this.startTime;
 
-            // 300ms内的快速滑动才有缓冲动画
-            if (300 > timeDiff) {
+            // 200ms内的快速滑动才有缓冲动画
+            if (200 > timeDiff) {
                 this.isAnimating = true;
 
                 if (!this.isLockX) {
