@@ -2,7 +2,7 @@
     <div :style="{height: `${itemHeight * 7}px`}" class="atom-picker">
         <div class="atom-picker__mask"></div>
         <div class="atom-picker__graticule" :style="{height: `${itemHeight}px`}"></div>
-        <v-scroller 
+        <virtual-scroller 
             v-for="(list, columnIndex) in dataSource" 
             :key="columnIndex" 
             v-model="positions[columnIndex]" 
@@ -23,12 +23,12 @@
                 class="list__item">
                 {{item.label}}
             </div>
-        </v-scroller>
+        </virtual-scroller>
     </div>
 </template>
 <script>
 import _ from 'lodash';
-import VScroller from '../../packages/VirtualScroller/VirtualScroller';
+import VirtualScroller from '../../packages/VirtualScroller/VirtualScroller';
 export default {
     name: 'AtomPicker',
 
@@ -68,10 +68,16 @@ export default {
         transitionEndHandle(columnIndex, { y, type }) {
             if ('inertia' === type) {
                 const index = Math.round(y / this.itemHeight);
-                const { value } = this.dataSource[columnIndex][index];
+                const { value, label } = this.dataSource[columnIndex][index];
                 let newValues = [...this.value];
                 newValues[columnIndex] = value;
                 this.$emit('input', newValues);
+                this.$emit('change', {
+                    columnIndex,
+                    rowIndex: index,
+                    value,
+                    label
+                });
             }
         },
 
@@ -85,29 +91,6 @@ export default {
             this.activeIndexList.splice(columnIndex, 1, index);
             // 滚动到最近的卡槽位置[驱动VirtualScroller]
             this.positions[columnIndex].y = index * this.itemHeight;
-            // this.$emit('input', this.activeIndexList);
-            return;
-            // if(0 === position.y % this.itemHeight) {
-
-            // }
-
-            // // 选项index
-            // const index = Math.round(position.y / this.itemHeight);
-
-            // // 当前列scrollTop
-            // this.positions[columnIndex].y = index * this.itemHeight;
-
-            // const activeItem = this.dataSource[columnIndex][index];
-            // const _value = [...this.value];
-            // _value.splice(columnIndex, 1, activeItem.value);
-            // // 同步value
-            // this.$emit('input', _value);
-            // // 携带更详细的信息
-            // this.$emit('change', {
-            //     columnIndex,
-            //     rowIndex: index,
-            //     ...activeItem
-            // });
         },
         /**
          * 设置scrollTop
@@ -156,7 +139,7 @@ export default {
         }
     },
 
-    components: { VScroller }
+    components: { VirtualScroller }
 };
 </script>
 <style scoped lang="scss">
