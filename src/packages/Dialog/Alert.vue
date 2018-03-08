@@ -1,8 +1,8 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :align="'bottom'" :hasClose="false">
+    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false">
         <template v-if="undefined !== title" slot="header">{{title}}</template>
         {{content}}
-        <a slot="footer" @click="ok" class="button-ok">{{btnOkText}}</a>
+        <a slot="footer" @click="ok" class="button-ok">{{okText}}</a>
     </v-dialog>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: '提示'
+            default: ''
         },
 
         holdTime: {
@@ -28,10 +28,11 @@ export default {
 
     data() {
         return {
+            align: 'bottom',
             okCallback: null, // 点击ok后运行
             isShow: false, // 是否显示
             content: '', // 内容
-            btnOkText: '确定', // 按钮文字
+            okText: '', // 按钮文字
         };
     },
 

@@ -45,15 +45,19 @@ Atom.install = function(Vue) {
     // =================================================
     {
         let vm = null;
-        Vue.prototype.$alert = (content = '', options = {
-            onOk: () => {}
-        }) => {
-            if (null === vm) {
-                vm = createVueChild(AAlert);
-            }
+        Vue.prototype.$alert = (content = '',{
+            title = '',
+            okText = '确定',
+            align = 'bottom',
+            onOk = () => {}
+        } = {}) => {
+            if (null === vm) vm = createVueChild(AAlert);
             vm.isShow = true;
+            vm.title = title;
+            vm.align = align;
             vm.content = content;
-            vm.okCallback = options.onOk;
+            vm.okCallback = onOk;
+            vm.okText = okText;
         };
     }
 
