@@ -20,7 +20,7 @@ export default {
 
     methods: {
         handle(){
-            this.$prompt('hello atom ?', {
+            this.$prompt('给atom留言', {
                 onOk(text){
                     alert(text)
                 }

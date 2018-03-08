@@ -48,7 +48,7 @@ Atom.install = function(Vue) {
         Vue.prototype.$alert = (content = '', {
             title = '',
             okText = '确定',
-            align = 'bottom',
+            align = 'top',
             onOk = () => {}
         } = {}) => {
             if (null === vm) vm = createVueChild(AAlert);
@@ -56,7 +56,7 @@ Atom.install = function(Vue) {
             vm.title = title;
             vm.align = align;
             vm.content = content;
-            vm.okCallback = onOk;
+            vm.onOk = onOk;
             vm.okText = okText;
         };
     }
@@ -68,6 +68,10 @@ Atom.install = function(Vue) {
         let vm = null;
         Vue.prototype.$confirm = (
             content = '', {
+                title = '',
+                okText = '确定',
+                cancelText = '取消',
+                align = 'bottom',
                 onOk = () => {},
                 onCancel = () => {}
             } = {}
@@ -77,8 +81,10 @@ Atom.install = function(Vue) {
             }
             vm.isShow = true;
             vm.content = content;
-            vm.afterOk = onOk;
-            vm.afterCancel = onCancel;
+            vm.okText = okText;
+            vm.cancelText = cancelText;
+            vm.onOk = onOk;
+            vm.onCancel = onCancel;
         };
     }
     // =================================================
@@ -87,21 +93,26 @@ Atom.install = function(Vue) {
     {
         let vm = null;
         Vue.prototype.$prompt = (
-            content = '', {
+            title = '', {
                 onOk = () => {},
                 onCancel = () => {},
-                confirmText = '确定',
+                okText = '确定',
                 cancelText = '取消',
-                align = 'bottom',
+                align = 'top',
+                placeHolder = '请输入'
             } = {}
         ) => {
             if (null === vm) {
                 vm = createVueChild(APrompt);
             }
             vm.isShow = true;
-            vm.content = content;
+            vm.title = title;
+            vm.okText = okText;
+            vm.align = 'top';
+            vm.cancelText = cancelText;
             vm.onOk = onOk;
             vm.onCancel = onCancel;
+            vm.placeHolder = placeHolder;
         };
     }
 

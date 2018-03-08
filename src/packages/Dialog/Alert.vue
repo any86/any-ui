@@ -35,7 +35,7 @@ export default {
         },
 
         // 点击ok后运行
-        okCallback: {
+        onOk: {
             type: Function
         },
         
@@ -48,9 +48,9 @@ export default {
     methods: {
         ok() {
             this.isShow = false;
-            // 防止在okCallback中再次$alert的时候, 切换不明显
+            // 防止在onOk中再次$alert的时候, 切换不明显
             this.$nextTick(() => {
-                this.okCallback();
+                this.onOk();
             });
         },
     },

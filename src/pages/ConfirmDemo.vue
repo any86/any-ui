@@ -1,7 +1,7 @@
 <template>
     <v-scroll-view class="flex">
-        <v-button :is-ghost="true" type="primary" @click="$confirm('hello atom ?')" class="gutter flex-item--center">
-            Confirm
+        <v-button :is-ghost="true" type="primary" @click="$confirm('喜欢atom吗?')" class="gutter flex-item--center">
+            打开
         </v-button>
     </v-scroll-view>
 </template>

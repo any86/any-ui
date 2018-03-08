@@ -1,8 +1,8 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :hasClose="false">
-        <template v-if="!!title" slot="header">{{title}}</template>
+    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false">
+        <template slot="header">{{title}}</template>
         <div class="input">
-            <v-input ref="input" v-model="value" :placeholder="content"/>
+            <v-input ref="input" v-model="value" :placeholder="placeHolder"/>
         </div>
         <div slot="footer" class="footer">
             <a class="button" @click="cancel">{{cancelText}}</a>
@@ -17,17 +17,46 @@ import VInput from '../../packages/Input/Input';
 export default {
     name: 'AtomPrompt',
 
-    data() {
-        return {
-            value: '',
-            okText: 'ok',
-            cancelText: 'cancel',
-            onOk: () => {},
-            onCancel: () => {},
-            isShow: false,
-            title: '',
-            content: ''
-        };
+    props: {
+        // 是否显示
+        isShow: {
+            type: Boolean
+        },
+
+        // 标题
+        title: {
+            type: String,
+            default: ''
+        },
+
+        // 对齐方式
+        align: {
+            type: String,
+        },
+
+        // 点击ok后运行
+        onOk: {
+            type: Function
+        },
+
+        // 点击cancel
+        onCancel: {
+            type: Function
+        },
+        
+        // 按钮文字
+        okText: {
+            type: String
+        },
+
+        // 取消文字
+        cancelText: {
+            type: String
+        },
+        
+        placeHolder: {
+            type: String
+        }
     },
 
     methods: {
@@ -80,7 +109,7 @@ export default {
     .button {
         user-select: none;
         flex: 1;
-        line-height: $prompt_button_height;
+        padding: $gutter 0;
         text-align: center;
     }
 
