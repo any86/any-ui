@@ -1,12 +1,12 @@
 <template>
     <v-dialog :isShow.sync="isShow" :hasClose="false">
-        <template slot="header">{{title}}</template>
+        <template v-if="!!title" slot="header">{{title}}</template>
         <div class="input">
             <v-input ref="input" v-model="value" :placeholder="content"/>
         </div>
         <div slot="footer" class="footer">
-            <a class="button" @click="cancel">取消</a>
-            <a class="button" @click="ok">确定</a>
+            <a class="button" @click="cancel">{{cancelText}}</a>
+            <a class="button" @click="ok">{{okText}}</a>
         </div>
     </v-dialog>
 </template>
@@ -20,15 +20,17 @@ export default {
     data() {
         return {
             value: '',
+            okText: 'ok',
+            cancelText: 'cancel',
             onOk: () => {},
             onCancel: () => {},
             isShow: false,
-            title: '提示',
+            title: '',
             content: ''
         };
     },
 
-methods: {
+    methods: {
         ok() {
             this.isShow = false;
             this.$nextTick(() => {
@@ -86,7 +88,7 @@ methods: {
         border-right: 1px solid $lightest;
         color: $darker;
     }
-    
+
     .button:last-child {
         color: $primary;
     }

@@ -1,15 +1,15 @@
 <template>
     <v-dialog :isShow.sync="isShow" :align="'bottom'" :hasClose="false">
-        <template slot="header">{{title}}</template>
+        <template v-if="!!title" slot="header">{{title}}</template>
         {{content}}
         <div slot="footer" class="footer">
-            <a class="button" @click="cancel">取消</a>
-            <a class="button" @click="ok">确定</a>
+            <a class="button" @click="cancel">{{cancelText}}</a>
+            <a class="button" @click="ok">{{okText}}</a>
         </div>
     </v-dialog>
 </template>
 <script>
-import VDialog from '../../packages/Dialog/Dialog'
+import VDialog from '../../packages/Dialog/Dialog';
 export default {
     name: 'AtomConfirm',
 
@@ -18,8 +18,10 @@ export default {
             afterOk: null,
             afterCancel: null,
             isShow: false,
-            title: '提示',
-            content: ''
+            title: '',
+            content: '',
+            cancelText: 'cancel',
+            okText: 'confirm'
         };
     },
 
@@ -40,7 +42,7 @@ export default {
     },
 
     components: { VDialog }
-}
+};
 </script>
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
@@ -58,7 +60,7 @@ export default {
     }
     .button:first-child {
         border-right: 1px solid $lightest;
-        color:$darkest;
+        color: $darkest;
     }
     .button:last-child {
         color: $primary;

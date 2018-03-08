@@ -45,7 +45,7 @@ Atom.install = function(Vue) {
     // =================================================
     {
         let vm = null;
-        Vue.prototype.$alert = (content = '',{
+        Vue.prototype.$alert = (content = '', {
             title = '',
             okText = '确定',
             align = 'bottom',
@@ -89,7 +89,10 @@ Atom.install = function(Vue) {
         Vue.prototype.$prompt = (
             content = '', {
                 onOk = () => {},
-                onCancel = () => {}
+                onCancel = () => {},
+                confirmText = '确定',
+                cancelText = '取消',
+                align = 'bottom',
             } = {}
         ) => {
             if (null === vm) {
