@@ -11,29 +11,38 @@ export default {
     name: 'AtomAlert',
 
     props: {
+        // 是否显示
+        isShow: {
+            type: Boolean
+        },
+
+        // 标题
         title: {
             type: String,
             default: ''
         },
 
-        holdTime: {
-            type: Number,
-            default: -1
+        // 内容
+        content: {
+            type: String,
+            default: ''
         },
 
-        lock: {
-            type: Boolean
-        }
-    },
+        // 对齐方式
+        align: {
+            type: String,
+            default:  'bottom'
+        },
 
-    data() {
-        return {
-            align: 'bottom',
-            okCallback: null, // 点击ok后运行
-            isShow: false, // 是否显示
-            content: '', // 内容
-            okText: '', // 按钮文字
-        };
+        // 点击ok后运行
+        okCallback: {
+            type: Function
+        },
+        
+        // 按钮文字
+        okText: {
+            type: String
+        }
     },
 
     methods: {
