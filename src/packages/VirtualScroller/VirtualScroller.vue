@@ -399,10 +399,12 @@ export default {
                 this.$emit('input', this.position);
                 this.$emit('scroll-end', this.position);
             }
+            this.$emit('touchend', this.position);
         },
 
         transitionend() {
             this.isAnimating = false;
+            // 复位动画
             if (!this.resetPosition(this.bounceTime)) {
                 this.isInTransition = false;
             }
