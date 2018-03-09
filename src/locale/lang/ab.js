@@ -1,21 +1,21 @@
 export default {
     alert: {
-        ok: 'تحديد'
+        ok: 'موافق'
     },
 
     confirm: {
-        ok: 'تحديد',
+        ok: 'موافق',
         cancel: 'إلغاء'
     },
 
     prompt: {
-        ok: 'تحديد',
+        ok: 'موافق',
         cancel: 'إلغاء',
         placeHolder: ' أدخل'
     },
 
     popupPicker: {
-        ok: 'تحديد',
+        ok: 'موافق',
         cancel: 'إلغاء'
     }
 };
