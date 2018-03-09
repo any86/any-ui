@@ -1,12 +1,9 @@
 <template>
-    <v-scroll-view class="demo-page">
-        <v-breadcrumb :data-source="dataSource" @click-item="clickItem" />
-    </v-scroll-view>
+    <a-scroll-view class="demo-page">
+        <a-breadcrumb :data-source="dataSource" @click-item="clickItem" />
+    </a-scroll-view>
 </template>
 <script>
-import VGroup from '@/packages/Group/Group';
-import VBreadcrumb from '@/packages/Breadcrumb/Breadcrumb';
-import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'BreadcrumbDemo',
 
