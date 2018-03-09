@@ -1,8 +1,8 @@
 <template>
     <span>
         <transition name="fadeUp">
-            <span ref="popper" v-show="isShow" class="atom-popper" v-dom-portal="isPortal">
-                <slot></slot>
+            <span ref="popper" v-show="isShowBySelf && isShow" :style="{padding: `${padding}px`}" class="atom-popper" v-dom-portal="isPortal">
+                <slot>{{content}}</slot>
             </span>
         </transition>
         <slot name="reference"></slot>
@@ -37,21 +37,31 @@ export default {
         isPortal: {
             type: Boolean,
             default: false
+        },
+
+        content: {
+            type: String,
+            default: ''
+        },
+
+        padding: {
+            type: Number,
         }
     },
 
     data() {
         return {
             popper: null,
-            top: 0,
-            left: 0,
             referenceNode: null,
-            popperNode: null
+            popperNode: null,
+            isShowBySelf: true,
         };
     },
 
     mounted() {
-        this.createPopper();
+        this.$nextTick(()=>{
+            this.createPopper();
+        });
         // 当同一个页面出现多个popper时, close会被执行多次
         if (this.isCloseAfterClick) {
             // touchstart有些时候不执行,不知道为什么?
@@ -68,16 +78,18 @@ export default {
 
         close(e) {
             e.stopPropagation();
+            
             if (this.isShow) {
                 // 点击组件外部关闭popper
                 if (this.isTargetInContainer(e)) {
                     this.$emit('update:isShow', false);
+                    this.isShowBySelf = false;
                 }
             }
         },
 
         createPopper() {
-            this.referenceNode = this.$slots.reference[0].elm;
+            this.referenceNode = this.referenceNode || this.$slots.reference[0].elm;
             this.popperNode = this.$refs.popper;
             // 插入箭头
             const arrowNode = document.createElement('div');
@@ -88,10 +100,11 @@ export default {
                 placement: this.placement,
                 modifiers: {
                     // 取消tanslate控制位置, 防止组件定义的动画被影响
-                    computeStyle: { gpuAcceleration: false }
+                    computeStyle: { gpuAcceleration: false },
                 },
                 onUpdate(data, options) {
                     this.$emit('update', { data, options });
+                    
                 }
             });
         },

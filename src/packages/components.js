@@ -58,6 +58,9 @@ import AIcon from './Icon/Icon';
 import {ASwipeOut, ASwipeOutButton} from './SwipeOut';
 
 export {
+    AAlert,
+    AConfirm,
+    APrompt,
     AAffix,
     ABadge,
     ABreadcrumb,
@@ -101,5 +104,6 @@ export {
     AThreeDots,
     ARipple,
     ASwipeOut,
-    ASwipeOutButton
+    ASwipeOutButton,
+    ALoading
 }

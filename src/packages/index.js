@@ -1,11 +1,16 @@
-import AAlert from './Dialog/Alert';
-import AConfrim from './Dialog/Confirm';
-import APrompt from './Dialog/Prompt';
-import ALoading from './Loading/Loading';
-import AToast from './Toast/Toast';
-
 // 所有组件
 import * as components from './components.js'
+
+// 对话框类组件
+const {
+    AAlert,
+    AConfirm,
+    APrompt,
+    ALoading,
+    AToast,
+    APopper
+} = components;
+
 
 // 水波纹特效
 import ripple from 'atom-ripple';
@@ -14,8 +19,10 @@ import 'atom-ripple/src/ripple.scss'
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
-var Atom = {};
-Atom.install = function(Vue, {locale}) {
+let Atom = {};
+Atom.install = function(Vue, {
+    locale
+}) {
     // 水波纹特效
     Vue.use(ripple);
 
@@ -82,7 +89,7 @@ Atom.install = function(Vue, {locale}) {
             } = {}
         ) => {
             if (null === vm) {
-                vm = createVueChild(AConfrim);
+                vm = createVueChild(AConfirm);
             }
             vm.isShow = true;
             vm.content = content;
@@ -157,7 +164,38 @@ Atom.install = function(Vue, {locale}) {
         }
     }
 
-    // ==========================================loading==================================
+    // =================================================
+    // ==============组件内调用: this.$popper============
+    // =================================================
+    {
+        let popperVM = null;
+        Vue.prototype.$popper = (referenceNode, content = '', {padding = 15} = {}) => {
+            if (null === popperVM) {
+                popperVM = createVueChild(APopper);
+            }
+            // 组件内容用来和$popper共享状态的变量
+            popperVM.isShowBySelf = true;
+            popperVM.isShow = true;
+            popperVM.referenceNode = referenceNode;
+            popperVM.content = content;
+            popperVM.padding = padding;
+            return popperVM;
+        };
+
+        Vue.prototype.$popper.close = () => {
+            popperVM.isShow = false;
+            popperVM.isShowBySelf = false;
+        };
+        
+        // $tooltip
+        Vue.prototype.$tooltip = Vue.prototype.$popper
+    }
+
+
+
+    // =================================================
+    // ==============组件内调用: this.$loading===========
+    // =================================================
     {
         let loadingVM = null;
         Vue.prototype.$loading = ({
