@@ -5,30 +5,13 @@ window.dir = console.dir;
 import Vue from 'vue';
 import App from '@/App';
 import router from '@/router';
-// import * as types from '@/store/mutation-types';
-// API
-// import api from '@/api';
-// Object.defineProperty(Vue.prototype, '$api', {
-//     value: api,
-//     writable: false,
-//     enumerable: false,
-//     configurable: false
-// });
-// var FastClick = require('fastclick');
-// FastClick.attach(document.body, {});
-// Object.defineProperty(Vue.prototype, '$lang', {
-//     value: lang, // lang存在lang.js文件中
-//     writable: false,
-//     enumerable: false,
-//     configurable: false
-// });
 
 //全局样式
 import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
-Vue.use(Atom);
-
+import locale from '@/locale/lang/zh-CN.js'
+Vue.use(Atom, {locale});
 
 // 关闭错误提示
 Vue.config.silent = false;

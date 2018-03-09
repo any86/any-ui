@@ -15,12 +15,13 @@ import DomPortal from 'vue-dom-portal';
 
 var Atom = {};
 // var ZIndexManger = 0; // 稍后做zindex管理
-Atom.install = function(Vue) {
+Atom.install = function(Vue, {locale}) {
     // 水波纹特效
-    Vue.use(ripple)
+    Vue.use(ripple);
     // 移动dom指令
     Vue.use(DomPortal);
 
+    // 注册组件
     for (let k in components) {
         let component = components[k];
         Vue.component(`${component.name.replace('Atom', 'A')}`, component);
@@ -47,7 +48,7 @@ Atom.install = function(Vue) {
         let vm = null;
         Vue.prototype.$alert = (content = '', {
             title = '',
-            okText = '确定',
+            okText = locale.alert.ok,
             align = 'top',
             onOk = () => {}
         } = {}) => {
@@ -69,8 +70,8 @@ Atom.install = function(Vue) {
         Vue.prototype.$confirm = (
             content = '', {
                 title = '',
-                okText = '确定',
-                cancelText = '取消',
+                okText = locale.confirm.ok,
+                cancelText = locale.confirm.cancel,
                 align = 'bottom',
                 onOk = () => {},
                 onCancel = () => {}
@@ -96,10 +97,10 @@ Atom.install = function(Vue) {
             title = '', {
                 onOk = () => {},
                 onCancel = () => {},
-                okText = '确定',
-                cancelText = '取消',
                 align = 'top',
-                placeHolder = '请输入'
+                okText = locale.prompt.ok,
+                cancelText = locale.prompt.cancel,
+                placeHolder = locale.prompt.placeHolder
             } = {}
         ) => {
             if (null === vm) {

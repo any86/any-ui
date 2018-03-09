@@ -15,7 +15,7 @@ import VPicker from '../../packages/Picker/Picker';
 import VPopup from '../../packages/Popup/Popup';
 export default {
     name: 'AtomPopupPicker',
-
+    
     props: {
         dataSource: {
             type: Array

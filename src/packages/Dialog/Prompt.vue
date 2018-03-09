@@ -59,6 +59,8 @@ export default {
         }
     },
 
+    data: ()=>({value: ''}),
+
     methods: {
         ok() {
             this.isShow = false;
@@ -100,6 +102,8 @@ export default {
     padding-top: $gutter/1.2;
     padding-bottom: $gutter/1.2;
     padding-left: $gutter/2;
+    padding-right: $gutter/2;
+    
 }
 
 .footer {
