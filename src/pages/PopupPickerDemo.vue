@@ -1,6 +1,6 @@
 <template>
     <v-scroll-view class="demo-page flex">
-        <v-popup-picker :is-show.sync="isShow" :data-source="[data1, data2]" v-model="value"/>
+        <v-popup-picker :is-show.sync="isShow" :data-source="[data1, data2]" v-model="value">请选择开学日期</v-popup-picker>
         <section class="flex-item--center">
             <p class="text-center">当前值: {{value}}</p>
             <v-button type="primary" :is-ghost="true" :is-block="true" @click="isShow=true" class="gutter-top">打开</v-button>

@@ -1,11 +1,11 @@
 <template>
     <v-popup :is-show.sync="_isShow" class="atom-popup-pickcer">
         <header>
-            <span @click="cancel" class=" button-cancel">cancel</span>
+            <span @click="cancel" class=" button-cancel">{{cancelText || $_locale.popupPicker.cancel}}</span>
             <span v-if="!!$slots.default" class="title">
                 <slot></slot>
             </span>
-            <span @click="ok" class="button-ok">ok</span>
+            <span @click="ok" class="button-ok">{{okText || $_locale.popupPicker.ok}}</span>
         </header>
         <v-picker v-model="tempValue" :data-source="dataSource" @change="change"/>
     </v-popup>
@@ -15,7 +15,7 @@ import VPicker from '../../packages/Picker/Picker';
 import VPopup from '../../packages/Popup/Popup';
 export default {
     name: 'AtomPopupPicker',
-    
+
     props: {
         dataSource: {
             type: Array
@@ -27,6 +27,14 @@ export default {
 
         isShow: {
             type: Boolean
+        },
+
+        okText: {
+            type: String,
+        },
+
+        cancelText: {
+            type: String,
         }
     },
 
@@ -77,7 +85,7 @@ export default {
     },
 
     watch: {
-        _isShow(){
+        _isShow() {
             this.tempValue = [...this.value];
         }
     },
@@ -104,18 +112,21 @@ export default {
             color: $light;
             text-align: left;
             flex: 1;
+            font-size: $big;
         }
         .title {
             align-self: center;
             text-align: center;
             font-size: $big;
-            color: $darker;
+            color: $darkest;
+            font-weight: bold;
         }
         .button-ok {
             @include button;
             color: $darkest;
             text-align: right;
             flex: 1;
+            font-size: $big;
         }
     }
 }

@@ -4,22 +4,26 @@ import APrompt from './Dialog/Prompt';
 import ALoading from './Loading/Loading';
 import AToast from './Toast/Toast';
 
-// 其他组件
+// 所有组件
 import * as components from './components.js'
+
 // 水波纹特效
-// import ripple from '../directives/ripple/index.js';
 import ripple from 'atom-ripple';
 import 'atom-ripple/src/ripple.scss'
+
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
 var Atom = {};
-// var ZIndexManger = 0; // 稍后做zindex管理
 Atom.install = function(Vue, {locale}) {
     // 水波纹特效
     Vue.use(ripple);
+
     // 移动dom指令
     Vue.use(DomPortal);
+
+    // 挂在语言包
+    Vue.prototype.$_locale = locale;
 
     // 注册组件
     for (let k in components) {
