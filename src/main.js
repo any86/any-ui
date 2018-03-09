@@ -10,8 +10,7 @@ import router from '@/router';
 import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
-// import locale from '@/locale/lang/zh-CN.js'
-import locale from '@/locale/lang/en.js'
+import locale from '@/locale/lang/zh-CN.js'
 
 Vue.use(Atom, {locale});
 
