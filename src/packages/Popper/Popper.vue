@@ -73,9 +73,9 @@ export default {
 
     data() {
         return {
-            popper: null,
+            popper: undefined,
             referenceNode: undefined,
-            popperNode: null,
+            popperNode: undefined,
             arrowNode: undefined,
             isTrigerByCommond: false // 是否由$toolTip打开
         };
@@ -135,6 +135,7 @@ export default {
             this._insertArrow();
             this.popper = new Popper(this.referenceNode, this.popperNode, {
                 placement: this.placement,
+                removeOnDestroy: true,
                 modifiers: {
                     // 取消tanslate控制位置, 防止组件定义的动画被影响
                     computeStyle: { gpuAcceleration: false }
@@ -144,34 +145,23 @@ export default {
                 }
             });
         }
-
-        // show() {
-        //     this.$nextTick(() => {
-        //         this.isShow = true;
-        //         this.updatePopper();
-        //     });
-        // },
-
-        // updatePopper() {
-        //     this.popperNode ? this.popper.scheduleUpdate() : this.createPopper();
-        // }
     },
 
     watch: {
-        isShow(isShow) {
+        async isShow(isShow) {
             if(!isShow) return;
-            this.$nextTick(() => {
+            await this.$nextTick();
+            if(undefined !== this.referenceNode) {
+                this.popper.scheduleUpdate();
+            } else {
                 this.createPopper();
-            });
+            }
         }
     },
 
     breforeDestory() {
         document.removeEventListener('click', this.close);
         document.removeEventListener('touchstart', this.close);
-    },
-
-    destroyed() {
         this.popper.destroy();
         this.popper = null;
     }

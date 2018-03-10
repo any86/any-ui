@@ -48,13 +48,15 @@ export default {
         },
 
         hasRipple: {
-            default: true
+            default: false
         }
     },
 
     computed: {
         rippleConfig() {
-            return undefined === this.arrow ? { isDisabled: true } : { background: '#ccc', isDisabled: !this.hasRipple };
+            return undefined === this.arrow
+                ? { isDisabled: !this.hasRipple }
+                : { background: '#ccc', isDisabled: !this.hasRipple };
         }
     },
 

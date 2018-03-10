@@ -4,9 +4,6 @@
         <a-cell :has-ripple="true" v-for="n in 15" :key="n+10" @click="scrollTop=9999">
             滑动到底部{{String.fromCharCode(64 + parseInt(n))}}</a-cell>
 
-        <!-- $tooltip方式调用 -->
-        <a-button type="success" @click="handle" :is-block="true">$tooltip方式调用</a-button>
-
         <!-- 组件标签方式调用 -->
         <a-button :is-block="true" type="warning"  @click="isShow1=!isShow1" class="gutter-top trigBtn">
             组件标签方式调用</a-button>
@@ -46,16 +43,6 @@ export default {
     },
 
     methods: {
-        handle(e) {
-            const vnode = this.$createElement(
-                'AButton',
-                { props: { type: 'success' } },
-                [123]
-            );
-            const node = e.currentTarget;
-            this.$tooltip(node, 'this.$tooltip方式调用');
-        },
-
         showMore(){
             this.scrollTop=9999;
             this.isShow1 = false;
