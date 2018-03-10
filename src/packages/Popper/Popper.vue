@@ -1,3 +1,11 @@
+<template>
+  <transition name="fadeUp">
+      <span v-show="isShow" :style="{padding: `${padding}px`}" class="atom-popper">
+          <slot>{{content}}</slot>
+      </span>
+  </transition>
+</template>
+
 <script>
 import Popper from 'popper.js';
 export default {
@@ -33,61 +41,74 @@ export default {
             type: Number
         },
 
-        linkId:{
+        // 目标元素的选择器
+        target: {
+            type: String
         }
     },
 
     render(h) {
-        return h('transition', { name: 'fadeUp' }, [
-            h(
-                'span',
-                {
-                    class: ['atom-popper'],
-                    style: { display: this.isShow ? undefined : 'none' }
-                },
-                [this.content]
-            )
-        ]);
+        return h(
+            'transition',
+            {
+                attrs: { name: 'fadeUp' }
+            }, [
+                h(
+                    'span',
+                    {
+                        class: ['atom-popper'],
+
+                        style: { 
+                            display: this.isShow ? undefined : 'none',
+                            padding: `${this.padding}px`
+                        }
+                    },
+                    
+                    this.content || this.$slots.default
+                )
+            ]
+        );
     },
 
     data() {
         return {
             popper: null,
-            referenceNode: null,
-            popperNode: null
+            referenceNode: undefined,
+            popperNode: null,
+            isTrigerByCommond: false // 是否由$toolTip打开
         };
     },
 
     mounted() {
-   
-        dir(document.getElementById(this.linkId))
-        
-        // this.$nextTick(() => {
-        //     this.createPopper();
-        // });
-        // // 当同一个页面出现多个popper时, close会被执行多次
-        // if (this.isCloseAfterClick) {
-        //     // touchstart有些时候不执行,不知道为什么?
-        //     document.addEventListener('touchstart', this.close);
-        //     document.addEventListener('click', this.close);
-        // }
+        // dir(document.getElementById(this.target))
+
+        this.$nextTick(() => {
+            this.createPopper();
+        });
+        // 当同一个页面出现多个popper时, close会被执行多次
+        if (this.isCloseAfterClick) {
+            // touchstart有些时候不执行,不知道为什么?
+            document.addEventListener('touchstart', this.close);
+            document.addEventListener('click', this.close);
+        }
     },
 
     methods: {
         isTargetInContainer(e) {
             // 当前目标元素不在组件内部 && 当popper移动到body外的时候, 目标不在reference/popper中
-            return (
-                !this.referenceNode.contains(e.target) &&
-                !this.popperNode.contains(e.target)
-            );
+            return !this.referenceNode.contains(e.target) && !this.popperNode.contains(e.target);
         },
 
         close(e) {
             e.stopPropagation();
-
             if (this.isShow) {
+                
                 // 点击组件外部关闭popper
                 if (this.isTargetInContainer(e)) {
+                    // 因为是$toolTip驱动的, vue居然没有提示prop不能进行反向赋值, 暂时先这样
+                    if(this.isTrigerByCommond) {
+                        this.isShow = false;
+                    }
                     this.$emit('update:isShow', false);
                 }
             }
@@ -95,6 +116,7 @@ export default {
 
         createPopper() {
             // 构造dom结构
+            this.referenceNode = this.referenceNode || document.querySelector(this.target);
             this.popperNode = this.$el;
             // 插入箭头
             const arrowNode = document.createElement('div');
@@ -121,9 +143,7 @@ export default {
         },
 
         updatePopper() {
-            this.popperNode
-                ? this.popper.scheduleUpdate()
-                : this.createPopper();
+            this.popperNode ? this.popper.scheduleUpdate() : this.createPopper();
         }
     },
 
@@ -171,8 +191,7 @@ $arrowBorderSize: 1px;
                 right: -($arrowSize - $arrowBorderSize);
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize $arrowSize -
-                    $arrowBorderSize 0 $arrowSize - $arrowBorderSize;
+                border-width: $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize 0 $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-left-color: transparent;
@@ -203,8 +222,7 @@ $arrowBorderSize: 1px;
                 right: -($arrowSize - $arrowBorderSize);
                 width: 0;
                 height: 0;
-                border-width: 0 $arrowSize - $arrowBorderSize $arrowSize -
-                    $arrowBorderSize $arrowSize - $arrowBorderSize;
+                border-width: 0 $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: $sub;
                 border-left-color: transparent;
@@ -235,8 +253,7 @@ $arrowBorderSize: 1px;
                 right: $arrowBorderSize * 2;
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize 0 $arrowSize -
-                    $arrowBorderSize $arrowSize - $arrowBorderSize;
+                border-width: $arrowSize - $arrowBorderSize 0 $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-left-color: $sub;
@@ -267,8 +284,7 @@ $arrowBorderSize: 1px;
                 left: $arrowBorderSize * 2;
                 width: 0;
                 height: 0;
-                border-width: $arrowSize - $arrowBorderSize $arrowSize -
-                    $arrowBorderSize $arrowSize - $arrowBorderSize 0;
+                border-width: $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize $arrowSize - $arrowBorderSize 0;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-right-color: $sub;
@@ -276,6 +292,20 @@ $arrowBorderSize: 1px;
                 border-left-color: transparent;
             }
         }
+    }
+}
+
+.fadeUp {
+    animation: fadeUp 300ms;
+}
+
+@keyframes fadeUp {
+    from {
+        transform: translateY(-30px);
+    }
+
+    to {
+        transform: translateY(0);
     }
 }
 </style>

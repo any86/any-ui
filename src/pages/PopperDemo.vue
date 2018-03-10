@@ -1,27 +1,15 @@
 <template>
-        <main>
-            <a-button type="success" @click="handle" class="gutter">$tooltip方式调用</a-button>
+    <main class="fill">
+        <a-button type="success" @click="handle" :is-block="true">$tooltip方式调用</a-button>
 
-                <a-popper :is-show.sync="isShow1" link-id="h1">
-                    <p style="padding:15px;">请输入用户名</p>
-                    <label slot="reference">用户名: <input @focus="isShow1=true" type="text"/></label>
-                </a-popper>
+        <a-popper :is-show.sync="isShow1" target=".trigBtn">
+            <p style="padding:15px;">请输入用户名</p>
+            <label slot="reference">用户名: <input @focus="isShow1=true" type="text"/></label>
+        </a-popper>
 
-    <h1 id="h1">我是标题1234567</h1>
-
-            <!-- <a-cell>
-                <a-popper :is-show.sync="isShow1" >
-                    <p style="padding:15px;">请输入用户名</p>
-                    <label slot="reference">用户名: <input @focus="isShow1=true" type="text"/></label>
-                </a-popper>
-            </a-cell>
-            <a-cell>
-                <a-popper :is-show.sync="isShow2">
-                    <p style="padding:15px;">用户名密码不对!</p>
-                    <a-button slot="reference" type="warning" class="gutter-sm" @click="isShow2=true">弹出</a-button>
-                </a-popper>
-            </a-cell> -->
-        </main>
+        <a-button type="warning" :is-block="true" @click="isShow1=!isShow1" class="gutter-top trigBtn">
+            组件标签方式调用</a-button>
+    </main>
 </template>
 <script>
 import AButton from '@/packages/Button/Button'
@@ -30,7 +18,7 @@ export default {
 
     data() {
         return {
-            isShow1: true,
+            isShow1: false,
             isShow2: false
         };
     },
@@ -42,9 +30,8 @@ export default {
     methods: {
         handle(e) {
             const vnode = this.$createElement('AButton', {props: {type: 'success'}}, [123]);
-            dir(vnode)
             const node = e.currentTarget;
-            this.$tooltip(node, vnode);
+            this.$tooltip(node, 'this.$tooltip方式调用');
         }
     }
 };

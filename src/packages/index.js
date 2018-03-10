@@ -165,30 +165,26 @@ Atom.install = function(Vue, {
     }
 
     // =================================================
-    // ==============组件内调用: this.$popper============
+    // ==============组件内调用: this.$tooltip============
     // =================================================
     {
-        let popperVM = null;
-        Vue.prototype.$popper = (referenceNode, content = '', {padding = 15} = {}) => {
-            if (null === popperVM) {
-                popperVM = createVueChild(APopper);
+        let toolTipVM = null;
+        Vue.prototype.$tooltip = (referenceNode, content = '', {padding = 15} = {}) => {
+            if (null === toolTipVM) {
+                toolTipVM = createVueChild(APopper);
             }
             // 组件内容用来和$popper共享状态的变量
-            popperVM.isShowBySelf = true;
-            popperVM.isShow = true;
-            popperVM.referenceNode = referenceNode;
-            popperVM.content = content;
-            popperVM.padding = padding;
-            return popperVM;
+            toolTipVM.isShow = true;
+            toolTipVM.referenceNode = referenceNode;
+            toolTipVM.content = content;
+            toolTipVM.padding = padding;
+            toolTipVM.isTrigerByCommond = true;
+            return toolTipVM;
         };
 
-        Vue.prototype.$popper.close = () => {
-            popperVM.isShow = false;
-            popperVM.isShowBySelf = false;
+        Vue.prototype.$tooltip.close = () => {
+            toolTipVM.isShow = false;
         };
-        
-        // $tooltip
-        Vue.prototype.$tooltip = Vue.prototype.$popper
     }
 
 

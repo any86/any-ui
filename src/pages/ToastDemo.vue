@@ -20,7 +20,7 @@ export default {
     methods: {
         closeAfterTimeout(){
             // const vnode = this.$createElement(VButton);
-            this.$toast('3秒后关闭', {delay: 3000});
+            this.$toast('3秒后关闭', {delay: 1000});
         }
         
     },
