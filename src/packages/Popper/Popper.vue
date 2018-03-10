@@ -1,6 +1,6 @@
 <template>
   <transition name="fadeUp">
-      <span v-show="isShow" :style="{padding: `${padding}px`}" class="atom-popper">
+      <span v-show="isShow" :style="{padding: `${padding}px`}" :class="[type && 'atom-popper--'+type]" class="atom-popper">
           <slot>{{content}}</slot>
       </span>
   </transition>
@@ -12,6 +12,10 @@ export default {
     name: 'AtomPopper',
 
     props: {
+        type:{
+            type: String
+        },
+
         options: {
             type: Object,
             default: () => {}
@@ -116,8 +120,8 @@ export default {
         /**
          * 构造箭头dom
          */
-        _insertArrow(){
-            if(undefined !== this.arrowNode) return;
+        _insertArrow() {
+            if (undefined !== this.arrowNode) return;
             this.arrowNode = document.createElement('div');
             this.arrowNode.setAttribute('x-arrow', '');
             this.arrowNode.className = 'popper__arrow';
@@ -129,7 +133,8 @@ export default {
          */
         createPopper() {
             // 构造dom结构
-            this.referenceNode = this.referenceNode || document.querySelector(this.target);
+            this.referenceNode =
+                this.referenceNode || document.querySelector(this.target);
             this.popperNode = this.$el;
             // 插入箭头
             this._insertArrow();
@@ -149,9 +154,9 @@ export default {
 
     watch: {
         async isShow(isShow) {
-            if(!isShow) return;
+            if (!isShow) return;
             await this.$nextTick();
-            if(undefined !== this.referenceNode) {
+            if (undefined !== this.referenceNode) {
                 this.popper.scheduleUpdate();
             } else {
                 this.createPopper();
@@ -168,6 +173,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '../../scss/function.scss';
 @import '../../scss/variables.scss';
 $arrowSize: 8px;
 $arrowBorderSize: 1px;
@@ -177,7 +183,7 @@ $arrowBorderSize: 1px;
     display: inline-block;
     border: 1px solid $lightest;
     border-radius: $borderRadius;
-    background: $sub;
+    background: $white;
 
     &[x-placement^='top'] {
         box-shadow: $shadowDown;
@@ -205,7 +211,7 @@ $arrowBorderSize: 1px;
                 border-style: solid;
                 border-bottom-color: transparent;
                 border-left-color: transparent;
-                border-top-color: $sub;
+                border-top-color: $white;
                 border-right-color: transparent;
             }
         }
@@ -236,7 +242,7 @@ $arrowBorderSize: 1px;
                 border-width: 0 $arrowSize - $arrowBorderSize $arrowSize -
                     $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
-                border-bottom-color: $sub;
+                border-bottom-color: $white;
                 border-left-color: transparent;
                 border-top-color: transparent;
                 border-right-color: transparent;
@@ -269,7 +275,7 @@ $arrowBorderSize: 1px;
                     $arrowBorderSize $arrowSize - $arrowBorderSize;
                 border-style: solid;
                 border-bottom-color: transparent;
-                border-left-color: $sub;
+                border-left-color: $white;
                 border-top-color: transparent;
                 border-right-color: transparent;
             }
@@ -301,7 +307,7 @@ $arrowBorderSize: 1px;
                     $arrowBorderSize $arrowSize - $arrowBorderSize 0;
                 border-style: solid;
                 border-bottom-color: transparent;
-                border-right-color: $sub;
+                border-right-color: $white;
                 border-top-color: transparent;
                 border-left-color: transparent;
             }
@@ -309,17 +315,21 @@ $arrowBorderSize: 1px;
     }
 }
 
-.fadeUp {
-    animation: fadeUp 300ms;
-}
 
-@keyframes fadeUp {
-    from {
-        transform: translateY(-30px);
-    }
-
-    to {
-        transform: translateY(0);
+// 支持情景色
+@each $key, $value in $theme_colors {
+    .atom-popper--#{$key} {
+        background: $value;
+        border-color: $value;
+        color: color-yiq($value);
+        &[x-placement^='top'] {
+            .popper__arrow {
+                border-top-color: $value;
+                &:after {
+                    border-top-color: $value;
+                }
+            }
+        }
     }
 }
 </style>

@@ -4,9 +4,9 @@
         <a-cell :has-ripple="true" v-for="n in 15" :key="n+10" @click="scrollTop=9999">
             滑动到底部{{String.fromCharCode(64 + parseInt(n))}}</a-cell>
 
-        <!-- 组件标签方式调用 -->
-        <a-button :is-block="true" type="warning"  @click="isShow1=!isShow1" class="gutter-top trigBtn">
-            组件标签方式调用</a-button>
+        <!-- 模拟confirm -->
+        <a-button :is-block="true" type="success"  @click="isShow1=!isShow1" class="gutter-top trigBtn">
+            模拟confirm</a-button>
 
         <a-popper :is-show.sync="isShow1" target=".trigBtn" class="fill">
             <h4 class="fill-bottom-sm fill-top-sm text-darkest">查看更多?</h4>
@@ -23,6 +23,16 @@
             <a-cell :has-ripple="true" v-for="n in 5" :key="n" @click="isShow2=false">系统菜单{{String.fromCharCode(64 + parseInt(n))}}</a-cell>
         </a-popper>
 
+
+        <!-- 通过type属性支持情景色 -->
+        <a-button id="type-theme" :is-block="true" type="danger" @click="isShow3=true" class="gutter-top">
+            通过type属性支持情景色</a-button>
+
+
+        <a-popper type="danger" :is-show.sync="isShow3" target="#type-theme" class="fill">
+            情景色
+        </a-popper>
+
     </a-scroll-view>
 </template>
 <script>
@@ -34,7 +44,9 @@ export default {
         return {
             scrollTop: 0,
             isShow1: false,
-            isShow2: false
+            isShow2: false,
+            isShow3: false
+            
         };
     },
 
