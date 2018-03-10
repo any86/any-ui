@@ -1,52 +1,65 @@
 <template>
-    <main class="fill">
+    <a-scroll-view v-model="scrollTop" class="fill">
+
+        <a-cell :has-ripple="true" v-for="n in 15" :key="n+10" @click="scrollTop=9999">
+            滑动到底部{{String.fromCharCode(64 + parseInt(n))}}</a-cell>
+
+        <!-- $tooltip方式调用 -->
         <a-button type="success" @click="handle" :is-block="true">$tooltip方式调用</a-button>
 
-
-
+        <!-- 组件标签方式调用 -->
         <a-button :is-block="true" type="warning"  @click="isShow1=!isShow1" class="gutter-top trigBtn">
             组件标签方式调用</a-button>
 
         <a-popper :is-show.sync="isShow1" target=".trigBtn" class="fill">
-            <h4 class="fill-bottom-sm fill-top-sm text-danger">是否删除?</h4>
-            <a-button type="danger" size="sm" class="gutter-top">删除</a-button>
-            <a-button type="lighter" :is-ghost="true"  size="sm" class="gutter-top">取消</a-button>
+            <h4 class="fill-bottom-sm fill-top-sm text-darkest">查看更多?</h4>
+            <a-button type="dark"  size="sm" @click="showMore" class="gutter-top" >取消</a-button>
+            <a-button type="danger" size="sm"  @click="showMore" class="gutter-top">确定</a-button>
         </a-popper>
 
-
+        <!-- 模拟下拉菜单 -->
         <a-button id="drop-down" :is-block="true" type="info"  @click="isShow2=!isShow2" class="gutter-top">
-            <a-icon value="menu" size="24"/>
+            <a-icon value="menu" size="16"/>
             模拟下拉菜单</a-button>
 
         <a-popper :is-show.sync="isShow2" target="#drop-down">
-            <a-cell v-for="n in 5" :key="n">菜单{{n}}</a-cell>
+            <a-cell :has-ripple="true" v-for="n in 5" :key="n" @click="isShow2=false">系统菜单{{String.fromCharCode(64 + parseInt(n))}}</a-cell>
         </a-popper>
 
-
-    </main>
+    </a-scroll-view>
 </template>
 <script>
-import AButton from '@/packages/Button/Button'
+import AButton from '@/packages/Button/Button';
 export default {
     name: 'PopperDemo',
 
     data() {
         return {
-            isShow1: true,
-            isShow2: false,
+            scrollTop: 0,
+            isShow1: false,
+            isShow2: false
         };
     },
 
     mounted() {
-        // const node = document.getElementById('th2');
+        this.isShow1 = true;
     },
 
     methods: {
         handle(e) {
-            const vnode = this.$createElement('AButton', {props: {type: 'success'}}, [123]);
+            const vnode = this.$createElement(
+                'AButton',
+                { props: { type: 'success' } },
+                [123]
+            );
             const node = e.currentTarget;
             this.$tooltip(node, 'this.$tooltip方式调用');
-        }
+        },
+
+        showMore(){
+            this.scrollTop=9999;
+            this.isShow1 = false;
+        },
     }
 };
 </script>
