@@ -6,6 +6,7 @@
 <script>
 import VScrollView from '@/packages/ScrollView/ScrollView';
 import VCell from '@/packages/Cell/Cell';
+import VButton from '@/packages/Button/Button';
 
 export default {
     name: 'FingerDemo',
@@ -18,7 +19,8 @@ export default {
 
     methods: {
         closeAfterTimeout(){
-            this.$toast('3秒后自动关闭!', {delay: 3000});
+            // const vnode = this.$createElement(VButton);
+            this.$toast('3秒后关闭', {delay: 3000});
         }
         
     },

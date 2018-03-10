@@ -1,7 +1,15 @@
 <template>
         <main>
             <a-button type="success" @click="handle" class="gutter">$tooltip方式调用</a-button>
-            <a-cell>
+
+                <a-popper :is-show.sync="isShow1" link-id="h1">
+                    <p style="padding:15px;">请输入用户名</p>
+                    <label slot="reference">用户名: <input @focus="isShow1=true" type="text"/></label>
+                </a-popper>
+
+    <h1 id="h1">我是标题1234567</h1>
+
+            <!-- <a-cell>
                 <a-popper :is-show.sync="isShow1" >
                     <p style="padding:15px;">请输入用户名</p>
                     <label slot="reference">用户名: <input @focus="isShow1=true" type="text"/></label>
@@ -12,7 +20,7 @@
                     <p style="padding:15px;">用户名密码不对!</p>
                     <a-button slot="reference" type="warning" class="gutter-sm" @click="isShow2=true">弹出</a-button>
                 </a-popper>
-            </a-cell>
+            </a-cell> -->
         </main>
 </template>
 <script>
@@ -22,7 +30,7 @@ export default {
 
     data() {
         return {
-            isShow1: false,
+            isShow1: true,
             isShow2: false
         };
     },
@@ -33,7 +41,8 @@ export default {
 
     methods: {
         handle(e) {
-            // const vnode = this.$createElement('AButton');
+            const vnode = this.$createElement('AButton', {props: {type: 'success'}}, [123]);
+            dir(vnode)
             const node = e.currentTarget;
             this.$tooltip(node, vnode);
         }

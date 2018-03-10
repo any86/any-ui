@@ -1,3 +1,13 @@
+<template>
+    <span>
+        <transition name="fadeUp">
+            <span ref="popper" v-show="isShowBySelf && isShow" :style="{padding: `${padding}px`}" class="atom-popper" v-dom-portal="isPortal">
+                <slot>{{content}}</slot>
+            </span>
+        </transition>
+        <slot name="reference"></slot>
+    </span>
+</template>
 <script>
 import Popper from 'popper.js';
 export default {
@@ -24,6 +34,11 @@ export default {
             default: true
         },
 
+        isPortal: {
+            type: Boolean,
+            default: false
+        },
+
         content: {
             type: String,
             default: ''
@@ -31,46 +46,32 @@ export default {
 
         padding: {
             type: Number
-        },
-
-        linkId:{
         }
     },
 
     render(h) {
-        return h('transition', { name: 'fadeUp' }, [
-            h(
-                'span',
-                {
-                    class: ['atom-popper'],
-                    style: { display: this.isShow ? undefined : 'none' }
-                },
-                [this.content]
-            )
-        ]);
+        return h();
     },
 
     data() {
         return {
             popper: null,
             referenceNode: null,
-            popperNode: null
+            popperNode: null,
+            isShowBySelf: true
         };
     },
 
     mounted() {
-   
-        dir(document.getElementById(this.linkId))
-        
-        // this.$nextTick(() => {
-        //     this.createPopper();
-        // });
-        // // 当同一个页面出现多个popper时, close会被执行多次
-        // if (this.isCloseAfterClick) {
-        //     // touchstart有些时候不执行,不知道为什么?
-        //     document.addEventListener('touchstart', this.close);
-        //     document.addEventListener('click', this.close);
-        // }
+        this.$nextTick(() => {
+            this.createPopper();
+        });
+        // 当同一个页面出现多个popper时, close会被执行多次
+        if (this.isCloseAfterClick) {
+            // touchstart有些时候不执行,不知道为什么?
+            document.addEventListener('touchstart', this.close);
+            document.addEventListener('click', this.close);
+        }
     },
 
     methods: {
@@ -89,13 +90,15 @@ export default {
                 // 点击组件外部关闭popper
                 if (this.isTargetInContainer(e)) {
                     this.$emit('update:isShow', false);
+                    this.isShowBySelf = false;
                 }
             }
         },
 
         createPopper() {
-            // 构造dom结构
-            this.popperNode = this.$el;
+            this.referenceNode =
+                this.referenceNode || this.$slots.reference[0].elm;
+            this.popperNode = this.$refs.popper;
             // 插入箭头
             const arrowNode = document.createElement('div');
             arrowNode.setAttribute('x-arrow', '');
@@ -111,6 +114,10 @@ export default {
                     this.$emit('update', { data, options });
                 }
             });
+        },
+
+        toggle() {
+            this.isShow = !this.isShow;
         },
 
         show() {
