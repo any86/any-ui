@@ -319,14 +319,14 @@ $arrowBorderSize: 1px;
 // 支持情景色
 @each $key, $value in $theme_colors {
     .atom-popper--#{$key} {
-        background: $value;
-        border-color: $value;
-        color: color-yiq($value);
+        background: rgba($value, 1);
+        border-color: rgba($value, 1);
+        color: color-yiq(rgba($value, 1));
         &[x-placement^='top'] {
             .popper__arrow {
-                border-top-color: $value;
+                border-top-color: rgba($value, 1);
                 &:after {
-                    border-top-color: $value;
+                    border-top-color: rgba($value, 1);
                 }
             }
         }
