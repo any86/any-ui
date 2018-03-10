@@ -2,13 +2,27 @@
     <main class="fill">
         <a-button type="success" @click="handle" :is-block="true">$tooltip方式调用</a-button>
 
-        <a-popper :is-show.sync="isShow1" target=".trigBtn">
-            <p style="padding:15px;">请输入用户名</p>
-            <label slot="reference">用户名: <input @focus="isShow1=true" type="text"/></label>
+
+
+        <a-button :is-block="true" type="warning"  @click="isShow1=!isShow1" class="gutter-top trigBtn">
+            组件标签方式调用</a-button>
+
+        <a-popper :is-show.sync="isShow1" target=".trigBtn" class="fill">
+            <h4 class="fill-bottom-sm fill-top-sm text-danger">是否删除?</h4>
+            <a-button type="danger" size="sm" class="gutter-top">删除</a-button>
+            <a-button type="lighter" :is-ghost="true"  size="sm" class="gutter-top">取消</a-button>
         </a-popper>
 
-        <a-button type="warning" :is-block="true" @click="isShow1=!isShow1" class="gutter-top trigBtn">
-            组件标签方式调用</a-button>
+
+        <a-button id="drop-down" :is-block="true" type="info"  @click="isShow2=!isShow2" class="gutter-top">
+            <a-icon value="menu" size="24"/>
+            模拟下拉菜单</a-button>
+
+        <a-popper :is-show.sync="isShow2" target="#drop-down">
+            <a-cell v-for="n in 5" :key="n">菜单{{n}}</a-cell>
+        </a-popper>
+
+
     </main>
 </template>
 <script>
@@ -18,8 +32,8 @@ export default {
 
     data() {
         return {
-            isShow1: false,
-            isShow2: false
+            isShow1: true,
+            isShow2: false,
         };
     },
 

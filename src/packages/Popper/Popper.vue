@@ -135,16 +135,16 @@ export default {
             });
         },
 
-        show() {
-            this.$nextTick(() => {
-                this.isShow = true;
-                this.updatePopper();
-            });
-        },
+        // show() {
+        //     this.$nextTick(() => {
+        //         this.isShow = true;
+        //         this.updatePopper();
+        //     });
+        // },
 
-        updatePopper() {
-            this.popperNode ? this.popper.scheduleUpdate() : this.createPopper();
-        }
+        // updatePopper() {
+        //     this.popperNode ? this.popper.scheduleUpdate() : this.createPopper();
+        // }
     },
 
     breforeDestory() {
