@@ -322,23 +322,26 @@ $arrowBorderSize: 1px;
         background: rgba($value, 1);
         border-color: rgba($value, 1);
         color: color-yiq(rgba($value, 1));
-        &[x-placement^='top'] {
-            .popper__arrow {
-                border-top-color: rgba($value, 1);
-                &:after {
-                    border-top-color: rgba($value, 1);
+        // &[x-placement^='top'] {
+        //     .popper__arrow {
+        //         border-top-color: rgba($value, 1);
+        //         &:after {
+        //             border-top-color: rgba($value, 1);
+        //         }
+        //     }
+        // }
+
+        @each $direction in $directions {
+            &[x-placement^='#{$direction}'] {
+                .popper__arrow {
+                    border-#{$direction}-color: rgba($value, 1);
+                    &:after {
+                        border-#{$direction}-color: rgba($value, 1);
+                    }
                 }
             }
         }
-        // @each  (top, left, right, bottom) {}
-        &[x-placement^='top'] {
-            .popper__arrow {
-                border-top-color: rgba($value, 1);
-                &:after {
-                    border-top-color: rgba($value, 1);
-                }
-            }
-        }
+
     }
 }
 </style>
