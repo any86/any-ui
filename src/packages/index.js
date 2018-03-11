@@ -19,6 +19,10 @@ import 'atom-ripple/src/ripple.scss'
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
+
+// 默认语言为中文
+import locale from '../locale/lang/zh-CN';
+
 let Atom = {};
 Atom.install = function(Vue, {
     locale
