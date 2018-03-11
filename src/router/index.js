@@ -70,6 +70,7 @@ import QRCodeDemo from '@/pages/QRCodeDemo'
 import PopupPickerDemo from '@/pages/PopupPickerDemo'
 
 import SwipeOutDemo from '@/pages/SwipeOutDemo'
+import TestDemo from '@/pages/Test'
 
 
 export default new Router({
@@ -263,6 +264,12 @@ export default new Router({
             name: 'swipeOut',
             path: '/swipe-out',
             component: SwipeOutDemo
+        },
+
+        {
+            name: 'test',
+            path: '/test',
+            component: TestDemo
         },
         
     ]

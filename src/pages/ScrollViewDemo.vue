@@ -1,5 +1,5 @@
 <template>
-    <v-view>
+    <section>
         <v-tabs v-model="index" class="fixed-bottom">
             <v-tabs-item>高度为calc(100% - 55px)</v-tabs-item>
             <v-tabs-item>events: scroll</v-tabs-item>
@@ -17,7 +17,7 @@
                 <v-cell v-for="n in 30" :key="n">{{n}}</v-cell>
             </v-scroll-view>
         </template>
-    </v-view>
+    </section>
 </template>
 <script>
 import VTabs from '@/packages/Tabs/Tabs';

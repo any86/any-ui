@@ -1,9 +1,9 @@
 <template>
-    <main class="app-main">
+    <main class="app">
         <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-app-bar>
         <transition name="zoom" mode="out-in">
             <keep-alive>
-                <router-view></router-view>
+                <router-view class="app-main"></router-view>
             </keep-alive>
         </transition>
     </main>
@@ -30,14 +30,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import './scss/variables.scss';
-.app-menu {
-    li {
-        padding: $gutter;
-        border-bottom: 1px solid $lightest;
+.app {
+    height: 100vh;
+    &-main {
+        height: calc(100vh - 55px) !important;
+        position: relative;
     }
-}
-.app-main {
-    height: calc(100%);
-    position: relative;
 }
 </style>
