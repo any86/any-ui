@@ -23,11 +23,9 @@
             <a-cell :has-ripple="true" v-for="n in 5" :key="n" @click="isShow2=false">系统菜单{{String.fromCharCode(64 + parseInt(n))}}</a-cell>
         </a-popper>
 
-
         <!-- 通过type属性支持情景色 -->
         <a-button id="type-theme" :is-block="true" type="danger" @click="isShow3=true" class="gutter-top">
             通过type属性支持情景色</a-button>
-
 
         <a-popper type="danger" :is-show.sync="isShow3" target="#type-theme" class="fill">
             情景色

@@ -315,22 +315,12 @@ $arrowBorderSize: 1px;
     }
 }
 
-
 // 支持情景色
 @each $key, $value in $theme_colors {
     .atom-popper--#{$key} {
         background: rgba($value, 1);
         border-color: rgba($value, 1);
         color: color-yiq(rgba($value, 1));
-        // &[x-placement^='top'] {
-        //     .popper__arrow {
-        //         border-top-color: rgba($value, 1);
-        //         &:after {
-        //             border-top-color: rgba($value, 1);
-        //         }
-        //     }
-        // }
-
         @each $direction in $directions {
             &[x-placement^='#{$direction}'] {
                 .popper__arrow {
@@ -341,7 +331,6 @@ $arrowBorderSize: 1px;
                 }
             }
         }
-
     }
 }
 </style>
