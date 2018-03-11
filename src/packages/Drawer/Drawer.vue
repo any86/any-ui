@@ -39,7 +39,7 @@ export default {
 
         mode: {
             type: String,
-            default: 'overlay'
+            default: ''
         },
 
         moveRate: {

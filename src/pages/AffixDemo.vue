@@ -16,6 +16,7 @@ export default {
 @import '../scss/variables.scss';
 .demo-page {
     height: calc(100% - 55px);
+    overflow:scroll;
 
     .fixed-item{
         padding:15px;

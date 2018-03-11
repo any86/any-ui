@@ -89,7 +89,7 @@ export default {
 @import '../../scss/variables.scss';
 .atom-affix {
     &__body--fixed {
-        transition: all 200ms;
+        // transition: all 200ms;
         position: fixed;
         left: 0;
         z-index: $affixZIndex;

@@ -1,26 +1,12 @@
 <template>
-    <v-drawer v-model="isShowDrawer" mode="overlay">
-        <ul class="app-menu" slot="side">
-            <v-q-r-code/>
-            <router-link tag="li" :to="{path: '/index'}">What's New
-            </router-link>
-            <router-link :to="{path: '/checkout'}" tag="li">Checkout
-            </router-link>
-            <router-link :to="{path: '/payment'}" tag="li">payment
-            </router-link>
-            <li>All Personalized</li>
-            <li>Personalized</li>
-        </ul>
-
+    <main class="app-main">
         <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-app-bar>
-        <main class="app-main">
-            <transition name="zoom" mode="out-in">
-                <keep-alive>
-                    <router-view></router-view>
-                </keep-alive>
-            </transition>
-        </main>
-    </v-drawer>
+        <transition name="zoom" mode="out-in">
+            <keep-alive>
+                <router-view></router-view>
+            </keep-alive>
+        </transition>
+    </main>
 </template>
 <script>
 import VQRCode from '@/packages/QRCode/QRCode';
@@ -51,7 +37,7 @@ export default {
     }
 }
 .app-main {
-    height: calc(100% - 55px);
+    height: calc(100%);
     position: relative;
 }
 </style>
