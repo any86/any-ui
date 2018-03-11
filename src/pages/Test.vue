@@ -45,4 +45,8 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '../scss/variables.scss';
+
+.image{
+    height:300px;
+}
 </style>
