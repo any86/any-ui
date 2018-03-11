@@ -55,7 +55,7 @@ export default {
         return h(
             'transition',
             {
-                attrs: { name: 'fadeUp' }
+                props: { name: 'fadeUp' }
             },
             [
                 h(
@@ -322,6 +322,15 @@ $arrowBorderSize: 1px;
         background: rgba($value, 1);
         border-color: rgba($value, 1);
         color: color-yiq(rgba($value, 1));
+        &[x-placement^='top'] {
+            .popper__arrow {
+                border-top-color: rgba($value, 1);
+                &:after {
+                    border-top-color: rgba($value, 1);
+                }
+            }
+        }
+        // @each  (top, left, right, bottom) {}
         &[x-placement^='top'] {
             .popper__arrow {
                 border-top-color: rgba($value, 1);
