@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-scroll-view" @scroll="scroll">
+    <div class="atom-scroll-view" @touchstart="touchstart" @scroll="scroll">
         <slot></slot>
     </div>
 </template>
@@ -57,6 +57,8 @@ export default {
     },
 
     methods: {
+        touchstart(){
+        },
         /**
          * 控制运行频率
          */
@@ -109,6 +111,8 @@ export default {
          */
         scroll() {
             this.scrollTop = getScrollTop(this.$el);
+            log(this.scrollTop)
+            
             // 强制每次刷新高度 2018-02-01
             // 防止初始化时是隐藏状态而获取不到高度
             // 稍后增加Api, 实现手动刷新高度
@@ -122,6 +126,7 @@ export default {
          */
         scrollTo(top) {
             this.$el.scrollTop = top;
+            
         }
     },
 
@@ -155,5 +160,8 @@ export default {
     overflow-x: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    &--lock{
+        overflow: hidden !important;
+    }
 }
 </style>
