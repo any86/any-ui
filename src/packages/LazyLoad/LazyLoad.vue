@@ -95,7 +95,7 @@ export default {
         });
 
         this.loadImgIfInView();
-        this.$el.lazyload = () => {
+        this.lazyload = () => {
             if ('ready' === this.$el.getAttribute('lazy')) {
                 this.$nextTick(() => {
                     this.loadImgIfInView();
