@@ -1,5 +1,5 @@
 <template>
-    <div class="atom-scroll-view" @touchstart="touchstart" @scroll="scroll">
+    <div class="atom-scroll-view" @scroll="scroll">
         <slot></slot>
     </div>
 </template>
@@ -10,9 +10,9 @@ export default {
     name: 'AtomScrollView',
 
     props: {
-        /** 
+        /**
          * 滚动条高度
-        */
+         */
         value: {
             type: Number,
             default: 0
@@ -57,8 +57,6 @@ export default {
     },
 
     methods: {
-        touchstart(){
-        },
         /**
          * 控制运行频率
          */
@@ -71,17 +69,26 @@ export default {
                     // node.scrollIntoView(false);
                     // 自己模拟scrollIntoView
                     // 这样就可以通过keyboardOffset进一步控制滚动距离
-                    const { bottom, height, top } = node.getBoundingClientRect();
-                    const scrollTop = this.$el.scrollTop + top - this.winHeight + height + this.keyboardOffset;
+                    const {
+                        bottom,
+                        height,
+                        top
+                    } = node.getBoundingClientRect();
+                    const scrollTop =
+                        this.$el.scrollTop +
+                        top -
+                        this.winHeight +
+                        height +
+                        this.keyboardOffset;
                     this.scrollTo(scrollTop);
                     node = null;
                 }
             }, 200)();
         },
-        /** 
+        /**
          * 标记input/textarea
          * 当resize的时候获取标记元素的尺寸信息
-        */
+         */
         _markInput() {
             // 对内部的input和textara做自动聚焦处理
             // 防止软键盘遮挡
@@ -101,7 +108,10 @@ export default {
             if (this.isListenBottom && 'down' == this.direction) {
                 this.contentHeight = getHeight(this.$el, { isScroll: true });
                 // 超过阈值
-                if (this.contentHeight < this.scrollTop + this.viewHeight + this.threshold) {
+                if (
+                    this.contentHeight <
+                    this.scrollTop + this.viewHeight + this.threshold
+                ) {
                     this.$emit('scroll-bottom', this.scrollTop);
                 }
             }
@@ -111,8 +121,7 @@ export default {
          */
         scroll() {
             this.scrollTop = getScrollTop(this.$el);
-            log(this.scrollTop)
-            
+
             // 强制每次刷新高度 2018-02-01
             // 防止初始化时是隐藏状态而获取不到高度
             // 稍后增加Api, 实现手动刷新高度
@@ -122,11 +131,10 @@ export default {
         },
         /**
          * 滚动到指定位置
-         * @argument {Number} 
+         * @argument {Number}
          */
         scrollTo(top) {
             this.$el.scrollTop = top;
-            
         }
     },
 
@@ -160,7 +168,7 @@ export default {
     overflow-x: hidden;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    &--lock{
+    &--lock {
         overflow: hidden !important;
     }
 }

@@ -13,8 +13,7 @@ const {
 
 
 // 水波纹特效
-import ripple from 'atom-ripple';
-import 'atom-ripple/src/ripple.scss'
+import ripple from '../directives/ripple/index.js';
 
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';

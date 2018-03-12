@@ -24,18 +24,22 @@
         <slot name="after"></slot>
 
         <!-- 滚动条X -->
-        <span 
-            v-if="!this.isLockX" 
-            :style="{width: `${barWidth}px`, left: `${barX}px`}" 
-            class="atom-virtual-scroller__bar atom-virtual-scroller__bar--x">
-        </span>
+        <transition name="fade">
+            <span 
+                v-if="this.isHasBar && !this.isLockX" 
+                :style="{width: `${barWidth}px`, left: `${barX}px`}" 
+                class="atom-virtual-scroller__bar atom-virtual-scroller__bar--x">
+            </span>
+        </transition>
 
         <!-- 滚动条Y -->
-        <span 
-            v-if="!this.isLockY" 
-            :style="{height: `${barHeight}px`, top: `${barY}px`}" 
-            class="atom-virtual-scroller__bar atom-virtual-scroller__bar--y">
-        </span>
+        <transition name="fade">
+            <span 
+                v-if="this.isHasBar && !this.isLockY" 
+                :style="{height: `${barHeight}px`, top: `${barY}px`}" 
+                class="atom-virtual-scroller__bar atom-virtual-scroller__bar--y">
+            </span>
+        </transition>
     </div>
 </template>
 <script>
@@ -46,6 +50,11 @@ export default {
     name: 'AtomVirtualScroller',
 
     props: {
+        isHasBar:{
+            type: Boolean,
+            default:false,
+        },
+
         preventDefaultException: {
             type: Object,
             default: () => ({ tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ })
@@ -166,6 +175,7 @@ export default {
 
     data() {
         return {
+            isShowBar: false,
             isInTransition: false,
             transitionTimingFunction: 'cubic-bezier(0.1, 0.57, 0.1, 1)',
             isMoved: false,
@@ -286,6 +296,8 @@ export default {
         touchmove(e) {
             // 禁用touch事件[停止运行]
             if (this.isDisabled) return;
+
+            this.isShowBar = true;
 
             // x/y都lock了[停止运行]
             if (this.isLockX && this.isLockY) return;
@@ -437,7 +449,9 @@ export default {
             // 复位动画
             if (!this.resetPosition(this.bounceTime)) {
                 this.isInTransition = false;
+                this.isShowBar = false;
             }
+
             this.$emit('input', this.position);
             // this.$emit('scroll-end', this.position);
             this.$emit('transition-end', { ...this.position, type: this.isResting ? 'reset' : 'inertia' });
