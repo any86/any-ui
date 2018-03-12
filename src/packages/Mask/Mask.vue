@@ -1,6 +1,16 @@
 <template>
     <transition name="fade" @after-leave="afterLeave" @after-enter="afterEnter">
-        <div v-show="isShow" v-dom-portal="portal" @click.self="close" :style="{position}" v-on="$listeners" v-bind="$attrs" class="atom-mask">
+        <div 
+            v-show="isShow" 
+            v-dom-portal="portal" 
+            @click.self="close" 
+            :style="{position}" 
+            v-on="$listeners" 
+            v-bind="$attrs"
+            @touchstart="stopPropagation"
+            @touchmove="stopPropagation"
+            @touchend="stopPropagation"
+            class="atom-mask">
             <slot></slot>
             <a-icon v-if="hasClose" value="close" @click="close" class="atom-mask__icon-close"/>
         </div>
@@ -12,6 +22,11 @@ export default {
     name: 'AtomMask',
 
     props: {
+        isStopPropagation: {
+            type: Boolean,
+            default: true
+        },
+        
         portal: {
             type: Boolean,
             default: false
@@ -38,6 +53,10 @@ export default {
     },
 
     methods: {
+        stopPropagation(e){
+            if(this.isStopPropagation) e.stopPropagation();
+        },
+
         afterLeave() {
             this.$emit('after-leave');
         },
