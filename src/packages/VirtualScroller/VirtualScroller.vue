@@ -1,8 +1,15 @@
 <template>
     <div @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="atom-virtual-scroller">
+        <slot name="before"></slot>
         <div ref="body" :style="style" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="bodyClass" class="atom-virtual-scroller__body">
             <slot></slot>
         </div>
+        <slot name="after"></slot>
+
+        <!-- 滚动条 -->
+        <span v-if="!this.isLockX" :style="{width: `${barWidth}px`, left: `${barX}px`}" class="atom-virtual-scroller__bar atom-virtual-scroller__bar--x"></span>
+
+        <span v-if="!this.isLockY" :style="{height: `${barHeight}px`, top: `${barY}px`}" class="atom-virtual-scroller__bar atom-virtual-scroller__bar--y"></span>
     </div>
 </template>
 <script>
@@ -13,10 +20,6 @@ export default {
     name: 'AtomVirtualScroller',
 
     props: {
-        // isCalcByTouch: {
-        //     type: Boolean,
-        //     default: false
-        // },
         preventDefaultException: {
             type: Object,
             default: () => ({ tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ })
@@ -179,7 +182,7 @@ export default {
 
     methods: {
         /**
-         * 获取内容高/宽, 
+         * 获取内容高/宽,
          * 不加节流, 否者其他使用updateSize方法的实例没法触发, 会被节流掉
          * 反正手机端也不会频繁的触发resize
          * 没有理解为什么多个实例的方法会触发节流函数
@@ -204,8 +207,8 @@ export default {
             return { x: Math.round(parseFloat(matrix[4] || matrix[12])), y: Math.round(parseFloat(matrix[5] || matrix[13])) };
         },
         /**
-     * 在iscroll中x,y指的是translate的x/y
-     */
+         * 在iscroll中x,y指的是translate的x/y
+         */
         touchstart(e) {
             // 禁用touch事件
             if (this.isDisabled) return;
@@ -411,8 +414,8 @@ export default {
             }
             this.$emit('input', this.position);
             // this.$emit('scroll-end', this.position);
-            this.$emit('transition-end', {...this.position, type: this.isResting ? 'reset': 'inertia'});
-            if(this.isResting) this.isResting = false;
+            this.$emit('transition-end', { ...this.position, type: this.isResting ? 'reset' : 'inertia' });
+            if (this.isResting) this.isResting = false;
         },
 
         /**
@@ -479,22 +482,30 @@ export default {
          * minY为负值
          */
         minY() {
-            return this.warpHeight - getHeight(this.$refs.body, { isScroll: true });
+            if (!this.isLockY) {
+                return this.warpHeight - getHeight(this.$refs.body, { isScroll: true });
+            }
         },
 
         maxY() {
-            return 0;
+            if (!this.isLockY) {
+                return 0;
+            }
         },
 
         /**
          * minX为负值
          */
         minX() {
-            return this.warpWidth - getWidth(this.$refs.body, { isScroll: true });
+            if (!this.isLockX) {
+                return this.warpWidth - getWidth(this.$refs.body, { isScroll: true });
+            }
         },
 
         maxX() {
-            return 0;
+            if (!this.isLockX) {
+                return 0;
+            }
         },
 
         /**
@@ -505,7 +516,34 @@ export default {
                 x: -Math.round(this.x),
                 y: -Math.round(this.y)
             };
+        },
+
+        barHeight(){
+            let height =  Math.round(Math.abs(this.warpHeight * this.warpHeight / this.minY));
+            if(0 < this.y) {
+                height = height - this.y;
+            }
+            return height;
+        },
+
+        barY(){
+            let y = 0 < this.y ? 0 : this.y;
+            return Math.round(Math.abs(y * (this.warpHeight-this.barHeight) / this.minY));
+        },
+
+        barWidth(){
+            let width =  Math.round(this.warpWidth * this.warpWidth / Math.abs(this.warpWidth - this.minX));
+            if(0 < this.x) {
+                width = width - this.x;
+            }
+            return width;
+        },
+
+        barX(){
+            let x = 0 < this.x ? 0 : this.x;
+            return Math.round(Math.abs(x * (this.warpWidth-this.barWidth) / this.minX));
         }
+
     },
 
     watch: {
@@ -516,11 +554,20 @@ export default {
                 this.x = -value.x;
                 this.y = -value.y;
             }
+        },
+
+        y() {
+            this.$emit('scroll', this.position);
+        },
+
+        x() {
+            this.$emit('scroll', this.position);
         }
     }
 };
 </script>
-<style scoped lang=scss>
+<style scoped lang="scss">
+@import '../../scss/variables.scss';
 .atom-virtual-scroller {
     position: relative;
     touch-action: pan-x;
@@ -532,7 +579,8 @@ export default {
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    > .atom-scroller__body {
+
+    &__body {
         position: relative;
         width: 100%;
         user-select: none;
@@ -542,6 +590,26 @@ export default {
         .table {
             /* 没有display: table, 子元素的子元元素没法撑起其父元素的宽度 */
             display: table;
+        }
+    }
+
+    &__bar {
+        position: absolute;
+        z-index: 9999;
+        display: inline-block;
+        background: rgba($darkest, 0.5);
+        transition: top 500ms;
+        transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
+        &--x {
+            left: 0;
+            bottom: 1px;
+            height: 2px;
+        }
+
+        &--y {
+            top: 0;
+            right: 1px;
+            width: 2px;
         }
     }
 }
