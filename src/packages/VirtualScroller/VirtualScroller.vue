@@ -1,15 +1,41 @@
 <template>
-    <div @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="atom-virtual-scroller">
+    <div 
+        @touchstart="touchstart" 
+        @touchmove="touchmove" 
+        @touchend="touchend" 
+        class="atom-virtual-scroller">
+        
+        <!-- 内容前插槽 -->
         <slot name="before"></slot>
-        <div ref="body" :style="style" @transitionend="transitionend" @webkitTransitionend="transitionend" :class="bodyClass" class="atom-virtual-scroller__body">
+        
+        <div 
+            ref="body" 
+            :style="style" 
+            @transitionend="transitionend" 
+            @webkitTransitionend="transitionend" 
+            :class="bodyClass" 
+            class="atom-virtual-scroller__body">
+
+            <!-- 内容插槽 -->
             <slot></slot>
         </div>
+
+        <!-- 内容后插槽 -->
         <slot name="after"></slot>
 
-        <!-- 滚动条 -->
-        <span v-if="!this.isLockX" :style="{width: `${barWidth}px`, left: `${barX}px`}" class="atom-virtual-scroller__bar atom-virtual-scroller__bar--x"></span>
+        <!-- 滚动条X -->
+        <span 
+            v-if="!this.isLockX" 
+            :style="{width: `${barWidth}px`, left: `${barX}px`}" 
+            class="atom-virtual-scroller__bar atom-virtual-scroller__bar--x">
+        </span>
 
-        <span v-if="!this.isLockY" :style="{height: `${barHeight}px`, top: `${barY}px`}" class="atom-virtual-scroller__bar atom-virtual-scroller__bar--y"></span>
+        <!-- 滚动条Y -->
+        <span 
+            v-if="!this.isLockY" 
+            :style="{height: `${barHeight}px`, top: `${barY}px`}" 
+            class="atom-virtual-scroller__bar atom-virtual-scroller__bar--y">
+        </span>
     </div>
 </template>
 <script>
@@ -171,8 +197,8 @@ export default {
 
     created() {
         // 初始位置
-        this.x = -this.value.x;
-        this.y = -this.value.y;
+        this.x = -this.value.x || 0;
+        this.y = -this.value.y || 0;
     },
 
     mounted() {
