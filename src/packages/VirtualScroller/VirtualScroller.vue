@@ -523,7 +523,12 @@ export default {
          */
         minY() {
             if (!this.isLockY) {
-                return this.warpHeight - getHeight(this.$refs.body, { isScroll: true });
+                const bodyHeight = getHeight(this.$refs.body, { isScroll: true });
+                if(this.warpHeight > bodyHeight) {
+                    return 0;
+                } else {
+                    return this.warpHeight - bodyHeight;
+                }
             }
         },
 
@@ -624,13 +629,8 @@ export default {
         position: relative;
         width: 100%;
         user-select: none;
-        /* transition-timing-function: ease-out; */
         transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-        .table {
-            /* 没有display: table, 子元素的子元元素没法撑起其父元素的宽度 */
-            display: table;
-        }
     }
 
     &__bar {

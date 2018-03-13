@@ -7,10 +7,7 @@
                 <v-input v-model="pos1.x"></v-input>
             </v-cell>
             <virtual-scroller v-model="pos1" :is-prevent-default="false" :is-lock-x="false" :is-lock-y="true" class="gutter-top">
-                <div class="flex">
-                    <div v-for="n in 20" :key="n" class="column fill flex-item">第{{n}}列</div>
-                </div>
-
+                <div v-for="n in 1" :key="n" class="column fill">第{{n}}列</div>
             </virtual-scroller>
         </section>
 
@@ -21,7 +18,7 @@
                 <v-input v-model="pos2.y"></v-input>
             </v-cell>
             <virtual-scroller v-model="pos2" class="border-bottom" style="height:300px;">
-                <div v-for="n in 50" :key="n" class="cell fill">第{{n}}行信息
+                <div v-for="n in 100" :key="n" class="cell fill">第{{n}}行信息
                 </div>
             </virtual-scroller>
         </v-group>
@@ -68,6 +65,7 @@ export default {
     word-break: keep-all;
     align-self: center;
     height: 60px;
+    width:100px;
 }
 
 .column:nth-child(2n + 1) {
