@@ -68,11 +68,6 @@ export default {
     },
 
     methods: {
-        stopPropagation(e) {
-            if (this.isStopPropagation) e.stopPropagation();
-            if (this.isPreventDefault) e.preventDefault();
-        },
-
         afterLeave() {
             this.$emit('after-leave');
         },
