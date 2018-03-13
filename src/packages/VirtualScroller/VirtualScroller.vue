@@ -50,9 +50,9 @@ export default {
     name: 'AtomVirtualScroller',
 
     props: {
-        isHasBar:{
+        isHasBar: {
             type: Boolean,
-            default:false,
+            default: false
         },
 
         preventDefaultException: {
@@ -242,10 +242,28 @@ export default {
             const matrix = style.transform.split(',');
             return { x: Math.round(parseFloat(matrix[4] || matrix[12])), y: Math.round(parseFloat(matrix[5] || matrix[13])) };
         },
+
+        /**
+         *
+         * @augment {Element} 元素
+         * @augment {Regular} 正则
+         */
+        _getExceptionForPreventDefault(el, exceptions) {
+            for (let key in exceptions) {
+            log(el[key])
+                
+                if (exceptions[key].test(el[key])) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
         /**
          * 在iscroll中x,y指的是translate的x/y
          */
-        touchstart(e) {
+        touchstart(e) {      
             // 禁用touch事件
             if (this.isDisabled) return;
             // 防止scroll被隐藏的时候, 高度计算不对
@@ -253,7 +271,8 @@ export default {
             // isStopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
             this.isStopPropagation && e.stopPropagation();
             // 阻止浏览器默认行为
-            this.isPreventDefault && e.preventDefault();
+            
+            (this.isPreventDefault && !this._getExceptionForPreventDefault(e.target, this.preventDefaultException)) && e.preventDefault();
             // ========== 计算滑动 ==========
             const point = e.touches ? e.touches[0] : e;
 
@@ -396,7 +415,7 @@ export default {
             if (this.isDisabled) return;
 
             this.isStopPropagation && e.stopPropagation();
-            this.isPreventDefault && e.preventDefault();
+            (this.isPreventDefault && !this._getExceptionForPreventDefault(e.target, this.preventDefaultException)) && e.preventDefault();
 
             // touchmove阶段移动距离小于10px, 会造成false === isMoved
             if (!this.isMoved) {
@@ -524,7 +543,7 @@ export default {
         minY() {
             if (!this.isLockY) {
                 const bodyHeight = getHeight(this.$refs.body, { isScroll: true });
-                if(this.warpHeight > bodyHeight) {
+                if (this.warpHeight > bodyHeight) {
                     return 0;
                 } else {
                     return this.warpHeight - bodyHeight;
@@ -563,32 +582,31 @@ export default {
             };
         },
 
-        barHeight(){
-            let height =  Math.round(Math.abs(this.warpHeight * this.warpHeight / this.minY));
-            if(0 < this.y) {
+        barHeight() {
+            let height = Math.round(Math.abs(this.warpHeight * this.warpHeight / this.minY));
+            if (0 < this.y) {
                 height = height - this.y;
             }
             return height;
         },
 
-        barY(){
+        barY() {
             let y = 0 < this.y ? 0 : this.y;
-            return Math.round(Math.abs(y * (this.warpHeight-this.barHeight) / this.minY));
+            return Math.round(Math.abs(y * (this.warpHeight - this.barHeight) / this.minY));
         },
 
-        barWidth(){
-            let width =  Math.round(this.warpWidth * this.warpWidth / Math.abs(this.warpWidth - this.minX));
-            if(0 < this.x) {
+        barWidth() {
+            let width = Math.round(this.warpWidth * this.warpWidth / Math.abs(this.warpWidth - this.minX));
+            if (0 < this.x) {
                 width = width - this.x;
             }
             return width;
         },
 
-        barX(){
+        barX() {
             let x = 0 < this.x ? 0 : this.x;
-            return Math.round(Math.abs(x * (this.warpWidth-this.barWidth) / this.minX));
+            return Math.round(Math.abs(x * (this.warpWidth - this.barWidth) / this.minX));
         }
-
     },
 
     watch: {

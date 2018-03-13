@@ -15,9 +15,10 @@
         <v-group class="gutter ">
             <h4 class="border-bottom fill-bottom">Y轴滚动, scrollTop: {{pos2.y}} </h4>
             <v-cell>
-                <v-input v-model="pos2.y"></v-input>
+                <a-input v-model="pos2.y" placeholder="请输入"></a-input>
             </v-cell>
             <virtual-scroller v-model="pos2" class="border-bottom" style="height:300px;">
+                <input v-model="input" placeholder="请输入" class="border fill"/>
                 <div v-for="n in 100" :key="n" class="cell fill">第{{n}}行信息
                 </div>
             </virtual-scroller>
@@ -36,6 +37,7 @@ export default {
 
     data() {
         return {
+            input: '',
             pos1: {
                 y: 0,
                 x: 0
