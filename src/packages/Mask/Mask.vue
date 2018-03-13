@@ -26,6 +26,11 @@ export default {
             type: Boolean,
             default: true
         },
+
+        isPreventDefault: {
+            type: Boolean,
+            default: false
+        },
         
         portal: {
             type: Boolean,
@@ -55,6 +60,7 @@ export default {
     methods: {
         stopPropagation(e){
             if(this.isStopPropagation) e.stopPropagation();
+            if(this.isPreventDefault) e.preventDefault();
         },
 
         afterLeave() {
