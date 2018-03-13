@@ -1,7 +1,8 @@
 <template>
     <a-scroll-view v-model="pos1.y" :isStopPropagation="true">
-        <a-popup :is-show.sync="isShow" from="bottom">
+        <a-popup :is-show.sync="isShow" from="left">
             <a-virtual-scroller :isStopPropagation="true" @scroll="scroll">
+                <a-input v-model="text" class="border fill" style="margin-top: 100px; width:100%;"/>
                 <div v-for="(image, n) in images" :key="image" class="border-bottom fill">
                     <a-lazy-load ref="lazyload" :src="image" class="image"/>
                     <h4 align="center">第{{n}}行信息</h4>
@@ -21,6 +22,7 @@ export default {
 
     data() {
         return {
+            text: '',
             images: [],
             isShow: false,
             pos1: {
