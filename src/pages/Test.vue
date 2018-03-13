@@ -1,12 +1,12 @@
 <template>
     <a-scroll-view v-model="pos1.y" :isStopPropagation="true">
         <a-popup :is-show.sync="isShow" from="bottom">
-            <a-scroll-view v-model="pos2.y" :isStopPropagation="true" @scroll="scroll">
+            <a-virtual-scroller :isStopPropagation="true" @scroll="scroll">
                 <div v-for="(image, n) in images" :key="image" class="border-bottom fill">
                     <a-lazy-load ref="lazyload" :src="image" class="image"/>
                     <h4 align="center">第{{n}}行信息</h4>
                 </div>
-            </a-scroll-view>
+            </a-virtual-scroller>
         </a-popup>
         <a-cell class="gutter-top">
             <a-button :is-block="true" type="success" @click="isShow=true">打开</a-button>
