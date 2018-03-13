@@ -10,8 +10,10 @@ export default class Finger {
      */
     constructor(el, {
         isStopPropagation = false,
-        isPreventDefault = false
+        isPreventDefault = false,
+        tapMaxTime = 250,
     } = {}) {
+        this.tapMaxTime = tapMaxTime;
         this.isStopPropagation = isStopPropagation;
         this.isPreventDefault = isPreventDefault;
         this.minVelocity = 0.3;
@@ -108,7 +110,7 @@ export default class Finger {
 
         // [!doubleTap]
         if (null !== this.startPoint[0].x) {
-            this.isDoubleTap = this.interval > 0 && this.interval <= 250 && Math.abs(this.activePoint[0].x - this.startPoint[0].x) < 30 && Math.abs(this.activePoint[0].y - this.startPoint[0].y) < 30;
+            this.isDoubleTap = this.interval > 0 && this.interval <= this.tapMaxTime && Math.abs(this.activePoint[0].x - this.startPoint[0].x) < 30 && Math.abs(this.activePoint[0].y - this.startPoint[0].y) < 30;
         }
 
         // [!press] 点击超过750ms,且时间内没有触发touchmove和touchstart, 那么触发press
@@ -249,11 +251,11 @@ export default class Finger {
         const absDeltaY = Math.abs(deltaY);
 
         if (30 > absDeltaX && 30 > absDeltaY) {
-            // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件250ms后执行
+            // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件this.tapMaxTimems后执行
             if (!this.isDoubleTap) {
                 this.singleTapTimeout = setTimeout(() => {
                     this._singleTapHandle(e);
-                }, 250);
+                }, this.tapMaxTime);
             }
         } else {
             // [!swiper]
