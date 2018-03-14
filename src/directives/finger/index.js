@@ -1,10 +1,11 @@
-import Vue from 'vue';
 import Finger from '../../utils/finger.js';
+let _cache = [];
 const plugin = {
     install(Vue) {
-        Vue.directive('finger', {
+        Vue.directive('touch', {
             inserted(el, binding) {
-                
+                console.log(binding.arg);
+                new Finger(el, {});
             },
 
             unbind(el) {

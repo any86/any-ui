@@ -62,16 +62,16 @@ export default {
             tapMaxTime: 100,
         });
         
-        finger.on('tap', e => {
-            e.preventDefault();
-            if(this.$el === e.target) {
-                this.close();
-            }
-        });
+        // finger.on('tap', e => {
+        //     e.preventDefault();
+        //     if(this.$el === e.target) {
+        //         this.close();
+        //     }
+        // });
 
-        finger.on('pan', e => {
-            e.preventDefault();
-        });
+        // finger.on('pan', e => {
+        //     e.preventDefault();
+        // });
     },
 
     methods: {

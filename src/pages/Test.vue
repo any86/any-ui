@@ -1,18 +1,27 @@
 <template>
     <main>
-        <!-- <a-popup :is-show.sync="isShow" from="left">
-            <a-virtual-scroller :isStopPropagation="true" @scroll="scroll">
+        <a-popup :is-show.sync="isShow" from="bottom">
+            <a-scroll-view :isStopPropagation="true" @scroll="scroll" >
                 <a-input v-model="text" class="border fill" style="margin-top: 100px; width:100%;"/>
                 <div v-for="(image, n) in images" :key="image" class="border-bottom fill">
                     <a-lazy-load ref="lazyload" :src="image" class="image"/>
                     <h4 align="center">第{{n}}行信息</h4>
                 </div>
-            </a-virtual-scroller>
-        </a-popup> -->
+            </a-scroll-view>
+        </a-popup>
 
-        <a-mask :is-show.sync="isShow">
+        <!-- <a-mask :is-show.sync="isShow">
             <a-input v-model="text" class="border fill" style="margin-top: 100px; width:60%;"/>
-        </a-mask>
+        </a-mask> -->
+
+
+
+        <a-cell class="gutter-top">
+            <a-button :is-block="true" type="success" v-touch:pan="touch">touch</a-button>
+        </a-cell>
+
+
+
         <a-cell class="gutter-top">
             <a-button :is-block="true" type="success" @click="isShow=true">打开</a-button>
         </a-cell>
@@ -48,6 +57,9 @@ export default {
     },
 
     methods: {
+        touch(e){
+            dir(e)
+        },
         scroll() {
             this.$refs.lazyload.forEach(img => {
                 img.lazyload();

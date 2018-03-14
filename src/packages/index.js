@@ -14,6 +14,7 @@ const {
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
+import touch from '../directives/finger/index.js';
 
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
@@ -28,6 +29,9 @@ Atom.install = function(Vue, {
 }) {
     // 水波纹特效
     Vue.use(ripple);
+
+    Vue.use(touch);
+    
 
     // 移动dom指令
     Vue.use(DomPortal);
