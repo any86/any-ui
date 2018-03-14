@@ -3,9 +3,7 @@
         <!-- X轴滚动 -->
         <section class="border-bottom gutter ovh">
             <h4 class="border-bottom fill-bottom">X轴滚动</h4>
-            <v-cell>
                 <v-input v-model="pos1.x"></v-input>
-            </v-cell>
             <virtual-scroller v-model="pos1" :is-prevent-default="false" :is-lock-x="false" :is-lock-y="true" class="gutter-top">
                 <div v-for="n in 1" :key="n" class="column fill">第{{n}}列</div>
             </virtual-scroller>

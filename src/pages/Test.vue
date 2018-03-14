@@ -1,6 +1,6 @@
 <template>
     <a-scroll-view v-model="pos1.y" :isStopPropagation="true">
-        <a-popup :is-show.sync="isShow" from="left">
+        <!-- <a-popup :is-show.sync="isShow" from="left">
             <a-virtual-scroller :isStopPropagation="true" @scroll="scroll">
                 <a-input v-model="text" class="border fill" style="margin-top: 100px; width:100%;"/>
                 <div v-for="(image, n) in images" :key="image" class="border-bottom fill">
@@ -8,7 +8,11 @@
                     <h4 align="center">第{{n}}行信息</h4>
                 </div>
             </a-virtual-scroller>
-        </a-popup>
+        </a-popup> -->
+
+        <a-mask :is-show.sync="isShow">
+            <a-input v-model="text" class="border fill" style="margin-top: 100px; width:60%;"/>
+        </a-mask>
         <a-cell class="gutter-top">
             <a-button :is-block="true" type="success" @click="isShow=true">打开</a-button>
         </a-cell>

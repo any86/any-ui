@@ -57,6 +57,13 @@ export default {
     },
 
     methods: {
+        // 稍后尝试通过touch控制scrollTo距离
+        stop(e){
+            if(0 == this.scrollTop) {
+                this.scrollTo(1);
+                e.preventDefault();
+            }
+        },
         /**
          * 控制运行频率
          */

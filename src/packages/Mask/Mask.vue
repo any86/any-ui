@@ -58,10 +58,11 @@ export default {
     mounted() {
         const finger = new Finger(this.$el, {
             isStopPropagation: true,
-            isPreventDefault: true,
-            tapMaxTime: 250,
+            isPreventDefault: false,
+            tapMaxTime: 100,
         });
         finger.on('tap', e => {
+            e.preventDefault();
             if(this.$el === e.target) {
                 this.close();
             }
