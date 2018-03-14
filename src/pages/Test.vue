@@ -1,5 +1,5 @@
 <template>
-    <a-scroll-view v-model="pos1.y" :isStopPropagation="true">
+    <main>
         <!-- <a-popup :is-show.sync="isShow" from="left">
             <a-virtual-scroller :isStopPropagation="true" @scroll="scroll">
                 <a-input v-model="text" class="border fill" style="margin-top: 100px; width:100%;"/>
@@ -17,7 +17,7 @@
             <a-button :is-block="true" type="success" @click="isShow=true">打开</a-button>
         </a-cell>
         <a-cell v-for="n in 70" :key="n" class="border-bottom fill">{{n}}</a-cell>
-    </a-scroll-view>
+    </main>
 </template>
 <script>
 const images = ['https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR05_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR06_3.png', 'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR09_1.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/R/2/R215_2.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR17_3.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR20.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL374.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL401.png', 'https://static.soufeel.com/media/catalog/product/cache/0/small_image/280x280/9df78eab33525d08d6e5fb8d27136e95/C/X/CXL219.png'];

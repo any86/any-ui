@@ -69,10 +69,10 @@ export default {
             this.action = 'press';
         });
 
-        finger.on('pan', ({ deltaX, deltaY }) => {
+        finger.on('pan', ({ fingerData }) => {
             this.transitionDuration = 0;
-            this.x += deltaX;
-            this.y += deltaY;
+            this.x += fingerData.deltaX;
+            this.y += fingerData.deltaY;
             this.action = 'pan';
         });
 

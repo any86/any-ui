@@ -31,9 +31,9 @@ export default {
 <style lang="scss" scoped>
 @import './scss/variables.scss';
 .app {
-    height: 100vh;
+    // height: 100vh;
     width: 100%;
-    overflow: hidden;
+    // overflow: hidden;
     &-main {
         height: calc(100vh - 55px) !important;
         position: relative;
