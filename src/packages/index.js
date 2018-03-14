@@ -14,7 +14,7 @@ const {
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
-import touch from '../directives/finger/index.js';
+import finger from '../directives/finger/index.js';
 
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
@@ -23,14 +23,14 @@ import DomPortal from 'vue-dom-portal';
 // 默认语言为中文
 import locale from '../locale/lang/zh-CN';
 
-let Atom = {};
+let Atom = {finger};
 Atom.install = function(Vue, {
     locale
 }) {
     // 水波纹特效
     Vue.use(ripple);
 
-    Vue.use(touch);
+    Vue.use(finger);
     
 
     // 移动dom指令
