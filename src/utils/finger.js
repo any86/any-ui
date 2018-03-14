@@ -248,7 +248,7 @@ export default class Finger {
         const absDeltaX = Math.abs(deltaX);
         const absDeltaY = Math.abs(deltaY);
 
-        if (30 > absDeltaX && 30 > absDeltaY) {
+        if (5 > absDeltaX && 5 > absDeltaY) {
             // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件this.tapMaxTimems后执行
             if (!this.isDoubleTap) {
                 this.singleTapTimeout = setTimeout(() => {
