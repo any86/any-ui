@@ -212,10 +212,8 @@ export default class Finger {
             const touchMoveY = Math.abs(points[0].pageY - this.startPoint[0].pageY);
 
             //   if(this.panThreshold < Math.max(touchMoveX, touchMoveY)) {
-            this._panHandle({
-                deltaX,
-                deltaY
-            }, e);
+            e.fingerData = {deltaX, deltaY};
+            this._panHandle(e);
             //   }
         }
 
