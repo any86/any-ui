@@ -59,11 +59,12 @@ export default {
         const finger = new Finger(this.$el, {
             isStopPropagation: true,
             isPreventDefault: true,
-            tapMaxTime: 50,
+            tapMaxTime: 250,
         });
         finger.on('tap', e => {
-            this.close();
-            log(e);
+            if(this.$el === e.target) {
+                this.close();
+            }
         });
     },
 
