@@ -86,15 +86,6 @@ export default {
         return {};
     },
 
-    created() {},
-
-    mounted() {
-        // const finger = new Finger(this.$refs.main.$el);
-        // finger.on('rotate', angel=>{
-        //     log(angel);
-        // });
-    },
-
     methods: {
         touchstart(e) {
             // log(e)

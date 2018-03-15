@@ -75,6 +75,19 @@ import TestDemo from '@/pages/Test'
 
 export default new Router({
     // mode: "history",
+
+    scrollBehavior(to, from, savedPosition) {
+        log(savedPosition)
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return {
+                x: 0,
+                y: 0
+            }
+        }
+    },
+
     routes: [{
             path: '/',
             redirect: '/index'
@@ -271,6 +284,6 @@ export default new Router({
             path: '/test',
             component: TestDemo
         },
-        
+
     ]
 });

@@ -263,11 +263,7 @@ export default {
 
         _fixBlur() {
             let activeElement = document.activeElement;
-            if (
-                activeElement &&
-                (activeElement.tagName === 'INPUT' ||
-                    activeElement.tagName === 'TEXTAREA')
-            ) {
+            if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
                 activeElement.blur();
             }
         },
@@ -276,6 +272,7 @@ export default {
          * 在iscroll中x,y指的是translate的x/y
          */
         touchstart(e) {
+log('start')
             // 禁用touch事件
             if (this.isDisabled) return;
 
@@ -287,12 +284,7 @@ export default {
             this.isStopPropagation && e.stopPropagation();
             // 阻止浏览器默认行为
 
-            this.isPreventDefault &&
-                !this._getExceptionForPreventDefault(
-                    e.target,
-                    this.preventDefaultException
-                ) &&
-                e.preventDefault();
+            this.isPreventDefault && !this._getExceptionForPreventDefault(e.target, this.preventDefaultException) && e.preventDefault();
             // ========== 计算滑动 ==========
             const point = e.touches ? e.touches[0] : e;
 
@@ -366,21 +358,13 @@ export default {
             const absDistY = Math.abs(this.distY);
 
             // 如果x轴和y轴滑动距离都小于10px(灵敏度), 那么不响应
-            if (
-                now - this.endTime > 300 &&
-                this.sensitivity > absDistX &&
-                this.sensitivity > absDistY
-            )
-                return;
+            if (now - this.endTime > 300 && this.sensitivity > absDistX && this.sensitivity > absDistY) return;
 
             // 拖拽的动画曲线
             this.transitionTimingFunction = 'cubic-bezier(0.1, 0.57, 0.1, 1)';
 
             // 一旦开始touchmove, 那么方向就定了, 除非重新touchstart
-            if (
-                undefined == this.direction &&
-                !(!this.isLockX && !this.isLockY)
-            ) {
+            if (undefined == this.direction && !(!this.isLockX && !this.isLockY)) {
                 if (absDistX > absDistY + this.directionLockThreshold) {
                     this.direction = 'x';
                 } else if (absDistY > absDistX + this.directionLockThreshold) {
@@ -398,15 +382,11 @@ export default {
             }
 
             if (!this.isLockX) {
-                this.x +=
-                    deltaX *
-                    (0 < this.x || this.minX > this.x ? this.moveRatio : 1);
+                this.x += deltaX * (0 < this.x || this.minX > this.x ? this.moveRatio : 1);
             }
 
             if (!this.isLockY) {
-                this.y +=
-                    deltaY *
-                    (0 < this.y || this.minY > this.y ? this.moveRatio : 1);
+                this.y += deltaY * (0 < this.y || this.minY > this.y ? this.moveRatio : 1);
             }
 
             // pull-down/pull-up
@@ -447,12 +427,9 @@ export default {
             if (this.isDisabled) return;
 
             this.isStopPropagation && e.stopPropagation();
-            this.isPreventDefault &&
-                !this._getExceptionForPreventDefault(
-                    e.target,
-                    this.preventDefaultException
-                ) &&
-                e.preventDefault();
+            this.isPreventDefault && !this._getExceptionForPreventDefault(e.target, this.preventDefaultException) && e.preventDefault();
+
+            this.$emit('touchend', this.position);
 
             // touchmove阶段移动距离小于10px, 会造成false === isMoved
             if (!this.isMoved) {
@@ -463,8 +440,7 @@ export default {
             const distanceX = this.x - this.startX;
             const distanceY = this.y - this.startY;
 
-            // 判断拖拽是否超出边界
-            // 停止执行
+            //  如果超出边界,后面的快速滑动判断跳过了
             if (this.resetPosition(this.bounceTime)) {
                 return;
             }
@@ -476,32 +452,21 @@ export default {
             // 200ms内的快速滑动才有缓冲动画
             if (200 > timeDiff) {
                 this.isAnimating = true;
-
+                // X轴缓动逻辑
                 if (!this.isLockX) {
-                    const { destination, duration } = momentum(
-                        this.x,
-                        this.startX,
-                        timeDiff,
-                        this.minX,
-                        this.isBounce ? this.warpWidth : 0,
-                        0.0006
-                    );
+                    const { destination, duration } = momentum(this.x, this.startX, timeDiff, this.minX, this.isBounce ? this.warpWidth : 0, 0.0006);
                     this.scrollTo(destination, 0, duration);
+                    // 稍后需要验证是否会出现duration为0的情况
                     if (0 === duration) {
                         this.$emit('scroll-end', this.position);
                     }
                 }
 
+                // Y轴缓动逻辑
                 if (!this.isLockY) {
-                    const { destination, duration } = momentum(
-                        this.y,
-                        this.startY,
-                        timeDiff,
-                        this.minY,
-                        this.isBounce ? this.warpHeight : 0,
-                        0.0006
-                    );
+                    const { destination, duration } = momentum(this.y, this.startY, timeDiff, this.minY, this.isBounce ? this.warpHeight : 0, 0.0006);
                     this.scrollTo(0, destination, duration);
+                    // 稍后需要验证是否会出现duration为0的情况
                     if (0 === duration) {
                         this.$emit('scroll-end', this.position);
                     }
@@ -511,7 +476,6 @@ export default {
                 this.$emit('input', this.position);
                 this.$emit('scroll-end', this.position);
             }
-            this.$emit('touchend', this.position);
         },
 
         transitionend() {
@@ -523,11 +487,24 @@ export default {
             }
 
             this.$emit('input', this.position);
-            // this.$emit('scroll-end', this.position);
             this.$emit('transition-end', {
                 ...this.position,
                 type: this.isResting ? 'reset' : 'inertia'
             });
+            // 滑动停止
+            this.$emit('scroll-end', {
+                ...this.position,
+                type: this.isResting ? 'reset' : 'inertia'
+            });
+
+            // 到达最底部
+            if (Math.abs(this.minY) == this.position.y) {
+                this.$emit('reach-bottom', {
+                    ...this.position,
+                    type: this.isResting ? 'reset' : 'inertia'
+                });
+            }
+
             if (this.isResting) this.isResting = false;
         },
 
@@ -538,9 +515,11 @@ export default {
          * @returns {Boolean} 是否发生超越边界
          * */
         resetPosition(time = 0) {
+            // 当前值(活动)
             let x = this.x;
             let y = this.y;
-
+            
+            // 想最近点复位
             if ('x' === this.direction) {
                 if (0 < this.x) {
                     x = 0;
@@ -583,9 +562,7 @@ export default {
         style() {
             return [
                 {
-                    transform: `translate3d(${Math.round(
-                        this.x
-                    )}px, ${Math.round(this.y)}px, 0)`,
+                    transform: `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0)`,
                     transitionDuration: `${this.transitionDuration}ms`,
                     transitionTimingFunction: this.transitionTimingFunction
                 },
@@ -620,10 +597,7 @@ export default {
          */
         minX() {
             if (!this.isLockX) {
-                return (
-                    this.warpWidth -
-                    getWidth(this.$refs.body, { isScroll: true })
-                );
+                return this.warpWidth - getWidth(this.$refs.body, { isScroll: true });
             }
         },
 
@@ -644,9 +618,7 @@ export default {
         },
 
         barHeight() {
-            let height = Math.round(
-                Math.abs(this.warpHeight * this.warpHeight / this.minY)
-            );
+            let height = Math.round(Math.abs(this.warpHeight * this.warpHeight / this.minY));
             if (0 < this.y) {
                 height = height - this.y;
             }
@@ -655,17 +627,11 @@ export default {
 
         barY() {
             let y = 0 < this.y ? 0 : this.y;
-            return Math.round(
-                Math.abs(y * (this.warpHeight - this.barHeight) / this.minY)
-            );
+            return Math.round(Math.abs(y * (this.warpHeight - this.barHeight) / this.minY));
         },
 
         barWidth() {
-            let width = Math.round(
-                this.warpWidth *
-                    this.warpWidth /
-                    Math.abs(this.warpWidth - this.minX)
-            );
+            let width = Math.round(this.warpWidth * this.warpWidth / Math.abs(this.warpWidth - this.minX));
             if (0 < this.x) {
                 width = width - this.x;
             }
@@ -674,9 +640,7 @@ export default {
 
         barX() {
             let x = 0 < this.x ? 0 : this.x;
-            return Math.round(
-                Math.abs(x * (this.warpWidth - this.barWidth) / this.minX)
-            );
+            return Math.round(Math.abs(x * (this.warpWidth - this.barWidth) / this.minX));
         }
     },
 
