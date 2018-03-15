@@ -272,7 +272,6 @@ export default {
          * 在iscroll中x,y指的是translate的x/y
          */
         touchstart(e) {
-log('start')
             // 禁用touch事件
             if (this.isDisabled) return;
 
