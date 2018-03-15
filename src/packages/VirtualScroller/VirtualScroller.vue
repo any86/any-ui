@@ -201,7 +201,9 @@ export default {
             // new
             distX: 0, // touchstart至touchend之间的距离
             distY: 0,
-            isInTransition: false
+            isInTransition: false,
+            bodyHeight: 0, // 内容高度
+            bodyWidth: 0
         };
     },
 
@@ -213,6 +215,7 @@ export default {
 
     mounted() {
         this.updateSize();
+        this.$updateSize = this.updateSize;
         // window.addEventListener('resize', this.updateSize);
     },
 
@@ -227,8 +230,14 @@ export default {
         updateSize() {
             if (this.isLockY) {
                 this.warpWidth = getWidth(this.$el);
+                this.bodyWidth = getWidth(this.$refs.body, {
+                    isScroll: true
+                });
             } else if (this.isLockX) {
                 this.warpHeight = getHeight(this.$el);
+                this.bodyHeight = getHeight(this.$refs.body, {
+                    isScroll: true
+                });
             }
         },
 
@@ -277,8 +286,7 @@ export default {
 
             this._fixBlur();
 
-            // 防止scroll被隐藏的时候, 高度计算不对
-            this.updateSize();
+            
             // isStopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
             this.isStopPropagation && e.stopPropagation();
             // 阻止浏览器默认行为
@@ -517,7 +525,7 @@ export default {
             // 当前值(活动)
             let x = this.x;
             let y = this.y;
-            
+
             // 想最近点复位
             if ('x' === this.direction) {
                 if (0 < this.x) {
@@ -574,13 +582,10 @@ export default {
          */
         minY() {
             if (!this.isLockY) {
-                const bodyHeight = getHeight(this.$refs.body, {
-                    isScroll: true
-                });
-                if (this.warpHeight > bodyHeight) {
+                if (this.warpHeight > this.bodyHeight) {
                     return 0;
                 } else {
-                    return this.warpHeight - bodyHeight;
+                    return this.warpHeight - this.bodyHeight;
                 }
             }
         },
@@ -596,7 +601,7 @@ export default {
          */
         minX() {
             if (!this.isLockX) {
-                return this.warpWidth - getWidth(this.$refs.body, { isScroll: true });
+                return this.warpWidth - this.bodyWidth;
             }
         },
 

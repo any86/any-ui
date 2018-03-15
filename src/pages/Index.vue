@@ -1,5 +1,6 @@
 <template>
     <a-scroll-view ref="main" @touchstart.native="touchstart">
+        {{data}}
         <a-collapse :is-accordion="true">
             <a-collapse-item :has-line="false" class="group">
                 <h4 slot="header"><a-badge value="2">表单</a-badge></h4>
@@ -83,7 +84,13 @@ export default {
     name: 'Index',
 
     data() {
-        return {};
+        return {data: 0};
+    },
+
+    mounted(){
+        setTimeout(()=>{
+            this.data = 100;
+        }, 1000)
     },
 
     methods: {
