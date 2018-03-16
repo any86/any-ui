@@ -4,16 +4,18 @@
  */
 export default class Finger {
     /**
-     *
      * @param {Element} el
      * @param {Object} param1
      */
     constructor(el, {
         isStopPropagation = false,
         isPreventDefault = false,
-        tapMaxTime = 250,
+        onceTapTime = 250, // onceTapTime事件内, 只发生一次touchstart算作tap
+        maxTapSize = 30, // tap事件的最大尺寸范围
+        triggerPressTime = 30,
     } = {}) {
-        this.tapMaxTime = tapMaxTime;
+        this.onceTapTime = onceTapTime;
+        this.maxTapSize = maxTapSize;
         this.isStopPropagation = isStopPropagation;
         this.isPreventDefault = isPreventDefault;
         this.minVelocity = 0.3;
@@ -110,7 +112,11 @@ export default class Finger {
 
         // [!doubleTap]
         if (null !== this.startPoint[0].x) {
-            this.isDoubleTap = this.interval > 0 && this.interval <= this.tapMaxTime && Math.abs(this.activePoint[0].x - this.startPoint[0].x) < 30 && Math.abs(this.activePoint[0].y - this.startPoint[0].y) < 30;
+            // 2次点击有时间间隔 | 间隔时间在一次tap的时间判定范围内 | 点击范围在tap类事件尺寸范围内(默认30 * 30)
+            this.isDoubleTap = this.interval > 0 &&
+                this.interval <= this.onceTapTime &&
+                Math.abs(this.activePoint[0].x - this.startPoint[0].x) < this.maxTapSize &&
+                Math.abs(this.activePoint[0].y - this.startPoint[0].y) < this.maxTapSize;
         }
 
         // [!press] 点击超过750ms,且时间内没有触发touchmove和touchstart, 那么触发press
@@ -212,7 +218,10 @@ export default class Finger {
             const touchMoveY = Math.abs(points[0].pageY - this.startPoint[0].pageY);
 
             //   if(this.panThreshold < Math.max(touchMoveX, touchMoveY)) {
-            e.fingerData = {deltaX, deltaY};
+            e.fingerData = {
+                deltaX,
+                deltaY
+            };
             this._panHandle(e);
             //   }
         }
@@ -249,11 +258,11 @@ export default class Finger {
         const absDeltaY = Math.abs(deltaY);
 
         if (5 > absDeltaX && 5 > absDeltaY) {
-            // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件this.tapMaxTimems后执行
+            // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件this.onceTapTimems后执行
             if (!this.isDoubleTap) {
                 this.singleTapTimeout = setTimeout(() => {
                     this._singleTapHandle(e);
-                }, this.tapMaxTime);
+                }, this.onceTapTime);
             }
         } else {
             // [!swiper]
