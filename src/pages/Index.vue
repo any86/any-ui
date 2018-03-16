@@ -1,6 +1,5 @@
 <template>
     <a-scroll-view ref="main" @touchstart.native="touchstart">
-        {{data}}
         <a-collapse :is-accordion="true">
             <a-collapse-item :has-line="false" class="group">
                 <h4 slot="header"><a-badge value="2">表单</a-badge></h4>

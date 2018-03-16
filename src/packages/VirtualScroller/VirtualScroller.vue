@@ -214,8 +214,9 @@ export default {
     },
 
     mounted() {
-        this.updateSize();
-        this.$updateSize = this.updateSize;
+        this.$nextTick(()=>{
+            this.updateSize();
+        });
         // window.addEventListener('resize', this.updateSize);
     },
 
