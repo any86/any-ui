@@ -6,15 +6,14 @@
 
         <a-swipe-out :is-show-right.sync="isShowRight">
             <template slot="left">
-                <a-swipe-out-button class="bg-info">更多</a-swipe-out-button>
-                <a-swipe-out-button class="bg-danger">禁用</a-swipe-out-button>
+                <a-swipe-out-button type="info">更多</a-swipe-out-button>
+                <a-swipe-out-button type="danger">禁用</a-swipe-out-button>
             </template>
-                <h1 class="fill">
-                    AtomSwipeOut
-                </h1>
+
+            <h4 class="fill">胶泥</h4>
             <template slot="right">
-                <a-swipe-out-button class="bg-success">编辑文章</a-swipe-out-button>
-                <a-swipe-out-button class="bg-warning">删除</a-swipe-out-button>
+                <a-swipe-out-button type="success">编辑文章</a-swipe-out-button>
+                <a-swipe-out-button >删除</a-swipe-out-button>
             </template>
         </a-swipe-out>
 

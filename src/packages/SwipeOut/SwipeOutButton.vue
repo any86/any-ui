@@ -1,6 +1,8 @@
 <template>
     <span 
+        v-ripple="true"
         :style="{ transform: `translateX(${activeX}px)`, transitionDuration: `${duration}ms`}" 
+        :class="[`bg-${type}`]"
         class="atom-swipe-out-button">
         <slot></slot>
     </span>
@@ -8,6 +10,13 @@
 <script>
 export default {
     name: 'AtomSwipeOutButton',
+
+    props: {
+        type: {
+            type: String,
+            default: 'primary'
+        }
+    },
 
     computed: {
         activeX(){
@@ -29,7 +38,6 @@ export default {
     align-items: center;
     padding-left:$gutter;
     padding-right:$gutter;
-
     color:$sub;
 }
 </style>
