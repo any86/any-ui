@@ -45,12 +45,12 @@ export default {
         this.height = $el.offsetHeight;
 
         let finger = new Finger($el, {isPreventDefault: true});
-        finger.on('rotate', angle => {
+        finger.on('rotate', ({angle}) => {
             this.rotate += angle;
             this.action = 'rotate';
         });
 
-        finger.on('pinch', scale => {
+        finger.on('pinch', ({scale}) => {
             const willScale = this.scale * scale;
             if (2 >= willScale) {
                 this.scale *= scale;
@@ -70,10 +70,10 @@ export default {
             this.action = 'press';
         });
 
-        finger.on('pan', ({ fingerData }) => {
+        finger.on('pan', ({ deltaX,deltaY }) => {
             this.transitionDuration = 0;
-            this.x += fingerData.deltaX;
-            this.y += fingerData.deltaY;
+            this.x += deltaX;
+            this.y += deltaY;
             this.action = 'pan';
         });
 
