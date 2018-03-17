@@ -221,9 +221,9 @@ export default class Finger {
             // [!pinch], 重置
             this.startVModule = this.activeVModule;
 
-            this._rotateHandle(this.activeAngle, e);
+            this._rotateHandle({angel: this.activeAngle}, e);
 
-            this._pinchHandle(this.activeScale, e);
+            this._pinchHandle({scale: this.activeScale}, e);
 
             this.isPreventSwipe = true;
             // 300秒内发生移动, 阻止swipe
@@ -254,11 +254,10 @@ export default class Finger {
 
             // [pan]判定触发pan
             if (this.triggerTapMaxSize < Math.max(touchMoveX, touchMoveY)) {
-                e.fingerData = {
+                this._panHandle({
                     deltaX,
                     deltaY
-                };
-                this._panHandle(e);
+                }, e);
             }
         }
 
