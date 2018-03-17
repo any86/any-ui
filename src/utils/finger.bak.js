@@ -19,16 +19,17 @@ export default class Finger {
      */
     constructor(el, {
         isStopPropagation = false,
-        isPreventDefault = true,
-        triggerTapMaxTime = 200, // triggerTapMaxTime时间内, 只发生一次touchstart算作tap
-        triggerTapMaxSize = 10, // 触发tap事件的最大尺寸范围
-        triggerPressTime = 750, // 触发press所需时间
+        isPreventDefault = false,
+        onceTapTime = 250, // onceTapTime事件内, 只发生一次touchstart算作tap
+        maxTapSize = 30, // tap事件的最大尺寸范围
+        triggerPressTime = 750,
     } = {}) {
-        this.triggerTapMaxTime = triggerTapMaxTime;
-        this.triggerTapMaxSize = triggerTapMaxSize;
+        this.onceTapTime = onceTapTime;
+        this.maxTapSize = maxTapSize;
         this.triggerPressTime = triggerPressTime;
         this.isStopPropagation = isStopPropagation;
         this.isPreventDefault = isPreventDefault;
+        this.minVelocity = 0.3;
         this.startTime = null;
         this.lastTime = null;
         this.startScale = 1;
@@ -37,43 +38,34 @@ export default class Finger {
         this.activeAngel = 0;
         this.isPreventSwipe = false;
         this.preventSwipeTimeout = null;
-        // this.panThreshold = 10;
-        // 起始向量(2指间)
+        this.panThreshold = 10;
         this.startV = {
             x: null,
             y: null
-        };
-
-        // 当前向量(2指间)
+        }; 
+        // 起始向量
         this.activeV = {
             x: null,
             y: null
-        };
-
-        // 接触点坐标, 相对屏幕左上角, touchstart的时候更新为activePoint的值
+        }; // 当前向量
         this.startPoint = [{
             x: null,
             y: null
-        }, {
+        },
+        {
             x: null,
             y: null
-        }];
-
-        // 当前接触点坐标, 相对屏幕左上角
+        }
+        ]; // 接触点坐标, 相对屏幕左上角, touchstart的时候更新为activePoint的值
         this.activePoint = [{
             x: null,
             y: null
-        }, {
+        },
+        {
             x: null,
             y: null
-        }];
-
-        // 判断doubleTap所需临时变量
-        this.preTapPonit = {
-            x: null,
-            y: null
-        };
-
+        }
+        ]; // 接触点坐标, 相对屏幕左上角
         this.isDoubleTap = false;
         this.tapTimeout = null;
         this.singleTapTimeout = null;
@@ -108,13 +100,9 @@ export default class Finger {
         el.addEventListener('touchcancel', this._touchcancel);
     }
 
-    /**
-     * 设置配置
-     * @param {Object} 配置 
-     */
-    update({
-        isStopPropagation,
-        isPreventDefault
+    set({
+        isStopPropagation = false,
+        isPreventDefault = true
     } = {}) {
         this.isStopPropagation = isStopPropagation;
         this.isPreventDefault = isPreventDefault;
@@ -130,28 +118,19 @@ export default class Finger {
         this.lastTime = this.startTime;
         this.startTime = Date.now();
         this.interval = this.startTime - (this.lastTime || this.startTime);
-
         // [!tap] 为tap系列做准备
         this.activePoint[0].x = points[0].pageX;
         this.activePoint[0].y = points[0].pageY;
 
         // [!doubleTap]
-        // 2次点击有时间间隔 | 间隔时间在一次tap的时间判定范围内 | 点击范围在tap类事件尺寸范围内(默认10 * 10)
-        if (null != this.preTapPonit.x) {
-            if (
+        if (null !== this.startPoint[0].x) {
+            // 2次点击有时间间隔 | 间隔时间在一次tap的时间判定范围内 | 点击范围在tap类事件尺寸范围内(默认30 * 30)
+            this.isDoubleTap =
                 this.interval > 0 &&
-                this.interval <= this.triggerTapMaxTime &&
-                Math.abs(this.activePoint[0].x - this.preTapPonit.x) < this.triggerTapMaxSize &&
-                Math.abs(this.activePoint[0].y - this.preTapPonit.y) < this.triggerTapMaxSize) {
-
-                this.isDoubleTap = true;
-                this._cancelSingleTap();
-            }
+                this.interval <= this.onceTapTime &&
+                Math.abs(this.activePoint[0].x - this.startPoint[0].x) < this.maxTapSize &&
+                Math.abs(this.activePoint[0].y - this.startPoint[0].y) < this.maxTapSize;
         }
-
-        // [!doubleTap] 存储上一次点击, 判断双击用
-        this.preTapPonit.x = this.activePoint[0].x;
-        this.preTapPonit.y = this.activePoint[0].y;
 
         // [!press] touchstart时间超过triggerPressTime,且期间没有触发touchmove和touchstart, 那么触发press
         this.pressTimeout = setTimeout(() => {
@@ -162,48 +141,50 @@ export default class Finger {
         // [!tap]设置当前点为起始点
         this.startPoint[0].x = this.activePoint[0].x;
         this.startPoint[0].y = this.activePoint[0].y;
+
         // 接触点超过1个
         if (1 < pointCount) {
-            this._cancelSingleTap();
-            this._cancelDoubleTap();
+            // 取消press事件
+            this._cancelPress();
+
+            // 向量的x/y投影距离
+            const vx = points[1].pageX - points[0].pageX;
+            const vy = points[1].pageY - points[0].pageY;
 
             // 起始向量
             this.startV = {
-                x: points[1].pageX - points[0].pageX,
-                y: points[1].pageY - points[0].pageY
+                x: vx,
+                y: vy
             };
 
             // 初始向量模
             this.startVModule = this._getVLength(this.startV);
 
-            // // 获取之前操作值作为起始值
-            // this.startScale = this.activeScale;
-            // this.startAngel = this.activeAngle;
-        }
+            // 获取之前操作值作为起始值
+            this.startScale = this.activeScale;
+            this.startAngel = this.activeAngle;
+        } else { }
     }
 
-    /**
-     * touchmove事件触发
-     * @param {Event} e 
-     */
     touchMoveHandle(e) {
         this.isPreventDefault && e.preventDefault();
         this.isStopPropagation && e.stopPropagation();
 
         const points = e.touches;
         const pointCount = points.length;
-
-        // 一旦发生touchmove取消双击判定
         this.isDoubleTap = false;
-
         if (1 < pointCount) {
             this.activePoint[1].x = points[1].pageX;
             this.activePoint[1].y = points[1].pageY;
 
-            // [!rotate][!pinch], 当前2指坐标构成的向量
+            // 当前2个触点间距离
+            const vx = points[1].pageX - points[0].pageX;
+            const vy = points[1].pageY - points[0].pageY;
+
+            // [!rotate][!pinch], 当前向量
             this.activeV = {
-                x: points[1].pageX - points[0].pageX,
-                y: points[1].pageY - points[0].pageY
+                x: vx,
+                y: vy
             };
 
             // [!pinch], 当前向量模
@@ -226,7 +207,6 @@ export default class Finger {
             this._pinchHandle(this.activeScale, e);
 
             this.isPreventSwipe = true;
-            // 300秒内发生移动, 阻止swipe
             this.preventSwipeTimeout = setTimeout(() => {
                 this.isPreventSwipe = false;
             }, 300);
@@ -235,11 +215,9 @@ export default class Finger {
             // [!pan]
             let deltaX = 0;
             let deltaY = 0;
-
             if (null !== this.startPoint[0].x) {
                 deltaX = points[0].pageX - this.activePoint[0].x;
                 deltaY = points[0].pageY - this.activePoint[0].y;
-
             } else {
                 // 2指移开一个1指, 那么重新给起始点赋值,
                 // 防止一直进行上面null !== this.startPoint[0].x的逻辑
@@ -249,20 +227,19 @@ export default class Finger {
             }
 
             //
-            const touchMoveX = Math.abs(points[0].pageX - this.startPoint[0].x);
-            const touchMoveY = Math.abs(points[0].pageY - this.startPoint[0].y);
+            const touchMoveX = Math.abs(points[0].pageX - this.startPoint[0].pageX);
+            const touchMoveY = Math.abs(points[0].pageY - this.startPoint[0].pageY);
 
-            // [pan]判定触发pan
-            if (this.triggerTapMaxSize < Math.max(touchMoveX, touchMoveY)) {
-                e.fingerData = {
-                    deltaX,
-                    deltaY
-                };
-                this._panHandle(e);
-            }
+            //   if(this.panThreshold < Math.max(touchMoveX, touchMoveY)) {
+            e.fingerData = {
+                deltaX,
+                deltaY
+            };
+            this._panHandle(e);
+            //   }
         }
 
-        // 重置当前起点(让pan每次返回touchmove发生一次所移动的距离)
+        // 重置当前起点
         this.activePoint[0].x = points[0].pageX;
         this.activePoint[0].y = points[0].pageY;
 
@@ -277,40 +254,32 @@ export default class Finger {
         this.isPreventDefault && e.preventDefault();
         this.isStopPropagation && e.stopPropagation();
 
-        // 手指离开取消press
-        this._cancelPress();
-
         // 触发end的时候, 屏幕上剩余的接触点个数
         const remainTouchsCount = e.touches.length;
         const points = e.changedTouches;
         const pointCount = points.length;
+        this.activePoint[0].x = points[0].pageX;
+        this.activePoint[0].y = points[0].pageY;
 
         // [!swipe], 用来计算拖拽事件
         this.lastTime = Date.now();
 
         // [!tap]
-        const deltaX = points[0].pageX - this.startPoint[0].x;
-        const deltaY = points[0].pageY - this.startPoint[0].y;
+        const deltaX = this.activePoint[0].x - this.startPoint[0].x;
+        const deltaY = this.activePoint[0].y - this.startPoint[0].y;
         const absDeltaX = Math.abs(deltaX);
         const absDeltaY = Math.abs(deltaY);
 
-        // [!tap] tap识别范围内, 触发tap
-        if (this.triggerTapMaxSize > absDeltaX && this.triggerTapMaxSize > absDeltaY) {
-            this.tapTimeout = setTimeout(() => {
-                // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件this.triggerTapMaxTimems后执行
-                if (!this.isDoubleTap) {
-                    this.singleTapTimeout = setTimeout(() => {
-                        this._singleTapHandle(e);
-                    }, this.triggerTapMaxTime);
-                } else {
-                    // [!doubleTap] 如果当前是双击, 那么取消单击事件
-                    clearTimeout(this.singleTapTimeout);
-                    this._doubleTapHandle(e);
-                    this.isDoubleTap = false;
-                }
-            }, 0);
+        if (5 > absDeltaX && 5 > absDeltaY) {
+            // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件this.onceTapTimems后执行
+            if (!this.isDoubleTap) {
+                this.singleTapTimeout = setTimeout(() => {
+                    this._singleTapHandle(e);
+                }, this.onceTapTime);
+            }
         } else {
             // [!swiper]
+            // minVelocity
             // 拖拽时间
             const holdTime = this.lastTime - this.startTime;
             const velocity = Math.max(absDeltaX, absDeltaY) / holdTime;
@@ -341,7 +310,13 @@ export default class Finger {
             }
         }
 
-        // [!press] 手指离开屏幕, 取消press
+        // [!singleTap !doubleTap] 如果当前是双击, 那么取消单击事件
+        if (this.isDoubleTap) {
+            clearTimeout(this.singleTapTimeout);
+            this._doubleTapHandle(e);
+        }
+
+        // [!long-tap] 手指离开屏幕, 取消long-tap
         this._cancelPress();
         // [!pan] 用来当发生pinch/rotate时, 避免同时发生pan
         this.startPoint[0] = {
@@ -356,6 +331,7 @@ export default class Finger {
 
     touchCancelHandle(e) {
         this._cancelALl();
+        // this.isStopPropagation && e.stopPropagation();
     }
 
     on(type, handle) {
@@ -412,10 +388,6 @@ export default class Finger {
         this._cancelALl();
     }
 
-    _cancelSingleTap() {
-        clearTimeout(this.singleTapTimeout);
-    }
-
     _cancelPress() {
         clearTimeout(this.pressTimeout);
     }
@@ -433,11 +405,9 @@ export default class Finger {
     }
 
     _cancelALl() {
-        this._cancelSingleTap();
-        this._cancelDoubleTap();
-        this._cancelSwipe();
-        this._cancelPinch();
-        this._cancelPress();
+        clearTimeout(this.pressTimeout);
+        clearTimeout(this.singleTapTimeout);
+        clearTimeout(this.doubleTapTimeout);
     }
 
     /**

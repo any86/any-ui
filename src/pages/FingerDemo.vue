@@ -7,8 +7,9 @@
         <h3 class="gutter-top">支持: </h3>
         <p :class="{scale: 'tap' === action}" class="text-darkest gutter-top-sm font-big">tap(单击)</p>
         <p :class="{scale: 'doubleTap' === action}" class="text-darkest gutter-top-sm font-big">doubleTap(双击)</p>
+        <p :class="{scale: 'press' === action}" class="text-darkest gutter-top-sm font-big">press(按住)</p>
         <p :class="{scale: 'pan' === action}" class="text-darkest gutter-top-sm font-big">pan(单指滑动)</p>
-        <p :class="{scale: 'swiper' === action}" class="text-darkest gutter-top-sm font-big">swiper(单指快速滑动)</p>
+        <p :class="{scale: 'swipe' === action}" class="text-darkest gutter-top-sm font-big">swipe(单指快速滑动)</p>
         <p :class="{scale: 'pinch' === action}" class="text-darkest gutter-top-sm font-big">pinch(双指缩放)</p>
         <p :class="{scale: 'rotate' === action}" class="text-darkest gutter-top-sm font-big">rotate(双指旋转)</p>
         <v-button  type="primary" :is-ghost=" true" :is-block="true" @click="reset" class="gutter-top">复位</v-button>
@@ -43,7 +44,7 @@ export default {
         this.width = $el.offsetWidth;
         this.height = $el.offsetHeight;
 
-        let finger = new Finger($el);
+        let finger = new Finger($el, {isPreventDefault: true});
         finger.on('rotate', angle => {
             this.rotate += angle;
             this.action = 'rotate';
@@ -77,7 +78,7 @@ export default {
         });
 
         finger.on('swipe', ({ deltaX, deltaY, direction, holdTime, velocityX, velocityY, velocity }) => {
-            this.transitionDuration = 1000;
+            this.transitionDuration = 500;
             this.x += velocityX * 200 * Math.sign(deltaX);
             this.y += velocityY * 200 * Math.sign(deltaY);
             this.action = 'swipe';
