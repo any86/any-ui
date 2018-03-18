@@ -24,6 +24,7 @@ export default class Finger {
         triggerTapMaxSize = 10, // 触发tap事件的最大尺寸范围
         triggerPressTime = 750, // 触发press所需时间
     } = {}) {
+        this.el = el;
         this.triggerTapMaxTime = triggerTapMaxTime;
         this.triggerTapMaxSize = triggerTapMaxSize;
         this.triggerPressTime = triggerPressTime;
@@ -354,7 +355,7 @@ export default class Finger {
     }
 
     touchCancelHandle(e) {
-        this._cancelALl();
+        this._cancelAll();
     }
 
     /**
@@ -387,11 +388,11 @@ export default class Finger {
     }
 
     destory() {
-        el.removeEventListener('touchstart', this._touchstart);
-        el.removeEventListener('touchmove', this._touchmove);
-        el.removeEventListener('touchend', this._touchend);
-        el.removeEventListener('touchcancel', this._touchcancel);
-        this._cancelALl();
+        this.el.removeEventListener('touchstart', this._touchstart);
+        this.el.removeEventListener('touchmove', this._touchmove);
+        this.el.removeEventListener('touchend', this._touchend);
+        this.el.removeEventListener('touchcancel', this._touchcancel);
+        this._cancelAll();
     }
 
     _cancelSingleTap() {
@@ -419,7 +420,7 @@ export default class Finger {
         this.pinchTimeout = null;
     }
 
-    _cancelALl() {
+    _cancelAll() {
         this._cancelSingleTap();
         this._cancelDoubleTap();
         this._cancelSwipe();

@@ -14,13 +14,9 @@
             <a-input v-model="text" class="border fill" style="margin-top: 100px; width:60%;"/>
         </a-mask> -->
 
-
-
         <a-cell class="gutter-top">
-            <a-button :is-block="true" type="success" v-touch:pan="touch">touch</a-button>
+            <a-button :is-block="true" type="success" v-touch:pan.stop="touch"  v-touch:double-tap.stop="touch">touch</a-button>
         </a-cell>
-
-
 
         <a-cell class="gutter-top">
             <a-button :is-block="true" type="success" @click="isShow=true">打开</a-button>
@@ -58,7 +54,7 @@ export default {
 
     methods: {
         touch(e){
-            dir(e)
+            console.dir(e)
         },
         scroll() {
             this.$refs.lazyload.forEach(img => {
