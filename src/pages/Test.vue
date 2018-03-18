@@ -18,7 +18,7 @@
             <a-button 
                 :is-block="true" 
                 type="success" 
-                v-touch:pan="touch"  
+                v-touch:pan.stop.prevent="touch"  
                 v-touch:double-tap="touch">touch</a-button>
         </a-cell>
 

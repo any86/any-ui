@@ -40,7 +40,7 @@ const plugin = {
          */
         const _bindEvent = (el, binding) => {
             if(-1 === SPPORT_ENENTS.indexOf(binding.arg)) {
-                console.warning(`不支持${binding.arg}事件!`);
+                console.warn(`不支持${binding.arg}事件!`);
                 return;
             }
             const manage_index = _getManageIndex(el);
@@ -54,7 +54,11 @@ const plugin = {
             }
 
             // 绑定事件
-            instance.on(binding.arg, binding.value);
+            instance.on(binding.arg, (data, e)=>{
+                binding.modifiers.stop && e.stopPropagation();
+                binding.modifiers.prevent && e.preventDefault();
+                binding.value(data, e);
+            });
         };
 
         /**
@@ -82,16 +86,6 @@ const plugin = {
             unbind(el) {
                 _unbindEvent(el);
             }
-        });
-
-        Vue.directive('touch-config', {
-            inserted(el, binding) {
-                _setConfig(el, binding);
-            },
-
-            update(el, binding) {
-                _setConfig(el, binding);
-            },
         });
     }
 };

@@ -18,8 +18,6 @@ export default class Finger {
      * @param {Object} param1
      */
     constructor(el, {
-        isStopPropagation = true,
-        isPreventDefault = true,
         triggerTapMaxTime = 200, // triggerTapMaxTime时间内, 只发生一次touchstart算作tap
         triggerTapMaxSize = 5, // 触发tap事件的最大尺寸范围
         triggerPressTime = 750, // 触发press所需时间
@@ -28,8 +26,6 @@ export default class Finger {
         this.triggerTapMaxTime = triggerTapMaxTime;
         this.triggerTapMaxSize = triggerTapMaxSize;
         this.triggerPressTime = triggerPressTime;
-        this.isStopPropagation = isStopPropagation;
-        this.isPreventDefault = isPreventDefault;
         this.startTime = null;
         this.lastTime = null;
         this.startScale = 1;
@@ -109,22 +105,10 @@ export default class Finger {
         el.addEventListener('touchcancel', this._touchcancel);
     }
 
-    /**
-     * 设置配置
-     * @param {Object} 配置 
-     */
-    set({
-        isStopPropagation,
-        isPreventDefault
-    } = {}) {
-        this.isStopPropagation = isStopPropagation;
-        this.isPreventDefault = isPreventDefault;
-    }
 
     touchStartHandle(e) {
         if (!e.touches) return;
-        this.isPreventDefault && e.preventDefault();
-        this.isStopPropagation && e.stopPropagation();
+        
         const points = e.touches;
         const pointCount = points.length;
 
@@ -188,8 +172,7 @@ export default class Finger {
      * @param {Event} e 
      */
     touchMoveHandle(e) {
-        this.isPreventDefault && e.preventDefault();
-        this.isStopPropagation && e.stopPropagation();
+        
 
         const points = e.touches;
         const pointCount = points.length;
@@ -274,8 +257,7 @@ export default class Finger {
     }
 
     touchEndHandle(e) {
-        this.isPreventDefault && e.preventDefault();
-        this.isStopPropagation && e.stopPropagation();
+        
 
         // 手指离开取消press
         this._cancelPress();
