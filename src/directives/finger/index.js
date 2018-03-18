@@ -57,6 +57,7 @@ const plugin = {
             instance.on(binding.arg, (data, e)=>{
                 binding.modifiers.stop && e.stopPropagation();
                 binding.modifiers.prevent && e.preventDefault();
+                if(binding.modifiers.self && el !== e.target) return;
                 binding.value(data, e);
             });
         };
