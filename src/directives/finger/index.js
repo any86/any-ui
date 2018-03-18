@@ -3,7 +3,7 @@ import Finger from '../../utils/finger.js';
 const plugin = {
     install(Vue) {
         // 存储finger实例
-        let _manger = []; // {el, instance}
+        let _manages = []; // {el, instance}
 
         // 支持的事件
         const SPPORT_ENENTS = [
@@ -21,12 +21,12 @@ const plugin = {
         ];
 
         /**
-         * 获取元素在_manger中的索引
+         * 获取元素在_manages中的索引
          * @param {Element} 元素 
          */
-        const _getInstanceIndex = (el) => {
-            for (let i = 0, len = _manger.length; i < len; i++) {
-                if (el === _manger[i].el) {
+        const _getManageIndex = (el) => {
+            for (let i = 0, len = _manages.length; i < len; i++) {
+                if (el === _manages[i].el) {
                     return i;
                 }
             }
@@ -43,14 +43,14 @@ const plugin = {
                 console.warning(`不支持${binding.arg}事件!`);
                 return;
             }
-            const instance_index = _getInstanceIndex(el);
+            const manage_index = _getManageIndex(el);
             let instance;
-            if (-1 === instance_index) {
+            if (-1 === manage_index) {
                 // 新建实例
-                instance = new Finger(el, {});
-                _manger.push({ instance, el });
+                instance = new Finger(el);
+                _manages.push({ instance, el });
             } else {
-                instance = _manger[instance_index].instance;
+                instance = _manages[manage_index].instance;
             }
 
             // 绑定事件
@@ -62,11 +62,11 @@ const plugin = {
          * @param {Element} 关联元素 
          */
         const _unbindEvent = (el) => {
-            const instance_index = _getInstanceIndex(el);
+            const manage_index = _getManageIndex(el);
             // 防止一个元素上的多个手势指令会重复触发删除
-            if(-1 !== instance_index && undefined !== _manger[instance_index]) {
-                _manger[instance_index].instance.destory();
-                _manger.splice(instance_index, 1);
+            if(-1 !== manage_index && undefined !== _manages[manage_index]) {
+                _manages[manage_index].instance.destory();
+                _manages.splice(manage_index, 1);
             }
         };
 
@@ -82,6 +82,16 @@ const plugin = {
             unbind(el) {
                 _unbindEvent(el);
             }
+        });
+
+        Vue.directive('touch-config', {
+            inserted(el, binding) {
+                _setConfig(el, binding);
+            },
+
+            update(el, binding) {
+                _setConfig(el, binding);
+            },
         });
     }
 };

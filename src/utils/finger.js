@@ -18,10 +18,10 @@ export default class Finger {
      * @param {Object} param1
      */
     constructor(el, {
-        isStopPropagation = false,
+        isStopPropagation = true,
         isPreventDefault = true,
         triggerTapMaxTime = 200, // triggerTapMaxTime时间内, 只发生一次touchstart算作tap
-        triggerTapMaxSize = 10, // 触发tap事件的最大尺寸范围
+        triggerTapMaxSize = 5, // 触发tap事件的最大尺寸范围
         triggerPressTime = 750, // 触发press所需时间
     } = {}) {
         this.el = el;
@@ -113,7 +113,7 @@ export default class Finger {
      * 设置配置
      * @param {Object} 配置 
      */
-    update({
+    set({
         isStopPropagation,
         isPreventDefault
     } = {}) {

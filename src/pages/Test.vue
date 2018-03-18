@@ -15,7 +15,11 @@
         </a-mask> -->
 
         <a-cell class="gutter-top">
-            <a-button :is-block="true" type="success" v-touch:pan.stop="touch"  v-touch:double-tap.stop="touch">touch</a-button>
+            <a-button 
+                :is-block="true" 
+                type="success" 
+                v-touch:pan="touch"  
+                v-touch:double-tap="touch">touch</a-button>
         </a-cell>
 
         <a-cell class="gutter-top">
@@ -53,8 +57,8 @@ export default {
     },
 
     methods: {
-        touch(e){
-            console.dir(e)
+        touch(data, e){
+            console.dir(data)
         },
         scroll() {
             this.$refs.lazyload.forEach(img => {
