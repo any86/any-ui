@@ -358,49 +358,11 @@ export default class Finger {
     }
 
     on(type, handle) {
-        switch (type) {
-            case 'rotate':
-                {
-                    this._rotateHandle = handle;
-                    break;
-                }
+        this[`_${type}Handle`] = handle;
+    }
 
-            case 'pinch':
-                {
-                    this._pinchHandle = handle;
-                    break;
-                }
-
-            case 'tap':
-                {
-                    this._singleTapHandle = handle;
-                    break;
-                }
-
-            case 'doubleTap':
-                {
-                    this._doubleTapHandle = handle;
-                    break;
-                }
-
-            case 'press':
-                {
-                    this._pressHandle = handle;
-                    break;
-                }
-
-            case 'pan':
-                {
-                    this._panHandle = handle;
-                    break;
-                }
-
-            case 'swipe':
-                {
-                    this._swipeHandle = handle;
-                    break;
-                }
-        }
+    off(type, handle) {
+        this[`_${type}Handle`] = ()=>{};
     }
 
     destory() {
@@ -413,22 +375,27 @@ export default class Finger {
 
     _cancelSingleTap() {
         clearTimeout(this.singleTapTimeout);
+        this.singleTapTimeout = null;
     }
 
     _cancelPress() {
         clearTimeout(this.pressTimeout);
+        this.pressTimeout = null;
     }
 
     _cancelDoubleTap() {
         clearTimeout(this.doubleTapTimeout);
+        this.doubleTapTimeout = null;
     }
 
     _cancelSwipe() {
         clearTimeout(this.swipeTimeout);
+        this.swipeTimeout = null;
     }
 
     _cancelPinch() {
         clearTimeout(this.pinchTimeout);
+        this.pinchTimeout = null;
     }
 
     _cancelALl() {
