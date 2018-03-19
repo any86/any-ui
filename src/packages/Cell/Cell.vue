@@ -44,12 +44,12 @@ export default {
         },
 
         textAlign: {
-            type: String,
+            type: String
         },
 
         direction: {
             type: String,
-            default: 'right'
+            // default: 'right'
         },
 
         hasRipple: {
@@ -59,9 +59,7 @@ export default {
 
     computed: {
         rippleConfig() {
-            return undefined === this.arrow
-                ? { isDisabled: !this.hasRipple }
-                : { background: '#ccc', isDisabled: !this.hasRipple };
+            return undefined === this.arrow ? { isDisabled: !this.hasRipple } : { background: '#ccc', isDisabled: !this.hasRipple };
         }
     },
 
@@ -71,7 +69,6 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
 .atom-cell {
-    direction: rtl;
     position: relative;
     display: flex;
     padding: 0 $gutter;
@@ -122,6 +119,7 @@ export default {
                 transform: rotate($value);
             }
         }
+
     }
 }
 </style>

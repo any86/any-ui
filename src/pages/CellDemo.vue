@@ -6,10 +6,10 @@
                 <span class="text-danger">arrow属性</span>可以控制是否有箭头, 且可控制角度
             </template>
 
-            <v-cell :arrow="0">arrow = 0</v-cell>
-            <v-cell :arrow="90">arrow = 90</v-cell>
-            <v-cell :arrow="180">arrow = 180</v-cell>
-            <v-cell :arrow="270">arrow = 270</v-cell>
+            <v-cell direction="up">direction=up</v-cell>
+            <v-cell direction="right">direction=right</v-cell>
+            <v-cell direction="down">direction=down</v-cell>
+            <v-cell direction="left">direction=left</v-cell>
         </v-group>
 
         <v-group>
