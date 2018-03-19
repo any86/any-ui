@@ -1,7 +1,12 @@
 <template>
     <header class="atom-app-bar">
         <span class="bar__left">
-            <a-icon @click="clickArrow" v-ripple="true" value="arrow" :angel="180" :size="24"/>
+            <a-icon 
+                v-ripple="true" 
+                :size="24" 
+                value="arrow" 
+                style="transform: rotate(180deg)"
+                @click="clickArrow" />
             <slot name="left"></slot>
         </span>
         <span class="bar__center">
@@ -18,10 +23,6 @@ export default {
     name: 'AtomAppBar',
 
     props: {
-        hasArrow: {
-            type: Boolean,
-            default: true
-        },
         isRouterBack: {
             type: Boolean,
             default: true
