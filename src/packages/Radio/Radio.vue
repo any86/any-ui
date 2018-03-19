@@ -70,6 +70,7 @@ label.atom-radio {
     > .atom-radio__title {
         flex: 1;
         font-size: $normal;
+            text-align: justify;    
         &.active {
             color: $base;
         }

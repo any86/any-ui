@@ -43,6 +43,7 @@ label.atom-switch {
     >.title {
         display: block;
         flex: 1;
+        text-align: justify;
     }
     >input {
         display: none;

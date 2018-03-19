@@ -1,5 +1,10 @@
 <template>
-    <component v-bind="$attrs" v-on="$listeners" :size="size" :is="`A${value.substring(0,1).toUpperCase()+value.substring(1)}`" :style="{transform: `rotate(${angel}deg)`}" class="atom-icon"/>
+    <component 
+        v-bind="$attrs" 
+        v-on="$listeners" 
+        :size="size" 
+        :is="`A${value.substring(0,1).toUpperCase()+value.substring(1)}`" 
+        class="atom-icon"/>
 </template>
 <script>
 import APlus from './Plus';
@@ -20,10 +25,6 @@ export default {
             default: 48
         },
 
-        angel: {
-            default: 0
-        },
-
         value: {
             type: String,
             required: true
@@ -38,6 +39,6 @@ export default {
 @import '../../scss/variables.scss';
 .atom-icon {
     transition: transform $duration;
-    will-change: transform;
+    // will-change: transform;
 }
 </style>
