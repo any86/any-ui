@@ -6,10 +6,10 @@
                 <span class="text-danger">arrow属性</span>可以控制是否有箭头, 且可控制角度
             </template>
 
-            <v-cell direction="up">direction=up</v-cell>
-            <v-cell direction="right">direction=right</v-cell>
-            <v-cell direction="down">direction=down</v-cell>
-            <v-cell direction="left">direction=left</v-cell>
+            <v-cell arrow-direction="up">arrow-direction=up</v-cell>
+            <v-cell arrow-direction="right">arrow-direction=right</v-cell>
+            <v-cell arrow-direction="down">arrow-direction=down</v-cell>
+            <v-cell arrow-direction="left">arrow-direction=left</v-cell>
         </v-group>
 
         <v-group>

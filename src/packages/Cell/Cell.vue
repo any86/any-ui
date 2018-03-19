@@ -17,10 +17,10 @@
         
         <!-- 箭头图标 -->
         <a-icon 
-            v-if="undefined !== direction" 
+            v-if="undefined !== arrowDirection" 
             value="arrow" 
             size="18" 
-            :class="[`atom-cell__arrow--${direction}`]" 
+            :class="[`atom-cell__arrow--${arrowDirection}`]" 
             class="atom-cell__arrow" />
     </a>
 </template>
@@ -47,7 +47,7 @@ export default {
             type: String
         },
 
-        direction: {
+        arrowDirection: {
             type: String,
             // default: 'right'
         },
