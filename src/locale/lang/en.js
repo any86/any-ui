@@ -1,4 +1,6 @@
 export default {
+    lang: 'en',
+
     alert: {
         ok: 'confirm'
     },

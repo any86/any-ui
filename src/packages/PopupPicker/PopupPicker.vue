@@ -110,7 +110,6 @@ export default {
         .button-cancel {
             @include button;
             color: $light;
-            text-align: left;
             flex: 1;
             font-size: $big;
         }
@@ -124,7 +123,6 @@ export default {
         .button-ok {
             @include button;
             color: $darkest;
-            text-align: right;
             flex: 1;
             font-size: $big;
         }
