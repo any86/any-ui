@@ -16,7 +16,12 @@
         </span>
         
         <!-- 箭头图标 -->
-        <a-icon v-if="undefined !== arrow" value="arrow" size="18" :style="{transform: `rotate(${arrow}deg)`}" class="atom-cell__arrow" />
+        <a-icon 
+            v-if="undefined !== direction" 
+            value="arrow" 
+            size="18" 
+            :class="[`atom-cell__arrow--${direction}`]" 
+            class="atom-cell__arrow" />
     </a>
 </template>
 <script>
@@ -40,11 +45,11 @@ export default {
 
         textAlign: {
             type: String,
-            default: 'left'
         },
 
-        arrow: {
-            type: Number
+        direction: {
+            type: String,
+            default: 'right'
         },
 
         hasRipple: {
@@ -66,6 +71,7 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
 .atom-cell {
+    direction: rtl;
     position: relative;
     display: flex;
     padding: 0 $gutter;
@@ -103,6 +109,19 @@ export default {
         height: 24px;
         display: inline-block;
         transition: transform $duration;
+
+        $directions: (
+            right: 0deg,
+            down: 90deg,
+            left: 180deg,
+            up: 270deg
+        );
+
+        @each $key, $value in $directions {
+            &--#{$key} {
+                transform: rotate($value);
+            }
+        }
     }
 }
 </style>
