@@ -10,7 +10,7 @@ export default {
     props: {
         type: {
             type: String,
-            default: 'default'
+            default: 'primary'
         },
 
         nativeType: {
@@ -73,7 +73,7 @@ export default {
                 'atom-btn--round': this.isCircle,
                 'atom-btn--loading': this.isLoading,
                 'atom-btn--radius': !this.isBlock || this.isRound,
-                'atom-btn--sm' : 'sm' == this.size
+                'atom-btn--sm': 'sm' == this.size
             };
         }
     }
@@ -153,7 +153,7 @@ button {
     font-size: $big;
     transition: all $duration;
 
-    &--sm{
+    &--sm {
         height: $height*0.6;
         line-height: $height*0.6;
         padding: 0 $gutter*0.6;
