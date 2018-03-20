@@ -3,6 +3,7 @@
         <div class="atom-picker__mask"></div>
         <div class="atom-picker__graticule" :style="{height: `${itemHeight}px`}"></div>
         <virtual-scroller 
+            ref="scroll"
             v-for="(list, columnIndex) in dataSource" 
             :key="columnIndex" 
             v-model="positions[columnIndex]" 
@@ -65,6 +66,15 @@ export default {
     },
 
     methods: {
+        /**
+         * 更新scroll尺寸
+         */
+        updateSize(){
+            this.$refs.scroll.forEach(component=>{
+                component.updateSize();
+            });
+        },
+
         transitionEndHandle(columnIndex, { y, type }) {
             if ('inertia' === type) {
                 const index = Math.round(y / this.itemHeight);

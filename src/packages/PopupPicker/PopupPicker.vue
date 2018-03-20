@@ -7,7 +7,7 @@
             </span>
             <span @click="ok" class="button-ok">{{okText || $_locale.popupPicker.ok}}</span>
         </header>
-        <v-picker v-model="tempValue" :data-source="dataSource" @change="change"/>
+        <v-picker ref="picker" v-model="tempValue" :data-source="dataSource" @change="change"/>
     </v-popup>
 </template>
 <script>
@@ -85,7 +85,12 @@ export default {
     },
 
     watch: {
-        _isShow() {
+        _isShow(isShow) {
+            if(isShow) {
+                this.$nextTick(()=>{
+                    this.$refs.picker.updateSize();
+                });
+            }
             this.tempValue = [...this.value];
         }
     },

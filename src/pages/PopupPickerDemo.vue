@@ -1,7 +1,7 @@
 <template>
     <v-scroll-view class="demo-page flex">
         <v-popup-picker :is-show.sync="isShow" :data-source="[data1, data2]" v-model="value"/>
-        <section class="flex-item--center">
+        <section class="flex-item--center gutter-top">
             <p class="text-center">当前值: {{value}}</p>
             <v-button type="primary" :is-ghost="true" :is-block="true" @click="isShow=true" class="gutter-top">打开</v-button>
         </section>
