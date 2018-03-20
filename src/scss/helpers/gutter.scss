@@ -11,7 +11,7 @@
 
 @each $direction in top, left, right, bottom {
     .gutter-#{$direction} {
-        margin-#{$direction}: $gutter;
+        margin-#{$direction}: $gutter !important;
     }
 }
 
@@ -20,11 +20,11 @@
 * 间距/缝隙/槽(小): gutter
 */
 .gutter-sm {
-    margin: $gutter/2;
+    margin: $gutter/2 !important;
 }
 
 @each $direction in top, left, right, bottom {
     .gutter-#{$direction}-sm {
-        margin-#{$direction}: $gutter/2;
+        margin-#{$direction}: $gutter/2 !important;
     }
 }
