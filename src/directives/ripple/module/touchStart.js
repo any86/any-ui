@@ -52,16 +52,17 @@ export default function(event) {
         height
     } = $el.getBoundingClientRect();
     const points = event.touches;
-    const pageX = points[0].pageX;
-    const pageY = points[0].pageY;
+    const pageX = points[0].clientX;
+    const pageY = points[0].clientY;
+
+
+    const radius = Math.sqrt(width * width + height * height); // 半径
+    const centerX = points[0].clientX - left - radius; // 圆心x
+    const centerY = points[0].clientY - top - radius; // 圆心y
+
 
     const $rippleNode = createRippleNode({
-        top,
-        left,
-        width,
-        height,
-        pageX,
-        pageY,
+        radius, centerX, centerY,
         cssNameSpace: options.cssNameSpace,
         background: options.background,
         duration: options.duration,
@@ -72,7 +73,7 @@ export default function(event) {
     const removeRippleNode = event => {
         event.stopPropagation();
         if (0 === transitionendCount) {
-            $containerNode.removeChild($rippleNode);
+            // $containerNode.removeChild($rippleNode);
         }
         transitionendCount++;
     };
