@@ -18,7 +18,7 @@
     </header>
 </template>
 <script>
-import AIcon from '../Icon'
+import AIcon from '../Icon';
 export default {
     name: 'AtomAppBar',
 
@@ -30,8 +30,8 @@ export default {
     },
 
     methods: {
-        clickArrow(){
-            if(this.isRouterBack) {
+        clickArrow() {
+            if (this.isRouterBack) {
                 this.$router.back();
             } else {
                 this.$emit('click-arrow');
@@ -39,7 +39,7 @@ export default {
         }
     },
 
-    components: {AIcon}
+    components: { AIcon }
 };
 </script>
 <style scoped lang="scss">
@@ -53,15 +53,16 @@ export default {
     box-shadow: $shadowDown;
     padding: 0 $gutter/2;
     background: $background;
-    > .bar__left, .bar__right {
+    > .bar__left,
+    .bar__right {
         display: flex;
         align-items: center;
         flex: 1;
     }
 
-    >.bar__center {
-            justify-content: center;
-            font-size: $bigger;
-        }
+    > .bar__center {
+        justify-content: center;
+        font-size: $bigger;
+    }
 }
 </style>

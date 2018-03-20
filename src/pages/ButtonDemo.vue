@@ -2,7 +2,6 @@
     <v-scroll-view class="fill-sm">
 
         <v-group title="多种情景色">
-            <v-button :is-block="true" type="primary" class="gutter-top">primary</v-button>
             <v-button type="primary" class="gutter-sm">
                 primary</v-button>
             <v-button type="success" class="gutter-sm">success</v-button>
@@ -27,8 +26,11 @@
 
 
         <v-group title="禁用">
-            <v-button :is-ghost="true" :is-disabled="true" type="warning" class="gutter-sm">warning</v-button>
-            <v-button :is-circle="true" :is-disabled="true" type="success" class="gutter-sm">success</v-button>
+            <v-button :is-ghost="true" :is-disabled="true"  class="gutter-sm">禁用1</v-button>
+            <v-button :is-circle="true" :is-disabled="true" class="gutter-sm">禁用2</v-button>
+            <p class="fill-sm">
+                <v-button :is-block="true" :is-disabled="true">禁用3</v-button>
+            </p>
         </v-group>
 
         <v-group title="加载中">
