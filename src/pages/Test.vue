@@ -18,8 +18,7 @@
             <a-button 
                 :is-block="true" 
                 type="success" 
-                v-touch:pan.stop.prevent="touch"  
-                v-touch:double-tap="touch">touch</a-button>
+                v-touch:tap="touch">touch</a-button>
         </a-cell>
 
         <a-cell class="gutter-top">

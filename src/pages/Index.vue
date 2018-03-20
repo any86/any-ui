@@ -67,7 +67,9 @@
             </a-collapse-item>
 
             <a-collapse-item title="手势" class="group">
-                <div class="group__item" @click="$router.push({'path': '/finger'})">Finger</div>
+                <div class="group__item" @click="$router.push({'path': '/finger'})">Finger.js</div>
+                <div class="group__item" @click="$router.push({'path': '/touch'})">Touch指令(Finger.js)</div>
+                
             </a-collapse-item>
             
             <a-collapse-item title="组合" class="group">

@@ -2,6 +2,7 @@
     <v-scroll-view class="fill-sm">
 
         <v-group title="多种情景色">
+            <v-button :is-block="true" type="primary" class="gutter-top">primary</v-button>
             <v-button type="primary" class="gutter-sm">
                 primary</v-button>
             <v-button type="success" class="gutter-sm">success</v-button>
@@ -66,6 +67,7 @@
 
         <v-group title="块">
             <v-button :is-block="true" type="primary" class="gutter-top">primary</v-button>
+            
             <v-button :is-block="true" :is-ghost="true" type="success" class="gutter-top">success</v-button>
         </v-group>
 

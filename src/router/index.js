@@ -45,9 +45,9 @@ import GroupDemo from '@/pages/GroupDemo';
 // 切换
 import TabsDemo from '@/pages/TabsDemo';
 import CarouselDemo from '@/pages/CarouselDemo';
-import FingerDemo from '@/pages/FingerDemo';
 import SegmentDemo from '@/pages/SegmentDemo';
 import DrawerDemo from '@/pages/DrawerDemo';
+import SwipeOutDemo from '@/pages/SwipeOutDemo'
 
 // 辅助
 import BadgeDemo from '@/pages/BadgeDemo';
@@ -66,10 +66,14 @@ import ToastDemo from '@/pages/ToastDemo'
 import PopperDemo from '@/pages/PopperDemo'
 import QRCodeDemo from '@/pages/QRCodeDemo'
 
+// 手势
+import FingerDemo from '@/pages/FingerDemo';
+import TouchDemo from '@/pages/TouchDemo';
+
 // 组合
 import PopupPickerDemo from '@/pages/PopupPickerDemo'
 
-import SwipeOutDemo from '@/pages/SwipeOutDemo'
+// 测试
 import TestDemo from '@/pages/Test'
 
 
@@ -277,6 +281,12 @@ export default new Router({
             name: 'swipeOut',
             path: '/swipe-out',
             component: SwipeOutDemo
+        },
+
+        {
+            name: 'touch',
+            path: '/touch',
+            component: TouchDemo
         },
 
         {

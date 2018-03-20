@@ -81,16 +81,16 @@ export default class Finger {
         this.pinchTimeout = null;
         this.type = '';
 
-        this._rotateHandle = () => { };
-        this._pinchHandle = () => { };
-        this._singleTapHandle = () => { };
-        this._doubleTapHandle = () => { };
-        this._pressHandle = () => { };
-        this._panHandle = () => { };
-        this._swipeHandle = () => { };
-        this.touchStart = () => { };
-        this.touchMove = () => { };
-        this.touchEnd = () => { };
+        this._rotateHandle = () => {};
+        this._pinchHandle = () => {};
+        this._singleTapHandle = () => {};
+        this._doubleTapHandle = () => {};
+        this._pressHandle = () => {};
+        this._panHandle = () => {};
+        this._swipeHandle = () => {};
+        this.touchStart = () => {};
+        this.touchMove = () => {};
+        this.touchEnd = () => {};
 
         // 替换事件中的this(元素)为class
         this._touchstart = this.touchStartHandle.bind(this);
@@ -108,7 +108,7 @@ export default class Finger {
 
     touchStartHandle(e) {
         if (!e.touches) return;
-        
+
         const points = e.touches;
         const pointCount = points.length;
 
@@ -141,7 +141,9 @@ export default class Finger {
         // [!press] touchstart时间超过triggerPressTime,且期间没有触发touchmove和touchstart, 那么触发press
         this.pressTimeout = setTimeout(() => {
             this.type = 'press';
-            this._pressHandle(e);
+            this._pressHandle({
+                type: 'press'
+            }, e);
         }, this.triggerPressTime);
 
         // [!tap]设置当前点为起始点
@@ -172,7 +174,7 @@ export default class Finger {
      * @param {Event} e 
      */
     touchMoveHandle(e) {
-        
+
 
         const points = e.touches;
         const pointCount = points.length;
@@ -205,9 +207,15 @@ export default class Finger {
             // [!pinch], 重置
             this.startVModule = this.activeVModule;
 
-            this._rotateHandle({ angel: this.activeAngle }, e);
+            this._rotateHandle({
+                type: 'rotate',
+                angel: this.activeAngle
+            }, e);
 
-            this._pinchHandle({ scale: this.activeScale }, e);
+            this._pinchHandle({
+                type: 'pinch',
+                scale: this.activeScale
+            }, e);
 
             this.isPreventSwipe = true;
             // 300秒内发生移动, 阻止swipe
@@ -239,6 +247,7 @@ export default class Finger {
             // [pan]判定触发pan
             if (this.triggerTapMaxSize < Math.max(touchMoveX, touchMoveY)) {
                 this._panHandle({
+                    type: 'pan',
                     deltaX,
                     deltaY
                 }, e);
@@ -257,8 +266,6 @@ export default class Finger {
     }
 
     touchEndHandle(e) {
-        
-
         // 手指离开取消press
         this._cancelPress();
 
@@ -276,18 +283,22 @@ export default class Finger {
         const absDeltaX = Math.abs(deltaX);
         const absDeltaY = Math.abs(deltaY);
 
-        // [!tap] tap识别范围内, 触发tap
+        // [!tap | !doubleTap] tap识别范围内, 触发tap
         if (this.triggerTapMaxSize > absDeltaX && this.triggerTapMaxSize > absDeltaY) {
             this.tapTimeout = setTimeout(() => {
                 // [!singleTap !doubleTap] 如果不是双击, 那么让单击事件this.triggerTapMaxTimems后执行
                 if (!this.isDoubleTap) {
                     this.singleTapTimeout = setTimeout(() => {
-                        this._singleTapHandle(e);
+                        this._singleTapHandle({
+                            type: 'tap'
+                        }, e);
                     }, this.triggerTapMaxTime);
                 } else {
                     // [!doubleTap] 如果当前是双击, 那么取消单击事件
                     clearTimeout(this.singleTapTimeout);
-                    this._doubleTapHandle(e);
+                    this._doubleTapHandle({
+                        type: 'double-tap'
+                    }, e);
                     this.isDoubleTap = false;
                 }
             }, 0);
@@ -310,6 +321,7 @@ export default class Finger {
                     // [!swiper]
                     this.swipeTimeout = setTimeout(() => {
                         this._swipeHandle({
+                            type: 'swipe',
                             deltaX,
                             deltaY,
                             direction,
@@ -357,7 +369,7 @@ export default class Finger {
      * @param {Function} handle 
      */
     on(eventName, handle) {
-        if('tap' === eventName) {
+        if ('tap' === eventName) {
             this._singleTapHandle = handle;
         } else {
             this[`_${this._camelize(eventName)}Handle`] = handle;
@@ -370,7 +382,7 @@ export default class Finger {
      * @param {Function} handle 
      */
     off(eventName, handle) {
-        this[`_${eventName}Handle`] = () => { };
+        this[`_${eventName}Handle`] = () => {};
     }
 
     destory() {

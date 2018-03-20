@@ -13,6 +13,7 @@ const plugin = {
             'touchcancel', 
             'tap',
             'double-tap',
+            'doubleTap',
             'swipe',
             'pinch',
             'rotate',
@@ -39,6 +40,7 @@ const plugin = {
          * @param {Object} 指令对应的binding
          */
         const _bindEvent = (el, binding) => {
+
             if(-1 === SPPORT_ENENTS.indexOf(binding.arg)) {
                 console.warn(`不支持${binding.arg}事件!`);
                 return;
@@ -58,7 +60,9 @@ const plugin = {
                 binding.modifiers.stop && e.stopPropagation();
                 binding.modifiers.prevent && e.preventDefault();
                 if(binding.modifiers.self && el !== e.target) return;
-                binding.value(data, e);
+                if(undefined === event){
+                    binding.value(e);
+                }
             });
         };
 
