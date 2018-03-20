@@ -357,7 +357,11 @@ export default class Finger {
      * @param {Function} handle 
      */
     on(eventName, handle) {
-        this[`_${this._camelize(eventName)}Handle`] = handle;
+        if('tap' === eventName) {
+            this._singleTapHandle = handle;
+        } else {
+            this[`_${this._camelize(eventName)}Handle`] = handle;
+        }
     }
 
     /**
