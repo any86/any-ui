@@ -2,7 +2,10 @@
     <div v-bind="$attrs" v-on="$listeners" :is-unfolded="isUnfolded" class="atom-collapse__item">
         <header @click="toggle" :class="{'item__header--line': hasLine}" class="item__header">
             <!-- <span :class="[`header__arrow--${isUnfolded ? 'open' : 'close'}`]" class="header__arrow"></span> -->
-            <a-icon value="arrow" size="14" :angel="isUnfolded ? 90 : 0" class="header__arrow"/>
+            <a-icon 
+                value="arrow" 
+                size="14" 
+                :style="{transform: `rotate(${isUnfolded ? 90 : 0}deg)`}" class="header__arrow"/>
             <!-- 这只有vue2.4以上$attrs默认才是{} -->
             <slot name="header">{{$attrs.title}}</slot>
         </header>
