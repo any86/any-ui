@@ -5,6 +5,7 @@
 @import './animate.scss';
 @import './helpers.scss';
 @import './components.scss';
+@import '../directives/ripple/ripple.scss';
 
 [v-cloak] {
     display: none;
