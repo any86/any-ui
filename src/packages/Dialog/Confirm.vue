@@ -3,7 +3,7 @@
         <template v-if="!!title" slot="header">{{title}}</template>
         {{content}}
         <section slot="footer" class="flex-row border-top">
-            <v-button @click="cancel" :is-block="true" :is-round="false" type="white" class="border-right">{{cancelText}}</v-button>
+            <v-button @click="cancel" :is-block="true" :is-round="false" type="white" class="border-none border-right">{{cancelText}}</v-button>
             <v-button @click="ok" :is-block="true" :is-ghost="true" :is-round="false" type="primary" class="border-none">{{okText}}</v-button>
         </section>
     </v-dialog>

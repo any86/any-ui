@@ -1,5 +1,5 @@
 .atom-spinner-android{
-    circle {
+    >circle {
         display: inline-block;
         stroke-dasharray: 1, 200;
         stroke-dashoffset: 0;
@@ -7,7 +7,6 @@
         /* animation: color 6s ease-in-out infinite, dash 1.5s ease-in-out infinite;  */
         animation: dash 1.5s ease-in-out infinite;
         stroke-linecap: round;
-        stroke: $primary;
     }
 
     @keyframes dash {
@@ -26,6 +25,15 @@
             stroke-dasharray: 89, 200;
             stroke-dashoffset: -124;
             /* stroke: $warning; */
+        }
+    }
+}
+
+
+@each $key, $value in $theme_colors {
+    .atom-spinner-android--#{$key} {
+        >circle{
+            stroke: $value;
         }
     }
 }

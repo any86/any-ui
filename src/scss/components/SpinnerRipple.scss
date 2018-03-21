@@ -3,10 +3,16 @@ $spinnerRippleSize: .6rem;
     display: inline-block;
     width: $spinnerRippleSize;
     height: $spinnerRippleSize;
-    background: $base;
     border-radius: 100%;
     animation: ripple 1s 0s ease-in-out infinite;
 }
+
+@each $key, $value in $theme_colors {
+    .atom-spinner-ripple--#{$key} {
+        background: $value;
+    }
+}
+
 
 @keyframes ripple {
     0% {

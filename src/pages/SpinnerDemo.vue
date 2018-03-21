@@ -6,7 +6,7 @@
 
         <v-cell>
             android
-            <v-spinner-android slot="extra"/>
+            <v-spinner-android  slot="extra"/>
         </v-cell>
 
         <v-cell>

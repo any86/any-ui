@@ -7,7 +7,6 @@
             >div {
                 width: 20px;
                 height: 20px;
-                background: $primary;
                 border-radius: 100%;
                 display: inline-block;
                 animation: bouncedelay 1.4s infinite ease-in-out;
@@ -33,4 +32,13 @@
         }
     }
     @include loading;
+}
+
+@each $key,
+$value in $theme_colors {
+    .atom-three-dots--#{$key} {
+        >div {
+            background: $value;
+        }
+    }
 }
