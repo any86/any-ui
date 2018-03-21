@@ -1,8 +1,11 @@
 @import './variables.scss';
 @import './mixin.scss';
+@import './function.scss';
 @import './reset.scss';
 @import './animate.scss';
 @import './helpers.scss';
+@import './components.scss';
+
 [v-cloak] {
     display: none;
 }

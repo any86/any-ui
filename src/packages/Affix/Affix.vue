@@ -85,15 +85,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-affix {
-    &__body--fixed {
-        // transition: all 200ms;
-        position: fixed;
-        left: 0;
-        z-index: $affixZIndex;
-        width: 100%;
-    }
-}
-</style>

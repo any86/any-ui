@@ -1,0 +1,20 @@
+.atom-loading {
+    position: fixed;
+    z-index: $loadingZIndex;
+    display: flex;
+    justify-content: center;
+    
+    &__body {
+        border-radius: $radius;
+        align-self: center;
+        background: rgba(#000, .8);
+        padding: $gutter;
+        box-shadow: $shadowDown;
+        > .body__text {
+            text-align: center;
+            color: $darkest;
+            font-size: $normal;
+            margin-top: $gutter;
+        }
+    }
+}

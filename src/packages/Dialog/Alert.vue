@@ -1,8 +1,8 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false">
+    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-alert">
         <template v-if="undefined !== title" slot="header">{{title}}</template>
         {{content}}
-        <a slot="footer" @click="ok" class="button-ok">{{okText}}</a>
+        <a slot="footer" @click="ok" class="atom-alert__button-ok">{{okText}}</a>
     </v-dialog>
 </template>
 <script>
@@ -58,16 +58,3 @@ export default {
     components: { VDialog }
 }
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.button-ok {
-    user-select: none;
-    border-top: 1px solid $lightest;
-    width: 100%;
-    text-align: center;
-    display: block;
-    color: $darkest;
-    text-align: center;
-    padding: $gutter 0;
-}
-</style>

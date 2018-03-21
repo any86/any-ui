@@ -1,0 +1,12 @@
+.atom-alert {
+    &__button-ok {
+        user-select: none;
+        border-top: 1px solid $lightest;
+        width: 100%;
+        text-align: center;
+        display: block;
+        color: $darkest;
+        text-align: center;
+        padding: $gutter 0;
+    }
+}

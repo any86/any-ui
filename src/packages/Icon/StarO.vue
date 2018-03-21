@@ -1,9 +1,17 @@
 <template>
-    <svg v-on="$listeners" v-bind="$attrs" viewBox="0 0 22 20" :style="{width: `${size}px`, height: `${size}px`}" class="atom-icon-star-o"
+    <!-- <svg v-on="$listeners" v-bind="$attrs" viewBox="0 0 22 20" :style="{width: `${size}px`, height: `${size}px`}" class="atom-icon-star-o"
      version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <g transform="translate(-2.000000, -3.000000)" stroke="#FF9500" fill="transparent">
                 <path d="M18.8015723,21.9851792 L17.6935706,15.5250335 L22.3871411,10.949933 L15.9007861,10.0074104 L13,4.12977573 L10.0992139,10.0074104 L3.61285889,10.949933 L8.30642945,15.5250335 L7.19842774,21.9851792 L13,18.9351121 L18.8015723,21.9851792 Z"></path>
             </g>
+    </svg> -->
+    <svg 
+        v-on="$listeners" v-bind="$attrs"  viewBox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" :style="{width: `${size}px`, height: `${size}px`}" class="atom-icon-star-o">
+        <defs></defs>
+        <g id="Graphics-/-Base-Icons-/-Common-/-Star-Mockup" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <path d="M18.8015723,21.9851792 L17.6935706,15.5250335 L22.3871411,10.949933 L15.9007861,10.0074104 L13,4.12977573 L10.0992139,10.0074104 L3.61285889,10.949933 L8.30642945,15.5250335 L7.19842774,21.9851792 L13,18.9351121 L18.8015723,21.9851792 Z" id="Star" stroke="#FF9500"></path>
+            <path d="M11,12 C15,10 19.6666667,8 25,6 L25,1 L25,25 L1,25 C3.66666667,18.3333333 7,14 11,12 Z" id="Rectangle"></path>
+        </g>
     </svg>
 </template>
 
@@ -18,6 +26,3 @@ export default {
     }
 };
 </script>
-<style lang="scss">
-@import '../../scss/variables.scss';
-</style>

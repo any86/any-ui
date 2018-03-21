@@ -39,6 +39,5 @@ export default {
 @import '../../scss/variables.scss';
 .atom-icon {
     transition: transform $duration;
-    // will-change: transform;
 }
 </style>

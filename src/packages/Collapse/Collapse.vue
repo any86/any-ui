@@ -22,9 +22,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-collapse {
-    position: relative;
-}
-</style>

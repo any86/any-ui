@@ -1,0 +1,48 @@
+.atom-count {
+    box-sizing: content-box;
+    position: relative;
+    display: inline-flex;
+    border: 1px solid $lighter;
+    height: $component_count_height;
+    background: $background;
+
+    &--disabled {
+        background: $lightest;
+        pointer-events: none;
+        &__btn {
+            background: $lightest;
+        }
+    }
+
+    &__btn {
+        display: block;
+        height: $component_count_height;
+        line-height: $component_count_height;
+        width: $component_count_height;
+        color: $darker;
+        text-align: center;
+        transition: background $duration;
+        &--disabled {
+            background-color: $lightest;
+        }
+    }
+    &__btn-minus {
+        border-right: 1px solid $lighter;
+    }
+    &__btn-plus {
+        border-left: 1px solid $lighter;
+    }
+
+    &__content {
+        display: inline-block;
+        position: relative;
+        transition: transform $duration;
+        min-width: $component_count_height * 1.25;
+        color: $darkest;
+        text-align: center;
+        line-height: $component_count_height;
+        &.disabled {
+            color: $disabled;
+        }
+    }
+}

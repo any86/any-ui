@@ -15,9 +15,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-line {
-    stroke: currentColor;
-}
-</style>

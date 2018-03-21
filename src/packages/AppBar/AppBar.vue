@@ -42,27 +42,3 @@ export default {
     components: { AIcon }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-app-bar {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    height: 55px;
-    line-height: 55px;
-    box-shadow: $shadowDown;
-    padding: 0 $gutter/2;
-    background: $background;
-    > .bar__left,
-    .bar__right {
-        display: flex;
-        align-items: center;
-        flex: 1;
-    }
-
-    > .bar__center {
-        justify-content: center;
-        font-size: $bigger;
-    }
-}
-</style>

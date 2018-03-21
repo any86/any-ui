@@ -1,7 +1,7 @@
 <template>
-    <v-mask :isShow="isShow" class="atom-mask" :style="{background, zIndex}">
+    <v-mask :isShow="isShow" class="atom-loading" :style="{background, zIndex}">
         <transition name="zoom">
-            <div v-show="isShow" class="atom-mask__body">
+            <div v-show="isShow" class="atom--loading__body">
                 <v-android></v-android>
             </div>
         </transition>
@@ -37,26 +37,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-mask {
-    position: fixed;
-    z-index: $loadingZIndex;
-    display: flex;
-    justify-content: center;
-    
-    &__body {
-        border-radius: $radius;
-        align-self: center;
-        background: rgba(#000, .8);
-        padding: $gutter;
-        box-shadow: $shadowDown;
-        > .body__text {
-            text-align: center;
-            color: $darkest;
-            font-size: $normal;
-            margin-top: $gutter;
-        }
-    }
-}
-</style>

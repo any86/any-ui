@@ -13,17 +13,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-btn-group {
-    display: flex;
-    >>>.atom-btn {
-        flex: 1;
-        border-radius: 0;
-
-        &:not(:last-child) {
-            border-right: none;
-        }
-    }
-}
-</style>

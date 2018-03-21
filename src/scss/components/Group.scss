@@ -1,0 +1,9 @@
+.atom-group{
+    background: $background;
+    overflow: hidden;
+    >header{
+        padding:  $gutter;
+        color:$darkest;
+        border-bottom: 1px solid $lightest;
+    }
+}

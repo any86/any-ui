@@ -20,24 +20,3 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
-@import '../../scss/variables.scss';
-.atom-breadcrumb {
-    margin: $gutter;
-    span {
-        font-size: $small;
-        display: inline-block;
-        color: $darker;
-        &.active {
-            color: $base;
-        }
-    }
-    span:not(:last-of-type) {
-        &:after {
-            
-            content: '>';
-            margin: auto 5px;
-        }
-    }
-}
-</style>

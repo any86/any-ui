@@ -1,0 +1,44 @@
+.atom-cell {
+    position: relative;
+    display: flex;
+    padding: 0 $gutter;
+    min-height: 1rem;
+    background: $background;
+    font-size: $big;
+    border-bottom: 1px solid $lightest;
+    &__title {
+        font-size: inherit;
+        align-self: center;
+        min-width: 84px;
+        margin-right: $gutter/2;
+    }
+    &__body {
+        display: block;
+        flex: 1;
+        position: relative;
+        height: 100%;
+        align-self: center;
+        font-size: inherit;
+    }
+    &__extra {
+        font-size: inherit;
+        position: relative;
+        align-self: center;
+        text-align: right;
+    }
+    &__arrow {
+        align-self: center;
+        background-size: 100%;
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        transition: transform $duration;
+        $directions: ( right: 0deg, down: 90deg, left: 180deg, up: 270deg);
+        @each $key,
+        $value in $directions {
+            &--#{$key} {
+                transform: rotate($value);
+            }
+        }
+    }
+}

@@ -1,0 +1,124 @@
+
+$height: 1rem;
+// 纯色背景按钮
+// 根据背景色亮度决定按钮字体颜色
+@mixin btn($color) {
+    $lightness: lightness($color);
+    background: $color;
+    border-color: $color;
+    color: color-yiq($color); // width: $lightness;
+    @if (98% < $lightness) {
+        border: 1px solid $lightness;
+    }
+    @else {
+        border: 1px solid transparent;
+    }
+    &:before {
+        border-color: transparent transparent color-yiq($color) color-yiq($color);
+    }
+}
+
+// 幽灵按钮
+@mixin btn-ghost($color) {
+    // $r: red($color);
+    // $g: green($color);
+    // $b: blue($color);
+    $lightness: lightness($color); // @debug $color;
+    background: transparent;
+    @if (98% < $lightness) {
+        border: 1px solid $dark;
+        color: $darker;
+    }
+    @else {
+        border: 1px solid $color;
+        color: $color;
+    }
+    &:before {
+        border-color: transparent transparent $color $color;
+    }
+}
+
+button {
+    -webkit-appearance: none;
+    outline: none;
+    border: 0 none;
+    border-radius: 0;
+    &[type='button'],
+    [type='reset'],
+    [type='submit'] {
+        -webkit-appearance: button;
+    }
+}
+
+.atom-btn {
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+    vertical-align: middle;
+    padding: 0 $gutter*2;
+    height: $height;
+    line-height: $height;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    font-size: $big;
+    transition: all $duration;
+    &--sm {
+        height: $height*0.6;
+        line-height: $height*0.6;
+        padding: 0 $gutter*0.6;
+    }
+    &--disabled {
+        pointer-events: none;
+        color: rgba(0, 0, 0, 0.25);
+        background-color: #f5f5f5;
+        border-color: #d9d9d9;
+    }
+    &--round {
+        border-radius: $height !important;
+    }
+    &--block {
+        display: block;
+        width: 100%;
+    }
+    &--radius {
+        border-radius: $radius;
+    }
+    &--loading {
+        pointer-events: none;
+        opacity: 0.6;
+        &:before {
+            content: '';
+            display: inline-block;
+            height: 12px;
+            width: 12px; // border-color: transparent transparent $lighter $lighter !important;
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 50%;
+            margin-right: $gutter/2;
+            animation: rotation infinite $duration*2 linear;
+        }
+    }
+}
+
+@each $key,
+$value in $theme_colors {
+    .atom-btn-#{$key} {
+        @include btn($value);
+    }
+    .atom-btn-ghost-#{$key} {
+        @include btn-ghost($value);
+    }
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

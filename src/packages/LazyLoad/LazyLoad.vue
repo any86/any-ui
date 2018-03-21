@@ -207,35 +207,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-lazyload {
-    max-width: 100%;
-    display: block;
-    background-position: center center;
-    // &[lazy='loading'] {
-    //     animation: ripple 1000ms infinite;
-    // }
-    &[lazy='loaded'] {
-        animation: loaded 1000ms;
-    }
-
-    // &[lazy='attempt'] {
-
-    // }
-
-    // &[lazy='fail'] {
-    //     animation: fadeIn 1s;
-    // }
-    @keyframes loaded {
-        0% {
-            transform: scale(1.1);
-            opacity: 0;
-            overflow: hidden;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-}
-</style>

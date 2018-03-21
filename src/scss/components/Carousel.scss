@@ -1,0 +1,50 @@
+.atom-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    direction:ltr;
+
+    &__body {
+        position: relative;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        height: 100%;
+        width: 100%;
+        will-change: transform;
+        transition-property: transform;
+        transition-timing-function: ease-in-out;
+        transition-duration: 0ms;
+    }
+
+    &__paging {
+        position: absolute;
+        z-index: 10;
+        bottom: 15px;
+        left: 0;
+        text-align: center;
+        width: 100%;
+        > .paging__button {
+            display: inline-block;
+            margin: 0 4px;
+            height: 8px;
+            width: 8px;
+            border-radius: 8px;
+            background: rgba($dark, 0.6);
+            transition: transform $duration;
+            &--active {
+                transform: scale(1.4);
+                background: rgba($base, 0.7);
+            }
+        }
+    }
+
+    &__overlay {
+        position: absolute;
+        z-index: 1986;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}

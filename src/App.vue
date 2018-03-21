@@ -2,9 +2,9 @@
     <main class="app">
         <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-app-bar>
         <transition name="zoom" mode="out-in">
-            <!-- <keep-alive> -->
+            <keep-alive>
                 <router-view class="app-main"></router-view>
-            <!-- </keep-alive> -->
+            </keep-alive>
         </transition>
     </main>
 </template>

@@ -1,0 +1,86 @@
+$height: 20px;
+.atom-input {
+    position: relative;
+    display: flex;
+    font-size: inherit;
+    width: 100%;
+    background: $background;
+    &__title {
+        align-self: center;
+        padding-right: $gutter;
+        font-size: inherit;
+    }
+    &__input {
+        flex: 1;
+        align-self: center;
+        font-size: inherit;
+        background: rgba(255, 255, 255, 0);
+        font-size: inherit;
+        border: 0 none;
+        outline: none;
+        width: 100%;
+        height: $height;
+        line-height: $height;
+    }
+
+    &__btn-empty {
+        align-self: center;
+    }
+
+    &__icon-warning {
+        display: none;
+        margin-left: $gutter;
+        position: relative;
+        color: $danger;
+        border: 1px solid $danger;
+        padding: $gutter/4;
+        border-radius: 50%;
+        .warning__dialog {
+            position: absolute;
+            top: 30px;
+            right: 0;
+            z-index: 2;
+            width: 150px;
+            background: rgba($danger, 0.8);
+            color: $sub;
+            border-radius: $radius;
+            padding: $gutter/3;
+            .triangle {
+                transform: rotate(180deg);
+                position: absolute;
+                right: 5px;
+                top: -5px;
+                border-top-color: rgba($danger, 0.8);
+            }
+            > p {
+                white-space: pre-wrap;
+                color: $sub;
+            }
+        }
+        svg {
+            display: block;
+        }
+    }
+
+    &--warning {
+        .atom-input__icon-warning {
+            display: inline-block;
+            // animation: showTip 300ms;
+        }
+
+        .atom-input__title,
+        .atom-input__input {
+            color: $danger !important;
+        }
+    }
+
+    @keyframes showTip {
+        from {
+            transform: scale(1.1);
+        }
+
+        to {
+            transform: scale(1);
+        }
+    }
+}

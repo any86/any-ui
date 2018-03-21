@@ -1,0 +1,20 @@
+.atom-confirm{
+    &__footer {
+        display: flex;
+        overflow: hidden;
+        border-top: 1px solid $lightest;
+        >.button {
+            user-select: none;
+            flex: 1;
+            line-height: .6rem;
+            text-align: center;
+        }
+        >.button:first-child {
+            border-right: 1px solid $lightest;
+            color: $darkest;
+        }
+        >.button:last-child {
+            color: $primary;
+        }
+    }
+}

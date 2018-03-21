@@ -1,10 +1,10 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false">
+    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-prompt">
         <template slot="header">{{title}}</template>
-        <div class="input">
+        <div class="atom-prompt__input">
             <v-input ref="input" v-model="value" :placeholder="placeHolder"/>
         </div>
-        <div slot="footer" class="footer">
+        <div slot="footer" class="atom-prompt__footer">
             <a class="button" @click="cancel">{{cancelText}}</a>
             <a class="button" @click="ok">{{okText}}</a>
         </div>
@@ -95,35 +95,3 @@ export default {
     components: { VDialog, VInput }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.input {
-    border: 1px solid $lightest;
-    padding-top: $gutter/1.2;
-    padding-bottom: $gutter/1.2;
-    padding-left: $gutter/2;
-    padding-right: $gutter/2;
-    
-}
-
-.footer {
-    display: flex;
-    overflow: hidden;
-    border-top: 1px solid $lightest;
-    .button {
-        user-select: none;
-        flex: 1;
-        padding: $gutter 0;
-        text-align: center;
-    }
-
-    .button:first-child {
-        border-right: 1px solid $lightest;
-        color: $darker;
-    }
-
-    .button:last-child {
-        color: $primary;
-    }
-}
-</style>
