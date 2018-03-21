@@ -1,9 +1,9 @@
 <template>
-    <v-scroll-view class="flex">
-        <v-button :is-ghost="true" type="primary" @click="$confirm('喜欢atom吗?')" class="gutter flex-item--center">
+    <main class="fill">
+        <v-button :is-ghost="true" :is-block="true" type="primary" @click="$confirm('喜欢atom吗?')" class="gutter-top">
             打开
         </v-button>
-    </v-scroll-view>
+    </main>
 </template>
 <script>
 import VCell from '@/packages/Cell/Cell';
@@ -26,5 +26,4 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-
 </style>

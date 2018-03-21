@@ -2,7 +2,9 @@
     <a-mask :isShow="isShow" :portal="portal" @update:isShow="close">
         <transition name="zoom">
             <div v-show="isShow" :class="['atom-dialog-' + align]" class="atom-dialog">
-                <header v-if="this.$slots.header">
+                <header 
+                    v-if="this.$slots.header"
+                    class="atom-dialog__header">
                     <slot name="header"></slot>
                 </header>
 
@@ -10,7 +12,9 @@
                     <slot></slot>
                 </main>
 
-                <footer>
+                <footer 
+                    v-if="this.$slots.footer" 
+                    class="atom-dialog__footer">
                     <slot name="footer"></slot>
                 </footer>
             </div>

@@ -1,15 +1,16 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-confirm">
+    <v-dialog :is-show.sync="isShow" :align="align" :has-close="false">
         <template v-if="!!title" slot="header">{{title}}</template>
         {{content}}
-        <div slot="footer" class="atom-confirm__footer">
-            <a class="button" @click="cancel">{{cancelText}}</a>
-            <a class="button" @click="ok">{{okText}}</a>
-        </div>
+        <section slot="footer" class="flex-row border-top">
+            <v-button @click="cancel" :is-block="true" :is-round="false" type="white" class="border-right">{{cancelText}}</v-button>
+            <v-button @click="ok" :is-block="true" :is-ghost="true" :is-round="false" type="primary" class="border-none">{{okText}}</v-button>
+        </section>
     </v-dialog>
 </template>
 <script>
 import VDialog from '../../packages/Dialog/Dialog';
+import VButton from '../../packages/Button/Button'
 export default {
     name: 'AtomConfirm',
 
@@ -74,6 +75,6 @@ export default {
         }
     },
 
-    components: { VDialog }
+    components: { VDialog, VButton }
 };
 </script>

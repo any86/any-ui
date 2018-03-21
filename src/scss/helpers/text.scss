@@ -29,7 +29,7 @@ $value in $theme_colors {
 $value in $font_sizes {
     .font-#{$key},
     .text-#{$key} {
-        font-size: $value;
+        font-size: $value !important; 
     }
 }
 
@@ -38,10 +38,10 @@ $align_map: ( right: right, left: left, center: center);
 @each $key,
 $value in $align_map {
     .text-#{$key} {
-        text-align: $value;
+        text-align: $value !important;
     }
 }
-
+.text-nowrap {white-space: nowrap !important;}
 // 划线
 .text-line-center {
     text-decoration: line-through

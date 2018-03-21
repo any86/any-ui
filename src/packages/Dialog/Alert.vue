@@ -2,11 +2,15 @@
     <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-alert">
         <template v-if="undefined !== title" slot="header">{{title}}</template>
         {{content}}
-        <a slot="footer" @click="ok" class="atom-alert__button-ok">{{okText}}</a>
+        <section slot="footer" class="border-top">
+            <v-button slot="footer" :is-block="true" type="white" class="border-none">{{okText}}</v-button>                
+        </section>
     </v-dialog>
 </template>
 <script>
 import VDialog from '../../packages/Dialog/Dialog'
+import VButton from '../../packages/Button/Button'
+
 export default {
     name: 'AtomAlert',
 
@@ -55,6 +59,6 @@ export default {
         },
     },
 
-    components: { VDialog }
+    components: { VDialog,VButton }
 }
 </script>

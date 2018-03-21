@@ -1,9 +1,9 @@
 <template>
-    <v-scroll-view class="flex">
-        <v-button :is-ghost="true" type="primary" @click="handle" class="gutter flex-item--center">
+    <main class="fill">
+        <v-button :is-ghost="true" :is-block="true" @click="handle" class="gutter-top">
             Prompt
         </v-button>
-    </v-scroll-view>
+    </main>
 </template>
 <script>
 import VCell from '@/packages/Cell/Cell';
@@ -13,16 +13,14 @@ export default {
     name: 'PromptDemo',
 
     data() {
-        return {
-
-        };
+        return {};
     },
 
     methods: {
-        handle(){
+        handle() {
             this.$prompt('给atom留言', {
-                onOk(text){
-                    alert(text)
+                onOk(text) {
+                    alert(text);
                 }
             });
         }

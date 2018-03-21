@@ -1,3 +1,18 @@
+.flex-row{display: flex;flex-direction: row !important;}
+.flex-row-reverse{display: flex;flex-direction: row-reverse !important;}
+.flex-column{display: flex;flex-direction: column !important;}
+.flex-column-reverse{display: flex;flex-direction: column-reverse !important;}
+.flex-fill{flex:1 1 auto !important;}
+
+.align-self-auto     { align-self: auto !important; }
+.align-self-start    { align-self: flex-start !important; }
+.align-self-end      { align-self: flex-end !important; }
+.align-self-center   { align-self: center !important; }
+.align-self-baseline { align-self: baseline !important; }
+.align-self-stretch  { align-self: stretch !important; }
+
+
+// old
 .flex {
     display: flex;
 }

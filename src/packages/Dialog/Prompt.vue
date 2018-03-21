@@ -1,18 +1,19 @@
 <template>
     <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-prompt">
         <template slot="header">{{title}}</template>
-        <div class="atom-prompt__input">
+        <div class="border fill-sm border-rounded">
             <v-input ref="input" v-model="value" :placeholder="placeHolder"/>
         </div>
-        <div slot="footer" class="atom-prompt__footer">
-            <a class="button" @click="cancel">{{cancelText}}</a>
-            <a class="button" @click="ok">{{okText}}</a>
-        </div>
+        <section slot="footer" class="flex-row border-top">
+            <v-button @click="cancel" :is-block="true" :is-round="false" type="white" class="border-right">{{cancelText}}</v-button>
+            <v-button @click="ok" :is-block="true" :is-ghost="true" :is-round="false" type="primary" class="border-none">{{okText}}</v-button>
+        </section>
     </v-dialog>
 </template>
 <script>
 import VDialog from '../../packages/Dialog/Dialog';
 import VInput from '../../packages/Input/Input';
+import VButton from '../../packages/Button/Button';
 
 export default {
     name: 'AtomPrompt',
@@ -92,6 +93,6 @@ export default {
         }
     },
 
-    components: { VDialog, VInput }
+    components: { VDialog, VInput, VButton }
 };
 </script>

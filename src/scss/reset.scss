@@ -101,10 +101,12 @@ small {
 }
 
 button {
+    background: transparent;
+    user-select: none;
     -webkit-appearance: none;
     outline: none;
     border: 0 none;
-    font-size: $big;
+    font-size: $normal;
 }
 
 // 
