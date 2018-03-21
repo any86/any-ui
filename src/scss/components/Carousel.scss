@@ -27,13 +27,13 @@
         > .paging__button {
             display: inline-block;
             margin: 0 4px;
-            height: 8px;
-            width: 8px;
-            border-radius: 8px;
+            height: 6px;
+            width: 6px;
+            border-radius: 6px;
             background: rgba($dark, 0.6);
             transition: transform $duration;
             &--active {
-                transform: scale(1.4);
+                // transform: scale(1.4);
                 background: rgba($base, 0.7);
             }
         }
