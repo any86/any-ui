@@ -1,6 +1,5 @@
 <template>
-    <!-- radio改为圆形, 为了区别checkbox-->
-    <label :class="{'atom-radio--reverse': isReverse}" class="atom-radio">
+    <label :class="{'atom-radio--reverse': isReverse, [`atom-radio--${type}`]: true}" class="atom-radio">
         <span v-if="!!$slots.default" class="atom-radio__title">
             <slot></slot>
         </span>
@@ -35,7 +34,12 @@ export default {
         isReverse: {
             type: Boolean,
             default: false
+        },
+        type: {
+            type: String,
+            default: 'primary'
         }
+
     },
     methods: {
         change() {

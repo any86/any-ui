@@ -13,14 +13,11 @@ label.atom-radio {
         flex: 1;
         font-size: $normal;
         text-align: justify;
-        &.active {
-            color: $base;
-        }
     }
+
     >input {
         &+.atom-radio__appearance {
             display: flex;
-            border: 1px solid $base;
             width: $radioSize;
             height: $radioSize;
             border-radius: 100%;
@@ -38,7 +35,6 @@ label.atom-radio {
     >input:checked {
         &+.atom-radio__appearance {
             display: flex;
-            border: 1px solid $base;
             width: $radioSize;
             height: $radioSize;
             border-radius: 100%;
@@ -49,7 +45,6 @@ label.atom-radio {
                 display: block;
                 width: $radioSize/2;
                 height: $radioSize/2;
-                background: $base;
                 border-radius: 100%;
             }
         }
@@ -69,6 +64,32 @@ label.atom-radio {
         100% {
             opacity: 1;
             transform: scale(1);
+        }
+    }
+}
+
+@each $key, $value in $theme_colors {
+    .atom-radio--#{$key} {
+        >.atom-radio__title {
+            &.active {
+                color: $value;
+            }
+        }
+
+        >input {
+            &+.atom-radio__appearance {
+                border: 1px solid $value;
+            }
+
+        }
+        >input:checked {
+            &+.atom-radio__appearance {
+                border: 1px solid $value;
+                &:after {
+                    background: $value;
+                }
+            }
+            
         }
     }
 }
