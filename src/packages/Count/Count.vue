@@ -1,10 +1,10 @@
 <template>
     <span :class="{'atom-count--disabled': isDisabled}" class="atom-count">
-        <a-icon value="minus" size="32" class="atom-count__btn atom-count__btn-minus" :class="{'atom-count__btn--disabled': min == value}" @click="minus"/>
+        <a-icon value="minus" size="24" class="atom-count__btn atom-count__btn-minus" :class="{'atom-count__btn--disabled': min == value}" @click="minus"/>
         
         <span class="atom-count__content" v-on="$listeners">{{value}}</span>
 
-        <a-icon value="plus" size="32" class="atom-count__btn atom-count__btn-plus" :class="{'atom-count__btn--disabled': max == value}" @click="plus"/>
+        <a-icon value="plus" size="24" class="atom-count__btn atom-count__btn-plus" :class="{'atom-count__btn--disabled': max == value}" @click="plus"/>
     </span>
 </template>
 <script>

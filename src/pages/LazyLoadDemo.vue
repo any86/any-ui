@@ -54,7 +54,7 @@ export default {
     methods: {
         changeSegment() {
             this.$refs.lazy.forEach(el => {
-                el.$el.lazyload();
+                el.lazyload();
             });
         },
 

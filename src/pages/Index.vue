@@ -1,8 +1,13 @@
 <template>
     <a-scroll-view ref="main" @touchstart.native="touchstart">
         <a-collapse :is-accordion="true">
+            <a-collapse-item class="group">
+                <h4 slot="header"><a-badge value="1">指令</a-badge></h4>
+                <div class="group__item" @click="$router.push({'path': '/touch'})">Touch(手势)<a-badge value="new"/></div>
+            </a-collapse-item>
+            
             <a-collapse-item :has-line="false" class="group">
-                <h4 slot="header"><a-badge value="2">表单</a-badge></h4>
+                <h4 slot="header">表单</h4>
                 <div  class="group__item" @click="$router.push({'path': '/switch'})">Switch</div>
                 <div class="group__item" @click="$router.push({'path': '/radio'})">Radio</div>
                 <div class="group__item" @click="$router.push({'path': '/checkbox'})">Checkbox</div>
@@ -11,8 +16,8 @@
                 <div class="group__item" @click="$router.push({'path': '/textarea'})">Textarea</div>
                 <div class="group__item" @click="$router.push({'path': '/button'})">Button</div>
                 <div class="group__item" @click="$router.push({'path': '/button-group'})">ButtonGroup</div>
-                <div class="group__item" @click="$router.push({'path': '/range'})">Range<a-badge value="new"></a-badge></div>
-                <div class="group__item" @click="$router.push({'path': '/rate'})">Rate<a-badge value="new"></a-badge></div>
+                <div class="group__item" @click="$router.push({'path': '/range'})">Range</a-badge></div>
+                <div class="group__item" @click="$router.push({'path': '/rate'})">Rate</div>
                 <div class="group__item" @click="$router.push({'path': '/picker'})">Picker</div>
             </a-collapse-item>
 
@@ -47,12 +52,12 @@
             </a-collapse-item>
 
             <a-collapse-item class="group">
-                <h4 slot="header"><a-badge value="1">辅助显示</a-badge></h4>
+                <h4 slot="header">辅助显示</h4>
                 <div class="group__item" @click="$router.push({'path': '/badge'})">Badge</div>
                 <div class="group__item" @click="$router.push({'path': '/steps'})">Steps</div>
                 <div class="group__item" @click="$router.push({'path': '/tag'})">Tag</div>
                 <div class="group__item" @click="$router.push({'path': '/bread-crumb'})">Breadcrumb(面包靴)</div>
-                <div class="group__item" @click="$router.push({'path': '/icon'})">Icon(图表集)<a-badge value="new"></a-badge></div>
+                <div class="group__item" @click="$router.push({'path': '/icon'})">Icon(图表集)</div>
                 <div class="group__item" @click="$router.push({'path': '/qrcode'})">QRCode(二维码)</div>
             </a-collapse-item>
 
@@ -68,9 +73,10 @@
 
             <a-collapse-item title="手势" class="group">
                 <div class="group__item" @click="$router.push({'path': '/finger'})">Finger.js</div>
-                <div class="group__item" @click="$router.push({'path': '/touch'})">Touch指令(Finger.js)</div>
                 
             </a-collapse-item>
+
+            
             
             <a-collapse-item title="组合" class="group">
                 <div class="group__item" @click="$router.push({'path': '/popup-picker'})">PopupPicker</div>

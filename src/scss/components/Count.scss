@@ -3,9 +3,9 @@
     position: relative;
     display: inline-flex;
     border: 1px solid $lighter;
-    height: $component_count_height;
     background: $background;
-
+    align-items: center;
+    ali
     &--disabled {
         background: $lightest;
         pointer-events: none;
@@ -13,11 +13,9 @@
             background: $lightest;
         }
     }
-
     &__btn {
         display: block;
         height: $component_count_height;
-        line-height: $component_count_height;
         width: $component_count_height;
         color: $darker;
         text-align: center;
@@ -32,7 +30,6 @@
     &__btn-plus {
         border-left: 1px solid $lighter;
     }
-
     &__content {
         display: inline-block;
         position: relative;
@@ -40,7 +37,6 @@
         min-width: $component_count_height * 1.25;
         color: $darkest;
         text-align: center;
-        line-height: $component_count_height;
         &.disabled {
             color: $disabled;
         }

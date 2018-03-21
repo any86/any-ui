@@ -23,7 +23,6 @@
 import VTabs from '@/packages/Tabs/Tabs';
 import VTabsItem from '@/packages/Tabs/TabsItem';
 import VCell from '@/packages/Cell/Cell';
-import VView from '@/packages/View/View';
 import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'ScrollViewDemo',
@@ -44,7 +43,6 @@ export default {
         VCell,
         VTabs,
         VTabsItem,
-        VView,
         VScrollView
     }
 };

@@ -65,14 +65,14 @@ export default {
         };
     },
 
-    render(h){
+    render(h) {
         return h('img', {
             attrs: {
                 src: this.url,
-                lazy: this.status,
+                lazy: this.status
             },
 
-            class: ['atom-lazyload'],
+            class: ['atom-lazyload']
 
             // on: {
             //     animationend: this.animationend,
@@ -95,16 +95,28 @@ export default {
         });
 
         this.loadImgIfInView();
-        this.lazyload = () => {
+        // this.lazyload = () => {
+        //     if ('ready' === this.$el.getAttribute('lazy')) {
+        //         this.$nextTick(() => {
+        //             this.loadImgIfInView();
+        //         });
+        //     }
+        // };
+    },
+
+    methods: {
+        /**
+         * 手动驱动加载图片
+         * 主要给父组件调用
+         */
+        lazyload() {
             if ('ready' === this.$el.getAttribute('lazy')) {
                 this.$nextTick(() => {
                     this.loadImgIfInView();
                 });
             }
-        };
-    },
+        },
 
-    methods: {
         /**
          * 如果没加载, 去监测是否能加载
          * 否则移除监听
@@ -183,10 +195,9 @@ export default {
             }
 
             // 删除lazy防止因为display:none/block的切换造成animate
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.$el.removeAttribute('lazy');
             }, 1050);
-            
         }
     },
 
@@ -194,7 +205,7 @@ export default {
         /**
          * src变化重新加载
          */
-        src(src){
+        src(src) {
             this.status = 'ready';
             this.loadImgIfInView();
         }
