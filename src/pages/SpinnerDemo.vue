@@ -1,42 +1,35 @@
 <template>
     <main class="demo-page">
-        <v-cell>
-            ripple <v-spinner-ripple slot="extra"/>
-        </v-cell>
+        <a-cell>
+            ripple <a-spinner-ripple :type="type" slot="extra"/>
+        </a-cell>
 
-        <v-cell>
+        <a-cell>
             android
-            <v-spinner-android  slot="extra"/>
-        </v-cell>
+            <a-spinner-android :type="type"  slot="extra"/>
+        </a-cell>
 
-        <v-cell>
+        <a-cell>
             three-dots
-            <v-spinner-three-dots slot="extra"/>
-        </v-cell>
+            <a-spinner-three-dots :type="type" slot="extra"/>
+        </a-cell>
+
+        <h4 class="fill">主题色</h4>
+        <section class="flex-row">
+            <a-radio class="fill flex-fill" v-model="type" type="primary" value="primary"></a-radio>
+            <a-radio class="fill flex-fill" v-model="type" type="success" value="success"></a-radio>
+            <a-radio class="fill flex-fill" v-model="type" type="info" value="info"></a-radio>
+            <a-radio class="fill flex-fill" v-model="type" type="warning" value="warning"></a-radio>
+        </section>
     </main>
 </template>
 <script>
-import VSpinnerRipple from '@/packages/Spinner/Ripple';
-import VSpinnerAndroid from '@/packages/Spinner/Android';
-import VSpinnerThreeDots from '@/packages/Spinner/ThreeDots';
-import VCell from '@/packages/Cell/Cell';
 export default {
     name: 'SpinnerDemo',
 
-    data() {
-        return {};
+    data(){
+        return {type: 'primary'};
     },
-
-    methods: {},
-
-    computed: {},
-
-    components: {
-        VSpinnerRipple,
-        VSpinnerAndroid,
-        VSpinnerThreeDots,
-        VCell
-    }
 };
 </script>
 <style scoped lang="scss">
