@@ -1,4 +1,4 @@
-$height: .5rem;
+$checkboxHeight: .5rem;
 label.component-checkbox {
     display: flex;
     align-items: center;
@@ -16,16 +16,16 @@ label.component-checkbox {
         opacity: 0; // 未选中
         +.appearance {
             border: 1px solid $light;
-            width: $height;
-            height: $height;
+            width: $checkboxHeight;
+            height: $checkboxHeight;
             background: $sub;
             border-radius: $borderRadius;
             display: flex;
             &:after {
                 content: ' ';
-                height: .25*$height;
-                width: .5*$height;
-                margin: .26*$height auto;
+                height: .25*$checkboxHeight;
+                width: .5*$checkboxHeight;
+                margin: .26*$checkboxHeight auto;
                 border-style: solid;
                 border-color: $sub;
                 border-width: 0 0 2px 2px;
