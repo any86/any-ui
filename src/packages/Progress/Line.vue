@@ -1,5 +1,5 @@
 <template>
-    <div :class="{smooth: hasBorderRadius}" class="atom-progress-line">
+    <div :class="{'atom-progress-line--smooth': hasBorderRadius}" class="atom-progress-line">
         <div :class="{smooth: hasBorderRadius}" class="atom-progress-line__body" :style="{width: value + '%', transition: 'width ' + this.speed + 'ms'}"></div>
     </div>
 </template>
@@ -22,23 +22,5 @@ export default {
             default: true
         }
     }
-}
+};
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-$height:.1rem;
-.atom-progress-line {
-    background: $lightest;
-    height: $height;
-    position: relative;
-    overflow: hidden;
-    &__body {
-        width: 0;
-        height: $height;
-        background: $base;
-    }
-}
-.smooth{
-    border-radius: $height;
-}
-</style>

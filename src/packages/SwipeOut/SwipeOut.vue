@@ -153,37 +153,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-swipe-out {
-    position: relative;
-    display: flex;
-    align-items: center;
-    &__body {
-        position: relative;
-        flex-grow: 1;
-        flex-shrink: 0;
-        flex-basis: 100%;
-        min-height: 44px;
-        border-bottom: 1px solid $lightest;
-    }
-
-    &__action-left {
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        transform: translateX(-100%);
-        display: flex;
-    }
-
-    &__action-right {
-        height: 100%;
-        position: absolute;
-        right: 0;
-        top: 0;
-        transform: translateX(100%);
-        display: flex;
-    }
-}
-</style>

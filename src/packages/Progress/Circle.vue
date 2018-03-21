@@ -63,35 +63,3 @@ export default {
     }
 };
 </script>
-
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-progress-circle {
-    position: relative;
-    svg {
-        g {
-            .backdrop {
-                stroke: $lightest;
-            }
-            .progress {
-                stroke: $primary;
-                transition-property: stroke-dasharray;
-            }
-        }
-        text {
-            fill: $primary;
-        }
-    }
-    &__slot {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        overflow: hidden;
-        > * {
-            text-align: center;
-        }
-    }
-}
-</style>

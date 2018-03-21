@@ -19,27 +19,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-tag {
-    display: inline-table;
-    padding: $gutter/8 $gutter/2;
-    font-size: $small;
-    border-radius: $borderRadius;
-}
-
-@each $key, $value in $theme_colors {
-    .atom-tag-ghost--#{$key} {
-        border: 1px solid $value;
-        color: $value;
-    }
-}
-
-@each $key, $value in $theme_colors {
-    .atom-tag--#{$key} {
-        border: 1px solid $value;
-        background: $value;
-        color: $sub;
-    }
-}
-</style>

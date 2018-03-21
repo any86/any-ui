@@ -29,15 +29,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-swipe-out-button {
-    position: relative;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding-left:$gutter;
-    padding-right:$gutter;
-    color:$sub;
-}
-</style>

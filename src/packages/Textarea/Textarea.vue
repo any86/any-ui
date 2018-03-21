@@ -43,38 +43,3 @@ export default {
     }
 }
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-textarea {
-    background: $background;
-    border: 1px solid $lighter;
-    border-width: 1px 0 1px 0;
-    >label {
-        display: block;
-        padding: 2*$gutter;
-        border-bottom: 1px solid $lighter;
-        font-size: $big;
-    }
-    >textarea {
-        display: block;
-        min-height: 2rem;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 2*$gutter;
-        outline: none;
-        resize: none;
-        border: 0 none;
-        resize: none;
-        background: transparent;
-        font-size: $normal;
-        word-break: break-all;
-        word-wrap: break-word;
-    }
-    >p{
-        padding: $gutter 2*$gutter;
-        text-align: right;
-        font-size: $normal;
-        >span{color: $base;font-size: inherit;}
-    }
-}
-</style>

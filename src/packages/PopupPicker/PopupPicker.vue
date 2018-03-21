@@ -98,39 +98,3 @@ export default {
     components: { VPicker, VPopup }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-@mixin button() {
-    user-select: none;
-    text-align: center;
-    font-size: $bigger;
-    padding: $gutter $gutter*2;
-}
-
-.atom-popup-pickcer {
-    header {
-        overflow: hidden;
-        border-bottom: 1px solid $lightest;
-        display: flex;
-        .button-cancel {
-            @include button;
-            color: $light;
-            flex: 1;
-            font-size: $big;
-        }
-        .title {
-            align-self: center;
-            text-align: center;
-            font-size: $big;
-            color: $darkest;
-            font-weight: bold;
-        }
-        .button-ok {
-            @include button;
-            color: $darkest;
-            flex: 1;
-            font-size: $big;
-        }
-    }
-}
-</style>

@@ -19,16 +19,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-$height: 0.3rem;
-.atom-segment {
-    position: relative;
-    display: table;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
-    border: 1px solid $base;
-    border-radius: $borderRadius;
-}
-</style>

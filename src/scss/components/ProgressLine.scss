@@ -1,0 +1,15 @@
+$height: 0.1rem;
+.atom-progress-line {
+    background: $lightest;
+    height: $height;
+    position: relative;
+    overflow: hidden;
+    &--smooth {
+        border-radius: $height;
+    }
+    &__body {
+        width: 0;
+        height: $height;
+        background: $base;
+    }
+}

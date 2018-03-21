@@ -1,0 +1,83 @@
+$switchHeight: .5rem;
+label.atom-switch {
+    display: flex;
+    align-items: center;
+    >.title {
+        display: block;
+        flex: 1;
+    }
+    >input {
+        display: none;
+    }
+    /*未禁用, 未选中*/
+    >.appearance {
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid $lightest;
+        box-sizing: content-box;
+        border-radius: $switchHeight;
+        width: 1.8 * $switchHeight;
+        height: $switchHeight;
+        transition: all .5s ease;
+        &:before {
+            font-size: 0;
+            content: " ";
+            display: block;
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            left: 0;
+            height: $switchHeight;
+            width: $switchHeight;
+            border-radius: $switchHeight;
+            transition: all .3s ease;
+            background: $sub;
+            box-shadow: $shadowDown, $shadowUp;
+        }
+        &:after {
+            font-size: 0;
+            content: " ";
+            display: block;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            height: $switchHeight;
+            width: 1.8 * $switchHeight;
+            border-radius: $switchHeight;
+            transition: all .3s ease;
+            transform: scale(1);
+            background: #fff;
+        }
+    }
+    /* 未禁用, 已选中*/
+    input:checked+.appearance {
+        transition-duration: 0ms;
+        border: 1px solid $base;
+        background: $base;
+        &:before {
+            transform: translateX($switchHeight * 0.8);
+        }
+        &:after {
+            transform: scale(0);
+        }
+    }
+    /*已禁用, 未选中*/
+    input:disabled+.appearance {
+        &:before {
+            background: $lighter;
+        }
+        &:after {
+            background: $lighter;
+        }
+    }
+    /* 已禁用, 已选中*/
+    input:checked:disabled+.appearance {
+        border: 1px solid $lighter;
+        background: $lightest;
+        &:before {
+            background: $disabled;
+        }
+    }
+}

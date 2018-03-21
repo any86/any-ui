@@ -24,23 +24,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-segment-control__item {
-    position: relative;
-    z-index: 2;
-    display: table-cell;
-    text-align: center;
-    padding: $gutter / 3 $gutter;
-    color: $base;
-    border-right: 1px solid $base;
-    &:last-child {
-        border-right: none;
-    }
-    &--active {
-        transition: all 200ms;
-        background: $base;
-        color: $sub;
-    }
-}
-</style>

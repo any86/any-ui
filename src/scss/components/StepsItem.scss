@@ -1,0 +1,34 @@
+$stepItemWidth: 0.5rem;
+.atom-steps__item {
+    display: flex;
+    position: relative;
+    margin-bottom: $stepItemWidth;
+    // padding-bottom: $stepItemWidth; // 可调整高度
+    .item__circle {
+        display: block;
+        height: $stepItemWidth;
+        width: $stepItemWidth;
+        border: 1px solid $base;
+        border-radius: 100%;
+        color: $base;
+        line-height: $stepItemWidth;
+        text-align: center;
+        &--active{
+            background: $base;
+            color:$sub;
+        }
+    }
+    .item__line {
+        position: absolute;
+        top: $stepItemWidth*1;
+        left: $stepItemWidth/2;
+        width: 0;
+        border-right: 1px dashed $base;
+        height: 100%;
+    }
+    .item__content {
+        padding: 0 $gutter;
+        flex: 1;
+        min-width: 0;
+    }
+}

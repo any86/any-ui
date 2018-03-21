@@ -67,25 +67,25 @@ export default {
 
     methods: {
         /**
-             * 滑动到最小值
-             */
+         * 滑动到最小值
+         */
         slideToMin() {
             this.touch.status = 1;
             this.touch.translateXNew = 0;
             this.touch.translateXOld = this.touch.translateXNew;
         },
         /**
-             * 滑动到最大值
-             */
+         * 滑动到最大值
+         */
         slideToMax() {
             this.touch.status = 1;
             this.touch.translateXNew = this.maxDistance;
             this.touch.translateXOld = this.touch.translateXNew;
         },
         /**
-             * 活动到鼠标位置
-             * @param  {Object} e 
-             */
+         * 活动到鼠标位置
+         * @param  {Object} e
+         */
         slideTo(e) {
             this.touch.status = 0;
             var translateXNew = e.offsetX;
@@ -99,15 +99,15 @@ export default {
             }
         },
         /**
-             * 点击handle
-             */
+         * 点击handle
+         */
         touchstart(e) {
             this.touch.status = 1;
             this.touch.start = e.touches[0].clientX;
         },
         /**
-             * 拖动
-             */
+         * 拖动
+         */
         touchmove(e) {
             this.touch.status = 2;
             this.touch.current = e.touches[0].clientX;
@@ -129,8 +129,8 @@ export default {
             e.stopPropagation();
         },
         /**
-             * 松手
-             */
+         * 松手
+         */
         touchend(e) {
             this.touch.status = 0;
 
@@ -158,68 +158,3 @@ export default {
     }
 };
 </script>
-<style scoped lang=scss>
-@import '../../scss/variables.scss';
-$height: 0.5rem;
-.atom-range {
-    position: relative;
-    display: flex;
-
-    /*控制*/
-
-    .min {
-        padding: 0 $gutter;
-        font-size: $big;
-        line-height: $height;
-    }
-    .content {
-        flex: 1;
-        position: relative;
-        height: $height;
-        box-sizing: border-box;
-        .runway {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            background: $light;
-            height: 2px;
-            width: 100%;
-        }
-        .progress {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            background: $base;
-            height: 2px;
-            width: 0;
-        }
-        .handle {
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            cursor: move;
-            display: block;
-            height: $height;
-            line-height: $height;
-            width: $height;
-            text-align: center;
-            color: $sub;
-            border-radius: 100%;
-            background: $base;
-            box-shadow: $shadowDown, $shadowUp;
-        }
-    }
-    .max {
-        padding: 0 $gutter;
-        font-size: $big;
-        line-height: $height;
-    }
-}
-
-.transition {
-    transition: all $duration;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="component-steps">
+    <div class="atom-steps">
         <slot></slot>
     </div>
 </template>
@@ -19,9 +19,3 @@ export default {
     }
 }
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-steps {
-    position: relative;
-}
-</style>

@@ -39,23 +39,3 @@ export default {
     components: { VIcon }
 };
 </script>
-<style lang="scss">
-@import '../../scss/variables.scss';
-.atom-rate {
-    display: flex;
-    > .svg-icon {
-        flex-shrink: 0;
-        flex-grow: 0;
-        flex-basis: 1;
-    }
-
-    &:not([readonly]) {
-        > .svg-icon {
-            transition: transform $duration, background $duration;
-            &:active {
-                transform: scale(0.618);
-            }
-        }
-    }
-}
-</style>

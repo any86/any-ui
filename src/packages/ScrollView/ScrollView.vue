@@ -164,19 +164,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-scroll-view {
-    /*暂时关闭x轴拖动 pinch-zoom*/
-    position: relative;
-    touch-action: pan-y;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    &--lock {
-        overflow: hidden !important;
-    }
-}
-</style>
