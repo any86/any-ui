@@ -2,11 +2,12 @@
 export default {
     name: 'AtomSpinnerRipple',
     
-    functional: true,
+    // 函数组件不会主动支撑组件上定义的class值
+    // functional: true,
     
-    render(h, context){
+    render(h){
         return h('i', {
-            class: ['atom-spinner-ripple', `atom-spinner-ripple--${context.props.type}`]
+            class: ['atom-spinner-ripple', `atom-spinner-ripple--${this.type}`]
         })
     },
 

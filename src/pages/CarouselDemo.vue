@@ -2,9 +2,9 @@
     <v-scroll-view>
         <!-- 默认 -->
         <v-group  title="默认: 懒加载图片 | 每屏1图 | 预加载前/后各一张 | 不自动播放 | 滑动速度300ms">
-            <v-carousel ref="carousel" v-model="activeIndex1" :delay="1000">
+            <v-carousel ref="carousel" v-model="activeIndex1" :delay="1000" style="height:200px;">
                 <v-carousel-item v-for="image in longImages" :key="image">
-                    <img :lazy-src="image" width="100%" height="200" />
+                    <img :lazy-src="image" width="100%" height="200"/>
                 </v-carousel-item>
             </v-carousel>
         </v-group>
