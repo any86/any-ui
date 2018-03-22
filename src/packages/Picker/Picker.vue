@@ -20,8 +20,8 @@
                 v-for="(item, rowIndex) in list" 
                 :key="rowIndex" 
                 :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" 
-                :class="{'list__item--active': rowIndex == activeIndexList[columnIndex]}" 
-                class="list__item">
+                :class="{'atom-picker__item--active': rowIndex == activeIndexList[columnIndex]}" 
+                class="atom-picker__item">
                 {{item.label}}
             </div>
         </virtual-scroller>

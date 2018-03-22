@@ -57,23 +57,34 @@ export default {
         },
 
         panHandle(e) {
+            this.transitionDuration = 0;
+            this.x += deltaX;
+            this.y += deltaY;
             this.action = 'pan';
         },
 
-        pinchHandle(data, e) {
-            this.action = 'pinch';
+        pinchHandle({scale}, e) {
+            const willScale = this.scale * scale;
+            if (2 >= willScale) {
+                this.scale *= scale;
+                this.action = 'pinch';
+            }
         },
 
         doubleTapHandle() {
             this.action = 'doubleTap';
         },
 
-        rotateHandle() {
+        rotateHandle({angle}) {
+            this.rotate += angle;
             this.action = 'rotate';
         },
 
         swipeHandle() {
             this.action = 'swipe';
+            this.transitionDuration = 500;
+            this.x += velocityX * 200 * Math.sign(deltaX);
+            this.y += velocityY * 200 * Math.sign(deltaY);
         },
 
         touchstart() {

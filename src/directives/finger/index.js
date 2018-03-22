@@ -60,9 +60,7 @@ const plugin = {
                 binding.modifiers.stop && e.stopPropagation();
                 binding.modifiers.prevent && e.preventDefault();
                 if(binding.modifiers.self && el !== e.target) return;
-                if(undefined === event){
-                    binding.value(e);
-                }
+                binding.value(data, e);
             });
         };
 

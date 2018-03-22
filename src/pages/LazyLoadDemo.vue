@@ -72,7 +72,7 @@ export default {
     }
 };
 </script>
-<style scop lang="scss">
+<style scope lang="scss">
 @import '../scss/variables.scss';
 .demo-page {
     height: calc(100% - 55px);

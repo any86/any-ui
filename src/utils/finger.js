@@ -18,9 +18,9 @@ export default class Finger {
      * @param {Object} param1
      */
     constructor(el, {
-        triggerTapMaxTime = 200, // triggerTapMaxTime时间内, 只发生一次touchstart算作tap
+        triggerTapMaxTime = 250, // triggerTapMaxTime时间内, 只发生一次touchstart算作tap
         triggerTapMaxSize = 5, // 触发tap事件的最大尺寸范围
-        triggerPressTime = 750, // 触发press所需时间
+        triggerPressTime = 500, // 触发press所需时间
     } = {}) {
         this.el = el;
         this.triggerTapMaxTime = triggerTapMaxTime;
@@ -30,8 +30,8 @@ export default class Finger {
         this.lastTime = null;
         this.startScale = 1;
         this.activeScale = 1;
-        this.startAngel = 0;
-        this.activeAngel = 0;
+        this.startAngle = 0;
+        this.activeAngle = 0;
         this.isPreventSwipe = false;
         this.preventSwipeTimeout = null;
         // this.panThreshold = 10;
@@ -111,6 +111,9 @@ export default class Finger {
 
         const points = e.touches;
         const pointCount = points.length;
+        
+        // 当2指同时在屏幕上, 取消press
+        if(1 < pointCount) this._cancelPress();
 
         this.lastTime = this.startTime;
         this.startTime = Date.now();
@@ -165,7 +168,7 @@ export default class Finger {
 
             // // 获取之前操作值作为起始值
             // this.startScale = this.activeScale;
-            // this.startAngel = this.activeAngle;
+            // this.startAngle = this.activeAngle;
         }
     }
 
@@ -175,7 +178,6 @@ export default class Finger {
      */
     touchMoveHandle(e) {
 
-
         const points = e.touches;
         const pointCount = points.length;
 
@@ -183,6 +185,7 @@ export default class Finger {
         this.isDoubleTap = false;
 
         if (1 < pointCount) {
+            
             this.activePoint[1].x = points[1].pageX;
             this.activePoint[1].y = points[1].pageY;
 
@@ -201,7 +204,7 @@ export default class Finger {
             // [!rotate], 本次touchmove和上次touchmove的夹角
             this.activeAngle = this._getAngle(this.activeV, this.startV);
 
-            // [!rotate], 重置, 起始向量为当前向量, 这样activeAngel是每次touchmove的夹角
+            // [!rotate], 重置, 起始向量为当前向量, 这样activeAngle是每次touchmove的夹角
             this.startV = this.activeV;
 
             // [!pinch], 重置
@@ -209,7 +212,7 @@ export default class Finger {
 
             this._rotateHandle({
                 type: 'rotate',
-                angel: this.activeAngle
+                angle: this.activeAngle
             }, e);
 
             this._pinchHandle({

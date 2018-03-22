@@ -31,16 +31,17 @@
     &__list {
         flex: 1;
         box-sizing: border-box;
-        .list__item {
-            box-sizing: border-box;
-            width: 100%;
-            display: block;
-            text-align: center;
-            color: $darkest;
+
+    }
+    &__item {
+        box-sizing: border-box;
+        width: 100%;
+        display: block;
+        text-align: center;
+        color: $darkest;
+        font-size: $big;
+        &--active {
             font-size: $big;
-            &--active {
-                font-size: $big;
-            }
         }
     }
 }

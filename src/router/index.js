@@ -60,6 +60,7 @@ import IconDemo from '@/pages/IconDemo';
 // 加载
 import SpinnerDemo from '@/pages/SpinnerDemo';
 import ProgressDemo from '@/pages/ProgressDemo';
+import LoadingDemo from '@/pages/LoadingDemo';
 
 // 提示
 import ToastDemo from '@/pages/ToastDemo'
@@ -294,6 +295,13 @@ export default new Router({
             path: '/test',
             component: TestDemo
         },
+
+
+        {
+            name: 'loading',
+            path: '/loading',
+            component: LoadingDemo
+        }
 
     ]
 });

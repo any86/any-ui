@@ -1,7 +1,7 @@
 <template>
     <v-mask :isShow="isShow" class="atom-loading" :style="{background, zIndex}">
         <transition name="zoom">
-            <div v-show="isShow" class="atom--loading__body">
+            <div v-show="isShow" class="atom-loading__body">
                 <v-android></v-android>
             </div>
         </transition>
