@@ -13,12 +13,13 @@
     .ripple--ready {
         position: absolute;
         transform: scale(0);
-        opacity: .3;
+        opacity: .1;
     }
     .ripple--start {
         position: absolute; // background: currentColor;
         transition-property: transform, opacity;
         transform: scale(1);
         opacity: 0;
+        transition-timing-function: ease-in-out;
     }
 }
