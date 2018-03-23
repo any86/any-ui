@@ -54,7 +54,8 @@ label.atom-radio {
     // 未选中
     >input:not(:checked) {
         &+.atom-radio__appearance--ios {
-            display: none;
+            // display: none;
+            transform: scale(0);
         }
 
         &+.atom-radio__appearance--android {
