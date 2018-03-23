@@ -39,7 +39,6 @@ label.atom-radio {
         }
     }
 
-
     // 选中
     >input:checked{
         &+.atom-radio__appearance--android {
@@ -48,7 +47,6 @@ label.atom-radio {
             &:after{
                 transform: scale(1);
             }
-
         }
     }
 
@@ -69,29 +67,7 @@ label.atom-radio {
 }
 
 
+// 多配色
+@each $key, $value in $theme_colors {
 
-// @each $key, $value in $theme_colors {
-//     .atom-radio--#{$key} {
-//         >.atom-radio__title {
-//             &.active {
-//                 color: $value;
-//             }
-//         }
-
-//         >input {
-//             &+.atom-radio__appearance {
-//                 border: 1px solid $value;
-//             }
-
-//         }
-//         >input:checked {
-//             &+.atom-radio__appearance {
-//                 border: 1px solid $value;
-//                 &:after {
-//                     background: $value;
-//                 }
-//             }
-            
-//         }
-//     }
-// }
+}
