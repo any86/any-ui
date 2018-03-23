@@ -1,4 +1,4 @@
-$radioSize: 0.5rem;
+$radioSize: 20px;
 label.atom-radio {
     display: flex;
     align-items: center;
@@ -7,89 +7,91 @@ label.atom-radio {
         .atom-radio__title {
             order: 1;
             margin-left: $gutter;
+            text-align: right !important;
         }
     }
     >.atom-radio__title {
         flex: 1;
         font-size: $normal;
-        text-align: justify;
     }
 
-    >input {
-        &+.atom-radio__appearance {
-            display: flex;
-            width: $radioSize;
-            height: $radioSize;
+    >input{opacity: 0;display: none;}
+
+    .atom-radio__appearance--android{
+        position: relative;
+        display: block;
+        height: $radioSize;
+        width:$radioSize;
+        border-radius: $radioSize;
+        border: 2px solid transparent;
+        overflow: hidden;
+        transition: border $duration;
+        &:after{
+            position: absolute;
+            content: '';
+            display: block;
+            width: round($radioSize/2);
+            height: round($radioSize/2);
+            top:0;left:0;right: 0;bottom:0;margin:auto;
             border-radius: 100%;
-            &:after {
-                content: ' ';
-                display: none;
-                animation: zoom-in 500ms;
-            }
-        }
-        &:disabled+.atom-radio__appearance {
-            border: 1px solid $disabled;
-            background: $lightest;
+            background: $primary;
+            transition: transform $duration;
         }
     }
-    >input:checked {
-        &+.atom-radio__appearance {
-            display: flex;
-            width: $radioSize;
-            height: $radioSize;
-            border-radius: 100%;
-            &:after {
-                content: ' ';
-                align-self: center;
-                margin: auto;
-                display: block;
-                width: $radioSize/2;
-                height: $radioSize/2;
-                border-radius: 100%;
-            }
-        }
-        &:disabled+.atom-radio__appearance {
-            border: 1px solid $disabled;
-            background: $lightest;
-            &:after {
-                background: $light;
-            }
-        }
-    }
-    @keyframes zoom-in {
-        0% {
-            opacity: 0;
-            transform: scale(0.8);
-        }
-        100% {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-}
 
-@each $key, $value in $theme_colors {
-    .atom-radio--#{$key} {
-        >.atom-radio__title {
-            &.active {
-                color: $value;
-            }
-        }
 
-        >input {
-            &+.atom-radio__appearance {
-                border: 1px solid $value;
-            }
-
-        }
-        >input:checked {
-            &+.atom-radio__appearance {
-                border: 1px solid $value;
-                &:after {
-                    background: $value;
-                }
-            }
+    // 选中
+    >input:checked{
+        &+.atom-radio__appearance--android {
+            border-color: $primary;
             
+            &:after{
+                transform: scale(1);
+            }
+
+        }
+    }
+
+
+    // 未选中
+    >input:not(:checked) {
+        &+.atom-radio__appearance--ios {
+            display: none;
+        }
+
+        &+.atom-radio__appearance--android {
+            border-color: $dark;
+            &:after{
+                transform: scale(0);
+            }
         }
     }
 }
+
+
+
+// @each $key, $value in $theme_colors {
+//     .atom-radio--#{$key} {
+//         >.atom-radio__title {
+//             &.active {
+//                 color: $value;
+//             }
+//         }
+
+//         >input {
+//             &+.atom-radio__appearance {
+//                 border: 1px solid $value;
+//             }
+
+//         }
+//         >input:checked {
+//             &+.atom-radio__appearance {
+//                 border: 1px solid $value;
+//                 &:after {
+//                     background: $value;
+//                 }
+//             }
+            
+//         }
+//     }
+// }

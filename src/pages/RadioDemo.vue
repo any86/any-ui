@@ -2,28 +2,42 @@
     <v-scroll-view class="full-screen">
         <v-group>
             <template slot="header">
-                正常情况
+                正常情况(<a class="text-danger">搭配cell组件</a> & <a class="text-danger">v-ripple指令</a>)
             </template>
 
-            <v-cell>
-                <v-radio v-model="select1" :value="1">选项1</v-radio>
+            <v-cell v-ripple="true">
+                <v-radio  v-model="select1" :value="1">选项1</v-radio>
             </v-cell>
 
-            <v-cell>
+            <v-cell v-ripple="true">
                 <v-radio v-model="select1" :value="2">选项2</v-radio>
             </v-cell>
-
         </v-group>
 
         <v-group>
             <template slot="header">
-                禁用状态
+                反向(is-reverse: true, 用来应付阿拉伯等右对齐语种)
             </template>
-            <v-cell>
-                <v-radio v-model="select2" :value="1" :disabled="true">选项1</v-radio>
+            <v-cell v-ripple="true">
+                <v-radio v-model="select2" :is-reverse="true" :value="1">选项1</v-radio>
             </v-cell>
-            <v-cell>
-                <v-radio v-model="select2" :value="2" :disabled="true">选项2</v-radio>
+            <v-cell v-ripple="true">
+                <v-radio v-model="select2" :is-reverse="true" :value="2">选项2</v-radio>
+            </v-cell>
+        </v-group>
+
+
+        <v-group>
+            <template slot="header">
+                多主题, 当前<a class="text-danger">android</a>
+            </template>
+
+            <v-cell v-ripple="true">
+                <v-radio theme="android" v-model="select1" :value="1">选项1</v-radio>
+            </v-cell>
+
+            <v-cell v-ripple="true">
+                <v-radio theme="android" v-model="select1" :value="2">选项2</v-radio>
             </v-cell>
         </v-group>
     </v-scroll-view>
