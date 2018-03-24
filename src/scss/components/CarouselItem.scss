@@ -5,16 +5,7 @@
     flex-shrink: 0;
     overflow: hidden;
 
-    .item__zoom-warp {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        top: 0;
-        left: 0;
-    }
-
-    > .item__loading {
+    .item__loading {
         position: absolute;
         top: 0;
         left: 0;
@@ -23,6 +14,15 @@
         margin: auto;
         z-index: 6;
         opacity: 0;
+    }
+
+    .item__zoom-warp {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        top: 0;
+        left: 0;
     }
 
     img[lazy-src] {
