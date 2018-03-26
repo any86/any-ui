@@ -1,11 +1,11 @@
 <template>
     <v-popup :is-show.sync="_isShow" class="atom-popup-pickcer">
         <header>
-            <span @click="cancel" class=" button-cancel">{{cancelText || $_locale.popupPicker.cancel}}</span>
+            <span @click="cancel" class=" button-cancel">{{cancelText || $_t('popupPicker.cancel')}}</span>
             <span v-if="!!$slots.default" class="title">
                 <slot></slot>
             </span>
-            <span @click="ok" class="button-ok">{{okText || $_locale.popupPicker.ok}}</span>
+            <span @click="ok" class="button-ok">{{okText || $_t('popupPicker.ok')}}</span>
         </header>
         <v-picker ref="picker" v-model="tempValue" :data-source="dataSource" @change="change"/>
     </v-popup>

@@ -26,7 +26,21 @@ import locale from '../locale/lang/zh-CN';
 let Atom = {finger};
 Atom.install = function(Vue, {
     locale
-}) {
+}={}) {
+
+    /**
+     * 翻译函数
+     * @argument {Object} active_locale的具体键值
+     */
+    const _translate = path=>{
+        let pathArray = path.split('.');
+        let lastPart = active_locale;
+        for(let sectionPath of pathArray) {
+            lastPart = lastPart[sectionPath];
+        }
+        return lastPart
+    }
+
     // 水波纹特效
     Vue.use(ripple);
 
@@ -36,8 +50,14 @@ Atom.install = function(Vue, {
     // 移动dom指令
     Vue.use(DomPortal);
 
-    // 挂在语言包
-    Vue.prototype.$_locale = locale;
+    // 挂载语言包
+    let active_locale = locale;
+    Vue.prototype.$_locale = localeData=>{
+        active_locale = localeData;
+    }
+    // 翻译函数
+    Vue.prototype.$_t = _translate;
+
 
     // 注册组件
     for (let k in components) {
@@ -66,7 +86,7 @@ Atom.install = function(Vue, {
         let vm = null;
         Vue.prototype.$alert = (content = '', {
             title = '',
-            okText = locale.alert.ok,
+            okText = _translate('alert.ok'),
             align = 'top',
             onOk = () => {}
         } = {}) => {
@@ -88,8 +108,8 @@ Atom.install = function(Vue, {
         Vue.prototype.$confirm = (
             content = '', {
                 title = '',
-                okText = locale.confirm.ok,
-                cancelText = locale.confirm.cancel,
+                okText = _translate('confirm.ok'),
+                cancelText = _translate('confirm.cancel'),
                 align = 'bottom',
                 onOk = () => {},
                 onCancel = () => {}
@@ -116,9 +136,9 @@ Atom.install = function(Vue, {
                 onOk = () => {},
                 onCancel = () => {},
                 align = 'top',
-                okText = locale.prompt.ok,
-                cancelText = locale.prompt.cancel,
-                placeHolder = locale.prompt.placeHolder
+                okText = _translate('prompt.ok'),
+                cancelText = _translate('prompt.cancel'),
+                placeHolder = _translate('prompt.placeHolder')
             } = {}
         ) => {
             if (null === vm) {

@@ -56,7 +56,7 @@ export default {
             this.action = 'press';
         },
 
-        panHandle(e) {
+        panHandle({deltaX, deltaY}, e) {
             this.transitionDuration = 0;
             this.x += deltaX;
             this.y += deltaY;
@@ -80,7 +80,7 @@ export default {
             this.action = 'rotate';
         },
 
-        swipeHandle() {
+        swipeHandle({deltaX, deltaY}) {
             this.action = 'swipe';
             this.transitionDuration = 500;
             this.x += velocityX * 200 * Math.sign(deltaX);
