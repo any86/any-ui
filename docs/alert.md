@@ -34,7 +34,7 @@
 
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |
 |-----------|-----------|-----------|-------------|-------------|
-| title | 标题 | `String` | `` |-|
-| align | 对齐方式 | `String` | `align` |`top|bottom|center`|
-| okText | 确定按钮文字 | `String` | `` |-|
-| onOk | 点击确定按钮后触发 | `Function` | `null` |-|
+| title | 标题 | `String` | 无 |-|
+| align | 对齐方式 | `String` | bottom |`top|bottom|center`|
+| okText | 确定按钮文字 | `String` | 无 |-|
+| onOk | 点击确定按钮后触发 | `Function` | 无 |-|
