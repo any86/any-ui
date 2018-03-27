@@ -34,7 +34,7 @@ $value in $font_sizes {
 }
 
 // 文字对齐
-$align_map: ( right: right, left: left, center: center);
+$align_map: ( right: right, left: left, center: center, start: start, end: end);
 @each $key,
 $value in $align_map {
     .text-#{$key} {

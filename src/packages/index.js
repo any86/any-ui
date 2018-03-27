@@ -23,7 +23,9 @@ import DomPortal from 'vue-dom-portal';
 // 默认语言为中文
 import locale from '../locale/lang/zh-CN';
 
-let Atom = {finger};
+let Atom = {finger, locale};
+// 挂载语言包
+let active_locale = locale;
 Atom.install = function(Vue, {
     locale
 }={}) {
@@ -50,8 +52,7 @@ Atom.install = function(Vue, {
     // 移动dom指令
     Vue.use(DomPortal);
 
-    // 挂载语言包
-    let active_locale = locale;
+    
     Vue.prototype.$_locale = localeData=>{
         active_locale = localeData;
     }
