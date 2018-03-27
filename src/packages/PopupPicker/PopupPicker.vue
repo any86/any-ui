@@ -1,20 +1,23 @@
 <template>
-    <v-popup :is-show.sync="_isShow" class="atom-popup-pickcer">
+    <a-popup :is-show.sync="_isShow" class="atom-popup-pickcer">
         <header>
-            <span @click="cancel" class=" button-cancel">{{cancelText || $_t('popupPicker.cancel')}}</span>
+            <span @click="cancel" class=" button-cancel">{{cancelText || t('popupPicker.cancel')}}</span>
             <span v-if="!!$slots.default" class="title">
                 <slot></slot>
             </span>
-            <span @click="ok" class="button-ok">{{okText || $_t('popupPicker.ok')}}</span>
+            <span @click="ok" class="button-ok">{{okText || t('popupPicker.ok')}}</span>
         </header>
-        <v-picker ref="picker" v-model="tempValue" :data-source="dataSource" @change="change"/>
-    </v-popup>
+        <a-picker ref="picker" v-model="tempValue" :data-source="dataSource" @change="change"/>
+    </a-popup>
 </template>
 <script>
-import VPicker from '../../packages/Picker/Picker';
-import VPopup from '../../packages/Popup/Popup';
+import Locale from '@/mixin/Locale';
+import APicker from '@/packages/Picker/Picker';
+import APopup from '@/packages/Popup/Popup';
 export default {
     name: 'AtomPopupPicker',
+
+    mixins: [Locale],
 
     props: {
         dataSource: {
@@ -95,6 +98,6 @@ export default {
         }
     },
 
-    components: { VPicker, VPopup }
+    components: { APicker, APopup }
 };
 </script>

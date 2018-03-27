@@ -1,23 +1,27 @@
 import defaultLang from '@/locale/lang/zh-CN';
-let lang = defaultLang;
-const use = () => {};
+let activeLang = defaultLang;
+
+/**
+ * 切换语言包
+ */
+export const use = (lang = defaultLang) => {
+    activeLang = lang
+};
 
 /**
  * 翻译
- * @param {String} 语言路径 
+ * @param {String} 语言路径表达式 
  */
-const t = path => {
+export const t = path => {
     let pathArray = path.split('.');
-    let lastPart = lang;
+    let lastPart = activeLang;
     for (let sectionPath of pathArray) {
         lastPart = lastPart[sectionPath];
     }
     return lastPart;
 };
 
-
-
-export {
+export default {
     use,
     t
 };

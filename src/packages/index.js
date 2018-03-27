@@ -13,56 +13,27 @@ const {
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
+// 手势
 import finger from '../directives/finger/index.js';
-
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
-// 默认语言为中文
-import locale from '../locale/lang/zh-CN';
-
-let Atom = {finger, locale};
+let Atom = { finger };
 // 挂载语言包
-let active_locale = locale;
-
-
-
-Atom.install = function(Vue, {
+import { use, t } from '@/locale';
+Atom.install = function (Vue, {
     locale
-}={}) {
-    const _prototype = Object.getPrototypeOf(Vue);
-    dir(Vue)
-    Vue.$atomLang = {a: '语言包'};
-    // log(Vue.$atomLang)
-    /**
-     * 翻译函数
-     * @argument {Object} active_locale的具体键值
-     */
-    const _translate = path=>{
-        let pathArray = path.split('.');
-        let lastPart = active_locale;
-        for(let sectionPath of pathArray) {
-            lastPart = lastPart[sectionPath];
-        }
-        return lastPart
-    }
-
+} = {}) {
+    // 使用指定语言
+    use(locale);
     // 水波纹特效
     Vue.use(ripple);
 
+    // v-touch指令
     Vue.use(finger);
-    
 
     // 移动dom指令
     Vue.use(DomPortal);
-
-    
-    Vue.prototype.$_locale = localeData=>{
-        active_locale = localeData;
-    }
-    // 翻译函数
-    Vue.prototype.$_t = _translate;
-
 
     // 注册组件
     for (let k in components) {
@@ -91,9 +62,9 @@ Atom.install = function(Vue, {
         let vm = null;
         Vue.prototype.$alert = (content = '', {
             title = '',
-            okText = _translate('alert.ok'),
+            okText = t('alert.ok'),
             align = 'top',
-            onOk = () => {}
+            onOk = () => { }
         } = {}) => {
             if (null === vm) vm = createVueChild(AAlert);
             vm.isShow = true;
@@ -113,11 +84,11 @@ Atom.install = function(Vue, {
         Vue.prototype.$confirm = (
             content = '', {
                 title = '',
-                okText = _translate('confirm.ok'),
-                cancelText = _translate('confirm.cancel'),
+                okText = t('confirm.ok'),
+                cancelText = t('confirm.cancel'),
                 align = 'bottom',
-                onOk = () => {},
-                onCancel = () => {}
+                onOk = () => { },
+                onCancel = () => { }
             } = {}
         ) => {
             if (null === vm) {
@@ -138,12 +109,12 @@ Atom.install = function(Vue, {
         let vm = null;
         Vue.prototype.$prompt = (
             title = '', {
-                onOk = () => {},
-                onCancel = () => {},
+                onOk = () => { },
+                onCancel = () => { },
                 align = 'top',
-                okText = _translate('prompt.ok'),
-                cancelText = _translate('prompt.cancel'),
-                placeHolder = _translate('prompt.placeHolder')
+                okText = t('prompt.ok'),
+                cancelText = t('prompt.cancel'),
+                placeHolder = t('prompt.placeHolder')
             } = {}
         ) => {
             if (null === vm) {

@@ -15,8 +15,6 @@ import Atom from '@/packages/index.js';
 
 import {use} from '@/locale';
 
-use();
-
 import locale from '@/locale/lang/zh-CN.js'
 Vue.use(Atom, {locale});
 
