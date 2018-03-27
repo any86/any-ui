@@ -82,7 +82,8 @@ export default new Router({
     // mode: "history",
 
     scrollBehavior(to, from, savedPosition) {
-        log(savedPosition)
+        // log(savedPosition)
+        // import locale from '@/locale/lang/zh-CN.js'
         if (savedPosition) {
             return savedPosition
         } else {

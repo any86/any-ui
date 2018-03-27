@@ -80,7 +80,7 @@ export default {
             this.action = 'rotate';
         },
 
-        swipeHandle({deltaX, deltaY}) {
+        swipeHandle({deltaX, deltaY,velocityX,velocityY}) {
             this.action = 'swipe';
             this.transitionDuration = 500;
             this.x += velocityX * 200 * Math.sign(deltaX);

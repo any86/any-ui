@@ -13,9 +13,11 @@ import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
 
-import {use} from '@/locale';
+import {use, t} from '@/locale'
 
 import locale from '@/locale/lang/zh-CN.js'
+import ar from '@/locale/lang/ar.js'
+
 Vue.use(Atom, {locale});
 
 // 关闭错误提示
@@ -37,6 +39,7 @@ var vm = new Vue({
 });
 
 router.beforeEach(function(to, from, next) {
+    // use(ar);
     next();
 });
 
