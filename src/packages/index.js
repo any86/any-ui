@@ -11,7 +11,6 @@ const {
     APopper
 } = components;
 
-
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
 import finger from '../directives/finger/index.js';
@@ -19,17 +18,22 @@ import finger from '../directives/finger/index.js';
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
-
 // 默认语言为中文
 import locale from '../locale/lang/zh-CN';
 
 let Atom = {finger, locale};
 // 挂载语言包
 let active_locale = locale;
+
+
+
 Atom.install = function(Vue, {
     locale
 }={}) {
-
+    const _prototype = Object.getPrototypeOf(Vue);
+    dir(Vue)
+    Vue.$atomLang = {a: '语言包'};
+    // log(Vue.$atomLang)
     /**
      * 翻译函数
      * @argument {Object} active_locale的具体键值

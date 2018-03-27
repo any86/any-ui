@@ -95,6 +95,9 @@ export default {
     },
 
     mounted(){
+
+        // dir(this)
+
         setTimeout(()=>{
             this.data = 100;
         }, 1000)
