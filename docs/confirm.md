@@ -1,13 +1,13 @@
-## Alert
+## Confirm
 
 ### 基本使用
 
-在任意组件内部可通过this.$alert方法调用
+在任意组件内部可通过this.$confirm方法调用
 ``` javascript
 {
     methods: {
         clickHandle(){
-            this.$alert('hello world');
+            this.$confirm('是否加入购物车?');
         }
     }
 }
@@ -15,12 +15,12 @@
 
 ### 高级用法
 
-通过第二个参数, 可以进一步定制alert.
+通过第二个参数, 可以进一步定制confirm.
 ``` javascript
 {
     methods: {
         clickHandle(){
-            this.$alert('hello world', {
+            this.$confirm('是否加入购物车?', {
                 title: '系统提示',
                 align: 'top',
                 onOk(){
@@ -45,4 +45,6 @@
 | title | 标题 | `String` | 无 | - |否|
 | align | 对齐方式 | `String` | bottom |top bottom center|否|
 | okText | 确定按钮文字 | `String` | 无 | - | 否 |
+| cancelText | 取消按钮文字 | `String` | 无 | - | 否 |
 | onOk | 点击确定按钮后触发 | `Function` | 无 | - | 否 |
+| onCancel | 点击取消按钮后触发 | `Function` | 无 | - | 否 |

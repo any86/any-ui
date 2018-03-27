@@ -1,4 +1,4 @@
-## Alert
+## Affix
 
 ### 基本使用
 
@@ -34,15 +34,14 @@
 
 ### API
 
+##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
-| content | 标题 | `String` | 无 |-|是|
-| options | 选项 | `Object` | {} |-|否|
+| offsetTop | 触发高度 | `Number` | 0 |-|否|
+| events | 监听的事件 | `Array` | ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'webkitAnimationend', 'webkitTransitionend', 'touchmove'] |-|否|
 
-##### 展开options(第二个参数) 
-| 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
-|-----------|-----------|-----------|-------------|-------------|-------------|
-| title | 标题 | `String` | 无 | - |否|
-| align | 对齐方式 | `String` | bottom |top bottom center|否|
-| okText | 确定按钮文字 | `String` | 无 | - | 否 |
-| onOk | 点击确定按钮后触发 | `Function` | 无 | - | 否 |
+##### events
+
+| 名称 | 说明 | 回调参数 |
+|-----------|-----------|-----------|
+| change | 固定状态变更时触发 | 是否固定[`Boolean`] |
