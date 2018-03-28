@@ -18,14 +18,14 @@ import finger from '../directives/finger/index.js';
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
-let Atom = { finger };
 // 挂载语言包
-import { use, t } from '@/locale';
-Atom.install = function (Vue, {
-    locale
-} = {}) {
+import locale from '@/locale';
+let Atom = { finger, locale };
+
+Atom.install = function (Vue, opts = {}) {
     // 使用指定语言
-    use(locale);
+    locale.use(opts.locale);
+    
     // 水波纹特效
     Vue.use(ripple);
 
@@ -62,7 +62,7 @@ Atom.install = function (Vue, {
         let vm = null;
         Vue.prototype.$alert = (content = '', {
             title = '',
-            okText = t('alert.ok'),
+            okText = locale.t('alert.ok'),
             align = 'top',
             onOk = () => { }
         } = {}) => {
@@ -84,8 +84,8 @@ Atom.install = function (Vue, {
         Vue.prototype.$confirm = (
             content = '', {
                 title = '',
-                okText = t('confirm.ok'),
-                cancelText = t('confirm.cancel'),
+                okText = locale.t('confirm.ok'),
+                cancelText = locale.t('confirm.cancel'),
                 align = 'bottom',
                 onOk = () => { },
                 onCancel = () => { }
@@ -112,9 +112,9 @@ Atom.install = function (Vue, {
                 onOk = () => { },
                 onCancel = () => { },
                 align = 'top',
-                okText = t('prompt.ok'),
-                cancelText = t('prompt.cancel'),
-                placeHolder = t('prompt.placeHolder')
+                okText = locale.t('prompt.ok'),
+                cancelText = locale.t('prompt.cancel'),
+                placeHolder = locale.t('prompt.placeHolder')
             } = {}
         ) => {
             if (null === vm) {

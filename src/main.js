@@ -15,11 +15,12 @@ import Atom from '@/packages/index.js';
 
 import {use, t} from '@/locale'
 
-import locale from '@/locale/lang/zh-CN.js'
+import cn from '@/locale/lang/zh-CN.js'
 import ar from '@/locale/lang/ar.js'
 
-Vue.use(Atom, {locale});
-use(ar);
+// 默认中文
+// Vue.use(Atom, {locale: cn});
+Vue.use(Atom);
 
 // 关闭错误提示
 Vue.config.silent = false;
