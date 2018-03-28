@@ -41,7 +41,7 @@ var vm = new Vue({
 });
 
 router.beforeEach(function(to, from, next) {
-    // use(ar);
+    // Atom.locale.use(ar);
     next();
 });
 

@@ -1,5 +1,6 @@
 import defaultLang from './lang/zh-CN';
-let activeLang = defaultLang;
+// 之前用let没有编译, 稍后测试
+var activeLang = defaultLang;
 
 /**
  * 切换语言包
