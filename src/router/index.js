@@ -21,9 +21,11 @@ import ButtonGroupDemo from '@/pages/ButtonGroupDemo';
 import RangeDemo from '@/pages/RangeDemo';
 import RateDemo from '@/pages/RateDemo';
 
-
 // 对话框
-import AlertDemo from '@/pages/AlertDemo';
+const AlertDemo = () => ({
+    component: import ('@/pages/AlertDemo')
+});
+
 import ConfirmDemo from '@/pages/ConfirmDemo';
 import PromptDemo from '@/pages/PromptDemo';
 import PopupDemo from '@/pages/PopupDemo';
