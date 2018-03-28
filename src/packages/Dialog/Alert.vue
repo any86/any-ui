@@ -3,7 +3,7 @@
         <template v-if="undefined !== title" slot="header">{{title}}</template>
         {{content}}
         <section slot="footer" class="border-top">
-            <v-button slot="footer" :is-block="true" type="white" class="border-none">{{okText}}</v-button>                
+            <v-button slot="footer" :is-block="true" type="white" @click="ok" class="border-none">{{okText}}</v-button>                
         </section>
     </v-dialog>
 </template>
