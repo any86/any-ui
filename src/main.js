@@ -19,6 +19,7 @@ import locale from '@/locale/lang/zh-CN.js'
 import ar from '@/locale/lang/ar.js'
 
 Vue.use(Atom, {locale});
+use(ar);
 
 // 关闭错误提示
 Vue.config.silent = false;

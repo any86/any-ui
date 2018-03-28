@@ -1,4 +1,4 @@
-import defaultLang from '@/locale/lang/zh-CN';
+import defaultLang from './lang/zh-CN';
 let activeLang = defaultLang;
 
 /**
