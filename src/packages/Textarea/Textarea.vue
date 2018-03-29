@@ -1,24 +1,35 @@
 <template>
     <div class="atom-textarea">
-        <textarea :maxLength="maxLength" :placeholder="placeholder" :value="value" @input="input"></textarea>
-        <p class="prompt"><span>{{length}}</span>/{{maxLength}}</p>
+        <textarea ref="textarea" :maxLength="maxLength" :placeholder="placeholder" :value="value" @input="input"/>
+        <p v-if="isShowPrompt" class="atom-textarea__prompt"><span>{{length}}</span>/{{maxLength}}</p>
     </div>
 </template>
 <script>
+import autosize from 'autosize';
 export default {
     name: 'AtomTextarea',
 
     props: {
         maxLength: {
             type: Number,
-            default: 100
         },
+
+        isShowPrompt: {
+            type: Boolean,
+            default: false
+        },
+        
         value: {
             type: String
         },
+
         placeholder: {
             default: '请输入'
         }
+    },
+
+    mounted(){
+        autosize(this.$refs.textarea);
     },
 
     data() {
@@ -26,7 +37,7 @@ export default {
     },
 
     methods: {
-        input(e){
+        input(e) {
             this.$emit('input', e.target.value);
         }
     },
@@ -40,6 +51,10 @@ export default {
             }
             return countSymbols(this.value);
         }
+    },
+
+    destroyed(){
+        autosize.destroy(this.$refs.textarea);
     }
-}
+};
 </script>

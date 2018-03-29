@@ -1,19 +1,12 @@
 .atom-textarea {
-    background: $background;
-    border: 1px solid $lighter;
-    border-width: 1px 0 1px 0;
-    >label {
-        display: block;
-        padding: 2*$gutter;
-        border-bottom: 1px solid $lighter;
-        font-size: $big;
-    }
+    background: $white;
+    border:1px solid $light;
     >textarea {
         display: block;
-        min-height: 2rem;
         width: 100%;
         box-sizing: border-box;
-        padding: 2*$gutter;
+        padding: $gutter/2 $gutter;
+        height: 28px;
         outline: none;
         resize: none;
         border: 0 none;
@@ -23,9 +16,9 @@
         word-break: break-all;
         word-wrap: break-word;
     }
-    >p{
-        padding: $gutter 2*$gutter;
-        text-align: right;
+    &__prompt{
+        padding: $gutter;
+        text-align: end;
         font-size: $normal;
         >span{color: $base;font-size: inherit;}
     }
