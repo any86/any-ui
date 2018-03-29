@@ -59,5 +59,5 @@ module.exports = function() {
 
     console.log(chalk.black.bgGreen('正在发布到npm...\n'));
     shell.exec(`npm publish`);
-    console.log(chalk.black.bgGreen('发布到npm成功!\n'));
+    console.log(chalk.black.bgGreen('发布到npm成功!\n, ver: '+package.version));
 }
