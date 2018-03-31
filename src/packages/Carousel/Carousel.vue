@@ -73,11 +73,6 @@ export default {
             default: false
         },
 
-        stopOnLast: {
-            type: Boolean,
-            default: false
-        },
-
         speed: {
             type: Number,
             default: 300
