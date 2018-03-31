@@ -2,17 +2,39 @@
 按钮, 支持情景色主题
 
 ### 基本使用
-``` javascript
-{
-    data(){
-        return {dataSource: ['设置', '用户', '账户']}
-    }
-}
-```
 ``` html
-    <a-breadcrumb :data-source="dataSource"/>
+    <!-- 默认样式 -->
+    <a-button>开始</a-button>
+```
+### 支持情景色
+``` html
+    <!-- 默认有圆角 -->
+    <a-button type="success">开始</a-button>
 ```
 
+### 宽度100%
+``` html
+    <!-- 默认样式 -->
+    <a-button :is-block="true">开始</a-button>
+```
+
+### 幽灵样式
+``` html
+    <!-- 默认样式 -->
+    <a-button :is-ghost="true" :is-block="true">开始</a-button>
+```
+
+### 加载动画
+``` html
+    <!-- 默认样式 -->
+    <a-button :is-loading="true" :is-block="true">开始</a-button>
+```
+
+### 小按钮
+``` html
+    <!-- 默认样式 -->
+    <a-button :is-loading="true" size="sm">开始</a-button>
+```
 ### API
 
 ##### props
