@@ -47,11 +47,6 @@ export default {
             default: true
         },
 
-        isCenter: {
-            type: Boolean,
-            default: false
-        },
-
         isLoading: {
             type: Boolean,
             default: false
