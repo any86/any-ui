@@ -2,12 +2,12 @@
     <a-scroll-view ref="main" @touchstart.native="touchstart">
         <a-collapse :is-accordion="true">
             <a-collapse-item class="group">
-                <h4 slot="header"><a-badge value="1">指令</a-badge></h4>
+                <h4 slot="title"><a-badge value="1">指令</a-badge></h4>
                 <div class="group__item" @click="$router.push({'path': '/touch'})">Touch(手势)<a-badge value="new"/></div>
             </a-collapse-item>
             
             <a-collapse-item :has-line="false" class="group">
-                <h4 slot="header">表单</h4>
+                <h4 slot="title">表单</h4>
                 <div  class="group__item" @click="$router.push({'path': '/switch'})">Switch</div>
                 <div class="group__item" @click="$router.push({'path': '/radio'})">Radio</div>
                 <div class="group__item" @click="$router.push({'path': '/checkbox'})">Checkbox</div>
@@ -52,7 +52,7 @@
             </a-collapse-item>
 
             <a-collapse-item class="group">
-                <h4 slot="header">辅助显示</h4>
+                <h4 slot="title">辅助显示</h4>
                 <div class="group__item" @click="$router.push({'path': '/badge'})">Badge</div>
                 <div class="group__item" @click="$router.push({'path': '/steps'})">Steps</div>
                 <div class="group__item" @click="$router.push({'path': '/tag'})">Tag</div>
