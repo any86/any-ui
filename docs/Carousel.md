@@ -17,7 +17,7 @@
 <!-- 自动识别carouselItem内部的img上的lazy-src属性 -->
 <a-carousel v-model="index" height="300" >
     <a-carousel-item v-for="url in images" :key="url"><img :lazy-src="url" width="100%" height="300"/></a-carousel-item>
-</carousel>
+</a-carousel>
 ```
 
 ### 一屏多图
@@ -51,15 +51,15 @@
 
 ##### events
 
-| 名称 | 说明 | 参数 |
-|-----------|-----------|-----------|
-| init | 加载完成后运行 | pageBtnCount: 总页数 |
-| touchstart | touchstart | - |
-| touchmove | touchmove | - |
-| touchend | touchstart | - |
-| input | 切换触发 | 索引 |
-| update:realIndex | 切换触发 | 真实索引 |
-| change | 切换触发 | 真实索引& 逻辑索引 |
+| 名称 | 说明 | 参数 |参数类型|
+|-----------|-----------|-----------|-----------|
+| init | 加载完成后运行 | pageBtnCount: 总页数 |`Object`|
+| touchstart | touchstart | - | - |
+| touchmove | touchmove | - | - |
+| touchend | touchstart | - | - |
+| input | 切换触发 | 索引 | `Number` |
+| update:realIndex | 切换触发 | 真实索引 | `Number` |
+| change | 切换触发 | 真实索引& 逻辑索引 | `Object` |
 
 
 

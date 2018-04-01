@@ -1,9 +1,9 @@
 <template>
-    <label :style="{width: !!this.$slots.default && '100%'}" :class="[disabled && 'disabled']" class="component-checkbox">
-        <span v-if="!!this.$slots.default" class="title" :class="{reverse}">
+    <label :style="{width: !!this.$slots.default && '100%'}" :class="[isDisabled && 'disabled']" class="component-checkbox">
+        <span v-if="!!this.$slots.default" class="title" :class="{reverse: isReverse}">
             <slot></slot>
         </span>
-        <input v-model="checked" :disabled="disabled" :true-value="trueValue" :false-value="falseValue" type="checkbox" @click.stop="()=>{}">
+        <input v-model="checked" :disabled="isDisabled" :true-value="trueValue" :false-value="falseValue" type="checkbox" @click.stop="()=>{}">
         <span class="appearance"></span>
     </label>
 </template>
@@ -12,7 +12,7 @@ export default {
     name: 'AtomCheckbox',
 
     props: {
-        disabled: {
+        isDisabled: {
             type: Boolean,
             default: false
         },
@@ -25,7 +25,7 @@ export default {
             default: false
         },
 
-        reverse: {
+        isReverse: {
             type: Boolean,
             default: false
         },
