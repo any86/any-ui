@@ -1,4 +1,4 @@
-## Carousel
+## Checkbox
 复选框, 支持v-model. 可单独使用, 也可配合cell组件使用
 
 ### 基本使用
