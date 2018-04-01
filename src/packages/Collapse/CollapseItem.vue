@@ -7,7 +7,7 @@
                 size="14" 
                 :style="{transform: `rotate(${isUnfolded ? 90 : 0}deg)`}" class="header__arrow"/>
             <!-- 这只有vue2.4以上$attrs默认才是{} -->
-            <slot name="header">{{$attrs.title}}</slot>
+            <slot name="title">{{$attrs.title}}</slot>
         </header>
         <div v-show="isUnfolded" :class="{'zoom-enter-active': hasAnimate}" class="item__body">
             <slot></slot>

@@ -3,15 +3,33 @@
 
 ### 基本使用
 ``` html
+    <!-- isAccordion控制是否同时能打开多个选项卡 -->
     <a-collapse :is-accordion="isAccordion">
         <a-collapse-item v-for="n in 3" :key="n" :title="`第${n}行`">
             已经打开第{{n}}行
         </a-collapse-item>
     </a-collapse>
 ```
+### 高级使用
+``` html
+<a-collapse :is-accordion="isAccordion">
+    <a-collapse-item :is-open="true">
+        <template slot="header">
+            props: is-accordion
+        </template>
+        设置is-accordion="true"后, 同时只能打开一个选项卡
+    </a-collapse-item>
+    <a-collapse-item title="props: title" :is-open="false">
+        collapse-item标签上设置可设置title/is-open属性
+    </a-collapse-item>
+    <a-collapse-item title="slot: header" :is-open="false">
+        对了, collapse-item还支持name="header"的slot
+    </a-collapse-item>
+</a-collapse>
+```
 
 ### API
-********** Collapse **********
+#### ********** Collapse **********
 
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
@@ -23,7 +41,7 @@
 |-----------|-----------|
 | default | 只能放CollapseItem组件 |
 
-********** CollapseItem **********
+#### ********** CollapseItem **********
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
@@ -37,6 +55,8 @@
 | 名称 | 说明 |
 |-----------|-----------|
 | default | 任意组件/元素 |
+| title | 标题 |
+
 
 ##### events
 
