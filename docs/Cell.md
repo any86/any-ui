@@ -4,7 +4,7 @@
 ### 基本使用
 ``` html
 <!-- 通过arrow-direction控制箭头方向, 如果不传, 那么不显示箭头 -->
-<a-cell>arrow-direction=up</a-cell>
+<a-cell>默认无箭头</a-cell>
 <a-cell arrow-direction="up">arrow-direction=up</a-cell>
 <a-cell arrow-direction="right">arrow-direction=right</a-cell>
 <a-cell arrow-direction="down">arrow-direction=down</a-cell>
