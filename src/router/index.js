@@ -15,7 +15,7 @@ import TextareaDemo from '@/pages/TextareaDemo';
 import RadioDemo from '@/pages/RadioDemo';
 import CheckboxDemo from '@/pages/CheckboxDemo';
 import PickerDemo from '@/pages/PickerDemo';
-import CountDemo from '@/pages/CountDemo';
+import CounterDemo from '@/pages/CounterDemo';
 import ButtonDemo from '@/pages/ButtonDemo';
 import ButtonGroupDemo from '@/pages/ButtonGroupDemo';
 import RangeDemo from '@/pages/RangeDemo';
@@ -137,9 +137,9 @@ export default new Router({
             component: PickerDemo
         },
         {
-            name: 'count',
-            path: '/count',
-            component: CountDemo
+            name: 'counter',
+            path: '/counter',
+            component: CounterDemo
         },
         {
             name: 'button',

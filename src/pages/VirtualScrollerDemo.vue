@@ -27,7 +27,7 @@
 import VCell from '@/packages/Cell/Cell';
 import VGroup from '@/packages/Group/Group';
 import VInput from '@/packages/Input/Input';
-import VCount from '@/packages/Count/Count';
+import VCount from '@/packages/Counter/Counter';
 import VScrollView from '@/packages/ScrollView/ScrollView';
 import VirtualScroller from '@/packages/VirtualScroller/VirtualScroller';
 export default {

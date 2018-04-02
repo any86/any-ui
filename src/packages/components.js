@@ -15,7 +15,7 @@ import {
     ACollapse,
     ACollapseItem
 } from './Collapse';
-import ACount from './Count/Count';
+import ACounter from './Counter/Counter';
 import ADialog from './Dialog/Dialog';
 import AAlert from './Dialog/Alert';
 import AConfirm from './Dialog/Confirm';
@@ -72,7 +72,7 @@ export {
     ACheckbox,
     ACollapse,
     ACollapseItem,
-    ACount,
+    ACounter,
     ADialog,
     ADrawer,
     AGroup,
