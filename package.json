@@ -1,6 +1,6 @@
 {
     "name": "vue-atom-ui",
-    "version": "1.0.155",
+    "version": "1.0.155-beta.1",
     "description": "vue-atom-ui",
     "author": "宁宁 <383514580@qq.com>",
     "main": "dist/atom.min.js",
@@ -15,8 +15,9 @@
         "build:utils": "babel src/utils --out-dir lib/utils",
         "build:mixin": "babel src/mixin --out-dir lib/mixin",
         "build:locale": "babel src/locale --out-dir lib/locale",
+        "build:directives": "babel src/directives --out-dir lib/directives",
         "build:scss": "gulp build --gulpfile build/gen-scss.js",
-        "build:packages": "npm run clean:lib && cooking build -c build/cooking.component.js -p && npm run build:utils && npm run build:mixin && npm run build:locale"
+        "build:packages": "npm run clean:lib && cooking build -c build/cooking.component.js -p && npm run build:utils && npm run build:mixin && npm run build:locale && npm run build:directives"
     },
     "dependencies": {
         "atom-ripple": "^0.0.2",
