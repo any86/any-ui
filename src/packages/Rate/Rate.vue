@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import VIcon from '../../packages/Icon';
+import VIcon from '@/packages/Icon';
 export default {
     name: 'AtomRate',
 

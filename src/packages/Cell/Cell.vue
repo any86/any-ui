@@ -25,7 +25,7 @@
     </a>
 </template>
 <script>
-import AIcon from '../Icon';
+import AIcon from '@/packages/Icon';
 export default {
     name: 'AtomCell',
 

@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import { getWidth } from '../../utils/dom';
+import { getWidth } from '@/utils/dom';
 export default {
     name: 'AtomTabsItem',
 

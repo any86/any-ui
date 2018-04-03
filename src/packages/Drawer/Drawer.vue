@@ -12,8 +12,8 @@
 </template>
 <script>
 // https://github.com/react-native-community/react-native-drawer-layout/blob/master/src/DrawerLayout.js
-import { getWidth } from '../../utils/dom';
-import VMask from '../../packages/Mask/Mask';
+import { getWidth } from '@/utils/dom';
+import VMask from '@/packages/Mask';
 export default {
     name: 'AtomDrawer',
 

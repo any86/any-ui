@@ -17,8 +17,8 @@
     </div>
 </template>
 <script>
-import { getWidth } from '../../utils/dom';
-import VirtualScroller from '../../packages/VirtualScroller/VirtualScroller';
+import { getWidth } from '@/utils/dom';
+import VirtualScroller from '@/packages/VirtualScroller';
 export default {
     name: 'AtomTabs',
 

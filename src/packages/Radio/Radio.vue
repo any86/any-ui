@@ -16,7 +16,7 @@
     </label>
 </template>
 <script>
-import VIcon from '../Icon';
+import VIcon from '@/packages/Icon';
 export default {
     name: 'AtomRadio',
 

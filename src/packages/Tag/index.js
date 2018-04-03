@@ -1,2 +1,2 @@
-import ATag from './ATag';
+import ATag from './Tag';
 export default ATag;

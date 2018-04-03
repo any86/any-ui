@@ -16,7 +16,7 @@
     </v-mask>
 </template>
 <script>
-import VMask from '../../packages/Mask/Mask';
+import VMask from '@/packages/Mask';
 export default {
     name: 'AtomPopup',
 

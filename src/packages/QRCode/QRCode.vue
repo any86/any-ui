@@ -51,10 +51,3 @@ export default {
     }
 };
 </script>
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-qrcode {
-    width: 2rem;
-    height: 2rem;
-}
-</style>

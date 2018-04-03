@@ -34,10 +34,3 @@ export default {
     components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarO, AWarning }
 };
 </script>
-
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-icon {
-    transition: transform $duration;
-}
-</style>

@@ -23,7 +23,7 @@
     </section>
 </template>
 <script>
-import { getWidth, getHeight } from '../../utils/dom';
+import { getWidth, getHeight } from '@/utils/dom';
 export default {
     name: 'AtomSwipeOut',
 

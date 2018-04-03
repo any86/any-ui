@@ -11,9 +11,9 @@
     </v-dialog>
 </template>
 <script>
-import VDialog from '../../packages/Dialog/Dialog';
-import VInput from '../../packages/Input/Input';
-import VButton from '../../packages/Button/Button';
+import VDialog from '@/packages/Dialog';
+import VInput from '@/packages/Input';
+import VButton from '@/packages/Button';
 
 export default {
     name: 'AtomPrompt',
