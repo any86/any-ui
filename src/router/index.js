@@ -97,7 +97,8 @@ export default new Router({
         }
     },
 
-    routes: [{
+    routes: [
+        {
             path: '/',
             redirect: '/index'
         },
@@ -281,26 +282,21 @@ export default new Router({
             path: '/icon',
             component: IconDemo
         },
-
         {
             name: 'swipeOut',
             path: '/swipe-out',
             component: SwipeOutDemo
         },
-
         {
             name: 'touch',
             path: '/touch',
             component: TouchDemo
         },
-
         {
             name: 'test',
             path: '/test',
             component: TestDemo
         },
-
-
         {
             name: 'loading',
             path: '/loading',

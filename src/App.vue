@@ -9,9 +9,9 @@
     </main>
 </template>
 <script>
-import VQRCode from '@/packages/QRCode/QRCode';
-import VDrawer from '@/packages/Drawer/Drawer';
-import VAppBar from '@/packages/AppBar/AppBar';
+import VQRCode from '@/packages/QRCode';
+import VDrawer from '@/packages/Drawer';
+import VAppBar from '@/packages/AppBar';
 export default {
     name: 'App',
 

@@ -1,2 +1,8 @@
-import APopupPicker from './PopupPicker.vue';
-export default APopupPicker;
+import Component from './PopupPicker';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

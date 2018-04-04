@@ -7,11 +7,20 @@
         <a-cell v-for="n in 42" :key="10+n">我的代号: 00{{n+3}}</a-cell>
     </a-scroll-view>
 </template>
+
 <script>
+import { AScrollView, AAffix, ACell } from '@/packages'
+
 export default {
-    name: 'AffixDemo'
+    name: 'AffixDemo',
+    components: {
+        AScrollView,
+        AAffix,
+        ACell
+    }
 }
 </script>
+
 <style scoped lang="scss">
 @import '../scss/variables.scss';
 .demo-page {

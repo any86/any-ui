@@ -4,17 +4,6 @@ var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var cssmin = require('gulp-cssmin');
 var rename = require("gulp-rename");
- 
-gulp.task('css', function() {
-    return gulp.src('./src/scss/global.scss')
-        .pipe(sass.sync())
-        .pipe(autoprefixer({
-            browsers: ['ie > 9', 'last 2 versions'],
-            cascade: false
-        }))
-        .pipe(rename('atom.ui.css'))
-        .pipe(gulp.dest('./dist'));
-});
 
 gulp.task('css', function() {
     return gulp.src('./src/scss/global.scss')

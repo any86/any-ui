@@ -1,42 +1,40 @@
 <template>
-    <v-scroll-view class="fill">
-        <v-popup :is-show.sync="isShow" :from="from">
-            <v-cell>正常</v-cell>
-            <v-cell>困难</v-cell>
-            <v-cell>地狱</v-cell>
+    <a-scroll-view class="fill">
+        <a-popup :is-show.sync="isShow" :from="from">
+            <a-cell>正常</a-cell>
+            <a-cell>困难</a-cell>
+            <a-cell>地狱</a-cell>
 
             <div class="fill">
-                <v-button type="primary" :is-block="true">开始游戏</v-button>
+                <a-button type="primary" :is-block="true">开始游戏</a-button>
 
-                <v-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</v-button>
+                <a-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</a-button>
             </div>
 
-        </v-popup>
+        </a-popup>
 
-        <v-button :is-ghost="true" :is-block="true" @click="handle('bottom')" class="gutter-top">
+        <a-button :is-ghost="true" :is-block="true" @click="handle('bottom')" class="gutter-top">
             从下方打开
-        </v-button>
+        </a-button>
 
-        <v-button :is-ghost="true" :is-block="true" @click="handle('top')" class="gutter-top">
+        <a-button :is-ghost="true" :is-block="true" @click="handle('top')" class="gutter-top">
             从上方打开
-        </v-button>
+        </a-button>
 
 
-        <v-button :is-ghost="true" :is-block="true" @click="handle('left')" class="gutter-top">
+        <a-button :is-ghost="true" :is-block="true" @click="handle('left')" class="gutter-top">
             从左侧打开
-        </v-button>
+        </a-button>
 
-        <v-button :is-ghost="true" :is-block="true" @click="handle('right')" class="gutter-top">
+        <a-button :is-ghost="true" :is-block="true" @click="handle('right')" class="gutter-top">
             从右侧打开
-        </v-button>
+        </a-button>
 
-    </v-scroll-view>
+    </a-scroll-view>
 </template>
 <script>
-import VPopup from '@/packages/Popup/Popup';
-import VCell from '@/packages/Cell/Cell';
-import VButton from '@/packages/Button/Button';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, AButton, ACell, APopup } from '@/packages'
+
 export default {
     name: 'PopupDemo',
 
@@ -55,10 +53,10 @@ export default {
     },
 
     components: {
-        VButton,
-        VPopup,
-        VCell,
-        VScrollView
+        AScrollView,
+        AButton,
+        ACell,
+        APopup
     }
 };
 </script>

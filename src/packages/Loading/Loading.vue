@@ -8,8 +8,8 @@
     </v-mask>
 </template>
 <script>
-import VMask from '../../packages/Mask/Mask';
-import VAndroid from '../../packages/Spinner/Android';
+import VMask from '@/packages/Mask';
+import VAndroid from '@/packages/SpinnerAndroid';
 
 export default {
     name: 'AtomLoading',

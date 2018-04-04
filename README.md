@@ -1,12 +1,15 @@
 # vue-atom-ui
+
+[![NPM version](https://img.shields.io/npm/v/vue-atom-ui.svg?style=flat)](https://npmjs.org/package/vue-atom-ui)
+[![NPM downloads](http://img.shields.io/npm/dm/vue-atom-ui.svg?style=flat)](https://npmjs.org/package/vue-atom-ui)
+
 > 玩积木一样玩组件
 
-### 版本
-
-1.0.155
+### 安装
+[![vue-atom-ui](https://nodei.co/npm/vue-atom-ui.png)](https://npmjs.org/package/vue-atom-ui)
 
 ### 演示
-[预览地址](https://383514580.github.io/atom/#/index)
+[预览地址](https://383514580.github.io/atom)
 
 ### 在手机上看
 ![image](https://user-images.githubusercontent.com/8264787/34904356-3395a8d2-f87f-11e7-85f4-7ae1a94fc587.png)
@@ -30,5 +33,3 @@
 ### 1.0.87
 1. 制作了几个常用svg, 集成到Icon组件中
 2. 用Icon组件重构了Rate组件
-
-

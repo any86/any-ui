@@ -1,2 +1,8 @@
-import AMask from './Mask.vue';
-export default AMask;
+import Component from './Mask';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

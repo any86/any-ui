@@ -1,43 +1,37 @@
 <template>
-    <v-scroll-view>
+    <a-scroll-view>
         <!-- 默认 -->
-        <v-group  title="默认: 懒加载图片 | 每屏1图 | 预加载前/后各一张 | 不自动播放 | 滑动速度300ms">
-            <v-carousel ref="carousel" v-model="activeIndex1" :delay="1000" style="height:200px;">
-                <v-carousel-item v-for="image in longImages" :key="image">
+        <a-group  title="默认: 懒加载图片 | 每屏1图 | 预加载前/后各一张 | 不自动播放 | 滑动速度300ms">
+            <a-carousel ref="carousel" v-model="activeIndex1" :delay="1000" style="height:200px;">
+                <a-carousel-item v-for="image in longImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200"/>
-                </v-carousel-item>
-            </v-carousel>
-        </v-group>
+                </a-carousel-item>
+            </a-carousel>
+        </a-group>
 
-        <v-group title="每屏多图 | 循环 | 自动播放">
-            <v-carousel v-model="activeIndex2" :is-loop="true" :is-auto-play="true" :slides-per-view="2.2" :delay="1000">
-                <v-carousel-item v-for="image in shortImages" :key="image">
+        <a-group title="每屏多图 | 循环 | 自动播放">
+            <a-carousel v-model="activeIndex2" :is-loop="true" :is-auto-play="true" :slides-per-view="2.2" :delay="1000">
+                <a-carousel-item v-for="image in shortImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200" />
-                </v-carousel-item>
-            </v-carousel>
-        </v-group>
+                </a-carousel-item>
+            </a-carousel>
+        </a-group>
 
-        <v-group title="循环 | 自动播放 | 外部控制 | 不显示默认分页按钮">
-            <v-carousel @init="carouselInit" v-model="activeIndex3" :real-index.sync="realIndex3" :is-auto-play="true" :is-loop="true" :has-page-btn="false">
-                <v-carousel-item v-for="image in longImages" :key="image">
+        <a-group title="循环 | 自动播放 | 外部控制 | 不显示默认分页按钮">
+            <a-carousel @init="carouselInit" v-model="activeIndex3" :real-index.sync="realIndex3" :is-auto-play="true" :is-loop="true" :has-page-btn="false">
+                <a-carousel-item v-for="image in longImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200" />
-                </v-carousel-item>
-            </v-carousel>
-        </v-group>
+                </a-carousel-item>
+            </a-carousel>
+        </a-group>
 
-        <v-button v-for="n in pageBtnCount" :key="n" type="primary" size="sm"  @click="activeIndex3=n-1" class="gutter-sm" :class="{'active': realIndex3+1 ==n}">{{n-1}}</v-button>
+        <a-button v-for="n in pageBtnCount" :key="n" type="primary" size="sm"  @click="activeIndex3=n-1" class="gutter-sm" :class="{'active': realIndex3+1 ==n}">{{n-1}}</a-button>
 
-    </v-scroll-view>
+    </a-scroll-view>
 </template>
 <script>
-// import Swiper from 'swiper'; 
-// import 'swiper/dist/css/swiper.min.css';
-import VCell from '@/packages/Cell/Cell';
-import VGroup from '@/packages/Group/Group';
-import VCarousel from '@/packages/Carousel/Carousel';
-import VCarouselItem from '@/packages/Carousel/CarouselItem';
-import VScrollView from '@/packages/ScrollView/ScrollView';
-import VButton from '@/packages/Button/Button';
+import { ACell, AGroup, ACarousel, ACarouselItem, AScrollView, AButton } from '@/packages'
+
 export default {
     name: 'CarouselDemo',
 
@@ -71,12 +65,12 @@ export default {
     },
 
     components: {
-        VCell,
-        VGroup,
-        VCarousel,
-        VCarouselItem,
-        VScrollView,
-        VButton
+        ACell,
+        AGroup,
+        ACarousel,
+        ACarouselItem,
+        AScrollView,
+        AButton
     }
 };
 </script>

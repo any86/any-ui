@@ -12,6 +12,8 @@
     
 </template>
 <script>
+import { APicker, AButton, AScrollView } from '@/packages'
+
 export default {
     name: 'PickerDemo',
 
@@ -33,6 +35,12 @@ export default {
         setMonth(index) {
             this.value.splice(1, 1, index);
         }
+    },
+
+    components: {
+        AScrollView,
+        AButton,
+        APicker
     }
 };
 </script>

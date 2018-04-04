@@ -1,2 +1,8 @@
-import ARange from './Range.vue';
-export default ARange;
+import Component from './Range';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

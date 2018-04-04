@@ -1,2 +1,8 @@
-import APopup from './Popup.vue';
-export default APopup;
+import Component from './Popup';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

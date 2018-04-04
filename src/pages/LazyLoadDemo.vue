@@ -1,29 +1,25 @@
 <template>
-    <v-scroll-view  class="demo-page" >
-        <v-segment v-model="index" @input="changeSegment" class="gutter-top">
-            <v-segment-item>竖着排</v-segment-item>
-            <v-segment-item>横着排</v-segment-item>
-        </v-segment>
+    <a-scroll-view  class="demo-page" >
+        <a-segment v-model="index" @input="changeSegment" class="gutter-top">
+            <a-segment-item>竖着排</a-segment-item>
+            <a-segment-item>横着排</a-segment-item>
+        </a-segment>
 
-        <div v-show="0 == index" class="list">
+        <div a-show="0 == index" class="list">
             <div class="list__item" v-for="item in images" :key="item">
-                <v-lazy-load :src="item" class="image"/>
+                <a-lazy-load :src="item" class="image"/>
             </div>
         </div>
 
-        <div v-show="1 == index" class="list-v">
+        <div a-show="1 == index" class="list-v">
             <div class="list-v__item" v-for="item in images" :key="item">
-                <v-lazy-load :src="item" class="image" ref="lazy"/>
+                <a-lazy-load :src="item" class="image" ref="lazy"/>
             </div>
         </div>
-    </v-scroll-view>
+    </a-scroll-view>
 </template>
 <script>
-import VLazyLoad from '@/packages/LazyLoad/LazyLoad';
-import VScrollView from '@/packages/ScrollView/ScrollView';
-import VCell from '@/packages/Cell/Cell';
-import VSegment from '@/packages/Segment/Segment';
-import VSegmentItem from '@/packages/Segment/SegmentItem';
+import { ALazyLoad, AScrollView, ACell, ASegment, ASegmentItem } from '@/packages'
 
 const images = [
     'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR05_1.png',
@@ -64,11 +60,11 @@ export default {
     },
 
     components: {
-        VScrollView,
-        VCell,
-        VLazyLoad,
-        VSegment,
-        VSegmentItem
+        ALazyLoad,
+        AScrollView,
+        ACell,
+        ASegment,
+        ASegmentItem
     }
 };
 </script>

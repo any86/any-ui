@@ -19,7 +19,7 @@
     </label>
 </template>
 <script>
-import AIcon from '../../packages/Icon';
+import AIcon from '@/packages/Icon';
 export default {
     name: 'AtomInput',
 

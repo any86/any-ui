@@ -22,7 +22,7 @@
     </a-mask>
 </template>
 <script>
-import AMask from '../../packages/Mask/Mask';
+import AMask from '@/packages/Mask';
 export default {
     name: 'AtomDialog',
 

@@ -4,6 +4,8 @@
     </a-scroll-view>
 </template>
 <script>
+import { AScrollView, ABreadcrumb } from '@/packages'
+
 export default {
     name: 'BreadcrumbDemo',
 
@@ -17,6 +19,11 @@ export default {
         clickItem(index){
             this.$alert(index);
         }
+    },
+
+    components: {
+        AScrollView,
+        ABreadcrumb
     }
 };
 </script>

@@ -24,12 +24,22 @@
     </main>
 </template>
 <script>
+import { ACell, ASpinnerAndroid, ASpinnerThreeDots, ASpinnerRipple, ARadio } from '@/packages'
+
 export default {
     name: 'SpinnerDemo',
 
     data(){
         return {type: 'primary'};
     },
+
+    components: {
+        ACell,
+        ASpinnerAndroid,
+        ASpinnerThreeDots,
+        ASpinnerRipple,
+        ARadio
+    }
 };
 </script>
 <style scoped lang="scss">

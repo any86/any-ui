@@ -1,2 +1,8 @@
-import AGroup from './Group';
-export default AGroup;
+import Component from './Group';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

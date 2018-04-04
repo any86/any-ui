@@ -8,8 +8,8 @@
     </v-dialog>
 </template>
 <script>
-import VDialog from '../../packages/Dialog/Dialog'
-import VButton from '../../packages/Button/Button'
+import VDialog from '@/packages/Dialog'
+import VButton from '@/packages/Button'
 
 export default {
     name: 'AtomAlert',

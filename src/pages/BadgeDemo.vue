@@ -18,8 +18,16 @@
     </a-scroll-view>
 </template>0
 <script>
+import { AScrollView, ACell, AButton, ABadge } from '@/packages'
+
 export default {
-    name: 'BadgeDemo'
+    name: 'BadgeDemo',
+    components: {
+        AScrollView,
+        ACell,
+        AButton,
+        ABadge
+    }
 };
 </script>
 <style scoped lang="scss">

@@ -28,7 +28,7 @@
     </div>
 </template>
 <script>
-import VirtualScroller from '../../packages/VirtualScroller/VirtualScroller';
+import VirtualScroller from '@/packages/VirtualScroller';
 export default {
     name: 'AtomPicker',
 

@@ -33,6 +33,8 @@
     </a-scroll-view>
 </template>
 <script>
+import { ACell, AGroup, ASwitch, ACollapse, ACollapseItem, AScrollView } from '@/packages'
+
 export default {
     name: 'CollapseDemo',
 
@@ -41,6 +43,15 @@ export default {
             isAccordion: true
         };
     },
+
+    components: {
+        ACell,
+        AGroup,
+        ASwitch,
+        ACollapse,
+        ACollapseItem,
+        AScrollView
+    }
 };
 </script>
 <style scope lang="scss">

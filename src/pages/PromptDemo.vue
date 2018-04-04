@@ -1,14 +1,13 @@
 <template>
     <main class="fill">
-        <v-button :is-ghost="true" :is-block="true" @click="handle" class="gutter-top">
+        <a-button :is-ghost="true" :is-block="true" @click="handle" class="gutter-top">
             Prompt
-        </v-button>
+        </a-button>
     </main>
 </template>
 <script>
-import VCell from '@/packages/Cell/Cell';
-import VButton from '@/packages/Button/Button';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AButton } from '@/packages'
+
 export default {
     name: 'PromptDemo',
 
@@ -27,9 +26,7 @@ export default {
     },
 
     components: {
-        VButton,
-        VCell,
-        VScrollView
+        AButton
     }
 };
 </script>

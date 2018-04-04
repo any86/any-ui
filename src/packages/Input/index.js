@@ -1,2 +1,8 @@
-import AInput from './Input';
-export default AInput;
+import Component from './Input';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

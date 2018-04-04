@@ -11,9 +11,9 @@
     </a-popup>
 </template>
 <script>
-import Locale from '@/mixin/Locale';
-import APicker from '@/packages/Picker/Picker';
-import APopup from '@/packages/Popup/Popup';
+import Locale from '@/mixin/locale';
+import APicker from '@/packages/Picker';
+import APopup from '@/packages/Popup';
 export default {
     name: 'AtomPopupPicker',
 

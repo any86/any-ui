@@ -20,11 +20,21 @@
     </a-scroll-view>
 </template>
 <script>
+import { AScrollView, ACell, ASwipeOut, ASwipeOutButton, ASwitch } from '@/packages'
+
 export default {
     name: 'ASwipeOutDemo',
 
     data() {
         return { isShowRight: false };
+    },
+
+    components: {
+        AScrollView,
+        ACell,
+        ASwipeOut,
+        ASwipeOutButton,
+        ASwitch
     }
 };
 </script>

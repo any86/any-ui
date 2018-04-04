@@ -1,12 +1,10 @@
 <template>
-    <v-scroll-view class="demo-page">
-        <v-cell @click="closeAfterTimeout">3秒后自动关闭</v-cell>
-    </v-scroll-view>
+    <a-scroll-view class="demo-page">
+        <a-cell @click="closeAfterTimeout">3秒后自动关闭</a-cell>
+    </a-scroll-view>
 </template>
 <script>
-import VScrollView from '@/packages/ScrollView/ScrollView';
-import VCell from '@/packages/Cell/Cell';
-import VButton from '@/packages/Button/Button';
+import { AScrollView, ACell } from '@/packages'
 
 export default {
     name: 'FingerDemo',
@@ -26,8 +24,8 @@ export default {
     },
 
     components: {
-        VCell,
-        VScrollView
+        AScrollView,
+        ACell
     }
 };
 </script>

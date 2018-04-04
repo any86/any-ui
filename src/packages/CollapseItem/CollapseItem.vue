@@ -16,8 +16,8 @@
     </div>
 </template>
 <script>
-import { getHeight } from '../../utils/dom';
-import AIcon from '../Icon'
+import { getHeight } from '@/utils/dom';
+import AIcon from '@/packages/Icon'
 export default {
     name: 'AtomCollapseItem',
 

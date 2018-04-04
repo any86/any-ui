@@ -1,7 +1,8 @@
-import AAffix from './Affix';
+import Component from './Affix';
 
 /* istanbul ignore next */
-// Affix.install = function(Vue) {
-//   Vue.component(Affix.name, Affix);
-// };
-export default AAffix;
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

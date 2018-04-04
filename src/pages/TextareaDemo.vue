@@ -1,13 +1,11 @@
 <template>
-    <v-scroll-view>
-        <v-textarea v-model="content"/>
-
-    </v-scroll-view>
+    <a-scroll-view>
+        <a-textarea v-model="content"/>
+    </a-scroll-view>
 </template>
 <script>
-import VCell from '@/packages/Cell/Cell';
-import VTextarea from '@/packages/Textarea/Textarea';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, ATextarea } from '@/packages'
+
 export default {
     name: 'TextareaDemo',
 
@@ -17,12 +15,9 @@ export default {
         };
     },
 
-    methods: {},
-
     components: {
-        VTextarea,
-        VCell,
-        VScrollView
+        AScrollView,
+        ATextarea
     }
 };
 </script>
