@@ -26,6 +26,8 @@ fs
     externals[`@/packages/${f}`] = `./${f}`;
   })
 
+Components.index = join(root, 'packages', 'index.js')
+
 
 externals = [Object.assign({
   vue: 'vue'
@@ -46,7 +48,7 @@ cooking.set({
   alias
 });
 
-cooking.add('output.filename', '[name].js');
+cooking.add('output.filename', 'A[name].js');
 // cooking.add('loader.js.exclude', /node_modules|utils\/popper\.js|utils\/date.\js/);
 cooking.add('loader.scss', {
   test: /\.scss$/,

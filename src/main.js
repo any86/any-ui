@@ -13,7 +13,7 @@ import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
 
-import {use, t} from '@/locale'
+import { use, t } from '@/locale'
 
 import cn from '@/locale/lang/zh-CN.js'
 import ar from '@/locale/lang/ar.js'

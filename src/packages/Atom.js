@@ -1,20 +1,15 @@
 // 所有组件
-import * as components from './components.js'
-
-// 对话框类组件
-const {
-    AAlert,
-    AConfirm,
-    APrompt,
-    ALoading,
-    AToast,
-    APopper
-} = components;
+import AAlert from '@/packages/Dialog/Alert'
+import AConfirm from '@/packages/Dialog/Confirm'
+import APrompt from '@/packages/Dialog/Prompt'
+import ALoading from '@/packages/Loading'
+import AToast from '@/packages/Toast'
+import APopper from '@/packages/Popper'
 
 // 水波纹特效
-import ripple from '../directives/ripple/index.js';
+import ripple from '@/directives/ripple/index.js';
 // 手势
-import finger from '../directives/finger/index.js';
+import finger from '@/directives/finger/index.js';
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
@@ -36,10 +31,10 @@ Atom.install = function (Vue, opts = {}) {
     Vue.use(DomPortal);
 
     // 注册组件
-    for (let k in components) {
-        let component = components[k];
-        Vue.component(`${component.name.replace('Atom', 'A')}`, component);
-    }
+    // for (let k in components) {
+    //     let component = components[k];
+    //     Vue.component(`${component.name.replace('Atom', 'A')}`, component);
+    // }
 
     const createVueChild = component => {
         // 创建一个挂载点
