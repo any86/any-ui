@@ -44,7 +44,7 @@
 | arrowDirection | 右侧箭头方向, 如不赋值, 那么不显示箭头 | `String` | - |up right down left|否|
 
 
-##### slot
+##### slots
 | 名称 | 说明 |
 |-----------|-----------|
 | default | 内容主体 |

@@ -16,6 +16,7 @@ export default {
             type: String
         },
 
+        // 暂时未实现
         options: {
             type: Object,
             default: () => {}
@@ -41,6 +42,7 @@ export default {
             default: ''
         },
 
+        // 准备删除
         padding: {
             type: Number
         },

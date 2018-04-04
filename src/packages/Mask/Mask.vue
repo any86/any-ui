@@ -39,11 +39,13 @@ export default {
             type: Boolean
         },
 
+        // 预备删除掉
         isLock: {
             type: Boolean,
             default: false
         },
 
+        // 预备删除
         isFixed: {
             type: Boolean,
             default: true
