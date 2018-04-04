@@ -28,7 +28,6 @@
     </div>
 </template>
 <script>
-import _ from 'lodash';
 import VirtualScroller from '../../packages/VirtualScroller/VirtualScroller';
 export default {
     name: 'AtomPicker',
