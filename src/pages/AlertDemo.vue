@@ -15,6 +15,8 @@
     </a-scroll-view>
 </template>
 <script>
+import { AScrollView, AButton } from '@/packages'
+
 export default {
     name: 'AlertDemo',
 
@@ -31,6 +33,11 @@ export default {
             this.$alert('我在上方显示!', {align: 'top'})
             
         }
+    },
+
+    components: {
+        AScrollView,
+        AButton
     }
 };
 </script>

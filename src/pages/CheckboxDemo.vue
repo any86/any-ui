@@ -1,38 +1,35 @@
 <template>
-    <v-scroll-view class="full-screen">
-        <v-group>
+    <a-scroll-view class="full-screen">
+        <a-group>
             <template slot="header">
                 正常情况
             </template>
 
-            <v-cell>
-                <v-checkbox v-model="select1" :true-value="1" :false-value="2">选项1</v-checkbox>
-            </v-cell>
+            <a-cell>
+                <a-checkbox v-model="select1" :true-value="1" :false-value="2">选项1</a-checkbox>
+            </a-cell>
 
-            <v-cell>
-                <v-checkbox v-model="select2" :true-value="1" :false-value="2">选项2</v-checkbox>
-            </v-cell>
+            <a-cell>
+                <a-checkbox v-model="select2" :true-value="1" :false-value="2">选项2</a-checkbox>
+            </a-cell>
 
-        </v-group>
+        </a-group>
 
-        <v-group>
+        <a-group>
             <template slot="header">
                 禁用状态
             </template>
-            <v-cell>
-                <v-checkbox v-model="select3" :true-value="1" :false-value="2" :disabled="true">选项1</v-checkbox>
-            </v-cell>
-            <v-cell>
-                <v-checkbox v-model="select4" :true-value="1" :false-value="2" :disabled="true">选项2</v-checkbox>
-            </v-cell>
-        </v-group>
-    </v-scroll-view>
+            <a-cell>
+                <a-checkbox v-model="select3" :true-value="1" :false-value="2" :disabled="true">选项1</a-checkbox>
+            </a-cell>
+            <a-cell>
+                <a-checkbox v-model="select4" :true-value="1" :false-value="2" :disabled="true">选项2</a-checkbox>
+            </a-cell>
+        </a-group>
+    </a-scroll-view>
 </template>
 <script>
-import VScrollView from '@/packages/ScrollView/ScrollView';
-import VCheckbox from '@/packages/Checkbox/Checkbox';
-import VCell from '@/packages/Cell/Cell';
-import VGroup from '@/packages/Group/Group';
+import { ACell, AGroup, ACheckbox, AScrollView } from '@/packages'
 
 export default {
     name: 'CheckboxDemo',
@@ -52,7 +49,10 @@ export default {
     },
 
     components: {
-        VCell, VCheckbox, VGroup, VScrollView
+        ACell,
+        AGroup,
+        ACheckbox,
+        AScrollView
     }
 }
 </script>

@@ -1,22 +1,22 @@
 <template>
     <main>
-        <v-cell>
-            <v-switch v-model="isSelect1">打开状态</v-switch>
-        </v-cell>
-        <v-cell>
-            <v-switch v-model="isSelect2">关闭状态</v-switch>
-        </v-cell>
-        <v-cell>
-            <v-switch v-model="isSelect3" :disabled="true">禁用状态的打开</v-switch>
-        </v-cell>
-        <v-cell>
-            <v-switch v-model="isSelect4" :disabled="true">禁用情况的关闭</v-switch>
-        </v-cell>
+        <a-cell>
+            <a-switch v-model="isSelect1">打开状态</a-switch>
+        </a-cell>
+        <a-cell>
+            <a-switch v-model="isSelect2">关闭状态</a-switch>
+        </a-cell>
+        <a-cell>
+            <a-switch v-model="isSelect3" :disabled="true">禁用状态的打开</a-switch>
+        </a-cell>
+        <a-cell>
+            <a-switch v-model="isSelect4" :disabled="true">禁用情况的关闭</a-switch>
+        </a-cell>
     </main>
 </template>
 <script>
-import VSwitch from '@/packages/Switch/Switch';
-import VCell from '@/packages/Cell/Cell';
+import { ACell, ASwitch } from '@/packages'
+
 export default {
     name: 'SwitchDemo',
 
@@ -30,7 +30,8 @@ export default {
     },
 
     components: {
-        VCell, VSwitch
+        ACell,
+        ASwitch
     }
 }
 </script>

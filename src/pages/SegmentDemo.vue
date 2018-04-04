@@ -1,15 +1,14 @@
 <template>
-    <v-scroll-view class="demo-page">
-        <v-segment v-model="activeIndex" class="gutter-top">
-            <v-segment-item>最热</v-segment-item>
-            <v-segment-item>用户评论</v-segment-item>
-        </v-segment>
-    </v-scroll-view>
+    <a-scroll-view class="demo-page">
+        <a-segment v-model="activeIndex" class="gutter-top">
+            <a-segment-item>最热</a-segment-item>
+            <a-segment-item>用户评论</a-segment-item>
+        </a-segment>
+    </a-scroll-view>
 </template>
 <script>
-import VSegment from '@/packages/Segment/Segment';
-import VSegmentItem from '@/packages/Segment/SegmentItem';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, ASegment, ASegmentItem } from '@/packages'
+
 export default {
     name: 'FingerDemo',
 
@@ -19,8 +18,6 @@ export default {
         };
     },
 
-
-
     methods: {
     },
 
@@ -29,9 +26,9 @@ export default {
     },
 
     components: {
-        VSegment,
-        VSegmentItem,
-        VScrollView
+        AScrollView,
+        ASegment,
+        ASegmentItem
     }
 };
 </script>

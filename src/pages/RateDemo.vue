@@ -1,27 +1,26 @@
 <template>
-    <v-scroll-view class="demo-page">
+    <a-scroll-view class="demo-page">
         <div class="fill border-bottom">
             <h4>默认为宽度/高度为24px</h4>
-            <v-rate  v-model="value1" :count="5" class="gutter-top-sm"/>
+            <a-rate  v-model="value1" :count="5" class="gutter-top-sm"/>
         </div>
 
         <div class="fill">
             <h4>当前value: {{value2}} | size: 16</h4>
-            <v-rate v-model="value2" :size="16" :count="10" class="gutter-top-sm"/>
+            <a-rate v-model="value2" :size="16" :count="10" class="gutter-top-sm"/>
         </div>
 
         <div class="fill">
             <h4>readonly</h4>
-            <v-rate :value="3" :count="10" :size="16" :is-read-only="true" class="gutter-top-sm"/>
+            <a-rate :value="3" :count="10" :size="16" :is-read-only="true" class="gutter-top-sm"/>
         </div>
 
 
-    </v-scroll-view>
+    </a-scroll-view>
 </template>
 <script>
-import VRate from '@/packages/Rate/Rate';
-import VCell from '@/packages/Cell/Cell';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, ACell, ARate } from '@/packages'
+
 export default {
     name: 'RateDemo',
 
@@ -37,9 +36,9 @@ export default {
     computed: {},
 
     components: {
-        VCell,
-        VRate,
-        VScrollView
+        AScrollView,
+        ACell,
+        ARate
     }
 };
 </script>

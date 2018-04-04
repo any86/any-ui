@@ -12,21 +12,15 @@
     </a-scroll-view>
 </template>
 <script>
-import APlus from '@/packages/Icon/Plus';
-import AArrow from '@/packages/Icon/Arrow';
-import AMinus from '@/packages/Icon/Minus';
-import AMenu from '@/packages/Icon/Menu';
-import AClose from '@/packages/Icon/Close';
-import ATick from '@/packages/Icon/Tick';
-import AStar from '@/packages/Icon/Star';
-import AStarO from '@/packages/Icon/StarO';
-import AWarning from '@/packages/Icon/Warning';
-import AIcon from '@/packages/Icon';
+import { AScrollView, AIcon } from '@/packages'
 
 export default {
     name: 'IconDemo',
 
-    components: {AIcon, APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarO,AWarning }
+    components: {
+        AIcon,
+        AScrollView
+    }
 };
 </script>
 <style scoped lang="scss">

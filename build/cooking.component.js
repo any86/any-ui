@@ -30,8 +30,8 @@ fs
 // 生成packages/components.js
 
 outputFileSync(
-  join(root, 'packages', 'components.js'),
-  `// Auto generation by build/cooking.component.js \n\n` + Object.keys(Components).map(cp => `export { ${cp} } from './${cp}'`).join('\n'),
+  join(root, 'packages', 'index.js'),
+  `// Auto generation by build/cooking.component.js \n\n` + Object.keys(Components).map(cp => `export { default as A${cp} } from './${cp}'`).join('\n'),
   'utf-8'
 )
 

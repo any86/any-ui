@@ -34,7 +34,8 @@
     </a-scroll-view>
 </template>
 <script>
-import AButton from '@/packages/Button/Button';
+import { AButton, AIcon, APopper, AScrollView, ACell } from '@/packages'
+
 export default {
     name: 'PopperDemo',
 
@@ -57,6 +58,14 @@ export default {
             this.scrollTop=9999;
             this.isShow1 = false;
         },
+    },
+
+    components: {
+        AButton,
+        AIcon,
+        APopper,
+        AScrollView,
+        ACell
     }
 };
 </script>

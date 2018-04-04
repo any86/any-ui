@@ -1,17 +1,16 @@
 <template>
-    <v-scroll-view class="demo-page flex">
-        <v-popup-picker :is-show.sync="isShow" :data-source="[data1, data2]" v-model="value"/>
+    <a-scroll-view class="demo-page flex">
+        <a-popup-picker :is-show.sync="isShow" :data-source="[data1, data2]" v-model="value"/>
         <section class="flex-item--center gutter-top">
             <p class="text-center">当前值: {{value}}</p>
-            <v-button type="primary" :is-ghost="true" :is-block="true" @click="isShow=true" class="gutter-top">打开</v-button>
+            <a-button type="primary" :is-ghost="true" :is-block="true" @click="isShow=true" class="gutter-top">打开</a-button>
         </section>
-    </v-scroll-view>
+    </a-scroll-view>
 </template>
 <script>
-import VPopupPicker from '@/packages/PopupPicker/PopupPicker';
-import VButton from '@/packages/Button/Button';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, AButton, APopupPicker } from '@/packages'
 import moment from 'moment'
+
 export default {
     name: 'PopupPickerDemo',
 
@@ -38,9 +37,9 @@ export default {
     },
 
     components: {
-        VButton,
-        VPopupPicker,
-        VScrollView
+        AButton,
+        APopupPicker,
+        AScrollView
     }
 };
 </script>

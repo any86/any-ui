@@ -1,25 +1,23 @@
 <template>
-    <v-scroll-view class="fill flex">
-        <v-dialog :is-show.sync="isShow">
-            <v-cell>正常</v-cell>
-            <v-cell>困难</v-cell>
-            <v-cell>地狱</v-cell>
+    <a-scroll-view class="fill flex">
+        <a-dialog :is-show.sync="isShow">
+            <a-cell>正常</a-cell>
+            <a-cell>困难</a-cell>
+            <a-cell>地狱</a-cell>
 
-            <v-button type="primary" :is-block="true" class="gutter-top">开始游戏</v-button>
-            <v-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</v-button>
-        </v-dialog>
+            <a-button type="primary" :is-block="true" class="gutter-top">开始游戏</a-button>
+            <a-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</a-button>
+        </a-dialog>
 
-        <v-button :is-ghost="true"  type="primary" @click="handle('bottom')" class="gutter-top flex-item--center">
+        <a-button :is-ghost="true"  type="primary" @click="handle('bottom')" class="gutter-top flex-item--center">
             打开dialog
-        </v-button>
+        </a-button>
 
-    </v-scroll-view>
+    </a-scroll-view>
 </template>
 <script>
-import VDialog from '@/packages/Dialog/Dialog';
-import VCell from '@/packages/Cell/Cell';
-import VButton from '@/packages/Button/Button';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, AButton, ACell, ADialog } from '@/packages'
+
 export default {
     name: 'DialogDemo',
 
@@ -36,10 +34,10 @@ export default {
     },
 
     components: {
-        VButton,
-        VDialog,
-        VCell,
-        VScrollView
+        AScrollView,
+        AButton,
+        ACell,
+        ADialog
     }
 };
 </script>

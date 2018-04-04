@@ -1,35 +1,34 @@
 <template>
-    <v-scroll-view>
-        <v-cell>
+    <a-scroll-view>
+        <a-cell>
             <template slot="title">学校</template>
-            <v-input :vaildate="vaildates" v-model="text1"/>
-        </v-cell>
+            <a-input :vaildate="vaildates" v-model="text1"/>
+        </a-cell>
 
-        <v-cell>
+        <a-cell>
             <template slot="title">银行卡流水</template>
-            <v-input maxlength="14" v-model="text2" type="bankCode" />
-        </v-cell>
+            <a-input maxlength="14" v-model="text2" type="bankCode" />
+        </a-cell>
 
-        <v-cell>
+        <a-cell>
             <template slot="title">手机</template>
-            <v-input maxlength="13" v-model="text3" type="phone" />
-        </v-cell>
+            <a-input maxlength="13" v-model="text3" type="phone" />
+        </a-cell>
 
-        <v-cell>
+        <a-cell>
             <template slot="title">流水号</template>
-            <v-input maxlength="13" v-model="text4" type="number" />
-        </v-cell>
+            <a-input maxlength="13" v-model="text4" type="number" />
+        </a-cell>
 
-        <v-cell>
+        <a-cell>
             <template slot="title">字母</template>
-            <v-input maxlength="13" v-model="text5" type="letter" />
-        </v-cell>
-    </v-scroll-view>
+            <a-input maxlength="13" v-model="text5" type="letter" />
+        </a-cell>
+    </a-scroll-view>
 </template>
 <script>
-import VCell from '@/packages/Cell/Cell';
-import VInput from '@/packages/Input/Input';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, AInput, ACell } from '@/packages'
+
 export default {
     name: 'InputDemo',
 
@@ -55,9 +54,9 @@ export default {
     },
 
     components: {
-        VInput,
-        VCell,
-        VScrollView
+        AInput,
+        ACell,
+        AScrollView
     }
 };
 </script>

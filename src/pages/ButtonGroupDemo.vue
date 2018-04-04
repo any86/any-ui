@@ -1,21 +1,19 @@
 <template>
-    <v-scroll-view class="fill-sm">
-        <v-button-gorup>
-            <v-button :is-ghost="true" type="warning">warning</v-button>
-            <v-button :is-ghost="true" type="primary">primary</v-button>
-            <v-button :is-ghost="true" type="success">success</v-button>
-        </v-button-gorup>
+    <a-scroll-view class="fill-sm">
+        <a-button-group>
+            <a-button :is-ghost="true" type="warning">warning</a-button>
+            <a-button :is-ghost="true" type="primary">primary</a-button>
+            <a-button :is-ghost="true" type="success">success</a-button>
+        </a-button-group>
 
-        <v-button-gorup class="gutter-top">
-            <v-button :is-ghost="true" type="info">info</v-button>
-            <v-button :is-loading="true" :is-ghost="false" type="danger">danger</v-button>
-        </v-button-gorup>
-    </v-scroll-view>
+        <a-button-group class="gutter-top">
+            <a-button :is-ghost="true" type="info">info</a-button>
+            <a-button :is-loading="true" :is-ghost="false" type="danger">danger</a-button>
+        </a-button-group>
+    </a-scroll-view>
 </template>
 <script>
-import VScrollView from '@/packages/ScrollView/ScrollView';
-import VButton from '@/packages/Button/Button';
-import VButtonGorup from '@/packages/Button/ButtonGroup';
+import { AScrollView, AButton, AButtonGroup } from '@/packages'
 
 export default {
     name: 'ButtonGroupDemo',
@@ -27,9 +25,9 @@ export default {
     mounted() {},
 
     components: {
-        VButton,
-        VButtonGorup,
-        VScrollView
+        AScrollView,
+        AButton,
+        AButtonGroup
     }
 };
 </script>

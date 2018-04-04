@@ -1,26 +1,24 @@
 <template>
-    <v-scroll-view class="demo-page">
-        <v-cell>
-            <v-range v-model="value1"/>
-            <v-tag type="primary" slot="extra">当前: {{value1}}</v-tag>
-        </v-cell>
+    <a-scroll-view class="demo-page">
+        <a-cell>
+            <a-range v-model="value1"/>
+            <a-tag type="primary" slot="extra">当前: {{value1}}</a-tag>
+        </a-cell>
 
-        <v-cell>
-            <v-range v-model="value2" :min="10" :max="20"/>
-            <v-tag type="primary" slot="extra">当前: {{value2}}</v-tag>
-        </v-cell>
+        <a-cell>
+            <a-range v-model="value2" :min="10" :max="20"/>
+            <a-tag type="primary" slot="extra">当前: {{value2}}</a-tag>
+        </a-cell>
 
-        <v-cell>
-            <v-range v-model="value3" :min="0" :max="50" :step="2"/>
-            <v-tag type="primary" slot="extra">当前: {{value3}}</v-tag>
-        </v-cell>
-    </v-scroll-view>
+        <a-cell>
+            <a-range v-model="value3" :min="0" :max="50" :step="2"/>
+            <a-tag type="primary" slot="extra">当前: {{value3}}</a-tag>
+        </a-cell>
+    </a-scroll-view>
 </template>
 <script>
-import VRange from '@/packages/Range/Range';
-import VCell from '@/packages/Cell/Cell';
-import VTag from '@/packages/Tag/Tag';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AScrollView, ATag, ACell, ARange } from '@/packages'
+
 export default {
     name: 'RangeDemo',
 
@@ -37,10 +35,10 @@ export default {
     computed: {},
 
     components: {
-        VRange,
-        VCell,
-        VTag,
-        VScrollView
+        AScrollView,
+        ATag,
+        ACell,
+        ARange
     }
 };
 </script>

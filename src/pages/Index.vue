@@ -16,9 +16,10 @@
                 <div class="group__item" @click="$router.push({'path': '/textarea'})">Textarea</div>
                 <div class="group__item" @click="$router.push({'path': '/button'})">Button</div>
                 <div class="group__item" @click="$router.push({'path': '/button-group'})">ButtonGroup</div>
-                <div class="group__item" @click="$router.push({'path': '/range'})">Range</a-badge></div>
+                <div class="group__item" @click="$router.push({'path': '/range'})">Range</div>
                 <div class="group__item" @click="$router.push({'path': '/rate'})">Rate</div>
                 <div class="group__item" @click="$router.push({'path': '/picker'})">Picker</div>
+                <div class="group__item" @click="$router.push({'path': '/popup-picker'})">PopupPicker(选择器)</div>
             </a-collapse-item>
 
             <a-collapse-item title="对话框" class="group">
@@ -48,45 +49,40 @@
                 <div class="group__item" @click="$router.push({'path': '/collapse'})">Collapse(折叠)</div>
                 <div class="group__item" @click="$router.push({'path': '/carousel'})">Carousel(轮播)</div>
                 <div class="group__item" @click="$router.push({'path': '/segment'})">Segment(分段)</div>
-                <div class="group__item" @click="$router.push({'path': '/swipe-out'})">SwipeOut(分段)</div>
+                <div class="group__item" @click="$router.push({'path': '/swipe-out'})">SwipeOut(滑动操作)</div>
             </a-collapse-item>
 
             <a-collapse-item class="group">
                 <h4 slot="title">辅助显示</h4>
-                <div class="group__item" @click="$router.push({'path': '/badge'})">Badge</div>
-                <div class="group__item" @click="$router.push({'path': '/steps'})">Steps</div>
-                <div class="group__item" @click="$router.push({'path': '/tag'})">Tag</div>
+                <div class="group__item" @click="$router.push({'path': '/badge'})">Badge(徽标数)</div>
+                <div class="group__item" @click="$router.push({'path': '/steps'})">Steps(步进器)</div>
+                <div class="group__item" @click="$router.push({'path': '/tag'})">Tag(标签)</div>
                 <div class="group__item" @click="$router.push({'path': '/bread-crumb'})">Breadcrumb(面包靴)</div>
                 <div class="group__item" @click="$router.push({'path': '/icon'})">Icon(图标集)</div>
                 <div class="group__item" @click="$router.push({'path': '/qrcode'})">QRCode(二维码)</div>
             </a-collapse-item>
 
             <a-collapse-item title="等待" class="group">
-                <div class="group__item" @click="$router.push({'path': '/spinner'})">Spinner</div>
-                <div class="group__item" @click="$router.push({'path': '/progress'})">Progess</div>
+                <div class="group__item" @click="$router.push({'path': '/spinner'})">Spinner(加载中)</div>
+                <div class="group__item" @click="$router.push({'path': '/progress'})">Progess(进度条)</div>
             </a-collapse-item>
 
             <a-collapse-item title="轻提示" class="group">
-                <div class="group__item" @click="$router.push({'path': '/toast'})">Toast</div>
+                <div class="group__item" @click="$router.push({'path': '/toast'})">Toast(轻提示)</div>
                 <div class="group__item" @click="$router.push({'path': '/popper'})">Popper</div>
             </a-collapse-item>
 
             <a-collapse-item title="手势" class="group">
-                <div class="group__item" @click="$router.push({'path': '/finger'})">Finger.js</div>
-                
-            </a-collapse-item>
-
-            
-            
-            <a-collapse-item title="组合" class="group">
-                <div class="group__item" @click="$router.push({'path': '/popup-picker'})">PopupPicker</div>
+                <div class="group__item" @click="$router.push({'path': '/finger'})">Finger.js</div>       
             </a-collapse-item>
 
         </a-collapse>
     </a-scroll-view>
 </template>
 <script>
-import Finger from '../utils/finger';
+import Finger from '@/utils/finger';
+import { AScrollView, ABadge, ACollapse, ACollapseItem } from '@/packages'
+
 export default {
     name: 'Index',
 
@@ -95,9 +91,6 @@ export default {
     },
 
     mounted(){
-
-        // dir(this)
-
         setTimeout(()=>{
             this.data = 100;
         }, 1000)
@@ -105,8 +98,14 @@ export default {
 
     methods: {
         touchstart(e) {
-            // log(e)
         }
+    },
+
+    components: {
+        AScrollView,
+        ACollapse,
+        ACollapseItem,
+        ABadge
     }
 };
 </script>

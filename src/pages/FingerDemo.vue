@@ -1,5 +1,5 @@
 <template>
-    <v-scroll-view class="demo-page fill">
+    <a-scroll-view class="demo-page fill">
         <section @touchstart="touchstart" ref="panel" class="atom-img-panel  border ovh">
             <img :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
@@ -12,14 +12,13 @@
         <p :class="{scale: 'swipe' === action}" class="text-darkest gutter-top-sm font-big">swipe(单指快速滑动)</p>
         <p :class="{scale: 'pinch' === action}" class="text-darkest gutter-top-sm font-big">pinch(双指缩放)</p>
         <p :class="{scale: 'rotate' === action}" class="text-darkest gutter-top-sm font-big">rotate(双指旋转)</p>
-        <v-button  type="primary" :is-ghost=" true" :is-block="true" @click="reset" class="gutter-top">复位</v-button>
-    </v-scroll-view>
+        <a-button  type="primary" :is-ghost=" true" :is-block="true" @click="reset" class="gutter-top">复位</a-button>
+    </a-scroll-view>
 </template>
 <script>
 import Finger from '../utils/finger.js';
-import VButton from '@/packages/Button/Button';
+import { AScrollView, AButton } from '@/packages'
 
-import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'FingerDemo',
 
@@ -114,8 +113,8 @@ export default {
     },
 
     components: {
-        VButton,
-        VScrollView
+        AScrollView,
+        AButton
     }
 };
 </script>

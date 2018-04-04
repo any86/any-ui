@@ -7,10 +7,12 @@
 </template>
 <script>
 
-import zh from '../locale/lang/zh-CN.js';
-import en from '../locale/lang/en.js';
-import ar from '../locale/lang/ar.js';
+import zh from '@/locale/lang/zh-CN.js';
+import en from '@/locale/lang/en.js';
+import ar from '@/locale/lang/ar.js';
 import axios from 'axios';
+import { ACell } from '@/packages'
+
 export default {
     name: 'TestDemo',
 
@@ -31,8 +33,8 @@ export default {
        }
     },
 
-    watch: {
-      
+    components: {
+        ACell
     }
 };
 </script>

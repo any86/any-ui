@@ -22,12 +22,12 @@
         <p :class="{scale: 'swipe' === action}" class="text-darkest gutter-top-sm font-big">swipe(单指快速滑动)</p>
         <p :class="{scale: 'pinch' === action}" class="text-darkest gutter-top-sm font-big">pinch(双指缩放)</p>
         <p :class="{scale: 'rotate' === action}" class="text-darkest gutter-top-sm font-big">rotate(双指旋转)</p>
-        <v-button  type="primary" :is-ghost=" true" :is-block="true" @click="reset" class="gutter-top">复位</v-button>
+        <a-button  type="primary" :is-ghost=" true" :is-block="true" @click="reset" class="gutter-top">复位</a-button>
     </main>
 </template>
 <script>
-import VButton from '@/packages/Button/Button';
-import VScrollView from '@/packages/ScrollView/ScrollView';
+import { AButton } from '@/packages'
+
 export default {
     name: 'FingerDemo',
 
@@ -115,8 +115,7 @@ export default {
     },
 
     components: {
-        VButton,
-        VScrollView
+        AButton
     }
 };
 </script>
