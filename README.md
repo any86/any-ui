@@ -1,9 +1,12 @@
 # vue-atom-ui
+
+[![NPM version](https://img.shields.io/npm/v/vue-atom-ui.svg?style=flat)](https://npmjs.org/package/vue-atom-ui)
+[![NPM downloads](http://img.shields.io/npm/dm/vue-atom-ui.svg?style=flat)](https://npmjs.org/package/vue-atom-ui)
+
 > 玩积木一样玩组件
 
-### 版本
-
-1.0.155
+## 安装
+[![vue-atom-ui](https://nodei.co/npm/vue-atom-ui.png)](https://npmjs.org/package/vue-atom-ui)
 
 ### 演示
 [预览地址](https://383514580.github.io/atom)
