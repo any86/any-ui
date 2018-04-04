@@ -5,7 +5,7 @@
 
 > 玩积木一样玩组件
 
-## 安装
+### 安装
 [![vue-atom-ui](https://nodei.co/npm/vue-atom-ui.png)](https://npmjs.org/package/vue-atom-ui)
 
 ### 演示
