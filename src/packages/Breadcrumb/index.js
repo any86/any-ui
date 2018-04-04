@@ -1,2 +1,8 @@
-import ABreadcrumb from './Breadcrumb.vue'
-export default ABreadcrumb
+import Component from './Breadcrumb';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

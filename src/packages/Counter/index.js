@@ -1,2 +1,8 @@
-import ACounter from './Counter';
-export default ACounter;
+import Component from './Counter';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

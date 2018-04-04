@@ -1,109 +1,53 @@
-import AAffix from './Affix';
-import ABadge from './Badge';
-import ABreadcrumb from './Breadcrumb';
-import {
-    AButton,
-    AButtonGroup
-} from './Button';
-import {
-    ACarousel,
-    ACarouselItem
-} from './Carousel';
-import ACell from './Cell';
-import ACheckbox from './Checkbox';
-import {
-    ACollapse,
-    ACollapseItem
-} from './Collapse';
-import ACounter from './Counter/Counter';
-import ADialog from './Dialog/Dialog';
-import AAlert from './Dialog/Alert';
-import AConfirm from './Dialog/Confirm';
-import APrompt from './Dialog/Prompt';
+// Auto generation by build/cooking.component.js 
 
-import ADrawer from './Drawer/Drawer';
-import AGroup from './Group/Group';
-import AAppBar from './AppBar/AppBar';
-import AInput from './Input/Input';
-import ALazyLoad from './LazyLoad/LazyLoad';
-import ALoading from './Loading/Loading';
-import AMask from './Mask/Mask';
-import APicker from './Picker/Picker';
-import APopper from './Popper/Popper';
-import APopup from './Popup/Popup';
-import APopupPicker from './PopupPicker/PopupPicker';
-import {
-    AProgressLine,
-    AProgressCircle
-} from './Progress';
-import AQRCode from './QRCode/QRCode';
-import ARadio from './Radio/Radio';
-import ARange from './Range/Range';
-import ARate from './Rate/Rate';
-import AScrollView from './ScrollView/ScrollView';
-import ASegment from './Segment/Segment';
-import {
-    AAndroid,
-    ARipple,
-    AThreeDots
-} from './Spinner';
-import ASteps from './Steps/Steps';
-import ASwitch from './Switch/Switch';
-import ATabs from './Tabs/Tabs';
-import ATag from './Tag/Tag';
-import ATextarea from './Textarea/Textarea';
-import AToast from './Toast/Toast';
-import AVirtualScroller from './VirtualScroller/VirtualScroller';
-import AIcon from './Icon/Icon';
-import {ASwipeOut, ASwipeOutButton} from './SwipeOut';
-
-export {
-    AAlert,
-    AConfirm,
-    APrompt,
-    AAffix,
-    ABadge,
-    ABreadcrumb,
-    AButton,
-    AButtonGroup,
-    ACarousel,
-    ACarouselItem,
-    ACell,
-    ACheckbox,
-    ACollapse,
-    ACollapseItem,
-    ACounter,
-    ADialog,
-    ADrawer,
-    AGroup,
-    AAppBar,
-    AInput,
-    ALazyLoad,
-    AMask,
-    APicker,
-    APopper,
-    APopup,
-    APopupPicker,
-    AProgressLine,
-    AProgressCircle,
-    AQRCode,
-    ARadio,
-    ARange,
-    ARate,
-    AScrollView,
-    ASegment,
-    ASteps,
-    ASwitch,
-    ATabs,
-    ATag,
-    ATextarea,
-    AToast,
-    AVirtualScroller,
-    AIcon,
-    AAndroid,
-    AThreeDots,
-    ARipple,
-    ASwipeOut,
-    ASwipeOutButton,
-    ALoading
-}
+export { Affix } from './Affix'
+export { Alert } from './Alert'
+export { AppBar } from './AppBar'
+export { Badge } from './Badge'
+export { Breadcrumb } from './Breadcrumb'
+export { Button } from './Button'
+export { ButtonGroup } from './ButtonGroup'
+export { Carousel } from './Carousel'
+export { CarouselItem } from './CarouselItem'
+export { Cell } from './Cell'
+export { Checkbox } from './Checkbox'
+export { Collapse } from './Collapse'
+export { CollapseItem } from './CollapseItem'
+export { Confirm } from './Confirm'
+export { Counter } from './Counter'
+export { Dialog } from './Dialog'
+export { Drawer } from './Drawer'
+export { Group } from './Group'
+export { Icon } from './Icon'
+export { Input } from './Input'
+export { LazyLoad } from './LazyLoad'
+export { Loading } from './Loading'
+export { Mask } from './Mask'
+export { Picker } from './Picker'
+export { Popper } from './Popper'
+export { Popup } from './Popup'
+export { PopupPicker } from './PopupPicker'
+export { ProgressCircle } from './ProgressCircle'
+export { ProgressLine } from './ProgressLine'
+export { Prompt } from './Prompt'
+export { QRCode } from './QRCode'
+export { Radio } from './Radio'
+export { Range } from './Range'
+export { Rate } from './Rate'
+export { ScrollView } from './ScrollView'
+export { Segment } from './Segment'
+export { SegmentItem } from './SegmentItem'
+export { SpinnerAndroid } from './SpinnerAndroid'
+export { SpinnerRipple } from './SpinnerRipple'
+export { SpinnerThreeDots } from './SpinnerThreeDots'
+export { Steps } from './Steps'
+export { StepsItem } from './StepsItem'
+export { SwipeOut } from './SwipeOut'
+export { SwipeOutButton } from './SwipeOutButton'
+export { Switch } from './Switch'
+export { Tabs } from './Tabs'
+export { TabsItem } from './TabsItem'
+export { Tag } from './Tag'
+export { Textarea } from './Textarea'
+export { Toast } from './Toast'
+export { VirtualScroller } from './VirtualScroller'

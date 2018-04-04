@@ -11,7 +11,7 @@ import router from '@/router';
 //全局样式
 import './scss/global.scss';
 // UI
-import Atom from '@/packages/index.js';
+import Atom from '@/packages/Atom.js';
 
 import { use, t } from '@/locale'
 

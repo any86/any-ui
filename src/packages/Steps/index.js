@@ -1,3 +1,8 @@
-import ASteps from './Steps.vue';
-import AStepsItem from './StepsItem.vue';
-export {ASteps, AStepsItem};
+import Component from './Steps';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

@@ -12,7 +12,7 @@
 </template>
 <script>
 import Finger from '@/utils/finger';
-import VSpinnerRipple from '@/packages/Spinner/Ripple';
+import VSpinnerRipple from '@/packages/SpinnerRipple';
 export default {
     name: 'AtomCarouselItem',
 

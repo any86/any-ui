@@ -1,3 +1,8 @@
-import ATabs from './Tabs';
-import ATabsItem from './TabsItem';
-export {ATabs, ATabsItem};
+import Component from './Tabs';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

@@ -11,7 +11,7 @@
     </a-popup>
 </template>
 <script>
-import Locale from '@/mixin/Locale';
+import Locale from '@/mixin/locale';
 import APicker from '@/packages/Picker';
 import APopup from '@/packages/Popup';
 export default {

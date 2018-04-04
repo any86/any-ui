@@ -1,6 +1,7 @@
 var cooking = require('cooking');
 var nodeExternals = require('webpack-node-externals');
 var fs = require('fs');
+var { outputFileSync } = require('fs-extra');
 var { join, resolve } = require('path');
 
 var Components = {}
@@ -26,7 +27,15 @@ fs
     externals[`@/packages/${f}`] = `./${f}`;
   })
 
-Components.index = join(root, 'packages', 'index.js')
+// 生成packages/components.js
+
+outputFileSync(
+  join(root, 'packages', 'components.js'),
+  `// Auto generation by build/cooking.component.js \n\n` + Object.keys(Components).map(cp => `export { ${cp} } from './${cp}'`).join('\n'),
+  'utf-8'
+)
+
+Components.index = join(root, 'packages', 'Atom.js')
 
 
 externals = [Object.assign({

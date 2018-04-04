@@ -1,3 +1,8 @@
-import ACarousel from './Carousel'
-import ACarouselItem from './CarouselItem'
-export { ACarousel, ACarouselItem }
+import Component from './Carousel';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

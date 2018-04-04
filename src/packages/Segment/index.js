@@ -1,3 +1,8 @@
-import ASegment from './Segment.vue';
-import ASegmentItem from './SegmentItem.vue';
-export {ASegment, ASegmentItem};
+import Component from './Segment';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

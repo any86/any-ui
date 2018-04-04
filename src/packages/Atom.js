@@ -1,15 +1,15 @@
 // 所有组件
-import AAlert from '@/packages/Dialog/Alert'
-import AConfirm from '@/packages/Dialog/Confirm'
-import APrompt from '@/packages/Dialog/Prompt'
+import AAlert from '@/packages/Alert'
+import AConfirm from '@/packages/Confirm'
+import APrompt from '@/packages/Prompt'
 import ALoading from '@/packages/Loading'
 import AToast from '@/packages/Toast'
 import APopper from '@/packages/Popper'
 
 // 水波纹特效
-import ripple from '@/directives/ripple/index.js';
+import ripple from '@/directives/ripple';
 // 手势
-import finger from '@/directives/finger/index.js';
+import finger from '@/directives/finger';
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 

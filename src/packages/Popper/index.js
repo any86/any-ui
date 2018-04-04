@@ -1,2 +1,8 @@
-import APopper from './Popper.vue';
-export default APopper;
+import Component from './Popper';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

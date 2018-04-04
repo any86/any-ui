@@ -1,2 +1,8 @@
-import ABadge from './Badge';
-export default ABadge;
+import Component from './Badge';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

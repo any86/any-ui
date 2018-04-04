@@ -1,3 +1,8 @@
-import AButton from './Button';
-import AButtonGroup from './ButtonGroup';
-export {AButton, AButtonGroup}
+import Component from './Button';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

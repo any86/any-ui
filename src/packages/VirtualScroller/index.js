@@ -1,2 +1,8 @@
-import AVirtualScroller from './VirtualScroller';
-export default AVirtualScroller;
+import Component from './VirtualScroller';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;

@@ -1,3 +1,8 @@
-import ASwipeOut from './SwipeOut';
-import ASwipeOutButton from './SwipeOutButton';
-export {ASwipeOut, ASwipeOutButton};
+import Component from './SwipeOut';
+
+/* istanbul ignore next */
+Component.install = function(Vue) {
+  Vue.component(`${Component.name.replace('Atom', 'A')}`, Component);
+};
+
+export default Component;
