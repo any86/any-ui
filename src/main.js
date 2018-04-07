@@ -14,8 +14,8 @@ import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
 
-import {btn} from 'xxant'
-btn();
+// import {btn} from 'xxant'
+// btn();
 import {use, t} from '@/locale'
 
 import cn from '@/locale/lang/zh-CN.js'

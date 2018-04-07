@@ -23,7 +23,7 @@ import VLazyLoad from '@/packages/LazyLoad/LazyLoad';
 import VScrollView from '@/packages/ScrollView/ScrollView';
 import VCell from '@/packages/Cell/Cell';
 import VSegment from '@/packages/Segment/Segment';
-import VSegmentItem from '@/packages/Segment/SegmentItem';
+import VSegmentItem from '@/packages/SegmentItem/SegmentItem';
 
 const images = [
     'https://static.soufeel.com/media/catalog/product/cache/0/thumbnail/280x280/9df78eab33525d08d6e5fb8d27136e95/C/R/CR05_1.png',

@@ -8,7 +8,7 @@
 </template>
 <script>
 import VSegment from '@/packages/Segment/Segment';
-import VSegmentItem from '@/packages/Segment/SegmentItem';
+import VSegmentItem from '@/packages/SegmentItem/SegmentItem';
 import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'FingerDemo',
