@@ -13,7 +13,7 @@
 import VGroup from '@/packages/Group/Group';
 import VButton from '@/packages/Button/Button';
 import VSteps from '@/packages/Steps/Steps';
-import VStepsItem from '@/packages/Steps/StepsItem';
+import VStepsItem from '@/packages/StepsItem/StepsItem';
 
 export default {
     name: 'StepsDemo',

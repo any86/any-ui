@@ -52,6 +52,7 @@ import {
 import ASteps from './Steps';
 import ASwitch from './Switch';
 import ATabs from './Tabs';
+import ATabsItem from './TabsItem';
 import ATag from './Tag';
 import ATextarea from './Textarea';
 import AToast from './Toast';
@@ -98,6 +99,7 @@ export {
     ASteps,
     ASwitch,
     ATabs,
+    ATabsItem,
     ATag,
     ATextarea,
     AToast,
