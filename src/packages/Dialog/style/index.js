@@ -1,1 +1,2 @@
-import '../../../scss/Dialog.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Dialog.scss';

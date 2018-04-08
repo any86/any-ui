@@ -1,1 +1,2 @@
-import '../../../scss/Switch.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Switch.scss';

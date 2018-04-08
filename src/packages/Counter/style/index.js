@@ -1,1 +1,2 @@
-import '../../../scss/Counter.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Counter.scss';

@@ -15,7 +15,8 @@ const mkStyleDir = (moduleName)=>{
 }
 
 const writeStyleImport = moduleName=>{
-    fs.writeFileSync(`${pathPackages}/${moduleName}/style/index.js`, `import '../../../scss/${moduleName}.scss'`);
+    fs.writeFileSync(`${pathPackages}/${moduleName}/style/index.js`, 
+    `import '../../../scss/global.scss';\r\nimport '../../../scss/components/${moduleName}.scss';`);
 }
 
 dirs.filter(module=>{

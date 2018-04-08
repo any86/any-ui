@@ -1,1 +1,2 @@
-import '../../../scss/Drawer.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Drawer.scss';

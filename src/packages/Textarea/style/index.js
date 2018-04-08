@@ -1,1 +1,2 @@
-import '../../../scss/Textarea.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Textarea.scss';

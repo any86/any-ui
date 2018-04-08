@@ -1,1 +1,2 @@
-import '../../../scss/Affix.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Affix.scss';

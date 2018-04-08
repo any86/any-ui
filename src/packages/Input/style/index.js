@@ -1,1 +1,2 @@
-import '../../../scss/Input.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Input.scss';

@@ -1,1 +1,2 @@
-import '../../../scss/Loading.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Loading.scss';

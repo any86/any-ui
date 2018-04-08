@@ -1,1 +1,2 @@
-import '../../../scss/Cell.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Cell.scss';

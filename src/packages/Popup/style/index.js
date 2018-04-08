@@ -1,1 +1,2 @@
-import '../../../scss/Popup.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Popup.scss';

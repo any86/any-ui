@@ -1,1 +1,2 @@
-import '../../../scss/Tag.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Tag.scss';

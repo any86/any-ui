@@ -1,1 +1,2 @@
-import '../../../scss/Segment.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Segment.scss';

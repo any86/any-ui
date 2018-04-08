@@ -1,1 +1,2 @@
-import '../../../scss/Picker.scss'
+import '../../../scss/global.scss';
+import '../../../scss/components/Picker.scss';
