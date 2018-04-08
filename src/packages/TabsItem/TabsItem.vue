@@ -8,7 +8,7 @@ import { getWidth } from '../../utils/dom';
 export default {
     name: 'AtomTabsItem',
 
-    data() {
+    data() { 
         return {
             index: -1 // 不能为0, 防止初始化阶段都为0产生全部高亮
         };
