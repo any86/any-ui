@@ -1,14 +1,11 @@
-// 常规组件
-import * as components from './components.js';
-
 // 对话框类组件
-import ADialog from './Dialog';
-import AAlert from './Dialog/Alert';
-import AConfirm from './Dialog/Confirm';
-import APrompt from './Dialog/Prompt';
-import AToast from './Toast';
-import ALoading from './Loading';
-
+const {
+    AAlert,
+    AConfirm,
+    APrompt,
+    ALoading,
+    AToast,
+} = components;
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
@@ -19,9 +16,9 @@ import DomPortal from 'vue-dom-portal';
 
 // 挂载语言包
 import locale from '@/locale';
-let Atom = { finger, locale };
+let Server = { finger, locale };
 
-Atom.install = function (Vue, opts = {}) {
+Server.install = function (Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
     
@@ -33,12 +30,6 @@ Atom.install = function (Vue, opts = {}) {
 
     // 移动dom指令
     Vue.use(DomPortal);
-
-    // 注册组件
-    for (let k in components) {
-        let component = components[k];
-        Vue.component(`${component.name.replace('Atom', 'A')}`, component);
-    }
 
     const createVueChild = component => {
         // 创建一个挂载点
@@ -190,4 +181,4 @@ Atom.install = function (Vue, opts = {}) {
     }
 };
 
-export default Atom;
+export default Server;

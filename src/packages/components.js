@@ -16,10 +16,7 @@ import {
     ACollapseItem
 } from './Collapse';
 import ACounter from './Counter/Counter';
-import ADialog from './Dialog';
-import AAlert from './Dialog/Alert';
-import AConfirm from './Dialog/Confirm';
-import APrompt from './Dialog/Prompt';
+
 
 import ADrawer from './Drawer';
 import AGroup from './Group';
@@ -52,7 +49,7 @@ import {
 import ASteps from './Steps';
 import ASwitch from './Switch';
 import ATabs from './Tabs';
-import ATabsItem from './TabsItem';
+import ATabsItem from './TabsItem/index.js';
 import ATag from './Tag';
 import ATextarea from './Textarea';
 import AToast from './Toast';
@@ -61,9 +58,6 @@ import AIcon from './Icon';
 import {ASwipeOut, ASwipeOutButton} from './SwipeOut';
 
 export {
-    AAlert,
-    AConfirm,
-    APrompt,
     AAffix,
     ABadge,
     ABreadcrumb,
@@ -76,7 +70,6 @@ export {
     ACollapse,
     ACollapseItem,
     ACounter,
-    ADialog,
     ADrawer,
     AGroup,
     AAppBar,
@@ -102,7 +95,6 @@ export {
     ATabsItem,
     ATag,
     ATextarea,
-    AToast,
     AVirtualScroller,
     AIcon,
     AAndroid,
@@ -110,5 +102,4 @@ export {
     ARipple,
     ASwipeOut,
     ASwipeOutButton,
-    ALoading
 }
