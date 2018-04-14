@@ -9,7 +9,7 @@ $panelWidth: 80%;
         left: 0;
         &__body {
             overflow-x: hidden;
-            overflow-y: hidden;
+            overflow-y: auto;
             max-height: 61.8vh;
         }
     }
