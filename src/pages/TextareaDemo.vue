@@ -16,7 +16,7 @@ export default {
         };
     },
 
-    mounted(){
+    mounted(){ 
         console.dir(this.$refs.test.$refs.textarea);
     },
 
