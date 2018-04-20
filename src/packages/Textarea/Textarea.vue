@@ -1,6 +1,13 @@
 <template>
     <div class="atom-textarea">
-        <textarea ref="textarea" :maxLength="maxLength" :placeholder="placeholder" :value="value" @input="input"/>
+        <textarea 
+            ref="textarea" 
+            :maxLength="maxLength" 
+            :placeholder="placeholder" 
+            :value="value" 
+            @focus="focus"
+            @blur="blur"
+            @input="input"/>
         <p v-if="isShowPrompt" class="atom-textarea__prompt"><span>{{length}}</span>/{{maxLength}}</p>
     </div>
 </template>
@@ -39,7 +46,15 @@ export default {
     methods: {
         input(e) {
             this.$emit('input', e.target.value);
-        }
+        },
+
+        focus(e){
+            this.$emit('focus', e);
+        },
+
+        blur(e){
+            this.$emit('blur', e);
+        },
     },
 
     computed: {

@@ -1,6 +1,6 @@
 {
     "name": "vue-atom-ui",
-    "version": "1.0.157",
+    "version": "1.0.158",
     "description": "vue-atom-ui",
     "author": "宁宁 <383514580@qq.com>",
     "main": "dist/atom.min.js",
@@ -8,6 +8,7 @@
         "dev": "node build/dev-server.js",
         "start": "npm run dev",
         "pub": "rm -rf dist/ && gulp build  && node build/publish.js",
+        "pubwin": "gulp build  && node build/publish.js",
         "build": "node build/build.js",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run unit"
