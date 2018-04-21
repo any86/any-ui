@@ -1,7 +1,6 @@
 <template>
     <v-scroll-view>
-        <v-textarea v-model="content"/>
-
+        <v-textarea ref="test" @focus="focus" @blur="blur" v-model="content"/>
     </v-scroll-view>
 </template>
 <script>
@@ -17,7 +16,19 @@ export default {
         };
     },
 
-    methods: {},
+    mounted(){ 
+        console.dir(this.$refs.test.$refs.textarea);
+    },
+
+    methods: {
+        focus(e){
+            console.dir(e);
+        },
+
+        blur(e){
+            console.dir(e);
+        },
+    },
 
     components: {
         VTextarea,
