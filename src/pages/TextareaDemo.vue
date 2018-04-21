@@ -1,6 +1,6 @@
 <template>
     <v-scroll-view>
-        <v-textarea ref="test" @focus="focus" @blur="blur" v-model="content"/>
+        <v-textarea ref="test" :autofocus="true" @focus="focus" @blur="blur" v-model="content"/>
     </v-scroll-view>
 </template>
 <script>

@@ -4,7 +4,8 @@
             ref="textarea" 
             :maxLength="maxLength" 
             :placeholder="placeholder" 
-            :value="value" 
+            :value="value"
+            :autofocus="autofocus"
             @focus="focus"
             @blur="blur"
             @input="input"/>
@@ -28,6 +29,11 @@ export default {
         
         value: {
             type: String
+        },
+
+        autofocus: {
+            type: Boolean,
+            default: false
         },
 
         placeholder: {
