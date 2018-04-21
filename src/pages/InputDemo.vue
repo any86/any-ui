@@ -24,6 +24,11 @@
             <template slot="title">字母</template>
             <v-input maxlength="13" v-model="text5" type="letter" />
         </v-cell>
+
+        <v-cell>
+            <template slot="title">自动获取焦点</template>
+            <v-input :autofocus="true" v-model="text6"/>
+        </v-cell>
     </v-scroll-view>
 </template>
 <script>
@@ -40,6 +45,7 @@ export default {
             text3: '133123456789',
             text4: '01234567',
             text5: 'abc',
+            text6: '123123',
             isShowWarning: true,
             vaildates: [
                 { required: true, message: '学校不能为空!',}, 

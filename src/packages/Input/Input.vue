@@ -2,7 +2,7 @@
     <label :class="{'atom-input--warning': isShowWarning}" class="atom-input">
         <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
         
-        <input ref="input" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="keydown" class="atom-input__input">
+        <input ref="input" :autofocus="autofocus" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="keydown" class="atom-input__input">
 
         <transition name="fadeLeft">
             <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="empty" class="atom-input__btn-empty"/>
@@ -27,6 +27,11 @@ export default {
         hasRemove: {
             type: Boolean,
             default: true
+        },
+
+        autofocus: {
+            type: Boolean,
+            default: false
         },
 
         value: {
