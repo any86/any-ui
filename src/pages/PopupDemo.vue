@@ -10,7 +10,6 @@
 
                 <v-button :is-ghost="true" :is-block="true" @click="isShow=false" class="gutter-top">离开</v-button>
             </div>
-
         </v-popup>
 
         <v-button :is-ghost="true" :is-block="true" @click="handle('bottom')" class="gutter-top">
