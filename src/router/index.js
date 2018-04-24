@@ -81,6 +81,10 @@ const TestDemo = () => ({
     component: import ('@/pages/Test')
 });
 
+const ThreeDemo = () => ({
+    component: import ('@/pages/Three')
+});
+
 export default new Router({
     // mode: "history",
 
@@ -293,19 +297,21 @@ export default new Router({
             path: '/touch',
             component: TouchDemo
         },
-
+        {
+            name: 'loading',
+            path: '/loading',
+            component: LoadingDemo
+        },
         {
             name: 'test',
             path: '/test',
             component: TestDemo
         },
 
-
         {
-            name: 'loading',
-            path: '/loading',
-            component: LoadingDemo
-        }
-
+            name: 'three',
+            path: '/three',
+            component: ThreeDemo
+        },
     ]
 });

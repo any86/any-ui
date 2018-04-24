@@ -8,17 +8,21 @@
         </section>
         <a-spinner-three-dots v-else/>
         <section class="fill">
-            <a-button :is-block="true" @click="convert">转换</a-button>
+            <a-button :is-block="true" @click="saveDataURL">开始</a-button>
+            <a-button type="success" :is-block="true" @click="change" class="gutter-top gutter-bottom">换一个</a-button>
+            
         </section>
     </main>
 </template>
 <script>
+import axios from 'axios';
 import WebFont from 'webfontloader';
 export default {
     name: 'TestDemo',
 
     data() {
         return {
+            chars: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQKRSTUVWXYZ',
             isFontLoaded: false,
             isImgLoaded: false,
             text: 'djiw',
@@ -33,14 +37,17 @@ export default {
     async mounted() {
         WebFont.load({
             custom: {
-                families: ['Cochin', 'CommercialScript'],
+                families: ['Cochin'],
                 urls: ['./static/fonts.css']
             },
 
             fontactive: (familyName, fvd) => {
                 this.isFontLoaded = true;
-                this.draw();
-                // log(familyName, fvd)
+
+                this.text = this.randomText();
+                this.draw(this.text);
+                this.convert();
+
             }
         });
 
@@ -48,35 +55,69 @@ export default {
     },
 
     methods: {
-        loadImg(){
+        saveDataURL() {
+            this.text = this.randomText();
+                this.draw(this.text);
+                this.convert();
+            axios
+                .post('http://116.196.85.65:9099/index.php', {
+                    base: this.dataURL
+                })
+                .then(rsp => {
+                    this.saveDataURL();
+                });
+        },
+
+        randomText() {
+            let str = '';
+
+            for (let i = 0; i < 5; i++) {
+                let index = Math.floor(Math.random() * 52);
+                str += this.chars[index];
+            }
+            return str;
+        },
+
+        loadImg() {
             const img = new Image();
+            img.crossOrigin = 'anonymous';
             img.src = this.imgURL;
-            img.onload = e=>{
+            img.onload = e => {
                 this.isImgLoaded = true;
                 this.img = img;
             };
         },
 
-        draw() {
+        draw(text) {
             const fontHeight = 48;
             this.canvas = this.$refs.canvas;
             this.ctx = this.canvas.getContext('2d');
             this.ctx.clearRect(0, 0, 300, 300);
+
+            this.ctx.drawImage(this.img, 0, 0);
+
             this.ctx.font = `${fontHeight}px Cochin`;
             this.ctx.textAlign = 'center';
-            this.text.split('').forEach((text, i) => {
+            text.split('').forEach((text, i) => {
                 this.ctx.fillText(text, 50, 50 * (i + 1));
             });
         },
 
         convert() {
             this.dataURL = this.canvas.toDataURL('image/png');
+        },
+
+        change() {
+            this.text = this.randomText();
+            this.draw(this.text);
+            this.convert();
         }
     },
 
     watch: {
-        text() {
-            this.draw();
+        text(text) {
+            this.draw(text);
+            this.convert();
         }
     }
 };
