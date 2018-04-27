@@ -17,11 +17,6 @@ export default {
     name: 'AtomRange',
 
     props: {
-        disabled: {
-            type: Boolean,
-            default: false
-        },
-
         min: {
             type: Number,
             default: 0
@@ -30,11 +25,6 @@ export default {
         max: {
             type: Number,
             default: 100
-        },
-
-        step: {
-            type: Number,
-            default: 1
         },
 
         value: {
