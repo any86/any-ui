@@ -1,6 +1,27 @@
 window.log = console.log;
 window.dir = console.dir;
 window.table = console.table;
+if (process.env.NODE_ENV === 'production') {
+    // 上线屏蔽vconsole
+} else {
+    // const script = document.createElement('script');
+    // script.type = 'text/javascript';
+    // script.src = 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js';
+    // document.body.appendChild(script);
+    // if (script.readyState) {
+    //     script.onreadystatechange = function() {
+    //         if (script.readyState == "loaded" || script.readyState == "complete") {
+    //             script.onreadystatechange = null;
+    //             new VConsole();
+    //         }
+    //     };
+    // } else {
+    //     script.onload = function() {
+    //         new VConsole();
+    //     };
+    // }
+}
+
 
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
@@ -14,7 +35,10 @@ import './scss/global.scss';
 // UI
 import Atom from '@/packages/index.js';
 
-import {use, t} from '@/locale'
+import {
+    use,
+    t
+} from '@/locale'
 
 import cn from '@/locale/lang/zh-CN.js'
 import ar from '@/locale/lang/ar.js'
