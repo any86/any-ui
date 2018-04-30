@@ -24,8 +24,6 @@
 | value | 内容 | `String` | - |-|否|
 | isShowPrompt | 是否显示总数提示 | `Boolean` | false |-|否|
 
-
-
 ##### events
 
 | 名称 | 说明 | 参数 | 参数类型|
