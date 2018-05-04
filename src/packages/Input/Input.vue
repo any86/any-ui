@@ -50,6 +50,10 @@ export default {
         vaildate: {
             type: Array,
             default: () => []
+        },
+
+        filter: {
+            type: RegExp
         }
     },
 
@@ -82,14 +86,15 @@ export default {
          * 显示错误提示
          * @argument {String} 错误信息
          */
-        showWarningDialog(message){
+        showWarningDialog(message) {
             this.isShowWarning = true;
             this.warningText = message;
             this.$emit('warning', message);
         },
 
         input(e) {
-            this.$emit('input', e.target.value); },
+            this.$emit('input', e.target.value);
+        },
 
         focus(e) {
             // 默认选中文字
@@ -108,6 +113,12 @@ export default {
 
         keyup(e) {
             let value = e.target.value;
+
+            // 自定义过滤
+            if(undefined !== this.filter) {
+                value = value.replace(this.filter, '');
+            }
+
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
             } else if ('letter' == this.type) {

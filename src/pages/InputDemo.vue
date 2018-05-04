@@ -2,7 +2,7 @@
     <v-scroll-view>
         <v-cell>
             <template slot="title">学校</template>
-            <v-input :vaildate="vaildates" v-model="text1"/>
+            <v-input :vaildate="vaildates" v-model="text1" :filter="/[^a-zA-Z]/g"/>
         </v-cell>
 
         <v-cell>
@@ -50,7 +50,7 @@ export default {
             vaildates: [
                 { required: true, message: '学校不能为空!',}, 
                 { message: '不能相同哦不同哦!',  fn: this.isSame},
-                { regular: /a/, message: '必须包含a!',}]
+                { regular: /[^a-zA-Z]/g, message: '必须包含a!',}]
         };
     },
 
