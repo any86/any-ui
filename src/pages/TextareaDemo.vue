@@ -18,7 +18,7 @@ export default {
 
     data() {
         return {
-            exp: '/[^a-zA-Z]/g',
+            exp: new RegExp('[a-zA-Z]', 'g'),
             content1: 'hello vue',
             content2: '过滤字母',
             
