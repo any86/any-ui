@@ -1,11 +1,12 @@
 <template>
-    <div class="atom-textarea">
+    <div class="atom-textarea border">
         <textarea 
             ref="textarea" 
             v-bind="$attrs"
             :value="value"
             @focus="focus"
             @blur="blur"
+            @keyup="keyup"
             @input="input"/>
         <p v-if="isShowPrompt && 0 < maxLength" class="atom-textarea__prompt"><span>{{length}}</span>/{{maxLength}}</p>
     </div>
@@ -23,7 +24,15 @@ export default {
 
         value: {
             type: String
+        },
+
+        filterExp: {
+            type: [String, RegExp]
         }
+    },
+
+    created() {
+        this.$emit('input', this.filter(this.value));
     },
 
     mounted() {
@@ -35,6 +44,15 @@ export default {
     },
 
     methods: {
+        /**
+         * 过滤指定字符
+         * @argument {String} 输入
+         * @returns {String} 过滤后字符串
+         */
+        filter(string) {
+            return undefined !== this.filterExp ? string.replace(this.filterExp, '') : string;
+        },
+
         input(e) {
             this.$emit('input', e.target.value);
         },
@@ -45,6 +63,10 @@ export default {
 
         blur(e) {
             this.$emit('blur', e);
+        },
+
+        keyup(e) {
+            this.$emit('input', this.filter(e.target.value));
         }
     },
 
