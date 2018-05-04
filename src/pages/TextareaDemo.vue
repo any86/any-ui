@@ -7,7 +7,7 @@
 
         <a-cell>
             <template slot="title">过滤字母</template>
-            <a-textarea :filter-exp="/[a-zA-Z]/g" v-model="content2"/>
+            <a-textarea :filter-exp="exp" v-model="content2"/>
         </a-cell>
 
     </a-scroll-view>
@@ -18,6 +18,7 @@ export default {
 
     data() {
         return {
+            exp: '/[^a-zA-Z]/g',
             content1: 'hello vue',
             content2: '过滤字母',
             

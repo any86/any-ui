@@ -27,7 +27,7 @@ export default {
         },
 
         filterExp: {
-            type: [String, RegExp]
+            type: RegExp
         }
     },
 
@@ -39,9 +39,6 @@ export default {
         autosize(this.$refs.textarea);
     },
 
-    data() {
-        return {};
-    },
 
     methods: {
         /**

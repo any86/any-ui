@@ -53,7 +53,7 @@ export default {
         },
 
         filterExp: {
-            type: [RegExp, String]
+            type: RegExp
         }
     },
 
