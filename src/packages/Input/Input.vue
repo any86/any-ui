@@ -5,7 +5,7 @@
         <input ref="input" :autofocus="autofocus" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="keydown" class="atom-input__input">
 
         <transition name="fadeLeft">
-            <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="empty" class="atom-input__btn-empty"/>
+            <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="clear" class="atom-input__btn-empty"/>
         </transition>
 
         <i class="atom-input__icon-warning">
@@ -52,8 +52,8 @@ export default {
             default: () => []
         },
 
-        filter: {
-            type: RegExp
+        filterExp: {
+            type: [RegExp, String]
         }
     },
 
@@ -63,6 +63,11 @@ export default {
             isShowWarning: false,
             warningText: ''
         };
+    },
+
+    beforeMount(){
+        // 过滤
+        this.$emit('input', this.filter(this.value));
     },
 
     methods: {
@@ -111,13 +116,18 @@ export default {
             this.$emit('blur', e);
         },
 
-        keyup(e) {
-            let value = e.target.value;
+        /**
+         * 过滤指定字符
+         * @argument {String} 输入
+         * @returns {String} 过滤后字符串
+         */
+        filter(string) {
+            return undefined !== this.filterExp ? string.replace(this.filterExp, '') : string;
+        },
 
-            // 自定义过滤
-            if(undefined !== this.filter) {
-                value = value.replace(this.filter, '');
-            }
+        keyup(e) {
+            // 过滤
+            let value = this.filter(e.target.value);
 
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
@@ -144,9 +154,10 @@ export default {
             this.$emit('keydown');
         },
 
-        empty() {
+        clear() {
             this.$refs.input.focus();
             this.$emit('input', '');
+            this.$emit('clear');
         }
     },
 
