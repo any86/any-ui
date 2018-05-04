@@ -14,8 +14,6 @@
             <h4>readonly</h4>
             <v-rate :value="3" :count="10" :size="16" :is-read-only="true" class="gutter-top-sm"/>
         </div>
-
-
     </v-scroll-view>
 </template>
 <script>

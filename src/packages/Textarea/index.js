@@ -1,2 +1,2 @@
-import ATextarea from './ATextarea';
+import ATextarea from './Textarea';
 export default ATextarea;

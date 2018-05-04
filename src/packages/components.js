@@ -16,51 +16,48 @@ import {
     ACollapseItem
 } from './Collapse';
 import ACounter from './Counter/Counter';
-import ADialog from './Dialog/Dialog';
-import AAlert from './Dialog/Alert';
-import AConfirm from './Dialog/Confirm';
-import APrompt from './Dialog/Prompt';
 
-import ADrawer from './Drawer/Drawer';
-import AGroup from './Group/Group';
-import AAppBar from './AppBar/AppBar';
-import AInput from './Input/Input';
-import ALazyLoad from './LazyLoad/LazyLoad';
-import ALoading from './Loading/Loading';
-import AMask from './Mask/Mask';
-import APicker from './Picker/Picker';
-import APopper from './Popper/Popper';
-import APopup from './Popup/Popup';
-import APopupPicker from './PopupPicker/PopupPicker';
+
+import ADrawer from './Drawer';
+import AGroup from './Group';
+import AAppBar from './AppBar';
+import AInput from './Input';
+import ALazyLoad from './LazyLoad';
+import ALoading from './Loading';
+import AMask from './Mask';
+import APicker from './Picker';
+import APopper from './Popper';
+import APopup from './Popup';
+import APopupPicker from './PopupPicker';
 import {
     AProgressLine,
     AProgressCircle
 } from './Progress';
-import AQRCode from './QRCode/QRCode';
-import ARadio from './Radio/Radio';
-import ARange from './Range/Range';
+import AQRCode from './QRCode';
+import ARadio from './Radio';
+import ARange from './Range';
 import ARate from './Rate/Rate';
-import AScrollView from './ScrollView/ScrollView';
-import ASegment from './Segment/Segment';
+import AScrollView from './ScrollView';
+import ASegment from './Segment';
+import ASegmentItem from './SegmentItem';
+
 import {
     AAndroid,
     ARipple,
     AThreeDots
 } from './Spinner';
-import ASteps from './Steps/Steps';
-import ASwitch from './Switch/Switch';
-import ATabs from './Tabs/Tabs';
-import ATag from './Tag/Tag';
-import ATextarea from './Textarea/Textarea';
-import AToast from './Toast/Toast';
-import AVirtualScroller from './VirtualScroller/VirtualScroller';
-import AIcon from './Icon/Icon';
+import ASteps from './Steps';
+import ASwitch from './Switch';
+import ATabs from './Tabs';
+import ATabsItem from './TabsItem/index.js';
+import ATag from './Tag';
+import ATextarea from './Textarea';
+import AToast from './Toast';
+import AVirtualScroller from './VirtualScroller';
+import AIcon from './Icon';
 import {ASwipeOut, ASwipeOutButton} from './SwipeOut';
 
 export {
-    AAlert,
-    AConfirm,
-    APrompt,
     AAffix,
     ABadge,
     ABreadcrumb,
@@ -73,7 +70,6 @@ export {
     ACollapse,
     ACollapseItem,
     ACounter,
-    ADialog,
     ADrawer,
     AGroup,
     AAppBar,
@@ -92,12 +88,13 @@ export {
     ARate,
     AScrollView,
     ASegment,
+    ASegmentItem,
     ASteps,
     ASwitch,
     ATabs,
+    ATabsItem,
     ATag,
     ATextarea,
-    AToast,
     AVirtualScroller,
     AIcon,
     AAndroid,
@@ -105,5 +102,4 @@ export {
     ARipple,
     ASwipeOut,
     ASwipeOutButton,
-    ALoading
 }

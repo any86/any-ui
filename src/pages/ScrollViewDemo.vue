@@ -21,7 +21,7 @@
 </template>
 <script>
 import VTabs from '@/packages/Tabs/Tabs';
-import VTabsItem from '@/packages/Tabs/TabsItem';
+import VTabsItem from '@/packages/TabsItem/TabsItem';
 import VCell from '@/packages/Cell/Cell';
 import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {

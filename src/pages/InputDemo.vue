@@ -24,6 +24,16 @@
             <template slot="title">字母</template>
             <v-input maxlength="13" v-model="text5" type="letter" />
         </v-cell>
+
+        <v-cell>
+            <template slot="title">自动获取焦点</template>
+            <v-input :autofocus="true" v-model="text6"/>
+        </v-cell>
+
+        <v-cell>
+            <template slot="title">过滤非字母</template>
+            <v-input :filter-exp="/[^a-zA-Z]/g" v-model="text7"/>
+        </v-cell>
     </v-scroll-view>
 </template>
 <script>
@@ -40,17 +50,16 @@ export default {
             text3: '133123456789',
             text4: '01234567',
             text5: 'abc',
+            text6: '123123',
+            text7: 'abcd1234',
             isShowWarning: true,
-            vaildates: [
-                { required: true, message: '学校不能为空!',}, 
-                { message: '不能相同哦不同哦!',  fn: this.isSame},
-                { regular: /a/, message: '必须包含a!',}]
+            vaildates: [{ required: true, message: '学校不能为空!' }, { message: '不能相同哦不同哦!', fn: this.isSame }, { regular: /a/, message: '必须包含a!' }]
         };
     },
 
     methods: {
-        isSame(){
-            return 1==1;
+        isSame() {
+            return 1 == 1;
         }
     },
 

@@ -2,7 +2,7 @@
     user-select: none;
     text-align: center;
     font-size: $bigger;
-    padding: $gutter $gutter*2;
+    padding: $gutter $gutter;
 }
 
 .atom-popup-pickcer {
@@ -12,19 +12,19 @@
         display: flex;
         .button-cancel {
             @include button;
+            text-align: left;
             color: $light;
             flex: 1;
             font-size: $big;
         }
         .title {
-            align-self: center;
-            text-align: center;
             font-size: $big;
             color: $darkest;
             font-weight: bold;
         }
         .button-ok {
             @include button;
+            text-align: right;
             color: $darkest;
             flex: 1;
             font-size: $big;

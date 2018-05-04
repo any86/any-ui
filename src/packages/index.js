@@ -1,15 +1,14 @@
-// 所有组件
-import * as components from './components.js'
+// 常规组件
+import * as components from './components.js';
 
 // 对话框类组件
-const {
-    AAlert,
-    AConfirm,
-    APrompt,
-    ALoading,
-    AToast,
-    APopper
-} = components;
+import ADialog from './Dialog';
+import AAlert from './Dialog/Alert';
+import AConfirm from './Dialog/Confirm';
+import APrompt from './Dialog/Prompt';
+import AToast from './Toast';
+import ALoading from './Loading';
+
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';

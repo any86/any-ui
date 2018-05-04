@@ -1,28 +1,42 @@
 <template>
-    <v-scroll-view>
-        <v-textarea v-model="content"/>
+    <a-scroll-view>
+        <a-cell>
+            <template slot="title">常规</template>
+            <a-textarea ref="test" :autofocus="true" @focus="focus" @blur="blur" v-model="content1"/>
+        </a-cell>
 
-    </v-scroll-view>
+        <a-cell>
+            <template slot="title">过滤字母</template>
+            <a-textarea :filter-exp="exp" v-model="content2"/>
+        </a-cell>
+
+    </a-scroll-view>
 </template>
 <script>
-import VCell from '@/packages/Cell/Cell';
-import VTextarea from '@/packages/Textarea/Textarea';
-import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'TextareaDemo',
 
     data() {
         return {
-            content: 'hello vue !',
+            exp: new RegExp('[a-zA-Z]', 'g'),
+            content1: 'hello vue',
+            content2: '过滤字母',
+            
         };
     },
 
-    methods: {},
+    mounted(){ 
+        console.dir(this.$refs.test.$refs.textarea);
+    },
 
-    components: {
-        VTextarea,
-        VCell,
-        VScrollView
+    methods: {
+        focus(e){
+            console.dir(e);
+        },
+
+        blur(e){
+            console.dir(e);
+        },
     }
 };
 </script>

@@ -19,7 +19,7 @@
 </template>
 <script>
 import VTabs from '@/packages/Tabs/Tabs';
-import VTabsItem from '@/packages/Tabs/TabsItem';
+import VTabsItem from '@/packages/TabsItem/TabsItem';
 import VBadge from '@/packages/Badge/Badge';
 
 export default {
