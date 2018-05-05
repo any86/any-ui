@@ -11,7 +11,9 @@
         "pubwin": "gulp build  && node build/publish.js",
         "build": "node build/build.js",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-        "test": "npm run unit"
+        "test": "npm run unit",
+        "docs:dev": "vuepress dev docs",
+        "docs:build": "vuepress build docs"
     },
     "dependencies": {
         "@types/three": "^0.91.10",
