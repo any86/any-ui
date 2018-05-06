@@ -1,5 +1,5 @@
 ## Alert
-
+<preview/>
 ### 基本使用
 
 在任意组件内部可通过this.$alert方法调用
