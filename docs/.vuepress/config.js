@@ -1,5 +1,6 @@
 module.exports = {
-    base: '/atom-ui-mobile/',
+    base: '/atom-ui/',
+    dest: './docs/dist',
     title: 'Atom UI',
     description: '更快更简单!',
     themeConfig: {
@@ -18,7 +19,6 @@ module.exports = {
                 children: [
                     '/components/Affix',
                     '/components/Alert',
-                    '/components/Appbar',
                     '/components/Badge',
                     '/components/Breadcrumb',
                     '/components/Button',
@@ -45,7 +45,7 @@ module.exports = {
                     '/components/Range',
                     '/components/Rate',
                     '/components/Segment',
-                    '/components/Step',
+                    '/components/Steps',
                     '/components/SwipeOut',
                     '/components/Switch',
                     '/components/Tabs',

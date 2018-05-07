@@ -10,7 +10,7 @@
 }
 ```
 ``` html
-    <a-breadcrumb :data-source="dataSource"/>
+<a-breadcrumb :data-source="dataSource"/>
 ```
 
 ### API
