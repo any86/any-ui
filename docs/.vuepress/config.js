@@ -5,12 +5,20 @@ module.exports = {
     description: '更快更简单!',
     themeConfig: {
         editLinks: true,
-        sidebarDepth:0,
+        sidebarDepth: 0,
         sidebar: [{
                 title: '开始',
                 collapsable: false,
                 children: [
                     '/'
+                ]
+            },
+            {
+                title: '指令',
+                collapsable: false,
+                children: [
+                    '/directives/touch',
+                    // '/directives/ripple'
                 ]
             },
             {
