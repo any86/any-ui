@@ -1,3 +1,7 @@
+---
+sidebarDepth: 0
+---
+
 ## Input
 输入框, 支持v-model
 

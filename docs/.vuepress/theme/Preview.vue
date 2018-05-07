@@ -6,7 +6,7 @@
             <div class="bar__battery">86%</div>
         </header>
         <section class="simulator__url">
-            <input type="text">
+            <input type="text" :value="src">
         </section>
         <iframe :src="src" scrolling="auto" frameborder="0" height="580" width="320" class="simulator__preview"></iframe>
     </main>
@@ -26,9 +26,10 @@ export default {
 <style lang="scss" scoped>
 .simulator {
     background: #fff;
-    position: fixed;
-    top: 150px;
-    right: 50px;
+    // position: fixed;
+    // top: 150px;
+    // right: 50px;
+    min-width:320px;
     border: 1px solid #eee;
     overflow: hidden;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.1);
@@ -64,6 +65,7 @@ export default {
         margin: 0 5px;
         background: #eee;
         input {
+            width:100%;
             border: 0;
             background: transparent;
             outline: none;

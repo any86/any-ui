@@ -1,6 +1,10 @@
 ## Icon
 基于svg的小图标, 通过color改变颜色, 自动集成父元素的color属性.
 
+:::tip
+仅为组件库组件设计, 所以很少, 如您需要更多图标, 可以单独引入第三方字库, 如[ionic](https://ionicframework.com/docs/ionicons/) 或 [iconfont](http://www.iconfont.cn/)等
+:::
+
 ### 基本使用
 ``` html
 <a-icon value="plus" class="border"/>
