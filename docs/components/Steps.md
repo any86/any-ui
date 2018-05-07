@@ -1,4 +1,4 @@
-## Step
+## Steps
 步骤提示, 支持v-model
 
 ### 基本使用
