@@ -11,7 +11,7 @@
     </div>
 </template>
 <script>
-import Finger from '../../utils/finger.js';
+import Finger from '../../utils/touch2.js';
 import VSpinnerRipple from '../../packages/Spinner/Ripple';
 export default {
     name: 'AtomCarouselItem',

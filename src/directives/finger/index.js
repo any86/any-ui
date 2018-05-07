@@ -1,4 +1,4 @@
-import Finger from '../../utils/finger.js';
+import Finger from '../../utils/touch2.js';
 
 const plugin = {
     install(Vue) {

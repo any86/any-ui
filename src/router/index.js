@@ -70,7 +70,6 @@ import PopperDemo from '@/pages/PopperDemo'
 import QRCodeDemo from '@/pages/QRCodeDemo'
 
 // 手势
-import FingerDemo from '@/pages/FingerDemo';
 import TouchDemo from '@/pages/TouchDemo';
 
 // 组合
@@ -207,10 +206,6 @@ export default new Router({
             name: 'carousel',
             path: '/carousel',
             component: CarouselDemo
-        }, {
-            name: 'finger',
-            path: '/finger',
-            component: FingerDemo
         },
         {
             name: 'segment',

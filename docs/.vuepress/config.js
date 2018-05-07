@@ -10,7 +10,7 @@ module.exports = {
                 title: '开始',
                 collapsable: false,
                 children: [
-                    '/'
+                    '/install'
                 ]
             },
             {

@@ -14,7 +14,7 @@
     </transition>
 </template>
 <script>
-import Finger from '../../utils/finger.js';
+import Finger from '../../utils/touch2.js';
 import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomMask',

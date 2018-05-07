@@ -35,6 +35,14 @@ export default {
     components: { OutboundLink, Preview },
     props: ['sidebarItems'],
     computed: {
+        previewURL() {
+            if (-1 !== this.$page.path.indexOf('install')) {
+                return `https://383514580.github.io/atom/#/index`;
+            } else {
+                return `https://383514580.github.io/atom/#/${this.$page.title}`;
+            }
+        },
+
         prev() {
             const prev = this.$page.frontmatter.prev;
             if (prev === false) {
@@ -73,19 +81,6 @@ export default {
         editLinkText() {
             return this.$themeLocaleConfig.editLinkText || this.$site.themeConfig.editLinkText || `Edit this page`;
         }
-    },
-
-    data: () => ({ previewURL: '' }),
-
-    mounted() {
-        this.previewURL = `https://383514580.github.io/atom/#/${this.$page.title}`;
-        // console.log(this.$page)
-    },
-
-    watch: {
-        $route() {
-            this.previewURL = `https://383514580.github.io/atom/#/${this.$page.title}`;
-        }
     }
 };
 
@@ -119,51 +114,51 @@ function find(page, items, offset) {
 @import './styles/config.styl';
 
 .content-fluid {
-  max-width: 740px;
-  padding: 2rem 2.5rem !important;
+    max-width: 740px;
+    padding: 2rem 2.5rem !important;
 }
 
 .page {
-  padding-bottom: 2rem;
+    padding-bottom: 2rem;
 
-  .page-article {
-    display: flex;
-    width: 100%;
+    .page-article {
+        display: flex;
+        width: 100%;
 
-    .page-article__body {
-      flex: 1;
+        .page-article__body {
+            flex: 1;
+        }
+
+        .page-article__preview {
+            min-width: 320px;
+            height: 580px;
+            margin: 90px 300px 30px 30px;
+        }
     }
-
-    .page-article__preview {
-      min-width: 320px;
-      height: 580px;
-      margin: 90px 300px 30px 30px;
-    }
-  }
 }
 
 .edit-link.content {
-  padding-top: 0 !important;
+    padding-top: 0 !important;
 
-  a {
-    color: lighten($textColor, 25%);
-    margin-right: 0.25rem;
-  }
+    a {
+        color: lighten($textColor, 25%);
+        margin-right: 0.25rem;
+    }
 }
 
 .page-nav.content {
-  padding-top: 1rem !important;
-  padding-bottom: 0 !important;
+    padding-top: 1rem !important;
+    padding-bottom: 0 !important;
 
-  .inner {
-    min-height: 2rem;
-    margin-top: 0 !important;
-    border-top: 1px solid $borderColor;
-    padding-top: 1rem;
-  }
+    .inner {
+        min-height: 2rem;
+        margin-top: 0 !important;
+        border-top: 1px solid $borderColor;
+        padding-top: 1rem;
+    }
 
-  .next {
-    float: right;
-  }
+    .next {
+        float: right;
+    }
 }
 </style>

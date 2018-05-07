@@ -86,7 +86,6 @@
     </a-scroll-view>
 </template>
 <script>
-import Finger from '../utils/finger';
 export default {
     name: 'Index',
 

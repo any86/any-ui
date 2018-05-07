@@ -1,25 +1,14 @@
-### 安装
-推荐使用 npm 的方式安装，它能更好地和 webpack 打包工具配合使用。
-```shell
-npm i vue-atom-ui -S
-```
-
-### CDN
-目前可以通过 unpkg.com/element-ui 获取到最新版本的资源，在页面上引入 js 和 css 文件即可开始使用。
-
-```javascript
-<!-- 引入样式 -->
-<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-<!-- 引入组件库 -->
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
-```
-
-### Hello world
-::: warning
-This is a warning
-:::
-[[toc]]
-<!-- more -->
-
-
-<!-- <preview/> -->
+---
+home: true
+# heroImage: /hero.png
+actionText: 快速上手 →
+actionLink: /install
+features:
+- title: 更简单
+  details: 34个常用组件, 满足常见页面需求。
+- title: 更灵活
+  details: 组件互相组合生成更多可能。
+- title: 兼容nuxt
+  details: 支持nuxt服务端渲染。
+footer: MIT Licensed | Copyright © 2018-present Russell
+---
