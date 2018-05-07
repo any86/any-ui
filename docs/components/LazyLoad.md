@@ -1,5 +1,5 @@
-## Input
-输入框, 支持v-model
+## LazyLoad
+懒加载
 
 ### 基本使用
 ``` html

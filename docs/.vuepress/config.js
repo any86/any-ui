@@ -1,4 +1,5 @@
 module.exports = {
+    base: '/atom-ui-mobile/',
     title: 'Atom UI',
     description: '更快更简单!',
     themeConfig: {
@@ -53,18 +54,18 @@ module.exports = {
             }
         ],
 
-        nav: [{
-                text: '组件',
-                link: '/components'
-            },
-            {
-                text: 'Guide',
-                link: '/guide/'
-            },
-            {
-                text: 'External',
-                link: 'https://google.com'
-            },
-        ]
+        // nav: [{
+        //         text: '组件',
+        //         link: '/components'
+        //     },
+        //     {
+        //         text: 'Guide',
+        //         link: '/guide/'
+        //     },
+        //     {
+        //         text: 'External',
+        //         link: 'https://google.com'
+        //     },
+        // ]
     }
 }
