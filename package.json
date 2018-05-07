@@ -13,7 +13,9 @@
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run unit",
         "docs:dev": "vuepress dev docs",
-        "docs:build": "vuepress build docs"
+        "docs:build": "vuepress build docs",
+        "docs:deploy": "vuepress build docs && node ./build/docs.js && rm -rf ./docs/dist/"
+        
     },
     "dependencies": {
         "@types/three": "^0.91.10",

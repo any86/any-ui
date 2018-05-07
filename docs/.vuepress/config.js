@@ -1,6 +1,6 @@
 module.exports = {
-    base: '/atom-ui-docs/',
-    dest: 'public',
+    base: '/atom-ui/',
+    dest: './docs/dist',
     title: 'Atom UI',
     description: '更快更简单!',
     themeConfig: {
