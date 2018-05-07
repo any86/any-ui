@@ -12,7 +12,7 @@ module.exports = {
                 ]
             },
             {
-                title: '组件',
+                title: '组件(34)',
                 collapsable: false,
                 children: [
                     '/components/Affix',
