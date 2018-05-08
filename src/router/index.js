@@ -5,9 +5,9 @@ Vue.use(Router);
 // 定义路由
 import Index from '@/pages/Index';
 
-const SwitchDemo = () => ({
-    component: import ('@/pages/SwitchDemo')
-});
+
+import SwitchDemo from '@/pages/SwitchDemo';
+
 // 表单元素
 import InputDemo from '@/pages/InputDemo';
 import CollapseDemo from '@/pages/CollapseDemo';
@@ -73,7 +73,9 @@ import QRCodeDemo from '@/pages/QRCodeDemo'
 import TouchDemo from '@/pages/TouchDemo';
 
 // 组合
-import PopupPickerDemo from '@/pages/PopupPickerDemo'
+const PopupPickerDemo = () => ({
+    component: import ('@/pages/PopupPickerDemo')
+});
 
 export default new Router({
     // mode: "history",
