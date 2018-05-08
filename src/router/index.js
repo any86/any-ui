@@ -143,7 +143,7 @@ export default new Router({
             component: ButtonDemo
         }, {
             name: 'buttonGroup',
-            path: '/button-group',
+            path: '/buttonGroup',
             component: ButtonGroupDemo
         }, {
             name: 'alert',
@@ -173,11 +173,11 @@ export default new Router({
             component: MaskDemo
         }, {
             name: 'scrollView',
-            path: '/scroll-view',
+            path: '/scrollView',
             component: ScrollViewDemo
         }, {
-            name: 'virtual-scroller',
-            path: '/virtual-scroller',
+            name: 'virtualScroller',
+            path: '/virtualScroller',
             component: VirtualScrollerDemo
         }, {
             name: 'tabs',
@@ -218,8 +218,8 @@ export default new Router({
             path: '/tag',
             component: TagDemo
         }, {
-            name: 'bread-crumb',
-            path: '/bread-crumb',
+            name: 'breadCrumb',
+            path: '/breadCrumb',
             component: BreadCrumbDemo
         },
 
@@ -261,7 +261,7 @@ export default new Router({
             component: RateDemo
         }, {
             name: 'popupPicker',
-            path: '/popup-picker',
+            path: '/popupPicker',
             component: PopupPickerDemo
         }, {
             name: 'lazyload',
@@ -276,7 +276,7 @@ export default new Router({
 
         {
             name: 'swipeOut',
-            path: '/swipe-out',
+            path: '/swipeOut',
             component: SwipeOutDemo
         },
 

@@ -15,7 +15,7 @@
                 <div class="group__item" @click="$router.push({'path': '/input'})">Input</div>
                 <div class="group__item" @click="$router.push({'path': '/textarea'})">Textarea</div>
                 <div class="group__item" @click="$router.push({'path': '/button'})">Button</div>
-                <div class="group__item" @click="$router.push({'path': '/button-group'})">ButtonGroup</div>
+                <div class="group__item" @click="$router.push({'path': '/buttonGroup'})">ButtonGroup</div>
                 <div class="group__item" @click="$router.push({'path': '/range'})">Range</a-badge></div>
                 <div class="group__item" @click="$router.push({'path': '/rate'})">Rate</div>
                 <div class="group__item" @click="$router.push({'path': '/picker'})">Picker</div>
@@ -33,8 +33,8 @@
             <a-collapse-item title="滚动" class="group">
                 <div class="group__item" @click="$router.push({'path': '/affix'})">Affix(滚动固定)</div>
                 <div class="group__item" @click="$router.push({'path': '/lazyLoad'})">Lazyload(懒加载)</div>
-                <div class="group__item" @click="$router.push({'path': '/scroll-view'})">ScrollView(滚动容器)</div>
-                <div class="group__item" @click="$router.push({'path': '/virtual-scroller'})">VirtualScroller(虚拟滚动容器)</div>
+                <div class="group__item" @click="$router.push({'path': '/scrollView'})">ScrollView(滚动容器)</div>
+                <div class="group__item" @click="$router.push({'path': '/virtualScroller'})">VirtualScroller(虚拟滚动容器)</div>
             </a-collapse-item>
 
             <a-collapse-item title="布局" class="group">
@@ -48,7 +48,7 @@
                 <div class="group__item" @click="$router.push({'path': '/collapse'})">Collapse(折叠)</div>
                 <div class="group__item" @click="$router.push({'path': '/carousel'})">Carousel(轮播)</div>
                 <div class="group__item" @click="$router.push({'path': '/segment'})">Segment(分段)</div>
-                <div class="group__item" @click="$router.push({'path': '/swipe-out'})">SwipeOut(分段)</div>
+                <div class="group__item" @click="$router.push({'path': '/swipeOut'})">SwipeOut(抽屉)</div>
             </a-collapse-item>
 
             <a-collapse-item class="group">
@@ -56,7 +56,7 @@
                 <div class="group__item" @click="$router.push({'path': '/badge'})">Badge</div>
                 <div class="group__item" @click="$router.push({'path': '/steps'})">Steps</div>
                 <div class="group__item" @click="$router.push({'path': '/tag'})">Tag</div>
-                <div class="group__item" @click="$router.push({'path': '/bread-crumb'})">Breadcrumb(面包靴)</div>
+                <div class="group__item" @click="$router.push({'path': '/breadCrumb'})">Breadcrumb(面包靴)</div>
                 <div class="group__item" @click="$router.push({'path': '/icon'})">Icon(图标集)</div>
                 <div class="group__item" @click="$router.push({'path': '/qrcode'})">QRCode(二维码)</div>
             </a-collapse-item>
@@ -71,15 +71,9 @@
                 <div class="group__item" @click="$router.push({'path': '/popper'})">Popper</div>
             </a-collapse-item>
 
-            <a-collapse-item title="手势" class="group">
-                <div class="group__item" @click="$router.push({'path': '/finger'})">Finger.js</div>
-                
-            </a-collapse-item>
-
-            
             
             <a-collapse-item title="组合" class="group">
-                <div class="group__item" @click="$router.push({'path': '/popup-picker'})">PopupPicker</div>
+                <div class="group__item" @click="$router.push({'path': '/popupPicker'})">PopupPicker</div>
             </a-collapse-item>
 
         </a-collapse>
