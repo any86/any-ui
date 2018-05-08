@@ -186,3 +186,67 @@ $speed: 300ms;
         transform: scale(0.9);
     }
 }
+
+
+
+//.slide-right
+.slide-right-enter-active {
+    animation: slide-right-in .3s ease-in-out;
+}
+
+.slide-right-leave-active {
+    animation: slide-right-out .2s ease-in-out;
+}
+
+@keyframes slide-right-in {
+    0% {
+        transform: translateX(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 10;
+    }
+}
+
+@keyframes slide-right-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(30px);
+        opacity: 0;
+    }
+}
+
+//.slide-left
+.slide-left-enter-active {
+    animation: slide-left-in .3s ease-in-out;
+}
+
+.slide-left-leave-active {
+    animation: slide-left-out .2s ease-in-out;
+}
+
+@keyframes slide-left-in {
+    0% {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-left-out {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+}

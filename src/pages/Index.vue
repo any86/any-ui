@@ -2,8 +2,8 @@
     <a-scroll-view ref="main" @touchstart.native="touchstart">
         <a-collapse :is-accordion="true">
             <a-collapse-item class="group">
-                <h4 slot="title"><a-badge value="1">指令</a-badge></h4>
-                <div class="group__item" @click="$router.push({'path': '/touch'})">Touch(手势)<a-badge value="new"/></div>
+                <h4 slot="title">指令</h4>
+                <div class="group__item" @click="$router.push({'path': '/touch'})">Touch(手势)</div>
             </a-collapse-item>
             
             <a-collapse-item :has-line="false" class="group">
