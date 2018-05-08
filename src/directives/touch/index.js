@@ -1,16 +1,16 @@
-import Finger from '../../utils/touch2.js';
+import Touch2 from '../../utils/touch2';
 
 const plugin = {
     install(Vue) {
-        // 存储finger实例
+        // 存储Touch2实例
         let _manages = []; // {el, instance}
 
         // 支持的事件
         const SPPORT_ENENTS = [
-            'touchstart', 
-            'touchmove', 
-            'touchend', 
-            'touchcancel', 
+            'touchstart',
+            'touchmove',
+            'touchend',
+            'touchcancel',
             'tap',
             'double-tap',
             'doubleTap',
@@ -41,7 +41,7 @@ const plugin = {
          */
         const _bindEvent = (el, binding) => {
 
-            if(-1 === SPPORT_ENENTS.indexOf(binding.arg)) {
+            if (-1 === SPPORT_ENENTS.indexOf(binding.arg)) {
                 console.warn(`不支持${binding.arg}事件!`);
                 return;
             }
@@ -49,17 +49,20 @@ const plugin = {
             let instance;
             if (-1 === manage_index) {
                 // 新建实例
-                instance = new Finger(el);
-                _manages.push({ instance, el });
+                instance = new Touch2(el);
+                _manages.push({
+                    instance,
+                    el
+                });
             } else {
                 instance = _manages[manage_index].instance;
             }
 
             // 绑定事件
-            instance.on(binding.arg, (data, e)=>{
+            instance.on(binding.arg, (data, e) => {
                 binding.modifiers.stop && e.stopPropagation();
                 binding.modifiers.prevent && e.preventDefault();
-                if(binding.modifiers.self && el !== e.target) return;
+                if (binding.modifiers.self && el !== e.target) return;
                 binding.value(data, e);
             });
         };
@@ -71,7 +74,7 @@ const plugin = {
         const _unbindEvent = (el) => {
             const manage_index = _getManageIndex(el);
             // 防止一个元素上的多个手势指令会重复触发删除
-            if(-1 !== manage_index && undefined !== _manages[manage_index]) {
+            if (-1 !== manage_index && undefined !== _manages[manage_index]) {
                 _manages[manage_index].instance.destory();
                 _manages.splice(manage_index, 1);
             }

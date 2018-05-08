@@ -12,7 +12,7 @@
  * touchMove
  * touchEnd
  */
-export default class Finger {
+export default class Touch2 {
     /**
      * @param {Element} el
      * @param {Object} param1
@@ -105,7 +105,10 @@ export default class Finger {
         el.addEventListener('touchcancel', this._touchcancel);
     }
 
-
+    /**
+     * start阶段, 主要记录初始位置信息
+     * @param {Event} e 
+     */
     touchStartHandle(e) {
         if (!e.touches) return;
 
