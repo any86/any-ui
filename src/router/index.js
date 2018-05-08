@@ -296,17 +296,6 @@ export default new Router({
             name: 'loading',
             path: '/loading',
             component: LoadingDemo
-        },
-        {
-            name: 'test',
-            path: '/test',
-            component: TestDemo
-        },
-
-        {
-            name: 'three',
-            path: '/three',
-            component: ThreeDemo
-        },
+        }
     ]
 });
