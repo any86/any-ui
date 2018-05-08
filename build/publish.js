@@ -1,6 +1,6 @@
 'use strict'
 require('./check-versions')()
-const ci = require('../ci.js');
+const ci = require('./release.js');
 
 process.env.NODE_ENV = 'production'
 
