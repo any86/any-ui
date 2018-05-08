@@ -1,6 +1,6 @@
 {
     "name": "vue-atom-ui",
-    "version": "1.0.164",
+    "version": "1.0.165",
     "description": "vue-atom-ui",
     "author": "宁宁 <383514580@qq.com>",
     "main": "dist/atom.min.js",
@@ -15,7 +15,6 @@
         "docs:dev": "vuepress dev docs",
         "docs:build": "vuepress build docs",
         "docs:deploy": "vuepress build docs && node ./build/docs.js && rm -rf ./docs/dist/"
-        
     },
     "dependencies": {
         "@types/three": "^0.91.10",
