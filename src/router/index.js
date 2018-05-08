@@ -75,15 +75,6 @@ import TouchDemo from '@/pages/TouchDemo';
 // 组合
 import PopupPickerDemo from '@/pages/PopupPickerDemo'
 
-// 测试
-const TestDemo = () => ({
-    component: import ('@/pages/Test')
-});
-
-const ThreeDemo = () => ({
-    component: import ('@/pages/Three')
-});
-
 export default new Router({
     // mode: "history",
 
