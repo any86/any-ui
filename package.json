@@ -7,8 +7,8 @@
     "scripts": {
         "dev": "node build/dev-server.js",
         "start": "npm run dev",
-        "pub": "rm -rf dist/ && gulp build  && node build/publish.js",
-        "pubwin": "gulp build  && node build/publish.js",
+        "release": "rm -rf dist/ && gulp build  && node build/publish.js",
+        "release:win": "gulp build  && node build/publish.js",
         "build": "node build/build.js",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run unit",

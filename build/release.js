@@ -40,7 +40,7 @@ module.exports = function() {
     shell.exec(`git push`);
     console.log(chalk.black.bgGreen('git同步完成!\n'));
 
-    console.log(chalk.black.bgGreen('正在发布到npm...\n'));
+    console.log(chalk.black.bgGreen('准备发布到npm...\n'));
     shell.exec(`npm publish`);
     console.log(chalk.black.bgGreen('发布到npm成功!\n, ver: ' + package.version));
 }
