@@ -1,5 +1,5 @@
 # vue-atom-ui
-> 更快更简单
+更快更简单
 
 ### 演示
 [预览地址](https://383514580.github.io/atom/#/index)
