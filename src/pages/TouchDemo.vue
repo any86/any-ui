@@ -9,6 +9,7 @@
             v-touch:rotate.stop.prevent="rotateHandle"  
             v-touch:press.stop.prevent="pressHandle"  
             v-touch:swipe.stop.prevent="swipeHandle"  
+            @click="clickHandle"
             @touchstart="touchstart"  
             class="atom-img-panel  border ovh">
             <img :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
@@ -48,19 +49,35 @@ export default {
     },
 
     methods: {
-        tapHandle(e) {
+        touchstart() {
+            this.action = 'none';
+            log('touchstart', Date.now());
+        },
+
+
+        clickHandle(e){
+            log('click', Date.now());
+        },
+
+        tapHandle(data, e) {
+            log('tap', Date.now());
             this.action = 'tap';
         },
 
         pressHandle(e) {
+            log('press', Date.now());
             this.action = 'press';
         },
 
         panHandle({deltaX, deltaY}, e) {
+            log('pan', Date.now(), deltaX, deltaY);
             this.transitionDuration = 0;
             this.x += deltaX;
             this.y += deltaY;
-            this.action = 'pan';
+            this.action = 'none';
+            setTimeout(()=>{
+                this.action = 'pan';
+            }, 0);
         },
 
         pinchHandle({scale}, e) {
@@ -81,15 +98,14 @@ export default {
         },
 
         swipeHandle({deltaX, deltaY,velocityX,velocityY}) {
+            log('swipe', Date.now());
             this.action = 'swipe';
-            this.transitionDuration = 500;
+            this.transitionDuration = 200;
             this.x += velocityX * 200 * Math.sign(deltaX);
             this.y += velocityY * 200 * Math.sign(deltaY);
         },
 
-        touchstart() {
-            this.action = 'none';
-        },
+
 
         reset() {
             this.x = 0;
