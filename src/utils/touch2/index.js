@@ -50,19 +50,8 @@ export default class Touch2 {
         this.isPanDisabled = false;
         this.isSwipeDisabled = false;
 
-
-        this.handlesManage = {};
-
-        this.rotateHandle = () => {};
-        this.pinchHandle = () => {};
-        this.singleTapHandle = () => {};
-        this.doubleTapHandle = () => {};
-        this.pressHandle = () => {};
-        this.panHandle = () => {};
-        this.swipeHandle = () => {};
-        this.touchStart = () => {};
-        this.touchMove = () => {};
-        this.touchEnd = () => {};
+        // 各个手势对应的handle集合
+        this.handleMap = {};
 
         // 替换事件中的this(元素)为class
         this.touchstart = this.touchStartHandle.bind(this);
@@ -101,8 +90,9 @@ export default class Touch2 {
             // 单点
             // 识别press
             this.pressTimeout = setTimeout(() => {
-                this.pressHandle({
-                    type: 'press'
+                this.emit('press', {
+                    type: 'press',
+                    nativeEvent: e
                 }, e);
             }, 251);
         } else {
@@ -138,11 +128,13 @@ export default class Touch2 {
             // 单点
             // 识别pan
             if (!this.isPanDisabled && (10 < absDeltaX || 10 < absDeltaY)) {
-                this.panHandle({
+                this.emit('pan', {
                     type: 'pan',
                     deltaX: Math.ceil(points[0].pageX - this.$fingerInput.points[0].pageX),
-                    deltaY: Math.ceil(points[0].pageY - this.$fingerInput.points[0].pageY)
+                    deltaY: Math.ceil(points[0].pageY - this.$fingerInput.points[0].pageY),
+                    nativeEvent: e
                 }, e);
+
             }
 
             // 存储当前点, 供下次移动做差值计算
@@ -161,15 +153,17 @@ export default class Touch2 {
 
             // 识别[rotate]
             let angle = getAngle(v, this.$fingerInput.startV); // 
-            this.rotateHandle({
+            this.emit('rotate', {
                 type: 'rotate',
-                angle
+                angle,
+                nativeEvent: e
             }, e);
 
             // 识别[pinch]
-            this.pinchHandle({
+            this.emit('pinch', {
                 type: 'pinch',
-                scale: vModule / this.$fingerInput.startVModule
+                scale: vModule / this.$fingerInput.startVModule,
+                nativeEvent: e
             }, e);
 
             this.$fingerInput.startV = v;
@@ -208,26 +202,19 @@ export default class Touch2 {
         if (250 > Date.now() - this.$fingerInput.timestamp && 2 > absDeltaX && 2 > absDeltaY) {
             this.cancelPress();
             // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
-            this.tapTimeout = setTimeout(() => {
-                this.tapHandle({
-                    type: 'tap'
-                }, e);
-                // this.emit('tap', {
-                //     type: 'tap',
-                //     nativeEvent: e
-                // });
-            }, 0);
+            this.emit('tap', {type: 'tap'}, e);
         }
 
 
         // 判断是否[swipe]
         if (!this.isSwipeDisabled && 250 > Date.now() - this.$fingerInput.timestamp && (0.3 < absVelocityX || 0.3 < absVelocityY)) {
-            this.swipeHandle({
+            this.emit('swipe', {
                 type: 'swipe',
                 velocityX,
                 velocityY,
                 deltaX: points[0].pageX - this.$fingerInput.startPoints[0].pageX,
-                deltaY: points[0].pageY - this.$fingerInput.startPoints[0].pageY
+                deltaY: points[0].pageY - this.$fingerInput.startPoints[0].pageY,
+                nativeEvent: e
             }, e);
         }
     }
@@ -253,8 +240,8 @@ export default class Touch2 {
      * @param {Function} handle 
      */
     on(eventName, handle) {
-        // this.handlesManage[this.camelize(eventName)] = handle
-        this[`${this.camelize(eventName)}Handle`] = handle;
+        this.handleMap[this.camelize(eventName)] = handle
+        // this[`${this.camelize(eventName)}Handle`] = handle;
     }
 
     /**
@@ -307,10 +294,7 @@ export default class Touch2 {
         this.cancelPress();
     }
 
-    emit(eventName, payload) {
-        this.handlesManage[eventName] = {
-            name: eventName,
-            payload
-        }
+    emit(eventName, payload, e) {
+        this.handleMap[eventName](payload, e);
     }
 }
