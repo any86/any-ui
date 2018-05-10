@@ -1,10 +1,8 @@
 <template>
     <main class="demo-page fill">
-        {{willScale}}
         <section 
             ref="panel"
             v-touch:tap.stop.prevent="tapHandle"
-            v-touch:doubleTap.stop.prevent="doubleTapHandle"  
             v-touch:pan.stop.prevent="panHandle"  
             v-touch:pinch.stop.prevent="pinchHandle"  
             v-touch:rotate.stop.prevent="rotateHandle"  
@@ -18,7 +16,6 @@
         <p class="text-danger gutter-top-sm">请拖动图片尝试</p>
         <h3 class="gutter-top">支持: </h3>
         <p :class="{scale: 'tap' === action}" class="text-darkest gutter-top-sm font-big">tap(单击)</p>
-        <p :class="{scale: 'doubleTap' === action}" class="text-darkest gutter-top-sm font-big">doubleTap(双击)</p>
         <p :class="{scale: 'press' === action}" class="text-darkest gutter-top-sm font-big">press(按住)</p>
         <p :class="{scale: 'pan' === action}" class="text-darkest gutter-top-sm font-big">pan(单指滑动)</p>
         <p :class="{scale: 'swipe' === action}" class="text-darkest gutter-top-sm font-big">swipe(单指快速滑动)</p>
@@ -78,10 +75,11 @@ export default {
             this.action = 'none';
             setTimeout(() => {
                 this.action = 'pan';
-            }, 0);
+            }, 10);
         },
 
         pinchHandle({ type, scale }, e) {
+            console.log('pinch', Date.now());
             this.action = 'none';
             this.scale *= scale;
             setTimeout(() => {
@@ -89,7 +87,7 @@ export default {
             }, 0);
         },
         swipeHandle({ deltaX, deltaY, velocityX, velocityY, type }) {
-            log('swipe', Date.now());
+            console.log('swipe', Date.now());
             this.action = type;
             this.transitionDuration = 200;
             this.x += deltaX * 2;
@@ -100,9 +98,12 @@ export default {
         },
 
         rotateHandle({ angle }) {
-            // return;
+            console.log('rotate', Date.now());
             this.rotate += angle;
-            this.action = 'rotate';
+            this.action = 'none';
+            setTimeout(() => {
+                this.action = 'rotate';
+            }, 0);
         },
 
 
