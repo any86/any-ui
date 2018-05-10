@@ -12,68 +12,23 @@
  * touchMove
  * touchEnd
  */
-
-const $_session = {};
+import {
+    getVLength,
+    getDotProduct,
+    getRadian,
+    getCross,
+    getAngle
+} from './vector.js'
 export default class Touch2 {
     /**
      * @param {Element} el
      * @param {Object} param1
      */
-    constructor(el, {
-        triggerTapMaxTime = 250, // triggerTapMaxTime时间内, 只发生一次touchstart算作tap
-        triggerTapMaxSize = 2, // 触发tap事件的最大尺寸范围
-        triggerPressTime = 500, // 触发press所需时间
-    } = {}) {
+    constructor(el, {} = {}) {
         this.el = el;
-        this.triggerTapMaxTime = triggerTapMaxTime;
-        this.triggerTapMaxSize = triggerTapMaxSize;
-        this.triggerPressTime = triggerPressTime;
-        this.startTime = null;
-        this.lastTime = null;
-        this.startScale = 1;
-        this.activeScale = 1;
-        this.startAngle = 0;
-        this.activeAngle = 0;
-        this.isPreventSwipe = false;
-        this.preventSwipeTimeout = null;
-        // this.panThreshold = 10;
-        // 起始向量(2指间)
-        this.startV = {
-            x: null,
-            y: null
-        };
+        this.$fingerInput = {}; // 手势产生的数据
 
-        // 当前向量(2指间)
-        this.activeV = {
-            x: null,
-            y: null
-        };
-
-        // 接触点坐标, 相对屏幕左上角, touchstart的时候更新为activePoint的值
-        this.startPoint = [{
-            x: null,
-            y: null
-        }, {
-            x: null,
-            y: null
-        }];
-
-        // 当前接触点坐标, 相对屏幕左上角
-        this.activePoint = [{
-            x: null,
-            y: null
-        }, {
-            x: null,
-            y: null
-        }];
-
-        // 判断doubleTap所需临时变量
-        this.preTapPonit = {
-            x: null,
-            y: null
-        };
-
-        this.isDoubleTap = false;
+        // timeout
         this.tapTimeout = null;
         this.singleTapTimeout = null;
         this.doubleTapTimeout = null;
@@ -81,30 +36,37 @@ export default class Touch2 {
         this.swipeTimeout = null;
         this.rotateTimeout = null;
         this.pinchTimeout = null;
-        this.type = '';
 
-        this._rotateHandle = () => {};
-        this._pinchHandle = () => {};
-        this._singleTapHandle = () => {};
-        this._doubleTapHandle = () => {};
-        this._pressHandle = () => {};
-        this._panHandle = () => {};
-        this._swipeHandle = () => {};
+        // this.disablePanTimeout = null;
+        // this.disableSwipeTimeout = null;
+
+        // disabled
+        this.isPanDisabled = false;
+        this.isSwipeDisabled = false;
+
+
+        this.rotateHandle = () => {};
+        this.pinchHandle = () => {};
+        this.singleTapHandle = () => {};
+        this.doubleTapHandle = () => {};
+        this.pressHandle = () => {};
+        this.panHandle = () => {};
+        this.swipeHandle = () => {};
         this.touchStart = () => {};
         this.touchMove = () => {};
         this.touchEnd = () => {};
 
         // 替换事件中的this(元素)为class
-        this._touchstart = this.touchStartHandle.bind(this);
-        this._touchmove = this.touchMoveHandle.bind(this);
-        this._touchend = this.touchEndHandle.bind(this);
-        this._touchcancel = this.touchEndHandle.bind(this);
+        this.touchstart = this.touchStartHandle.bind(this);
+        this.touchmove = this.touchMoveHandle.bind(this);
+        this.touchend = this.touchEndHandle.bind(this);
+        this.touchcancel = this.touchEndHandle.bind(this);
 
         // 绑定事件
-        el.addEventListener('touchstart', this._touchstart);
-        el.addEventListener('touchmove', this._touchmove);
-        el.addEventListener('touchend', this._touchend);
-        el.addEventListener('touchcancel', this._touchcancel);
+        el.addEventListener('touchstart', this.touchstart);
+        el.addEventListener('touchmove', this.touchmove);
+        el.addEventListener('touchend', this.touchend);
+        el.addEventListener('touchcancel', this.touchcancel);
     }
 
     /**
@@ -116,19 +78,32 @@ export default class Touch2 {
         const points = e.touches;
         const pointCount = points.length;
 
-        // modify
-        $_session.timestamp = Date.now();
-        $_session.points = points;
-        
-        // 存储起始点
-        $_session.startPoints = points;
+        // 手势数据
+        this.$fingerInput.timestamp = Date.now();
+        this.$fingerInput.points = points;
+        this.$fingerInput.startPoints = points; // 存储起始点
+        this.$fingerInput.startV = {
+            x: this.$fingerInput.startPoints[1].pageX - this.$fingerInput.startPoints[0].pageX,
+            y: this.$fingerInput.startPoints[1].pageY - this.$fingerInput.startPoints[0].pageY
+        }; // 起始向量
+        this.$fingerInput.startVModule = getVLength(this.$fingerInput.startV); // 向量模
 
-        this.pressTimeout = setTimeout(() => {
-            this._pressHandle({
-                type: 'press'
-            }, e);
-        }, 500);
-
+        // 单/多点触碰
+        if (1 === pointCount) {
+            this.isPanDisabled = false;
+            this.isSwipeDisabled = false;
+            // 单点
+            // 识别press
+            this.pressTimeout = setTimeout(() => {
+                this.pressHandle({
+                    type: 'press'
+                }, e);
+            }, 251);
+        } else {
+            // 多点
+            this.isPanDisabled = true;
+            this.isSwipeDisabled = true;
+        }
     }
 
     /**
@@ -138,75 +113,108 @@ export default class Touch2 {
     touchMoveHandle(e) {
         const points = e.touches;
         const pointCount = points.length;
-
-        const deltaX = Math.ceil(points[0].pageX - $_session.startPoints[0].pageX);
-        const deltaY = Math.ceil(points[0].pageY - $_session.startPoints[0].pageY);
+        const deltaX = Math.ceil(points[0].pageX - this.$fingerInput.startPoints[0].pageX);
+        const deltaY = Math.ceil(points[0].pageY - this.$fingerInput.startPoints[0].pageY);
         const absDeltaX = Math.abs(deltaX);
         const absDeltaY = Math.abs(deltaY);
-        
-        
-        // 识别pan
-        if (10 < absDeltaX || 10 < absDeltaY) {
-            this._panHandle({
-                type: 'pan',
-                deltaX: Math.ceil(points[0].pageX - $_session.points[0].pageX),
-                deltaY: Math.ceil(points[0].pageY - $_session.points[0].pageY)
+
+        // 单/多点触碰
+        if (1 === pointCount) {
+            // 识别pan
+            if (!this.isPanDisabled && (10 < absDeltaX || 10 < absDeltaY)) {
+                this.panHandle({
+                    type: 'pan',
+                    deltaX: Math.ceil(points[0].pageX - this.$fingerInput.points[0].pageX),
+                    deltaY: Math.ceil(points[0].pageY - this.$fingerInput.points[0].pageY)
+                }, e);
+            }
+
+            // 存储当前点, 供下次移动做差值计算
+            this.$fingerInput.points = points;
+
+        } else {
+            this.isPanDisabled = true;
+            this.isSwipeDisabled = true;
+
+            let v = {
+                x: points[1].pageX - points[0].pageX,
+                y: points[1].pageY - points[0].pageY
+            }; // 当前向量
+            let vModule = getVLength(v); // 当前向量摸
+
+            // 识别[rotate]
+            let angle = getAngle(v, this.$fingerInput.startV); // 
+            this.rotateHandle({type: 'rotate', angle}, e);
+
+            // 识别[pinch]
+            this.pinchHandle({
+                type: 'pinch',
+                scale: vModule / this.$fingerInput.startVModule
             }, e);
+
+            this.$fingerInput.startV = v;
+            this.$fingerInput.startVModule = vModule;
         }
-        
-        // 存储当前点, 供下次移动做差值计算
-        $_session.points = points;
 
         // 取消press
         if (9 < absDeltaX || 9 < absDeltaY) {
-            this._cancelPress();
+            this.cancelPress();
         }
     }
 
     touchEndHandle(e) {
         const points = e.changedTouches;
         const pointCount = points.length;
-
-        const deltaX = points[0].pageX - $_session.startPoints[0].pageX;
-        const deltaY = points[0].pageY - $_session.startPoints[0].pageY;
+        const deltaX = points[0].pageX - this.$fingerInput.startPoints[0].pageX;
+        const deltaY = points[0].pageY - this.$fingerInput.startPoints[0].pageY;
         const absDeltaX = Math.abs(deltaX);
         const absDeltaY = Math.abs(deltaY);
+        const deltaTime = Date.now() - this.$fingerInput.timestamp;
+        const velocityX = deltaX / deltaTime;
+        const velocityY = deltaY / deltaTime;
+        const absVelocityX = Math.abs(velocityX);
+        const absVelocityY = Math.abs(velocityY);
 
-        // 判断是否单击
-        if (250 > Date.now() - $_session.timestamp && 2 > absDeltaX && 2 > absDeltaY) {
-            this._cancelPress();
+        // 当有手指移开的时候, 接触swipe/pan禁用
+        setTimeout(() => {
+            this.isPanDisabled = false;
+            this.isSwipeDisabled = false;
+        }, 30);
 
+
+        // 判断是否[tap](单击)
+        if (250 > Date.now() - this.$fingerInput.timestamp && 2 > absDeltaX && 2 > absDeltaY) {
+            this.cancelPress();
             // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
             this.tapTimeout = setTimeout(() => {
-                this._singleTapHandle({
+                this.singleTapHandle({
                     type: 'tap'
                 }, e);
             }, 0);
         }
 
 
-        // // 判断是否swipe
-        // let deltaTime = Date.now() - $_session.timestamp;
-        // let velocityX = absDeltaX / deltaTime;
-        // let velocityY = absDeltaY / deltaTime;
-        // if (0.3 < velocityX || 0.3 < velocityY) {
-        //     this._swipeHandle({
-        //         type: 'swipe',
-        //         deltaX: points[0].pageX - $_session.lastX,
-        //         deltaY: points[0].pageY - $_session.lastY
-        //     }, e);
-        // }
+        // 判断是否[swipe]
+        if (!this.isSwipeDisabled && 250 > Date.now() - this.$fingerInput.timestamp && (0.3 < absVelocityX || 0.3 < absVelocityY)) {
+            this.swipeHandle({
+                type: 'swipe',
+                velocityX,
+                velocityY,
+                deltaX: points[0].pageX - this.$fingerInput.startPoints[0].pageX,
+                deltaY: points[0].pageY - this.$fingerInput.startPoints[0].pageY
+            }, e);
+        }
     }
 
     touchCancelHandle(e) {
-        this._cancelAll();
+        this.cancelAll();
     }
 
     /**
      * "-"格式转成驼峰格式
      * @param {String} string 
      */
-    _camelize(string) {
+    camelize(string) {
         var camelizeRE = /-(\w)/g;
         return string.replace(camelizeRE, word => {
             return word.toLocaleUpperCase().slice(1)
@@ -220,9 +228,9 @@ export default class Touch2 {
      */
     on(eventName, handle) {
         if ('tap' === eventName) {
-            this._singleTapHandle = handle;
+            this.singleTapHandle = handle;
         } else {
-            this[`_${this._camelize(eventName)}Handle`] = handle;
+            this[`${this.camelize(eventName)}Handle`] = handle;
         }
     }
 
@@ -232,98 +240,49 @@ export default class Touch2 {
      * @param {Function} handle 
      */
     off(eventName, handle) {
-        this[`_${eventName}Handle`] = () => {};
+        this[`${eventName}Handle`] = () => {};
     }
 
     destory() {
-        this.el.removeEventListener('touchstart', this._touchstart);
-        this.el.removeEventListener('touchmove', this._touchmove);
-        this.el.removeEventListener('touchend', this._touchend);
-        this.el.removeEventListener('touchcancel', this._touchcancel);
-        this._cancelAll();
+        this.el.removeEventListener('touchstart', this.touchstart);
+        this.el.removeEventListener('touchmove', this.touchmove);
+        this.el.removeEventListener('touchend', this.touchend);
+        this.el.removeEventListener('touchcancel', this.touchcancel);
+        this.cancelAll();
     }
 
-    _cancelSingleTap() {
+    cancelSingleTap() {
         clearTimeout(this.singleTapTimeout);
         this.singleTapTimeout = null;
     }
 
-    _cancelPress() {
+    cancelPress() {
         clearTimeout(this.pressTimeout);
         this.pressTimeout = null;
     }
 
-    _cancelDoubleTap() {
+    cancelDoubleTap() {
         clearTimeout(this.doubleTapTimeout);
         this.doubleTapTimeout = null;
     }
 
-    _cancelSwipe() {
+    cancelSwipe() {
         clearTimeout(this.swipeTimeout);
         this.swipeTimeout = null;
     }
 
-    _cancelPinch() {
+    cancelPinch() {
         clearTimeout(this.pinchTimeout);
         this.pinchTimeout = null;
     }
 
-    _cancelAll() {
-        this._cancelSingleTap();
-        this._cancelDoubleTap();
-        this._cancelSwipe();
-        this._cancelPinch();
-        this._cancelPress();
+    cancelAll() {
+        this.cancelSingleTap();
+        this.cancelDoubleTap();
+        this.cancelSwipe();
+        this.cancelPinch();
+        this.cancelPress();
     }
 
-    /**
-     * 获取向量长度
-     * @param {Object} 向量
-     */
-    _getVLength(v) {
-        return Math.sqrt(v.x * v.x + v.y * v.y);
-    }
 
-    /**
-     * 点积
-     * @param {Object} v1
-     * @param {Object} v2
-     */
-    _getDotProduct(v1, v2) {
-        return v1.x * v2.x + v1.y * v2.y;
-    }
-
-    /**
-     * 向量夹角(弧度)
-     * @param {Object} v1
-     * @param {Object} v2
-     */
-    _getRadian(v1, v2) {
-        var mr = this._getVLength(v1) * this._getVLength(v2);
-        if (mr === 0) return 0;
-        var r = this._getDotProduct(v1, v2) / mr;
-        if (r > 1) r = 1;
-        return Math.acos(r);
-    }
-
-    /**
-     * 求旋转方向
-     * 顺时针/逆时针
-     */
-    _getCross(v1, v2) {
-        return v1.x * v2.y - v2.x * v1.y;
-    }
-
-    /**
-     * 向量夹角(角度)
-     * @param {Object} v1
-     * @param {Object} v2
-     */
-    _getAngle(v1, v2) {
-        var angle = this._getRadian(v1, v2);
-        if (this._getCross(v1, v2) > 0) {
-            angle *= -1;
-        }
-        return angle * 180 / Math.PI;
-    }
 }

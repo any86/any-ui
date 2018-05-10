@@ -1,5 +1,6 @@
 <template>
     <main class="demo-page fill">
+        {{willScale}}
         <section 
             ref="panel"
             v-touch:tap.stop.prevent="tapHandle"
@@ -44,18 +45,18 @@ export default {
             y: 0,
             width: 0,
             height: 0,
-            action: 'none'
+            action: 'none',
+            willScale: 1
         };
     },
 
     methods: {
         touchstart() {
             this.action = 'none';
-            log('touchstart', Date.now());
+            // log('touchstart', Date.now());
         },
 
-
-        clickHandle(e){
+        clickHandle(e) {
             log('click', Date.now());
         },
 
@@ -69,40 +70,39 @@ export default {
             this.action = 'press';
         },
 
-        panHandle({deltaX, deltaY}, e) {
-            log('pan', Date.now(), deltaX, deltaY);
+        panHandle({ deltaX, deltaY }, e) {
+            console.log('pan', Date.now(), deltaX, deltaY);
             this.transitionDuration = 0;
             this.x += deltaX;
             this.y += deltaY;
             this.action = 'none';
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.action = 'pan';
             }, 0);
         },
 
-        pinchHandle({scale}, e) {
-            const willScale = this.scale * scale;
-            if (2 >= willScale) {
-                this.scale *= scale;
+        pinchHandle({ type, scale }, e) {
+            this.action = 'none';
+            this.scale *= scale;
+            setTimeout(() => {
                 this.action = 'pinch';
-            }
+            }, 0);
         },
-
+        swipeHandle({ deltaX, deltaY, velocityX, velocityY, type }) {
+            log('swipe', Date.now());
+            this.action = type;
+            this.transitionDuration = 200;
+            this.x += deltaX * 2;
+            this.y += deltaY * 2;
+        },
         doubleTapHandle() {
             this.action = 'doubleTap';
         },
 
-        rotateHandle({angle}) {
+        rotateHandle({ angle }) {
+            // return;
             this.rotate += angle;
             this.action = 'rotate';
-        },
-
-        swipeHandle({deltaX, deltaY,velocityX,velocityY}) {
-            log('swipe', Date.now());
-            this.action = 'swipe';
-            this.transitionDuration = 200;
-            this.x += velocityX * 200 * Math.sign(deltaX);
-            this.y += velocityY * 200 * Math.sign(deltaY);
         },
 
 

@@ -195,6 +195,7 @@ export default class Touch2 {
             // [!rotate][!pinch], 当前2指坐标构成的向量
             this.activeV = {
                 x: points[1].pageX - points[0].pageX,
+             
                 y: points[1].pageY - points[0].pageY
             };
 

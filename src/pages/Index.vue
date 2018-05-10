@@ -80,6 +80,7 @@
     </a-scroll-view>
 </template>
 <script>
+import Touch2 from '../utils/touch2'
 export default {
     name: 'Index',
 
@@ -88,7 +89,7 @@ export default {
     },
 
     mounted(){
-
+        new Touch2(document.documentElement);
         // dir(this)
 
         setTimeout(()=>{

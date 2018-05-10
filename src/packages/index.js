@@ -13,7 +13,7 @@ import ALoading from './Loading';
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
 // 手势
-import finger from '../directives/finger/index.js';
+import finger from '../directives/touch/index.js';
 // 移动dom指令
 import DomPortal from 'vue-dom-portal';
 
