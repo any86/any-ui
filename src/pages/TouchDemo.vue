@@ -1,5 +1,6 @@
 <template>
     <main class="demo-page fill">
+        {{scale}}
         <section 
             ref="panel"
             v-touch:tap.stop.prevent="tapHandle"
@@ -92,7 +93,7 @@ export default {
         
 
         pinchHandle({ type, scale }, e) {
-            console.log('pinch', Date.now());
+            console.log('pinch', Date.now(), scale);
             this.action = 'none';
             this.scale *= scale;
             setTimeout(() => {

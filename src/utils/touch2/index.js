@@ -88,7 +88,7 @@ export default class Touch2 {
         this.$fingerInput.pointCount = pointCount;
         this.$fingerInput.startPoints = points; // 存储起始点
         this.$fingerInput.prevPoints = undefined;
-        
+
         // 单/多点触碰
         if (1 === this.$fingerInput.pointCount) {
             this.isPanDisabled = false;
@@ -108,6 +108,9 @@ export default class Touch2 {
                 y: this.$fingerInput.startPoints[1].pageY - this.$fingerInput.startPoints[0].pageY
             }; // 起始向量
             this.$fingerInput.startVModule = getVLength(this.$fingerInput.startV); // 起始向量模
+            this.$fingerInput.vModule = this.$fingerInput.startVModule;
+            this.$fingerInput.prevV = undefined; // 上一次触碰产生的向量
+            this.$fingerInput.prevVModule = undefined; // 上一次触碰产生的向量模
 
             // 每次单点触摸开始, 解除pan和swipe的禁用
             this.isPanDisabled = true;
@@ -130,8 +133,12 @@ export default class Touch2 {
         this.$fingerInput.prevPoints = this.$fingerInput.points;
         this.$fingerInput.points = points; // 当前点
         this.$fingerInput.pointCount = pointCount;
-        this.$fingerInput.deltaX = Math.ceil(points[0].pageX - this.$fingerInput.startPoints[0].pageX);
-        this.$fingerInput.deltaY = Math.ceil(points[0].pageY - this.$fingerInput.startPoints[0].pageY);
+        this.$fingerInput.offsetX = Math.ceil(points[0].pageX - this.$fingerInput.startPoints[0].pageX); // 与起始点的偏移
+        this.$fingerInput.offsetY = Math.ceil(points[0].pageY - this.$fingerInput.startPoints[0].pageY);
+        this.$fingerInput.absOffsetX = Math.abs(this.$fingerInput.offsetX);
+        this.$fingerInput.absOffsetY = Math.abs(this.$fingerInput.offsetY);
+        this.$fingerInput.deltaX = Math.ceil(points[0].pageX - this.$fingerInput.prevPoints[0].pageX); // 与上一点的偏移
+        this.$fingerInput.deltaY = Math.ceil(points[0].pageY - this.$fingerInput.prevPoints[0].pageY);
         this.$fingerInput.absDeltaX = Math.abs(this.$fingerInput.deltaX);
         this.$fingerInput.absDeltaY = Math.abs(this.$fingerInput.deltaY);
 
@@ -139,11 +146,11 @@ export default class Touch2 {
         if (1 === pointCount) {
             // 单点
             // 识别[pan]
-            if (!this.isPanDisabled && (10 < this.$fingerInput.absDeltaX || 10 < this.$fingerInput.absDeltaY)) {
+            if (!this.isPanDisabled && (10 < this.$fingerInput.absOffsetX || 10 < this.$fingerInput.absOffsetY)) {
                 this.emit('pan', {
                     type: 'pan',
-                    deltaX: Math.ceil(this.$fingerInput.points[0].pageX - this.$fingerInput.prevPoints[0].pageX),
-                    deltaY: Math.ceil(this.$fingerInput.points[0].pageY - this.$fingerInput.prevPoints[0].pageY),
+                    deltaX: this.$fingerInput.deltaX,
+                    deltaY: this.$fingerInput.deltaY,
                     nativeEvent: e
                 }, e);
             }
@@ -152,14 +159,22 @@ export default class Touch2 {
             this.isPanDisabled = true;
             this.isSwipeDisabled = true;
 
+
             let v = {
                 x: points[1].pageX - points[0].pageX,
                 y: points[1].pageY - points[0].pageY
             }; // 当前向量
             let vModule = getVLength(v); // 当前向量摸
 
+            // 存储上次触碰产生的向量
+            this.$fingerInput.prevV = this.$fingerInput.v;
+            this.$fingerInput.prevVModule = this.$fingerInput.vModule;
+            // 新向量
+            this.$fingerInput.v = v;
+            this.$fingerInput.vModule = vModule;
+
             // 识别[rotate]
-            let angle = getAngle(v, this.$fingerInput.startV); // 
+            let angle = getAngle(this.$fingerInput.v, this.$fingerInput.prevV); //
             this.emit('rotate', {
                 type: 'rotate',
                 angle,
@@ -169,12 +184,9 @@ export default class Touch2 {
             // 识别[pinch]
             this.emit('pinch', {
                 type: 'pinch',
-                scale: vModule / this.$fingerInput.startVModule,
+                scale: this.$fingerInput.vModule / this.$fingerInput.prevVModule,
                 nativeEvent: e
             }, e);
-
-            this.$fingerInput.startV = v;
-            this.$fingerInput.startVModule = vModule;
         }
 
         // 取消[press]
@@ -204,21 +216,12 @@ export default class Touch2 {
         this.$fingerInput.absVelocityX = Math.abs(this.$fingerInput.velocityX);
         this.$fingerInput.absVelocityY = Math.abs(this.$fingerInput.velocityY);
 
-
-        // 当有手指移开的时候, 接触swipe/pan禁用
+        // 当有手指移开的时候, 解除swipe/pan禁用
         setTimeout(() => {
             this.isPanDisabled = false;
             this.isSwipeDisabled = false;
         }, 100);
 
-        // 判断是否[panend]
-        if (['panstart', 'panmove'].includes(this.action)) {
-            this.action = 'panend'
-            this.emit('panend', {
-                type: 'panend',
-                naiveEvent: e
-            }, e)
-        }
         // 判断是否[tap](单击)
         if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
             this.cancelPress();
@@ -228,7 +231,6 @@ export default class Touch2 {
             }, e);
         }
 
-log(this.$fingerInput.offsetTime ,this.$fingerInput.absVelocityX , this.$fingerInput.absVelocityY)
         // 判断是否[swipe]
         if (!this.isSwipeDisabled && 250 > this.$fingerInput.offsetTime && (0.3 < this.$fingerInput.absVelocityX || 0.3 < this.$fingerInput.absVelocityY)) {
             this.emit('swipe', {
@@ -300,9 +302,9 @@ log(this.$fingerInput.offsetTime ,this.$fingerInput.absVelocityX , this.$fingerI
         }
     }
 
-    clonePoints(points){
+    clonePoints(points) {
         let clonePoints = [];
-        for(let point of points) {
+        for (let point of points) {
             clonePoints.push({
                 pageX: point.pageX,
                 pageY: point.pageY,
