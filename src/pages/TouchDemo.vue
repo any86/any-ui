@@ -3,9 +3,7 @@
         <section 
             ref="panel"
             v-touch:tap.stop.prevent="tapHandle"
-            v-touch:panstart.stop.prevent="panstartHandle"  
-            v-touch:panmove.stop.prevent="panHandle"  
-            v-touch:panend.stop.prevent="panendHandle"  
+            v-touch:pan.stop.prevent="panHandle"  
             v-touch:pinch.stop.prevent="pinchHandle"
             v-touch:rotate.stop.prevent="rotateHandle"  
             v-touch:press.stop.prevent="pressHandle"  
@@ -63,7 +61,7 @@ export default {
         },
 
         panHandle({ deltaX, deltaY, type }, e) {
-            console.log('pan', Date.now(), type,deltaX, deltaY);
+            // console.log('pan', Date.now(), type,deltaX, deltaY);
             this.transitionDuration = 0;
             this.x += deltaX;
             this.y += deltaY;
@@ -75,7 +73,6 @@ export default {
 
         touchstart() {
             this.action = 'none';
-            // log('touchstart', Date.now());
         },
 
         clickHandle(e) {
