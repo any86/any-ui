@@ -3,8 +3,10 @@
         <section 
             ref="panel"
             v-touch:tap.stop.prevent="tapHandle"
-            v-touch:pan.stop.prevent="panHandle"  
-            v-touch:pinch.stop.prevent="pinchHandle"  
+            v-touch:panstart.stop.prevent="panstartHandle"  
+            v-touch:panmove.stop.prevent="panHandle"  
+            v-touch:panend.stop.prevent="panendHandle"  
+            v-touch:pinch.stop.prevent="pinchHandle"
             v-touch:rotate.stop.prevent="rotateHandle"  
             v-touch:press.stop.prevent="pressHandle"  
             v-touch:swipe.stop.prevent="swipeHandle"  
@@ -48,13 +50,36 @@ export default {
     },
 
     methods: {
+        panstartHandle(e){
+            log('panstart', e, Date.now())
+        },
+
+        panmoveHandle(e){
+            log('panmove', e, Date.now())
+        },
+
+        panendHandle(e){
+            log('panend', e, Date.now())
+        },
+
+        panHandle({ deltaX, deltaY, type }, e) {
+            console.log('pan', Date.now(), type,deltaX, deltaY);
+            this.transitionDuration = 0;
+            this.x += deltaX;
+            this.y += deltaY;
+            this.action = 'none';
+            setTimeout(() => {
+                this.action = 'pan';
+            }, 10);
+        },
+
         touchstart() {
             this.action = 'none';
             // log('touchstart', Date.now());
         },
 
         clickHandle(e) {
-            log('click', Date.now());
+            // log('click', e,Date.now());
         },
 
         tapHandle(data, e) {
@@ -67,16 +92,7 @@ export default {
             this.action = 'press';
         },
 
-        panHandle({ deltaX, deltaY }, e) {
-            console.log('pan', Date.now(), deltaX, deltaY);
-            this.transitionDuration = 0;
-            this.x += deltaX;
-            this.y += deltaY;
-            this.action = 'none';
-            setTimeout(() => {
-                this.action = 'pan';
-            }, 10);
-        },
+        
 
         pinchHandle({ type, scale }, e) {
             console.log('pinch', Date.now());

@@ -30,7 +30,7 @@ export default class Touch2 {
     } = {}) {
         this.el = el;
         this.$fingerInput = {}; // 手势产生的数据
-
+        this.action = '';
         this.isPreventDefault = isPreventDefault;
         this.isStopPropagation = isStopPropagation;
 
@@ -64,6 +64,10 @@ export default class Touch2 {
         el.addEventListener('touchmove', this.touchmove);
         el.addEventListener('touchend', this.touchend);
         el.addEventListener('touchcancel', this.touchcancel);
+
+
+        el.addEventListener('mousedown', this.touchstart);
+        el.addEventListener('mouseup', this.touchend);
     }
 
     /**
@@ -88,7 +92,7 @@ export default class Touch2 {
             this.isPanDisabled = false;
             this.isSwipeDisabled = false;
             // 单点
-            // 识别press
+            // 识别[press]
             this.pressTimeout = setTimeout(() => {
                 this.emit('press', {
                     type: 'press',
@@ -96,13 +100,15 @@ export default class Touch2 {
                 }, e);
             }, 251);
         } else {
+            // 多点
+
             this.$fingerInput.startV = {
                 x: this.$fingerInput.startPoints[1].pageX - this.$fingerInput.startPoints[0].pageX,
                 y: this.$fingerInput.startPoints[1].pageY - this.$fingerInput.startPoints[0].pageY
             }; // 起始向量
-            this.$fingerInput.startVModule = getVLength(this.$fingerInput.startV); // 向量模
+            this.$fingerInput.startVModule = getVLength(this.$fingerInput.startV); // 起始向量模
 
-            // 多点
+
             this.isPanDisabled = true;
             this.isSwipeDisabled = true;
         }
@@ -115,7 +121,6 @@ export default class Touch2 {
     touchMoveHandle(e) {
         if (this.isPreventDefault) e.preventDefault();
         if (this.isStopPropagation) e.stopPropagation();
-
         const points = e.touches;
         const pointCount = points.length;
         const deltaX = Math.ceil(points[0].pageX - this.$fingerInput.startPoints[0].pageX);
@@ -126,15 +131,24 @@ export default class Touch2 {
         // 单/多点触碰
         if (1 === pointCount) {
             // 单点
-            // 识别pan
+            // 识别[pan]
             if (!this.isPanDisabled && (10 < absDeltaX || 10 < absDeltaY)) {
+                // 识别[panstart, panmove]
+                if ('panstart' === this.action) this.action = 'panmove';
+                if ('panmove' !== this.action) this.action = 'panstart';
+                this.emit(this.action, {
+                    type: this.action,
+                    deltaX: Math.ceil(points[0].pageX - this.$fingerInput.points[0].pageX),
+                    deltaY: Math.ceil(points[0].pageY - this.$fingerInput.points[0].pageY),
+                    nativeEvent: e
+                }, e);
+
                 this.emit('pan', {
                     type: 'pan',
                     deltaX: Math.ceil(points[0].pageX - this.$fingerInput.points[0].pageX),
                     deltaY: Math.ceil(points[0].pageY - this.$fingerInput.points[0].pageY),
                     nativeEvent: e
                 }, e);
-
             }
 
             // 存储当前点, 供下次移动做差值计算
@@ -170,7 +184,7 @@ export default class Touch2 {
             this.$fingerInput.startVModule = vModule;
         }
 
-        // 取消press
+        // 取消[press]
         if (9 < absDeltaX || 9 < absDeltaY) {
             this.cancelPress();
         }
@@ -181,6 +195,7 @@ export default class Touch2 {
         if (this.isStopPropagation) e.stopPropagation();
         const points = e.changedTouches;
         const pointCount = points.length;
+
         const deltaX = points[0].pageX - this.$fingerInput.startPoints[0].pageX;
         const deltaY = points[0].pageY - this.$fingerInput.startPoints[0].pageY;
         const absDeltaX = Math.abs(deltaX);
@@ -197,12 +212,22 @@ export default class Touch2 {
             this.isSwipeDisabled = false;
         }, 100);
 
+        // 判断是否[panend]
+        if (['panstart', 'panmove'].includes(this.action)) {
 
+            this.action = 'panend'
+            this.emit('panend', {
+                type: 'panend',
+                naiveEvent: e
+            }, e)
+        }
         // 判断是否[tap](单击)
         if (250 > Date.now() - this.$fingerInput.timestamp && 2 > absDeltaX && 2 > absDeltaY) {
             this.cancelPress();
             // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
-            this.emit('tap', {type: 'tap'}, e);
+            this.emit('tap', {
+                type: 'tap'
+            }, e);
         }
 
 
@@ -295,6 +320,8 @@ export default class Touch2 {
     }
 
     emit(eventName, payload, e) {
-        this.handleMap[eventName](payload, e);
+        if (undefined !== this.handleMap[eventName]) {
+            this.handleMap[eventName](payload, e);
+        }
     }
 }

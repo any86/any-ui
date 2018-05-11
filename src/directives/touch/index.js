@@ -12,12 +12,13 @@ const plugin = {
             'touchend',
             'touchcancel',
             'tap',
-            'double-tap',
-            'doubleTap',
             'swipe',
             'pinch',
             'rotate',
             'pan',
+            'panstart',
+            'panmove',
+            'panend',
             'press'
         ];
 
