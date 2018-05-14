@@ -49,10 +49,35 @@ const getAngle = (v1, v2) => {
     return angle * 180 / Math.PI;
 }
 
+/**
+ * 获取多点之间的中心坐标
+ * @param {Array} 触碰点 
+ */
+const getCenter = (points) => {
+    const pointLength = points.length;
+    log(points)
+    if (1 < pointLength) {
+        let x = 0;
+        let y = 0;
+        let i = 0;
+        while (i < pointLength) {
+            x += points[i].clientX;
+            y += points[i].clientY;
+            i++;
+        }
+
+        return {
+            x: Math.round(x / pointLength),
+            y: Math.round(y / pointLength)
+        };
+    }
+}
+
 export {
     getVLength,
     getDotProduct,
     getRadian,
     getCross,
-    getAngle
+    getAngle,
+    getCenter
 };
