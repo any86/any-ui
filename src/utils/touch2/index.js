@@ -18,7 +18,8 @@ import {
     getRadian,
     getCross,
     getAngle,
-    getCenter
+    getCenter,
+    getDirection
 } from './vector.js'
 
 
@@ -148,6 +149,7 @@ export default class Touch2 {
         this.$fingerInput.deltaY = Math.ceil(points[0].pageY - this.$fingerInput.prevPoints[0].pageY);
         this.$fingerInput.absDeltaX = Math.abs(this.$fingerInput.deltaX);
         this.$fingerInput.absDeltaY = Math.abs(this.$fingerInput.deltaY);
+
         // 单/多点触碰
         if (1 === pointCount) {
             // 单点
@@ -160,6 +162,7 @@ export default class Touch2 {
             if ('none' === this.panState) this.panState = 'panstart';
             else this.panState = 'panmove';
             this.emit(this.panState, this.computedPanData(e), e);
+
         } else {
             // 多点
             this.isPanDisabled = true;
@@ -168,7 +171,6 @@ export default class Touch2 {
             // 存储上次触碰产生的向量
             this.$fingerInput.prevV = this.$fingerInput.v;
             this.$fingerInput.prevVModule = this.$fingerInput.vModule;
-
             // 当前向量
             this.$fingerInput.v = {
                 x: points[1].pageX - points[0].pageX,
@@ -237,14 +239,41 @@ export default class Touch2 {
 
         // 判断是否[swipe]
         if (!this.isSwipeDisabled && 250 > this.$fingerInput.offsetTime && (0.3 < this.$fingerInput.absVelocityX || 0.3 < this.$fingerInput.absVelocityY)) {
-            this.emit('swipe', {
-                type: 'swipe',
-                velocityX: this.$fingerInput.absVelocityX,
-                velocityY: this.$fingerInput.absVelocityY,
-                deltaX: this.$fingerInput.offsetX,
-                deltaY: this.$fingerInput.offsetY,
-                nativeEvent: e
-            }, e);
+            let swipeData = this.computedSwipeData(e);
+            this.emit('swipe', swipeData, e);
+            switch (swipeData.direction) {
+                case 2:
+                    {
+                        swipeData.type = 'swipeleft';
+                        this.emit(swipeData.type, swipeData, e);
+                        break;
+                    };
+
+                case 4:
+                    {
+                        swipeData.type = 'swiperight';
+                        this.emit(swipeData.type, swipeData, e);
+                        break;
+                    };
+
+                case 8:
+                    {
+                        swipeData.type = 'swipeup';
+                        this.emit(swipeData.type, swipeData, e);
+                        break;
+                    };
+
+                case 16:
+                    {
+                        swipeData.type = 'swipedown';
+                        this.emit(swipeData.type, swipeData, e);
+                        break;
+                    };
+                default:
+                    {
+                        break;
+                    }
+            }
         }
 
         // 识别[panend]
@@ -367,5 +396,17 @@ export default class Touch2 {
             centerY: center.y,
             nativeEvent: e
         };
+    }
+
+    computedSwipeData({e, type}) {
+        return {
+            type: 'swipe',
+            velocityX: this.$fingerInput.absVelocityX,
+            velocityY: this.$fingerInput.absVelocityY,
+            deltaX: this.$fingerInput.offsetX,
+            deltaY: this.$fingerInput.offsetY,
+            direction: getDirection(this.$fingerInput.offsetX, this.$fingerInput.offsetY),
+            nativeEvent: e
+        }
     }
 }

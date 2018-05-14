@@ -128,8 +128,8 @@ export default {
             this.action = 'press';
         },
 
-        swipeHandle({ deltaX, deltaY, velocityX, velocityY, type }) {
-            console.log('swipe', Date.now());
+        swipeHandle({ deltaX, deltaY, velocityX, velocityY, type, direction }) {
+            console.log('swipe', Date.now(), direction);
             this.action = type;
             this.transitionDuration = 200;
             this.x += deltaX * 2;

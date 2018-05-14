@@ -1,3 +1,10 @@
+import {
+    DIRECTION_NONE,
+    DIRECTION_LEFT,
+    DIRECTION_RIGHT,
+    DIRECTION_UP,
+    DIRECTION_DOWN
+} from './const';
 /**
  * 获取向量长度
  * @param {Object} 向量
@@ -70,9 +77,25 @@ const getCenter = (points) => {
             y: Math.round(y / pointLength)
         };
     }
-}
+};
+
+/**
+ * 
+ * @param {Number} 事件开始到结束的X偏移 
+ * @param {Number} 事件开始到结束的Y偏移 
+ */
+const getDirection = (offsetX, offsetY)=>{
+    if(offsetX === offsetY) {
+        return DIRECTION_NONE;
+    } else if(Math.abs(offsetX) > Math.abs(offsetY)) {
+        return 0 < offsetX ? DIRECTION_RIGHT : DIRECTION_LEFT;
+    } else {
+        return 0 < offsetY ? DIRECTION_DOWN : DIRECTION_UP;
+    }
+};
 
 export {
+    getDirection,
     getVLength,
     getDotProduct,
     getRadian,
