@@ -2,6 +2,8 @@
     <main class="demo-page fill">
         <section 
             ref="panel"
+            v-touch:tap.stop.prevent="tapHandle"
+            v-touch:press.stop.prevent="pressHandle"
             v-touch:pinch.stop.prevent="pinchHandle"
             v-touch:pan.stop.prevent="panHandle"
             v-touch:rotate.stop.prevent="rotateHandle"
@@ -115,21 +117,28 @@ export default {
         },
 
         clickHandle(e) {
-            // log('click', e,Date.now());
+            log('click', e,Date.now());
         },
 
         tapHandle(data, e) {
+            this.action = 'none';
             log('tap', Date.now());
-            this.action = 'tap';
+            setTimeout(()=>{
+                this.action = 'tap';
+            },100);
         },
 
         pressHandle(e) {
+            this.action = 'none';
             log('press', Date.now());
-            this.action = 'press';
+            setTimeout(()=>{
+                this.action = 'press';
+            },100);
+            
         },
 
         swipeHandle({ deltaX, deltaY, velocityX, velocityY, type, direction }) {
-            console.log('swipe', Date.now(), direction);
+            console.log(type, Date.now(), direction);
             this.action = type;
             this.transitionDuration = 200;
             this.x += deltaX * 2;

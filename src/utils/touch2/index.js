@@ -49,7 +49,7 @@ export default class Touch2 {
         this.rotateState = 'none';
         this.pinchState = 'none';
         this.panState = 'none';
-
+        this.tapCount = 0;
 
         // this.disablePanTimeout = null;
         // this.disableSwipeTimeout = null;
@@ -96,11 +96,17 @@ export default class Touch2 {
         this.$fingerInput.startPoints = points; // 存储起始点
         this.$fingerInput.prevPoints = undefined;
 
+        // 累计点击次数
+        this.tapCount++;
+
         // 单/多点触碰
         if (1 === this.$fingerInput.pointCount) {
+            // 单点
+
+            // 解除pan和swipe的禁用
             this.isPanDisabled = false;
             this.isSwipeDisabled = false;
-            // 单点
+
             // 识别[press]
             this.pressTimeout = setTimeout(() => {
                 this.emit('press', {
@@ -232,9 +238,11 @@ export default class Touch2 {
         if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
             this.cancelPress();
             // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
-            this.emit('tap', {
-                type: 'tap'
-            }, e);
+            setTimeout(() => {
+                this.emit('tap', {
+                    type: 'tap'
+                }, e);
+            }, 100);
         }
 
         // 判断是否[swipe]
@@ -398,7 +406,7 @@ export default class Touch2 {
         };
     }
 
-    computedSwipeData({e, type}) {
+    computedSwipeData(e) {
         return {
             type: 'swipe',
             velocityX: this.$fingerInput.absVelocityX,
