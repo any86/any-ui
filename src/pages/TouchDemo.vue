@@ -2,9 +2,10 @@
     <main class="demo-page fill">
         <section 
             ref="panel"
-            v-touch:rotatestart.stop.prevent="rotateStartHandle"
-            v-touch:rotatemove.stop.prevent="rotateMoveHandle"
-            v-touch:rotateend.stop.prevent="rotateEndHandle"
+            v-touch:pinch.stop.prevent="pinchHandle"
+            v-touch:pan.stop.prevent="panHandle"
+            v-touch:rotate.stop.prevent="rotateHandle"
+            v-touch:swipe.stop.prevent="swipeHandle"
             class="atom-img-panel  border ovh">
             <img :style="{transformOrigin:`${centerX} ${centerY}`,transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
@@ -39,45 +40,51 @@ export default {
             height: 0,
             action: 'none',
             centerX: 'center',
-            centerY: 'center',
+            centerY: 'center'
         };
     },
 
     methods: {
-        panStartHandle(e){
-            console.log('panstart', e, Date.now())
+        panStartHandle(e) {
+            console.log('panstart', e, Date.now());
         },
 
-        panMoveHandle(e){
-            console.log('panmove', e, Date.now())
+        panMoveHandle(e) {
+            console.log('panmove', e, Date.now());
         },
 
-        panEndHandle(e){
-            console.log('panend', e, Date.now())
+        panEndHandle(e) {
+            console.log('panend', e, Date.now());
         },
 
-
-        rotateStartHandle(e){
-            console.log('rotatestart', e, Date.now())
+        rotateStartHandle(e) {
+            console.log('rotatestart', e, Date.now());
         },
 
-        rotateMoveHandle(e){
-            console.log('rotatemove', e, Date.now())
+        rotateMoveHandle(e) {
+            console.log('rotatemove', e, Date.now());
         },
 
-        rotateEndHandle(e){
-            console.log('rotateend', e, Date.now())
+        rotateEndHandle(e) {
+            console.log('rotateend', e, Date.now());
         },
 
-        pinchStartHandle(e){
+        pinchStartHandle(e) {
             console.log('pinchStart', e, Date.now());
         },
 
-        pinchMoveHandle(e){
-            log('pinchMove', e, Date.now());
+        pinchMoveHandle({ centerX, centerY,scale, nativeEvent }) {
+            console.log('pinchmove', Date.now(), scale);
+            this.action = 'none';
+            this.scale *= scale;
+            setTimeout(() => {
+                this.action = 'pinchmove';
+            }, 0);
+            this.centerX = centerX + 'px';
+            this.centerY = centerY + 'px';
         },
 
-        pinchEndHandle(e){
+        pinchEndHandle(e) {
             log('pinchEnd', e, Date.now());
         },
 
@@ -90,6 +97,17 @@ export default {
             setTimeout(() => {
                 this.action = 'pan';
             }, 10);
+        },
+
+        pinchHandle({ centerX, centerY,scale, nativeEvent }) {
+            // console.log('pinchmove', Date.now(), scale);
+            this.action = 'none';
+            this.scale *= scale;
+            setTimeout(() => {
+                this.action = 'pinch';
+            }, 0);
+            // this.centerX = centerX + 'px';
+            // this.centerY = centerY + 'px';
         },
 
         touchstart() {
@@ -108,15 +126,6 @@ export default {
         pressHandle(e) {
             log('press', Date.now());
             this.action = 'press';
-        },
-
-        pinchHandle({ type, scale }, e) {
-            console.log('pinch', Date.now(), scale);
-            this.action = 'none';
-            this.scale *= scale;
-            setTimeout(() => {
-                this.action = 'pinch';
-            }, 0);
         },
 
         swipeHandle({ deltaX, deltaY, velocityX, velocityY, type }) {
@@ -140,8 +149,6 @@ export default {
                 this.action = 'rotate';
             }, 0);
         },
-
-
 
         reset() {
             this.x = 0;

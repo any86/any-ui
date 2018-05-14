@@ -348,9 +348,12 @@ export default class Touch2 {
     }
 
     computedPinchDate(e) {
+        let center = getCenter(this.$fingerInput.points);
         return {
             type: 'pinch',
             scale: this.$fingerInput.vModule / this.$fingerInput.prevVModule,
+            centerX: center.x,
+            centerY: center.y,
             nativeEvent: e
         }
     }
