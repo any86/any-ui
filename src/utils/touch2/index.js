@@ -17,7 +17,8 @@ import {
     getDotProduct,
     getRadian,
     getCross,
-    getAngle
+    getAngle,
+    getCenter
 } from './vector.js'
 
 
@@ -43,6 +44,11 @@ export default class Touch2 {
         this.swipeTimeout = null;
         this.rotateTimeout = null;
         this.pinchTimeout = null;
+
+        this.rotateState = 'none';
+        this.pinchState = 'none';
+        this.panState = 'none';
+
 
         // this.disablePanTimeout = null;
         // this.disableSwipeTimeout = null;
@@ -108,6 +114,7 @@ export default class Touch2 {
                 y: this.$fingerInput.startPoints[1].pageY - this.$fingerInput.startPoints[0].pageY
             }; // 起始向量
             this.$fingerInput.startVModule = getVLength(this.$fingerInput.startV); // 起始向量模
+            this.$fingerInput.v = this.$fingerInput.startV;
             this.$fingerInput.vModule = this.$fingerInput.startVModule;
             this.$fingerInput.prevV = undefined; // 上一次触碰产生的向量
             this.$fingerInput.prevVModule = undefined; // 上一次触碰产生的向量模
@@ -141,52 +148,49 @@ export default class Touch2 {
         this.$fingerInput.deltaY = Math.ceil(points[0].pageY - this.$fingerInput.prevPoints[0].pageY);
         this.$fingerInput.absDeltaX = Math.abs(this.$fingerInput.deltaX);
         this.$fingerInput.absDeltaY = Math.abs(this.$fingerInput.deltaY);
-
         // 单/多点触碰
         if (1 === pointCount) {
             // 单点
             // 识别[pan]
             if (!this.isPanDisabled && (10 < this.$fingerInput.absOffsetX || 10 < this.$fingerInput.absOffsetY)) {
-                this.emit('pan', {
-                    type: 'pan',
-                    deltaX: this.$fingerInput.deltaX,
-                    deltaY: this.$fingerInput.deltaY,
-                    nativeEvent: e
-                }, e);
+                this.emit('pan', this.computedPanData(e), e);
             }
+
+            // 识别[panstart | panmove]
+            if ('none' === this.panState) this.panState = 'panstart';
+            else this.panState = 'panmove';
+            this.emit(this.panState, this.computedPanData(e), e);
         } else {
             // 多点
             this.isPanDisabled = true;
             this.isSwipeDisabled = true;
 
-
-            let v = {
-                x: points[1].pageX - points[0].pageX,
-                y: points[1].pageY - points[0].pageY
-            }; // 当前向量
-            let vModule = getVLength(v); // 当前向量摸
-
             // 存储上次触碰产生的向量
             this.$fingerInput.prevV = this.$fingerInput.v;
             this.$fingerInput.prevVModule = this.$fingerInput.vModule;
-            // 新向量
-            this.$fingerInput.v = v;
-            this.$fingerInput.vModule = vModule;
 
-            // 识别[rotate]
-            let angle = getAngle(this.$fingerInput.v, this.$fingerInput.prevV); //
-            this.emit('rotate', {
-                type: 'rotate',
-                angle,
-                nativeEvent: e
-            }, e);
+            // 当前向量
+            this.$fingerInput.v = {
+                x: points[1].pageX - points[0].pageX,
+                y: points[1].pageY - points[0].pageY
+            };
+            this.$fingerInput.vModule = getVLength(this.$fingerInput.v); // 当前向量摸
 
             // 识别[pinch]
-            this.emit('pinch', {
-                type: 'pinch',
-                scale: this.$fingerInput.vModule / this.$fingerInput.prevVModule,
-                nativeEvent: e
-            }, e);
+            this.emit('pinch', this.computedPinchDate(e), e);
+
+            // 识别[pinchstart | pinchmove]
+            if ('none' === this.pinchState) this.pinchState = 'pinchstart';
+            else this.pinchState = 'pinchmove';
+            this.emit(this.pinchState, this.computedPinchDate(e), e);
+
+            // 识别[rotate]
+            this.emit('rotate', this.computedRotateData(e), e);
+
+            // 识别[rotatestart | rotatemove]
+            if ('none' === this.rotateState) this.rotateState = 'rotatestart';
+            else this.rotateState = 'rotatemove';
+            this.emit(this.rotateState, this.computedRotateData(e), e);
         }
 
         // 取消[press]
@@ -242,6 +246,27 @@ export default class Touch2 {
                 nativeEvent: e
             }, e);
         }
+
+        // 识别[panend]
+        if ('none' !== this.panState) {
+            this.panState = 'panend';
+            this.emit(this.panState, this.computedPanData(e), e);
+            this.panState = 'none';
+        }
+
+        // 识别[pinchend]
+        if ('none' !== this.pinchState) {
+            this.pinchState = 'pinchend';
+            this.emit(this.pinchState, this.computedPinchDate(e), e);
+            this.pinchState = 'none';
+        }
+
+        // [rotateend]
+        if ('none' !== this.rotateState) {
+            this.rotateState = 'rotateend';
+            this.emit(this.rotateState, this.computedRotateData(e), e);
+            this.rotateState = 'none';
+        }
     }
 
     touchCancelHandle(e) {
@@ -265,7 +290,7 @@ export default class Touch2 {
      * @param {Function} handle 
      */
     on(eventName, handle) {
-        this.handleMap[this.camelize(eventName)] = handle
+        this.handleMap[this.camelize(eventName)] = handle;
         // this[`${this.camelize(eventName)}Handle`] = handle;
     }
 
@@ -311,5 +336,33 @@ export default class Touch2 {
             });
         }
         return clonePoints
+    }
+
+    computedPanData(e) {
+        return {
+            type: 'pan',
+            deltaX: this.$fingerInput.deltaX,
+            deltaY: this.$fingerInput.deltaY,
+            nativeEvent: e
+        }
+    }
+
+    computedPinchDate(e) {
+        return {
+            type: 'pinch',
+            scale: this.$fingerInput.vModule / this.$fingerInput.prevVModule,
+            nativeEvent: e
+        }
+    }
+
+    computedRotateData(e) {
+        let center = getCenter(this.$fingerInput.points);
+        return {
+            type: 'rotate',
+            angle: getAngle(this.$fingerInput.v, this.$fingerInput.prevV),
+            centerX: center.x,
+            centerY: center.y,
+            nativeEvent: e
+        };
     }
 }

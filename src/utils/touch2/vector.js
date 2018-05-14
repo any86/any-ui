@@ -55,7 +55,6 @@ const getAngle = (v1, v2) => {
  */
 const getCenter = (points) => {
     const pointLength = points.length;
-    log(points)
     if (1 < pointLength) {
         let x = 0;
         let y = 0;

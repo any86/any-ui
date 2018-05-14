@@ -14,7 +14,13 @@ const plugin = {
             'tap',
             'swipe',
             'pinch',
+            'pinchstart',
+            'pinchmove',
+            'pinchend',
             'rotate',
+            'rotatestart',
+            'rotatemove',
+            'rotateend',
             'pan',
             'panstart',
             'panmove',
@@ -41,7 +47,6 @@ const plugin = {
          * @param {Object} 指令对应的binding
          */
         const _bindEvent = (el, binding) => {
-
             if (-1 === SPPORT_ENENTS.indexOf(binding.arg)) {
                 console.warn(`不支持${binding.arg}事件!`);
                 return;
