@@ -41,6 +41,7 @@ export default class Touch2 {
         this.isStopPropagation = isStopPropagation;
 
         // timeout
+        this.tapTimeout = null;
         this.pressTimeout = null;
         this.swipeTimeout = null;
         this.rotateTimeout = null;
@@ -96,8 +97,6 @@ export default class Touch2 {
         this.$fingerInput.startPoints = points; // 存储起始点
         this.$fingerInput.prevPoints = undefined;
 
-        // 累计点击次数
-        this.tapCount++;
 
         // 单/多点触碰
         if (1 === this.$fingerInput.pointCount) {
@@ -238,11 +237,23 @@ export default class Touch2 {
         if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
             this.cancelPress();
             // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
-            setTimeout(() => {
-                this.emit('tap', {
-                    type: 'tap'
+            // 累计点击次数
+            if (0 === this.tapCount) {
+                this.tapCount++;
+                this.tapTimeout = setTimeout(() => {
+                    this.emit('tap', {
+                        type: 'tap',
+                    }, e);
+                    this.tapCount = 0;
+                }, 200);
+            } else {
+                this.cancelTap();
+                this.emit('doubletap', {
+                    type: 'doubletap',
+                    nativeEvent: e
                 }, e);
-            }, 100);
+                this.tapCount = 0;
+            }
         }
 
         // 判断是否[swipe]
@@ -353,8 +364,13 @@ export default class Touch2 {
         this.pressTimeout = null;
     }
 
+    cancelTap(){
+        clearTimeout(this.tapTimeout);
+        this.tapTimeout = null;
+    }
 
     cancelAll() {
+        this.cancelTap();
         this.cancelPress();
     }
 

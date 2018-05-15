@@ -7,6 +7,7 @@ const plugin = {
 
         // 支持的事件
         const SPPORT_ENENTS = [
+            'doubletap',
             'touchstart',
             'touchmove',
             'touchend',

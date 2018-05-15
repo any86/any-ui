@@ -3,6 +3,7 @@
         <section 
             ref="panel"
             v-touch:tap.stop.prevent="tapHandle"
+            v-touch:doubletap.stop.prevent="doubleTapHandle"
             v-touch:press.stop.prevent="pressHandle"
             v-touch:pinch.stop.prevent="pinchHandle"
             v-touch:pan.stop.prevent="panHandle"
@@ -14,6 +15,7 @@
         <p class="text-danger gutter-top-sm">请拖动图片尝试</p>
         <h3 class="gutter-top">支持: </h3>
         <p :class="{scale: 'tap' === action}" class="text-darkest gutter-top-sm font-big">tap(单击)</p>
+        <p :class="{scale: 'doubletap' === action}" class="text-darkest gutter-top-sm font-big">doubletap(双击)</p>
         <p :class="{scale: 'press' === action}" class="text-darkest gutter-top-sm font-big">press(按住)</p>
         <p :class="{scale: 'pan' === action}" class="text-darkest gutter-top-sm font-big">pan(单指滑动)</p>
         <p :class="{scale: 'swipe' === action}" class="text-darkest gutter-top-sm font-big">swipe(单指快速滑动)</p>
@@ -144,8 +146,13 @@ export default {
             this.x += deltaX * 2;
             this.y += deltaY * 2;
         },
-        doubleTapHandle() {
-            this.action = 'doubleTap';
+
+        doubleTapHandle(e) {
+            console.log('double-tap', e);
+            this.action = 'none';
+            setTimeout(()=>{
+                this.action = 'doubletap';
+            }, 200);
         },
 
         rotateHandle({ angle, centerX, centerY }) {
