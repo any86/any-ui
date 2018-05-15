@@ -1,51 +1,51 @@
 export default class PanRecognizer {
-    
-    constructor({
-        points,
-        absOffsetX,
-        absOffsetY
-    }) {
+
+    constructor() {
         this.type = 'panend';
+        this.$fingerInput = {};
     };
 
-    /**
-     * 移动超过10px, 才能算作pan
-     */
-    isPan() {
-        return 10 < absOffsetX || 10 < absOffsetY;
-    };
+    // start(){}
 
-    start(){
-        if('panend' === this.type){
-            this.type = 'panstart';
-        } else if('panstart' === this.type) {
-            this.type = 'panmove';
+    move(fingerInput) {
+        this.$fingerInput = fingerInput
+        if (10 < fingerInput.absOffsetX || 10 < fingerInput.absOffsetY) {
+            if ('panend' === this.type) {
+                this.type = 'panstart';
+            } else if ('panstart' === this.type) {
+                this.type = 'panmove';
+            }
+            return true;
+        } else {
+            return false;
         }
     };
 
-    stop() {
-        if('panmove' === this.type){
+    end() {
+        if ('panmove' === this.type) {
             this.type = 'panend';
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    cancel() {
+        if ('panmove' === this.type) {
+            this.type = 'panend';
+            return true;
+        } else {
+            return false;
         }
     };
 
-
-    // computedPanData(e) {
-    //     return {
-    //         type: 'pan',
-    //         deltaX: this.$fingerInput.deltaX,
-    //         deltaY: this.$fingerInput.deltaY,
-    //         nativeEvent: e
-    //     }
-    // }
-
-    // // 识别[pan]
-    // if (!isStop && (10 < fingerInput.absOffsetX || 10 < fingerInput.absOffsetY)) {
-    //     this.emit('pan', this.computedPanData(e), e);
-    // }
-
-    // // 识别[panstart | panmove]
-    // if ('none' === this.panState) this.panState = 'panstart';
-    // else this.panState = 'panmove';
-    // this.emit(this.panState, this.computedPanData(e), e);
+    computedData(e) {
+        return {
+            type: this.type,
+            parentType: 'pan',
+            deltaX: this.$fingerInput.deltaX,
+            deltaY: this.$fingerInput.deltaY,
+            nativeEvent: e
+        }
+    }
 };

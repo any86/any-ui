@@ -24,6 +24,7 @@ import {
 
 
 // *** 注意: touch-action未兼容
+import PanRecognizer from './recognitions/pan'
 
 export default class Touch2 {
     /**
@@ -49,8 +50,11 @@ export default class Touch2 {
 
         this.rotateType = 'none';
         this.pinchType = 'none';
-        this.panType = 'none';
         this.tapCount = 0;
+
+
+        // Recognizer
+        this.panRecognizer = new PanRecognizer();
 
         // this.disablePanTimeout = null;
         // this.disableSwipeTimeout = null;
@@ -154,21 +158,16 @@ export default class Touch2 {
         this.$fingerInput.absDeltaX = Math.abs(this.$fingerInput.deltaX);
         this.$fingerInput.absDeltaY = Math.abs(this.$fingerInput.deltaY);
 
-        // 单/多点触碰
         if (1 === pointCount) {
-            // 单点
-            // 识别[pan]
+            // ========== 单点 ==========
+            // 识别[panstart | panmove]
             if (!this.isPanDisabled) {
-                if (10 < this.$fingerInput.absOffsetX || 10 < this.$fingerInput.absOffsetY) {
-                    this.emit('pan', this.computedPanData(e, 'pan'), e);
-                    // 识别[panstart | panmove]
-                    if ('none' === this.panType) this.panType = 'panstart';
-                    else this.panType = 'panmove';
-                    this.emit(this.panType, this.computedPanData(e, this.panType), e);
+                if(this.panRecognizer.move(this.$fingerInput)){
+                    this.emit(this.panRecognizer.type, this.panRecognizer.computedData(e), e);
                 }
             }
         } else {
-            // 多点
+            // ========== 多点 ==========
             this.isPanDisabled = true;
             this.isSwipeDisabled = true;
 
@@ -306,11 +305,8 @@ export default class Touch2 {
         }
 
         // 识别[panend]
-        if ('none' !== this.panType) {
-            this.panType = 'panend';
-            this.emit(this.panType, this.computedPanData(e), e);
-            this.panType = 'none';
-            this.emit('pan', this.computedPanData(e, 'pan'), e);
+        if(this.panRecognizer.end()) {
+            this.emit(this.panRecognizer.type, this.panRecognizer.computedData(e), e);
         }
 
         // 识别[pinchend]
@@ -388,6 +384,12 @@ export default class Touch2 {
     emit(eventName, payload, e) {
         if (undefined !== this.handleMap[eventName]) {
             this.handleMap[eventName](payload, e);
+        }
+
+        if(undefined !== payload.parentType) {
+            payload.type = payload.parentType;
+            delete payload.parentType;
+            this.handleMap[payload.type](payload, e);
         }
     }
 

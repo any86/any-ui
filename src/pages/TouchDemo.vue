@@ -6,7 +6,7 @@
             v-touch:doubletap.stop.prevent="doubleTapHandle"
             v-touch:press.stop.prevent="pressHandle"
             v-touch:pinch.stop.prevent="pinchHandle"
-            v-touch:panmove.stop.prevent="panHandle"
+            v-touch:pan.stop.prevent="panHandle"
             v-touch:rotate.stop.prevent="rotateHandle"
             v-touch:swipe.stop.prevent="swipeHandle"
             class="atom-img-panel  border ovh">
@@ -93,7 +93,7 @@ export default {
         },
 
         panHandle({ deltaX, deltaY, type }, e) {
-            console.log(e, type, Date.now(), type,deltaX, deltaY);
+            console.log(type, Date.now(), type,deltaX, deltaY);
             this.transitionDuration = 0;
             this.x += deltaX;
             this.y += deltaY;
