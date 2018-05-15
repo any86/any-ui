@@ -148,7 +148,7 @@ export default {
         },
 
         doubleTapHandle(e) {
-            console.log('double-tap', e);
+            console.log('doubletap', e);
             this.action = 'none';
             setTimeout(()=>{
                 this.action = 'doubletap';
