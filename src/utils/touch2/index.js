@@ -233,20 +233,23 @@ export default class Touch2 {
             this.isSwipeDisabled = false;
         }, 100);
 
-        // 判断是否[tap](单击)
+        // 判断是否[tap|doubeltap]
         if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
             this.cancelPress();
             // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
-            // 累计点击次数
+
             if (0 === this.tapCount) {
+                // 识别[tap]
+                // 如果没有绑定双击事件, 那么让tap快速执行, 不需要等待200ms去识别doubletap
                 this.tapCount++;
                 this.tapTimeout = setTimeout(() => {
                     this.emit('tap', {
                         type: 'tap',
                     }, e);
                     this.tapCount = 0;
-                }, 200);
+                }, this.handleMap.doubletap ? 200 : 50);
             } else {
+                // 识别[doubletap]
                 this.cancelTap();
                 this.emit('doubletap', {
                     type: 'doubletap',
@@ -364,7 +367,7 @@ export default class Touch2 {
         this.pressTimeout = null;
     }
 
-    cancelTap(){
+    cancelTap() {
         clearTimeout(this.tapTimeout);
         this.tapTimeout = null;
     }
