@@ -47,9 +47,9 @@ export default class Touch2 {
         this.rotateTimeout = null;
         this.pinchTimeout = null;
 
-        this.rotateState = 'none';
-        this.pinchState = 'none';
-        this.panState = 'none';
+        this.rotateType = 'none';
+        this.pinchType = 'none';
+        this.panType = 'none';
         this.tapCount = 0;
 
         // this.disablePanTimeout = null;
@@ -96,7 +96,6 @@ export default class Touch2 {
         this.$fingerInput.pointCount = pointCount;
         this.$fingerInput.startPoints = points; // 存储起始点
         this.$fingerInput.prevPoints = undefined;
-
 
         // 单/多点触碰
         if (1 === this.$fingerInput.pointCount) {
@@ -159,15 +158,15 @@ export default class Touch2 {
         if (1 === pointCount) {
             // 单点
             // 识别[pan]
-            if (!this.isPanDisabled && (10 < this.$fingerInput.absOffsetX || 10 < this.$fingerInput.absOffsetY)) {
-                this.emit('pan', this.computedPanData(e), e);
+            if (!this.isPanDisabled) {
+                if (10 < this.$fingerInput.absOffsetX || 10 < this.$fingerInput.absOffsetY) {
+                    this.emit('pan', this.computedPanData(e, 'pan'), e);
+                    // 识别[panstart | panmove]
+                    if ('none' === this.panType) this.panType = 'panstart';
+                    else this.panType = 'panmove';
+                    this.emit(this.panType, this.computedPanData(e, this.panType), e);
+                }
             }
-
-            // 识别[panstart | panmove]
-            if ('none' === this.panState) this.panState = 'panstart';
-            else this.panState = 'panmove';
-            this.emit(this.panState, this.computedPanData(e), e);
-
         } else {
             // 多点
             this.isPanDisabled = true;
@@ -184,20 +183,20 @@ export default class Touch2 {
             this.$fingerInput.vModule = getVLength(this.$fingerInput.v); // 当前向量摸
 
             // 识别[pinch]
-            this.emit('pinch', this.computedPinchDate(e), e);
+            this.emit('pinch', this.computedPinchDate(e, 'pinch'), e);
 
             // 识别[pinchstart | pinchmove]
-            if ('none' === this.pinchState) this.pinchState = 'pinchstart';
-            else this.pinchState = 'pinchmove';
-            this.emit(this.pinchState, this.computedPinchDate(e), e);
+            if ('none' === this.pinchType) this.pinchType = 'pinchstart';
+            else this.pinchType = 'pinchmove';
+            this.emit(this.pinchType, this.computedPinchDate(e, this.pinchType), e);
 
             // 识别[rotate]
-            this.emit('rotate', this.computedRotateData(e), e);
+            this.emit('rotate', this.computedRotateData(e, 'rotate'), e);
 
             // 识别[rotatestart | rotatemove]
-            if ('none' === this.rotateState) this.rotateState = 'rotatestart';
-            else this.rotateState = 'rotatemove';
-            this.emit(this.rotateState, this.computedRotateData(e), e);
+            if ('none' === this.rotateType) this.rotateType = 'rotatestart';
+            else this.rotateType = 'rotatemove';
+            this.emit(this.rotateType, this.computedRotateData(e, this.rotateType), e);
         }
 
         // 取消[press]
@@ -209,13 +208,13 @@ export default class Touch2 {
     touchEndHandle(e) {
         if (this.isPreventDefault) e.preventDefault();
         if (this.isStopPropagation) e.stopPropagation();
-        const points = e.changedTouches;
-        const pointCount = points.length;
+        const endPoints = e.changedTouches;
         const now = Date.now();
 
-        // 整合输入数据
-        this.$fingerInput.prevPoints = points;
-        this.$fingerInput.endPoints = points;
+        this.$fingerInput.points = [];
+        this.$fingerInput.pointCount = 0;
+        this.$fingerInput.prevPoints = endPoints;
+        this.$fingerInput.endPoints = endPoints;
         this.$fingerInput.offsetX = this.$fingerInput.endPoints[0].pageX - this.$fingerInput.startPoints[0].pageX; // 距离起点的偏移
         this.$fingerInput.offsetY = this.$fingerInput.endPoints[0].pageY - this.$fingerInput.startPoints[0].pageY;
         this.$fingerInput.absOffsetX = Math.abs(this.$fingerInput.offsetX);
@@ -232,6 +231,14 @@ export default class Touch2 {
             this.isPanDisabled = false;
             this.isSwipeDisabled = false;
         }, 100);
+
+        // 识别[pressup]
+        if (null !== this.pressTimeout) {
+            this.emit('pressup', {
+                type: 'pressup'
+            });
+            this.pressTimeout = null;
+        }
 
         // 判断是否[tap|doubeltap]
         if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
@@ -261,7 +268,7 @@ export default class Touch2 {
 
         // 判断是否[swipe]
         if (!this.isSwipeDisabled && 250 > this.$fingerInput.offsetTime && (0.3 < this.$fingerInput.absVelocityX || 0.3 < this.$fingerInput.absVelocityY)) {
-            let swipeData = this.computedSwipeData(e);
+            let swipeData = this.computedSwipeData(e, 'swipe');
             this.emit('swipe', swipeData, e);
             switch (swipeData.direction) {
                 case 2:
@@ -299,24 +306,25 @@ export default class Touch2 {
         }
 
         // 识别[panend]
-        if ('none' !== this.panState) {
-            this.panState = 'panend';
-            this.emit(this.panState, this.computedPanData(e), e);
-            this.panState = 'none';
+        if ('none' !== this.panType) {
+            this.panType = 'panend';
+            this.emit(this.panType, this.computedPanData(e), e);
+            this.panType = 'none';
+            this.emit('pan', this.computedPanData(e, 'pan'), e);
         }
 
         // 识别[pinchend]
-        if ('none' !== this.pinchState) {
-            this.pinchState = 'pinchend';
-            this.emit(this.pinchState, this.computedPinchDate(e), e);
-            this.pinchState = 'none';
+        if ('none' !== this.pinchType) {
+            this.pinchType = 'pinchend';
+            this.emit(this.pinchType, this.computedPinchDate(e, this.pinchType), e);
+            this.pinchType = 'none';
         }
 
         // [rotateend]
-        if ('none' !== this.rotateState) {
-            this.rotateState = 'rotateend';
-            this.emit(this.rotateState, this.computedRotateData(e), e);
-            this.rotateState = 'none';
+        if ('none' !== this.rotateType) {
+            this.rotateType = 'rotateend';
+            this.emit(this.rotateType, this.computedRotateData(e, this.rotateType), e);
+            this.rotateType = 'none';
         }
     }
 
@@ -394,19 +402,19 @@ export default class Touch2 {
         return clonePoints
     }
 
-    computedPanData(e) {
+    computedPanData(e, type) {
         return {
-            type: 'pan',
+            type,
             deltaX: this.$fingerInput.deltaX,
             deltaY: this.$fingerInput.deltaY,
             nativeEvent: e
         }
     }
 
-    computedPinchDate(e) {
+    computedPinchDate(e, type) {
         let center = getCenter(this.$fingerInput.points);
         return {
-            type: 'pinch',
+            type,
             scale: this.$fingerInput.vModule / this.$fingerInput.prevVModule,
             centerX: center.x,
             centerY: center.y,
@@ -414,10 +422,10 @@ export default class Touch2 {
         }
     }
 
-    computedRotateData(e) {
+    computedRotateData(e, type) {
         let center = getCenter(this.$fingerInput.points);
         return {
-            type: 'rotate',
+            type,
             angle: getAngle(this.$fingerInput.v, this.$fingerInput.prevV),
             centerX: center.x,
             centerY: center.y,
@@ -425,9 +433,9 @@ export default class Touch2 {
         };
     }
 
-    computedSwipeData(e) {
+    computedSwipeData(e, type) {
         return {
-            type: 'swipe',
+            type,
             velocityX: this.$fingerInput.absVelocityX,
             velocityY: this.$fingerInput.absVelocityY,
             deltaX: this.$fingerInput.offsetX,
