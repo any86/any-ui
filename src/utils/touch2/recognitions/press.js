@@ -1,12 +1,12 @@
 export default class PressRecognizer {
 
     constructor() {
-        this.type = 'preesup';
-        this.pressTimeout = null;
+        this.type = 'pressup';
         this.$fingerInput = {};
+        this.pressTimeout = null;
     };
 
-    start(callback){
+    start(fingerInput, callback) {
         this.$fingerInput = fingerInput;
         this.pressTimeout = setTimeout(() => {
             this.type = 'press';
@@ -14,30 +14,35 @@ export default class PressRecognizer {
         }, 251);
     }
 
-    move(fingerInput, callback = ()=>{}) {
+    move(fingerInput) {
         this.$fingerInput = fingerInput;
-        // 点击后250秒内
-        // 位置偏移在2px以内
-        // 才可以触发press
         if (9 < this.$fingerInput.absDeltaX || 9 < this.$fingerInput.absDeltaY) {
-            // touchmove阶段触发
-            this.cancel();
-            return false;
+            this.cancelPress();
         }
     };
 
-    end() {
-        // 触发pressup
+    end(fingerInput) {
+        this.$fingerInput = fingerInput;
+        // 识别[pressup]
         if (null !== this.pressTimeout) {
-            this.emit('pressup', {
-                type: 'pressup'
-            });
+            this.type = 'pressup';
             this.pressTimeout = null;
         }
-    };
+
+        if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
+            this.cancelPress();
+        }
+    }
 
     cancel() {
         clearTimeout(this.pressTimeout);
         this.pressTimeout = null;
+    };
+
+    computedData(e) {
+        return {
+            type: this.type,
+            nativeEvent: e
+        }
     }
 };

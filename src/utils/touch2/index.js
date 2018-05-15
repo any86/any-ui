@@ -115,7 +115,7 @@ export default class Touch2 {
                     type: 'press',
                     nativeEvent: e
                 }, e);
-            }, 251);
+            }, 500);
         } else {
             // 多点
             this.$fingerInput.startV = {
@@ -241,6 +241,7 @@ export default class Touch2 {
 
         // 判断是否[tap|doubeltap]
         if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
+            log('this.$fingerInput.offsetTime', this.$fingerInput.offsetTime)
             this.cancelPress();
             // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
 
@@ -369,6 +370,7 @@ export default class Touch2 {
     cancelPress() {
         clearTimeout(this.pressTimeout);
         this.pressTimeout = null;
+        
     }
 
     cancelTap() {
