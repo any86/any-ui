@@ -72,8 +72,10 @@ const plugin = {
 
             // 绑定事件
             instance.on(binding.arg, (data, e) => {
-                binding.modifiers.stop && e.stopPropagation();
-                binding.modifiers.prevent && e.preventDefault();
+                instance.setConfig({
+                    isStopPropagation: !!binding.modifiers.stop,
+                    isPreventDefault: !!binding.modifiers.prevent
+                });
                 if (binding.modifiers.self && el !== e.target) return;
                 binding.value(data, e);
             });

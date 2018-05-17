@@ -23,9 +23,9 @@ import {
 } from './vector.js'
 
 // *** 注意: touch-action未兼容
-import PanRecognizer from './recognitions/Pan';
-import PressRecognizer from './recognitions/Press';
 import TapRecognizer from './recognitions/Tap';
+import PressRecognizer from './recognitions/Press';
+import PanRecognizer from './recognitions/Pan';
 import SwipeRecognizer from './recognitions/Swipe';
 import PinchRecognizer from './recognitions/Pinch';
 import RotateRecognizer from './recognitions/Rotate';
@@ -37,7 +37,7 @@ export default class Touch2 {
      * @param {Object} param1
      */
     constructor(el, {
-        isPreventDefault = true,
+        isPreventDefault = false,
         isStopPropagation = false
     } = {}) {
         this.el = el;
@@ -81,6 +81,14 @@ export default class Touch2 {
         // el.addEventListener('mouseup', this.touchend);
     }
 
+    setConfig({
+        isPreventDefault = false,
+        isStopPropagation = false
+    } = {}) {
+        this.isPreventDefault = isPreventDefault;
+        this.isStopPropagation = isStopPropagation;
+    };
+
     /**
      * start阶段, 主要记录初始位置信息
      * @param {Event} e 
@@ -108,12 +116,14 @@ export default class Touch2 {
             this.isSwipeDisabled = false;
 
             // 识别[press]
-            this.pressRecognizer.start(this.$fingerInput).then(type => {
-                this.emit(type, {
-                    type,
-                    nativeEvent: e
-                }, e);
-            });
+            if (undefined !== this.handleMap.press) {
+                this.pressRecognizer.start(this.$fingerInput).then(type => {
+                    this.emit(type, {
+                        type,
+                        nativeEvent: e
+                    }, e);
+                });
+            }
         } else {
             // 多点
             this.$fingerInput.startV = {
@@ -160,9 +170,11 @@ export default class Touch2 {
         if (1 === pointCount) {
             // ========== 单点 ==========
             // 识别[panstart | panmove]
-            if (!this.isPanDisabled) {
-                if (this.panRecognizer.move(this.$fingerInput)) {
-                    this.emit(this.panRecognizer.type, this.panRecognizer.computedData(e), e);
+            if (undefined !== this.handleMap.panstart || undefined !== this.handleMap.panmove) {
+                if (!this.isPanDisabled) {
+                    if (this.panRecognizer.move(this.$fingerInput)) {
+                        this.emit(this.panRecognizer.type, this.panRecognizer.computedData(e), e);
+                    }
                 }
             }
         } else {
@@ -181,19 +193,26 @@ export default class Touch2 {
             this.$fingerInput.vModule = getVLength(this.$fingerInput.v); // 当前向量摸
 
             // 识别[pinch : pinchstart | pinchmove]
-            if (this.pinchRecognizer.move(this.$fingerInput)) {
-                this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
+            if (undefined !== this.handleMap.pinchstart || undefined !== this.handleMap.pinchmove || undefined !== this.handleMap.pinch) {
+                if (this.pinchRecognizer.move(this.$fingerInput)) {
+                    this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
+                }
             }
 
+
             // 识别[rotate: rotatestart | rotatemove]
-            if (this.rotateRecognizer.move(this.$fingerInput)) {
-                this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData());
+            if (undefined !== this.handleMap.rotatestart || undefined !== this.handleMap.rotatemove || undefined !== this.handleMap.rotate) {
+                if (this.rotateRecognizer.move(this.$fingerInput)) {
+                    this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData());
+                }
             }
 
         }
 
         // 如果移动过大, 取消press事件
-        this.pressRecognizer.move(this.$fingerInput);
+        if (undefined !== this.handleMap.press) {
+            this.pressRecognizer.move(this.$fingerInput);
+        }
     }
 
     touchEndHandle(e) {
@@ -227,41 +246,55 @@ export default class Touch2 {
         }, 100);
 
         // 识别[tap|doubeltap]
-        if (this.tapRecognizer.end(this.$fingerInput, !!this.handleMap.doubletap)) {
-            this.emit(this.tapRecognizer.type, this.tapRecognizer.computedData());
+        if (undefined !== this.handleMap.tap || undefined !== this.handleMap.doubeltap) {
+            this.tapRecognizer.end(this.$fingerInput, !!this.handleMap.doubletap).then(() => {
+                this.emit(this.tapRecognizer.type, this.tapRecognizer.computedData());
+            });
         }
 
+
         // 识别[pressup]
-        if (this.pressRecognizer.end(this.$fingerInput)) {
-            this.emit(this.pressRecognizer.type, this.pressRecognizer.computedData());
-        };
+        if (undefined !== this.handleMap.press || undefined !== this.handleMap.pressup) {
+            if (this.pressRecognizer.end(this.$fingerInput)) {
+                this.emit(this.pressRecognizer.type, this.pressRecognizer.computedData());
+            };
+        }
 
         // 识别[panend], 该处识别要放在swipe之前
-        if (this.panRecognizer.end(this.$fingerInput)) {
-            this.emit(this.panRecognizer.type, this.panRecognizer.computedData());
+        if (undefined !== this.handleMap.panend || undefined !== this.handleMap.pan) {
+            if (this.panRecognizer.end(this.$fingerInput)) {
+                this.emit(this.panRecognizer.type, this.panRecognizer.computedData());
+            }
         }
 
         // 识别[swipe: swipeleft | swiperight | swipeup | swipedown]
-        if (!this.isSwipeDisabled) {
-            if (this.swipeRecognizer.end(this.$fingerInput)) {
-                this.emit(this.swipeRecognizer.type, this.swipeRecognizer.computedData());
+        if (undefined !== this.handleMap.swipeleft || undefined !== this.handleMap.swiperight || undefined !== this.handleMap.swipeup || undefined !== this.handleMap.swipedown || undefined !== this.handleMap.swipe) {
+            if (!this.isSwipeDisabled) {
+                if (this.swipeRecognizer.end(this.$fingerInput)) {
+                    this.emit(this.swipeRecognizer.type, this.swipeRecognizer.computedData());
+                }
             }
         }
 
         // 多点
         if (1 < this.$fingerInput.endPointCount) {
             // 识别[pinch : pinchend]
-            this.pinchRecognizer.end(this.$fingerInput);
-            this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
+            if (undefined !== this.handleMap.pinchend) {
+                this.pinchRecognizer.end(this.$fingerInput);
+                this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
+            }
+
 
             // [rotateend]
-            this.rotateRecognizer.end(this.$fingerInput);
-            this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData())
+            if (undefined !== this.handleMap.rotateend) {
+                this.rotateRecognizer.end(this.$fingerInput);
+                this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData());
+            }
         }
     }
 
     touchCancelHandle(e) {
-        log('cancel')
+        // log('cancel')
     }
 
     /**

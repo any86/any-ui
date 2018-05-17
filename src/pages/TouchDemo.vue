@@ -5,9 +5,16 @@
             class="atom-img-panel  border ovh">
             <!-- 图片 -->
             <img 
-            v-touch:pinchstart.stop.prevent="pinchStartHandle"
-            v-touch:pinchmove.stop.prevent="pinchMoveHandle"
-            v-touch:pinchend.stop.prevent="pinchEndHandle"
+            @click="clickHandle"
+            v-touch:tap.stop.prevent="tapHandle"
+            v-touch:doubletap.stop.prevent="doubletapHandle"
+            v-touch:press.stop.prevent="pressHandle"
+            v-touch:pressup.stop.prevent="pressupHandle"
+            v-touch:swipe.stop.prevent="swipeHandle"
+            v-touch:panstart.stop.prevent="panStartHandle"
+            v-touch:panmove.stop.prevent="panMoveHandle"
+            v-touch:panend.stop.prevent="panEndHandle"
+            v-touch:pinch.stop.prevent="pinchMoveHandle"
             v-touch:rotate.stop.prevent="rotateHandle"
             :style="{transformOrigin:`${centerX} ${centerY}`,transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
@@ -53,8 +60,15 @@ export default {
             console.log('panstart', e, Date.now());
         },
 
-        panMoveHandle(e) {
-            console.log('panmove', e, Date.now());
+        panMoveHandle({ deltaX, deltaY, type }, e) {
+            // console.log(type, Date.now(), type, deltaX, deltaY);
+            this.transitionDuration = 0;
+            this.x += deltaX;
+            this.y += deltaY;
+            this.action = 'none';
+            setTimeout(() => {
+                this.action = 'pan';
+            }, 10);
         },
 
         panEndHandle(e) {
@@ -73,16 +87,7 @@ export default {
             console.log('rotateend', e, Date.now());
         },
 
-        panHandle({ deltaX, deltaY, type }, e) {
-            // console.log(type, Date.now(), type, deltaX, deltaY);
-            this.transitionDuration = 0;
-            this.x += deltaX;
-            this.y += deltaY;
-            this.action = 'none';
-            setTimeout(() => {
-                this.action = 'pan';
-            }, 10);
-        },
+
 
         pinchStartHandle(e) {
             this.transitionDuration = 0;
@@ -128,7 +133,7 @@ export default {
             }, 100);
         },
 
-        pressUpHandle(e) {
+        pressupHandle(e) {
             this.action = 'none';
             log('pressup', Date.now());
             setTimeout(() => {
@@ -146,11 +151,19 @@ export default {
             });
         },
 
-        doubleTapHandle({type}, e) {
+        doubletapHandle({type}, e) {
             console.log(type,e);
             this.action = 'none';
             setTimeout(() => {
                 this.action = 'doubletap';
+            }, 200);
+        },
+
+        multitapHandle({type}, e) {
+            console.log(type,e);
+            this.action = 'none';
+            setTimeout(() => {
+                this.action = 'multitap';
             }, 200);
         },
 
