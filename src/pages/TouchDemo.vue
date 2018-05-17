@@ -2,21 +2,21 @@
     <main class="demo-page fill">
         <section 
             ref="panel"
-            v-touch:tap.stop.prevent="tapHandle"
-            v-touch:doubletap.stop.prevent="doubleTapHandle"
-            v-touch:press.stop.prevent="pressHandle"
-            v-touch:pinch.stop.prevent="pinchHandle"
-            v-touch:pan.stop.prevent="panHandle"
-            v-touch:rotate.stop.prevent="rotateHandle"
-            v-touch:swipe.stop.prevent="swipeHandle"
             class="atom-img-panel  border ovh">
-            <img :style="{transformOrigin:`${centerX} ${centerY}`,transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
+            <!-- 图片 -->
+            <img 
+            v-touch:pinchstart.stop.prevent="pinchStartHandle"
+            v-touch:pinchmove.stop.prevent="pinchMoveHandle"
+            v-touch:pinchend.stop.prevent="pinchEndHandle"
+            v-touch:rotate.stop.prevent="rotateHandle"
+            :style="{transformOrigin:`${centerX} ${centerY}`,transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
         <p class="text-danger gutter-top-sm">请拖动图片尝试</p>
         <h3 class="gutter-top">支持: </h3>
         <p :class="{scale: 'tap' === action}" class="text-darkest gutter-top-sm font-big">tap(单击)</p>
         <p :class="{scale: 'doubletap' === action}" class="text-darkest gutter-top-sm font-big">doubletap(双击)</p>
         <p :class="{scale: 'press' === action}" class="text-darkest gutter-top-sm font-big">press(按住)</p>
+        <p :class="{scale: 'pressup' === action}" class="text-darkest gutter-top-sm font-big">pressup(按住然后放手)</p>
         <p :class="{scale: 'pan' === action}" class="text-darkest gutter-top-sm font-big">pan(单指滑动)</p>
         <p :class="{scale: 'swipe' === action}" class="text-darkest gutter-top-sm font-big">swipe(单指快速滑动)</p>
         <p :class="{scale: 'pinch' === action}" class="text-darkest gutter-top-sm font-big">pinch(双指缩放)</p>
@@ -73,27 +73,8 @@ export default {
             console.log('rotateend', e, Date.now());
         },
 
-        pinchStartHandle(e) {
-            console.log('pinchStart', e, Date.now());
-        },
-
-        pinchMoveHandle({ centerX, centerY,scale, nativeEvent }) {
-            console.log('pinchmove', Date.now(), scale);
-            this.action = 'none';
-            this.scale *= scale;
-            setTimeout(() => {
-                this.action = 'pinchmove';
-            }, 0);
-            this.centerX = centerX + 'px';
-            this.centerY = centerY + 'px';
-        },
-
-        pinchEndHandle(e) {
-            log('pinchEnd', e, Date.now());
-        },
-
         panHandle({ deltaX, deltaY, type }, e) {
-            console.log(type, Date.now(), type,deltaX, deltaY);
+            // console.log(type, Date.now(), type, deltaX, deltaY);
             this.transitionDuration = 0;
             this.x += deltaX;
             this.y += deltaY;
@@ -103,8 +84,13 @@ export default {
             }, 10);
         },
 
-        pinchHandle({ centerX, centerY,scale, nativeEvent }) {
-            // console.log('pinchmove', Date.now(), scale);
+        pinchStartHandle(e) {
+            this.transitionDuration = 0;
+            console.log('pinchStart', e, Date.now());
+        },
+        
+        pinchMoveHandle({type, scale, centerX, centerY}) {
+            console.log({type, scale, centerX, centerY},Date.now());
             this.action = 'none';
             this.scale *= scale;
             setTimeout(() => {
@@ -114,43 +100,56 @@ export default {
             // this.centerY = centerY + 'px';
         },
 
+        pinchEndHandle(e) {
+            this.transitionDuration = 0;
+            log('pinchEnd', e, Date.now());
+        },
         touchstart() {
             this.action = 'none';
         },
 
         clickHandle(e) {
-            log('click', e,Date.now());
+            log('click', e, Date.now());
         },
 
         tapHandle(data, e) {
             this.action = 'none';
             log('tap', Date.now());
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.action = 'tap';
-            },100);
+            }, 100);
         },
 
         pressHandle(e) {
             this.action = 'none';
             log('press', Date.now());
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.action = 'press';
-            },100);
-            
+            }, 100);
+        },
+
+        pressUpHandle(e) {
+            this.action = 'none';
+            log('pressup', Date.now());
+            setTimeout(() => {
+                this.action = 'pressup';
+            }, 100);
         },
 
         swipeHandle({ deltaX, deltaY, velocityX, velocityY, type, direction }) {
-            console.log(type, Date.now(), direction);
+            console.log({ deltaX, deltaY, velocityX, velocityY, type, direction }, Date.now());
             this.action = type;
             this.transitionDuration = 200;
-            this.x += deltaX * 2;
-            this.y += deltaY * 2;
+            this.$nextTick(()=>{
+                this.x += deltaX * 2;
+                this.y += deltaY * 2;
+            });
         },
 
-        doubleTapHandle(e) {
-            console.log('doubletap', e);
+        doubleTapHandle({type}, e) {
+            console.log(type,e);
             this.action = 'none';
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.action = 'doubletap';
             }, 200);
         },

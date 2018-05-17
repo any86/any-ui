@@ -30,7 +30,8 @@ const plugin = {
             'panstart',
             'panmove',
             'panend',
-            'press'
+            'press',
+            'pressup'
         ];
 
         /**

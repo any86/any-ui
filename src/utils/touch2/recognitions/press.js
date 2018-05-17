@@ -6,43 +6,51 @@ export default class PressRecognizer {
         this.pressTimeout = null;
     };
 
-    start(fingerInput, callback) {
+    start(fingerInput) {
         this.$fingerInput = fingerInput;
-        this.pressTimeout = setTimeout(() => {
-            this.type = 'press';
-            callback(this.type);
-        }, 251);
-    }
+        return new Promise((resolve, reject) => {
+            try {
+                this.pressTimeout = setTimeout(() => {
+                    this.type = 'press';
+                    resolve('press');
+                }, 251);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
 
     move(fingerInput) {
         this.$fingerInput = fingerInput;
         if (9 < this.$fingerInput.absDeltaX || 9 < this.$fingerInput.absDeltaY) {
-            this.cancelPress();
+            this.cancel();
         }
     };
 
     end(fingerInput) {
         this.$fingerInput = fingerInput;
-        // 识别[pressup]
-        if (null !== this.pressTimeout) {
+        const {absOffsetX, absOffsetY, offsetTime, nativeEvent} = fingerInput;
+        // 取消[press]
+        // 251ms内触点离开屏幕
+        // 或者, 与起点偏移大于9px
+        if (251 > offsetTime || 9 < absOffsetX || 9 < absOffsetY) {
+            this.cancel();
+        } else {
+            // 识别[pressup]
             this.type = 'pressup';
-            this.pressTimeout = null;
+            return this.type;
         }
-
-        if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
-            this.cancelPress();
-        }
-    }
+    };
 
     cancel() {
         clearTimeout(this.pressTimeout);
         this.pressTimeout = null;
     };
 
-    computedData(e) {
+    computedData() {
         return {
             type: this.type,
-            nativeEvent: e
+            nativeEvent: this.$fingerInput.nativeEvent
         }
     }
 };

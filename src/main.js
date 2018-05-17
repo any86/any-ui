@@ -30,6 +30,14 @@ if (process.env.NODE_ENV === 'production') {
 
 
 
+import Raven from 'raven-js';
+import RavenVue from 'raven-js/plugins/vue';
+Raven
+    .config('https://5c1a51a6d36141549e1e513916e1d5a7@sentry.io/1208173')
+    .addPlugin(RavenVue, Vue)
+    .install();
+
+
 
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.

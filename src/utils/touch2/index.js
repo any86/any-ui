@@ -22,9 +22,14 @@ import {
     getDirection
 } from './vector.js'
 
-
 // *** 注意: touch-action未兼容
-import PanRecognizer from './recognitions/pan'
+import PanRecognizer from './recognitions/Pan';
+import PressRecognizer from './recognitions/Press';
+import TapRecognizer from './recognitions/Tap';
+import SwipeRecognizer from './recognitions/Swipe';
+import PinchRecognizer from './recognitions/Pinch';
+import RotateRecognizer from './recognitions/Rotate';
+
 
 export default class Touch2 {
     /**
@@ -37,27 +42,20 @@ export default class Touch2 {
     } = {}) {
         this.el = el;
         this.$fingerInput = {}; // 手势产生的数据
-        this.action = '';
         this.isPreventDefault = isPreventDefault;
         this.isStopPropagation = isStopPropagation;
 
         // timeout
-        this.tapTimeout = null;
-        this.pressTimeout = null;
-        this.swipeTimeout = null;
-        this.rotateTimeout = null;
-        this.pinchTimeout = null;
 
         this.rotateType = 'none';
-        this.pinchType = 'none';
-        this.tapCount = 0;
 
-
-        // Recognizer
+        // Recognizers
         this.panRecognizer = new PanRecognizer();
-
-        // this.disablePanTimeout = null;
-        // this.disableSwipeTimeout = null;
+        this.pressRecognizer = new PressRecognizer();
+        this.tapRecognizer = new TapRecognizer();
+        this.swipeRecognizer = new SwipeRecognizer();
+        this.pinchRecognizer = new PinchRecognizer();
+        this.rotateRecognizer = new RotateRecognizer();
 
         // disabled
         this.isPanDisabled = false;
@@ -70,7 +68,7 @@ export default class Touch2 {
         this.touchstart = this.touchStartHandle.bind(this);
         this.touchmove = this.touchMoveHandle.bind(this);
         this.touchend = this.touchEndHandle.bind(this);
-        this.touchcancel = this.touchEndHandle.bind(this);
+        this.touchcancel = this.touchCancelHandle.bind(this);
 
         // 绑定事件
         el.addEventListener('touchstart', this.touchstart);
@@ -92,14 +90,14 @@ export default class Touch2 {
         if (this.isStopPropagation) e.stopPropagation();
         const points = e.touches;
         const pointCount = points.length;
-
         // 整合手势数据
+        this.$fingerInput.startPoints = (points); // 存储起始点
         this.$fingerInput.timestamp = Date.now();
         this.$fingerInput.startTimestamp = this.$fingerInput.timestamp;
-        this.$fingerInput.points = points;
+        this.$fingerInput.points = (points);
         this.$fingerInput.pointCount = pointCount;
-        this.$fingerInput.startPoints = points; // 存储起始点
         this.$fingerInput.prevPoints = undefined;
+        this.$fingerInput.nativeEvent = e;
 
         // 单/多点触碰
         if (1 === this.$fingerInput.pointCount) {
@@ -110,12 +108,12 @@ export default class Touch2 {
             this.isSwipeDisabled = false;
 
             // 识别[press]
-            this.pressTimeout = setTimeout(() => {
-                this.emit('press', {
-                    type: 'press',
+            this.pressRecognizer.start(this.$fingerInput).then(type => {
+                this.emit(type, {
+                    type,
                     nativeEvent: e
                 }, e);
-            }, 500);
+            });
         } else {
             // 多点
             this.$fingerInput.startV = {
@@ -146,8 +144,8 @@ export default class Touch2 {
 
         // 整合手势数据
         this.$fingerInput.timestamp = Date.now();
-        this.$fingerInput.prevPoints = this.$fingerInput.points;
-        this.$fingerInput.points = points; // 当前点
+        this.$fingerInput.prevPoints = (this.$fingerInput.points);
+        this.$fingerInput.points = (points); // 当前点
         this.$fingerInput.pointCount = pointCount;
         this.$fingerInput.offsetX = Math.ceil(points[0].pageX - this.$fingerInput.startPoints[0].pageX); // 与起始点的偏移
         this.$fingerInput.offsetY = Math.ceil(points[0].pageY - this.$fingerInput.startPoints[0].pageY);
@@ -157,12 +155,13 @@ export default class Touch2 {
         this.$fingerInput.deltaY = Math.ceil(points[0].pageY - this.$fingerInput.prevPoints[0].pageY);
         this.$fingerInput.absDeltaX = Math.abs(this.$fingerInput.deltaX);
         this.$fingerInput.absDeltaY = Math.abs(this.$fingerInput.deltaY);
+        this.$fingerInput.nativeEvent = e;
 
         if (1 === pointCount) {
             // ========== 单点 ==========
             // 识别[panstart | panmove]
             if (!this.isPanDisabled) {
-                if(this.panRecognizer.move(this.$fingerInput)){
+                if (this.panRecognizer.move(this.$fingerInput)) {
                     this.emit(this.panRecognizer.type, this.panRecognizer.computedData(e), e);
                 }
             }
@@ -181,27 +180,20 @@ export default class Touch2 {
             };
             this.$fingerInput.vModule = getVLength(this.$fingerInput.v); // 当前向量摸
 
-            // 识别[pinch]
-            this.emit('pinch', this.computedPinchDate(e, 'pinch'), e);
+            // 识别[pinch : pinchstart | pinchmove]
+            if (this.pinchRecognizer.move(this.$fingerInput)) {
+                this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
+            }
 
-            // 识别[pinchstart | pinchmove]
-            if ('none' === this.pinchType) this.pinchType = 'pinchstart';
-            else this.pinchType = 'pinchmove';
-            this.emit(this.pinchType, this.computedPinchDate(e, this.pinchType), e);
+            // 识别[rotate: rotatestart | rotatemove]
+            if (this.rotateRecognizer.move(this.$fingerInput)) {
+                this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData());
+            }
 
-            // 识别[rotate]
-            this.emit('rotate', this.computedRotateData(e, 'rotate'), e);
-
-            // 识别[rotatestart | rotatemove]
-            if ('none' === this.rotateType) this.rotateType = 'rotatestart';
-            else this.rotateType = 'rotatemove';
-            this.emit(this.rotateType, this.computedRotateData(e, this.rotateType), e);
         }
 
-        // 取消[press]
-        if (9 < this.$fingerInput.absDeltaX || 9 < this.$fingerInput.absDeltaY) {
-            this.cancelPress();
-        }
+        // 如果移动过大, 取消press事件
+        this.pressRecognizer.move(this.$fingerInput);
     }
 
     touchEndHandle(e) {
@@ -210,10 +202,12 @@ export default class Touch2 {
         const endPoints = e.changedTouches;
         const now = Date.now();
 
-        this.$fingerInput.points = [];
+        // this.$fingerInput.points = [];
+
         this.$fingerInput.pointCount = 0;
         this.$fingerInput.prevPoints = endPoints;
         this.$fingerInput.endPoints = endPoints;
+        this.$fingerInput.endPointCount = endPoints.length;
         this.$fingerInput.offsetX = this.$fingerInput.endPoints[0].pageX - this.$fingerInput.startPoints[0].pageX; // 距离起点的偏移
         this.$fingerInput.offsetY = this.$fingerInput.endPoints[0].pageY - this.$fingerInput.startPoints[0].pageY;
         this.$fingerInput.absOffsetX = Math.abs(this.$fingerInput.offsetX);
@@ -224,6 +218,7 @@ export default class Touch2 {
         this.$fingerInput.velocityY = this.$fingerInput.offsetY / this.$fingerInput.offsetTime;
         this.$fingerInput.absVelocityX = Math.abs(this.$fingerInput.velocityX);
         this.$fingerInput.absVelocityY = Math.abs(this.$fingerInput.velocityY);
+        this.$fingerInput.nativeEvent = e;
 
         // 当有手指移开的时候, 解除swipe/pan禁用
         setTimeout(() => {
@@ -231,102 +226,42 @@ export default class Touch2 {
             this.isSwipeDisabled = false;
         }, 100);
 
+        // 识别[tap|doubeltap]
+        if (this.tapRecognizer.end(this.$fingerInput, !!this.handleMap.doubletap)) {
+            this.emit(this.tapRecognizer.type, this.tapRecognizer.computedData());
+        }
+
         // 识别[pressup]
-        if (null !== this.pressTimeout) {
-            this.emit('pressup', {
-                type: 'pressup'
-            });
-            this.pressTimeout = null;
+        if (this.pressRecognizer.end(this.$fingerInput)) {
+            this.emit(this.pressRecognizer.type, this.pressRecognizer.computedData());
+        };
+
+        // 识别[panend], 该处识别要放在swipe之前
+        if (this.panRecognizer.end(this.$fingerInput)) {
+            this.emit(this.panRecognizer.type, this.panRecognizer.computedData());
         }
 
-        // 判断是否[tap|doubeltap]
-        if (250 > this.$fingerInput.offsetTime && 2 > this.$fingerInput.absOffsetX && 2 > this.$fingerInput.absOffsetY) {
-            log('this.$fingerInput.offsetTime', this.$fingerInput.offsetTime)
-            this.cancelPress();
-            // 如果没有这个setTimeout, 那么当短促点击的时候, click事件就不触发了
-
-            if (0 === this.tapCount) {
-                // 识别[tap]
-                // 如果没有绑定双击事件, 那么让tap快速执行, 不需要等待200ms去识别doubletap
-                this.tapCount++;
-                this.tapTimeout = setTimeout(() => {
-                    this.emit('tap', {
-                        type: 'tap',
-                    }, e);
-                    this.tapCount = 0;
-                }, this.handleMap.doubletap ? 200 : 50);
-            } else {
-                // 识别[doubletap]
-                this.cancelTap();
-                this.emit('doubletap', {
-                    type: 'doubletap',
-                    nativeEvent: e
-                }, e);
-                this.tapCount = 0;
+        // 识别[swipe: swipeleft | swiperight | swipeup | swipedown]
+        if (!this.isSwipeDisabled) {
+            if (this.swipeRecognizer.end(this.$fingerInput)) {
+                this.emit(this.swipeRecognizer.type, this.swipeRecognizer.computedData());
             }
         }
 
-        // 判断是否[swipe]
-        if (!this.isSwipeDisabled && 250 > this.$fingerInput.offsetTime && (0.3 < this.$fingerInput.absVelocityX || 0.3 < this.$fingerInput.absVelocityY)) {
-            let swipeData = this.computedSwipeData(e, 'swipe');
-            this.emit('swipe', swipeData, e);
-            switch (swipeData.direction) {
-                case 2:
-                    {
-                        swipeData.type = 'swipeleft';
-                        this.emit(swipeData.type, swipeData, e);
-                        break;
-                    };
+        // 多点
+        if (1 < this.$fingerInput.endPointCount) {
+            // 识别[pinch : pinchend]
+            this.pinchRecognizer.end(this.$fingerInput);
+            this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
 
-                case 4:
-                    {
-                        swipeData.type = 'swiperight';
-                        this.emit(swipeData.type, swipeData, e);
-                        break;
-                    };
-
-                case 8:
-                    {
-                        swipeData.type = 'swipeup';
-                        this.emit(swipeData.type, swipeData, e);
-                        break;
-                    };
-
-                case 16:
-                    {
-                        swipeData.type = 'swipedown';
-                        this.emit(swipeData.type, swipeData, e);
-                        break;
-                    };
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-
-        // 识别[panend]
-        if(this.panRecognizer.end()) {
-            this.emit(this.panRecognizer.type, this.panRecognizer.computedData(e), e);
-        }
-
-        // 识别[pinchend]
-        if ('none' !== this.pinchType) {
-            this.pinchType = 'pinchend';
-            this.emit(this.pinchType, this.computedPinchDate(e, this.pinchType), e);
-            this.pinchType = 'none';
-        }
-
-        // [rotateend]
-        if ('none' !== this.rotateType) {
-            this.rotateType = 'rotateend';
-            this.emit(this.rotateType, this.computedRotateData(e, this.rotateType), e);
-            this.rotateType = 'none';
+            // [rotateend]
+            this.rotateRecognizer.end(this.$fingerInput);
+            this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData())
         }
     }
 
     touchCancelHandle(e) {
-        this.cancelAll();
+        log('cancel')
     }
 
     /**
@@ -364,88 +299,19 @@ export default class Touch2 {
         this.el.removeEventListener('touchmove', this.touchmove);
         this.el.removeEventListener('touchend', this.touchend);
         this.el.removeEventListener('touchcancel', this.touchcancel);
-        this.cancelAll();
     }
 
-    cancelPress() {
-        clearTimeout(this.pressTimeout);
-        this.pressTimeout = null;
-        
-    }
+    cancelAll() {}
 
-    cancelTap() {
-        clearTimeout(this.tapTimeout);
-        this.tapTimeout = null;
-    }
-
-    cancelAll() {
-        this.cancelTap();
-        this.cancelPress();
-    }
-
-    emit(eventName, payload, e) {
+    emit(eventName, payload) {
         if (undefined !== this.handleMap[eventName]) {
-            this.handleMap[eventName](payload, e);
+            this.handleMap[eventName](payload, payload.nativeEvent);
         }
 
-        if(undefined !== payload.parentType) {
-            payload.type = payload.parentType;
-            delete payload.parentType;
-            this.handleMap[payload.type](payload, e);
-        }
-    }
-
-    clonePoints(points) {
-        let clonePoints = [];
-        for (let point of points) {
-            clonePoints.push({
-                pageX: point.pageX,
-                pageY: point.pageY,
-            });
-        }
-        return clonePoints
-    }
-
-    computedPanData(e, type) {
-        return {
-            type,
-            deltaX: this.$fingerInput.deltaX,
-            deltaY: this.$fingerInput.deltaY,
-            nativeEvent: e
-        }
-    }
-
-    computedPinchDate(e, type) {
-        let center = getCenter(this.$fingerInput.points);
-        return {
-            type,
-            scale: this.$fingerInput.vModule / this.$fingerInput.prevVModule,
-            centerX: center.x,
-            centerY: center.y,
-            nativeEvent: e
-        }
-    }
-
-    computedRotateData(e, type) {
-        let center = getCenter(this.$fingerInput.points);
-        return {
-            type,
-            angle: getAngle(this.$fingerInput.v, this.$fingerInput.prevV),
-            centerX: center.x,
-            centerY: center.y,
-            nativeEvent: e
-        };
-    }
-
-    computedSwipeData(e, type) {
-        return {
-            type,
-            velocityX: this.$fingerInput.absVelocityX,
-            velocityY: this.$fingerInput.absVelocityY,
-            deltaX: this.$fingerInput.offsetX,
-            deltaY: this.$fingerInput.offsetY,
-            direction: getDirection(this.$fingerInput.offsetX, this.$fingerInput.offsetY),
-            nativeEvent: e
+        if (undefined !== payload.belong && undefined !== this.handleMap[payload.belong]) {
+            payload.type = payload.belong;
+            delete payload.belong;
+            this.handleMap[payload.type](payload, payload.nativeEvent);
         }
     }
 }

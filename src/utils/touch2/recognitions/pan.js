@@ -8,7 +8,7 @@ export default class PanRecognizer {
     // start(){}
 
     move(fingerInput) {
-        this.$fingerInput = fingerInput
+        this.$fingerInput = fingerInput;
         if (10 < fingerInput.absOffsetX || 10 < fingerInput.absOffsetY) {
             if ('panend' === this.type) {
                 this.type = 'panstart';
@@ -21,7 +21,8 @@ export default class PanRecognizer {
         }
     };
 
-    end() {
+    end(fingerInput) {
+        this.$fingerInput = fingerInput;
         if ('panmove' === this.type) {
             this.type = 'panend';
             return true;
@@ -39,13 +40,13 @@ export default class PanRecognizer {
         }
     };
 
-    computedData(e) {
+    computedData() {
         return {
             type: this.type,
-            parentType: 'pan',
+            belong: 'pan',
             deltaX: this.$fingerInput.deltaX,
             deltaY: this.$fingerInput.deltaY,
-            nativeEvent: e
+            nativeEvent: this.$fingerInput.nativeEvent,
         }
     }
 };
