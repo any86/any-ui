@@ -4,6 +4,9 @@
 #### 演示
 [预览地址](https://383514580.github.io/atom/#/index)
 
+#### 文档
+[查看](https://atom-h.github.io/atom-ui/)
+
 #### 在手机上看
 ![image](https://user-images.githubusercontent.com/8264787/34904356-3395a8d2-f87f-11e7-85f4-7ae1a94fc587.png)
 
