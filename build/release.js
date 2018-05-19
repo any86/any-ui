@@ -25,7 +25,7 @@ const getNextVersion = () => {
     // 版本+1
     versionArray[versionArray.length - 1] = ~~versionArray[versionArray.length - 1] + 1;
     const willVersion = versionArray.join('.');
-    console.log(chalk.black.bgGreen(`修改package.json版本为: ${willVersion}`));
+    console.log(chalk.black.bgGreen(`版本变化: ${version} => ${willVersion}`));
     return willVersion;
 }
 
