@@ -14,7 +14,8 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const ora = require('ora');
-let package = require("../package.json");
+const packagePath = path.resolve(__dirname, '../package.json');
+let package = require(packagePath);
 
 /**
  * 更新package.json版本号
@@ -33,7 +34,7 @@ const getNextVersion = () => {
 const updatePackageVersion = willVersion=>{
     console.log(chalk.black.bgWhite(`当前版本: ${package.version}\n`));
     package.version = willVersion;
-    fs.writeFileSync('../package.json', JSON.stringify(package, null, 4), 'utf8');
+    fs.writeFileSync(packagePath, JSON.stringify(package, null, 4), 'utf8');
     console.log(chalk.black.bgWhite(`更新后版本: ${willVersion}\n`));
 }
 
