@@ -25,7 +25,7 @@ const getNextVersion = () => {
     // 版本+1
     versionArray[versionArray.length - 1] = ~~versionArray[versionArray.length - 1] + 1;
     const willVersion = versionArray.join('.');
-    console.log(chalk.black.bgGreen(`版本变化: ${version} => ${willVersion}`));
+    console.log(chalk.black.bgRed(`版本变化: ${version} => ${willVersion}`));
     return willVersion;
 }
 
@@ -40,7 +40,7 @@ module.exports = function() {
     console.log(chalk.black.bgGreen('git同步完成!\n'));
     // 修改package.json的版本号
     shell.exec(`npm version ${willVersion}`);
-    console.log(chalk.black.bgGreen('准备发布到npm...\n'));
+    console.log(chalk.black.bgBlueBright('准备发布到npm...\n'));
     shell.exec(`npm publish`);
-    console.log(chalk.black.bgGreen('发布到npm成功!\n, ver: ' + willVersion));
+    console.log(chalk.black.bgBlueBright('发布到npm成功!\n, ver: ' + willVersion));
 }
