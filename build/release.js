@@ -32,15 +32,17 @@ const getNextVersion = () => {
 
 module.exports = function() {
     const willVersion = getNextVersion();
-    // 切换到master分支
+    // 修改package.json的版本号
+    shell.exec(`npm version ${willVersion}`);
+    
+    // 同步git
     console.log(chalk.black.bgGreen('git开始!\n'));
-    // shell.exec('git checkout master');
     shell.exec('git add -A');
     shell.exec(`git commit -m ":zap: [build] "${willVersion}`);
     shell.exec(`git push`);
     console.log(chalk.black.bgGreen('git同步完成!\n'));
-    // 修改package.json的版本号
-    shell.exec(`npm version ${willVersion}`);
+    
+    // 发布到npm
     console.log(chalk.black.bgBlueBright('准备发布到npm...\n'));
     shell.exec(`npm publish`);
     console.log(chalk.black.bgBlueBright('发布到npm成功!, version: ' + willVersion));
