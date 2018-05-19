@@ -15,6 +15,7 @@ const path = require('path');
 const chalk = require('chalk');
 const ora = require('ora');
 let package = require("../package.json");
+
 /**
  * 更新package.json版本号
  * @return {String} 新版本号
@@ -25,7 +26,7 @@ const getNextVersion = () => {
     // 版本+1
     versionArray[versionArray.length - 1] = ~~versionArray[versionArray.length - 1] + 1;
     const willVersion = versionArray.join('.');
-    console.log(chalk.black.bgRed(`版本变化: ${version} => ${willVersion}`));
+    console.log(chalk.black.bgWhite(`版本变化: ${version} => ${willVersion}`));
     return willVersion;
 }
 
@@ -42,5 +43,5 @@ module.exports = function() {
     shell.exec(`npm version ${willVersion}`);
     console.log(chalk.black.bgBlueBright('准备发布到npm...\n'));
     shell.exec(`npm publish`);
-    console.log(chalk.black.bgBlueBright('发布到npm成功!\n, ver: ' + willVersion));
+    console.log(chalk.black.bgBlueBright('发布到npm成功!, version: ' + willVersion));
 }
