@@ -43,7 +43,8 @@ export default class RotateRecognizer {
                 angle,
                 centerX: round(x),
                 centerY: round(y),
-                nativeEvent: this.$fingerInput.nativeEvent
+                nativeEvent: this.$fingerInput.nativeEvent,
+                round
             }
         }
     }

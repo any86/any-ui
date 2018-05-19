@@ -58,7 +58,7 @@ export default class SwipeRecognizer {
             velocityX: round(velocityX),
             velocityY: round(velocityY),
             nativeEvent: this.$fingerInput.nativeEvent,
-            direction: this.direction
+            direction: this.direction,round
         }
     }
 };

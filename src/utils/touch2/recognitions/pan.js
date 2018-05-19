@@ -48,6 +48,7 @@ export default class PanRecognizer {
             deltaX: round(this.$fingerInput.deltaX),
             deltaY: round(this.$fingerInput.deltaY),
             nativeEvent: this.$fingerInput.nativeEvent,
+            round
         }
     }
 };
