@@ -26,7 +26,8 @@ const updatePackage = () => {
     // 版本+1
     versionArray[versionArray.length - 1] = ~~versionArray[versionArray.length - 1] + 1;
     package.version = versionArray.join('.');
-    fs.writeFileSync(file, JSON.stringify(package, null, 4));
+    shell.exec(`npm version ${version}`);
+    // fs.writeFileSync(file, JSON.stringify(package, null, 4));
     console.log(chalk.black.bgGreen('修改package.json版本为: ' + package.version));
     return package.version;
 }
