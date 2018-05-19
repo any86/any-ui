@@ -19,29 +19,28 @@ let package = require("../package.json");
  * 更新package.json版本号
  * @return {String} 新版本号
  */
-const updatePackage = () => {
+const getNextVersion = () => {
     const version = package.version;
     const versionArray = version.split('.');
     // 版本+1
     versionArray[versionArray.length - 1] = ~~versionArray[versionArray.length - 1] + 1;
     const willVersion = versionArray.join('.');
-    shell.exec(`npm version ${willVersion}`);
     console.log(chalk.black.bgGreen(`修改package.json版本为: ${willVersion}`));
     return willVersion;
 }
-module.exports = function() {
-    // 升级packages.json中的版本号
-    const version = updatePackage();
 
+module.exports = function() {
+    const willVersion = getNextVersion();
     // 切换到master分支
     console.log(chalk.black.bgGreen('git开始!\n'));
     // shell.exec('git checkout master');
     shell.exec('git add -A');
-    shell.exec(`git commit -m ":zap: [build] "${version}`);
+    shell.exec(`git commit -m ":zap: [build] "${willVersion}`);
     shell.exec(`git push`);
     console.log(chalk.black.bgGreen('git同步完成!\n'));
-
+    // 修改package.json的版本号
+    shell.exec(`npm version ${willVersion}`);
     console.log(chalk.black.bgGreen('准备发布到npm...\n'));
     shell.exec(`npm publish`);
-    console.log(chalk.black.bgGreen('发布到npm成功!\n, ver: ' + version));
+    console.log(chalk.black.bgGreen('发布到npm成功!\n, ver: ' + willVersion));
 }
