@@ -26,14 +26,22 @@ const getNextVersion = () => {
     // 版本+1
     versionArray[versionArray.length - 1] = ~~versionArray[versionArray.length - 1] + 1;
     const willVersion = versionArray.join('.');
-    console.log(chalk.black.bgWhite(`版本变化: ${version} => ${willVersion}\n`));
+    
     return willVersion;
 }
 
+const updatePackageVersion = willVersion=>{
+    console.log(chalk.black.bgWhite(`当前版本: ${package.version}\n`));
+    package.version = willVersion;
+    fs.writeFileSync('../package.json', JSON.stringify(package, null, 4), 'utf8');
+    console.log(chalk.black.bgWhite(`更新后版本: ${willVersion}\n`));
+}
+
 module.exports = function() {
-    const willVersion = getNextVersion();
     // 修改package.json的版本号
-    shell.exec(`npm version ${willVersion}`);
+    const willVersion = getNextVersion();
+    updatePackageVersion(willVersion);
+    // shell.exec(`npm version ${willVersion}`);
     
     // 同步git
     console.log(chalk.black.bgGreen('git开始!\n'));
