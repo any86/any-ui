@@ -22,14 +22,12 @@ let package = require("../package.json");
 const updatePackage = () => {
     const version = package.version;
     const versionArray = version.split('.');
-    // const file = path.resolve(__dirname, '../package.json');
     // 版本+1
     versionArray[versionArray.length - 1] = ~~versionArray[versionArray.length - 1] + 1;
-    // package.version = versionArray.join('.');
-    shell.exec(`npm version ${versionArray.join('.')}`);
-    // fs.writeFileSync(file, JSON.stringify(package, null, 4));
-    console.log(chalk.black.bgGreen('修改package.json版本为: ' + package.version));
-    return package.version;
+    const willVersion = versionArray.join('.');
+    shell.exec(`npm version ${willVersion}`);
+    console.log(chalk.black.bgGreen(`修改package.json版本为: ${willVersion}`));
+    return willVersion;
 }
 module.exports = function() {
     // 升级packages.json中的版本号
