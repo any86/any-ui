@@ -67,7 +67,6 @@ export default class TapRecognizer {
             type: this.type,
             nativeEvent: this.$fingerInput.nativeEvent,
             times: this.tapCount,
-            round
         }
     }
 };

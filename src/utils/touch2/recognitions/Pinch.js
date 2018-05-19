@@ -50,7 +50,6 @@ export default class PinchRecognizer {
                 centerX: round(x),
                 centerY: round(y),
                 nativeEvent: this.$fingerInput.nativeEvent,
-                round
             }
         }
     }

@@ -1,3 +1,3 @@
-const round = number => Math.round(number * 100) / 100;
+const round = Math.round;
 
 export {round};

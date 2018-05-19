@@ -52,7 +52,6 @@ export default class PressRecognizer {
         return {
             type: this.type,
             nativeEvent: this.$fingerInput.nativeEvent,
-            round
         }
     }
 };
