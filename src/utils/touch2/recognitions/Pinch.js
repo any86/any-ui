@@ -1,3 +1,4 @@
+import {round} from '../utils'
 import {
     getCenter
 } from '../vector.js'
@@ -45,9 +46,9 @@ export default class PinchRecognizer {
             return {
                 type: this.type,
                 belong: 'pinch',
-                scale: this.$fingerInput.vModule / this.$fingerInput.prevVModule,
-                centerX: x,
-                centerY: y,
+                scale: round(this.$fingerInput.vModule / this.$fingerInput.prevVModule),
+                centerX: round(x),
+                centerY: round(y),
                 nativeEvent: this.$fingerInput.nativeEvent
             }
         }

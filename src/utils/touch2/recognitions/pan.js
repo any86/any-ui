@@ -1,3 +1,4 @@
+import {round} from '../utils'
 export default class PanRecognizer {
 
     constructor() {
@@ -44,8 +45,8 @@ export default class PanRecognizer {
         return {
             type: this.type,
             belong: 'pan',
-            deltaX: this.$fingerInput.deltaX,
-            deltaY: this.$fingerInput.deltaY,
+            deltaX: round(this.$fingerInput.deltaX),
+            deltaY: round(this.$fingerInput.deltaY),
             nativeEvent: this.$fingerInput.nativeEvent,
         }
     }

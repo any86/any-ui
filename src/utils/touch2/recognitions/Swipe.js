@@ -1,4 +1,7 @@
 import {
+    round
+} from '../utils'
+import {
     getDirection
 } from '../vector.js'
 export default class SwipeRecognizer {
@@ -41,11 +44,19 @@ export default class SwipeRecognizer {
     // };
 
     computedData() {
-        const {deltaX, deltaY, velocityX, velocityY} = this.$fingerInput;
+        const {
+            deltaX,
+            deltaY,
+            velocityX,
+            velocityY
+        } = this.$fingerInput;
         return {
             type: this.type,
             belong: 'swipe',
-            deltaX, deltaY, velocityX, velocityY,
+            deltaX: round(deltaX),
+            deltaY: round(deltaY),
+            velocityX: round(velocityX),
+            velocityY: round(velocityY),
             nativeEvent: this.$fingerInput.nativeEvent,
             direction: this.direction
         }

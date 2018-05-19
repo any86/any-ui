@@ -1,3 +1,4 @@
+import {round} from '../utils'
 export default class TapRecognizer {
     constructor() {
         this.type = 'tap';
