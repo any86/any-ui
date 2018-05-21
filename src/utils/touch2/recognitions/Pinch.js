@@ -46,7 +46,7 @@ export default class PinchRecognizer {
             return {
                 type: this.type,
                 belong: 'pinch',
-                scale: round(this.$fingerInput.vModule / this.$fingerInput.prevVModule),
+                scale: round(this.$fingerInput.vModule / this.$fingerInput.prevVModule*100)/100,
                 centerX: round(x),
                 centerY: round(y),
                 nativeEvent: this.$fingerInput.nativeEvent,
