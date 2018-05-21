@@ -18,6 +18,7 @@ export default class PinchRecognizer {
     move(fingerInput) {
         this.$fingerInput = fingerInput;
         this.type = 'pinchend' === this.type ? 'pinchstart' : 'pinchmove';
+        log(this.type)
         return this.type;
     };
 

@@ -277,20 +277,13 @@ export default class Touch2 {
         }
 
         // 多点
-        if (1 < this.$fingerInput.endPointCount) {
-            // 识别[pinch : pinchend]
-            if (undefined !== this.handleMap.pinchend) {
-                this.pinchRecognizer.end(this.$fingerInput);
-                this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
-            }
+        // 识别[pinch : pinchend]
+        this.pinchRecognizer.end(this.$fingerInput);
+        this.emit(this.pinchRecognizer.type, this.pinchRecognizer.computedData());
 
-
-            // [rotateend]
-            if (undefined !== this.handleMap.rotateend) {
-                this.rotateRecognizer.end(this.$fingerInput);
-                this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData());
-            }
-        }
+        // 识别[rotate : rotateend]
+        this.rotateRecognizer.end(this.$fingerInput);
+        this.emit(this.rotateRecognizer.type, this.rotateRecognizer.computedData());
     }
 
     touchCancelHandle(e) {
