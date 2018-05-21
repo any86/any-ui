@@ -14,7 +14,7 @@
             v-touch:panstart.stop.prevent="panStartHandle"
             v-touch:panmove.stop.prevent="panMoveHandle"
             v-touch:panend.stop.prevent="panEndHandle"
-            v-touch:pinchstart.stop.prevent="pinchStartHandle"
+            v-touch:pinchmove.stop.prevent="pinchMoveHandle"
             v-touch:rotate.stop.prevent="rotateHandle"
             :style="{transformOrigin:`${centerX} ${centerY}`,transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
@@ -87,8 +87,9 @@ export default {
             console.log('rotateend', e, Date.now());
         },
 
+
+
         pinchStartHandle(e) {
-            alert('start')
             this.transitionDuration = 0;
             console.log('pinchStart', e, Date.now());
         },
