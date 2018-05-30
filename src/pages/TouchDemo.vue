@@ -16,6 +16,8 @@
             v-touch:panend.stop.prevent="panEndHandle"
             v-touch:pinchmove.stop.prevent="pinchMoveHandle"
             v-touch:rotate.stop.prevent="rotateHandle"
+            v-touch:rotatestart.stop.prevent="rotateStartHandle"
+            
             :style="{transformOrigin:`${centerX} ${centerY}`,transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
         <p class="text-danger gutter-top-sm">请拖动图片尝试</p>
@@ -42,7 +44,7 @@ export default {
             longImages: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521520323983&di=539e1b13cb00ef35fc5762aa4a86c1b1&imgtype=0&src=http%3A%2F%2Fnpic7.fangtoo.com%2Fcn%2Fzixun%2Fzh-chs%2F2017-07%2F20%2F281137-201707201125064885.jpg'],
             transitionDuration: 0,
             scale: 1,
-            rotate: 0,
+            rotate: 70,
             deltaX: 0,
             deltaY: 0,
             x: 0,
@@ -57,7 +59,7 @@ export default {
 
     methods: {
         panStartHandle(e) {
-            console.log('panstart', e, Date.now());
+            // console.log('panstart', e, Date.now());
         },
 
         panMoveHandle({ deltaX, deltaY, type }, e) {
@@ -72,7 +74,7 @@ export default {
         },
 
         panEndHandle(e) {
-            console.log('panend', e, Date.now());
+            // console.log('panend', e, Date.now());
         },
 
         rotateStartHandle(e) {
@@ -80,22 +82,20 @@ export default {
         },
 
         rotateMoveHandle(e) {
-            console.log('rotatemove', e, Date.now());
+            // console.log('rotatemove', e, Date.now());
         },
 
         rotateEndHandle(e) {
-            console.log('rotateend', e, Date.now());
+            // console.log('rotateend', e, Date.now());
         },
-
-
 
         pinchStartHandle(e) {
             this.transitionDuration = 0;
-            console.log('pinchStart', e, Date.now());
+            // console.log('pinchStart', e, Date.now());
         },
-        
-        pinchMoveHandle({type, scale, centerX, centerY}) {
-            console.log({type, scale, centerX, centerY},Date.now());
+
+        pinchMoveHandle({ type, scale, centerX, centerY }) {
+            // console.log({ type, scale, centerX, centerY }, Date.now());
             this.action = 'none';
             this.scale *= scale;
             setTimeout(() => {
@@ -107,7 +107,7 @@ export default {
 
         pinchEndHandle(e) {
             this.transitionDuration = 0;
-            log('pinchEnd', e, Date.now());
+            // log('pinchEnd', e, Date.now());
         },
         touchstart() {
             this.action = 'none';
@@ -119,7 +119,7 @@ export default {
 
         tapHandle(data, e) {
             this.action = 'none';
-            log('tap', Date.now());
+            // log('tap', Date.now());
             setTimeout(() => {
                 this.action = 'tap';
             }, 100);
@@ -127,7 +127,7 @@ export default {
 
         pressHandle(e) {
             this.action = 'none';
-            log('press', Date.now());
+            // log('press', Date.now());
             setTimeout(() => {
                 this.action = 'press';
             }, 100);
@@ -135,32 +135,32 @@ export default {
 
         pressupHandle(e) {
             this.action = 'none';
-            log('pressup', Date.now());
+            // log('pressup', Date.now());
             setTimeout(() => {
                 this.action = 'pressup';
             }, 100);
         },
 
         swipeHandle({ deltaX, deltaY, velocityX, velocityY, type, direction }) {
-            console.log({ deltaX, deltaY, velocityX, velocityY, type, direction }, Date.now());
+            // console.log({ deltaX, deltaY, velocityX, velocityY, type, direction }, Date.now());
             this.action = type;
             this.transitionDuration = 200;
-            this.$nextTick(()=>{
+            this.$nextTick(() => {
                 this.x += deltaX * 2;
                 this.y += deltaY * 2;
             });
         },
 
-        doubletapHandle({type}, e) {
-            console.log(type,e);
+        doubletapHandle({ type }, e) {
+            // console.log(type, e);
             this.action = 'none';
             setTimeout(() => {
                 this.action = 'doubletap';
             }, 200);
         },
 
-        multitapHandle({type}, e) {
-            console.log(type,e);
+        multitapHandle({ type }, e) {
+            console.log(type, e);
             this.action = 'none';
             setTimeout(() => {
                 this.action = 'multitap';
@@ -168,7 +168,7 @@ export default {
         },
 
         rotateHandle({ angle, centerX, centerY }) {
-            console.log('rotate', Date.now(), centerX, centerY);
+            // console.log('rotate', Date.now(), centerX, centerY);
             // this.centerX = centerX+'px';
             // this.centerY = centerY+'px';
             this.rotate += angle;

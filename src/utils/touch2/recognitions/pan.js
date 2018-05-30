@@ -42,6 +42,13 @@ export default class PanRecognizer {
     };
 
     computedData() {
+        let el = this.$fingerInput.nativeEvent.target;
+        let {
+            top,
+            left
+        } = el.getBoundingClientRect();
+        log(`top: ${top}`, `left: ${left}`);
+
         return {
             type: this.type,
             belong: 'pan',

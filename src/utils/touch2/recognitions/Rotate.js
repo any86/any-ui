@@ -1,6 +1,9 @@
-import {round} from '../utils'
 import {
-    getCenter, getAngle
+    round
+} from '../utils'
+import {
+    getCenter,
+    getAngle
 } from '../vector.js'
 export default class RotateRecognizer {
 
@@ -31,12 +34,20 @@ export default class RotateRecognizer {
     computedData() {
         if ('rotateend' === this.type) return {};
         else {
+            // if ('rotatestart' === this.type) {
+            //     let el = this.$fingerInput.nativeEvent.target;
+            //     let {
+            //         top,
+            //         left
+            //     } = el.getBoundingClientRect();
+            //     log(`top: ${top}`, `left: ${left}`);
+            // }
             const {
                 x,
                 y
             } = getCenter(this.$fingerInput.points);
             const angle = round(getAngle(this.$fingerInput.v, this.$fingerInput.prevV));
-            
+
             return {
                 type: this.type,
                 belong: 'rotate',
