@@ -47,7 +47,6 @@ export default class PanRecognizer {
             top,
             left
         } = el.getBoundingClientRect();
-        log(`top: ${top}`, `left: ${left}`);
 
         return {
             type: this.type,
