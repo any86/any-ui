@@ -1,7 +1,7 @@
 <template>
     <component 
-        v-bind="$attrs" 
-        v-on="$listeners" 
+        v-bind="$attrs"
+        v-on="$listeners"
         :size="size" 
         :is="`A${value.substring(0,1).toUpperCase()+value.substring(1)}`" 
         class="atom-icon"/>
@@ -15,6 +15,7 @@ import AClose from './Close';
 import ATick from './Tick';
 import AStar from './Star';
 import AStarO from './StarO';
+import AStarHalf from './StarHalf';
 import AWarning from './Warning';
 
 export default {
@@ -31,7 +32,7 @@ export default {
         }
     },
 
-    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarO, AWarning }
+    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar,AStarHalf, AStarO, AWarning }
 };
 </script>
 

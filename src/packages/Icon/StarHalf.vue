@@ -1,11 +1,11 @@
 <template>
-    <a-star :size="size" :status="0"/>
+    <a-star :size="size" :status="0.5"/>
 </template>
 
 <script>
 import AStar from './Star';
 export default {
-    name: 'AtomIconStarO',
+    name: 'AtomIconStarHalf',
 
     components: {AStar},
 

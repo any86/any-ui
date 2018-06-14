@@ -1,7 +1,8 @@
 <template>
     <div :readonly="isReadOnly" class="atom-rate">
-        <v-icon v-for="n in count" :key="'atom-star-'+n" :value="value < n ? 'star-o' : 'star'" :size="size"  @click="changeRate(n)" class="svg-icon"/>
+        <v-icon v-for="n in count" :key="'atom-star-'+n" :value="getComponentName(n)"  :size="size" @click.native="changeRate(n)" class="svg-icon"/>
     </div>
+
 </template>
 <script>
 import VIcon from '../../packages/Icon';
@@ -31,6 +32,16 @@ export default {
     },
 
     methods: {
+        getComponentName(n){
+            if(0 <= this.value - n) {
+                return 'star';
+            } else if(-0.5 <= this.value - n){
+                return 'star-half';
+            } else {
+                return 'star-o';
+            }
+        },
+
         changeRate(n) {
             this.$emit('input', n);
         }
