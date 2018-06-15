@@ -1,6 +1,6 @@
 <template>
     <main class="demo-page fill">
-        <div class="ball" :style="{top: `${centerY}px`, left: `${centerX}px`}"></div>
+        <!-- <div class="ball" :style="{top: `${centerY}px`, left: `${centerX}px`}"></div> -->
         <section 
             ref="panel"
             class="atom-img-panel  border ovh">
@@ -21,7 +21,7 @@
             
             :style="{transformOrigin:`${centerX} ${centerY}`,transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${rotate}deg)`}" :src="longImages[0]" width="100%" />
         </section>
-        <p class="bg-success fill">{{centerX}} | {{centerY}}</p>
+        <!-- <p class="bg-success fill">{{centerX}} | {{centerY}}</p> -->
         <p class="text-danger gutter-top-sm">请拖动图片尝试</p>
         <h3 class="gutter-top">支持: </h3>
         <p :class="{scale: 'tap' === action}" class="text-darkest gutter-top-sm font-big">tap(单击)</p>
