@@ -1,6 +1,6 @@
 <template>
     <div class="atom-breadcrumb">
-        <span v-for="(item, index) in dataSource" :key="item" @click="clickItem(index)">{{item}}</span>
+        <span v-for="(title, index) in dataSource" :key="title" @click="clickItem({index, title})">{{title}}</span>
     </div>
 </template>
 <script>
@@ -9,14 +9,14 @@ export default {
 
     props: {
         dataSource: {
-            type: Array
-        }
+            type: Array,
+        },
     },
 
     methods: {
-        clickItem(index){
-            this.$emit('click-item', index);
-        }
-    }
-}
+        clickItem(data) {
+            this.$emit('click-item', data);
+        },
+    },
+};
 </script>

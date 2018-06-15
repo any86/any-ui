@@ -1,6 +1,5 @@
 .atom-breadcrumb {
-    margin: $gutter;
-    span {
+    >span {
         font-size: $small;
         display: inline-block;
         color: $darker;
@@ -8,9 +7,8 @@
             color: $base;
         }
     }
-    span:not(:last-of-type) {
+    >span:not(:last-of-type) {
         &:after {
-            
             content: '>';
             margin: auto 5px;
         }
