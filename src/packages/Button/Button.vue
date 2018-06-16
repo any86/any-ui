@@ -4,58 +4,59 @@
     </button>
 </template>
 <script>
+import ripple from '@/directives/ripple/index.js';
 export default {
     name: 'AtomButton',
-
+    directives: { ripple },
     props: {
         type: {
             type: String,
-            default: 'primary'
+            default: 'primary',
         },
 
         nativeType: {
             type: String,
-            default: 'button' // button / submit / reset
+            default: 'button', // button / submit / reset
         },
 
         isBlock: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         isDisabled: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         hasRipple: {
-            default: true
+            default: true,
         },
 
         isGhost: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         isCircle: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         isRound: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         isLoading: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         size: {
             type: String,
-            default: '' //sm
-        }
+            default: '', //sm
+        },
     },
 
     computed: {
@@ -68,9 +69,9 @@ export default {
                 'atom-btn--round': this.isCircle,
                 'atom-btn--loading': this.isLoading,
                 'atom-btn--radius': !this.isBlock || this.isRound,
-                'atom-btn--sm': 'sm' == this.size
+                'atom-btn--sm': 'sm' == this.size,
             };
-        }
-    }
+        },
+    },
 };
 </script>
