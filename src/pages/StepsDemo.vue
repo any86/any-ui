@@ -5,8 +5,8 @@
             <v-steps-item>使用图钉，可以将内容固定在屏幕上，并且不随页面的滚动而滚动。常用于侧边菜单等。</v-steps-item>
             <v-steps-item>当页面加载时，元素将获得焦点 (注意：autofocus 在移动版 Safari 上不工作)。事实上，你访问后还没点击任何内容，input 就获得了焦点。现在让我们完善这个指令：</v-steps-item>
         </v-steps>
-        <v-button :is-ghost="true" @click="prev">上一步</v-button>
-        <v-button type="primary" @click="next">下一步</v-button>
+        <v-button  @click="prev">上一步</v-button>
+        <v-button class="gutter-top" @click="next">下一步</v-button>
     </v-group>
 </template>
 <script>

@@ -11,7 +11,7 @@
                 <div  class="group__item" @click="$router.push({'path': '/switch'})">Switch</div>
                 <div class="group__item" @click="$router.push({'path': '/radio'})">Radio</div>
                 <div class="group__item" @click="$router.push({'path': '/checkbox'})">Checkbox</div>
-                <div class="group__item" @click="$router.push({'path': '/count'})">Count</div>
+                <div class="group__item" @click="$router.push({'path': '/counter'})">Counter</div>
                 <div class="group__item" @click="$router.push({'path': '/input'})">Input</div>
                 <div class="group__item" @click="$router.push({'path': '/textarea'})">Textarea</div>
                 <div class="group__item" @click="$router.push({'path': '/button'})">Button</div>

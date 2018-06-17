@@ -10,13 +10,13 @@
         <input :disabled="disabled" :value="value" :checked="isChecked" @change="change" @click.stop="()=>{}" type="radio">
         
         <!-- ios风格 -->
-        <v-icon v-if="'ios' === theme" value="tick" size="18" :class="[`text-${type}`, `atom-radio__appearance--${theme}`]"/>
+        <a-icon v-if="'ios' === theme" name="tick" size="18" :class="[`text-${type}`, `atom-radio__appearance--${theme}`]"/>
         <!-- android风格 -->
         <span v-else :class="[`atom-radio__appearance--${theme}`]"></span>
     </label>
 </template>
 <script>
-import VIcon from '../Icon';
+import AIcon from '../Icon';
 export default {
     name: 'AtomRadio',
 
@@ -69,7 +69,7 @@ export default {
     },
 
     components: {
-        VIcon
+        AIcon
     }
 };
 </script>

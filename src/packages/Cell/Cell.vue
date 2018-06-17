@@ -18,7 +18,7 @@
         <!-- 箭头图标 -->
         <a-icon 
             v-if="undefined !== arrowDirection" 
-            value="arrow" 
+            name="arrow" 
             size="18" 
             :class="[`atom-cell__arrow--${arrowDirection}`]" 
             class="atom-cell__arrow" />
