@@ -32,7 +32,7 @@
         <p :class="{scale: 'swipe' === action}" class="text-darkest gutter-top-sm font-big">swipe(单指快速滑动)</p>
         <p :class="{scale: 'pinch' === action}" class="text-darkest gutter-top-sm font-big">pinch(双指缩放)</p>
         <p :class="{scale: 'rotate' === action}" class="text-darkest gutter-top-sm font-big">rotate(双指旋转)</p>
-        <v-button  type="primary" :is-ghost=" true" :is-block="true" @click="reset" class="gutter-top">复位</v-button>
+        <a-button  @click="reset" class="gutter-top">复位</a-button>
     </main>
 </template>
 <script>
@@ -46,7 +46,7 @@ export default {
             longImages: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521520323983&di=539e1b13cb00ef35fc5762aa4a86c1b1&imgtype=0&src=http%3A%2F%2Fnpic7.fangtoo.com%2Fcn%2Fzixun%2Fzh-chs%2F2017-07%2F20%2F281137-201707201125064885.jpg'],
             transitionDuration: 0,
             scale: 1,
-            rotate: 70,
+            rotate: 0,
             deltaX: 0,
             deltaY: 0,
             x: 0,
