@@ -32,25 +32,30 @@ const runRipple = (el, binding) => {
     el.addEventListener('touchend', touchEnd);
 };
 
-const plugin = {
-    install(Vue) {
-        Vue.directive('ripple', {
-            inserted(el, binding) {
-                runRipple(el, binding);
-            },
+export const ripple = {
+    inserted(el, binding) {
+        runRipple(el, binding);
+    },
 
-            componentUpdated(el, binding) {
-                runRipple(el, binding);
-            },
+    componentUpdated(el, binding) {
+        runRipple(el, binding);
+    },
 
-            unbind(el) {
-                el.removeEventListener('touchstart', touchStart);
-                el.removeEventListener('touchmove', touchMove);
-                el.removeEventListener('touchend', touchEnd);
-            }
-        });
+    unbind(el) {
+        el.removeEventListener('touchstart', touchStart);
+        el.removeEventListener('touchmove', touchMove);
+        el.removeEventListener('touchend', touchEnd);
     }
 };
+
+const plugin = {
+    install(Vue) {
+        Vue.directive('ripple', ripple);
+    }
+};
+
+
+
 export default plugin;
 if (typeof window !== 'undefined' && window.Vue) {
     window.Vue.use(plugin);

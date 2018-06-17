@@ -3,7 +3,7 @@
         v-bind="$attrs"
         v-on="$listeners"
         :size="size" 
-        :is="`A${value.substring(0,1).toUpperCase()+value.substring(1)}`" 
+        :is="`A${name.substring(0,1).toUpperCase()+name.substring(1)}`" 
         class="atom-icon"/>
 </template>
 <script>
@@ -26,7 +26,7 @@ export default {
             default: 48
         },
 
-        value: {
+        name: {
             type: String,
             required: true
         }
@@ -39,6 +39,7 @@ export default {
 <style scoped lang="scss">
 @import '../../scss/variables.scss';
 .atom-icon {
+    vertical-align: middle;
     transition: transform $duration;
 }
 </style>

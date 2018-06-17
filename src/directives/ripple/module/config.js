@@ -1,5 +1,5 @@
 const cssNameSpace = 'ripple';
-const duration = 600;
+const duration = 1000;
 const background = 'currentColor';
 const zIndex = 1;
 const isDisabled = false;

@@ -2,13 +2,11 @@
 import * as components from './components.js';
 
 // 对话框类组件
-import ADialog from './Dialog';
 import AAlert from './Dialog/Alert';
 import AConfirm from './Dialog/Confirm';
 import APrompt from './Dialog/Prompt';
 import AToast from './Toast';
 import ALoading from './Loading';
-
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
@@ -19,12 +17,15 @@ import DomPortal from 'vue-dom-portal';
 
 // 挂载语言包
 import locale from '@/locale';
-let Atom = { finger, locale };
+let Atom = {
+    finger,
+    locale
+};
 
-Atom.install = function (Vue, opts = {}) {
+Atom.install = function(Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
-    
+
     // 水波纹特效
     Vue.use(ripple);
 
@@ -63,7 +64,7 @@ Atom.install = function (Vue, opts = {}) {
             title = '',
             okText = locale.t('alert.ok'),
             align = 'top',
-            onOk = () => { }
+            onOk = () => {}
         } = {}) => {
             if (null === vm) vm = createVueChild(AAlert);
             vm.isShow = true;
@@ -86,8 +87,8 @@ Atom.install = function (Vue, opts = {}) {
                 okText = locale.t('confirm.ok'),
                 cancelText = locale.t('confirm.cancel'),
                 align = 'bottom',
-                onOk = () => { },
-                onCancel = () => { }
+                onOk = () => {},
+                onCancel = () => {}
             } = {}
         ) => {
             if (null === vm) {
@@ -108,8 +109,8 @@ Atom.install = function (Vue, opts = {}) {
         let vm = null;
         Vue.prototype.$prompt = (
             title = '', {
-                onOk = () => { },
-                onCancel = () => { },
+                onOk = () => {},
+                onCancel = () => {},
                 align = 'top',
                 okText = locale.t('prompt.ok'),
                 cancelText = locale.t('prompt.cancel'),

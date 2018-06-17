@@ -35,8 +35,10 @@ export default class Ripple {
      * @param {Boolean} isDisabled // 慎用, 禁止不是不初始化, 而是stopPropagation, 防止多层ripple嵌套的时候冒泡
      */
     constructor(el, config) {
-        const options = {...defaultConfig, ...config};
-        
+        const options = { ...defaultConfig,
+            ...config
+        };
+
         if (options.isDisabled) return;
         this.$el = el;
 

@@ -71,7 +71,7 @@ Vue.config.silent = false;
 // Vue.config.performance = true;
 
 /* eslint-disable no-new */
-var vm = new Vue({
+new Vue({
     el: '#app',
     router,
     template: '<App/>',

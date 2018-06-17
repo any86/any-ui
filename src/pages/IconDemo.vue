@@ -1,15 +1,15 @@
 <template>
     <a-scroll-view class="demo-page fill">
-        <a-icon value="plus" class="border"/>
-        <a-icon value="arrow" class="border"/>
-        <a-icon value="minus" class="border"/>
-        <a-icon value="menu" class="border"/>
-        <a-icon value="close" class="border"/>
-        <a-icon value="tick" class="border"/>
-        <a-icon value="star" class="border"/>
-        <a-icon value="star-o" class="border"/>
-        <a-icon value="star-half" class="border"/>
-        <a-icon value="warning" class="border"/>
+        <a-icon name="plus" class="border"/>
+        <a-icon name="arrow" class="border"/>
+        <a-icon name="minus" class="border"/>
+        <a-icon name="menu" class="border"/>
+        <a-icon name="close" class="border"/>
+        <a-icon name="tick" class="border"/>
+        <a-icon name="star" class="border"/>
+        <a-icon name="star-o" class="border"/>
+        <a-icon name="star-half" class="border"/>
+        <a-icon name="warning" class="border"/>
     </a-scroll-view>
 </template>
 <script>

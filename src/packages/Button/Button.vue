@@ -1,12 +1,15 @@
 <template>
-    <button v-ripple="hasRipple" :type="nativeType" v-on="$listeners" :class="className" class="atom-btn">
+    <button v-ripple="hasRipple" :type="nativeType" v-on="$listeners" :class="[`atom-btn--${type}`]" class="atom-btn">
+        <a-icon class="atom-btn__icon" :name="icon" size="16"/>
         <slot></slot>
     </button>
 </template>
 <script>
-import ripple from '@/directives/ripple/index.js';
+import AIcon from '@/packages/Icon'
+import { ripple } from '@/directives/ripple/index.js';
 export default {
     name: 'AtomButton',
+    components: {AIcon},
     directives: { ripple },
     props: {
         type: {
@@ -19,59 +22,14 @@ export default {
             default: 'button', // button / submit / reset
         },
 
-        isBlock: {
-            type: Boolean,
-            default: false,
-        },
-
-        isDisabled: {
-            type: Boolean,
-            default: false,
-        },
-
         hasRipple: {
-            default: true,
-        },
-
-        isGhost: {
-            type: Boolean,
-            default: false,
-        },
-
-        isCircle: {
-            type: Boolean,
-            default: false,
-        },
-
-        isRound: {
             type: Boolean,
             default: true,
         },
 
-        isLoading: {
-            type: Boolean,
-            default: false,
-        },
-
-        size: {
-            type: String,
-            default: '', //sm
-        },
-    },
-
-    computed: {
-        className() {
-            return {
-                'atom-btn--disabled': this.isDisabled,
-                ['atom-btn-' + this.type]: !this.isGhost && !this.isDisabled, // 标准按钮
-                ['atom-btn-ghost-' + this.type]: this.isGhost && !this.isDisabled, // 幽灵按钮
-                'atom-btn--block': this.isBlock,
-                'atom-btn--round': this.isCircle,
-                'atom-btn--loading': this.isLoading,
-                'atom-btn--radius': !this.isBlock || this.isRound,
-                'atom-btn--sm': 'sm' == this.size,
-            };
-        },
+        icon: {
+            type: String
+        }
     },
 };
 </script>
