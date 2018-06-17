@@ -2,50 +2,55 @@
 按钮, 支持情景色主题
 ### 基本使用
 ``` html
-<!-- 默认样式 -->
+<!-- 默认块级元素宽度100%, 带圆角 -->
 <a-button>开始</a-button>
 ```
 ### 支持情景色
 ``` html
-<!-- 默认有圆角 -->
-<a-button type="success">开始</a-button>
+<a-button theme="success">开始</a-button>
 ```
 
-### 宽度100%
+### inline
 ``` html
-<!-- 默认样式 -->
-<a-button :is-block="true">开始</a-button>
+<a-button inline>行内小按钮</a-button>
 ```
 
 ### 幽灵样式
 ``` html
-<!-- 默认样式 -->
-<a-button :is-ghost="true" :is-block="true">开始</a-button>
+<a-button outline>开始</a-button>
+```
+
+### 禁用
+``` html
+<a-button disabled>开始</a-button>
 ```
 
 ### 加载动画
 ``` html
-<!-- 默认样式 -->
-<a-button :is-loading="true" :is-block="true">开始</a-button>
+<a-button loading>发送</a-button>
 ```
 
-### 小按钮
+### 圆形按钮
 ``` html
-<!-- 默认样式 -->
-<a-button :is-loading="true" size="sm">开始</a-button>
+<a-button circle>发送</a-button>
 ```
+
+### 图标
+``` html
+<!-- 支持Icon组件支持的图标 -->
+<a-button circle icon="tick">发送</a-button>
+```
+
 ### API
 
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
-| type | 情景色 | `String` | primary |primary success danger等|否|
-| nativeType | 设置所在原生`<button>`元素的type属性 | `String` | button |button  submit  reset|否|
-| isBlock | 是否设置width=100% | `Boolean` | false |true false|否|
-| isDisabled | 是否不可点击 | `Boolean` | false |true false|否|
+| theme | 情景色 | `String` | primary |primary success danger等|否|
+| inline | 行内小按钮 | `Boolean` | false |true false|否|
+| disabled | 禁用 | `Boolean` | false |true false|否|
 | hasRipple | 是否点击有水波纹动画 | `Boolean` | true |true false|否|
-| isGhost | 是否采用镂空样式按钮 | `Boolean` | false |true false|否|
-| isCircle | 是否圆角为100% | `Boolean` | false |true false|否|
-| isRound | 是否微微有圆角 | `Boolean` | true |true false|否|
-| isLoading | 是否显示加载动画 | `Boolean` | false |true false|否|
-| size | 指定尺寸 | `Boolean` | - |sm|否|
+| ghost | 是否采用镂空样式按钮 | `Boolean` | false |true false|否|
+| circle | 是否圆角为100% | `Boolean` | false |true false|否|
+| icon | 图标 | `String` | - |Icon组件支持的图标|否|
+| loading | 是否显示加载动画 | `Boolean` | false |true false|否|
