@@ -4,7 +4,7 @@
             <a-icon 
                 v-ripple="true" 
                 :size="24" 
-                value="arrow" 
+                name="arrow" 
                 style="transform: rotate(180deg)"
                 @click="clickArrow" />
             <slot name="left"></slot>
