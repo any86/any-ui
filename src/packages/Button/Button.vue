@@ -9,8 +9,11 @@ import AIcon from '@/packages/Icon'
 import { ripple } from '@/directives/ripple/index.js';
 export default {
     name: 'AtomButton',
+
     components: {AIcon},
+
     directives: { ripple },
+    
     props: {
         theme: {
             type: String,

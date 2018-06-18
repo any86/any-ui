@@ -1,22 +1,26 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-prompt">
+    <a-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-prompt">
         <template slot="header">{{title}}</template>
         <div class="border fill-sm border-rounded">
-            <v-input ref="input" v-model="value" :placeholder="placeHolder"/>
+            <a-input ref="input" v-model="value" :placeholder="placeHolder"/>
         </div>
-        <section slot="footer" class="flex-row border-top">
-            <v-button @click="cancel" :is-block="true" :is-round="false" type="white" class="border-right">{{cancelText}}</v-button>
-            <v-button @click="ok" :is-block="true" :is-ghost="true" :is-round="false" type="primary" class="border-none">{{okText}}</v-button>
-        </section>
-    </v-dialog>
+
+        <a-button-group slot="footer" class="border-top">
+            <a-button @click="cancel" theme="white">{{cancelText}}</a-button>
+            <a-button @click="ok" theme="primary">{{okText}}</a-button>
+        </a-button-group>
+    </a-dialog>
 </template>
 <script>
-import VDialog from '../../packages/Dialog/Dialog';
-import VInput from '../../packages/Input/Input';
-import VButton from '../../packages/Button/Button';
+import ADialog from '../../packages/Dialog/Dialog';
+import AInput from '../../packages/Input/Input';
+import AButton from '../../packages/Button/Button';
+import AButtonGroup from '../../packages/Button/ButtonGroup';
 
 export default {
     name: 'AtomPrompt',
+
+    components: { ADialog, AInput, AButton, AButtonGroup },
 
     props: {
         // 是否显示
@@ -32,7 +36,7 @@ export default {
 
         // 对齐方式
         align: {
-            type: String,
+            type: String
         },
 
         // 点击ok后运行
@@ -44,7 +48,7 @@ export default {
         onCancel: {
             type: Function
         },
-        
+
         // 按钮文字
         okText: {
             type: String
@@ -54,13 +58,13 @@ export default {
         cancelText: {
             type: String
         },
-        
+
         placeHolder: {
             type: String
         }
     },
 
-    data: ()=>({value: ''}),
+    data: () => ({ value: '' }),
 
     methods: {
         ok() {
@@ -91,8 +95,6 @@ export default {
                 });
             }
         }
-    },
-
-    components: { VDialog, VInput, VButton }
+    }
 };
 </script>

@@ -17,7 +17,7 @@
         </a-group>
 
         <a-group title="inline">
-            <a-button theme="primary" inline class="gutter-top-sm">primary</a-button>
+            <a-button theme="primary" :inline="true" class="gutter-top-sm">primary</a-button>
             <a-button theme="success" inline class="gutter-top-sm">success</a-button>
             <a-button theme="info" inline class="gutter-top-sm">info</a-button>
             <a-button theme="warning" inline class="gutter-top-sm">warning</a-button>

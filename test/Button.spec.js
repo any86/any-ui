@@ -4,13 +4,13 @@ import {
 import AButton from '@/packages/Button/Button.vue'
 
 describe('Button.vue', () => {
-    it('测试props.isBlock', () => {
+    it('测试theme是否生效', () => {
         const wrapper = shallowMount(AButton, {
             propsData: {
-                isBlock: true
+                theme: 'info'
             }
         })
-        expect(wrapper.classes()).toContain('atom-btn--block');
+        expect(wrapper.classes()).toContain('atom-btn--info');
     });
 
     it('测试是否是<button>', () => {
@@ -18,7 +18,7 @@ describe('Button.vue', () => {
         expect(wrapper.contains('button')).toBe(true);
     });
 
-    
+
 
 
     //   it('matches snapshot', () => {

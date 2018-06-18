@@ -1,18 +1,18 @@
 <template>
-    <v-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-alert">
+    <a-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-alert">
         <template v-if="undefined !== title" slot="header">{{title}}</template>
         {{content}}
-        <section slot="footer" class="border-top">
-            <v-button slot="footer" :is-block="true" type="white" @click="ok" class="border-none">{{okText}}</v-button>                
-        </section>
-    </v-dialog>
+        <a-button  slot="footer" theme="white" @click="ok" class="border-none border-top">{{okText}}</a-button>                
+    </a-dialog>
 </template>
 <script>
-import VDialog from '../../packages/Dialog/Dialog'
-import VButton from '../../packages/Button/Button'
-
+import ADialog from '../../packages/Dialog/Dialog';
+import AButton from '../../packages/Button/Button';
+import AButtonGroup from '../../packages/Button/ButtonGroup';
 export default {
     name: 'AtomAlert',
+
+    components: { ADialog, AButton, AButtonGroup },
 
     props: {
         // 是否显示
@@ -58,7 +58,5 @@ export default {
             });
         },
     },
-
-    components: { VDialog,VButton }
 }
 </script>

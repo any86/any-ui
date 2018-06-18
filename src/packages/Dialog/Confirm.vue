@@ -1,18 +1,21 @@
 <template>
-    <v-dialog :is-show.sync="isShow" :align="align" :has-close="false">
+    <a-dialog :is-show.sync="isShow" :align="align" :has-close="false">
         <template v-if="!!title" slot="header">{{title}}</template>
         {{content}}
-        <section slot="footer" class="flex-row border-top">
-            <v-button @click="cancel" :is-block="true" :is-round="false" type="white" class="border-none border-right">{{cancelText}}</v-button>
-            <v-button @click="ok" :is-block="true" :is-ghost="true" :is-round="false" type="primary" class="border-none">{{okText}}</v-button>
-        </section>
-    </v-dialog>
+        <a-button-group slot="footer" class="border-top">
+            <a-button @click="cancel" theme="white">{{cancelText}}</a-button>
+            <a-button @click="ok" theme="primary">{{okText}}</a-button>
+        </a-button-group>
+    </a-dialog>
 </template>
 <script>
-import VDialog from '../../packages/Dialog/Dialog';
-import VButton from '../../packages/Button/Button'
+import ADialog from '../../packages/Dialog/Dialog';
+import AButton from '../../packages/Button/Button';
+import AButtonGroup from '../../packages/Button/ButtonGroup';
 export default {
     name: 'AtomConfirm',
+
+    components: { ADialog, AButton, AButtonGroup },
 
     props: {
         // 是否显示
@@ -35,7 +38,7 @@ export default {
         // 对齐方式
         align: {
             type: String,
-            default:  'bottom'
+            default: 'bottom'
         },
 
         // 点击ok后运行
@@ -47,7 +50,7 @@ export default {
         onCancel: {
             type: Function
         },
-        
+
         // 按钮文字
         okText: {
             type: String
@@ -73,8 +76,6 @@ export default {
                 this.onCancel();
             });
         }
-    },
-
-    components: { VDialog, VButton }
+    }
 };
 </script>
