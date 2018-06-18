@@ -2,21 +2,21 @@
     <div v-on="$listeners" :style="{width: `${width}px`}" class="atom-carousel-item">
         <div v-if="$parent.isZoom" class="item__zoom-warp" @touchstart="touchStart" @touchend="touchEnd" :style="{transitionDuration: `${transitionDuration}ms`, transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`}">
             <slot></slot>
-            <v-spinner-ripple v-if="ready" class="item__loading" />
+            <a-loading  v-if="ready" name="ripple" class="item__loading" />
         </div>
         <template v-else>
             <slot></slot>
-            <v-spinner-ripple v-if="ready" class="item__loading" />
+            <a-loading  v-if="ready" name="ripple" class="item__loading" />
         </template>
     </div>
 </template>
 <script>
 import Finger from '../../utils/touch2';
-import VSpinnerRipple from '../../packages/Spinner/Ripple';
+import ALoading from '../../packages/Loading';
 export default {
     name: 'AtomCarouselItem',
 
-    // inject: ['perView'],
+    components: { ALoading },
 
     data() {
         return {
@@ -72,15 +72,14 @@ export default {
         }
 
         // 识别tap/doubleTap
-        finger.on('tap', e=>{
+        finger.on('tap', e => {
             this.$emit('tap', e);
         });
 
         // 识别tap/doubleTap
-        finger.on('doubleTap', e=>{
+        finger.on('doubleTap', e => {
             this.$emit('doubleTap', e);
         });
-
 
         this.index = this.$parent.count;
         this.$parent.count++;
@@ -133,8 +132,6 @@ export default {
         scale(scale) {
             this.$parent.isDisabled = 1 < scale;
         }
-    },
-
-    components: { VSpinnerRipple }
+    }
 };
 </script>

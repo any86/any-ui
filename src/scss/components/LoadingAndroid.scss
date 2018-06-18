@@ -1,4 +1,4 @@
-.atom-spinner-android{
+.atom-loading-android{
     >circle {
         display: inline-block;
         stroke-dasharray: 1, 200;
@@ -44,7 +44,7 @@
 
 
 @each $key, $value in $theme_colors {
-    .atom-spinner-android--#{$key} {
+    .atom-loading-android--#{$key} {
         >circle{
             stroke: $value;
         }

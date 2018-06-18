@@ -1,2 +1,2 @@
-import ALoading from './Loading.vue';
+import ALoading from './Loading';
 export default ALoading;

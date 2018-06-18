@@ -22,7 +22,7 @@ let Atom = {
     locale
 };
 
-Atom.install = function(Vue, opts = {}) {
+Atom.install = function (Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
 
@@ -41,13 +41,13 @@ Atom.install = function(Vue, opts = {}) {
         Vue.component(`${component.name.replace('Atom', 'A')}`, component);
     }
 
+    let appId = 1;
     const createVueChild = component => {
         // 创建一个挂载点
         const node = document.createElement('div');
         // 起个不重复的名字
-        node.id = `_root-app-${component.name}-${Math.random()
-            .toString(36)
-            .substr(2, 10)}`;
+        node.id = `_app-${appId}`;
+        appId++;
         // 插入到文档最后
         document.body.appendChild(node);
         // 挂载
@@ -64,7 +64,7 @@ Atom.install = function(Vue, opts = {}) {
             title = '',
             okText = locale.t('alert.ok'),
             align = 'top',
-            onOk = () => {}
+            onOk = () => { }
         } = {}) => {
             if (null === vm) vm = createVueChild(AAlert);
             vm.isShow = true;
@@ -87,8 +87,8 @@ Atom.install = function(Vue, opts = {}) {
                 okText = locale.t('confirm.ok'),
                 cancelText = locale.t('confirm.cancel'),
                 align = 'bottom',
-                onOk = () => {},
-                onCancel = () => {}
+                onOk = () => { },
+                onCancel = () => { }
             } = {}
         ) => {
             if (null === vm) {
@@ -109,8 +109,8 @@ Atom.install = function(Vue, opts = {}) {
         let vm = null;
         Vue.prototype.$prompt = (
             title = '', {
-                onOk = () => {},
-                onCancel = () => {},
+                onOk = () => { },
+                onCancel = () => { },
                 align = 'top',
                 okText = locale.t('prompt.ok'),
                 cancelText = locale.t('prompt.cancel'),
@@ -138,7 +138,7 @@ Atom.install = function(Vue, opts = {}) {
         let toastVM = null;
         let timeout = null;
         Vue.prototype.$toast = (
-            text = '', {
+            content = '', {
                 position = 'center',
                 delay = 0
             } = {}
@@ -148,7 +148,7 @@ Atom.install = function(Vue, opts = {}) {
             }
             toastVM.position = position;
             toastVM.isShow = true;
-            toastVM.text = text;
+            toastVM.content = content;
             toastVM.delay = delay;
             if (0 < delay) {
                 timeout = setTimeout(() => {
@@ -171,23 +171,8 @@ Atom.install = function(Vue, opts = {}) {
     // ==============组件内调用: this.$loading===========
     // =================================================
     {
-        let loadingVM = null;
-        Vue.prototype.$loading = ({
-            background = 'rgba(0,0,0,0)',
-            zIndex = 1986
-        } = {}) => {
-            if (null === loadingVM) {
-                loadingVM = createVueChild(ALoading);
-            }
-            loadingVM.isShow = true;
-            loadingVM.background = background;
-            loadingVM.zIndex = zIndex;
-            return loadingVM;
-        };
-
-        Vue.prototype.$loading.close = () => {
-            loadingVM.isShow = false;
-        };
+        Vue.prototype.$loading = Vue.prototype.$toast.bind(null, ALoading);
+        Vue.prototype.$loading.close = Vue.prototype.$toast.close;
     }
 };
 

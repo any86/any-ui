@@ -1,14 +1,14 @@
-$spinnerRippleSize: .6rem;
-.atom-spinner-ripple {
+$loadingRippleSize: .6rem;
+.atom-loading-ripple {
     display: inline-block;
-    width: $spinnerRippleSize;
-    height: $spinnerRippleSize;
+    width: $loadingRippleSize;
+    height: $loadingRippleSize;
     border-radius: 100%;
     animation: ripple 1s 0s ease-in-out infinite;
 }
 
 @each $key, $value in $theme_colors {
-    .atom-spinner-ripple--#{$key} {
+    .atom-loading-ripple--#{$key} {
         background: $value;
     }
 }

@@ -9,7 +9,7 @@ export default {
             default: false
         },
 
-        text: {
+        content: {
             type: String
         },
 
@@ -34,7 +34,7 @@ export default {
     },
 
     render(h) {
-        if (this.isShowMask ) {
+        if (this.isShowMask) {
             return h(
                 'v-mask',
                 {
@@ -50,14 +50,15 @@ export default {
                         h(
                             'transition',
                             {
-                                attrs: { name: 'fade'},
-                                on: {'after-leave': this.afterLeave }
+                                attrs: { name: 'fade' },
+                                on: { 'after-leave': this.afterLeave }
                             },
                             [
                                 h(
                                     'div',
                                     { class: [this.position, 'atom-toast'] },
-                                    [this.text]
+                                    // 如果是组件那么渲染成vnode, 否则直接字符串渲染
+                                    [this.content._compiled ? h(this.content) : this.content]
                                 )
                             ]
                         )
@@ -74,7 +75,7 @@ export default {
 
     watch: {
         isShow(value) {
-            if(value){
+            if (value) {
                 this.isShowMask = value;
             }
         }

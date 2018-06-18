@@ -41,11 +41,6 @@ import AScrollView from './ScrollView';
 import ASegment from './Segment';
 import ASegmentItem from './SegmentItem';
 
-import {
-    AAndroid,
-    ARipple,
-    AThreeDots
-} from './Spinner';
 import ASteps from './Steps';
 import ASwitch from './Switch';
 import ATabs from './Tabs';
@@ -97,9 +92,6 @@ export {
     ATextarea,
     AVirtualScroller,
     AIcon,
-    AAndroid,
-    AThreeDots,
-    ARipple,
     ASwipeOut,
-    ASwipeOutButton,
+    ASwipeOutButton,ALoading
 }
