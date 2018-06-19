@@ -149,6 +149,7 @@ Atom.install = function(Vue, opts = {}) {
             }
             toastVM.type = type;
             toastVM.position = position;
+            toastVM.closeable = closeable;
             toastVM.isShow = true;
             toastVM.content = content;
             toastVM.delay = delay;

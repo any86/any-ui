@@ -5,6 +5,12 @@
                 <h4 slot="title">指令</h4>
                 <div class="group__item" @click="$router.push({'path': '/touch'})">Touch(手势)</div>
             </a-collapse-item>
+
+            <a-collapse-item class="group">
+                <h4 slot="title">全局方法</h4>
+                <div class="group__item" @click="$router.push({'path': '/$toast'})">$toast</div>
+                <div class="group__item" @click="$router.push({'path': '/$loading'})">$loading</div>
+            </a-collapse-item>
             
             <a-collapse-item :has-line="false" class="group">
                 <h4 slot="title">表单</h4>
@@ -28,6 +34,7 @@
                 <div class="group__item" @click="$router.push({'path': '/popup'})">Popup</div>
                 <div class="group__item" @click="$router.push({'path': '/dialog'})">Dialog</div>
                 <div class="group__item" @click="$router.push({'path': '/mask'})">Mask</div>
+                <div class="group__item" @click="$router.push({'path': '/popper'})">Popper</div>
             </a-collapse-item>
 
             <a-collapse-item title="滚动" class="group">
@@ -66,11 +73,6 @@
                 <div class="group__item" @click="$router.push({'path': '/progress'})">Progess</div>
             </a-collapse-item>
 
-            <a-collapse-item title="轻提示" class="group">
-                <div class="group__item" @click="$router.push({'path': '/toast'})">Toast</div>
-                <div class="group__item" @click="$router.push({'path': '/popper'})">Popper</div>
-            </a-collapse-item>
-
             
             <a-collapse-item title="组合" class="group">
                 <div class="group__item" @click="$router.push({'path': '/popupPicker'})">PopupPicker</div>
@@ -84,23 +86,22 @@ export default {
     name: 'Index',
 
     data() {
-        return {data: 0};
+        return { data: 0 };
     },
 
-    mounted(){
-        
+    mounted() {
         // dir(this)
 
-        setTimeout(()=>{
+        setTimeout(() => {
             this.data = 100;
-        }, 1000)
+        }, 1000);
     },
 
     methods: {
         touchstart(e) {
             // log(e)
-        }
-    }
+        },
+    },
 };
 </script>
 <style scoped lang="scss">

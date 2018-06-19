@@ -63,7 +63,8 @@ import ProgressDemo from '@/pages/ProgressDemo';
 import LoadingDemo from '@/pages/LoadingDemo';
 
 // 提示
-import ToastDemo from '@/pages/ToastDemo'
+import $ToastDemo from '@/pages/$ToastDemo'
+import $LoadingDemo from '@/pages/$LoadingDemo'
 import PopperDemo from '@/pages/PopperDemo'
 import QRCodeDemo from '@/pages/QRCodeDemo'
 
@@ -227,9 +228,14 @@ export default new Router({
             component: ProgressDemo
         },
         {
-            name: 'toast',
-            path: '/toast',
-            component: ToastDemo
+            name: '$toast',
+            path: '/$toast',
+            component: $ToastDemo
+        },
+        {
+            name: '$loading',
+            path: '/$loading',
+            component: $LoadingDemo
         },
         {
             name: 'popper',
