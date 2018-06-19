@@ -1,6 +1,6 @@
 $radioSize: 20px;
 label.atom-radio {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     flex-wrap: nowrap;
     &--reverse {
@@ -67,6 +67,9 @@ label.atom-radio {
     }
 }
 
+label.atom-radio[inline] {
+    display: inline-flex;
+}
 
 // 多配色
 @each $key, $value in $theme_colors {

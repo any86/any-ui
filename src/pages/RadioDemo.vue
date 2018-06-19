@@ -33,11 +33,11 @@
             </template>
 
             <v-cell v-ripple="true">
-                <v-radio type="android" v-model="select3" :value="1">选项1</v-radio>
+                <v-radio theme="android" v-model="select3" :value="1">选项1</v-radio>
             </v-cell>
 
             <v-cell v-ripple="true">
-                <v-radio type="android" v-model="select3" :value="2">选项2</v-radio>
+                <v-radio theme="android" v-model="select3" :value="2">选项2</v-radio>
             </v-cell>
         </v-group>
     </v-scroll-view>

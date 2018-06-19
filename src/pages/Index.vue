@@ -62,7 +62,7 @@
             </a-collapse-item>
 
             <a-collapse-item title="等待" class="group">
-                <div class="group__item" @click="$router.push({'path': '/spinner'})">Spinner</div>
+                <div class="group__item" @click="$router.push({'path': '/loading'})">Loading</div>
                 <div class="group__item" @click="$router.push({'path': '/progress'})">Progess</div>
             </a-collapse-item>
 
