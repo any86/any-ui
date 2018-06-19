@@ -7,12 +7,12 @@ export default {
     
     render(h){
         return h('i', {
-            class: ['atom-loading-ripple', `atom-loading-ripple--${this.theme}`]
+            class: ['atom-loading-ripple', `atom-loading-ripple--${this.type}`]
         })
     },
 
     props: {
-        theme: {
+        type: {
             type: String,
             default: 'primary'
         }

@@ -1,6 +1,6 @@
 <template>
     <div :readonly="isReadOnly" class="atom-rate">
-        <v-icon v-for="n in count" :key="'atom-star-'+n" :value="getComponentName(n)"  :size="size" @click.native="changeRate(n)" class="svg-icon"/>
+        <v-icon v-for="n in count" :key="'atom-star-'+n" :name="getComponentName(n)"  :size="size" @click.native="changeRate(n)" class="svg-icon"/>
     </div>
 
 </template>

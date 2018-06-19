@@ -1,5 +1,5 @@
 <template functional>
-    <div :class="['atom-loading-three-dots', `atom-loading-three-dots--${props.theme}`]">
+    <div :class="['atom-loading-three-dots', `atom-loading-three-dots--${props.type}`]">
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
@@ -10,7 +10,7 @@ export default {
     name: 'AtomLoadingThreeDots',
 
     props: {
-        theme: {
+        type: {
             type: String,
             default: 'primary'
         }
