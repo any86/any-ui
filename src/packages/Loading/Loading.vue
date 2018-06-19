@@ -1,5 +1,5 @@
 <template>
-    <component :is="name" :theme="theme"/>
+    <component :is="name" :type="theme"/>
 </template>
 <script>
 import Android from './Loading/Android';

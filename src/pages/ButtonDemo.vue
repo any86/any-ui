@@ -2,26 +2,26 @@
     <a-scroll-view class="fill-sm">
 
         <a-group title="多种情景色">
-            <a-button theme="primary" class="gutter-top-sm">
+            <a-button type="primary" class="gutter-top-sm">
                 primary</a-button>
-            <a-button theme="success" class="gutter-top-sm">success</a-button>
-            <a-button theme="info" class="gutter-top-sm">info</a-button>
-            <a-button theme="warning" class="gutter-top-sm">warning</a-button>
-            <a-button theme="danger" class="gutter-top-sm">danger</a-button>
-            <a-button theme="darkest" class="gutter-top-sm">darkest</a-button>
-            <a-button theme="darker" class="gutter-top-sm">darker</a-button>
-            <a-button theme="dark" class="gutter-top-sm">dark</a-button>
-            <a-button theme="light" class="gutter-top-sm">light</a-button>
-            <a-button theme="lighter" class="gutter-top-sm">lighter</a-button>
-            <a-button theme="lightest" class="gutter-top-sm">lightest</a-button>
+            <a-button type="success" class="gutter-top-sm">success</a-button>
+            <a-button type="info" class="gutter-top-sm">info</a-button>
+            <a-button type="warning" class="gutter-top-sm">warning</a-button>
+            <a-button type="danger" class="gutter-top-sm">danger</a-button>
+            <a-button type="darkest" class="gutter-top-sm">darkest</a-button>
+            <a-button type="darker" class="gutter-top-sm">darker</a-button>
+            <a-button type="dark" class="gutter-top-sm">dark</a-button>
+            <a-button type="light" class="gutter-top-sm">light</a-button>
+            <a-button type="lighter" class="gutter-top-sm">lighter</a-button>
+            <a-button type="lightest" class="gutter-top-sm">lightest</a-button>
         </a-group>
 
         <a-group title="inline">
-            <a-button theme="primary" :inline="true" class="gutter-top-sm">primary</a-button>
-            <a-button theme="success" inline class="gutter-top-sm">success</a-button>
-            <a-button theme="info" inline class="gutter-top-sm">info</a-button>
-            <a-button theme="warning" inline class="gutter-top-sm">warning</a-button>
-            <a-button theme="danger" inline class="gutter-top-sm">danger</a-button>
+            <a-button type="primary" :inline="true" class="gutter-top-sm">primary</a-button>
+            <a-button type="success" inline class="gutter-top-sm">success</a-button>
+            <a-button type="info" inline class="gutter-top-sm">info</a-button>
+            <a-button type="warning" inline class="gutter-top-sm">warning</a-button>
+            <a-button type="danger" inline class="gutter-top-sm">danger</a-button>
         </a-group>
 
 
@@ -30,25 +30,25 @@
         </a-group>
 
         <a-group title="加载中">
-            <a-button loading inline ghost theme="warning" class="gutter-top-sm">warning</a-button>
-            <a-button loading theme="success" class="gutter-top-sm">success</a-button>
+            <a-button loading inline ghost type="warning" class="gutter-top-sm">warning</a-button>
+            <a-button loading type="success" class="gutter-top-sm">success</a-button>
         </a-group>
 
         <a-group title="幽灵按钮">
-            <a-button outline theme="info" class="gutter-top-sm">info</a-button>
-            <a-button outline theme="warning" class="gutter-top-sm">warning</a-button>
+            <a-button outline type="info" class="gutter-top-sm">info</a-button>
+            <a-button outline type="warning" class="gutter-top-sm">warning</a-button>
         </a-group>
 
         <a-group title="圆形按钮">
-            <a-button inline circle icon="tick" theme="primary" class="gutter-top-sm"></a-button>
-            <a-button inline circle theme="success" class="gutter-top-sm">success</a-button>
-            <a-button circle="true" theme="info" class="gutter-top-sm">info</a-button>
+            <a-button inline circle icon="tick" type="primary" class="gutter-top-sm"></a-button>
+            <a-button inline circle type="success" class="gutter-top-sm">success</a-button>
+            <a-button circle="true" type="info" class="gutter-top-sm">info</a-button>
         </a-group>
 
         <a-group title="图标">
-            <a-button inline circle icon="tick" theme="primary" class="gutter-top-sm"></a-button>
-            <a-button inline circle icon="plus" theme="success" class="gutter-top-sm">success</a-button>
-            <a-button circle="true" icon="close" theme="info" class="gutter-top-sm">info</a-button>
+            <a-button inline circle icon="tick" type="primary" class="gutter-top-sm"></a-button>
+            <a-button inline circle icon="plus" type="success" class="gutter-top-sm">success</a-button>
+            <a-button circle="true" icon="close" type="info" class="gutter-top-sm">info</a-button>
         </a-group>
 
     </a-scroll-view>

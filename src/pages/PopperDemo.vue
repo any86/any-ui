@@ -5,17 +5,17 @@
             滑动到底部{{String.fromCharCode(64 + parseInt(n))}}</a-cell>
 
         <!-- 模拟confirm -->
-        <a-button  theme="success"  @click="isShow1=!isShow1" class="gutter-top trigBtn">
+        <a-button  type="success"  @click="isShow1=!isShow1" class="gutter-top trigBtn">
             模拟confirm</a-button>
 
         <a-popper :is-show.sync="isShow1" target=".trigBtn" class="fill">
             <h4 class="fill-bottom-sm fill-top-sm text-darkest">查看更多?</h4>
-            <a-button theme="dark"  size="sm" @click="showMore" class="gutter-top" >取消</a-button>
-            <a-button theme="danger" size="sm"  @click="showMore" class="gutter-top">确定</a-button>
+            <a-button type="dark"  size="sm" @click="showMore" class="gutter-top" >取消</a-button>
+            <a-button type="danger" size="sm"  @click="showMore" class="gutter-top">确定</a-button>
         </a-popper>
 
         <!-- 模拟下拉菜单 -->
-        <a-button id="drop-down"  theme="info"  @click="isShow2=!isShow2" class="gutter-top">
+        <a-button id="drop-down"  type="info"  @click="isShow2=!isShow2" class="gutter-top">
             <a-icon name="menu" size="16"/>
             模拟下拉菜单</a-button>
 
@@ -24,7 +24,7 @@
         </a-popper>
 
         <!-- 通过theme属性支持情景色 -->
-        <a-button id="type-theme"  theme="danger" @click="isShow3=true" class="gutter-top">
+        <a-button id="type-theme"  type="danger" @click="isShow3=true" class="gutter-top">
             通过type属性支持情景色</a-button>
 
         <a-popper type="danger" :is-show.sync="isShow3" target="#type-theme" class="fill">

@@ -58,9 +58,7 @@ import TagDemo from '@/pages/TagDemo';
 import BreadCrumbDemo from '@/pages/BreadCrumbDemo';
 import IconDemo from '@/pages/IconDemo';
 
-
 // 加载
-import SpinnerDemo from '@/pages/SpinnerDemo';
 import ProgressDemo from '@/pages/ProgressDemo';
 import LoadingDemo from '@/pages/LoadingDemo';
 
@@ -223,11 +221,6 @@ export default new Router({
             component: BreadCrumbDemo
         },
 
-        {
-            name: 'spinner',
-            path: '/spinner',
-            component: SpinnerDemo
-        },
         {
             name: 'progress',
             path: '/progress',

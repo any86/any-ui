@@ -7,7 +7,7 @@
 ```
 ### 支持情景色
 ``` html
-<a-button theme="success">开始</a-button>
+<a-button type="success">开始</a-button>
 ```
 
 ### inline
@@ -46,7 +46,7 @@
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
-| theme | 情景色 | `String` | primary |primary success danger等|否|
+| type | 情景色 | `String` | primary |primary success danger等|否|
 | inline | 行内小按钮 | `Boolean` | false |true false|否|
 | disabled | 禁用 | `Boolean` | false |true false|否|
 | hasRipple | 是否点击有水波纹动画 | `Boolean` | true |true false|否|

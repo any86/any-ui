@@ -22,54 +22,54 @@ export default {
 
     model: {
         prop: 'referenceValue',
-        event: 'change'
+        event: 'change',
     },
 
     props: {
         theme: {
             type: String,
-            default: 'ios' // ios
+            default: 'ios', // ios
         },
 
         disabled: {
             type: Boolean,
-            default: false
+            default: false,
         },
         // 外部参考值
         // checked: referenceValue == value
         referenceValue: {
-            required: true
+            required: true,
         },
 
         value: {
-            required: true
+            required: true,
         },
 
         isReverse: {
             type: Boolean,
-            default: false
+            default: false,
         },
         type: {
             type: String,
-            default: 'primary'
-        }
+            default: 'primary',
+        },
     },
     methods: {
         change() {
             if (!this.disabled) {
                 this.$emit('change', this.value);
             }
-        }
+        },
     },
 
     computed: {
         isChecked() {
             return this.value == this.referenceValue;
-        }
+        },
     },
 
     components: {
-        AIcon
-    }
+        AIcon,
+    },
 };
 </script>

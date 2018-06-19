@@ -1,23 +1,28 @@
 <template>
-    <button v-ripple="hasRipple"  v-on="$listeners" :class="[`atom-btn--${theme}`]" class="atom-btn">
+    <button v-ripple="hasRipple" :type="nativeType"  v-on="$listeners" :class="[`atom-btn--${type}`]" class="atom-btn">
         <a-icon v-if="icon" class="atom-btn__icon" :name="icon" size="16"/>
         <slot></slot>
     </button>
 </template>
 <script>
-import AIcon from '@/packages/Icon'
+import AIcon from '@/packages/Icon';
 import { ripple } from '@/directives/ripple/index.js';
 export default {
     name: 'AtomButton',
 
-    components: {AIcon},
+    components: { AIcon },
 
     directives: { ripple },
-    
+
     props: {
-        theme: {
+        type: {
             type: String,
             default: 'primary',
+        },
+
+        nativeType: {
+            type: String,
+            default: 'button', // submit reset ...
         },
 
         hasRipple: {
@@ -26,8 +31,8 @@ export default {
         },
 
         icon: {
-            type: String
-        }
+            type: String,
+        },
     },
 };
 </script>

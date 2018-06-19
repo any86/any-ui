@@ -3,8 +3,8 @@
         <template v-if="!!title" slot="header">{{title}}</template>
         {{content}}
         <a-button-group slot="footer" class="border-top">
-            <a-button @click="cancel" theme="white">{{cancelText}}</a-button>
-            <a-button @click="ok" theme="primary">{{okText}}</a-button>
+            <a-button @click="cancel" type="white">{{cancelText}}</a-button>
+            <a-button @click="ok" type="primary">{{okText}}</a-button>
         </a-button-group>
     </a-dialog>
 </template>

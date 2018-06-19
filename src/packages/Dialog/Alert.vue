@@ -2,7 +2,7 @@
     <a-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-alert">
         <template v-if="undefined !== title" slot="header">{{title}}</template>
         {{content}}
-        <a-button  slot="footer" theme="white" @click="ok" class="border-none border-top">{{okText}}</a-button>                
+        <a-button  slot="footer" type="white" @click="ok" class="border-none border-top">{{okText}}</a-button>                
     </a-dialog>
 </template>
 <script>
