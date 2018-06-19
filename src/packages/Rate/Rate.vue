@@ -47,6 +47,6 @@ export default {
         }
     },
 
-    components: { VIcon }
+    components: { VIcon, Aco: this.icon }
 };
 </script>
