@@ -20,7 +20,7 @@
     "test": "jest",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "docs:deploy": "vuepress build docs && node ./build/docs.js && rm -rf ./docs/dist/"
+    "docs:release": "rm -rf ./docs/dist/ && rm -rf ./dist/ && npm run build:demo && vuepress build docs && node ./build/docs.js && rm -rf ./docs/dist/ && rm -rf ./dist/"
   },
   "dependencies": {
     "autosize": "^4.0.1",

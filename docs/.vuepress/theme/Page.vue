@@ -30,16 +30,16 @@
 import OutboundLink from './OutboundLink.vue';
 import Preview from './Preview.vue';
 import { resolvePage, normalize, outboundRE, endingSlashRE } from './util';
-
+import {demoURL} from '../config';
 export default {
     components: { OutboundLink, Preview },
     props: ['sidebarItems'],
     computed: {
         previewURL() {
             if (-1 !== this.$page.path.indexOf('install')) {
-                return `https://383514580.github.io/atom/#/index`;
+                return `${demoURL}#/index`;
             } else {
-                return `https://383514580.github.io/atom/#/${this.$page.title}`;
+                return `${demoURL}#/${this.$page.title}`;
             }
         },
 

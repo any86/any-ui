@@ -1,4 +1,5 @@
 module.exports = {
+    demoURL: 'https://atom-h.github.io/atom-ui/demo/',
     base: '/atom-ui/',
     dest: './docs/dist',
     title: 'Atom UI',
@@ -58,6 +59,15 @@ module.exports = {
                     '/components/Switch',
                     '/components/Tabs',
                     '/components/Textarea',
+                ]
+            },
+            {
+                title: '全局方法(2)',
+                collapsable: false,
+                children: [
+                    '/components/$loading',
+                    '/components/$toast',
+
                 ]
             }
         ],

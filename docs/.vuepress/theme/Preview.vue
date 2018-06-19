@@ -18,7 +18,6 @@ export default {
     props: {
         src: {
             type: String,
-            default: 'https://383514580.github.io/atom/#/index'
         }
     }
 };
