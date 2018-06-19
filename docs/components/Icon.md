@@ -7,15 +7,15 @@
 
 ### 基本使用
 ``` html
-<a-icon value="plus" class="border"/>
-<a-icon value="arrow" class="border"/>
-<a-icon value="minus" class="border"/>
-<a-icon value="menu" class="border"/>
-<a-icon value="close" class="border"/>
-<a-icon value="tick" class="border"/>
-<a-icon value="star" class="border"/>
-<a-icon value="star-o" class="border"/>
-<a-icon value="warning" class="border"/>
+<a-icon name="plus" class="border"/>
+<a-icon name="arrow" class="border"/>
+<a-icon name="minus" class="border"/>
+<a-icon name="menu" class="border"/>
+<a-icon name="close" class="border"/>
+<a-icon name="tick" class="border"/>
+<a-icon name="star" class="border"/>
+<a-icon name="star-o" class="border"/>
+<a-icon name="warning" class="border"/>
 ```
 
 ### API
@@ -23,11 +23,11 @@
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
-| value | 图标名称 | `String` | plus arrow minus... |-|是|
+| name | 图标名称 | `String` | plus arrow minus... |-|是|
 | size | 宽度和高度 | `Number` | 48 |-|否|
 
 
-##### value 
+##### name 
 | 值 | 说明 | 
 |-----------|-----------|
 | plus | 加号 | 

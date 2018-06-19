@@ -5,11 +5,11 @@
         <input ref="input" :autofocus="autofocus" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="keydown" class="atom-input__input">
 
         <transition name="fadeLeft">
-            <a-icon v-if="hasRemove" value="close" size="14" v-show="isShowEmpty" @click="clear" class="atom-input__btn-empty"/>
+            <a-icon v-if="hasRemove" name="close" size="14" v-show="isShowEmpty" @click="clear" class="atom-input__btn-empty"/>
         </transition>
 
         <i class="atom-input__icon-warning">
-            <a-icon value="warning" size="14"/>
+            <a-icon name="warning" size="14"/>
             
             <span v-if="hasWarningDialog" class="warning__dialog">
                 <div class="triangle triangle-danger"></div>

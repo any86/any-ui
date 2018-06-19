@@ -9,7 +9,7 @@
             v-bind="$attrs"
             class="atom-mask">
             <slot></slot>
-            <a-icon v-if="hasClose" value="close" @click="close" class="atom-mask__icon-close"/>
+            <a-icon v-if="hasClose" name="close" @click="close" class="atom-mask__icon-close"/>
         </div>
     </transition>
 </template>
