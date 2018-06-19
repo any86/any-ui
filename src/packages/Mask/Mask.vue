@@ -14,7 +14,6 @@
     </transition>
 </template>
 <script>
-import Finger from '../../utils/touch2';
 import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomMask',
@@ -22,58 +21,39 @@ export default {
     props: {
         isStopPropagation: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         isPreventDefault: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         portal: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         isShow: {
-            type: Boolean
+            type: Boolean,
         },
 
         // 预备删除掉
-        isLock: {
+        closeable: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         // 预备删除
         isFixed: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         hasClose: {
             type: Boolean,
-            default: false
-        }
-    },
-
-    mounted() {
-        const finger = new Finger(this.$el, {
-            isStopPropagation: true,
-            isPreventDefault: false,
-            tapMaxTime: 100,
-        });
-        
-        // finger.on('tap', e => {
-        //     e.preventDefault();
-        //     if(this.$el === e.target) {
-        //         this.close();
-        //     }
-        // });
-
-        // finger.on('pan', e => {
-        //     e.preventDefault();
-        // });
+            default: false,
+        },
     },
 
     methods: {
@@ -86,18 +66,18 @@ export default {
         },
 
         close() {
-            if (!this.isLock) {
+            if (this.closeable) {
                 this.$emit('update:isShow', false);
             }
-        }
+        },
     },
 
     computed: {
         position() {
             return this.isFixed ? 'fixed' : 'absolute';
-        }
+        },
     },
 
-    components: { AIcon }
+    components: { AIcon },
 };
 </script>

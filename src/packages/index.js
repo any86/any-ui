@@ -22,7 +22,7 @@ let Atom = {
     locale
 };
 
-Atom.install = function (Vue, opts = {}) {
+Atom.install = function(Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
 
@@ -64,7 +64,7 @@ Atom.install = function (Vue, opts = {}) {
             title = '',
             okText = locale.t('alert.ok'),
             align = 'top',
-            onOk = () => { }
+            onOk = () => {}
         } = {}) => {
             if (null === vm) vm = createVueChild(AAlert);
             vm.isShow = true;
@@ -87,8 +87,8 @@ Atom.install = function (Vue, opts = {}) {
                 okText = locale.t('confirm.ok'),
                 cancelText = locale.t('confirm.cancel'),
                 align = 'bottom',
-                onOk = () => { },
-                onCancel = () => { }
+                onOk = () => {},
+                onCancel = () => {}
             } = {}
         ) => {
             if (null === vm) {
@@ -109,8 +109,8 @@ Atom.install = function (Vue, opts = {}) {
         let vm = null;
         Vue.prototype.$prompt = (
             title = '', {
-                onOk = () => { },
-                onCancel = () => { },
+                onOk = () => {},
+                onCancel = () => {},
                 align = 'top',
                 okText = locale.t('prompt.ok'),
                 cancelText = locale.t('prompt.cancel'),
@@ -136,26 +136,25 @@ Atom.install = function (Vue, opts = {}) {
     // =================================================
     {
         let toastVM = null;
-        let timeout = null;
         Vue.prototype.$toast = (
             content = '', {
+                type = 'default',
                 position = 'center',
-                delay = 0
+                delay = 3000,
+                closeable = true
             } = {}
         ) => {
             if (null === toastVM) {
                 toastVM = createVueChild(AToast);
             }
+            toastVM.type = type;
             toastVM.position = position;
             toastVM.isShow = true;
             toastVM.content = content;
             toastVM.delay = delay;
-            if (0 < delay) {
-                timeout = setTimeout(() => {
-                    toastVM.isShow = false;
-                    this.timeout = null;
-                }, delay);
-            }
+            toastVM.$on('update:isShow', isShow => {
+                toastVM.isShow = isShow;
+            })
             toastVM.close = () => {
                 toastVM.isShow = false;
             };
@@ -171,7 +170,13 @@ Atom.install = function (Vue, opts = {}) {
     // ==============组件内调用: this.$loading===========
     // =================================================
     {
-        Vue.prototype.$loading = Vue.prototype.$toast.bind(null, ALoading);
+        Vue.prototype.$loading = (content) => {
+            Vue.prototype.$toast(content, {
+                type: 'loading',
+                delay: 0,
+                closeable: false
+            });
+        }
         Vue.prototype.$loading.close = Vue.prototype.$toast.close;
     }
 };

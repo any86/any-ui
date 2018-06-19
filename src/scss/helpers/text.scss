@@ -17,10 +17,10 @@
 @each $key,
 $value in $theme_colors {
     .text-#{$key} {
-        color: $value;
+        color: $value !important;
     }
     small.text-#{$key} {
-        font-size: $small;
+        font-size: $small !important;
     }
 }
 

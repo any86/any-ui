@@ -33,7 +33,7 @@ export default {
 
     methods: {
         open() {
-            this.$loading();
+            this.$loading('加载中');
             setTimeout(() => {
                 this.$loading.close();
             }, 3000);
