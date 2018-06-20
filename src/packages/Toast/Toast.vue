@@ -35,7 +35,7 @@ export default {
             default: 'center',
         },
 
-        // 情景色
+        // 情景, 成功/失败/警告/loading
         type: {
             type: String,
             default: 'danger',
@@ -96,7 +96,7 @@ export default {
             let vnodeIcon;
             if ('loading' === this.type) {
                 vnodeIcon = h('a-loading', {
-                    props: { type: 'lightest' },
+                    props: { type: 'primary' },
                     class: ['gutter-auto', 'gutter-bottom-sm'],
                     style: { display: 'block' },
                 });

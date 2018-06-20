@@ -28,7 +28,7 @@ export default {
     components: { ALoading },
 
     data() {
-        return { theme: 'success' };
+        return { theme: 'primary' };
     },
 
     methods: {

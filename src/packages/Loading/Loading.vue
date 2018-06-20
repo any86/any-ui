@@ -22,7 +22,7 @@ export default {
 
         type: {
             type: String,
-            default: 'light',
+            default: 'primary',
         },
     },
 };

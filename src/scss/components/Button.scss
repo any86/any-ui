@@ -5,6 +5,7 @@ $height: 1rem;
     $lightness: lightness($color);
     background: $color;
     border-color: $color;
+    font-weight: 500;
     color: color-yiq($color);
     @if (98% < $lightness) {
         border: 1px solid $lightness;
