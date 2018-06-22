@@ -145,7 +145,6 @@ export default {
                 value = value.replace(/\D/g, '');
             }
             this.$emit('keyup', e);
-            this.$emit('input', value);
         },
 
         keydown(e) {
