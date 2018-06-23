@@ -38,10 +38,9 @@ export default {
             type: Boolean,
         },
 
-        // 预备删除掉
         closeable: {
             type: Boolean,
-            default: false,
+            default: true,
         },
 
         // 预备删除
