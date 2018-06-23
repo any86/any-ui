@@ -17,7 +17,7 @@
 | isStopPropagation | 是否阻止touch事件冒泡 | `Boolean` | true |-|是|
 | isPreventDefault | 是否阻止默认事件 | `Boolean` | true |-|是|
 | hasClose | 是否有关闭按钮 | `Boolean` | false |-|是|
-|closeable|点击是否关闭| `Boolean`| false | - |否|
+| closeable |点击是否关闭| `Boolean`| false | - |否|
 ##### events
 | 名称 | 说明 | 参数 |参数类型|
 |-----------|-----------|-----------|-----------|
