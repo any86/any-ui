@@ -2,7 +2,17 @@
     <label :class="{'atom-input--warning': isShowWarning}" class="atom-input">
         <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
         
-        <input ref="input" :autofocus="autofocus" v-bind="$attrs" :aria-placeholder="$attrs.placeholder" :value="value" @input="input" @focus="focus" @blur="blur" @keyup="keyup" @keydown="keydown" class="atom-input__input">
+        <input 
+            ref="input" 
+            :autofocus="autofocus" 
+            v-bind="$attrs" 
+            :aria-placeholder="$attrs.placeholder" 
+            :value="value"
+            @focus="focus" 
+            @blur="blur" 
+            @keyup="keyup" 
+            @keydown="keydown" 
+            class="atom-input__input">
 
         <transition name="fadeLeft">
             <a-icon v-if="hasRemove" name="close" size="14" v-show="isShowEmpty" @click="clear" class="atom-input__btn-empty"/>
@@ -19,6 +29,7 @@
     </label>
 </template>
 <script>
+// 不要派发input事件, 因为keyup中已经手动触发了input
 import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomInput',
@@ -52,7 +63,7 @@ export default {
             default: () => []
         },
 
-        filterExp: {
+        filter: {
             type: RegExp
         }
     },
@@ -65,12 +76,21 @@ export default {
         };
     },
 
-    beforeMount(){
+    beforeMount() {
         // 过滤
-        this.$emit('input', this.filter(this.value));
+        this.$emit('input', this.filterInput(this.value));
     },
 
     methods: {
+        /**
+         * 过滤指定字符
+         * @argument {String} 输入
+         * @returns {String} 过滤后字符串
+         */
+        filterInput(string) {
+            return undefined !== this.filter ? string.replace(this.filter, '') : string;
+        },
+
         verify() {
             for (let item of this.vaildate) {
                 if (item.required && '' == this.value) {
@@ -97,10 +117,6 @@ export default {
             this.$emit('warning', message);
         },
 
-        input(e) {
-            this.$emit('input', e.target.value);
-        },
-
         focus(e) {
             // 默认选中文字
             // e.target.select();
@@ -116,19 +132,10 @@ export default {
             this.$emit('blur', e);
         },
 
-        /**
-         * 过滤指定字符
-         * @argument {String} 输入
-         * @returns {String} 过滤后字符串
-         */
-        filter(string) {
-            return undefined !== this.filterExp ? string.replace(this.filterExp, '') : string;
-        },
-
         keyup(e) {
             // 过滤
-            let value = this.filter(e.target.value);
 
+            let value = this.filterInput(e.target.value);
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
             } else if ('letter' == this.type) {
@@ -145,6 +152,9 @@ export default {
                 value = value.replace(/\D/g, '');
             }
             this.$emit('keyup', e);
+            this.$emit('input', value);
+            // 强制刷新组件, 当过滤后的值和前值一样的时候不会触发
+            this.$forceUpdate();
         },
 
         keydown(e) {

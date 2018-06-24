@@ -32,7 +32,7 @@
 
         <v-cell>
             <template slot="title">过滤非字母</template>
-            <v-input :filter-exp="/[^a-zA-Z]/g" v-model="text7"/>
+            <v-input :filter="/[^a-zA-Z]/g" v-model="text7"/>
         </v-cell>
     </v-scroll-view>
 </template>
