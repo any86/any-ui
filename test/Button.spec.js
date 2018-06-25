@@ -4,7 +4,7 @@ import {
 import AButton from '@/packages/Button/Button.vue'
 
 describe('Button.vue', () => {
-    it('测试theme是否生效', () => {
+    it('测试type是否生效', () => {
         const wrapper = shallowMount(AButton, {
             propsData: {
                 type: 'info'
