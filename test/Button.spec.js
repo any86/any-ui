@@ -6,7 +6,7 @@ import AButton from '@/packages/Button/Button.vue'
 describe('Button.vue', () => {
     it('测试type是否生效', () => {
         const wrapper = shallowMount(AButton, {
-            propsData: {
+            propsDat
                 type: 'info'
             }
         })
@@ -19,7 +19,7 @@ describe('Button.vue', () => {
     });
 
 
-    
+
     //   it('matches snapshot', () => {
     //     const items = ['item 1', 'item 2']
     //     const wrapper = shallowMount(List, {
