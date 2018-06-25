@@ -76,7 +76,7 @@ export default {
         };
     },
 
-    beforeMount() {
+    mounted() {
         // 过滤
         this.$emit('input', this.filterInput(this.value));
     },
