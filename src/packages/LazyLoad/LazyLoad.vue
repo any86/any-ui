@@ -12,47 +12,47 @@ export default {
 
     props: {
         src: {
-            type: String
+            type: String,
         },
 
         placeholderBackgroundColor: {
             type: String,
-            default: '#eee'
+            default: '#eee',
         },
 
         placeholder: {
             type: String,
             default() {
                 return `data:image/svg+xml;utf8,<svg width="1" height="1" version="1.1" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="${this.placeholderBackgroundColor}"/></svg>`;
-            }
+            },
         },
 
         throttleTime: {
             type: Number,
-            default: 200
+            default: 200,
         },
 
         attempt: {
             type: Number,
-            default: 3
+            default: 3,
         },
 
         errorImg: {
             type: String,
-            default: ''
+            default: '',
         },
 
         preLoadRate: {
             type: Number,
-            default: 1.3
+            default: 1.3,
         },
 
         events: {
             type: Array,
             default() {
                 return ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'webkitAnimationend', 'webkitTransitionend', 'touchmove'];
-            }
-        }
+            },
+        },
     },
 
     data() {
@@ -61,7 +61,7 @@ export default {
             url: this.placeholder,
             costTime: 0,
             attemptCount: 0,
-            scrollParentNode: null
+            scrollParentNode: null,
         };
     },
 
@@ -69,10 +69,10 @@ export default {
         return h('img', {
             attrs: {
                 src: this.url,
-                lazy: this.status
+                lazy: this.status,
             },
 
-            class: ['atom-lazyload']
+            class: ['atom-lazyload'],
 
             // on: {
             //     animationend: this.animationend,
@@ -168,7 +168,7 @@ export default {
                         width: img.naturalWidth,
                         height: img.naturalHeight,
                         url: this.url,
-                        costTime: this.costTime
+                        costTime: this.costTime,
                     });
                     img = null;
                 };
@@ -178,7 +178,7 @@ export default {
                     this.status = 'attempt';
                     this.$emit('attempt', {
                         url: this.url,
-                        costTime: this.costTime
+                        costTime: this.costTime,
                     });
                     this.loadImg();
                 };
@@ -189,7 +189,7 @@ export default {
                 this.status = 'fail';
                 this.$emit('fail', {
                     url: this.url,
-                    costTime: this.costTime
+                    costTime: this.costTime,
                 });
                 img = null;
             }
@@ -198,7 +198,7 @@ export default {
             setTimeout(() => {
                 this.$el.removeAttribute('lazy');
             }, 1050);
-        }
+        },
     },
 
     watch: {
@@ -208,13 +208,13 @@ export default {
         src(src) {
             this.status = 'ready';
             this.loadImgIfInView();
-        }
+        },
     },
 
     beforeDestroy() {
         this.events.forEach(eventName => {
             this.scrollParentNode.removeEventListener(eventName, this.loadImgIfInView);
         });
-    }
+    },
 };
 </script>
