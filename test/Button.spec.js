@@ -18,6 +18,8 @@ describe('Button.vue', () => {
         expect(wrapper.contains('button')).toBe(true);
     });
 
+
+    
     //   it('matches snapshot', () => {
     //     const items = ['item 1', 'item 2']
     //     const wrapper = shallowMount(List, {
