@@ -31,6 +31,11 @@ sidebarDepth: 0
     <template slot="title">字母</template>
     <v-input maxlength="13" v-model="text5" type="letter" />
 </a-cell>
+
+<a-cell>
+    <template slot="title">过滤非字母</template>
+    <a-input :filter="/[^a-zA-Z]/g" v-model="text6"/>
+</a-cell>
 ```
 
 ### API
@@ -43,8 +48,7 @@ sidebarDepth: 0
 | hasRemove | 是否有清空按钮(x图标) | `Boolean` | true |-|否|
 | vaildate | blur触发时, 验证输入的规则 | `Array` | [] |-|否|
 | hasWarningDialog | 验证不匹配的时候, 是否出现提示| `Boolean` | true |-|否|
-| filterExp |过滤指定条件的输入| `String` / `RegExp` | - |-|否|
-
+| filter |过滤指定条件的输入| `RegExp` | - |-|否|
 
 
 ##### events
