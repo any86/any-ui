@@ -7,7 +7,7 @@ describe('Button.vue', () => {
     it('测试theme是否生效', () => {
         const wrapper = shallowMount(AButton, {
             propsData: {
-                theme: 'info'
+                type: 'info'
             }
         })
         expect(wrapper.classes()).toContain('atom-btn--info');
