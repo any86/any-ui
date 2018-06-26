@@ -23,23 +23,15 @@ export default {
 
     props: {
         size: {
-            default: 48
+            default: 48,
         },
 
         name: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
 
-    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar,AStarHalf, AStarO, AWarning }
+    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarHalf, AStarO, AWarning },
 };
 </script>
-
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-icon {
-    vertical-align: middle;
-    transition: transform $duration;
-}
-</style>
