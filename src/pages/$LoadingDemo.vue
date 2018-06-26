@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: 'ApiLoadingDemo',
+    name: '$LoadingDemo',
 
     methods: {
         open() {
