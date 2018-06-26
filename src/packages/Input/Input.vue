@@ -76,10 +76,10 @@ export default {
         };
     },
 
-    beforeMount() {
-        // 过滤
-        this.$emit('input', this.filterInput(this.value));
-    },
+    // beforeMount() {
+    //     // 过滤
+    //     this.$emit('input', this.filterInput(this.value));
+    // },
 
     methods: {
         /**
