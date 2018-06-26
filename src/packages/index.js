@@ -153,9 +153,13 @@ Atom.install = function(Vue, opts = {}) {
             toastVM.isShow = true;
             toastVM.content = content;
             toastVM.delay = delay;
+
+            // 监听
             toastVM.$on('update:isShow', isShow => {
                 toastVM.isShow = isShow;
-            })
+            });
+
+            // 关闭
             toastVM.close = () => {
                 toastVM.isShow = false;
             };
@@ -171,7 +175,7 @@ Atom.install = function(Vue, opts = {}) {
     // ==============组件内调用: this.$loading===========
     // =================================================
     {
-        Vue.prototype.$loading = (content='') => {
+        Vue.prototype.$loading = (content = '') => {
             Vue.prototype.$toast(content, {
                 type: 'loading',
                 delay: 0,

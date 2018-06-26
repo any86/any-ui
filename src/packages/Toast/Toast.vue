@@ -53,17 +53,23 @@ export default {
     },
 
     watch: {
-        isShow(value) {
-            clearTimeout(this.timeoutId);
-            if (value) {
-                this.isShowMask = value;
-                if (0 < this.delay) {
-                    this.timeoutId = setTimeout(() => {
-                        this.isShowMask = false;
-                        this.$emit('update:isShow', false);
-                    }, this.delay);
-                }
-            }
+        isShow: {
+            // immediate: true,
+            handler(value) {
+                this.$nextTick(() => {
+                    log(this.delay);
+                    clearTimeout(this.timeoutId);
+                    if (value) {
+                        this.isShowMask = value;
+                        if (0 < this.delay) {
+                            this.timeoutId = setTimeout(() => {
+                                this.isShowMask = false;
+                                this.$emit('update:isShow', false);
+                            }, this.delay);
+                        }
+                    }
+                });
+            },
         },
     },
 

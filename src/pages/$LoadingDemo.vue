@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    name: '$LoadingDemo',
+    name: 'GlboalLoadingDemo',
 
     methods: {
         open() {
