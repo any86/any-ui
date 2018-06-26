@@ -16,9 +16,7 @@
 import AIcon from '@/packages/Icon';
 
 export default {
-    name: 'IconDemo',
-
-    components: {AIcon}
+    name: 'IconDemo'
 };
 </script>
 <style scoped lang="scss">
