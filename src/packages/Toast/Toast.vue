@@ -49,7 +49,7 @@ export default {
     },
 
     data() {
-        return { isShowMask: true, timeoutId: null };
+        return { isShowMask: true, timeoutId: null, bodyOverflow: '' };
     },
 
     watch: {
@@ -57,10 +57,14 @@ export default {
             // immediate: true,
             handler(value) {
                 if (value) {
+                    this.bodyOverflow = document.documentElement.style.overflow;
+                    document.documentElement.style.overflow = 'hidden';
                     clearTimeout(this.timeoutId);
                     if (0 < this.delay) {
                         this.closeAfterDelay(this.delay);
                     }
+                } else {
+                    document.documentElement.style.overflow = this.bodyOverflow;
                 }
             },
         },
