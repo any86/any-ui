@@ -6,7 +6,6 @@ import AAlert from './Dialog/Alert';
 import AConfirm from './Dialog/Confirm';
 import APrompt from './Dialog/Prompt';
 import AToast from './Toast';
-import ALoading from './Loading';
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
