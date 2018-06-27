@@ -56,24 +56,27 @@ export default {
         isShow: {
             // immediate: true,
             handler(value) {
-                this.$nextTick(() => {
-                    log(this.delay);
+                if (value) {
                     clearTimeout(this.timeoutId);
-                    if (value) {
-                        this.isShowMask = value;
-                        if (0 < this.delay) {
-                            this.timeoutId = setTimeout(() => {
-                                this.isShowMask = false;
-                                this.$emit('update:isShow', false);
-                            }, this.delay);
-                        }
+                    if (0 < this.delay) {
+                        this.closeAfterDelay(this.delay);
                     }
-                });
+                }
             },
         },
     },
 
     methods: {
+        closeAfterDelay(time) {
+            this.timeoutId = setTimeout(() => {
+                this.$emit('update:isShow', false);
+            }, time);
+        },
+
+        cancelDelayClose() {
+            clearTimeout(this, timeoutId);
+        },
+
         afterLeave() {
             this.isShowMask = false;
         },
@@ -98,58 +101,56 @@ export default {
             danger: 'close',
         };
 
-        if (this.isShowMask) {
-            let vnodeIcon;
-            if ('loading' === this.type) {
-                vnodeIcon = h('a-loading', {
-                    props: { type: 'primary' },
-                    class: ['gutter-auto', 'gutter-bottom-sm'],
-                    style: { display: 'block' },
-                });
-            } else {
-                vnodeIcon = h('a-icon', {
-                    props: {
-                        name: map[this.type],
-                    },
-                    class: ['gutter-auto'],
-                    style: { display: 'block' },
-                });
-            }
-
-            return h(
-                'a-mask',
-                {
-                    props: {
-                        isShow: true,
-                        closeable: this.closeable,
-                    },
-                    style: {
-                        background: 'rgba(255,255,255, 0)',
-                    },
-                    on: {
-                        'update:isShow': this.closeAll,
-                    },
+        let vnodeIcon;
+        if ('loading' === this.type) {
+            vnodeIcon = h('a-loading', {
+                props: { type: 'primary' },
+                class: ['gutter-auto', 'gutter-bottom-sm'],
+                style: { display: 'block' },
+            });
+        } else {
+            vnodeIcon = h('a-icon', {
+                props: {
+                    name: map[this.type],
                 },
-                [
-                    this.isShow &&
-                        h(
-                            'transition',
-                            {
-                                attrs: { name: 'fade' },
-                                on: { 'after-leave': this.afterLeave },
-                            },
-                            [
-                                h(
-                                    'div',
-                                    { class: [this.position, 'atom-toast', `text-${this.type}`] },
-                                    // 如果是组件那么渲染成vnode, 否则直接字符串渲染
-                                    ['default' !== this.type && vnodeIcon, this.content._compiled ? h(this.content) : this.content],
-                                ),
-                            ],
-                        ),
-                ],
-            );
+                class: ['gutter-auto'],
+                style: { display: 'block' },
+            });
         }
+
+        return h(
+            'a-mask',
+            {
+                props: {
+                    isShow: this.isShow,
+                    closeable: this.closeable,
+                },
+                style: {
+                    background: 'rgba(255,255,255, 0)',
+                },
+                on: {
+                    'update:isShow': this.closeAll,
+                },
+            },
+            [
+                this.isShow &&
+                    h(
+                        'transition',
+                        {
+                            attrs: { name: 'fade' },
+                            on: { 'after-leave': this.afterLeave },
+                        },
+                        [
+                            h(
+                                'div',
+                                { class: [this.position, 'atom-toast', `text-${this.type}`] },
+                                // 如果是组件那么渲染成vnode, 否则直接字符串渲染
+                                ['default' !== this.type && vnodeIcon, this.content._compiled ? h(this.content) : this.content],
+                            ),
+                        ],
+                    ),
+            ],
+        );
     },
 };
 </script>

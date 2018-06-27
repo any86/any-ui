@@ -150,9 +150,14 @@ Atom.install = function(Vue, opts = {}) {
             toastVM.type = type;
             toastVM.position = position;
             toastVM.closeable = closeable;
-            toastVM.isShow = true;
+            
             toastVM.content = content;
             toastVM.delay = delay;
+            
+            // 防止2次isShow的改变被合并成一次, 防止watch会失效
+            toastVM.$nextTick(()=>{
+                toastVM.isShow = true;
+            });
 
             // 监听
             toastVM.$on('update:isShow', isShow => {
