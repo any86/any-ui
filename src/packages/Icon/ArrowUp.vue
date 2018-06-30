@@ -1,5 +1,5 @@
 <template>
-    <arrow-right style="transform: rotate(270deg);"/>
+    <arrow-right :size="size" :color="color" style="transform: rotate(270deg);"/>
 </template>
 <script>
 import ArrowRight from './ArrowRight.vue'
