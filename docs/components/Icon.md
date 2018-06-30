@@ -8,7 +8,10 @@
 ### 基本使用
 ``` html
 <a-icon name="plus" class="border"/>
-<a-icon name="arrow" class="border"/>
+<a-icon name="arrow-left" class="border"/>
+<a-icon name="arrow-right" class="border"/>
+<a-icon name="arrow-up" class="border"/>
+<a-icon name="arrow-down" class="border"/>
 <a-icon name="minus" class="border"/>
 <a-icon name="menu" class="border"/>
 <a-icon name="close" class="border"/>
