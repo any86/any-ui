@@ -8,7 +8,10 @@
 </template>
 <script>
 import APlus from './Plus';
-import AArrow from './Arrow';
+import AArrowLeft from './ArrowLeft';
+import AArrowRight from './ArrowRight';
+import AArrowUp from './ArrowUp';
+import AArrowDown from './ArrowDown';
 import AMinus from './Minus';
 import AMenu from './Menu';
 import AClose from './Close';
@@ -32,6 +35,6 @@ export default {
         },
     },
 
-    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar, AStarHalf, AStarO, AWarning },
+    components: { APlus, AArrowRight,AArrowLeft, AArrowUp, AArrowDown,AMinus, AMenu, AClose, ATick, AStar, AStarHalf, AStarO, AWarning },
 };
 </script>
