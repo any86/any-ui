@@ -171,7 +171,9 @@ Atom.install = function(Vue, opts = {}) {
         };
 
         Vue.prototype.$toast.close = Vue.prototype.$toast.hide = () => {
-            toastVM.isShow = false;
+            Vue.nextTick(()=>{
+                toastVM.isShow = false;
+            });
         }
     }
 

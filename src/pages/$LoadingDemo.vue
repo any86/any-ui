@@ -10,6 +10,7 @@ export default {
     methods: {
         open() {
             this.$loading('加载中');
+            // this.$loading.close();
             setTimeout(() => {
                 this.$loading.close();
             }, 3000);
