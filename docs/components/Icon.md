@@ -8,7 +8,10 @@
 ### 基本使用
 ``` html
 <a-icon name="plus" class="border"/>
-<a-icon name="arrow" class="border"/>
+<a-icon name="arrow-left" class="border"/>
+<a-icon name="arrow-right" class="border"/>
+<a-icon name="arrow-up" class="border"/>
+<a-icon name="arrow-down" class="border"/>
 <a-icon name="minus" class="border"/>
 <a-icon name="menu" class="border"/>
 <a-icon name="close" class="border"/>
@@ -31,7 +34,11 @@
 | 值 | 说明 | 
 |-----------|-----------|
 | plus | 加号 | 
-| arrow | 箭头 | 
+| arrow-left | 箭头向左 | 
+| arrow-right | 箭头向右 | 
+| arrow-up | 箭头向上 | 
+| arrow-down | 箭头向下 | 
+
 | minus | 减号 | 
 | menu | 三横菜单 | 
 | close | 关闭 | 

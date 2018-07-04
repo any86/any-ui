@@ -4,7 +4,7 @@
       <Content :custom="false" class="page-article__body"/>
       <Preview :src="previewURL" class="page-article__preview"/>
     </article>
-    <div class="content custom content-fluid edit-link" v-if="editLink">
+    <div class="content custom content-fluid edit-link" style="margin-left:55px;" v-if="editLink">
       <a :href="editLink" target="_blank" rel="noopener noreferrer">{{ editLinkText }}</a>
       <OutboundLink/>
     </div>

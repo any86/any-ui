@@ -6,7 +6,6 @@ import AAlert from './Dialog/Alert';
 import AConfirm from './Dialog/Confirm';
 import APrompt from './Dialog/Prompt';
 import AToast from './Toast';
-import ALoading from './Loading';
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
@@ -150,12 +149,21 @@ Atom.install = function(Vue, opts = {}) {
             toastVM.type = type;
             toastVM.position = position;
             toastVM.closeable = closeable;
-            toastVM.isShow = true;
+            
             toastVM.content = content;
             toastVM.delay = delay;
+            
+            // 防止2次isShow的改变被合并成一次, 防止watch会失效
+            toastVM.$nextTick(()=>{
+                toastVM.isShow = true;
+            });
+
+            // 监听
             toastVM.$on('update:isShow', isShow => {
                 toastVM.isShow = isShow;
-            })
+            });
+
+            // 关闭
             toastVM.close = () => {
                 toastVM.isShow = false;
             };
@@ -163,7 +171,9 @@ Atom.install = function(Vue, opts = {}) {
         };
 
         Vue.prototype.$toast.close = Vue.prototype.$toast.hide = () => {
-            toastVM.isShow = false;
+            Vue.nextTick(()=>{
+                toastVM.isShow = false;
+            });
         }
     }
 
@@ -171,7 +181,7 @@ Atom.install = function(Vue, opts = {}) {
     // ==============组件内调用: this.$loading===========
     // =================================================
     {
-        Vue.prototype.$loading = (content='') => {
+        Vue.prototype.$loading = (content = '') => {
             Vue.prototype.$toast(content, {
                 type: 'loading',
                 delay: 0,

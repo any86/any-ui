@@ -1,8 +1,0 @@
-@function color-yiq($color) {
-    $lightness: lightness($color);
-    @if(80% < $lightness) {
-        @return darken($color,72%);
-    } @else {
-        @return lighten($color,90%);
-    }
-}

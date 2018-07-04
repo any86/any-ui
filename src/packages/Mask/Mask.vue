@@ -77,6 +77,17 @@ export default {
         },
     },
 
+    watch: {
+        isShow(isShow) {
+            if (isShow) {
+                this.bodyOverflow = document.documentElement.style.overflow;
+                document.documentElement.style.overflow = 'hidden';
+            } else {
+                document.documentElement.style.overflow = this.bodyOverflow;
+            }
+        },
+    },
+
     components: { AIcon },
 };
 </script>

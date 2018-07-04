@@ -5,11 +5,12 @@
 </template>
 <script>
 export default {
-    name: 'ApiLoadingDemo',
+    name: 'GlboalLoadingDemo',
 
     methods: {
         open() {
             this.$loading('加载中');
+            // this.$loading.close();
             setTimeout(() => {
                 this.$loading.close();
             }, 3000);

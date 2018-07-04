@@ -8,7 +8,11 @@
 </template>
 <script>
 import APlus from './Plus';
-import AArrow from './Arrow';
+import AArrow from './ArrowRight';
+import AArrowLeft from './ArrowLeft';
+import AArrowRight from './ArrowRight';
+import AArrowUp from './ArrowUp';
+import AArrowDown from './ArrowDown';
 import AMinus from './Minus';
 import AMenu from './Menu';
 import AClose from './Close';
@@ -23,23 +27,15 @@ export default {
 
     props: {
         size: {
-            default: 48
+            default: 48,
         },
 
         name: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
 
-    components: { APlus, AArrow, AMinus, AMenu, AClose, ATick, AStar,AStarHalf, AStarO, AWarning }
+    components: {AArrow, APlus, AArrowRight,AArrowLeft, AArrowUp, AArrowDown,AMinus, AMenu, AClose, ATick, AStar, AStarHalf, AStarO, AWarning },
 };
 </script>
-
-<style scoped lang="scss">
-@import '../../scss/variables.scss';
-.atom-icon {
-    vertical-align: middle;
-    transition: transform $duration;
-}
-</style>
