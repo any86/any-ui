@@ -4,7 +4,7 @@
             v-for="n in 12" 
             :key="n"
             :type="value[1] == n ? 'primary' : 'light'" 
-            size="sm" 
+            inline
             @click="setMonth(n)" 
             class="gutter-top-sm gutter-left-sm">{{n}}月</a-button>
         <a-picker :data-source="[data1, data2]" v-model="value" class="gutter-top"/>
