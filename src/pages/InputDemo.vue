@@ -1,8 +1,8 @@
 <template>
-    <a-scroll-view>
+    <main>
         <a-cell>
             <template slot="title">学校</template>
-            <a-input :vaildate="vaildates" v-model="text1"/>
+            <a-input :vaildate="vaildates" placeholder="请输入学校" v-model="text1"/>
         </a-cell>
 
         <a-cell>
@@ -29,7 +29,7 @@
             <template slot="title">过滤非字母</template>
             <a-input :filter="/[^a-zA-Z]/g" v-model="text6"/>
         </a-cell>
-    </a-scroll-view>
+    </main>
 </template>
 <script>
 export default {
