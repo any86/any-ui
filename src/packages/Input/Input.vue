@@ -58,7 +58,7 @@ export default {
             default: true
         },
 
-        vaildate: {
+        vaildates: {
             type: Array,
             default: () => []
         },
@@ -92,7 +92,7 @@ export default {
         },
 
         verify() {
-            for (let item of this.vaildate) {
+            for (let item of this.vaildates) {
                 if (item.required && '' == this.value) {
                     // 必填项目为空
                     this.showWarningDialog(item.message);

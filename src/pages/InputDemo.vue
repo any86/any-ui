@@ -2,7 +2,7 @@
     <main>
         <a-cell>
             <template slot="title">学校</template>
-            <a-input :vaildate="vaildates" placeholder="请输入学校" v-model="text1"/>
+            <a-input :vaildates="vaildates" placeholder="请输入学校" v-model="text1"/>
         </a-cell>
 
         <a-cell>
