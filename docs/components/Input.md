@@ -78,11 +78,12 @@
 | 名称 | 说明 | 参数 |参数类型|
 |-----------|-----------|-----------|-----------|
 | input | 输入文字触发 | 输入内容 |`String`|
-| warning | 发生验证不匹配触发 | 提示语 | `String` |
 | focus | 聚焦 | event | `Event` |
 | blur | 失去焦点 | event | `Event` |
 | keyup | 按下键盘 | event | `Event` |
 | keydown | 键盘弹起 | event | `Event` |
+| warning | 验证不通过触发 | 提示语 | `String` |
+| success | 验证通过时触发 | - | - |
 
 
 ### 验证规则(vaildate)
