@@ -91,20 +91,31 @@ export default {
             return undefined !== this.filter ? string.replace(this.filter, '') : string;
         },
 
+        /**
+         * 验证validatas规则
+         */
         verify() {
+            let isPass = true;
             for (let item of this.vaildates) {
                 if (item.required && '' == this.value) {
                     // 必填项目为空
+                    isPass = false;
                     this.showWarningDialog(item.message);
                     break;
                 } else if (undefined !== item.regular && !item.regular.test(this.value)) {
+                    isPass = false;
                     this.showWarningDialog(item.message);
                     break;
                 } else if (undefined !== item.fn && !item.fn()) {
+                    isPass = false;
                     this.showWarningDialog(item.message);
                     break;
                 }
             }
+            // 通过验证
+            if(isPass){
+                this.$emit('success');
+            }      
         },
 
         /**
