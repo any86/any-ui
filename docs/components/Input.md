@@ -68,9 +68,9 @@
 |-----------|-----------|-----------|-------------|-------------|-------------|
 | value | 输入值 | `String` | - |-|是|
 | type | 用来限制输入内容的格式 | `String` | - |bankCode letter phone number|否|
-| hasRemove | 是否有清空按钮(x图标) | `Boolean` | true |-|否|
+| has-remove | 是否有清空按钮(x图标) | `Boolean` | true |-|否|
 | vaildate-rules | blur触发时, 验证输入的规则 | `Array` | [] |-|否|
-| hasWarningDialog | 验证不匹配的时候, 是否出现提示| `Boolean` | true |-|否|
+| has-warning-dialog | 验证不匹配的时候, 是否出现提示| `Boolean` | true |-|否|
 | filter |过滤指定条件的输入| `RegExp` | - |-|否|
 
 
