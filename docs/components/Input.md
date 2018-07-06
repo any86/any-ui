@@ -32,7 +32,7 @@
 ``` html
 <a-cell>
     <template slot="title">学校</template>
-    <a-input :vaildates="vaildates" placeholder="请输入学校" v-model="text1"/>
+    <a-input :vaildate-rules="vaildates" placeholder="请输入学校" v-model="text1"/>
 </a-cell>
 
 <a-cell>
@@ -69,7 +69,7 @@
 | value | 输入值 | `String` | - |-|是|
 | type | 用来限制输入内容的格式 | `String` | - |bankCode letter phone number|否|
 | hasRemove | 是否有清空按钮(x图标) | `Boolean` | true |-|否|
-| vaildates | blur触发时, 验证输入的规则 | `Array` | [] |-|否|
+| vaildate-rules | blur触发时, 验证输入的规则 | `Array` | [] |-|否|
 | hasWarningDialog | 验证不匹配的时候, 是否出现提示| `Boolean` | true |-|否|
 | filter |过滤指定条件的输入| `RegExp` | - |-|否|
 
@@ -86,7 +86,7 @@
 | success | 验证通过时触发 | - | - |
 
 
-### 验证规则(vaildate)
+### 验证规则(vaildate-rules)
 | 名称 | 说明  |参数类型|
 |-----------|-----------|-----------|-----------|
 | required | 是否必填  |`Boolean`|

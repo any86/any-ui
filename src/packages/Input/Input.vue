@@ -58,7 +58,7 @@ export default {
             default: true
         },
 
-        vaildates: {
+        vaildateRules: {
             type: Array,
             default: () => []
         },
@@ -94,9 +94,9 @@ export default {
         /**
          * 验证validatas规则
          */
-        verify() {
+        validate() {
             let isPass = true;
-            for (let item of this.vaildates) {
+            for (let item of this.vaildateRules) {
                 if (item.required && '' == this.value) {
                     // 必填项目为空
                     isPass = false;
@@ -115,7 +115,8 @@ export default {
             // 通过验证
             if(isPass){
                 this.$emit('success');
-            }      
+            }
+            return isPass;
         },
 
         /**
@@ -139,7 +140,7 @@ export default {
 
         blur(e) {
             this.isShowEmpty = false;
-            this.verify();
+            this.validate();
             this.$emit('blur', e);
         },
 

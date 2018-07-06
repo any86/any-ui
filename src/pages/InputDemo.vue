@@ -2,7 +2,7 @@
     <main>
         <a-cell>
             <template slot="title">学校</template>
-            <a-input :vaildates="vaildates" placeholder="请输入学校" v-model="text1"/>
+            <a-input ref="inputSchool" :vaildate-rules="vaildates" placeholder="请输入学校" v-model="text1"/>
         </a-cell>
 
         <a-cell>
@@ -29,6 +29,11 @@
             <template slot="title">过滤非字母</template>
             <a-input :filter="/[^a-zA-Z]/g" v-model="text6"/>
         </a-cell>
+
+        <div class="fill">
+            <a-button @click="validate">验证学校</a-button>
+        </div>
+        
     </main>
 </template>
 <script>
@@ -49,6 +54,11 @@ export default {
     },
 
     methods: {
+        validate() {
+            let result = this.$refs.inputSchool.validate();
+            this.$toast(`验证结果: ${result}`);
+        },
+
         isSame() {
             return 1 == 1;
         },
