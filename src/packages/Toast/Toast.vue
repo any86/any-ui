@@ -143,7 +143,7 @@ export default {
                         [
                             h(
                                 'div',
-                                { class: [this.position, 'atom-toast', `text-${this.type}`] },
+                                { class: [this.position, 'atom-toast'] },
                                 // 如果是组件那么渲染成vnode, 否则直接字符串渲染
                                 ['default' !== this.type && vnodeIcon, this.content._compiled ? h(this.content) : this.content],
                             ),
