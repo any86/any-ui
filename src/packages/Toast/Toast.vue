@@ -95,10 +95,11 @@ export default {
 
     render(h) {
         // type和图标的映射关系
-        let map = {
+        let iconMap = {
             success: 'tick',
             warning: 'warning',
             danger: 'close',
+            error: 'close',
         };
 
         let vnodeIcon;
@@ -111,7 +112,7 @@ export default {
         } else {
             vnodeIcon = h('a-icon', {
                 props: {
-                    name: map[this.type],
+                    name: iconMap[this.type],
                 },
                 class: ['gutter-auto'],
                 style: { display: 'block' },
