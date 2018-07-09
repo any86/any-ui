@@ -3,7 +3,7 @@
         <g :stroke="color">
             <line x1="6" y1="20" x2="34" y2="20" :stroke-width="3" stroke-linecap="round"/>
             <line x1="20" y1="6" x2="20" y2="34" :stroke-width="3" stroke-linecap="round"/>
-        </g>
+    </g>
     </svg>
 </template>
 <script>
