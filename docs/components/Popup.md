@@ -31,9 +31,10 @@
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
-| isShow | 是否显示 | `Boolean` | false |-|否|
+| is-show | 是否显示 | `Boolean` | false |-|否|
 | from | 动画进入方向 | `String` | bottom |top left right bottom|否|
 | width | 宽度, 只有from为left/right时生效| `String` | 80% | - | 否 |
+| has-close | 是否有关闭按钮| `Boolean` | false | - | 否 |
 
 ##### events
 | 名称 | 说明 | 参数 |参数类型|

@@ -1,9 +1,20 @@
 $panelWidth: 80%;
-
 .atom-popup {
     position: absolute;
     width: 100%;
     background: $background;
+
+    // 头
+    &__header {
+        box-sizing: border-box;
+        padding: $gutter;
+        min-height: $gutter*3;
+        >.header__icon-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+    }
     &--from-bottom {
         bottom: 0;
         left: 0;
@@ -13,7 +24,6 @@ $panelWidth: 80%;
             max-height: 61.8vh;
         }
     }
-
     &--from-top {
         top: 0;
         left: 0;
@@ -23,7 +33,6 @@ $panelWidth: 80%;
             max-height: 61.8vh;
         }
     }
-
     &--from-left {
         top: 0;
         left: 0;
@@ -35,7 +44,6 @@ $panelWidth: 80%;
             height: 100vh;
         }
     }
-
     &--from-right {
         top: 0;
         right: 0;
@@ -47,12 +55,6 @@ $panelWidth: 80%;
             height: 100vh;
         }
     }
-
-    &__header {
-        box-sizing: border-box;
-        padding: $gutter;
-    }
-
     &__footer {
         box-sizing: border-box;
     }
@@ -61,6 +63,7 @@ $panelWidth: 80%;
 /*
 * 动画
 */
+
 // 上方下滑
 .slide-from-top-enter-active {
     animation: slide-from-top-in $duration;
