@@ -3,7 +3,12 @@
         <transition :name="'slide-from-' + from" @after-leave="afterDialogLeave">
             <div v-show="isShow" :style="{width: -1 === ['top', 'bottom'].indexOf(from) ? width : '100%'}" :class="['atom-popup', 'atom-popup--from-'+from]">
                 <header class="atom-popup__header text-center pos-r font-big" v-if="hasClose || undefined != $slots.header">
-                    <a-icon v-if="hasClose" name="close" size="24" :class="[`header__icon-close`]"/>
+                    <a-icon 
+                        v-if="hasClose" 
+                        name="close" 
+                        size="24" 
+                        @click="clickBtnClose"
+                        :class="[`header__icon-close`]"/>
                     <slot name="header"></slot>
                 </header>
                 <main :class="['atom-popup--from-'+ from +'__body']">
@@ -55,6 +60,11 @@ export default {
     },
 
     methods: {
+        clickBtnClose(){
+            this.$emit('click-close');
+            this.$emit('update:isShow', false);
+        },
+
         closeMask() {
             this.$emit('update:isShow', false);
         },
