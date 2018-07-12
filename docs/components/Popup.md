@@ -42,5 +42,5 @@
 | update:isShow | 显示/隐藏触发 | 显示隐藏 |`Boolean`|
 | after-dialog-leave | 内容区显示隐藏动画结束触发 | - |-|
 | after-mask-leave | 遮罩层显示隐藏动画结束触发 | - |-|
-| click-close |  | - |-|
+| click-close | 点击关闭按钮 | - |-|
 
