@@ -48,7 +48,6 @@ import GroupDemo from '@/pages/GroupDemo';
 import TabsDemo from '@/pages/TabsDemo';
 import CarouselDemo from '@/pages/CarouselDemo';
 import SegmentDemo from '@/pages/SegmentDemo';
-import DrawerDemo from '@/pages/DrawerDemo';
 import SwipeOutDemo from '@/pages/SwipeOutDemo'
 
 // 辅助
@@ -246,10 +245,6 @@ export default new Router({
             name: 'qrcode',
             path: '/qrcode',
             component: QRCodeDemo
-        }, {
-            name: 'drawer',
-            path: '/drawer',
-            component: DrawerDemo
         }, {
             name: 'range',
             path: '/range',
