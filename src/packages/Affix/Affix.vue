@@ -1,7 +1,7 @@
 <template>
     <!-- 明天控制下外层的height, 应该能解决bottom的问题. -->
     <section :style="{height: 0 < warpHeight && isFixed ? `${warpHeight}px` : 'auto'}" v-on="$listeners" class="atom-affix">
-        <div :class="{'atom-affix__body--fixed': isFixed}" :style="style" class="atom-affix__body">
+        <div :class="{'atom-affix__body--fixed': !readonly && isFixed}" :style="style" class="atom-affix__body">
             <slot></slot>
         </div>
     </section>
@@ -22,14 +22,19 @@ export default {
     props: {
         offsetTop: {
             type: Number,
-            default: 0
+            default: 0,
         },
 
         events: {
             type: Array,
             default() {
                 return ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'webkitAnimationend', 'webkitTransitionend', 'touchmove'];
-            }
+            },
+        },
+
+        readonly: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -37,7 +42,7 @@ export default {
         return {
             isFixed: false,
             warpHeight: 0,
-            scrollParentNode: null
+            scrollParentNode: null,
         };
     },
 
@@ -60,21 +65,21 @@ export default {
         getIsFixed() {
             const { top } = this.$el.getBoundingClientRect();
             this.isFixed = this.offsetTop >= top;
-        }
+        },
     },
 
     computed: {
         style() {
             return {
-                top: `${this.offsetTop}px`
+                top: `${this.offsetTop}px`,
             };
-        }
+        },
     },
 
     watch: {
         isFixed(value) {
             this.$emit('change', value);
-        }
+        },
     },
 
     destroyed() {
@@ -82,6 +87,6 @@ export default {
             this.scrollParentNode.removeEventListener(eventName, this.getIsFixed);
         });
         window.removeEventListener('resize', this.getIsFixed);
-    }
+    },
 };
 </script>
