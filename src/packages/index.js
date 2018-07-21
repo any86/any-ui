@@ -21,9 +21,15 @@ let Atom = {
     locale
 };
 
+import {setConfigs} from './config';
+
+
 Atom.install = function(Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
+
+    // 存储config
+    setConfigs(opts);
 
     // 水波纹特效
     Vue.use(ripple);
@@ -38,7 +44,7 @@ Atom.install = function(Vue, opts = {}) {
     for (let k in components) {
         let component = components[k];
         Vue.component(`${component.name.replace('Atom', 'A')}`, component);
-    }
+    }   
 
     let appId = 1;
     const createVueChild = component => {

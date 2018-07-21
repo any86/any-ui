@@ -15,8 +15,10 @@
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
-| offsetTop | 触发高度 | `Number` | 0 |-|否|
+| offset-top | 触发高度 | `Number` | 0 |-|否|
 | events | 监听的事件 | `Array` | ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'webkitAnimationend', 'webkitTransitionend', 'touchmove'] |-|否|
+| readonly | 是否只触发change事件, 而不改变ui的fixed样式 | `Boolean` | false |-|否|
+
 
 ##### events
 

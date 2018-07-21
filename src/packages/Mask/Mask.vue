@@ -14,9 +14,12 @@
     </transition>
 </template>
 <script>
+import { getConfig } from '../../packages/config';
 import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomMask',
+
+    components: { AIcon },
 
     props: {
         isStopPropagation: {
@@ -36,6 +39,7 @@ export default {
 
         isShow: {
             type: Boolean,
+            default: false,
         },
 
         closeable: {
@@ -82,12 +86,18 @@ export default {
             if (isShow) {
                 this.bodyOverflow = document.documentElement.style.overflow;
                 document.documentElement.style.overflow = 'hidden';
+                getConfig('onShowMask')();
             } else {
                 document.documentElement.style.overflow = this.bodyOverflow;
+                getConfig('onHideMask')();
             }
         },
     },
 
-    components: { AIcon },
+    mounted() {
+        if (this.isShow) {
+            getConfig('onShowMask')();
+        }
+    },
 };
 </script>
