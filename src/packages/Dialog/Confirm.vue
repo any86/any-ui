@@ -64,14 +64,14 @@ export default {
 
     methods: {
         ok() {
-            this.isShow = false;
+            this.$emit('update:isShow', false);
             this.$nextTick(() => {
                 this.onOk();
             });
         },
 
         cancel() {
-            this.isShow = false;
+            this.$emit('update:isShow', false);
             this.$nextTick(() => {
                 this.onCancel();
             });
