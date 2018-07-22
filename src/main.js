@@ -31,8 +31,8 @@ window.table = console.table;
 // }
 
 
-import {Alert} from './packages/Dialog/index.js'
-Alert();
+
+
 
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';

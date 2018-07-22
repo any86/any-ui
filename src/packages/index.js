@@ -2,9 +2,7 @@
 import * as components from './components.js';
 
 // 对话框类组件
-import AAlert from './Dialog/Alert';
-import AConfirm from './Dialog/Confirm';
-import APrompt from './Dialog/Prompt';
+import { Alert, Confirm, Prompt } from '../packages/Dialog/index.js'
 import AToast from './Toast';
 
 // 水波纹特效
@@ -21,10 +19,8 @@ let Atom = {
     locale
 };
 
-import {setConfigs} from './config';
-
-
-Atom.install = function(Vue, opts = {}) {
+import { setConfigs } from './config';
+Atom.install = function (Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
 
@@ -44,7 +40,7 @@ Atom.install = function(Vue, opts = {}) {
     for (let k in components) {
         let component = components[k];
         Vue.component(`${component.name.replace('Atom', 'A')}`, component);
-    }   
+    }
 
     let appId = 1;
     const createVueChild = component => {
@@ -63,78 +59,15 @@ Atom.install = function(Vue, opts = {}) {
     // =================================================
     // ==============组件内调用: this.$alert==============
     // =================================================
-    {
-        let vm = null;
-        Vue.prototype.$alert = (content = '', {
-            title = '',
-            okText = locale.t('alert.ok'),
-            align = 'top',
-            onOk = () => {}
-        } = {}) => {
-            if (null === vm) vm = createVueChild(AAlert);
-            vm.isShow = true;
-            vm.title = title;
-            vm.align = align;
-            vm.content = content;
-            vm.onOk = onOk;
-            vm.okText = okText;
-        };
-    }
-
+    Vue.prototype.$alert = Alert;
     // =================================================
     // ==============组件内调用: this.$confirm============
     // =================================================
-    {
-        let vm = null;
-        Vue.prototype.$confirm = (
-            content = '', {
-                title = '',
-                okText = locale.t('confirm.ok'),
-                cancelText = locale.t('confirm.cancel'),
-                align = 'bottom',
-                onOk = () => {},
-                onCancel = () => {}
-            } = {}
-        ) => {
-            if (null === vm) {
-                vm = createVueChild(AConfirm);
-            }
-            vm.isShow = true;
-            vm.content = content;
-            vm.okText = okText;
-            vm.cancelText = cancelText;
-            vm.onOk = onOk;
-            vm.onCancel = onCancel;
-        };
-    }
+    Vue.prototype.$confirm = Confirm;
     // =================================================
     // ==============组件内调用: this.$prompt============
     // =================================================
-    {
-        let vm = null;
-        Vue.prototype.$prompt = (
-            title = '', {
-                onOk = () => {},
-                onCancel = () => {},
-                align = 'top',
-                okText = locale.t('prompt.ok'),
-                cancelText = locale.t('prompt.cancel'),
-                placeHolder = locale.t('prompt.placeHolder')
-            } = {}
-        ) => {
-            if (null === vm) {
-                vm = createVueChild(APrompt);
-            }
-            vm.isShow = true;
-            vm.title = title;
-            vm.okText = okText;
-            vm.align = 'top';
-            vm.cancelText = cancelText;
-            vm.onOk = onOk;
-            vm.onCancel = onCancel;
-            vm.placeHolder = placeHolder;
-        };
-    }
+    Vue.prototype.$prompt = Prompt;
 
     // =================================================
     // ==============组件内调用: this.$toast=============
@@ -155,12 +88,12 @@ Atom.install = function(Vue, opts = {}) {
             toastVM.type = type;
             toastVM.position = position;
             toastVM.closeable = closeable;
-            
+
             toastVM.content = content;
             toastVM.delay = delay;
-            
+
             // 防止2次isShow的改变被合并成一次, 防止watch会失效
-            toastVM.$nextTick(()=>{
+            toastVM.$nextTick(() => {
                 toastVM.isShow = true;
             });
 
@@ -177,7 +110,7 @@ Atom.install = function(Vue, opts = {}) {
         };
 
         Vue.prototype.$toast.close = Vue.prototype.$toast.hide = () => {
-            Vue.nextTick(()=>{
+            Vue.nextTick(() => {
                 toastVM.isShow = false;
             });
         }

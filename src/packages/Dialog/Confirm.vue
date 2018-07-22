@@ -1,5 +1,5 @@
 <template>
-    <a-dialog :is-show.sync="isShow" :align="align" :has-close="false">
+    <a-dialog :is-show="isShow" :align="align" :has-close="false">
         <template v-if="!!title" slot="header">{{title}}</template>
         {{content}}
         <a-button-group slot="footer" class="border-top">

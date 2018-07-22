@@ -1,5 +1,5 @@
 <template>
-    <a-dialog :isShow.sync="isShow" :align="align" :hasClose="false" class="atom-prompt">
+    <a-dialog :isShow="isShow" :align="align" :hasClose="false" class="atom-prompt">
         <template slot="header">{{title}}</template>
         <div class="border fill-sm border-rounded">
             <a-input ref="input" v-model="value" :placeholder="placeHolder"/>
