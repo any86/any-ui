@@ -4,6 +4,8 @@ window.log = console.log;
 window.dir = console.dir;
 window.table = console.table;
 
+
+
 // if (process.env.NODE_ENV === 'production') {
 //     // 上线屏蔽vconsole
 // } else {
@@ -29,6 +31,8 @@ window.table = console.table;
 // }
 
 
+import {Alert} from './packages/Dialog/index.js'
+Alert();
 
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
