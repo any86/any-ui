@@ -44,6 +44,7 @@ export default {
     methods: {
         close() {
             this.$emit('update:isShow', false);
+            this.$emit('close');
         }
     },
 
