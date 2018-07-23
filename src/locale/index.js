@@ -1,11 +1,13 @@
+// 默认语言为中文
 import defaultLang from './lang/zh-CN';
-let activeLang = defaultLang;
+let _activeLang = defaultLang;
 
 /**
  * 切换语言包
+ * @param {Object} 语言包
  */
 export const use = (lang = defaultLang) => {
-    activeLang = lang
+    _activeLang = lang
 };
 
 /**
@@ -14,7 +16,7 @@ export const use = (lang = defaultLang) => {
  */
 export const t = path => {
     let pathArray = path.split('.');
-    let lastPart = activeLang;
+    let lastPart = _activeLang;
     for (let sectionPath of pathArray) {
         lastPart = lastPart[sectionPath];
     }
