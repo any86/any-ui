@@ -1,27 +1,26 @@
 <template>
     <main class="fill">
-        <v-button :is-ghost="true" :is-block="true" type="primary" @click="$confirm('喜欢atom吗?')" class="gutter-top">
-            打开
-        </v-button>
+        <a-button :is-ghost="true" :is-block="true" type="primary" @click="confirm" class="gutter-top">
+            打开Confrim
+        </a-button>
     </main>
 </template>
 <script>
-import VCell from '@/packages/Cell/Cell';
-import VButton from '@/packages/Button/Button';
-import VScrollView from '@/packages/ScrollView/ScrollView';
 export default {
     name: 'ConfrimDemo',
 
-    data() {
-        return {
+    methods: {
+        confirm(){
+            this.$confirm('喜欢atom吗?', {
+                onOk(){
+                    this.$alert('您选择了ok');
+                },
 
-        };
-    },
-
-    components: {
-        VButton,
-        VCell,
-        VScrollView
+                onCancel(){
+                    this.$alert('您选择了cancel');
+                }
+            })
+        }
     }
 };
 </script>
