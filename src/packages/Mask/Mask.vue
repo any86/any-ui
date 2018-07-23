@@ -14,7 +14,7 @@
     </transition>
 </template>
 <script>
-import { getConfig } from '../../packages/config';
+import { getConfig } from '../../packages/config/';
 import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomMask',
@@ -86,17 +86,17 @@ export default {
             if (isShow) {
                 this.bodyOverflow = document.documentElement.style.overflow;
                 document.documentElement.style.overflow = 'hidden';
-                getConfig('onShowMask')();
+                getConfig('ON_MASK_SHOW')();
             } else {
                 document.documentElement.style.overflow = this.bodyOverflow;
-                getConfig('onHideMask')();
+                getConfig('ON_MASK_HIDE')();
             }
         },
     },
 
     mounted() {
         if (this.isShow) {
-            getConfig('onShowMask')();
+            getConfig('ON_MASK_SHOW')();
         }
     },
 };
