@@ -33,7 +33,8 @@ let Atom = {
     Alert,
     Confirm,
     Prompt,
-    Toast,Loading,
+    Toast,
+    Loading,
     locale
 };
 import {
@@ -56,13 +57,13 @@ Atom.install = function(Vue, opts = {}) {
     // 移动dom指令
     Vue.use(DomPortal);
 
-    // 全局注册组件
+    // ==================== 全局注册组件 ====================
     for (let k in components) {
         let component = components[k];
         Vue.component(`${component.name.replace('Atom', 'A')}`, component);
     }
 
-
+    // ==================== 添加全局命令 ====================
     // 组件内调用: this.$alert
     Vue.prototype.$alert = Alert;
 
