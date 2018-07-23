@@ -4,42 +4,12 @@ window.log = console.log;
 window.dir = console.dir;
 window.table = console.table;
 
-
-
-// if (process.env.NODE_ENV === 'production') {
-//     // 上线屏蔽vconsole
-// } else {
-//     const script = document.createElement('script');
-//     script.type = 'text/javascript';
-//     script.src = 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js';
-//     document.body.appendChild(script);
-//     if (script.readyState) {
-//         script.onreadystatechange = function() {
-//             if (script.readyState == "loaded" || script.readyState == "complete") {
-//                 script.onreadystatechange = null;
-//                 new VConsole();
-//             }
-//         };
-//     } else {
-//         script.onload = function() {
-//             new VConsole();
-//             window.log = console.log;
-//             window.dir = console.dir;
-//             window.table = console.table;
-//         };
-//     }
-// }
-
-
-
-
-
-import Raven from 'raven-js';
-import RavenVue from 'raven-js/plugins/vue';
-Raven
-    .config('https://5c1a51a6d36141549e1e513916e1d5a7@sentry.io/1208173')
-    .addPlugin(RavenVue, Vue)
-    .install();
+// import Raven from 'raven-js';
+// import RavenVue from 'raven-js/plugins/vue';
+// Raven
+//     .config('https://5c1a51a6d36141549e1e513916e1d5a7@sentry.io/1208173')
+//     .addPlugin(RavenVue, Vue)
+//     .install();
 
 
 
@@ -54,18 +24,16 @@ import './scss/global.scss';
 
 // UI
 import Atom from '@/packages/index.js';
-
-import {
-    use,
-    t
-} from '@/locale'
-
 import cn from '@/locale/lang/zh-CN.js'
 import ar from '@/locale/lang/ar.js'
 
 // 默认中文
 // Vue.use(Atom, {locale: cn});
-Vue.use(Atom);
+Vue.use(Atom, {
+    ON_MASK_SHOW: () => {
+        // alert('show');
+    }
+});
 
 // 关闭错误提示
 Vue.config.silent = false;
@@ -78,8 +46,8 @@ Vue.config.silent = false;
 new Vue({
     el: '#app',
     router,
-    template: '<App/>',
-    // render: h=>h('<App/>'),
+    // template: '<App/>',
+    render: h => h('app'),
     components: {
         App
     }
