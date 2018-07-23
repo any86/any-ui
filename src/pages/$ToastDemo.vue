@@ -23,10 +23,10 @@ export default {
     methods: {
         test() {
             this.$loading('测试');
-            setTimeout(() => {
-                this.$loading.close();
-                this.$toast('开始');
-            }, 1000);
+            // setTimeout(() => {
+            //     this.$loading.close();
+            //     this.$toast('开始');
+            // }, 1000);
         },
     },
 };
