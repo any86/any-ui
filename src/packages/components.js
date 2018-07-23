@@ -17,8 +17,7 @@ import {
 } from './Collapse';
 import ACounter from './Counter/Counter';
 
-
-import ADrawer from './Drawer';
+import ADialog from './Dialog';
 import AGroup from './Group';
 import AAppBar from './AppBar';
 import AInput from './Input';
@@ -65,7 +64,7 @@ export {
     ACollapse,
     ACollapseItem,
     ACounter,
-    ADrawer,
+    ADialog,
     AGroup,
     AAppBar,
     AInput,
