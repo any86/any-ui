@@ -20,36 +20,37 @@ export default {
     props: {
         // 是否显示
         isShow: {
-            type: Boolean
+            type: Boolean,
         },
 
         // 标题
         title: {
             type: String,
-            default: ''
+            default: '',
         },
 
         // 内容
         content: {
             type: String,
-            default: ''
+            default: '',
         },
 
         // 对齐方式
         align: {
             type: String,
-            default:  'bottom'
+            default: 'center',
         },
 
         // 点击ok后运行
         onOk: {
-            type: Function
+            type: Function,
+            default:()=>{}
         },
-        
+
         // 按钮文字
         okText: {
             type: String,
-        }
+        },
     },
 
     methods: {
@@ -61,5 +62,5 @@ export default {
             });
         },
     },
-}
+};
 </script>
