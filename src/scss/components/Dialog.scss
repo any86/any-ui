@@ -15,6 +15,13 @@
     &-bottom {
         bottom: 12%;
     }
+
+
+    &-center{
+        top:50%;
+        transform: translateY(-50%);
+    }
+
     &__header {
         padding: $gutter $gutter 0 $gutter;
         overflow: hidden;
