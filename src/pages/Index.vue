@@ -50,7 +50,6 @@
             </a-collapse-item>
 
             <a-collapse-item title="切换" class="group">
-                <div class="group__item" @click="$router.push({'path': '/drawer'})">Draw(抽屉)</div>
                 <div class="group__item" @click="$router.push({'path': '/tabs'})">Tabs(选项卡)</div>
                 <div class="group__item" @click="$router.push({'path': '/collapse'})">Collapse(折叠)</div>
                 <div class="group__item" @click="$router.push({'path': '/carousel'})">Carousel(轮播)</div>
