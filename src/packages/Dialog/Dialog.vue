@@ -1,6 +1,6 @@
 <template>
     <a-mask :isShow="isShow" :portal="portal" @update:isShow="close">
-        <transition name="zoom">
+        <transition :name="`zoom-${align}`">
             <div v-show="isShow" :class="['atom-dialog-' + align]" class="atom-dialog">
                 <header 
                     v-if="this.$slots.header"
@@ -28,28 +28,28 @@ export default {
 
     props: {
         portal: {
-            default: false
+            default: false,
         },
 
         isShow: {
-            type: Boolean
+            type: Boolean,
         },
 
         align: {
             type: String,
-            default: 'top'
-        }
+            default: 'center',
+        },
     },
 
     methods: {
         close() {
             this.$emit('update:isShow', false);
             this.$emit('close');
-        }
+        },
     },
 
     components: {
-        AMask
-    }
+        AMask,
+    },
 };
 </script>
