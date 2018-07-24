@@ -1,8 +1,8 @@
 <template>
     <a v-on="$listeners" v-bind="$attrs" class="atom-cell">
-        <span v-if="$slots.title || undefined !== title" class="atom-cell__title">
-            <template v-if="undefined !== title">{{title}}</template>    
-            <slot v-else name="title"></slot>
+        <span v-if="$slots.prepend || undefined !== prepend" class="atom-cell__prepend">
+            <template v-if="undefined !== prepend">{{prepend}}</template>    
+            <slot v-else name="prepend"></slot>
         </span>
 
         <span :style="[bodyStyle, {textAlign}]" class="atom-cell__body">
@@ -10,9 +10,9 @@
         </span>
 
         <!-- 追加内容 -->
-        <span v-if="undefined !== $slots.extra || undefined !== extra" class="atom-cell__extra">
-            <template v-if="undefined !== extra">{{extra}}</template>    
-            <slot v-else name="extra"></slot>
+        <span v-if="undefined !== $slots.append || undefined !== append" class="atom-cell__append">
+            <template v-if="undefined !== append">{{append}}</template>    
+            <slot v-else name="append"></slot>
         </span>
         
         <!-- 箭头图标 -->
@@ -30,11 +30,11 @@ export default {
     name: 'AtomCell',
 
     props: {
-        title: {
+        prepend: {
             type: String
         },
 
-        extra: {
+        append: {
             type: String
         },
 

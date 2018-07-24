@@ -17,10 +17,10 @@
                 <span class="text-danger">extra插槽</span>让元素/组件右侧对齐
             </template>
             <v-cell>
-                <template slot="extra">生活不止眼前的苟且</template>
+                <template slot="append">生活不止眼前的苟且</template>
             </v-cell>
             <v-cell>
-                <template slot="extra">诗和远方</template>
+                <template slot="prepend">诗和远方</template>
             </v-cell>
         </v-group>
         <v-group>

@@ -6,7 +6,7 @@
     background: $background;
     font-size: $big;
     border-bottom: 1px solid $lightest;
-    &__title {
+    &__prepend {
         font-size: inherit;
         align-self: center;
         min-width: 84px;
@@ -20,7 +20,7 @@
         align-self: center;
         font-size: inherit;
     }
-    &__extra {
+    &__append {
         font-size: inherit;
         position: relative;
         align-self: center;
