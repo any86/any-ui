@@ -119,7 +119,7 @@ export default {
             });
         }
 
-        return h(
+        return this.isShowMask && h(
             'a-mask',
             {
                 props: {
@@ -130,6 +130,7 @@ export default {
                     background: 'rgba(255,255,255, 0)',
                 },
                 on: {
+                    'after-leave': ()=>{this.isShowMask=false},
                     'update:isShow': this.closeAll,
                 },
             },

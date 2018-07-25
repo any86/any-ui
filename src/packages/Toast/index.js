@@ -34,14 +34,17 @@ const Toast = (content, {
     vm.close = () => {
         vm.isShow = false;
     };
-
     return vm;
 };
 
 Toast.close = () => {
     Vue.nextTick(() => {
         vm.isShow = false;
+        // vm.$destroy();
     });
-}
+};
+
+// 组件内调用: this.$toast | this.$toast.close()
+Vue.prototype.$toast = Toast;
 
 export default Toast;
