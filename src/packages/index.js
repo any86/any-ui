@@ -9,16 +9,7 @@ import {
 } from './Dialog/index.js';
 // 轻提示
 import Toast from './Toast/index.js';
-// Loading
-const Loading = (content = '') => {
-    Toast(content, {
-        type: 'loading',
-        delay: 0,
-        closeable: false
-    });
-}
-Loading.close = Toast.close;
-
+import { Loading } from './Loading/index.js';
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
@@ -33,15 +24,14 @@ let Atom = {
     Alert,
     Confirm,
     Prompt,
-    Toast,
-    Loading,
+    Toast, Loading,
     locale
 };
 import {
     mergeConfigs
 } from './config/index.js';
 
-Atom.install = function(Vue, opts = {}) {
+Atom.install = function (Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
 
@@ -62,28 +52,6 @@ Atom.install = function(Vue, opts = {}) {
         let component = components[k];
         Vue.component(`${component.name.replace('Atom', 'A')}`, component);
     }
-
-    // ==================== 添加全局命令 ====================
-    // 组件内调用: this.$alert
-    Vue.prototype.$alert = Alert;
-
-    // 组件内调用: this.$confirm
-    Vue.prototype.$confirm = Confirm;
-
-    // 组件内调用: this.$prompt
-    Vue.prototype.$prompt = Prompt;
-
-
-
-    // 组件内调用: this.$loading
-    Vue.prototype.$loading = (content = '') => {
-        Vue.prototype.$toast(content, {
-            type: 'loading',
-            delay: 0,
-            closeable: false
-        });
-    }
-    Vue.prototype.$loading.close = Vue.prototype.$toast.close;
 };
 
 export default Atom;

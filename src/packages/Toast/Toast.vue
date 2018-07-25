@@ -1,7 +1,7 @@
 <script>
 import AMask from '../../packages/Mask';
 import AIcon from '../../packages/Icon';
-import ALoading from '../../packages/Loading';
+import ALoading from '../../packages/Loading/Loading';
 export default {
     name: 'AtomToast',
 
@@ -105,7 +105,7 @@ export default {
         let vnodeIcon;
         if ('loading' === this.type) {
             vnodeIcon = h('a-loading', {
-                props: { type: 'primary' },
+                props: { type: 'lightest' },
                 class: ['gutter-auto', 'gutter-bottom-sm'],
                 style: { display: 'block' },
             });

@@ -29,7 +29,7 @@ import {
 const Alert = (content, {
     title,
     align = getConfig('DIALOG_ALIGN'),
-    onOk = () => {},
+    onOk = () => { },
     okText = locale.t('alert.ok')
 } = {}) => {
     let vm = createApp(Vue, AAlert);
@@ -52,8 +52,8 @@ const Alert = (content, {
 const Confirm = (content, {
     title,
     align = getConfig('DIALOG_ALIGN'),
-    onOk = () => {},
-    onCancel = () => {},
+    onOk = () => { },
+    onCancel = () => { },
     okText = locale.t('confirm.ok'),
     cancelText = locale.t('confirm.cancel')
 } = {}) => {
@@ -78,8 +78,8 @@ const Confirm = (content, {
  * @param {Object} 其他参数 
  */
 const Prompt = (title = '', {
-    onOk = () => {},
-    onCancel = () => {},
+    onOk = () => { },
+    onCancel = () => { },
     align = getConfig('DIALOG_ALIGN'),
     okText = locale.t('prompt.ok'),
     cancelText = locale.t('prompt.cancel'),
@@ -100,6 +100,17 @@ const Prompt = (title = '', {
     });
     return vm;
 };
+
+
+// ==================== 添加全局命令 ====================
+// 组件内调用: this.$alert
+Vue.prototype.$alert = Alert;
+
+// 组件内调用: this.$confirm
+Vue.prototype.$confirm = Confirm;
+
+// 组件内调用: this.$prompt
+Vue.prototype.$prompt = Prompt;
 
 export {
     Alert,
