@@ -10,9 +10,9 @@ $disabled: #ccc;
 $background: $white;
 
 // 浅灰
-$light: #aaa9ae;
-$lighter: #ddd;
-$lightest: #eee;
+$light: #AAA;
+$lighter: #DDD;
+$lightest: #EEE;
 
 // 深灰
 $dark: #888;
@@ -21,10 +21,10 @@ $darkest: #000;
 
 // 彩色
 $primary: $base;
-$success: #50d185;
-$warning: #ffc107;
-$danger: #dc3545;
-$info: #17a2b8;
+$success: #1FC055;
+$warning: #FC7212;
+$danger: #E60044;
+$info: #0076FF;
 
 $theme_colors: (
     default: $white,
