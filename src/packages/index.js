@@ -78,6 +78,7 @@ Atom.install = function(Vue, opts = {}) {
 
     // 组件内调用: this.$loading
     Vue.prototype.$loading = (content = '') => {
+        Vue.prototype.$toast.close();
         Vue.prototype.$toast(content, {
             type: 'loading',
             delay: 0,

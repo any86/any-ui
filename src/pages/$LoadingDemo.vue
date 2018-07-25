@@ -9,11 +9,23 @@ export default {
 
     methods: {
         open() {
-            this.$loading('加载中');
+            this.$loading('加载中1');
             // this.$loading.close();
             setTimeout(() => {
                 this.$loading.close();
-            }, 3000);
+            }, 1000);
+
+            this.$loading('加载中2');
+            // this.$loading.close();
+            setTimeout(() => {
+                this.$loading.close();
+            }, 1000);
+
+            this.$loading('加载中3');
+            // this.$loading.close();
+            setTimeout(() => {
+                this.$loading.close();
+            }, 1000);
         },
     },
 };
