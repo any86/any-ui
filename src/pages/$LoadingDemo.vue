@@ -7,23 +7,26 @@
 export default {
     name: 'GlboalLoadingDemo',
 
-    mounted(){
+    mounted() {
         this.open();
     },
 
     methods: {
         open() {
-            this.$loading('加载中');
-            // this.$loading.close();
+            this.$toast('加载中');
             setTimeout(() => {
-                this.$loading.close();
-                this.$toast('提示');
-                setTimeout(()=>{
-                    
-                }, 200)
+                // this.$toast.close();
+                this.$toast('加载中1');
             }, 1000);
 
-        },
-    },
+            // this.$loading.close();
+            // setTimeout(() => {
+            //     this.$toast.close();
+            //     setTimeout(()=>{
+            //         this.$toast('提示');
+            //     }, 1000)
+            // }, 1000);
+        }
+    }
 };
 </script>

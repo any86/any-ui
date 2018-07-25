@@ -10,7 +10,7 @@ let vm;
  * @param {Object} 其他参数 
  */
 const Toast = (content, {
-    type = 'default',
+    type = '',
     position = 'center',
     delay = 3000,
     closeable = true

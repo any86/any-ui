@@ -6,10 +6,10 @@ let instances = {};
  */
 export default function(Vue, component) {
     const id = `_app-${component.name}`;
-    if(undefined !== instances[id]){
-        instances[id].$destroy();
-        delete instances[id];
-    } 
+    // if(undefined !== instances[id]){
+    //     instances[id].$destroy();
+    //     delete instances[id];
+    // } 
     // 创建一个挂载点
     const node = document.createElement('div');
     node.id = id;
