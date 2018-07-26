@@ -1,5 +1,7 @@
 <template>
-    <main class="atom-toast">
+    <main 
+        :style="{pointerEvents: pointerEvents}"
+        class="atom-toast">
         <!-- toast核心 -->
         <transition name="zoom">
             <span v-show="isShow" class="atom-toast__box">
@@ -61,6 +63,10 @@ export default {
     },
 
     computed: {
+        pointerEvents() {
+            return this.isShow ? 'auto' : 'none';
+        },
+
         iconName() {
             let iconMap = {
                 success: 'tick',

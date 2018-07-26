@@ -4,7 +4,7 @@
         <a-cell @click="$toast('3秒后关闭', {type:'success'})"><a class="text-success">成功</a>样式, 3秒后自动关闭</a-cell>
         <a-cell @click="$toast('3秒后关闭', {type:'warning'})"><a class="text-warning">警告</a>样式, 3秒后自动关闭</a-cell>
         <a-cell @click="$toast('3秒后关闭', {type:'danger'})"><a class="text-danger">错误</a>样式, 3秒后自动关闭</a-cell>
-        <a-cell @click="$toast('3秒后关闭', {type:'loading'})">加载中样式, 3秒后自动关闭</a-cell>
+        <a-cell @click="$toast('3秒后关闭', {type:'loading', time:0})">加载中样式, 3秒后自动关闭</a-cell>
         <section class="fill">
             <a-button @click="test">测试</a-button>
         </section>
@@ -22,11 +22,10 @@ export default {
 
     methods: {
         test() {
-            this.$loading('测试');
-            // setTimeout(() => {
-            //     this.$loading.close();
-            //     this.$toast('开始');
-            // }, 1000);
+            this.$toast('开始test', {time:-1});
+            setTimeout(() => {
+                this.$toast.close();
+            }, 1000);
         },
     },
 };
