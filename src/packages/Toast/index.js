@@ -12,7 +12,7 @@ let vm;
 const Toast = (content, {
     type = '',
     position = 'center',
-    delay = 3000,
+    time = 2000,
     closeable = true
 } = {}) => {
     vm = createApp(Vue, AToast);
@@ -20,7 +20,7 @@ const Toast = (content, {
     vm.position = position;
     vm.closeable = closeable;
     vm.content = content;
-    vm.delay = delay;
+    vm.time = time;
     // 防止2次isShow的改变被合并成一次, 防止watch会失效
     vm.$nextTick(() => {
         vm.isShow = true;
@@ -47,4 +47,9 @@ Toast.close = () => {
 // 组件内调用: this.$toast | this.$toast.close()
 Vue.prototype.$toast = Toast;
 
+Vue.prototype.$loading = (text)=>{
+    Toast(text, {time:0, type:'loading'});
+};
+
+Vue.prototype.$loading.close = Toast.close;
 export default Toast;

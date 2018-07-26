@@ -13,11 +13,14 @@ export default {
 
     methods: {
         open() {
-            this.$toast('加载中');
+            this.$loading('我加载...');
+            // this.$toast('加载中', { type: 'loading', time: 0 });
             setTimeout(() => {
+                this.$loading.close();
                 // this.$toast.close();
-                this.$toast('加载中1');
-            }, 1000);
+                    this.$toast('加载中1', {type: 'success', time:3000});
+                
+            }, 1200);
 
             // this.$loading.close();
             // setTimeout(() => {
@@ -26,7 +29,7 @@ export default {
             //         this.$toast('提示');
             //     }, 1000)
             // }, 1000);
-        }
-    }
+        },
+    },
 };
 </script>
