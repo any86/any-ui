@@ -98,9 +98,9 @@ export default {
         // 但是通过$toast传递了true,
         // 所以初始化会运行watch
         isShow(isShow) {
+            document.documentElement.classList.toggle('ovh', isShow);
+            document.body.classList.toggle('ovh', isShow);
             if (isShow) {
-                document.documentElement.classList.toggle('ovh', isShow);
-                document.body.classList.toggle('ovh', isShow);
                 // 延迟关闭
                 if (0 < this.time) {
                     this.timeoutId = setTimeout(() => {
