@@ -100,6 +100,7 @@ export default {
         isShow(isShow) {
             if (isShow) {
                 document.documentElement.classList.toggle('ovh', isShow);
+                document.body.classList.toggle('ovh', isShow);
                 // 延迟关闭
                 if (0 < this.time) {
                     this.timeoutId = setTimeout(() => {
