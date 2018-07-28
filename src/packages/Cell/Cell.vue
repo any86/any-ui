@@ -20,7 +20,7 @@
             v-if="undefined !== arrowDirection" 
             name="arrow" 
             size="18" 
-            :class="[`atom-cell__arrow--${arrowDirection}`]" 
+            :class="[`atom-cell__arrow--${arrowDirectionReal}`]" 
             class="atom-cell__arrow" />
     </a>
 </template>
@@ -29,22 +29,24 @@ import AIcon from '../Icon';
 export default {
     name: 'AtomCell',
 
+    components: { AIcon },
+
     props: {
         prepend: {
-            type: String
+            type: String,
         },
 
         append: {
-            type: String
+            type: String,
         },
 
         bodyStyle: {
             type: String,
-            default: () => {}
+            default: () => {},
         },
 
         textAlign: {
-            type: String
+            type: String,
         },
 
         arrowDirection: {
@@ -53,16 +55,34 @@ export default {
         },
 
         hasRipple: {
-            default: false
-        }
+            default: false,
+        },
     },
 
     computed: {
         rippleConfig() {
             return undefined === this.arrow ? { isDisabled: !this.hasRipple } : { background: '#ccc', isDisabled: !this.hasRipple };
-        }
+        },
     },
 
-    components: { AIcon }
+    data() {
+        return {
+            // 自动识别元素的dir属性
+            arrowDirectionReal: 'rtl',
+        };
+    },
+
+    mounted() {
+        // 根据元素的dir属性决定箭头方向, 从而兼容ar等语言
+        const style = getComputedStyle(this.$el, null);
+        const DIRECTION_MAP = {
+            up: 'up',
+            down: 'down',
+            left: 'rtl' === style.direction ? 'right' : 'left',
+            right: 'rtl' === style.direction ? 'left' : 'right',
+            // undefined: undefined
+        };
+        this.arrowDirectionReal = DIRECTION_MAP[this.arrowDirection];
+    },
 };
 </script>
