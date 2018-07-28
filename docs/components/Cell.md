@@ -37,16 +37,16 @@
 ##### props
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
-| title | 左侧标题 | `String` | - |-|否|
-| extra | 右侧补充内容 | `String` | - |-|否|
+| prepend | 左侧标题 | `String` | - |-|否|
+| append | 右侧补充内容 | `String` | - |-|否|
 | bodyStyle | 内容区样式 | `Object` | {} |-|否|
-| textAlign | 内容文字对齐方式 | `String` | - |left right center start end|否|
-| arrowDirection | 右侧箭头方向, 如不赋值, 那么不显示箭头 | `String` | - |up right down left|否|
+| textAlign | 内容文字对齐方式 | `String` | - |left/right/center/start/end|否|
+| arrowDirection | 右侧箭头方向, 如不赋值, 那么不显示箭头 | `String` | - |up/right/down/left|否|
 
 
 ##### slots
 | 名称 | 说明 |
 |-----------|-----------|
 | default | 内容主体 |
-| title | 左侧标题 |
-| extra | 右侧补充内容 |
+| prepend | 左侧标题 |
+| append | 右侧补充内容 |
