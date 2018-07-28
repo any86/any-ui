@@ -12,6 +12,8 @@
 <script>
 import { getWidth, getHeight, getTime } from '../../utils/dom';
 import loadImage from '../../utils/loadImage';
+import { getConfig } from '../../packages/config/';
+
 /**
  * 1. 图片懒加载通过对img标签上的src-lazy设置图片地址,
  *    如果一页有多个src-lazy会当第一个src-lazy加载完毕,
@@ -29,72 +31,72 @@ export default {
 
     props: {
         value: {
-            default: 0
+            default: 0,
         },
 
         isZoom: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         // 暂时不支持'auto'
         slidesPerView: {
             type: [Number, String],
-            default: 1
+            default: 1,
         },
 
         hasPageBtn: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         isAutoPlay: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         isLoop: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         threshold: {
             type: Number,
-            default: 15
+            default: 15,
         },
 
         delay: {
             type: [Number, String],
-            default: 3000
+            default: 3000,
         },
 
         disableOnInteraction: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         speed: {
             type: Number,
-            default: 300
+            default: 300,
         },
 
         loadPrevNext: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         loadPrevNextAmount: {
             type: Number,
-            default: 1
+            default: 1,
         },
 
         width: {
-            type: [Number, String]
+            type: [Number, String],
         },
 
         height: {
-            type: [Number, String]
-        }
+            type: [Number, String],
+        },
     },
 
     data: () => ({
@@ -114,7 +116,7 @@ export default {
         startTime: 0,
         fakeCountOneSide: 0, // 每一侧fake的数量
         itemInViewCount: 0, // 每屏显示多少个item
-        deltaX: 0
+        deltaX: 0,
     }),
 
     mounted() {
@@ -200,7 +202,7 @@ export default {
                     this.imageStore[index].push({
                         el: $imgEl,
                         url: $imgEl.attributes['lazy-src'].value,
-                        status: 'ready'
+                        status: 'ready',
                     });
                 });
             });
@@ -214,8 +216,14 @@ export default {
             if (undefined !== eachImageStore) {
                 eachImageStore.forEach(item => {
                     if ('ready' === item.status) {
+                        // 是否允许https
+                        const isAllowHttps = getConfig('IS_ALLOW_HTTPS');
+                        let src = '';
                         // 加载图片
-                        loadImage(item.url, {
+                        if (!isAllowHttps) {
+                            src = item.url.replace('https', 'http');
+                        }
+                        loadImage(src, {
                             onInit: () => {
                                 item.el.setAttribute('lazy-status', 'loading');
                             },
@@ -225,7 +233,7 @@ export default {
                                 item.el.setAttribute('lazy-status', 'done');
                                 item.el.removeAttribute('lazy-src');
                                 item.status = 'done';
-                            }
+                            },
                         });
                     }
                 });
@@ -429,7 +437,7 @@ export default {
             this.playSlider();
 
             this.$emit('input', this.activeIndex);
-        }
+        },
     },
 
     computed: {
@@ -495,7 +503,7 @@ export default {
                 realIndex = this.count + this.activeIndex;
             }
             return realIndex;
-        }
+        },
     },
 
     watch: {
@@ -507,7 +515,7 @@ export default {
             this.$emit('update:realIndex', this.realIndex);
             this.$emit('change', {
                 realIndex: this.realIndex,
-                activeIndex: this.activeIndex
+                activeIndex: this.activeIndex,
             });
         },
         /**
@@ -544,7 +552,7 @@ export default {
                     }
                 }
             }
-        }
-    }
+        },
+    },
 };
 </script>

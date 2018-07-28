@@ -6,6 +6,7 @@
 // 未来想借助了indexeddb对每个图片标记id, 让加载过的图片可以省去一些流程判断.
 // 还要加入对每个图片加载事件的统计事件, 方便找出加载慢的图片
 import { getWidth, getHeight, getScrollParent, getTime, getIsInView } from '../../utils/dom';
+import { getConfig } from '../../packages/config/';
 import throttle from 'lodash/throttle';
 export default {
     name: 'AtomLazyLoad',
@@ -137,9 +138,15 @@ export default {
         },
 
         loadImg() {
+            const isAllowHttps = getConfig('IS_ALLOW_HTTPS');
             const startTime = getTime();
-            var img = new Image();
-            img.src = this.src;
+            let img = new Image();
+            let src = this.src;
+            // 如果不允许https, 那么转换成http
+            if(!isAllowHttps) {
+                src = src.replace('https', 'http');
+            }
+            img.src = src;
             // if (img.complete) {
             // this.status = 'loaded';
             // this.url = this.src;
