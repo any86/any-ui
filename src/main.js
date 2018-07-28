@@ -30,6 +30,7 @@ import ar from '@/locale/lang/ar.js'
 // 默认中文
 // Vue.use(Atom, {locale: cn});
 Vue.use(Atom, {
+    IS_ALLOW_HTTPS:false,
     ON_MASK_SHOW: () => {
         // alert('show');
     }
