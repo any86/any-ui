@@ -1,7 +1,7 @@
 .atom-cell {
     position: relative;
     display: flex;
-    padding: 0 $gutter;
+    padding: auto $gutter;
     min-height: 1rem;
     background: $background;
     font-size: $big;
