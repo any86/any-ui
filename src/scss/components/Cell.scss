@@ -6,7 +6,8 @@
     min-height: 1rem;
     background: $background;
     font-size: $big;
-    border-bottom: 1px solid $lightest;
+    @extend .border-bottom;
+    // border-bottom: 1px solid $lightest;
     &__prepend {
         font-size: inherit;
         align-self: center;

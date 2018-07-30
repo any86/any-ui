@@ -18,7 +18,8 @@ $value in $theme_colors {
 // none
 @each $direction in $directions{
     .border-#{$direction} {
-        border-#{$direction}: 1px solid $lightest !important;
+        box-shadow: inset 0px -1px 1px -1px  $lighter !important;
+        // border-#{$direction}: 1px solid $lightest !important;
     }
 
     .border-#{$direction}-none {
