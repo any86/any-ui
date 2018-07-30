@@ -3,9 +3,18 @@
         <div ref="body" :style="{transform: `translate3d(${translateX}px, 0, 0)`, transitionDuration: `${transitionDuration}ms`}" @transitionEnd="transitionEnd" @webkitTransitionEnd="transitionEnd" class="atom-carousel__body">
             <slot></slot>
         </div>
-        <div v-if="hasPageBtn && 1 < pageBtnCount" class="atom-carousel__paging">
-            <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
-        </div>
+
+        <template v-if="hasPageBtn && 1 < pageBtnCount">
+            <div v-if="0 == pageTheme" :class="[`atom-carousel__paging-${pageTheme}`]">
+                <span v-for="n in pageBtnCount" :key="n" :class="{'paging__button--active': n - 1 === realIndex}" class="paging__button"></span>
+            </div>
+
+            <div v-else-if="1 == pageTheme" :class="[`atom-carousel__paging-${pageTheme}`]">
+                {{realIndex}}/{{pageBtnCount}}
+            </div> 
+        </template>
+        
+
     </div>
 </template>
 
@@ -30,6 +39,10 @@ export default {
     // },
 
     props: {
+        pageTheme: {
+            default: 0,
+        },
+
         value: {
             default: 0,
         },

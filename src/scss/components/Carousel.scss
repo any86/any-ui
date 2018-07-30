@@ -17,7 +17,7 @@
         transition-duration: 0ms;
     }
 
-    &__paging {
+    &__paging-0 {
         position: absolute;
         z-index: 10;
         bottom: 15px;
@@ -38,6 +38,23 @@
             }
         }
     }
+    &__paging-1 {
+        display: inline-block;
+        background:rgba(0,0,0,0.3);
+        position: absolute;
+        z-index: 10;
+        bottom: $gutter;
+        right: $gutter;
+        text-align: center;
+        padding-right:$gutter/2;
+        padding-left:$gutter/2;
+        color:$white;
+        height: 24px;
+        line-height: 24px;
+        border-radius: $gutter;
+    }
+
+    
 
     &__overlay {
         position: absolute;

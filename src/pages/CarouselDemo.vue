@@ -10,7 +10,7 @@
         </v-group>
 
         <v-group title="每屏多图 | 循环 | 自动播放">
-            <v-carousel v-model="activeIndex2" :is-loop="true" :is-auto-play="true" :slides-per-view="2.2" :delay="1000">
+            <v-carousel page-theme="1" v-model="activeIndex2" :is-loop="true" :is-auto-play="true" :slides-per-view="2.2" :delay="1000">
                 <v-carousel-item v-for="image in shortImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200" />
                 </v-carousel-item>
