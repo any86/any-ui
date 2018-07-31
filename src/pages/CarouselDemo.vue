@@ -2,7 +2,7 @@
     <v-scroll-view>
         <!-- 默认 -->
         <v-group  title="默认: 懒加载图片 | 每屏1图 | 预加载前/后各一张 | 不自动播放 | 滑动速度300ms">
-            <v-carousel ref="carousel" v-model="activeIndex1" :delay="1000" style="height:200px;">
+            <v-carousel page-theme="1" ref="carousel" v-model="activeIndex1" :delay="1000" style="height:200px;">
                 <v-carousel-item v-for="image in longImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200"/>
                 </v-carousel-item>
@@ -10,7 +10,7 @@
         </v-group>
 
         <v-group title="每屏多图 | 循环 | 自动播放">
-            <v-carousel page-theme="1" v-model="activeIndex2" :is-loop="true" :is-auto-play="true" :slides-per-view="2.2" :delay="1000">
+            <v-carousel  v-model="activeIndex2" :is-loop="true" :is-auto-play="true" :slides-per-view="2.2" :delay="1000">
                 <v-carousel-item v-for="image in shortImages" :key="image">
                     <img :lazy-src="image" width="100%" height="200" />
                 </v-carousel-item>

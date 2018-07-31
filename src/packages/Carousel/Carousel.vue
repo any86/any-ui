@@ -10,7 +10,7 @@
             </div>
 
             <div v-else-if="1 == pageTheme" :class="[`atom-carousel__paging-${pageTheme}`]">
-                {{realIndex}}/{{pageBtnCount}}
+                {{Number(realIndex)+1}}/{{pageBtnCount}}
             </div> 
         </template>
         
