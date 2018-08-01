@@ -14,21 +14,21 @@
 ### 通过title插槽, 在左侧补充一些文案(图标)等, 并左对齐
 ``` html
 <a-cell>
-    <template slot="title">生活不止眼前的苟且</template>
+    <template slot="prepend">生活不止眼前的苟且</template>
 </a-cell>
 <a-cell>
-    <template slot="    <template slot="title">生活不止眼前的苟且</template>
+    <template slot="prepend">生活不止眼前的苟且</template>
 ">诗和远方</template>
 </a-cell>
 ```
 
-### 通过extra插槽, 在右侧补充一些文案(图标), 并右对齐
+### 通过append插槽, 在右侧补充一些文案(图标), 并右对齐
 ``` html
 <a-cell>
-    <template slot="extra">生活不止眼前的苟且</template>
+    <template slot="append">生活不止眼前的苟且</template>
 </a-cell>
 <a-cell>
-    <template slot="extra">诗和远方</template>
+    <template slot="append">诗和远方</template>
 </a-cell>
 ```
 
