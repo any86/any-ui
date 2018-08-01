@@ -54,7 +54,6 @@ button {
 .atom-btn {
     overflow: hidden;
     display: inline-block;
-    width: 100%;
     user-select: none;
     padding: $gutter*0.8 $gutter*2;
     text-align: center;
@@ -71,12 +70,13 @@ button {
         background-color: #f5f5f5 !important;
         border-color: #d9d9d9 !important;
     }
+    &:not([inline]) {
+        width: 100%;
+    }
     &[inline] {
-        width: auto !important;
-        height: auto !important;
         line-height: 1 !important;
         padding: 6px !important;
-        font-size:12px;
+        font-size: 12px;
     }
     &[circle] {
         border-radius: $height !important;
