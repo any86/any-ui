@@ -34,6 +34,8 @@ import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomInput',
 
+    components: { AIcon },
+
     props: {
         hasRemove: {
             type: Boolean,
@@ -76,11 +78,6 @@ export default {
         };
     },
 
-    // beforeMount() {
-    //     // 过滤
-    //     this.$emit('input', this.filterInput(this.value));
-    // },
-
     methods: {
         /**
          * 过滤指定字符
@@ -95,9 +92,15 @@ export default {
          * 验证validatas规则
          */
         validate() {
+            const fnMap = {
+                required(){
+                    return item.required && '' == this.value;
+                }
+            };
+
             let isPass = true;
             for (let item of this.vaildateRules) {
-                if (item.required && '' == this.value) {
+                if () {
                     // 必填项目为空
                     isPass = false;
                     this.showWarningDialog(item.message);
@@ -192,6 +195,14 @@ export default {
         }
     },
 
-    components: { AIcon }
+    mounted(){
+        this.vaildateRules.forEach(rule=>{
+            const eventName = rule.trigger || 'blur';
+            this.$el.addEventListener(eventName);
+        });
+        // this.validate();
+    },
+
+    
 };
 </script>

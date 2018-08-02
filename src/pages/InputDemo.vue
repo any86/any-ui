@@ -1,32 +1,34 @@
 <template>
     <main>
         <a-cell>
-            <template slot="title">学校</template>
+            <template slot="prepend">学 校</template>
             <a-input ref="inputSchool" :vaildate-rules="vaildates" placeholder="请输入学校" v-model="text1"/>
         </a-cell>
 
-        <a-cell>
-            <template slot="title">银行卡流水</template>
-            <a-input maxlength="14" v-model="text2" type="bankCode" />
-        </a-cell>
+        
 
         <a-cell>
-            <template slot="title">手机</template>
+            <template slot="prepend">手 机</template>
             <a-input maxlength="13" v-model="text3" type="phone" />
         </a-cell>
 
         <a-cell>
-            <template slot="title">流水号</template>
+            <template slot="prepend">流 水 号</template>
             <a-input maxlength="13" v-model="text4" type="number" />
         </a-cell>
-
+        
         <a-cell>
-            <template slot="title">字母</template>
+            <template slot="prepend">银行卡流水</template>
+            <a-input maxlength="14" v-model="text2" type="bankCode" />
+        </a-cell>
+        
+        <a-cell>
+            <template slot="prepend">仅能输入字母</template>
             <a-input maxlength="13" v-model="text5" type="letter" />
         </a-cell>
-
+        
         <a-cell>
-            <template slot="title">过滤非字母</template>
+            <template slot="prepend">过滤非字母</template>
             <a-input :filter="/[^a-zA-Z]/g" v-model="text6"/>
         </a-cell>
 
@@ -49,7 +51,7 @@ export default {
             text5: 'abc',
             text6: 'abc',
             isShowWarning: true,
-            vaildates: [{ required: true, message: '学校不能为空!' }, { message: '不能相同哦不同哦!', fn: this.isSame }, { regular: /a/, message: '必须包含a!' }],
+            vaildates: [{trigger: 'keyup', required: true, message: '学校不能为空!' }, { message: '不能相同哦不同哦!', fn: this.isSame }, { regular: /a/, message: '必须包含a!' }],
         };
     },
 
