@@ -5,8 +5,6 @@
             <a-input ref="inputSchool" :vaildate-rules="vaildates" placeholder="请输入学校" v-model="text1"/>
         </a-cell>
 
-        
-
         <a-cell>
             <template slot="prepend">手 机</template>
             <a-input maxlength="13" v-model="text3" type="phone" />
@@ -51,7 +49,10 @@ export default {
             text5: 'abc',
             text6: 'abc',
             isShowWarning: true,
-            vaildates: [{trigger: 'keyup', required: true, message: '学校不能为空!' }, { message: '不能相同哦不同哦!', fn: this.isSame }, { regular: /a/, message: '必须包含a!' }],
+            vaildates: [
+                { required: true, message: '学校不能为空!' }, 
+                {trigger:'keyup', message: '值不能等于100', fn: this.isSame }, 
+                { regular: /a/, message: '必须包含a!' }]
         };
     },
 
@@ -62,9 +63,9 @@ export default {
         },
 
         isSame() {
-            return 1 == 1;
-        },
-    },
+            return 100 != this.text1;
+        }
+    }
 };
 </script>
 <style scoped lang="scss">

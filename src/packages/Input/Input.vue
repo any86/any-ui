@@ -1,5 +1,5 @@
 <template>
-    <label :class="{'atom-input--warning': isShowWarning}" class="atom-input">
+    <label :class="{'atom-input--warning': hasWarning}" class="atom-input">
         <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
         
         <input 
@@ -23,7 +23,7 @@
             
             <span v-if="hasWarningDialog" class="warning__dialog">
                 <div class="triangle triangle-danger"></div>
-                <p>{{warningText}}</p>
+                <p>{{warningMessage}}</p>
             </span>
         </i>
     </label>
@@ -73,8 +73,8 @@ export default {
     data() {
         return {
             isShowEmpty: false,
-            isShowWarning: false,
-            warningText: ''
+            hasWarning: false,
+            warningMessage: ''
         };
     },
 
@@ -89,37 +89,29 @@ export default {
         },
 
         /**
-         * 验证validatas规则
+         * 验证规则
          */
-        validate() {
-            const fnMap = {
-                required(){
-                    return item.required && '' == this.value;
-                }
-            };
-
-            let isPass = true;
-            for (let item of this.vaildateRules) {
-                if () {
-                    // 必填项目为空
-                    isPass = false;
-                    this.showWarningDialog(item.message);
-                    break;
-                } else if (undefined !== item.regular && !item.regular.test(this.value)) {
-                    isPass = false;
-                    this.showWarningDialog(item.message);
-                    break;
-                } else if (undefined !== item.fn && !item.fn()) {
-                    isPass = false;
-                    this.showWarningDialog(item.message);
-                    break;
-                }
+        validate(rule) {
+            // alert(JSON.stringify(rule))
+            this.hasWarning = false;
+            this.warningMessage = '';
+            if (rule.required) {
+                // 必填项目为空
+                this.hasWarning = '' === this.value;
+            } else if (undefined !== rule.regular) {
+                // 正则验证
+                this.hasWarning = !rule.regular.test(this.value);
+            } else if (undefined !== rule.fn) {
+                // 自定义函数验证
+                this.hasWarning = !rule.fn();
             }
-            // 通过验证
-            if(isPass){
+            // 派发事件
+            if (this.hasWarning) {
+                this.warningMessage = rule.message;
+                this.$emit('warning', this.warningMessage);
+            } else {
                 this.$emit('success');
             }
-            return isPass;
         },
 
         /**
@@ -127,8 +119,8 @@ export default {
          * @argument {String} 错误信息
          */
         showWarningDialog(message) {
-            this.isShowWarning = true;
-            this.warningText = message;
+            this.hasWarning = true;
+            this.warningMessage = message;
             this.$emit('warning', message);
         },
 
@@ -143,7 +135,7 @@ export default {
 
         blur(e) {
             this.isShowEmpty = false;
-            this.validate();
+            // this.validate();
             this.$emit('blur', e);
         },
 
@@ -173,8 +165,8 @@ export default {
         },
 
         keydown(e) {
-            this.isShowWarning = false;
-            this.warningText = '';
+            this.hasWarning = false;
+            this.warningMessage = '';
             this.$emit('keydown');
         },
 
@@ -195,14 +187,27 @@ export default {
         }
     },
 
-    mounted(){
-        this.vaildateRules.forEach(rule=>{
+    mounted() {
+        // 绑定验证
+        let unLoaders = this.vaildateRules.map(rule => {
+            // 默认blur触发验证
             const eventName = rule.trigger || 'blur';
-            this.$el.addEventListener(eventName);
+            // 因为可能出现多个相同类目的验证rule,
+            // 为了解除绑定不遗漏,
+            // 存储到新变量
+            let validate = this.validate.bind(this, rule);
+            this.$refs.input.addEventListener(eventName, validate);
+            return () => {
+                this.$refs.input.removeEventListener(eventName, validate);
+            };
         });
-        // this.validate();
-    },
 
-    
+        // 移除验证事件
+        this.$on('hook:beforeDestroy', () => {
+            unLoaders.forEach(unLoader => {
+                unLoader();
+            });
+        });
+    }
 };
 </script>
