@@ -1,5 +1,5 @@
 <template>
-    <button v-ripple="hasRipple" :type="nativeType"  v-on="$listeners" :class="[`atom-btn--${type}`]" class="atom-btn">
+    <button :type="nativeType"  v-on="$listeners" :class="[`atom-btn--${type}`]" class="atom-btn">
         <a-icon v-if="icon" class="atom-btn__icon" :name="icon" size="16"/>
         <slot></slot>
     </button>
