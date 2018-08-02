@@ -27,7 +27,8 @@
                 <div class="group__item" @click="$router.push({'path': '/picker'})">Picker</div>
             </a-collapse-item>
 
-            <a-collapse-item title="对话框" class="group">
+            <a-collapse-item class="group">
+                <h4 slot="title">对话框</h4>
                 <div class="group__item" @click="$router.push({'path': '/alert'})">Alert</div>
                 <div class="group__item" @click="$router.push({'path': '/confirm'})">Confirm</div>
                 <div class="group__item" @click="$router.push({'path': '/prompt'})">Prompt</div>
@@ -37,19 +38,22 @@
                 <div class="group__item" @click="$router.push({'path': '/popper'})">Popper</div>
             </a-collapse-item>
 
-            <a-collapse-item title="滚动" class="group">
+            <a-collapse-item class="group">
+                <h4 slot="title">滚动</h4>
                 <div class="group__item" @click="$router.push({'path': '/affix'})">Affix(滚动固定)</div>
                 <div class="group__item" @click="$router.push({'path': '/lazyLoad'})">Lazyload(懒加载)</div>
                 <div class="group__item" @click="$router.push({'path': '/scrollView'})">ScrollView(滚动容器)</div>
                 <div class="group__item" @click="$router.push({'path': '/virtualScroller'})">VirtualScroller(虚拟滚动容器)</div>
             </a-collapse-item>
 
-            <a-collapse-item title="布局" class="group">
+            <a-collapse-item class="group">
+                <h4 slot="title">布局</h4>
                 <div class="group__item" @click="$router.push({'path': '/cell'})">Cell</div>
                 <div class="group__item" @click="$router.push({'path': '/group'})">Group</div>
             </a-collapse-item>
 
-            <a-collapse-item title="切换" class="group">
+            <a-collapse-item class="group">
+                <h4 slot="title">切换</h4>
                 <div class="group__item" @click="$router.push({'path': '/tabs'})">Tabs(选项卡)</div>
                 <div class="group__item" @click="$router.push({'path': '/collapse'})">Collapse(折叠)</div>
                 <div class="group__item" @click="$router.push({'path': '/carousel'})">Carousel(轮播)</div>
@@ -67,13 +71,15 @@
                 <div class="group__item" @click="$router.push({'path': '/qrcode'})">QRCode(二维码)</div>
             </a-collapse-item>
 
-            <a-collapse-item title="等待" class="group">
+            <a-collapse-item class="group">
+                <h4 slot="title">等待</h4>
                 <div class="group__item" @click="$router.push({'path': '/loading'})">Loading</div>
                 <div class="group__item" @click="$router.push({'path': '/progress'})">Progess</div>
             </a-collapse-item>
 
             
-            <a-collapse-item title="组合" class="group">
+            <a-collapse-item class="group">
+                <h4 slot="title">组合</h4>
                 <div class="group__item" @click="$router.push({'path': '/popupPicker'})">PopupPicker</div>
             </a-collapse-item>
 
