@@ -13,6 +13,10 @@
         <a-icon name="star-o" class="border gutter-top-sm"/>
         <a-icon name="star-half" class="border gutter-top-sm"/>
         <a-icon name="warning" class="border gutter-top-sm"/>
+        <a-icon name="star-3d" class="border gutter-top-sm"/>
+        <a-icon name="star-o-3d" class="border gutter-top-sm"/>
+        <a-icon name="star-half-3d" class="border gutter-top-sm"/>
+
     </a-scroll-view>
 </template>
 <script>

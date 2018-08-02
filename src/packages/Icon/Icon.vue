@@ -21,6 +21,9 @@ import AStar from './Star';
 import AStarO from './StarO';
 import AStarHalf from './StarHalf';
 import AWarning from './Warning';
+import AStar3d from './Star3d';
+import AStarO3d from './StarO3d';
+import AStarHalf3d from './StarHalf3d';
 
 export default {
     name: 'AtomIcon',
@@ -36,6 +39,6 @@ export default {
         },
     },
 
-    components: {AArrow, APlus, AArrowRight,AArrowLeft, AArrowUp, AArrowDown,AMinus, AMenu, AClose, ATick, AStar, AStarHalf, AStarO, AWarning },
+    components: {AArrow, APlus, AArrowRight,AArrowLeft, AArrowUp, AArrowDown,AMinus, AMenu, AClose, ATick, AStar, AStarHalf, AStarO, AWarning,AStar3d,AStarO3d,AStarHalf3d },
 };
 </script>
