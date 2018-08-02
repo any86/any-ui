@@ -14,8 +14,6 @@
         border-radius: $borderRadius;
         padding: $gutter;
         background: rgba($darkest, 0.8);
-        box-shadow: 0 1px 6px rgba(0, 0, 0, 1);
-        max-width: 30vw;
-        min-width: 20vw;
+        // box-shadow: 0 1px 6px rgba(0, 0, 0, 1);
     }
 }

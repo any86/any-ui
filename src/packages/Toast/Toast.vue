@@ -9,7 +9,8 @@
                     v-if="'loading' === type" 
                     type="lightest" 
                     name="android"
-                    class="gutter-auto gutter-bottom-sm d-block"
+                    class="gutter-auto d-block"
+                    :class="{'gutter-bottom-sm': '' !== content}"
                     />
                 <a-icon 
                     v-else-if="iconName" 
