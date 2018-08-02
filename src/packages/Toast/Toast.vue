@@ -10,7 +10,7 @@
                     type="lightest" 
                     name="android"
                     class="gutter-auto d-block"
-                    :class="{'gutter-bottom-sm': '' !== content}"
+                    :class="{'gutter-bottom-sm': '' !== content && undefined !== content}"
                     />
                 <a-icon 
                     v-else-if="iconName" 
