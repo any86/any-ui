@@ -13,9 +13,8 @@ $height: 20px;
     &__input {
         flex: 1;
         align-self: center;
-        font-size: inherit;
+        font-size: $normal;
         background: rgba(255, 255, 255, 0);
-        font-size: inherit;
         border: 0 none;
         outline: none;
         width: 100%;
