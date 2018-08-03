@@ -230,23 +230,17 @@ export default {
                     if ('ready' === item.status) {
                         // 是否允许https
                         const isAllowHttps = getConfig('IS_ALLOW_HTTPS');
-                        let src = '';
+                        let src = item.url;
                         // 加载图片
                         if (!isAllowHttps) {
                             src = item.url.replace('https', 'http');
                         }
-
-                        console.log('src:' ,src)
                         loadImage(src, {
                             onInit: () => {
-                                console.log('oninit')
                                 item.el.setAttribute('lazy-status', 'loading');
                             },
 
                             onSuccess: () => {
-                                console.log('item.url:', item.url)
-                                console.log('item.el:', item.el)
-
                                 item.el.src = item.url;
                                 item.el.setAttribute('lazy-status', 'done');
                                 item.el.removeAttribute('lazy-src');
