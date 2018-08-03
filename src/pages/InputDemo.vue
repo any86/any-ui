@@ -7,7 +7,7 @@
 
         <a-cell>
             <template slot="prepend">手 机</template>
-            <a-input maxlength="13" v-model="text3" type="phone" />
+            <a-input :is-select-all="true" maxlength="13" v-model="text3" type="phone" />
         </a-cell>
 
         <a-cell>
@@ -50,9 +50,10 @@ export default {
             text6: 'abc',
             isShowWarning: true,
             vaildates: [
-                { required: true, message: '学校不能为空!' }, 
+                { required: true, message: '学校不能为空!' },
                 {trigger:'keyup', message: '值不能等于100', fn: this.isSame }, 
-                { regular: /a/, message: '必须包含a!' }]
+                { test: /a/, message: '必须包含a!' },{ test: /b/, message: '必须包含b!' },
+            ]
         };
     },
 

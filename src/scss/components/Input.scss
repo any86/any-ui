@@ -27,18 +27,21 @@ $height: 20px;
         align-self: center;
     }
 
-    &__icon-warning {
+    &__warning {
         display: none;
         margin-left: $gutter;
         position: relative;
         color: $danger;
         border: 1px solid $danger;
-        padding: $gutter/4;
+        // padding: $gutter/4;
+        height: 16px;
+        width: 16px;
+        align-self: center;
         border-radius: 50%;
         .warning__dialog {
             position: absolute;
-            top: 30px;
-            right: 0;
+            top: 24px;
+            right: -3px;
             z-index: 2;
             width: 150px;
             background: rgba($danger, 0.8);
@@ -63,7 +66,7 @@ $height: 20px;
     }
 
     &--warning {
-        .atom-input__icon-warning {
+        .atom-input__warning {
             display: inline-block;
             // animation: showTip 300ms;
         }

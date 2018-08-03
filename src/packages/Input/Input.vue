@@ -15,10 +15,10 @@
             class="atom-input__input">
 
         <transition name="fadeLeft">
-            <a-icon v-if="hasRemove" name="close" size="14" v-show="isShowEmpty" @click="clear" class="atom-input__btn-empty"/>
+            <a-icon v-if="hasRemove" name="close" size="14" v-show="isShowClearBtn" @click="clear" class="atom-input__btn-empty"/>
         </transition>
 
-        <i class="atom-input__icon-warning">
+        <i class="atom-input__warning">
             <a-icon name="warning" size="14"/>
             
             <span v-if="hasWarningDialog" class="warning__dialog">
@@ -37,44 +37,49 @@ export default {
     components: { AIcon },
 
     props: {
+        // focus时候是否选中所有文字
+        isSelectAll: {
+            type: Boolean,
+            default: false,
+        },
         hasRemove: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         autofocus: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         value: {
-            required: true
+            required: true,
         },
 
         type: {
-            type: String
+            type: String,
         },
 
         hasWarningDialog: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         vaildateRules: {
             type: Array,
-            default: () => []
+            default: () => [],
         },
 
         filter: {
-            type: RegExp
-        }
+            type: RegExp,
+        },
     },
 
     data() {
         return {
-            isShowEmpty: false,
+            isShowClearBtn: false,
             hasWarning: false,
-            warningMessage: ''
+            warningMessage: '',
         };
     },
 
@@ -91,19 +96,20 @@ export default {
         /**
          * 验证规则
          */
-        validate(rule) {
-            // alert(JSON.stringify(rule))
-            this.hasWarning = false;
-            this.warningMessage = '';
-            if (rule.required) {
-                // 必填项目为空
-                this.hasWarning = '' === this.value;
-            } else if (undefined !== rule.regular) {
+        _validate(rule) {
+            if (this.hasWarning) return;
+            log(rule)
+            if (rule.required && '' === this.value) {
+                log('required', this.hasWarning);
+                // 必填
+                this.hasWarning = true;
+            } else if (undefined !== rule.test && !rule.test.test(this.value)) {
+                log('test', this.hasWarning);
                 // 正则验证
-                this.hasWarning = !rule.regular.test(this.value);
-            } else if (undefined !== rule.fn) {
+                this.hasWarning = true;
+            } else if (undefined !== rule.fn && !rule.fn()) {
                 // 自定义函数验证
-                this.hasWarning = !rule.fn();
+                this.hasWarning = true;
             }
             // 派发事件
             if (this.hasWarning) {
@@ -112,6 +118,22 @@ export default {
             } else {
                 this.$emit('success');
             }
+            // return this.hasWarning;
+        },
+        /**
+         * 验证所有规则
+         */
+        validate(){
+            this.clearWarning();
+            let isSuccess = true;
+            for(let rule of this.vaildateRules) {
+                this._validate(rule);
+                if(this.hasWarning){
+                    isSuccess = false;
+                    break;
+                }
+            };
+            return isSuccess;
         },
 
         /**
@@ -125,23 +147,24 @@ export default {
         },
 
         focus(e) {
-            // 默认选中文字
-            // e.target.select();
+            // 默认不选中文字
+            if (this.isSelectAll) {
+                e.target.select();
+            }
             if ('' != this.value) {
-                this.isShowEmpty = true;
+                this.isShowClearBtn = true;
             }
             this.$emit('focus', e);
         },
 
         blur(e) {
-            this.isShowEmpty = false;
-            // this.validate();
+            this.clearWarning();
+            this.isShowClearBtn = false;
             this.$emit('blur', e);
         },
 
         keyup(e) {
             // 过滤
-
             let value = this.filterInput(e.target.value);
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
@@ -164,41 +187,52 @@ export default {
             this.$forceUpdate();
         },
 
+        /**
+         * 每次输入清空错误提示
+         */
         keydown(e) {
-            this.hasWarning = false;
-            this.warningMessage = '';
+            this.clearWarning();
             this.$emit('keydown');
         },
 
+        /**
+         * 清空input框
+         */
         clear() {
-            this.$refs.input.focus();
+            this.clearWarning();
             this.$emit('input', '');
             this.$emit('clear');
-        }
+            this.$refs.input.focus();
+        },
+
+        /**
+         * 关闭警告提示
+         */
+        clearWarning() {
+            this.hasWarning = false;
+            this.warningMessage = '';
+        },
     },
 
     watch: {
         value(value) {
             if ('' == value) {
-                this.isShowEmpty = false;
+                this.isShowClearBtn = false;
             } else {
-                this.isShowEmpty = true;
+                this.isShowClearBtn = true;
             }
-        }
+        },
     },
 
     mounted() {
         // 绑定验证
-        let unLoaders = this.vaildateRules.map(rule => {
+        const unLoaders = this.vaildateRules.map(rule => {
             // 默认blur触发验证
             const eventName = rule.trigger || 'blur';
-            // 因为可能出现多个相同类目的验证rule,
-            // 为了解除绑定不遗漏,
-            // 存储到新变量
-            let validate = this.validate.bind(this, rule);
-            this.$refs.input.addEventListener(eventName, validate);
+            const _validate = this._validate.bind(this, rule);
+            this.$refs.input.addEventListener(eventName, _validate);
             return () => {
-                this.$refs.input.removeEventListener(eventName, validate);
+                this.$refs.input.removeEventListener(eventName, _validate);
             };
         });
 
@@ -208,6 +242,6 @@ export default {
                 unLoader();
             });
         });
-    }
+    },
 };
 </script>
