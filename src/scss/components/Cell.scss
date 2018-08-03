@@ -1,13 +1,12 @@
 .atom-cell {
     position: relative;
     display: flex;
-    padding-left: $gutter;
-    padding-right: $gutter;
-    min-height: 1rem;
+    padding: $gutter*0.618 $gutter;
+    // min-height: 1rem;
+    line-height: 1.5;
     background: $background;
     font-size: $big;
     @extend .border-bottom;
-    // border-bottom: 1px solid $lightest;
     &__prepend {
         font-size: inherit;
         align-self: center;
