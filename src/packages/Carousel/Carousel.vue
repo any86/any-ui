@@ -208,10 +208,8 @@ export default {
             // 不能用$children, 因为还要传递el. $children没法区分fake/real
             Array.from(this.$el.querySelectorAll('.atom-carousel-item')).forEach(($item, index) => {
                 this.imageStore[index] = [];
-console.dir($item)
                 // 只扫描lazy-src的<img/>
                 Array.from($item.querySelectorAll('img[lazy-src]')).forEach($imgEl => {
-console.dir($imgEl)
                     // $imgEl.setAttribute('lazy-status', 'ready');
                     this.imageStore[index].push({
                         el: $imgEl,
@@ -237,12 +235,18 @@ console.dir($imgEl)
                         if (!isAllowHttps) {
                             src = item.url.replace('https', 'http');
                         }
+
+                        console.log('src:' ,src)
                         loadImage(src, {
                             onInit: () => {
+                                console.log('oninit')
                                 item.el.setAttribute('lazy-status', 'loading');
                             },
 
                             onSuccess: () => {
+                                console.log('item.url:', item.url)
+                                console.log('item.el:', item.el)
+
                                 item.el.src = item.url;
                                 item.el.setAttribute('lazy-status', 'done');
                                 item.el.removeAttribute('lazy-src');
