@@ -5,10 +5,8 @@
     // min-height: 1rem;
     line-height: 1.5;
     background: $background;
-    font-size: $big;
     @extend .border-bottom;
     &__prepend {
-        font-size: inherit;
         align-self: center;
         // min-width: 84px;
         margin-right: $gutter/2;
@@ -19,10 +17,8 @@
         position: relative;
         height: 100%;
         align-self: center;
-        font-size: inherit;
     }
     &__append {
-        font-size: inherit;
         position: relative;
         align-self: center;
         text-align: right;
