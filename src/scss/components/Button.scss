@@ -49,6 +49,8 @@ button {
     [type='submit'] {
         -webkit-appearance: button;
     }
+    // 让子元素垂直居中
+    >*{vertical-align: middle};
 }
 
 .atom-btn {
@@ -80,6 +82,7 @@ button {
     }
     &[circle] {
         border-radius: $height !important;
+        padding: 6px !important;
     }
     &[loading] {
         pointer-events: none;

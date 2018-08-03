@@ -3,6 +3,7 @@
 
         <a-group title="多种情景色">
             <a-button type="primary" class="gutter-top-sm">
+                <a-icon name="menu"></a-icon>
                 primary</a-button>
             <a-button type="success" class="gutter-top-sm">success</a-button>
             <a-button type="info" class="gutter-top-sm">info</a-button>
