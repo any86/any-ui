@@ -80,10 +80,20 @@ button {
         padding: 6px 11px !important;
         font-size: 12px;
     }
+
+
     &[circle] {
         border-radius: $height !important;
         padding: 6px !important;
     }
+
+    &[circle]:not([inline]) {
+        border-radius: $height !important;
+        padding: $gutter*0.8 $gutter*2 !important;
+    }
+
+
+
     &[loading] {
         pointer-events: none;
         opacity: 0.6;
