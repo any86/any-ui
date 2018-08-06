@@ -1,8 +1,7 @@
 <template>
     <a-scroll-view class="fill-sm">
         <a-group title="多种情景色">
-            <a-button icon="arrow-right" inline type="primary" class="gutter-top-sm">
-                <!-- <a-icon name="arrow-right" size="16"></a-icon> -->
+            <a-button  icon="arrow-right"  type="primary" class="gutter-top-sm">
                 Prev</a-button>
             <a-button type="success" class="gutter-top-sm">success</a-button>
             <a-button type="info" class="gutter-top-sm">info</a-button>

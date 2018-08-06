@@ -50,7 +50,7 @@ button {
         -webkit-appearance: button;
     }
     // 让子元素垂直居中
-    >*{vertical-align: middle};
+    >*{vertical-align: bottom};
 }
 
 .atom-btn {
@@ -76,7 +76,7 @@ button {
         width: 100%;
     }
     &[inline] {
-        line-height: 1 !important;
+        // line-height: 1 !important;
         padding: 6px 11px !important;
         font-size: 12px;
     }
