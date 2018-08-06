@@ -1,6 +1,16 @@
 <template>
-    <svg v-on="$listeners" v-bind="$attrs" :viewBox="`0 0 40 40`" :style="{width: `${size}px`, height: `${size}px`}" class="atom-icon-minus" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <line :stroke="color" x1="6" y1="20" x2="34" y2="20" :stroke-width="3" stroke-linecap="round"/>
+    <svg  
+        :style="{width: `${size}px`, height: `${size}px`}"
+        v-on="$listeners" 
+        v-bind="$attrs" 
+        viewBox="0 0 27 27" 
+        version="1.1" 
+        xmlns="http://www.w3.org/2000/svg" 
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        class="atom-icon-plus">
+        <g  :stroke="color" stroke-width="1" :fill="color" fill-rule="evenodd">
+            <rect x="4" y="12" width="19" height="3" rx="1.5"></rect>
+        </g>
     </svg>
 </template>
 <script>
