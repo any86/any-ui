@@ -1,0 +1,13 @@
+.hairline:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width:100%;
+    transform: scaleY(.5);
+    transform-origin: 0 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+}
