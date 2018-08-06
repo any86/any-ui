@@ -3,13 +3,13 @@
 */
 .padding,
 .fill {
-    padding: $gutter;
+    padding: $gutter !important;
 }
 
 @each $direction in top, left, right, bottom {
     .padding-#{$direction},
     .fill-#{$direction} {
-        padding-#{$direction}: $gutter;
+        padding-#{$direction}: $gutter !important;
     }
 }
 /*
@@ -17,12 +17,12 @@
 */
 .padding-sm,
 .fill-sm {
-    padding: $gutter/2;
+    padding: $gutter/2 !important;
 }
 @each $direction in top, left, right, bottom {
     .padding-#{$direction}-sm,
     .fill-#{$direction}-sm {
-        padding-#{$direction}: $gutter/2;
+        padding-#{$direction}: $gutter/2 !important;
     }
 }
 
@@ -38,11 +38,11 @@
 
 
 .fill-none, .padding-none{
-    padding:0;
+    padding:0 !important;
 }
 @each $direction in top, left, right, bottom {
     .padding-#{$direction}-none,
     .fill-#{$direction}-none {
-        padding-#{$direction}: 0;
+        padding-#{$direction}: 0 !important;
     }
 }
