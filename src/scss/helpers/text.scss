@@ -58,32 +58,14 @@ $value in $align_map {
 .text-capitalize {
     text-transform: capitalize !important;
 }
-
-$font-weight-lighter:         lighter !default;
-$font-weight-light:           300 !default;
-$font-weight-normal:          400 !default;
-$font-weight-bold:            700 !default;
-$font-weight-bolder:          bolder !default;
-.font-weight-light {
-    font-weight: $font-weight-light !important;
+// 字体加粗
+$font_bold: ( lightest : 100, lighter: lighter, light: 300, normal: 400, bold: 700, bolder: bolder, boldest: 900);
+@each $key,
+$value in $font_bold {
+    .font-weight-#{$key} {
+        font-weight: $value !important;
+    }
 }
-
-.font-weight-lighter {
-    font-weight: $font-weight-lighter !important;
-}
-
-.font-weight-normal {
-    font-weight: $font-weight-normal !important;
-}
-
-.font-weight-bold {
-    font-weight: $font-weight-bold !important;
-}
-
-.font-weight-bolder {
-    font-weight: $font-weight-bolder !important;
-}
-
 .font-italic {
     font-style: italic !important;
 }
