@@ -1,31 +1,36 @@
 // 主色
 $base: #e60044 !default;
-
-$white: #fff;
 // 辅色
-$sub: $white;
+$sub: #fff !default;
+
+
+// 白色
+$white: #fff !default;
+
 // 禁用色
-$disabled: #ccc;
+$disabled: #ccc !default;
 // 背景色
-$background: $white;
+$background: $white !default;
 
 // 浅灰
-$light: #AAA;
-$lighter: #DDD;
-$lightest: #EEE;
+$light: #CCC !default;
+$lighter: #DDD !default;
+$lightest: #F3F3F3 !default;
 
 // 深灰
-$dark: #888;
-$darker: #6a6a6a;
-// $darker: ;
-$darkest: #000;
+$dark: #AAA !default;
+$darker: #7F7F7F !default;
+$darkest: #555 !default;
+
+// 黑色
+$black: #000 !default;
 
 // 彩色
-$primary: $base;
-$success: #1FC055;
-$warning: #FC7212;
-$danger: #E60044;
-$info: #0076FF;
+$primary: $base !default;
+$success: #1FC055 !default;
+$warning: #FFAB32 !default;
+$danger: #FF1834 !default;
+$info: #0076FF !default;
 
 $theme_colors: (
     default: $white,
@@ -40,5 +45,8 @@ $theme_colors: (
     light: $light,
     lighter: $lighter,
     lightest: $lightest,
-    white: #fff
+    white: $white,
+    black: $black
 );
+
+$borderColor: rgba(0,0,0,0.25);

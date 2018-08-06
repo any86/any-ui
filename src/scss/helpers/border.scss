@@ -1,6 +1,6 @@
 // 边框
 .border {
-    border: 0.5px solid rgba(0,0,0,0.25) !important;
+    border: 0.5px solid $borderColor !important;
     // box-shadow: inset 0px -1px 1px -1px  $lighter !important;
 }
 
@@ -20,7 +20,7 @@ $value in $theme_colors {
 @each $direction in $directions{
     .border-#{$direction} {
         // box-shadow: inset 0px -1px 1px -1px  $lighter !important;
-        border-#{$direction}: 0.5px solid rgba(0,0,0,0.25) !important;
+        border-#{$direction}: 0.5px solid $borderColor !important;
     }
 
     .border-#{$direction}-none {

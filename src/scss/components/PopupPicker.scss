@@ -19,13 +19,13 @@
         }
         .title {
             font-size: $big;
-            color: $darkest;
+            color: $black;
             font-weight: bold;
         }
         .button-ok {
             @include button;
             text-align: right;
-            color: $darkest;
+            color: $black;
             flex: 1;
             font-size: $big;
         }

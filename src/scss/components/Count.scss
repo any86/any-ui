@@ -35,7 +35,7 @@
         position: relative;
         transition: transform $duration;
         min-width: $component_count_height * 1.25;
-        color: $darkest;
+        color: $black;
         text-align: center;
         &.disabled {
             color: $disabled;

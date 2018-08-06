@@ -16,7 +16,7 @@ export default {
     bottom: 1.2rem;
     right: .3rem;
     z-index: 999;
-    background: rgba($darkest, .8);
+    background: rgba($black, .8);
     text-align: center;
     width: .8rem;
     height: .8rem;
@@ -25,7 +25,7 @@ export default {
     font-size: $biggest;
     color: $sub;
     &:active {
-        background: rgba($darkest, .5);
+        background: rgba($black, .5);
     }
 
     i{width: .8rem;height: .8rem;display: block;font-size: $biggest;}
