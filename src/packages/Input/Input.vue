@@ -1,5 +1,5 @@
 <template>
-    <label :class="{'atom-input--warning': hasWarning}" class="atom-input">
+    <label :warning="hasWarning" class="atom-input">
         <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
         
         <input 
@@ -18,14 +18,13 @@
             <a-icon v-if="hasRemove" name="close" size="14" v-show="isShowClearBtn" @click="clear" class="atom-input__btn-empty"/>
         </transition>
 
-        <i class="atom-input__warning">
+        <i class="atom-input__warning-icon">
             <a-icon name="warning" size="14"/>
-            
-            <span v-if="hasWarningDialog" class="warning__dialog">
-                <div class="triangle triangle-danger"></div>
-                <p>{{warningMessage}}</p>
-            </span>
         </i>
+        <span v-if="hasWarningDialog" class="atom-input__warning-message">
+            {{warningMessage}}
+            <div class="triangle triangle-danger"></div>
+        </span>
     </label>
 </template>
 <script>
@@ -100,12 +99,13 @@ export default {
             if (this.hasWarning) return;
             log(rule)
             if (rule.required && '' === this.value) {
-                log('required', this.hasWarning);
                 // 必填
                 this.hasWarning = true;
             } else if (undefined !== rule.test && !rule.test.test(this.value)) {
-                log('test', this.hasWarning);
                 // 正则验证
+                this.hasWarning = true;
+            } else if (undefined !== rule.maxLength && rule.maxLength < this.value.length) {
+                // maxlength
                 this.hasWarning = true;
             } else if (undefined !== rule.fn && !rule.fn()) {
                 // 自定义函数验证
