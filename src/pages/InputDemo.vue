@@ -1,8 +1,8 @@
 <template>
     <main>
         <a-cell>
-            <template slot="prepend">学 校</template>
-            <a-input ref="inputSchool" :vaildate-rules="vaildates" placeholder="请输入学校" v-model="text1"/>
+            <template slot="prepend">学 校 *</template>
+            <a-input ref="inputSchool" required :rules="vaildates" placeholder="请输入学校" v-model="text1"/>
         </a-cell>
 
         <a-cell>
@@ -42,7 +42,7 @@ export default {
 
     data() {
         return {
-            text1: 'hello vue !',
+            text1: '',
             text2: '0000 0000 0000 0000',
             text3: '133123456789',
             text4: '01234567',
@@ -50,10 +50,13 @@ export default {
             text6: 'abc',
             isShowWarning: true,
             vaildates: [
-                { required: true, message: '学校不能为空!' },
-                {trigger:'keyup', message: '值不能等于100', fn: this.isSame }, 
-                { test: /a/, message: '必须包含a!' },{ test: /b/, message: '必须包含b!' },
-            ]
+                { required: true, message: '学校不能为空!' }, 
+                { trigger: 'keyup', minLength: 2, message: '至少2个字符!' }, 
+                { trigger: 'keyup', maxLength: 3, message: '最多3个字符!' }, 
+                { trigger: 'keyup', message: '值不能等于100', validator: this.isSame }, 
+                { message: '值不能等于200', asyncValidator: this.isSame200 }, 
+                { test: /a/, message: '必须包含a!' }, 
+                { test: /b/, message: '必须包含b!' }],
         };
     },
 
@@ -65,8 +68,14 @@ export default {
 
         isSame() {
             return 100 != this.text1;
-        }
-    }
+        },
+
+        isSame200(callback) {
+            setTimeout(()=>{
+                callback(200 != this.text1)
+            }, 1000)
+        },
+    },
 };
 </script>
 <style scoped lang="scss">

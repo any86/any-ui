@@ -1,13 +1,13 @@
 <template>
-    <label :warning="hasWarning" class="atom-input">
+    <label :error="isError" :loading="isShowLoading" class="atom-input">
         <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
         
         <input 
             ref="input" 
-            :autofocus="autofocus" 
             v-bind="$attrs" 
+            :aria-disabled="$attrs.disabled"
             :aria-placeholder="$attrs.placeholder" 
-            :value="value"
+            v-model="text"
             @focus="focus" 
             @blur="blur" 
             @keyup="keyup" 
@@ -18,17 +18,23 @@
             <a-icon v-if="hasRemove" name="close" size="14" v-show="isShowClearBtn" @click="clear" class="atom-input__btn-empty"/>
         </transition>
 
-        <i class="atom-input__warning-icon">
-            <a-icon name="warning" size="14"/>
-        </i>
-        <span v-if="hasWarningDialog" class="atom-input__warning-message">
-            {{warningMessage}}
-            <div class="triangle triangle-danger"></div>
-        </span>
+        <template v-if="!isShowLoading">
+            <i class="atom-input__error-icon">
+                <a-icon name="warning" size="14"/>
+            </i>
+
+            <span v-if="hasFeedback" class="atom-input__error-message">
+                {{errorMessage}}
+                <div class="triangle triangle-danger"></div>
+            </span>
+        </template>
     </label>
 </template>
 <script>
-// 不要派发input事件, 因为keyup中已经手动触发了input
+// 1. 不要派发input事件, 因为keyup中已经手动触发了input
+// 2. keydown这种事件获取e.target.value会有滞后性,
+// 3. keyup的时候才能拿到value,
+// 4. 可以用setTimeout可以保证已经拿到值
 import AIcon from '../../packages/Icon';
 export default {
     name: 'AtomInput',
@@ -46,29 +52,28 @@ export default {
             default: true,
         },
 
-        autofocus: {
-            type: Boolean,
-            default: false,
-        },
-
         value: {
             required: true,
         },
 
+        // bankCode | letter | phone | number
         type: {
             type: String,
         },
 
-        hasWarningDialog: {
+        // 验证失败, 是否有图标和对话框
+        hasFeedback: {
             type: Boolean,
             default: true,
         },
 
-        vaildateRules: {
+        // 验证规则
+        rules: {
             type: Array,
             default: () => [],
         },
 
+        // 对输入过滤
         filter: {
             type: RegExp,
         },
@@ -76,9 +81,12 @@ export default {
 
     data() {
         return {
+            text: '',
             isShowClearBtn: false,
-            hasWarning: false,
-            warningMessage: '',
+            isError: false,
+            errorMessage: '',
+            rulesGroupByEvent: {},
+            isShowLoading: false,
         };
     },
 
@@ -96,54 +104,111 @@ export default {
          * 验证规则
          */
         _validate(rule) {
-            if (this.hasWarning) return;
-            log(rule)
-            if (rule.required && '' === this.value) {
-                // 必填
-                this.hasWarning = true;
-            } else if (undefined !== rule.test && !rule.test.test(this.value)) {
-                // 正则验证
-                this.hasWarning = true;
-            } else if (undefined !== rule.maxLength && rule.maxLength < this.value.length) {
-                // maxlength
-                this.hasWarning = true;
-            } else if (undefined !== rule.fn && !rule.fn()) {
-                // 自定义函数验证
-                this.hasWarning = true;
-            }
-            // 派发事件
-            if (this.hasWarning) {
-                this.warningMessage = rule.message;
-                this.$emit('warning', this.warningMessage);
-            } else {
-                this.$emit('success');
-            }
-            // return this.hasWarning;
+            return new Promise((resolve, reject) => {
+                // 是否通过验证
+                if (rule.required) {
+                    // 必填
+                    if ('' !== this.text) {
+                        resolve({isPass: true});
+                    } else {
+                        resolve({isPass: false, message: rule.message});
+                    }
+                } else if (undefined !== rule.test) {
+                    // 正则验证
+                    if (rule.test.test(this.text)) {
+                        resolve({isPass: true});
+                    } else {
+                        resolve({isPass: false, message: rule.message});
+                    }
+                } else if (undefined !== rule.minLength) {
+                    if (rule.minLength <= this.text.length) {
+                        resolve({isPass: true});
+                    } else {
+                        resolve({isPass: false, message: rule.message});
+                    }
+                } else if (undefined !== rule.maxLength) {
+                    // maxlength
+                    if (rule.maxLength >= this.text.length) {
+                        resolve({isPass: true});
+                    } else {
+                        resolve({isPass: false, message: rule.message});
+                    }
+                } else if (undefined !== rule.validator) {
+                    // 自定义函数验证[同步]
+                    if (rule.validator()) {
+                        resolve({isPass: true});
+                    } else {
+                        resolve({isPass: false, message: rule.message});
+                    }
+                } else if (undefined !== rule.asyncValidator) {
+                    // 自定义函数验证[异步]
+                    this.isShowLoading = true;
+                    rule.asyncValidator(isPass => {
+                        this.isShowLoading = false;
+                        if (isPass) {
+                            resolve({isPass: true});
+                        } else {
+                            resolve({isPass: false, message: rule.message});
+                        }
+                    });
+                }
+            });
         },
+
+        /**
+         * 放在事件里的验证方法
+         */
+        async validateInEvent(eventName) {
+            let rules = this.rulesGroupByEvent[eventName];
+            // 如果该事件下没有rule, 那么跳出
+            if (undefined === rules) return;
+
+            let isAllPass = true;
+            // 如果有一条没通过验证, 那么暂停
+            // 有异步验证的情况, 后面的验证也需要等待他的结果, 所以用了await
+            for(let rule of rules) {
+                let {isPass, message} = await this._validate(rule);
+                if(!isPass) {
+                    isAllPass = false;
+                    this.showErrorDialog(message);
+                    break;
+                }
+            }
+            // 全部验证通过, 那么关闭错误提示
+            if(isAllPass) {
+                this.hideErrorDialog();
+            }
+        },
+
         /**
          * 验证所有规则
          */
-        validate(){
-            this.clearWarning();
-            let isSuccess = true;
-            for(let rule of this.vaildateRules) {
+        validate() {
+            let isPass = true;
+            for (let rule of this.rules) {
                 this._validate(rule);
-                if(this.hasWarning){
-                    isSuccess = false;
+                if (this.isError) {
+                    isPass = false;
                     break;
                 }
-            };
-            return isSuccess;
+            }
+            return isPass;
         },
 
         /**
          * 显示错误提示
          * @argument {String} 错误信息
          */
-        showWarningDialog(message) {
-            this.hasWarning = true;
-            this.warningMessage = message;
-            this.$emit('warning', message);
+        showErrorDialog(message) {
+            this.isError = true;
+            this.errorMessage = message;
+            this.$emit('error', message);
+        },
+
+        hideErrorDialog() {
+            this.isError = false;
+            this.errorMessage = '';
+            this.$emit('success');
         },
 
         focus(e) {
@@ -151,21 +216,22 @@ export default {
             if (this.isSelectAll) {
                 e.target.select();
             }
-            if ('' != this.value) {
+            if ('' !== this.text) {
                 this.isShowClearBtn = true;
             }
             this.$emit('focus', e);
         },
 
         blur(e) {
-            this.clearWarning();
+            this.validateInEvent('blur');
             this.isShowClearBtn = false;
             this.$emit('blur', e);
         },
 
         keyup(e) {
             // 过滤
-            let value = this.filterInput(e.target.value);
+            let value = this.filterInput(this.text);
+
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
             } else if ('letter' == this.type) {
@@ -185,13 +251,13 @@ export default {
             this.$emit('input', value);
             // 强制刷新组件, 当过滤后的值和前值一样的时候不会触发
             this.$forceUpdate();
+            this.validateInEvent('keyup');
         },
 
         /**
          * 每次输入清空错误提示
          */
         keydown(e) {
-            this.clearWarning();
             this.$emit('keydown');
         },
 
@@ -199,23 +265,16 @@ export default {
          * 清空input框
          */
         clear() {
-            this.clearWarning();
             this.$emit('input', '');
             this.$emit('clear');
             this.$refs.input.focus();
-        },
-
-        /**
-         * 关闭警告提示
-         */
-        clearWarning() {
-            this.hasWarning = false;
-            this.warningMessage = '';
         },
     },
 
     watch: {
         value(value) {
+            // 同步外部值
+            this.text = value;
             if ('' == value) {
                 this.isShowClearBtn = false;
             } else {
@@ -224,23 +283,19 @@ export default {
         },
     },
 
+    created() {
+        // 同步默认值
+        this.text = this.value;
+    },
+
     mounted() {
-        // 绑定验证
-        const unLoaders = this.vaildateRules.map(rule => {
+        this.rules.forEach(rule => {
             // 默认blur触发验证
             const eventName = rule.trigger || 'blur';
-            const _validate = this._validate.bind(this, rule);
-            this.$refs.input.addEventListener(eventName, _validate);
-            return () => {
-                this.$refs.input.removeEventListener(eventName, _validate);
-            };
-        });
-
-        // 移除验证事件
-        this.$on('hook:beforeDestroy', () => {
-            unLoaders.forEach(unLoader => {
-                unLoader();
-            });
+            if (undefined === this.rulesGroupByEvent[eventName]) {
+                this.rulesGroupByEvent[eventName] = [];
+            }
+            this.rulesGroupByEvent[eventName].push(rule);
         });
     },
 };
