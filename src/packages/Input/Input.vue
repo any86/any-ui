@@ -109,36 +109,36 @@ export default {
                 if (rule.required) {
                     // 必填
                     if ('' !== this.text) {
-                        resolve({isPass: true});
+                        resolve({ isPass: true });
                     } else {
-                        resolve({isPass: false, message: rule.message});
+                        resolve({ isPass: false, message: rule.message });
                     }
                 } else if (undefined !== rule.test) {
                     // 正则验证
                     if (rule.test.test(this.text)) {
-                        resolve({isPass: true});
+                        resolve({ isPass: true });
                     } else {
-                        resolve({isPass: false, message: rule.message});
+                        resolve({ isPass: false, message: rule.message });
                     }
                 } else if (undefined !== rule.minLength) {
                     if (rule.minLength <= this.text.length) {
-                        resolve({isPass: true});
+                        resolve({ isPass: true });
                     } else {
-                        resolve({isPass: false, message: rule.message});
+                        resolve({ isPass: false, message: rule.message });
                     }
                 } else if (undefined !== rule.maxLength) {
                     // maxlength
                     if (rule.maxLength >= this.text.length) {
-                        resolve({isPass: true});
+                        resolve({ isPass: true });
                     } else {
-                        resolve({isPass: false, message: rule.message});
+                        resolve({ isPass: false, message: rule.message });
                     }
                 } else if (undefined !== rule.validator) {
                     // 自定义函数验证[同步]
                     if (rule.validator()) {
-                        resolve({isPass: true});
+                        resolve({ isPass: true });
                     } else {
-                        resolve({isPass: false, message: rule.message});
+                        resolve({ isPass: false, message: rule.message });
                     }
                 } else if (undefined !== rule.asyncValidator) {
                     // 自定义函数验证[异步]
@@ -146,9 +146,9 @@ export default {
                     rule.asyncValidator(isPass => {
                         this.isShowLoading = false;
                         if (isPass) {
-                            resolve({isPass: true});
+                            resolve({ isPass: true });
                         } else {
-                            resolve({isPass: false, message: rule.message});
+                            resolve({ isPass: false, message: rule.message });
                         }
                     });
                 }
@@ -166,16 +166,16 @@ export default {
             let isAllPass = true;
             // 如果有一条没通过验证, 那么暂停
             // 有异步验证的情况, 后面的验证也需要等待他的结果, 所以用了await
-            for(let rule of rules) {
-                let {isPass, message} = await this._validate(rule);
-                if(!isPass) {
+            for (let rule of rules) {
+                let { isPass, message } = await this._validate(rule);
+                if (!isPass) {
                     isAllPass = false;
                     this.showErrorDialog(message);
                     break;
                 }
             }
             // 全部验证通过, 那么关闭错误提示
-            if(isAllPass) {
+            if (isAllPass) {
                 this.hideErrorDialog();
             }
         },
@@ -184,15 +184,21 @@ export default {
          * 验证所有规则
          */
         validate() {
-            let isPass = true;
-            for (let rule of this.rules) {
-                this._validate(rule);
-                if (this.isError) {
-                    isPass = false;
-                    break;
+            return new Promise(async(resolve, reject)=>{
+                let isAllPass = true;
+                for (let rule of this.rules) {
+                    let { isPass, message } = await this._validate(rule);
+                    if (!isPass) {
+                        isAllPass = false;
+                        reject(message);
+                        break;
+                    }
                 }
+            });
+            if(isAllPass) {
+                resolve();
             }
-            return isPass;
+            
         },
 
         /**

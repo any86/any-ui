@@ -49,22 +49,22 @@ export default {
             text5: 'abc',
             text6: 'abc',
             isShowWarning: true,
-            vaildates: [
-                { required: true, message: '学校不能为空!' }, 
-                { trigger: 'keyup', minLength: 2, message: '至少2个字符!' }, 
-                { trigger: 'keyup', maxLength: 3, message: '最多3个字符!' }, 
-                { trigger: 'keyup', message: '值不能等于100', validator: this.isSame }, 
-                { test: /a/, message: '必须包含a!' }, 
-                { test: /b/, message: '必须包含b!' },
-                { message: '值不能等于200', asyncValidator: this.isSame200 }, 
-                ],
+            vaildates: [{ required: true, message: '学校不能为空!' }, { trigger: 'keyup', minLength: 2, message: '至少2个字符!' }, { trigger: 'keyup', maxLength: 3, message: '最多3个字符!' }, { trigger: 'keyup', message: '值不能等于100', validator: this.isSame }, { message: '值不能等于200', asyncValidator: this.isSame200 }, { test: /a/, message: '必须包含a!' }, { test: /b/, message: '必须包含b!' }],
         };
     },
 
     methods: {
         validate() {
-            let result = this.$refs.inputSchool.validate();
-            this.$toast(`验证结果: ${result}`);
+            // this.$loading();
+            this.$refs.inputSchool
+                .validate()
+                .then(() => {
+                    this.$toast(`验证通过!`, { type: 'success'});
+                    // this.$loading.close();
+                })
+                .catch(error => {
+                    this.$toast(`验证结果: ${error}`);
+                });
         },
 
         isSame() {
@@ -72,9 +72,9 @@ export default {
         },
 
         isSame200(callback) {
-            setTimeout(()=>{
-                callback(200 != this.text1)
-            }, 1000)
+            setTimeout(() => {
+                callback(200 != this.text1);
+            }, 1000);
         },
     },
 };
