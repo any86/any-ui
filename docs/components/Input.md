@@ -1,5 +1,5 @@
 ## Input
-输入框, 支持v-model
+输入框, 支持v-model | 验证 | 格式化等功能
 
 ### 基本使用
 ```javascript
@@ -15,15 +15,30 @@
             isShowWarning: true,
             vaildates: [
                 { required: true, message: '学校不能为空!' }, 
-                { message: '不能相同哦!', fn: this.isSame }, 
-                { regular: /a/, message: '必须包含a!' }
+                { trigger: 'keyup', minLength: 2, message: '至少2个字符!' }, 
+                { trigger: 'keyup', maxLength: 3, message: '最多3个字符!' }, 
+                { trigger: 'keyup', message: '值不能等于100', validator: this.isSame }, 
+                { message: '值不能等于200', asyncValidator: this.isSame200 }, 
+                { test: /a/, message: '必须包含a!' }, 
+                { test: /b/, message: '必须包含b!' }],
             ]
         };
     },
 
     methods: {
+        validate() {
+            let result = this.$refs.inputSchool.validate();
+            this.$toast(`验证结果: ${result}`);
+        },
+
         isSame() {
-            return 1 == 1;
+            return 100 != this.text1;
+        },
+
+        isSame200(callback) {
+            setTimeout(()=>{
+                callback(200 != this.text1)
+            }, 1000)
         },
     }
 }
@@ -31,7 +46,7 @@
 
 ``` html
 <a-cell>
-    <template slot="title">学校</template>
+    <template slot="title">*学校</template>
     <a-input :vaildate-rules="vaildates" placeholder="请输入学校" v-model="text1"/>
 </a-cell>
 
@@ -91,5 +106,6 @@
 |-----------|-----------|-----------|-----------|
 | required | 是否必填  |`Boolean`|
 | message | 不满足条件时的提示文案  | `String` |
-| fn | 自定义验证函数, 返回ture通过, 反之提示message信息  | `Function` |
+| validator | 自定义验证函数(同步), 返回ture通过, 反之提示message信息  | `Function` |
+| asyncValidator | 自定义验证函数(异步), 返回ture通过, 反之提示message信息  | `Function` |
 | regular | 正则, 返回ture通过, 反之提示message信息  | `Regexp` |
