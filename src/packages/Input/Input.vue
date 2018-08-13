@@ -247,6 +247,7 @@ export default {
             } else if ('number' == this.type) {
                 value = value.replace(/\D/g, '');
             }
+            this.text = value;
             this.$emit('keyup', e);
             this.$emit('input', value);
             // 强制刷新组件, 当过滤后的值和前值一样的时候不会触发

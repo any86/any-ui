@@ -54,9 +54,10 @@ export default {
                 { trigger: 'keyup', minLength: 2, message: '至少2个字符!' }, 
                 { trigger: 'keyup', maxLength: 3, message: '最多3个字符!' }, 
                 { trigger: 'keyup', message: '值不能等于100', validator: this.isSame }, 
-                { message: '值不能等于200', asyncValidator: this.isSame200 }, 
                 { test: /a/, message: '必须包含a!' }, 
-                { test: /b/, message: '必须包含b!' }],
+                { test: /b/, message: '必须包含b!' },
+                { message: '值不能等于200', asyncValidator: this.isSame200 }, 
+                ],
         };
     },
 
