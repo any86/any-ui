@@ -1,21 +1,38 @@
 <template>
-    <label :error="isError" :loading="isShowLoading" class="atom-input">
+    <label 
+        :error="isError" 
+        :loading="isShowLoading" 
+        class="atom-input"
+        :label-float="labelFloat">
         <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
         
+        <!-- input -->
         <input 
             ref="input" 
             v-bind="$attrs" 
+            :empty="isEmpty"
             :aria-disabled="$attrs.disabled"
             :aria-placeholder="$attrs.placeholder" 
+            :aria-label="label"
             v-model="text"
             @focus="focus" 
             @blur="blur" 
             @keyup="keyup" 
-            @keydown="keydown" 
+            @keydown="keydown"
             class="atom-input__input">
+        
+        <!-- float label -->
+        <span v-if="labelFloat && '' !== label" class="atom-input__label">{{label}}</span>
+        <div v-if="labelFloat" class="atom-input__bottom-line"></div>
 
         <transition name="fadeLeft">
-            <a-icon v-if="hasRemove" name="close" size="14" v-show="isShowClearBtn" @click="clear" class="atom-input__btn-empty"/>
+            <a-icon 
+                v-if="hasRemove" 
+                name="close" 
+                size="14" 
+                v-show="isShowClearBtn"
+                @click="clear" 
+                class="atom-input__btn-empty"/>
         </transition>
 
         <template v-if="!isShowLoading">
@@ -42,6 +59,17 @@ export default {
     components: { AIcon },
 
     props: {
+        label: {
+            type: String,
+            default: ''
+        },
+
+        // 不同样式, input下有线
+        labelFloat: {
+            type: Boolean,
+            default: false,
+        },
+
         // focus时候是否选中所有文字
         isSelectAll: {
             type: Boolean,
@@ -76,6 +104,12 @@ export default {
         // 对输入过滤
         filter: {
             type: RegExp,
+        },
+    },
+
+    computed: {
+        isEmpty(){
+            return 0 === this.text.length;
         },
     },
 
@@ -143,9 +177,9 @@ export default {
                 } else if (undefined !== rule.asyncValidator) {
                     // 自定义函数验证[异步]
                     this.isShowLoading = true;
-                    rule.asyncValidator(({isPass, message}) => {
+                    rule.asyncValidator(({ isPass, message }) => {
                         this.isShowLoading = false;
-                        resolve({ isPass, message});
+                        resolve({ isPass, message });
                     });
                 }
             });
@@ -180,7 +214,7 @@ export default {
          * 验证所有规则
          */
         validate() {
-            return new Promise(async(resolve, reject)=>{
+            return new Promise(async (resolve, reject) => {
                 let isAllPass = true;
                 for (let rule of this.rules) {
                     let { isPass, message } = await this._validate(rule);
@@ -191,10 +225,9 @@ export default {
                     }
                 }
             });
-            if(isAllPass) {
+            if (isAllPass) {
                 resolve();
             }
-            
         },
 
         /**
@@ -217,6 +250,7 @@ export default {
         },
 
         focus(e) {
+            this.isFocused = true;
             // 默认不选中文字
             if (this.isSelectAll) {
                 e.target.select();
@@ -228,6 +262,10 @@ export default {
         },
 
         blur(e) {
+            if(0 === this.text.length) {
+                this.isFloatLabel = false;
+            }
+            
             this.validateInEvent('blur');
             this.isShowClearBtn = false;
             this.$emit('blur', e);
