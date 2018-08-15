@@ -41,6 +41,14 @@ export default {
     name: 'InputDemo',
 
     data() {
+        const RULE_1 = { required: true, message: '学校不能为空!' };
+        const RULE_2 = { trigger: 'keyup', minLength: 2, message: '至少2个字符!' };
+        const RULE_3 = { trigger: 'keyup', maxLength: 3, message: '最多3个字符!' };
+        const RULE_4 = { trigger: 'keyup', message: '值不能等于100', validator: this.isSame };
+        const RULE_5 = { test: /a/, message: '必须包含a!' };
+        const RULE_6 = { test: /b/, message: '必须包含b!' };
+        const RULE_7 = { asyncValidator: this.asyncValidator };
+
         return {
             text1: '',
             text2: '0000 0000 0000 0000',
@@ -49,7 +57,7 @@ export default {
             text5: 'abc',
             text6: 'abc',
             isShowWarning: true,
-            vaildates: [{ required: true, message: '学校不能为空!' }, { trigger: 'keyup', minLength: 2, message: '至少2个字符!' }, { trigger: 'keyup', maxLength: 3, message: '最多3个字符!' }, { trigger: 'keyup', message: '值不能等于100', validator: this.isSame }, { message: '值不能等于200', asyncValidator: this.isSame200 }, { test: /a/, message: '必须包含a!' }, { test: /b/, message: '必须包含b!' }],
+            vaildates: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
         };
     },
 
@@ -59,7 +67,7 @@ export default {
             this.$refs.inputSchool
                 .validate()
                 .then(() => {
-                    this.$toast(`验证通过!`, { type: 'success'});
+                    this.$toast(`验证通过!`, { type: 'success' });
                     // this.$loading.close();
                 })
                 .catch(error => {
@@ -71,13 +79,14 @@ export default {
             return 100 != this.text1;
         },
 
-        isSame200(callback) {
+        /**
+         * 异步验证
+         */
+        asyncValidator(callback) {
             setTimeout(() => {
-                callback(200 != this.text1);
+                callback({ isPass: 'nba' != this.text1, message: '服务端不通过!' });
             }, 1000);
         },
     },
 };
 </script>
-<style scoped lang="scss">
-</style>

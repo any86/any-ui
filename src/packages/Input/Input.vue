@@ -143,13 +143,9 @@ export default {
                 } else if (undefined !== rule.asyncValidator) {
                     // 自定义函数验证[异步]
                     this.isShowLoading = true;
-                    rule.asyncValidator(isPass => {
+                    rule.asyncValidator(({isPass, message}) => {
                         this.isShowLoading = false;
-                        if (isPass) {
-                            resolve({ isPass: true });
-                        } else {
-                            resolve({ isPass: false, message: rule.message });
-                        }
+                        resolve({ isPass, message});
                     });
                 }
             });
@@ -211,6 +207,9 @@ export default {
             this.$emit('error', message);
         },
 
+        /**
+         * 关闭错误对话框
+         */
         hideErrorDialog() {
             this.isError = false;
             this.errorMessage = '';
