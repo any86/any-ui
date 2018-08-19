@@ -1,0 +1,64 @@
+.atom-text-field {
+    position: relative;
+    padding-top:20px;
+    
+
+    &__atom-input{
+        border-bottom: thin solid rgba(0, 0, 0, 0.2);
+        padding-bottom:$gutter/2;
+
+    }
+
+    &__label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        transition: transform $duration;
+        font-size: $big;
+        line-height: $big;
+        pointer-events: none;
+    }
+    %float-label {
+        transform: translateY(-18px) scale(0.75);
+        transform-origin: top left;
+        color: $info;
+    }
+    /*input不为空*/
+    :not([empty=true]) {
+        .atom-text-field__label {
+            @extend %float-label;
+        }
+    }
+    input {
+        font-size: $big;
+    }
+    /*进入input就float label*/
+    input:focus {
+        &~.atom-text-field__label {
+            @extend %float-label;
+        }
+    }
+    input~&__bottom-line {
+        content: '';
+        border-color: $info;
+        border-style: solid;
+        border-width: thin 0 thin 0;
+        transform: scaleX(0);
+        bottom: -1px;
+        content: '';
+        left: 0;
+        position: absolute;
+        transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+        width: 100%;
+    }
+    input:focus~&__bottom-line {
+        transform: scaleX(1);
+    }
+    &__help {
+        margin-top:$gutter/2;
+        font-size: $small;
+        height: 20px;
+        color: #f10;
+    }
+}

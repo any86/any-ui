@@ -21,6 +21,7 @@ import ADialog from './Dialog';
 import AGroup from './Group';
 import AAppBar from './AppBar';
 import AInput from './Input';
+import ATextField from './TextField';
 import ALazyLoad from './LazyLoad';
 import ALoading from './Loading';
 import AMask from './Mask';
@@ -67,6 +68,7 @@ export {
     AGroup,
     AAppBar,
     AInput,
+    ATextField,
     ALazyLoad,
     AMask,
     APicker,
