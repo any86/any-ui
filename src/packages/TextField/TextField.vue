@@ -1,14 +1,20 @@
 <template>
     <div class="atom-text-field">
-        <a-input v-model="text" class="atom-text-field__atom-input">
+        <a-input 
+            v-model="text"
+            v-bind="$props"
+            :has-feedback="false"
+            @error="inputErrorHandler"
+            @success="inputSuccessHandler"
+            class="atom-text-field__atom-input">
             <!-- float label -->
             <label slot="append" class="atom-text-field__label">{{label}}</label>
             <!-- bottom-line -->
             <div slot="append" class="atom-text-field__bottom-line"></div>
         </a-input>
         
-        <!-- help -->
-        <p class="atom-text-field__help">help xxx xx</p>
+        <!-- error -->
+        <p v-if="hasError" class="atom-text-field__error-message">{{errorMessage}}</p>
     </div>
 </template>
 <script>
@@ -20,18 +26,7 @@ export default {
 
     props: {
         label: {
-            type: String,
-            default: 'xxxx xxx',
-        },
-
-        // focus时候是否选中所有文字
-        isSelectAll: {
-            type: Boolean,
-            default: false,
-        },
-        hasRemove: {
-            type: Boolean,
-            default: true,
+            type: String
         },
 
         value: {
@@ -41,12 +36,6 @@ export default {
         // bankCode | letter | phone | number
         type: {
             type: String,
-        },
-
-        // 验证失败, 是否有图标和对话框
-        hasFeedback: {
-            type: Boolean,
-            default: true,
         },
 
         // 验证规则
@@ -70,10 +59,22 @@ export default {
     data() {
         return {
             text: '',
+            hasError: false,
+            errorMessage: ''
         };
     },
 
-    methods: {},
+    methods: {
+        inputErrorHandler(errorMessage){
+            this.hasError = true;
+            this.errorMessage = errorMessage;
+        },
+
+        inputSuccessHandler(){
+            this.hasError = false;
+            this.errorMessage = '';
+        },
+    },
 
     watch: {},
 
@@ -81,6 +82,8 @@ export default {
         // 同步默认值
     },
 
-    mounted() {},
+    mounted() {
+        log(this);
+    },
 };
 </script>

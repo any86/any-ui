@@ -2,7 +2,10 @@
     <main>
         <h2 class="fill-left fill-top">TextField</h2>
         <div class="fill">
-            <a-text-field v-model="text3"/>
+            <a-text-field 
+                v-model="text3"
+                :rules="rules"
+                label="毕业学校"/>
         </div>
     </main>
 </template>
@@ -27,7 +30,7 @@ export default {
             text5: 'abc',
             text6: 'abc',
             isShowWarning: true,
-            vaildates: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
+            rules: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
 
             text7: '我有样式',
         };

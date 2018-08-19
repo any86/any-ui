@@ -10,6 +10,7 @@ import SwitchDemo from '@/pages/SwitchDemo';
 
 // 表单元素
 import InputDemo from '@/pages/InputDemo';
+import TextFieldDemo from '@/pages/TextFieldDemo';
 import CollapseDemo from '@/pages/CollapseDemo';
 import TextareaDemo from '@/pages/TextareaDemo';
 import RadioDemo from '@/pages/RadioDemo';
@@ -113,6 +114,13 @@ export default new Router({
             path: '/input',
             component: InputDemo
         }, {
+            name: 'textField',
+            path: '/textField',
+            component: TextFieldDemo
+        },
+
+
+        {
             name: 'textarea',
             path: '/textarea',
             component: TextareaDemo
