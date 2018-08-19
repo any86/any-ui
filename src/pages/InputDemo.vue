@@ -1,50 +1,38 @@
 <template>
-    <main>
-        <a-group>
-            <a-cell>
-                <template slot="prepend">学 校 *</template>
-                <a-input  class="gutter-left" ref="inputSchool" required :rules="vaildates" placeholder="请输入学校" v-model="text1"/>
-            </a-cell>
+    <main >
+        <a-cell>
+            <template slot="prepend">学 校 *</template>
+            <a-input :has-feedback="false" class="padding-left" ref="inputSchool" required :rules="rules" placeholder="请输入学校" v-model="text1"/>
+        </a-cell>
 
-            <a-cell>
-                <template slot="prepend">手 机</template>
-                <a-input class="gutter-left" :is-select-all="true" maxlength="13" v-model="text3" type="phone" />
-            </a-cell>
+        <a-cell>
+            <template slot="prepend">手 机</template>
+            <a-input class="padding-left" :is-select-all="true" maxlength="13" v-model="text3" type="phone" />
+        </a-cell>
 
-            <a-cell>
-                <template slot="prepend">流 水 号</template>
-                <a-input class="gutter-left" maxlength="13" v-model="text4" type="number" />
-            </a-cell>
-            
-            <a-cell>
-                <template slot="prepend">银行卡流水</template>
-                <a-input class="gutter-left" maxlength="14" v-model="text2" type="bankCode" />
-            </a-cell>
-            
-            <a-cell>
-                <template slot="prepend">仅能输入字母</template>
-                <a-input class="gutter-left" maxlength="13" v-model="text5" type="letter" />
-            </a-cell>
-            
-            <a-cell>
-                <template slot="prepend">过滤非字母</template>
-                <a-input class="gutter-left" :filter="/[^a-zA-Z]/g" v-model="text6"/>
-            </a-cell>
-
-            <a-button inline class="gutter-left gutter-top gutter-bottom" @click="validate">验证学校</a-button>
-        </a-group>
-
-        <a-group class="gutter-top">
-            <h2 class="fill-left fill-top">float label</h2>
-            <div class="fill">
-                <a-input
-                    label="float label"
-                    :label-float="true" 
-                    v-model="text7"/>
-            </div>
-        </a-group>
-
+        <a-cell>
+            <template slot="prepend">流 水 号</template>
+            <a-input class="padding-left" maxlength="13" v-model="text4" type="number" />
+        </a-cell>
         
+        <a-cell>
+            <template slot="prepend">银行卡流水</template>
+            <a-input class="padding-left" maxlength="14" v-model="text2" type="bankCode" />
+        </a-cell>
+        
+        <a-cell>
+            <template slot="prepend">仅能输入字母</template>
+            <a-input class="padding-left" maxlength="13" v-model="text5" type="letter" />
+        </a-cell>
+        
+        <a-cell>
+            <template slot="prepend">过滤非字母</template>
+            <a-input class="padding-left" :filter="/[^a-zA-Z]/g" v-model="text6"/>
+        </a-cell>
+
+        <section class="fill">
+            <a-button class=" gutter-top gutter-bottom" @click="validate">验证学校</a-button>
+        </section>
     </main>
 </template>
 <script>
@@ -68,7 +56,7 @@ export default {
             text5: 'abc',
             text6: 'abc',
             isShowWarning: true,
-            vaildates: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
+            rules: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
 
             text7: '我有样式',
         };
@@ -97,7 +85,7 @@ export default {
          */
         asyncValidator(callback) {
             setTimeout(() => {
-                callback({ isPass: 'nba' != this.text1, message: '服务端不通过!' });
+                callback({ isPass: 'nba' != this.text1, message: '服务端不通过nba!' });
             }, 1000);
         },
     },
@@ -105,7 +93,4 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '../scss/variables.scss';
-main {
-    background: $lightest;
-}
 </style>

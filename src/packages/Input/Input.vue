@@ -1,19 +1,23 @@
 <template>
-    <label 
+    <div 
         :error="isError" 
         :loading="isShowLoading" 
         class="atom-input"
-        :label-float="labelFloat">
-        <span v-if="$slots.default" class="atom-input__title"><slot></slot></span>
-        
+        :empty="isEmpty"
+        >
+        <!-- 前置 -->
+        <slot name="prepend"></slot>
+
+        <!-- 默认插槽 -->
+        <slot></slot>
+
         <!-- input -->
         <input 
             ref="input" 
             v-bind="$attrs" 
-            :empty="isEmpty"
+            
             :aria-disabled="$attrs.disabled"
             :aria-placeholder="$attrs.placeholder" 
-            :aria-label="label"
             v-model="text"
             @focus="focus" 
             @blur="blur" 
@@ -21,10 +25,10 @@
             @keydown="keydown"
             class="atom-input__input">
         
-        <!-- float label -->
-        <span v-if="labelFloat && '' !== label" class="atom-input__label">{{label}}</span>
-        <div v-if="labelFloat" class="atom-input__bottom-line"></div>
+        <!-- 后置 -->
+        <slot name="append"></slot>
 
+        <!-- 关闭按钮 -->
         <transition name="fadeLeft">
             <a-icon 
                 v-if="hasRemove" 
@@ -35,17 +39,17 @@
                 class="atom-input__btn-empty"/>
         </transition>
 
-        <template v-if="!isShowLoading">
+        <template v-if="hasFeedback && !isShowLoading">
             <i class="atom-input__error-icon">
                 <a-icon name="warning" size="14"/>
             </i>
 
-            <span v-if="hasFeedback" class="atom-input__error-message">
+            <span  class="atom-input__error-message">
                 {{errorMessage}}
                 <div class="triangle triangle-danger"></div>
             </span>
         </template>
-    </label>
+    </div>
 </template>
 <script>
 // 1. 不要派发input事件, 因为keyup中已经手动触发了input
@@ -59,17 +63,6 @@ export default {
     components: { AIcon },
 
     props: {
-        label: {
-            type: String,
-            default: ''
-        },
-
-        // 不同样式, input下有线
-        labelFloat: {
-            type: Boolean,
-            default: false,
-        },
-
         // focus时候是否选中所有文字
         isSelectAll: {
             type: Boolean,
@@ -108,7 +101,7 @@ export default {
     },
 
     computed: {
-        isEmpty(){
+        isEmpty() {
             return 0 === this.text.length;
         },
     },
@@ -262,10 +255,6 @@ export default {
         },
 
         blur(e) {
-            if(0 === this.text.length) {
-                this.isFloatLabel = false;
-            }
-            
             this.validateInEvent('blur');
             this.isShowClearBtn = false;
             this.$emit('blur', e);
