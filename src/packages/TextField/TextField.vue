@@ -1,13 +1,14 @@
 <template>
     <div class="atom-text-field">
         <a-input 
-            v-model="text"
-            v-bind="attrsAndProps"
+            :value="value"
             :has-feedback="false"
+            v-bind="attrsAndProps"
             @error="inputErrorHandler"
             @success="inputSuccessHandler"
+            @input="inputHandler"
             class="atom-text-field__atom-input">
-            <!-- float label -->
+            <!-- label -->
             <label slot="append" class="atom-text-field__label">{{label}}</label>
             <!-- bottom-line -->
             <div slot="append" class="atom-text-field__bottom-line"></div>
@@ -26,68 +27,55 @@ export default {
 
     props: {
         label: {
-            type: String
+            type: String,
         },
 
         value: {
             required: true,
         },
-
-        // bankCode | letter | phone | number
-        type: {
-            type: String,
-        },
-
-        // 验证规则
-        rules: {
-            type: Array,
-            default: () => [],
-        },
-
-        // 对输入过滤
-        filter: {
-            type: RegExp,
-        },
     },
 
     computed: {
+        // 是否为空
         isEmpty() {
             return 0 === this.text.length;
         },
-        
-        attrsAndProps(){
-            return {...this.$attrs, ...this.$props};
-        }
+
+        // $attrs和$props的集合
+        attrsAndProps() {
+            return { ...this.$attrs, ...this.$props };
+        },
     },
 
     data() {
         return {
             text: '',
             hasError: false,
-            errorMessage: ''
+            errorMessage: '',
         };
     },
 
     methods: {
-        inputErrorHandler(errorMessage){
+        /**
+         * 验证错误触发
+         * @param {String} 错误文案
+         */
+        inputErrorHandler(errorMessage) {
             this.hasError = true;
             this.errorMessage = errorMessage;
         },
 
-        inputSuccessHandler(){
+        /**
+         * 验证错误修正后触发
+         */
+        inputSuccessHandler() {
             this.hasError = false;
             this.errorMessage = '';
         },
-    },
 
-    watch: {},
-
-    created() {
-        // 同步默认值
-    },
-
-    mounted() {
-        log(this);
-    },
+        inputHandler(value){
+            this.$emit('input', value);
+        }
+    }
 };
 </script>
