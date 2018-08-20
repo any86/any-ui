@@ -2,6 +2,11 @@
     position: relative;
     padding-top:20px;
     
+    &__atom-input[error] {
+        input~.atom-text-field__bottom-line {
+            border-color: $danger;
+        }
+    }
 
     &__atom-input{
         border-bottom: thin solid rgba(0, 0, 0, 0.2);
@@ -52,9 +57,14 @@
         transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
         width: 100%;
     }
+
+
+
     input:focus~&__bottom-line {
         transform: scaleX(1);
     }
+
+    // 错误提示
     &__error-message {
         margin-top:$gutter/2;
         font-size: $small;
