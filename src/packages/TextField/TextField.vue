@@ -2,7 +2,7 @@
     <div class="atom-text-field">
         <a-input 
             v-model="text"
-            v-bind="$props"
+            v-bind="attrsAndProps"
             :has-feedback="false"
             @error="inputErrorHandler"
             @success="inputSuccessHandler"
@@ -54,6 +54,10 @@ export default {
         isEmpty() {
             return 0 === this.text.length;
         },
+        
+        attrsAndProps(){
+            return {...this.$attrs, ...this.$props};
+        }
     },
 
     data() {
