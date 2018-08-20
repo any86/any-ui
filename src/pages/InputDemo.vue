@@ -57,8 +57,6 @@ export default {
             text6: 'abc',
             isShowWarning: true,
             rules: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
-
-            text7: '我有样式',
         };
     },
 
