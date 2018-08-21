@@ -3,19 +3,29 @@
         <a-input 
             :value="value"
             :has-feedback="false"
-            v-bind="attrsAndProps"
+            v-bind="$attrs"
             @error="inputErrorHandler"
             @success="inputSuccessHandler"
             @input="inputHandler"
             class="atom-text-field__atom-input">
+            <template slot="prepend">
+                <slot name="prepend"></slot>
+            </template>
+
             <!-- label -->
-            <label slot="append" class="atom-text-field__label">{{label}}</label>
+            <label slot="append" class="atom-text-field__label">
+                <slot name="label">{{label}}</slot>
+            </label>
             <!-- bottom-line -->
             <div slot="append" class="atom-text-field__bottom-line"></div>
+
+
+
+
         </a-input>
         
         <!-- error -->
-        <p v-if="hasError" class="atom-text-field__error-message">{{errorMessage}}</p>
+        <p :style="{visibility: hasError ? 'visible':'hidden'}" class="atom-text-field__error-message">{{errorMessage}}</p>
     </div>
 </template>
 <script>
@@ -42,9 +52,9 @@ export default {
         },
 
         // $attrs和$props的集合
-        attrsAndProps() {
-            return { ...this.$attrs, ...this.$props };
-        },
+        // attrsAndProps() {
+        //     return { ...this.$attrs, ...this.$props };
+        // },
     },
 
     data() {
@@ -73,9 +83,12 @@ export default {
             this.errorMessage = '';
         },
 
-        inputHandler(value){
+        /**
+         * 输入触发
+         */
+        inputHandler(value) {
             this.$emit('input', value);
-        }
-    }
+        },
+    },
 };
 </script>

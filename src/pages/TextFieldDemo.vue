@@ -1,12 +1,27 @@
 <template>
-    <main>
-        <h2 class="fill-left fill-top">TextField</h2>
-        <div class="fill">
-            <a-text-field 
-                v-model="text3"
-                :rules="rules"
-                label="毕业学校"/>
-        </div>
+    <main class="fill">
+        <a-text-field 
+            v-model="text1"
+            :rules="rules"
+            label="毕业学校">
+            <template slot="label">
+                <a-icon name="menu" size="16" />
+                毕业学校
+            </template>
+            
+
+            <div slot="append">append</div>
+        </a-text-field>
+
+        <a-text-field label="银行卡"  maxlength="19" v-model="text2" type="bankCode" />
+
+        <a-text-field label="手 机" :is-select-all="true" maxlength="13" v-model="text3" type="phone"/>
+
+        <a-text-field label="纯数字"  maxlength="13" v-model="text4" type="number"/>
+
+        <a-text-field label="纯字母" maxlength="13" v-model="text5" type="letter" />
+
+        <a-text-field label="自定义过滤规则(只能输入x/y/z)" :filter="/[^x-z]/g" v-model="text6"/>
     </main>
 </template>
 <script>
@@ -28,11 +43,9 @@ export default {
             text3: '133123456789',
             text4: '01234567',
             text5: 'abc',
-            text6: 'abc',
+            text6: 'xyz',
             isShowWarning: true,
             rules: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
-
-            text7: '我有样式',
         };
     },
 
@@ -59,7 +72,7 @@ export default {
          */
         asyncValidator(callback) {
             setTimeout(() => {
-                callback({ isPass: 'nba' != this.text1, message: '服务端不通过!' });
+                callback({ isPass: 'nba' != this.text1, message: '服务端: nba已存在!' });
             }, 1000);
         },
     },
