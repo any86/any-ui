@@ -4,41 +4,27 @@ Material风格输入框, 基于Input组件扩展,支持Input组件的所有功�
 ### 基本使用
 
 ``` html
-    <main>
-        <a-cell>
-            <template slot="prepend">学 校 *</template>
-            <a-input :has-feedback="false" class="padding-left" ref="inputSchool" required :rules="rules" placeholder="请输入学校" v-model="text1"/>
-        </a-cell>
-
-        <a-cell>
-            <template slot="prepend">手 机</template>
-            <a-input class="padding-left" :is-select-all="true" maxlength="13" v-model="text3" type="phone" />
-        </a-cell>
-
-        <a-cell>
-            <template slot="prepend">流 水 号</template>
-            <a-input class="padding-left" maxlength="13" v-model="text4" type="number" />
-        </a-cell>
+    <a-text-field 
+        v-model="text1"
+        :rules="rules"
+        label="毕业学校">
+        <template slot="label">
+            <a-icon name="star" size="16" />
+            毕业学校
+        </template>
         
-        <a-cell>
-            <template slot="prepend">银行卡流水</template>
-            <a-input class="padding-left" maxlength="14" v-model="text2" type="bankCode" />
-        </a-cell>
-        
-        <a-cell>
-            <template slot="prepend">仅能输入字母</template>
-            <a-input class="padding-left" maxlength="13" v-model="text5" type="letter" />
-        </a-cell>
-        
-        <a-cell>
-            <template slot="prepend">过滤非字母</template>
-            <a-input class="padding-left" :filter="/[^a-zA-Z]/g" v-model="text6"/>
-        </a-cell>
+        <a-icon slot="append" @click="$alert('我在append插槽中')" name="menu" size="16"/>
+    </a-text-field>
 
-        <section class="fill">
-            <a-button class=" gutter-top gutter-bottom" @click="validate">验证学校</a-button>
-        </section>
-    </main>
+    <a-text-field label="银行卡"  maxlength="19" v-model="text2" type="bankCode" />
+
+    <a-text-field label="手 机" :is-select-all="true" maxlength="13" v-model="text3" type="phone"/>
+
+    <a-text-field label="纯数字"  maxlength="13" v-model="text4" type="number"/>
+
+    <a-text-field label="纯字母" maxlength="13" v-model="text5" type="letter" />
+
+    <a-text-field label="自定义过滤规则(只能输入x/y/z)" :filter="/[^x-z]/g" v-model="text6"/>
 ```
 
 ```javascript
@@ -125,7 +111,7 @@ Material风格输入框, 基于Input组件扩展,支持Input组件的所有功�
 ##### slot
 | 名称 | 说明 |
 |-----------|-----------|
-| label | 可以配合icon组件组成带图标的label | 
+| label | 可以配合icon组件组成带图标的label |
 
 
 

@@ -1,16 +1,16 @@
 <template>
     <main class="fill">
+        
         <a-text-field 
             v-model="text1"
             :rules="rules"
             label="毕业学校">
             <template slot="label">
-                <a-icon name="menu" size="16" />
+                <a-icon name="star" size="16" />
                 毕业学校
             </template>
             
-
-            <div slot="append">append</div>
+            <a-icon slot="append" @click="$alert('我在append插槽中')" name="menu" size="16"/>
         </a-text-field>
 
         <a-text-field label="银行卡"  maxlength="19" v-model="text2" type="bankCode" />

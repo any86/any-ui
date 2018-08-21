@@ -8,20 +8,22 @@
             @success="inputSuccessHandler"
             @input="inputHandler"
             class="atom-text-field__atom-input">
-            <template slot="prepend">
-                <slot name="prepend"></slot>
-            </template>
 
-            <!-- label -->
+            <!-- label 插槽 -->
             <label slot="append" class="atom-text-field__label">
                 <slot name="label">{{label}}</slot>
             </label>
+
+            <!-- append 插槽 -->
+            <template slot="append">
+                <slot name="append"></slot>
+            </template>
+
             <!-- bottom-line -->
             <div slot="append" class="atom-text-field__bottom-line"></div>
 
 
-
-
+            
         </a-input>
         
         <!-- error -->

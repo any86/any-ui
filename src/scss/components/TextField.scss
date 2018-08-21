@@ -1,18 +1,21 @@
+%float-label {
+    transform: translateY(-18px) scale(0.75);
+    transform-origin: top left;
+    color: $info;
+}
+
 .atom-text-field {
     position: relative;
-    padding-top:20px;
-    
+    padding-top: 20px;
     &__atom-input[error] {
         input~.atom-text-field__bottom-line {
             border-color: $danger;
         }
     }
-
-    &__atom-input{
+    &__atom-input {
         border-bottom: thin solid rgba(0, 0, 0, 0.2);
-        padding-bottom:$gutter/2;
+        padding-bottom: $gutter/2;
     }
-
     &__label {
         position: absolute;
         top: 0;
@@ -22,12 +25,7 @@
         font-size: $big;
         line-height: $big;
         pointer-events: none;
-        color:$light;
-    }
-    %float-label {
-        transform: translateY(-18px) scale(0.75);
-        transform-origin: top left;
-        color: $info;
+        color: $light;
     }
     /*input不为空*/
     :not([empty=true]) {
@@ -57,16 +55,11 @@
         transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
         width: 100%;
     }
-
-
-
     input:focus~&__bottom-line {
         transform: scaleX(1);
-    }
-
-    // 错误提示
+    } // 错误提示
     &__error-message {
-        margin-top:$gutter/2;
+        margin-top: $gutter/2;
         font-size: $small;
         height: 20px;
         color: #f10;
