@@ -4,6 +4,7 @@
         v-on="$listeners"
         :size="size" 
         :is="`A${name.substring(0,1).toUpperCase()+name.substring(1)}`" 
+        :style="{'vertical-align': vAlign}"
         class="atom-icon"/>
 </template>
 <script>
@@ -37,6 +38,11 @@ export default {
             type: String,
             required: true,
         },
+
+        vAlign: {
+            type: String,
+            default: 'bottom'
+        }
     },
 
     components: {AArrow, APlus, AArrowRight,AArrowLeft, AArrowUp, AArrowDown,AMinus, AMenu, AClose, ATick, AStar, AStarHalf, AStarO, AWarning,AStar3d,AStarO3d,AStarHalf3d },
