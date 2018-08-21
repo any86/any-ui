@@ -5,6 +5,7 @@
         class="atom-input"
         :empty="isEmpty"
         >
+
         <!-- 前置 -->
         <slot name="prepend"></slot>
 
@@ -26,7 +27,6 @@
             class="atom-input__input">
         
         <!-- 后置 -->
-        <slot name="append"></slot>
 
         <!-- 关闭按钮 -->
         <transition name="fadeLeft">
@@ -49,6 +49,10 @@
                 <div class="triangle triangle-danger"></div>
             </span>
         </template>
+
+
+        <!-- 后置 -->
+        <slot name="append"></slot>
     </div>
 </template>
 <script>

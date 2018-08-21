@@ -2,7 +2,21 @@
     <main >
         <a-cell>
             <template slot="prepend">学 校 *</template>
-            <a-input :has-feedback="false" class="padding-left" ref="inputSchool" required :rules="rules" placeholder="请输入学校" v-model="text1"/>
+            <a-input 
+                :has-feedback="false" 
+                class="padding-left" 
+                ref="inputSchool" 
+                required 
+                :rules="rules" 
+                placeholder="请输入学校" 
+                v-model="text1">
+                <a-icon  slot="append" @click="$alert('我在append插槽中')" name="menu" size="16" />
+            </a-input>
+        </a-cell>
+
+        <a-cell>
+            <template slot="prepend">银行卡流水</template>
+            <a-input class="padding-left" maxlength="19" v-model="text2" type="bankCode" />
         </a-cell>
 
         <a-cell>
@@ -16,18 +30,13 @@
         </a-cell>
         
         <a-cell>
-            <template slot="prepend">银行卡流水</template>
-            <a-input class="padding-left" maxlength="14" v-model="text2" type="bankCode" />
-        </a-cell>
-        
-        <a-cell>
             <template slot="prepend">仅能输入字母</template>
             <a-input class="padding-left" maxlength="13" v-model="text5" type="letter" />
         </a-cell>
         
         <a-cell>
-            <template slot="prepend">过滤非字母</template>
-            <a-input class="padding-left" :filter="/[^a-zA-Z]/g" v-model="text6"/>
+            <template slot="prepend">自定义过滤规则(只能输入x/y/z)</template>
+            <a-input class="padding-left" :filter="/[^x-z]/g" v-model="text6"/>
         </a-cell>
 
         <section class="fill">

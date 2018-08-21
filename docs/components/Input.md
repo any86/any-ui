@@ -7,7 +7,20 @@
     <main >
         <a-cell>
             <template slot="prepend">学 校 *</template>
-            <a-input :has-feedback="false" class="padding-left" ref="inputSchool" required :rules="rules" placeholder="请输入学校" v-model="text1"/>
+            <a-input 
+                :has-feedback="false" 
+                class="padding-left" 
+                ref="inputSchool" 
+                required 
+                :rules="rules" 
+                placeholder="请输入学校" 
+                v-model="text1">
+                <a-icon  slot="append" @click="$alert('我在append插槽中')" name="menu" size="16" /> 
+        </a-cell>
+
+        <a-cell>
+            <template slot="prepend">银行卡流水</template>
+            <a-input class="padding-left" maxlength="14" v-model="text2" type="bankCode" />
         </a-cell>
 
         <a-cell>
@@ -20,10 +33,7 @@
             <a-input class="padding-left" maxlength="13" v-model="text4" type="number" />
         </a-cell>
         
-        <a-cell>
-            <template slot="prepend">银行卡流水</template>
-            <a-input class="padding-left" maxlength="14" v-model="text2" type="bankCode" />
-        </a-cell>
+        
         
         <a-cell>
             <template slot="prepend">仅能输入字母</template>
@@ -121,8 +131,13 @@
 | warning | 验证不通过触发 | 提示语 | `String` |
 | success | 验证通过时触发 | - | - |
 
+##### slot
+| 名称 | 说明 |
+|-----------|-----------|
+| prepend | 输入框前 |
+| append | 输入框后 |
 
-### 验证规则(rules)
+#### 验证规则(rules)
 | 名称 | 说明  |参数类型|
 |-----------|-----------|-----------|-----------|
 | required | 是否必填  |`Boolean`|

@@ -4,13 +4,12 @@ $height: 20px;
     position: relative;
     display: flex;
     align-items: center;
-    font-size: inherit;
+    font-size: $big;
     width: 100%;
     background: $background;
     &__title {
         align-self: center;
         padding-right: $gutter;
-        font-size: inherit;
     }
     &__input {
         flex: 1;
@@ -30,7 +29,8 @@ $height: 20px;
     &__error-icon,
     &__error-message {
         display: none;
-    } // 
+    } 
+    /*loading*/
     &[loading] {
         &:after {
             content: '';
@@ -48,7 +48,13 @@ $height: 20px;
             border-left-color: $lighter;
             animation: rotation infinite $duration*2 linear;
         }
-    } // ================================ !出现警告 ================================
+    } 
+    &__append{
+        display: block;
+        align-self: center;
+    }
+    
+    /* ================================ !出现警告 ================================ */
     &[error] {
         .atom-input {
             &__error-icon {
