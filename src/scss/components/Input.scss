@@ -83,6 +83,7 @@ $height: 20px;
                     color: $sub;
                     font-size: $small;
                     word-break: keep-all;
+                    white-space: nowrap;
                     .triangle {
                         transform: rotate(180deg);
                         position: absolute;
