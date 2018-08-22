@@ -1,6 +1,6 @@
 <template>
     <div 
-        :error="isError" 
+        :error="hasError" 
         :loading="isShowLoading" 
         class="atom-input"
         :empty="isEmpty"
@@ -116,7 +116,7 @@ export default {
         return {
             text: '',
             isShowClearBtn: false,
-            isError: false,
+            hasError: false,
             errorMessage: '',
             rulesGroupByEvent: {},
             isShowLoading: false,
@@ -232,9 +232,9 @@ export default {
             }
         },
 
-        resetValidate(){
+        resetValidate() {
             this.isShowLoading = false;
-            this.isError = false;
+            this.hideErrorDialog();
             this.$emit('reset-vailidate');
         },
 
@@ -243,7 +243,7 @@ export default {
          * @argument {String} 错误信息
          */
         showErrorDialog(message) {
-            this.isError = true;
+            this.hasError = true;
             this.errorMessage = message;
             this.$emit('error', message);
         },
@@ -252,7 +252,7 @@ export default {
          * 关闭错误对话框
          */
         hideErrorDialog() {
-            this.isError = false;
+            this.hasError = false;
             this.errorMessage = '';
             this.$emit('success');
         },
