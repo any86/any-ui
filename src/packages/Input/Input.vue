@@ -38,7 +38,11 @@
                 class="atom-input__btn-empty"/>
         </transition>
 
-        <template v-if="hasFeedback && !isShowLoading">
+        <template v-if="hasFeedback">
+            <!-- 加载图标 -->
+            <i class="atom-input__loading"/>
+
+            <!-- 错误图标和文字 -->
             <span class="atom-input__error">
                 <a-icon name="warning" size="14"/>
                 <span  class="error-message">
