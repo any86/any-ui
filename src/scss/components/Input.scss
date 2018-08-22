@@ -25,9 +25,7 @@ $height: 20px;
     &__btn-empty {
         align-self: center;
     }
-    &__error-icon,
-    &__error-icon,
-    &__error-message {
+    &__error{
         display: none;
     } 
     /*loading*/
@@ -57,7 +55,7 @@ $height: 20px;
     /* ================================ !出现警告 ================================ */
     &[error] {
         .atom-input {
-            &__error-icon {
+            &__error {
                 display: block;
                 margin-left: $gutter;
                 position: relative;
@@ -70,28 +68,31 @@ $height: 20px;
                 svg {
                     display: block;
                 }
-            }
-            &__error-message {
-                animation: 1s showTip;
-                display: block;
-                position: absolute;
-                top: 24px;
-                right: -3px;
-                z-index: 2; // width: 150px;
-                background: rgba($danger, 0.8);
-                color: $sub;
-                border-radius: $radius;
-                padding: $gutter/3;
-                color: $sub;
-                font-size: $small;
-                .triangle {
-                    transform: rotate(180deg);
+
+                .error-message {
+                    animation: 1s showTip;
+                    display: block;
                     position: absolute;
-                    right: 5px;
-                    top: -5px;
-                    border-top-color: rgba($danger, 0.8);
+                    top: 24px;
+                    right: -3px;
+                    z-index: 2; // width: 150px;
+                    background: rgba($danger, 0.8);
+                    color: $sub;
+                    border-radius: $radius;
+                    padding: $gutter/3;
+                    color: $sub;
+                    font-size: $small;
+                    word-break: keep-all;
+                    .triangle {
+                        transform: rotate(180deg);
+                        position: absolute;
+                        right: 5px;
+                        top: -5px;
+                        border-top-color: rgba($danger, 0.8);
+                    }
                 }
             }
+            
         }
     }
     @keyframes showTip {

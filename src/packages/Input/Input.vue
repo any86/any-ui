@@ -16,7 +16,6 @@
         <input 
             ref="input" 
             v-bind="$attrs" 
-            
             :aria-disabled="$attrs.disabled"
             :aria-placeholder="$attrs.placeholder" 
             v-model="text"
@@ -40,13 +39,12 @@
         </transition>
 
         <template v-if="hasFeedback && !isShowLoading">
-            <i class="atom-input__error-icon">
+            <span class="atom-input__error">
                 <a-icon name="warning" size="14"/>
-            </i>
-
-            <span  class="atom-input__error-message">
-                {{errorMessage}}
-                <div class="triangle triangle-danger"></div>
+                <span  class="error-message">
+                    {{errorMessage}}
+                    <i class="triangle triangle-danger"></i>
+                </span>
             </span>
         </template>
 

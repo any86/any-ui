@@ -3,7 +3,6 @@
         <a-cell>
             <template slot="prepend">学 校 *</template>
             <a-input 
-                :has-feedback="false" 
                 class="padding-left" 
                 ref="inputSchool" 
                 required 
