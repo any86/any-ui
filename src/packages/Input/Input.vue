@@ -213,20 +213,29 @@ export default {
          * 验证所有规则
          */
         validate() {
+            // this.resetValidate();
             return new Promise(async (resolve, reject) => {
                 let isAllPass = true;
                 for (let rule of this.rules) {
                     let { isPass, message } = await this._validate(rule);
                     if (!isPass) {
                         isAllPass = false;
+                        this.showErrorDialog(message);
                         reject(message);
                         break;
                     }
                 }
             });
             if (isAllPass) {
+                this.hideErrorDialog();
                 resolve();
             }
+        },
+
+        resetValidate(){
+            this.isShowLoading = false;
+            this.isError = false;
+            this.$emit('reset-vailidate');
         },
 
         /**
