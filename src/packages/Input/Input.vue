@@ -106,7 +106,7 @@ export default {
 
     computed: {
         isEmpty() {
-            return this.text && 0 === this.text.length;
+            return undefined !== this.text && 0 === this.text.length;
         },
     },
 
