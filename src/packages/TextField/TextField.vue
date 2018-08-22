@@ -50,7 +50,7 @@ export default {
     computed: {
         // 是否为空
         isEmpty() {
-            return 0 === this.text.length;
+            return this.text && 0 === this.text.length;
         },
 
         // $attrs和$props的集合
