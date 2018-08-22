@@ -39,9 +39,9 @@
         </a-cell>
 
         <section class="fill">
-            <a-button class=" gutter-top" @click="validate">验证学校</a-button>
-
-            <a-button type="dark" class=" gutter-top gutter-bottom" @click="resetValidate">重置验证</a-button>
+            <a-button class="gutter-top" @click="validate">验证学校</a-button>
+            
+            <a-button type="dark" class="gutter-top gutter-bottom" @click="resetValidate">重置验证</a-button>
         </section>
     </main>
 </template>
@@ -81,11 +81,11 @@ export default {
                 })
                 .catch(error => {
                     // this.resetValidate();
-                    this.$toast(`验证结果: ${error}`, {type: 'error'});
+                    this.$toast(`验证结果: ${error}`, { type: 'error' });
                 });
         },
 
-        resetValidate(){
+        resetValidate() {
             this.$refs.inputSchool.resetValidate();
         },
 

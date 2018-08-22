@@ -1,6 +1,7 @@
 <template>
     <div class="atom-text-field">
         <a-input 
+            ref="input"
             :value="value"
             :has-feedback="false"
             v-bind="$attrs"
@@ -21,8 +22,6 @@
 
             <!-- bottom-line -->
             <div slot="append" class="atom-text-field__bottom-line"></div>
-
-
             
         </a-input>
         
@@ -52,11 +51,6 @@ export default {
         isEmpty() {
             return undefined !== this.text && 0 === this.text.length;
         },
-
-        // $attrs和$props的集合
-        // attrsAndProps() {
-        //     return { ...this.$attrs, ...this.$props };
-        // },
     },
 
     data() {
@@ -87,9 +81,24 @@ export default {
 
         /**
          * 输入触发
+         * 文本框的值
          */
         inputHandler(value) {
             this.$emit('input', value);
+        },
+
+        /**
+         * 验证所有规则
+         */
+        validate() {
+            return this.$refs.input.validate();
+        },
+
+        /**
+         * 重置验证
+         */
+        resetValidate() {
+            this.$refs.input.resetValidate();
         },
     },
 };

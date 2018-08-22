@@ -4,6 +4,7 @@
         <a-text-field 
             v-model="text1"
             :rules="rules"
+            ref="inputSchool" 
             label="毕业学校">
             <template slot="label">
                 <a-icon name="star" size="16" />
@@ -22,6 +23,10 @@
         <a-text-field label="纯字母" maxlength="13" v-model="text5" type="letter" />
 
         <a-text-field label="自定义过滤规则(只能输入x/y/z)" :filter="/[^x-z]/g" v-model="text6"/>
+
+        <a-button class="gutter-top" @click="validate">验证学校</a-button>
+
+        <a-button type="dark" class=" gutter-top gutter-bottom" @click="resetValidate">重置验证</a-button>
     </main>
 </template>
 <script>
@@ -59,8 +64,14 @@ export default {
                     // this.$loading.close();
                 })
                 .catch(error => {
-                    this.$toast(`验证结果: ${error}`);
+                    // this.resetValidate();
+                    this.$toast(`验证错误: ${error}`, { type: 'error', delay: 1000 });
                 });
+        },
+
+        resetValidate() {
+            dir(this.$refs.inputSchool.resetValidate)
+            this.$refs.inputSchool.resetValidate();
         },
 
         isSame() {
@@ -72,7 +83,7 @@ export default {
          */
         asyncValidator(callback) {
             setTimeout(() => {
-                callback({ isPass: 'nba' != this.text1, message: '服务端: nba已存在!' });
+                callback({ isPass: 'nba' != this.text1, message: '服务端不通过nba!' });
             }, 1000);
         },
     },
