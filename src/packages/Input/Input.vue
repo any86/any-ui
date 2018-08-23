@@ -243,10 +243,10 @@ export default {
         /**
          * 清除验证结果
          */
-        clearVaildate() {
+        clearValidate() {
             this.isShowLoading = false;
             this.hideErrorDialog();
-            this.$emit('clear-vailidate');
+            this.$emit('clear-validate');
         },
 
         /**

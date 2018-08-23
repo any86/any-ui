@@ -54,7 +54,7 @@
         <section class="fill">
             <a-button class="gutter-top" @click="validateBoth">验证学校和姓名</a-button>
             
-            <a-button type="dark" class="gutter-top gutter-bottom" @click="clearVaildate">重置验证</a-button>
+            <a-button type="dark" class="gutter-top gutter-bottom" @click="clearValidate">重置验证</a-button>
         </section>
     </main>
 </template>
@@ -102,9 +102,9 @@ export default {
             }
         },
 
-        clearVaildate() {
-            this.$refs.inputSchool.clearVaildate();
-            this.$refs.inputName.clearVaildate();
+        clearValidate() {
+            this.$refs.inputSchool.clearValidate();
+            this.$refs.inputName.clearValidate();
         },
 
         isSame() {
