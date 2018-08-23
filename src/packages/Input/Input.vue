@@ -30,7 +30,7 @@
         <!-- 关闭按钮 -->
         <transition name="fadeLeft">
             <a-icon 
-                v-if="hasRemove" 
+                v-if="clearable" 
                 name="close" 
                 size="14" 
                 v-show="isShowClearBtn"
@@ -74,7 +74,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        hasRemove: {
+        clearable: {
             type: Boolean,
             default: true,
         },
@@ -142,43 +142,47 @@ export default {
                 if (rule.required) {
                     // 必填
                     if ('' !== this.text) {
-                        resolve({ isPass: true });
+                        resolve(true);
                     } else {
-                        resolve({ isPass: false, message: rule.message });
+                        reject(rule.message);
                     }
                 } else if (undefined !== rule.test) {
                     // 正则验证
                     if (rule.test.test(this.text)) {
-                        resolve({ isPass: true });
+                        resolve(true);
                     } else {
-                        resolve({ isPass: false, message: rule.message });
+                        reject(rule.message);
                     }
                 } else if (undefined !== rule.minLength) {
                     if (rule.minLength <= this.text.length) {
-                        resolve({ isPass: true });
+                        resolve(true);
                     } else {
-                        resolve({ isPass: false, message: rule.message });
+                        reject(rule.message);
                     }
                 } else if (undefined !== rule.maxLength) {
                     // maxlength
                     if (rule.maxLength >= this.text.length) {
-                        resolve({ isPass: true });
+                        resolve(true);
                     } else {
-                        resolve({ isPass: false, message: rule.message });
+                        reject(rule.message);
                     }
                 } else if (undefined !== rule.validator) {
                     // 自定义函数验证[同步]
                     if (rule.validator()) {
-                        resolve({ isPass: true });
+                        resolve(true);
                     } else {
-                        resolve({ isPass: false, message: rule.message });
+                        reject(rule.message);
                     }
                 } else if (undefined !== rule.asyncValidator) {
                     // 自定义函数验证[异步]
                     this.isShowLoading = true;
                     rule.asyncValidator(({ isPass, message }) => {
                         this.isShowLoading = false;
-                        resolve({ isPass, message });
+                        if (isPass) {
+                            resolve(true);
+                        } else {
+                            reject(message);
+                        }
                     });
                 }
             });
@@ -196,10 +200,11 @@ export default {
             // 如果有一条没通过验证, 那么暂停
             // 有异步验证的情况, 后面的验证也需要等待他的结果, 所以用了await
             for (let rule of rules) {
-                let { isPass, message } = await this._validate(rule);
-                if (!isPass) {
+                try {
+                    await this._validate(rule);
+                } catch (error) {
                     isAllPass = false;
-                    this.showErrorDialog(message);
+                    this.showErrorDialog(error);
                     break;
                 }
             }
@@ -212,30 +217,36 @@ export default {
         /**
          * 验证所有规则
          */
-        validate() {
-            // this.resetValidate();
+        validate(rules) {
+            let isAllPass = true;
             return new Promise(async (resolve, reject) => {
-                let isAllPass = true;
-                for (let rule of this.rules) {
-                    let { isPass, message } = await this._validate(rule);
-                    if (!isPass) {
+                // 如果不指定rules, 那么默认验证所有
+                for (let rule of (rules || this.rules)) {
+                    try {
+                        await this._validate(rule);
+                    } catch (error) {
                         isAllPass = false;
-                        this.showErrorDialog(message);
-                        reject(message);
+                        this.showErrorDialog(error);
+                        reject(error);
                         break;
                     }
                 }
+
+                // 全部规则验证通过
+                if (isAllPass) {
+                    this.hideErrorDialog();
+                    resolve(true);
+                }
             });
-            if (isAllPass) {
-                this.hideErrorDialog();
-                resolve();
-            }
         },
 
-        resetValidate() {
+        /**
+         * 清除验证结果
+         */
+        clearVaildate() {
             this.isShowLoading = false;
             this.hideErrorDialog();
-            this.$emit('reset-vailidate');
+            this.$emit('clear-vailidate');
         },
 
         /**

@@ -13,6 +13,19 @@
             </a-input>
         </a-cell>
 
+        <a-cell >
+            <template slot="prepend">姓名 *</template>
+            <a-input 
+                class="padding-left" 
+                ref="inputName" 
+                required 
+                :rules="rules2" 
+                placeholder="请输入姓名" 
+                v-model="text11">
+                <a-icon  slot="append" @click="$alert('我在append插槽中')" name="menu" size="16" />
+            </a-input>
+        </a-cell>
+
         <a-cell>
             <template slot="prepend">银行卡流水</template>
             <a-input class="padding-left" maxlength="19" v-model="text2" type="bankCode" />
@@ -39,9 +52,9 @@
         </a-cell>
 
         <section class="fill">
-            <a-button class="gutter-top" @click="validate">验证学校</a-button>
+            <a-button class="gutter-top" @click="validateBoth">验证学校和姓名</a-button>
             
-            <a-button type="dark" class="gutter-top gutter-bottom" @click="resetValidate">重置验证</a-button>
+            <a-button type="dark" class="gutter-top gutter-bottom" @click="clearVaildate">重置验证</a-button>
         </section>
     </main>
 </template>
@@ -60,6 +73,7 @@ export default {
 
         return {
             text1: '',
+            text11: '',
             text2: '0000 0000 0000 0000',
             text3: '133123456789',
             text4: '01234567',
@@ -67,26 +81,30 @@ export default {
             text6: 'abc',
             isShowWarning: true,
             rules: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
+            rules2: [{ required: true, message: '姓名不能为空!' }],
         };
     },
 
     methods: {
-        validate() {
-            // this.$loading();
-            this.$refs.inputSchool
-                .validate()
-                .then(() => {
+        /**
+         * 验证学校和姓名
+         */
+        async validateBoth() {
+            const _$refs = [this.$refs.inputSchool, this.$refs.inputName];
+            for ([key, $input] of _$refs.entries()) {
+                try {
+                    await $input.validate();
                     this.$toast(`验证通过!`, { type: 'success' });
-                    // this.$loading.close();
-                })
-                .catch(error => {
-                    // this.resetValidate();
+                } catch (error) {
                     this.$toast(`验证结果: ${error}`, { type: 'error' });
-                });
+                    break;
+                }
+            }
         },
 
-        resetValidate() {
-            this.$refs.inputSchool.resetValidate();
+        clearVaildate() {
+            this.$refs.inputSchool.clearVaildate();
+            this.$refs.inputName.clearVaildate();
         },
 
         isSame() {
