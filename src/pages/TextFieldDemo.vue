@@ -26,7 +26,7 @@
 
         <a-button class="gutter-top" @click="validate">验证学校</a-button>
 
-        <a-button type="dark" class=" gutter-top gutter-bottom" @click="resetValidate">重置验证</a-button>
+        <a-button type="dark" class=" gutter-top gutter-bottom" @click="clearValidate">重置验证</a-button>
     </main>
 </template>
 <script>
@@ -64,14 +64,13 @@ export default {
                     // this.$loading.close();
                 })
                 .catch(error => {
-                    // this.resetValidate();
+                    // this.clearValidate();
                     this.$toast(`验证错误: ${error}`, { type: 'error', delay: 1000 });
                 });
         },
 
-        resetValidate() {
-            dir(this.$refs.inputSchool.resetValidate)
-            this.$refs.inputSchool.resetValidate();
+        clearValidate() {
+            this.$refs.inputSchool.clearValidate();
         },
 
         isSame() {

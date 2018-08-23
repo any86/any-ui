@@ -97,8 +97,8 @@ export default {
         /**
          * 重置验证
          */
-        resetValidate() {
-            this.$refs.input.resetValidate();
+        clearValidate() {
+            this.$refs.input.clearValidate();
         },
     },
 };
