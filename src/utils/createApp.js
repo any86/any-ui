@@ -5,7 +5,8 @@ let instances = {};
  * @param {Object} 组件对象 
  */
 export default function(Vue, component, {
-    preset: {},
+    props = {},
+    on = {},
     isSingle = true
 } = {}) {
     const id = `_app-${component.name}`;
@@ -16,15 +17,12 @@ export default function(Vue, component, {
         // 插入到文档最后
         document.body.appendChild(node);
         // 创建子类
-
-        
         const VueSubClass = Vue.extend(component);
+        // 创建实例
+        let vm = new VueSubClass();
+        // 传入初始化值
+        for (let key in props) vm[key] = props[key];
         // 挂载
-        const vm = new VueSubClass();
-        // 在挂载前读取默认值
-        for(let key in preset) {
-            vm[key] = preset[key];
-        }
         vm.$mount(`#${node.id}`);
         instances[id] = vm;
         return vm;
