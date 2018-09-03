@@ -3,7 +3,7 @@ $panelWidth: 80%;
     position: absolute;
     width: 100%;
     background: $background;
-
+    border-radius: .24rem .24rem 0 0;
     // 头
     &__header {
         box-sizing: border-box;
