@@ -2,7 +2,7 @@
     <div :style="{height: `${itemHeight * 7}px`}" class="atom-picker">
         <div class="atom-picker__mask"></div>
         <div class="atom-picker__graticule" :style="{height: `${itemHeight}px`}"></div>
-        <virtual-scroller 
+        <virtual-scroller
             ref="scroll"
             v-for="(list, columnIndex) in dataSource" 
             :key="columnIndex" 
@@ -35,18 +35,18 @@ export default {
     props: {
         dataSource: {
             type: Array, // [[{label, value}]]
-            required: true
+            required: true,
         },
 
         value: {
             type: Array, // [v1, v2]
-            required: true
+            required: true,
         },
 
         itemHeight: {
             type: Number,
-            default: 36
-        }
+            default: 36,
+        },
     },
 
     data() {
@@ -55,8 +55,8 @@ export default {
             positions: [],
             bodyStyle: {
                 paddingTop: 3 * this.itemHeight + 'px',
-                paddingBottom: 3 * this.itemHeight + 'px'
-            }
+                paddingBottom: 3 * this.itemHeight + 'px',
+            },
         };
     },
 
@@ -68,8 +68,8 @@ export default {
         /**
          * 更新scroll尺寸
          */
-        updateSize(){
-            this.$refs.scroll.forEach(component=>{
+        updateSize() {
+            this.$refs.scroll.forEach(component => {
                 component.updateSize();
             });
         },
@@ -81,12 +81,6 @@ export default {
                 let newValues = [...this.value];
                 newValues[columnIndex] = value;
                 this.$emit('input', newValues);
-                this.$emit('change', {
-                    columnIndex,
-                    rowIndex: index,
-                    value,
-                    label
-                });
             }
         },
 
@@ -100,6 +94,13 @@ export default {
             this.activeIndexList.splice(columnIndex, 1, index);
             // 滚动到最近的卡槽位置[驱动VirtualScroller]
             this.positions[columnIndex].y = index * this.itemHeight;
+            const { value, label } = this.dataSource[columnIndex][index];
+            this.$emit('change', {
+                columnIndex,
+                rowIndex: index,
+                value,
+                label,
+            });
         },
         /**
          * 设置scrollTop
@@ -116,7 +117,7 @@ export default {
                 // 滑动到指定位置
                 this.positions.push({
                     x: 0,
-                    y: rowIndex * this.itemHeight
+                    y: rowIndex * this.itemHeight,
                 });
             });
         },
@@ -130,7 +131,7 @@ export default {
             return this.dataSource[columnIndex].findIndex(item => {
                 return value == item.value;
             });
-        }
+        },
     },
 
     computed: {},
@@ -144,10 +145,10 @@ export default {
             deep: true,
             handler() {
                 this._syncPos();
-            }
-        }
+            },
+        },
     },
 
-    components: { VirtualScroller }
+    components: { VirtualScroller },
 };
 </script>
