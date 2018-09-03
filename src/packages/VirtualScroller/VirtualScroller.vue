@@ -52,125 +52,125 @@ export default {
     props: {
         isHasBar: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         preventDefaultException: {
             type: Object,
-            default: () => ({ tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ })
+            default: () => ({ tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ }),
         },
 
         isBounce: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         bounceTime: {
             type: Number,
-            default: 600
+            default: 600,
         },
 
         speed: {
             type: [String, Number],
-            default: 300
+            default: 300,
         },
 
         isDisabled: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         sensitivity: {
             type: Number,
-            default: 10
+            default: 10,
         },
 
         threshold: {
             // 减速滑动时, 允许超出的最大距离
             type: Number,
-            default: 100
+            default: 100,
         },
 
         edgeThreshold: {
             type: Number,
-            default: 150
+            default: 150,
         },
 
         isPreventDefault: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         isStopPropagation: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         value: {
             type: Object,
-            default: () => ({ scrollLeft: 0, scrollTop: 0 }) // 注意返回对象, 要用括号包起来
+            default: () => ({ scrollLeft: 0, scrollTop: 0 }), // 注意返回对象, 要用括号包起来
         },
 
         isLockX: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         isLockY: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         moveRatio: {
             type: Number,
-            default: 0.3
+            default: 0.3,
         },
 
         directionLockThreshold: {
             type: Number,
-            default: 5
+            default: 5,
         },
 
         hasBufferMove: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         bufferThreshold: {
             // 触发缓冲运动所需要的最小拖拽距离
             type: Number,
-            default: 15
+            default: 15,
         },
 
         hasReset: {
             type: Boolean,
-            default: true
+            default: true,
         },
 
         bodyStyle: {
             type: Object,
-            default: () => {}
+            default: () => {},
         },
 
         bodyClass: {
             type: Object,
-            default: () => {}
+            default: () => {},
         },
 
         maxHolderTime: {
             type: Number,
-            default: 300
+            default: 300,
         },
 
         isBindBody: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         bodyClass: {
             type: [Object, Array],
-            default: () => {}
-        }
+            default: () => {},
+        },
     },
 
     data() {
@@ -203,7 +203,7 @@ export default {
             distY: 0,
             isInTransition: false,
             bodyHeight: 0, // 内容高度
-            bodyWidth: 0
+            bodyWidth: 0,
         };
     },
 
@@ -214,7 +214,7 @@ export default {
     },
 
     mounted() {
-        this.$nextTick(()=>{
+        this.$nextTick(() => {
             this.updateSize();
         });
         // window.addEventListener('resize', this.updateSize);
@@ -232,12 +232,12 @@ export default {
             if (this.isLockY) {
                 this.warpWidth = getWidth(this.$el);
                 this.bodyWidth = getWidth(this.$refs.body, {
-                    isScroll: true
+                    isScroll: true,
                 });
             } else if (this.isLockX) {
                 this.warpHeight = getHeight(this.$el);
                 this.bodyHeight = getHeight(this.$refs.body, {
-                    isScroll: true
+                    isScroll: true,
                 });
             }
         },
@@ -252,7 +252,7 @@ export default {
             const matrix = style.transform.split(',');
             return {
                 x: Math.round(parseFloat(matrix[4] || matrix[12])),
-                y: Math.round(parseFloat(matrix[5] || matrix[13]))
+                y: Math.round(parseFloat(matrix[5] || matrix[13])),
             };
         },
 
@@ -287,7 +287,6 @@ export default {
 
             this._fixBlur();
 
-            
             // isStopPropagation | preventDefault必须放在顶部, 不然下面的return false 会阻止代码运行
             this.isStopPropagation && e.stopPropagation();
             // 阻止浏览器默认行为
@@ -497,19 +496,19 @@ export default {
             this.$emit('input', this.position);
             this.$emit('transition-end', {
                 ...this.position,
-                type: this.isResting ? 'reset' : 'inertia'
+                type: this.isResting ? 'reset' : 'inertia',
             });
             // 滑动停止
             this.$emit('scroll-end', {
                 ...this.position,
-                type: this.isResting ? 'reset' : 'inertia'
+                type: this.isResting ? 'reset' : 'inertia',
             });
 
             // 到达最底部
             if (Math.abs(this.minY) == this.position.y) {
                 this.$emit('reach-bottom', {
                     ...this.position,
-                    type: this.isResting ? 'reset' : 'inertia'
+                    type: this.isResting ? 'reset' : 'inertia',
                 });
             }
 
@@ -563,7 +562,7 @@ export default {
             this.transitionDuration = duration;
             this.transitionTimingFunction = easing;
             this.isInTransition = 0 < duration;
-        }
+        },
     },
 
     computed: {
@@ -572,9 +571,9 @@ export default {
                 {
                     transform: `translate3d(${Math.round(this.x)}px, ${Math.round(this.y)}px, 0)`,
                     transitionDuration: `${this.transitionDuration}ms`,
-                    transitionTimingFunction: this.transitionTimingFunction
+                    transitionTimingFunction: this.transitionTimingFunction,
                 },
-                this.bodyStyle
+                this.bodyStyle,
             ];
         },
 
@@ -618,7 +617,7 @@ export default {
         position() {
             return {
                 x: -Math.round(this.x),
-                y: -Math.round(this.y)
+                y: -Math.round(this.y),
             };
         },
 
@@ -646,7 +645,7 @@ export default {
         barX() {
             let x = 0 < this.x ? 0 : this.x;
             return Math.round(Math.abs(x * (this.warpWidth - this.barWidth) / this.minX));
-        }
+        },
     },
 
     watch: {
@@ -656,7 +655,7 @@ export default {
                 this.transitionDuration = this.speed;
                 this.x = -value.x;
                 this.y = -value.y;
-            }
+            },
         },
 
         y() {
@@ -665,7 +664,7 @@ export default {
 
         x() {
             this.$emit('scroll', this.position);
-        }
-    }
+        },
+    },
 };
 </script>
