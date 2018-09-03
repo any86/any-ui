@@ -1,9 +1,9 @@
 <template>
-  <transition name="fadeUp">
-      <span v-show="isShow" :style="{padding: `${padding}px`}" :class="[type && 'atom-popper--'+type]" class="atom-popper">
-          <slot>{{content}}</slot>
-      </span>
-  </transition>
+    <transition name="fadeUp">
+        <span v-show="isShow" :style="{padding: `${padding}px`}" :class="[type && 'atom-popper--'+type]" class="atom-popper">
+            <slot>{{content}}</slot>
+        </span>
+    </transition>
 </template>
 
 <script>
