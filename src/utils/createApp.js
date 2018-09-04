@@ -27,6 +27,8 @@ export default function(Vue, component, {
         instances[id] = vm;
         return vm;
     } else {
-        return instances[id];
+        let vm = instances[id];
+        for (let key in props) vm[key] = props[key];
+        return vm;
     }
 };
