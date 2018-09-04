@@ -23,6 +23,8 @@
             @blur="blur" 
             @keyup="keyup" 
             @keydown="keydown"
+            @change="change"
+            @input="input"
             class="atom-input__input">
         
         <!-- 后置 -->
@@ -284,6 +286,10 @@ export default {
             this.validateInEvent('blur');
             this.isShowClearBtn = false;
             this.$emit('blur', e);
+        },
+
+        change(e){
+            this.$emit('change', e);
         },
 
         keyup(e) {
