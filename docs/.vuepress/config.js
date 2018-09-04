@@ -81,12 +81,12 @@ module.exports = {
                 ]
             },
             {
-                title: '全局方法(2)',
+                title: '全局方法(3)',
                 collapsable: false,
                 children: [
                     '/components/$loading',
                     '/components/$toast',
-
+                    '/components/$picker',
                 ]
             }
         ],
