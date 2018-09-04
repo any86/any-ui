@@ -91,21 +91,15 @@ export default {
     name: 'Index',
 
     data() {
-        return { data: 0 };
+        return { };
     },
 
     mounted() {
-        // dir(this)
 
-        setTimeout(() => {
-            this.data = 100;
-        }, 1000);
     },
 
     methods: {
-        touchstart(e) {
-            // log(e)
-        },
+
     },
 };
 </script>
