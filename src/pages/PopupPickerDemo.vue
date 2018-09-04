@@ -11,14 +11,14 @@
 import VPopupPicker from '@/packages/PopupPicker/PopupPicker';
 import VButton from '@/packages/Button/Button';
 import VScrollView from '@/packages/ScrollView/ScrollView';
-import moment from 'moment'
+import dayjs from 'dayjs';
 export default {
     name: 'PopupPickerDemo',
 
     data() {
         let years = [];
         for(let i = 0; i < 5; i++) {
-            let year = moment().add(i, 'y').year();
+            let year = dayjs().add(i, 'y').year();
             years.push({value: year, label: year});
         }
 
@@ -33,7 +33,7 @@ export default {
             isShow: false,
             data1: years,
             data2: months,
-            value: [moment().year(), moment().month()+1]
+            value: [dayjs().year(), dayjs().month()+1]
         };
     },
 

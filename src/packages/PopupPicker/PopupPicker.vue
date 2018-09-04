@@ -21,15 +21,18 @@ export default {
 
     props: {
         dataSource: {
-            type: Array
+            type: Array,
         },
 
         value: {
-            type: Array
+            type: Array,
+            default() {
+                return [];
+            },
         },
 
         isShow: {
-            type: Boolean
+            type: Boolean,
         },
 
         okText: {
@@ -38,17 +41,17 @@ export default {
 
         cancelText: {
             type: String,
-        }
+        },
     },
 
     data() {
         return {
             active: {
-                index: null,
-                value: null,
-                label: null
+                index: undefined,
+                value: undefined,
+                label: undefined,
             }, // 当前选项
-            tempValue: []
+            tempValue: [],
         };
     },
 
@@ -64,7 +67,7 @@ export default {
         },
 
         ok() {
-            this.$emit('ok');
+            this.$emit('ok', this.tempValue);
             this.$emit('input', this.tempValue);
             this.$emit('update:isShow', false);
         },
@@ -72,7 +75,7 @@ export default {
         cancel() {
             this.$emit('cancel');
             this.$emit('update:isShow', false);
-        }
+        },
     },
 
     computed: {
@@ -83,21 +86,21 @@ export default {
 
             set(value) {
                 this.$emit('update:isShow', false);
-            }
-        }
+            },
+        },
     },
 
     watch: {
         _isShow(isShow) {
-            if(isShow) {
-                this.$nextTick(()=>{
+            if (isShow) {
+                this.$nextTick(() => {
                     this.$refs.picker.updateSize();
                 });
             }
             this.tempValue = [...this.value];
-        }
+        },
     },
 
-    components: { APicker, APopup }
+    components: { APicker, APopup },
 };
 </script>

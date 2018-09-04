@@ -71,6 +71,9 @@ import QRCodeDemo from '@/pages/QRCodeDemo'
 // 手势
 import TouchDemo from '@/pages/TouchDemo';
 
+import $pickerDemo from '@/pages/$pickerDemo';
+
+
 // 组合
 const PopupPickerDemo = () => ({
     component: import ('@/pages/PopupPickerDemo')
@@ -291,6 +294,11 @@ export default new Router({
             name: 'loading',
             path: '/loading',
             component: LoadingDemo
-        }
+        },
+        {
+            name: '$picker',
+            path: '/$picker',
+            component: $pickerDemo
+        },
     ]
 });

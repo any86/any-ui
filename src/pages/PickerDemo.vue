@@ -7,7 +7,11 @@
             inline
             @click="setMonth(n)" 
             class="gutter-top-sm gutter-left-sm">{{n}}月</a-button>
-        <a-picker :data-source="[data1, data2]" v-model="value" class="gutter-top"/>
+        <a-picker 
+            :data-source="[data1, data2]" 
+            v-model="value" 
+            @change="change"
+            class="gutter-top"/>
     </a-scroll-view>
     
 </template>
@@ -30,6 +34,10 @@ export default {
     },
 
     methods: {
+        change(data){
+            this.$alert(JSON.stringify(data, null, 4));
+        },
+
         setMonth(index) {
             this.value.splice(1, 1, index);
         }
