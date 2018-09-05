@@ -24,7 +24,6 @@
             @keyup="keyup" 
             @keydown="keydown"
             @change="change"
-            @input="input"
             class="atom-input__input">
         
         <!-- 后置 -->
