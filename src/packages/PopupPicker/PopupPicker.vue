@@ -46,11 +46,6 @@ export default {
 
     data() {
         return {
-            active: {
-                index: undefined,
-                value: undefined,
-                label: undefined,
-            }, // 当前选项
             tempValue: [],
         };
     },
@@ -60,18 +55,30 @@ export default {
     },
 
     methods: {
-        change({ columnIndex, rowIndex, value, label }) {
-            this.tempValue[columnIndex] = value;
-            this.active = { columnIndex, rowIndex, value, label };
-            this.$emit('change', this.active);
+        /**
+         * 改变值
+         * @param {Object} {rowIndex, value, label} 当前列的选中行的数据
+         */
+        change(active) {
+            // 同步当前值到tempValue
+            // 驱动picker同步UI变化
+            const {columnIndex, rowIndex, value} = active
+            this.tempValue.splice(columnIndex, 1, value);
+            this.$emit('change', active);
         },
 
+        /**
+         * 点击确定
+         */
         ok() {
-            this.$emit('ok', this.tempValue);
+            this.$emit('ok', this.actives);
             this.$emit('input', this.tempValue);
             this.$emit('update:isShow', false);
         },
 
+        /**
+         * 点击取消
+         */
         cancel() {
             this.$emit('cancel');
             this.$emit('update:isShow', false);
