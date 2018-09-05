@@ -24,7 +24,6 @@ export default function(Vue, component, {
         for (let key in props) vm[key] = props[key];
         // 监听
         for (let eventName in on){
-            console.log(eventName);
             vm.$off(eventName)
             vm.$on(eventName, on[eventName]);
         } 

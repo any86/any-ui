@@ -1,7 +1,10 @@
 <template>
     <main class="demo-page fill">
-        <p class="text-center">当前值: {{value}}</p>
-        <a-button type="primary" outline  @click="showPicker" class="gutter-top">打开</a-button>
+        <p class="text-center">当前值: {{activeValue}}</p>
+        <a-text-field readonly label="年" v-model="activeLabel.year" @focus="showPicker('year')"></a-text-field>
+        <a-text-field readonly label="月" v-model="activeLabel.month" @focus="showPicker('month')"></a-text-field>
+
+        <a-button type="primary" outline  @click="showPickerAll" class="gutter-top">打开</a-button>
     </main>
 </template>
 <script>
@@ -10,34 +13,33 @@ export default {
     name: 'ApiPickerDemo',
 
     data() {
-        let years = [];
-        for(let i = 0; i < 5; i++) {
-            let year = dayjs().add(i, 'y').year();
-            years.push({value: year, label: year});
-        }
-
-        let months = [];
-        let i = 1;
-        while (i <= 12) {
-            months.push({ value: i, label: i + '月份' });
-            i++;
-        }
-
         return {
             isShow: false,
-            years,
-            months,
-            value: [dayjs().year(), dayjs().month()+1]
+            year: [{ label: '2019年', value: 2019 }, { label: '2018年', value: 2018 }, { label: '2017年', value: 2017 }],
+            month: [{ label: '1月', value: 1 }, { label: '2月', value: 2 }, { label: '3月', value: 3 }],
+            activeLabel: { year: '2018年', month: '2月' },
+            activeValue: { year: 2018, month: 2 },
         };
     },
 
     methods: {
-        showPicker() {
-            this.$picker([this.years, this.months], {
-                value: this.value, // 必填
-                onOk:(value)=>{
+        showPicker(key) {
+            this.$picker([this[key]], {
+                value: [this.activeValue[key]], // 必填
+                onOk: acitves => {
+                    let { value, label } = acitves[0];
+                    this.activeValue[key] = value;
+                    this.activeLabel[key] = label;
+                },
+            });
+        },
+
+        showPickerAll() {
+            this.$picker([this.year, this.month], {
+                value: [this.activeValue.year, this.activeValue.month], // 必填
+                onOk: value => {
                     this.$alert(value);
-                }
+                },
             });
         },
     },

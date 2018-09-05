@@ -1,5 +1,6 @@
 <template>
-    <a-scroll-view>
+    <main>
+        <p class="text-darkest fill">当前value: {{value}}</p>
         <a-button 
             v-for="n in 12" 
             :key="n"
@@ -12,7 +13,7 @@
             v-model="value" 
             @change="change"
             class="gutter-top"/>
-    </a-scroll-view>
+    </main>
     
 </template>
 <script>
@@ -29,19 +30,19 @@ export default {
         return {
             data1: [{ value: 1, label: '休息' }, { value: 2, label: '出差' }],
             data2: data2,
-            value: [1, 2] // 对应dataSouce中的value字段
+            value: [1, 2], // 对应dataSouce中的value字段
         };
     },
 
     methods: {
-        change(data){
-            this.$alert(JSON.stringify(data, null, 4));
+        change(data) {
+            this.$toast(JSON.stringify(data, null, 4));
         },
 
         setMonth(index) {
             this.value.splice(1, 1, index);
-        }
-    }
+        },
+    },
 };
 </script>
 <style scope lang="scss">
