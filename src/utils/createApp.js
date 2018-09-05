@@ -22,6 +22,8 @@ export default function(Vue, component, {
         let vm = new VueSubClass();
         // 传入初始化值
         for (let key in props) vm[key] = props[key];
+        // 监听
+        for (let eventName in on) vm.$on(eventName, on[eventName]);
         // 挂载
         vm.$mount(`#${node.id}`);
         instances[id] = vm;
