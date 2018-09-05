@@ -23,7 +23,11 @@ export default function(Vue, component, {
         // 传入初始化值
         for (let key in props) vm[key] = props[key];
         // 监听
-        for (let eventName in on) vm.$on(eventName, on[eventName]);
+        for (let eventName in on){
+            console.log(eventName);
+            vm.$off(eventName)
+            vm.$on(eventName, on[eventName]);
+        } 
         // 挂载
         vm.$mount(`#${node.id}`);
         instances[id] = vm;
@@ -31,6 +35,10 @@ export default function(Vue, component, {
     } else {
         let vm = instances[id];
         for (let key in props) vm[key] = props[key];
+        for (let eventName in on){
+            vm.$off(eventName)
+            vm.$on(eventName, on[eventName]);
+        } 
         return vm;
     }
 };
