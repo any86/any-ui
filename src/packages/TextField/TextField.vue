@@ -5,6 +5,7 @@
             :value="value"
             :has-feedback="false"
             v-bind="$attrs"
+            v-on="$listeners"
             @error="inputErrorHandler"
             @success="inputSuccessHandler"
             @input="inputHandler"
