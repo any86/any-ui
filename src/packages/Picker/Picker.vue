@@ -13,8 +13,8 @@
             :is-lock-y="false" 
             :is-bind-body="true" 
             :body-style="bodyStyle" 
-            @scroll-end="scrollEndHandle(columnIndex, $event)" 
-            @transition-end="transitionEndHandle(columnIndex, $event)"
+            @scroll-end="scrollEndHandler(columnIndex, $event)" 
+            @transition-end="transitionEndHandler(columnIndex, $event)"
             class="atom-picker__list">
             <div 
                 v-for="(item, rowIndex) in list" 
@@ -39,7 +39,7 @@ export default {
         },
 
         value: {
-            type: Array, // [v1, v2]
+            type: Array, // [value1, value2]
             required: true,
         },
 
@@ -47,6 +47,18 @@ export default {
             type: Number,
             default: 36,
         },
+    },
+
+    computed: {
+        active(){
+            if(0 < this.activeIndexList.length) {
+                return this.dataSource.map((list, index)=>{
+                    let rowIndex = this.activeIndexList[index];
+                    let activeRow = list[rowIndex];
+                    return {rowIndex, ...activeRow};
+                });
+            }
+        }
     },
 
     data() {
@@ -61,7 +73,7 @@ export default {
     },
 
     created() {
-        this._syncPos();
+        this.seekPos();
     },
 
     methods: {
@@ -74,7 +86,7 @@ export default {
             });
         },
 
-        transitionEndHandle(columnIndex, { y, type }) {
+        transitionEndHandler(columnIndex, { y, type }) {
             if ('inertia' === type) {
                 const index = Math.round(y / this.itemHeight);
                 const { value, label } = this.dataSource[columnIndex][index];
@@ -88,32 +100,26 @@ export default {
          * @param {Number} 列表索引
          * @param {Object} 滚动条距离数据
          */
-        scrollEndHandle(columnIndex, position) {
+        scrollEndHandler(columnIndex, position) {
             // 选项index
             const index = Math.round(position.y / this.itemHeight);
             this.activeIndexList.splice(columnIndex, 1, index);
             // 滚动到最近的卡槽位置[驱动VirtualScroller]
             this.positions[columnIndex].y = index * this.itemHeight;
-            const { value, label } = this.dataSource[columnIndex][index];
-            this.$emit('change', {
-                columnIndex,
-                rowIndex: index,
-                value,
-                label,
-            });
+        
+            this.$emit('change', this.active);
         },
         /**
          * 设置scrollTop
          */
-        _syncPos() {
+        seekPos() {
             // 下面有positions的push操作才敢直接赋值为空, 不然数据不响应
             this.positions = [];
             this.activeIndexList = [];
             this.value.forEach((v, columnIndex) => {
                 // 寻找当前列中该值的索引
-                const rowIndex = this._findIndexByValue(columnIndex, v);
+                const rowIndex = this.findRowIndex(columnIndex, v);
                 this.activeIndexList.push(rowIndex);
-
                 // 滑动到指定位置
                 this.positions.push({
                     x: 0,
@@ -127,24 +133,32 @@ export default {
          * @param {any} 给定值
          * @returns {number} 对应的索引
          */
-        _findIndexByValue(columnIndex, value) {
+        findRowIndex(columnIndex, value) {
             return this.dataSource[columnIndex].findIndex(item => {
                 return value == item.value;
             });
         },
-    },
 
-    computed: {},
+         /**
+         * 获取当前选中信息
+         * @param {number} 列索引
+         * @param {number} 行索引
+         * @returns {Object} 对应的索引{lable, value}
+         */   
+        findRow(columnIndex, rowIndex) {
+            return this.dataSource[columnIndex][rowIndex];
+        }
+    },
 
     watch: {
         value() {
-            this._syncPos();
+            this.seekPos();
         },
 
         dataSource: {
             deep: true,
-            handler() {
-                this._syncPos();
+            handler(value) {
+                this.seekPos();
             },
         },
     },
