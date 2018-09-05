@@ -31,28 +31,30 @@ const Picker = (dataSource, {
 } = {}) => {
     let vm = createApp(Vue, APopupPicker, {
         props: {
-            dataSource
+            dataSource,
+            value,
+            isShow: true,
+            title,
+            okText,
+            cancelText
         },
-        isSingle: true
-    });
-    vm.isShow = true;
-    vm.value = value;
-    vm.title = title;
-    vm.okText = okText;
-    vm.cancelText = cancelText;
-    // vm.onOk = onOk;
-    vm.$on('update:isShow', isShow => {
-        vm.isShow = isShow;
+
+        on: {
+            ['update:isShow'](isShow) {
+                vm.isShow = isShow;
+            },
+
+            ['column-change'](data) {
+                onChange(data);
+            },
+
+            ok(data) {
+                onOk(data);
+            }
+
+        }
     });
 
-
-    vm.$on('change', data => {
-        onChange(data);
-    });
-
-    vm.$on('ok', data => {
-        onOk(data);
-    });
     return vm;
 };
 
