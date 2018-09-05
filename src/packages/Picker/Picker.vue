@@ -50,7 +50,7 @@ export default {
     },
 
     computed: {
-        active(){
+        actives(){
             if(0 < this.activeIndexList.length) {
                 return this.dataSource.map((list, index)=>{
                     let rowIndex = this.activeIndexList[index];
@@ -106,8 +106,7 @@ export default {
             this.activeIndexList.splice(columnIndex, 1, index);
             // 滚动到最近的卡槽位置[驱动VirtualScroller]
             this.positions[columnIndex].y = index * this.itemHeight;
-        
-            this.$emit('change', this.active);
+            this.$emit('change', {columnIndex, ...this.actives[columnIndex]});
         },
         /**
          * 设置scrollTop
