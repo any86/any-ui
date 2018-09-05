@@ -106,7 +106,8 @@ export default {
             this.activeIndexList.splice(columnIndex, 1, index);
             // 滚动到最近的卡槽位置[驱动VirtualScroller]
             this.positions[columnIndex].y = index * this.itemHeight;
-            this.$emit('change', {columnIndex, ...this.actives[columnIndex]});
+            this.$emit('column-change', {columnIndex, ...this.actives[columnIndex]});
+            this.$emit('change', this.actives);
         },
         /**
          * 设置scrollTop
