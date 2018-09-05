@@ -1,5 +1,5 @@
 <template>
-    <a-popup :is-show.sync="_isShow" class="atom-popup-pickcer">
+    <a-popup :is-show.sync="_isShow" class="atom-popup-picker">
         <header>
             <span @click="cancel" class=" button-cancel">{{cancelText || t('popupPicker.cancel')}}</span>
             <span v-if="!!$slots.default" class="title">
@@ -7,7 +7,7 @@
             </span>
             <span @click="ok" class="button-ok">{{okText || t('popupPicker.ok')}}</span>
         </header>
-        <a-picker ref="picker" v-model="tempValue" :data-source="dataSource" @change="change"/>
+        <a-picker ref="picker" v-model="tempValue" :data-source="dataSource" @column-change="columnChange" @change="change"/>
     </a-popup>
 </template>
 <script>
@@ -52,6 +52,8 @@ export default {
 
     created() {
         this.tempValue = [...this.value];
+        this.active = {};
+        this.actives = [];
     },
 
     methods: {
@@ -59,12 +61,18 @@ export default {
          * 改变值
          * @param {Object} {rowIndex, value, label} 当前列的选中行的数据
          */
-        change(active) {
+        columnChange(active) {
             // 同步当前值到tempValue
             // 驱动picker同步UI变化
-            const {columnIndex, rowIndex, value} = active
+            const { columnIndex, rowIndex, value } = active;
             this.tempValue.splice(columnIndex, 1, value);
-            this.$emit('change', active);
+            this.active = active;
+            this.$emit('column-change', active);
+        },
+
+        change(actives) {
+            this.actives = actives;
+            this.$emit('change', actives);
         },
 
         /**
