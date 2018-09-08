@@ -175,6 +175,12 @@ const getIsInView = (el, viewRate = 1) => {
  */
 const getBCR = el => el.getBoundingClientRect();
 
+
+/**
+ * 把秒转成时分秒日
+ * @param {Number} 秒数 
+ * @param {Number} 精度(1:秒,2:分,3:时, 4:日) 
+ */
 const parseTime = (number, precision = 1) => {
     switch (precision) {
         case 1: {
@@ -207,7 +213,12 @@ const parseTime = (number, precision = 1) => {
         };
     }
 }
-
+/**
+ * 倒计时
+ * @param {Number}} 剩余秒数 
+ * @param {Function} 倒计时到达后的回调函数
+ * @param {Number} 精度(1:秒,2:分,3:时, 4:日)
+ */
 const countDownTime = (number, callback, precision=3) => {
     if (0 < number) {
         setTimeout(() => {
