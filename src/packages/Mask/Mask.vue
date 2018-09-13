@@ -83,12 +83,12 @@ export default {
 
     watch: {
         isShow(isShow) {
+            console.log(isShow);
             if (isShow) {
-                this.bodyOverflow = document.documentElement.style.overflow;
-                document.documentElement.style.overflow = 'hidden';
+                document.documentElement.classList.add('ovh');
                 getConfig('ON_MASK_SHOW')();
             } else {
-                document.documentElement.style.overflow = this.bodyOverflow;
+                document.documentElement.classList.remove('ovh');
                 getConfig('ON_MASK_HIDE')();
             }
         },
