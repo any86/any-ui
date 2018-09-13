@@ -83,7 +83,6 @@ export default {
 
     watch: {
         isShow(isShow) {
-            console.log(isShow);
             if (isShow) {
                 document.documentElement.classList.add('ovh');
                 getConfig('ON_MASK_SHOW')();
