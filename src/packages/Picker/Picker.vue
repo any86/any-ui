@@ -17,6 +17,7 @@
             @transition-end="transitionEndHandler(columnIndex, $event)"
             class="atom-picker__list">
             <div 
+                v-if="!item.disabled"
                 v-for="(item, rowIndex) in list" 
                 :key="rowIndex" 
                 :style="{height: `${itemHeight}px`, lineHeight: `${itemHeight}px`}" 
