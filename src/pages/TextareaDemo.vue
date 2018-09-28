@@ -1,8 +1,19 @@
 <template>
-    <a-scroll-view>
+    <main>
         <a-cell>
             <template slot="title">常规</template>
-            <a-textarea ref="test" :autofocus="true" @focus="focus" @blur="blur" v-model="content1"/>
+            <a-textarea 
+                :maxlength="10"
+                ref="test" 
+                :autofocus="true" 
+                @focus="focus" 
+                @blur="blur" 
+                @change-length="changeLength"
+                v-model="content1">
+                <span slot="append" class="fill-right-sm">
+                    {{10 < length1 ? 0 : 10 - length1}} left
+                </span>
+            </a-textarea>
         </a-cell>
 
         <a-cell>
@@ -10,7 +21,7 @@
             <a-textarea :filter-exp="exp" v-model="content2"/>
         </a-cell>
 
-    </a-scroll-view>
+    </main>
 </template>
 <script>
 export default {
@@ -19,27 +30,26 @@ export default {
     data() {
         return {
             exp: new RegExp('[a-zA-Z]', 'g'),
+            length1: 0,
             content1: 'hello vue',
             content2: '过滤字母',
-            
         };
     },
 
-    mounted(){ 
-        console.dir(this.$refs.test.$refs.textarea);
-    },
-
     methods: {
-        focus(e){
+        changeLength(length) {
+            this.length1 = length;
+        },
+
+        focus(e) {
             console.dir(e);
         },
 
-        blur(e){
+        blur(e) {
             console.dir(e);
         },
-    }
+    },
 };
 </script>
 <style scoped lang="scss">
-
 </style>

@@ -1,8 +1,10 @@
 .atom-textarea {
     background: $white;
+    display: flex;
+    align-items: center;
     >textarea {
         display: block;
-        width: 100%;
+        flex:1;
         box-sizing: border-box;
         padding: $gutter/2 $gutter;
         height: 28px;
@@ -14,11 +16,5 @@
         font-size: $normal;
         word-break: break-all;
         word-wrap: break-word;
-    }
-    &__prompt{
-        padding: $gutter;
-        text-align: end;
-        font-size: $normal;
-        >span{color: $base;font-size: inherit;}
     }
 }

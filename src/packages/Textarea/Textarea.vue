@@ -1,5 +1,6 @@
 <template>
-    <div class="atom-textarea border">
+    <div class="atom-textarea">
+        <slot name="prepend"/>
         <textarea 
             ref="textarea" 
             v-bind="$attrs"
@@ -8,7 +9,7 @@
             @blur="blur"
             @keyup="keyup"
             @input="input"/>
-        <p v-if="isShowPrompt && 0 < maxLength" class="atom-textarea__prompt"><span>{{length}}</span>/{{maxLength}}</p>
+        <slot name="append"/>
     </div>
 </template>
 <script>
@@ -17,28 +18,32 @@ export default {
     name: 'AtomTextarea',
 
     props: {
-        isShowPrompt: {
-            type: Boolean,
-            default: false
-        },
-
         value: {
-            type: String
+            type: String,
         },
 
         filterExp: {
-            type: RegExp
-        }
+            type: RegExp,
+        },
     },
 
-    created() {
-        this.$emit('input', this.filter(this.value));
+    computed: {
+        length() {
+            // 表情字符算一个字符
+            const regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+            return this.value.replace(regexAstralSymbols, '_').length;
+        },
     },
 
-    mounted() {
-        autosize(this.$refs.textarea);
+    data() {
+        return { maxlength: Infinity };
     },
 
+    watch: {
+        length(length) {
+            this.$emit('change-length', length);
+        },
+    },
 
     methods: {
         /**
@@ -51,7 +56,9 @@ export default {
         },
 
         input(e) {
-            this.$emit('input', e.target.value);
+            if (this.maxlength >= this.length) {
+                this.$emit('input', e.target.value);
+            }
         },
 
         focus(e) {
@@ -64,24 +71,21 @@ export default {
 
         keyup(e) {
             this.$emit('input', this.filter(e.target.value));
-        }
+            this.$forceUpdate();
+        },
     },
 
-    computed: {
-        length() {
-            if (this.isShowPrompt) {
-                // 表情字符算一个字符
-                function countSymbols(text = '') {
-                    const regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
-                    return text.replace(regexAstralSymbols, '_').length;
-                }
-                return countSymbols(this.value);
-            }
-        }
+    created() {
+        this.$emit('input', this.filter(this.value));
+    },
+
+    mounted() {
+        autosize(this.$refs.textarea);
+        this.maxlength = this.$refs.textarea.getAttribute('maxlength');
     },
 
     destroyed() {
         autosize.destroy(this.$refs.textarea);
-    }
+    },
 };
 </script>

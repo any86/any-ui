@@ -22,7 +22,6 @@
 | 参数 | 说明 | 类型 | 默认值 | 可选值 |是否必选
 |-----------|-----------|-----------|-------------|-------------|-------------|
 | value | 内容 | `String` | - |-|否|
-| isShowPrompt | 是否显示总数提示 | `Boolean` | false |-|否|
 | filterExp |过滤指定条件的输入| `String` / `RegExp` | - |-|否|
 
 ##### events
@@ -32,3 +31,4 @@
 | input | 内容发生变化触发 | 当前输入内容|`String`|
 | focus | 得到焦点触发 | Event对象 |`Object`|
 | blur | 失去焦点触发 | Event对象|`Object`|
+| change-length | 输入文字的字数发生变化触发| 当前文字长度| `number`|
