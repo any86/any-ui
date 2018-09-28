@@ -32,3 +32,4 @@
 | focus | 得到焦点触发 | Event对象 |`Object`|
 | blur | 失去焦点触发 | Event对象|`Object`|
 | change-length | 输入文字的字数发生变化触发| 当前文字长度| `number`|
+| change-left-length | 输入文字的字数发生变化触发| 还可以输入多少文字| `number`|

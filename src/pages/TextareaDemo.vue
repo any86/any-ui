@@ -9,9 +9,10 @@
                 @focus="focus" 
                 @blur="blur" 
                 @change-length="changeLength"
+                @change-left-length="changeLeftLength"
                 v-model="content1">
                 <span slot="append" class="fill-right-sm">
-                    {{10 < length1 ? 0 : 10 - length1}} left
+                    {{leftLength1}} left
                 </span>
             </a-textarea>
         </a-cell>
@@ -31,12 +32,17 @@ export default {
         return {
             exp: new RegExp('[a-zA-Z]', 'g'),
             length1: 0,
-            content1: 'hello vue',
+            leftLength1: 0,
+            content1: 'vue atom',
             content2: '过滤字母',
         };
     },
 
     methods: {
+        changeLeftLength(leftLength) {
+            this.leftLength1 = leftLength;
+        },
+
         changeLength(length) {
             this.length1 = length;
         },

@@ -42,6 +42,11 @@ export default {
     watch: {
         length(length) {
             this.$emit('change-length', length);
+            const maxlength = this.$refs.textarea.getAttribute('maxlength');
+            if (0 < maxlength) {
+                const leftLength = maxlength - this.length;
+                this.$emit('change-left-length', 0 < leftLength ? leftLength : 0);
+            }
         },
     },
 
@@ -56,9 +61,7 @@ export default {
         },
 
         input(e) {
-            if (this.maxlength >= this.length) {
-                this.$emit('input', e.target.value);
-            }
+            this.$emit('input', e.target.value);
         },
 
         focus(e) {
@@ -81,7 +84,11 @@ export default {
 
     mounted() {
         autosize(this.$refs.textarea);
-        this.maxlength = this.$refs.textarea.getAttribute('maxlength');
+        const maxlength = this.$refs.textarea.getAttribute('maxlength');
+        if (0 < maxlength) {
+            const leftLength = maxlength - this.length;
+            this.$emit('change-left-length', 0 < leftLength ? leftLength : 0);
+        }
     },
 
     destroyed() {
