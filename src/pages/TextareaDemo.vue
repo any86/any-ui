@@ -1,7 +1,7 @@
 <template>
     <main>
         <a-cell>
-            <template slot="title">常规</template>
+            <template slot="prepend">常规</template>
             <a-textarea 
                 :maxlength="10"
                 ref="test" 
@@ -18,10 +18,9 @@
         </a-cell>
 
         <a-cell>
-            <template slot="title">过滤字母</template>
+            <template slot="prepend">过滤字母</template>
             <a-textarea :filter-exp="exp" v-model="content2"/>
         </a-cell>
-
     </main>
 </template>
 <script>

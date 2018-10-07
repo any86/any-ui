@@ -1,19 +1,54 @@
 ## Textarea
-多行文本框, 支持自动换行.
+多行文本框, 支持自动换行(感谢autosize). 
 
 ### 基本使用
 ``` javascript
-{
-    data(){
+export default {
+    data() {
         return {
-            content: '',
-        }
+            exp: new RegExp('[a-zA-Z]', 'g'),
+            length1: 0,
+            leftLength1: 0,
+            content1: 'vue atom',
+            content2: '过滤字母',
+        };
     },
-}
+
+    methods: {
+        /**
+         * 输入文字长度变化触发,返回还可输入字符长度
+         * */
+        changeLeftLength(leftLength) {
+            this.leftLength1 = leftLength;
+        },
+
+        /**
+         * 输入文字长度变化触发, 返回当前字符长度
+         * */
+        changeLength(length) {
+            this.length1 = length;
+        },
+    },
+};
 ```
 
 ``` html
-    <a-textarea v-model="content"/>
+    <a-textarea 
+        :maxlength="10"
+        ref="test" 
+        :autofocus="true" 
+        @focus="focus" 
+        @blur="blur" 
+        @change-length="changeLength"
+        @change-left-length="changeLeftLength"
+        v-model="content1">
+        <span slot="append" class="fill-right-sm">
+            {{leftLength1}} left
+        </span>
+    </a-textarea>
+
+    <!-- 过滤输入 -->
+    <a-textarea :filter-exp="exp" v-model="content2"/>
 ```
 
 ### API
