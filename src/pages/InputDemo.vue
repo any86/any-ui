@@ -1,8 +1,13 @@
 <template>
-    <main >
+    <main>
+
+
+
+
         <a-cell>
             <template slot="prepend">学 校 *</template>
             <a-input 
+                
                 class="padding-left" 
                 ref="inputSchool" 
                 required 
@@ -38,7 +43,9 @@
 
         <a-cell>
             <template slot="prepend">流 水 号</template>
-            <a-input class="padding-left" maxlength="13" v-model="text4" type="number" />
+            <a-input class="padding-left" maxlength="13" v-model="text4" type="number">
+                <template></template>
+            </a-input>
         </a-cell>
         
         <a-cell>

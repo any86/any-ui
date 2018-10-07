@@ -8,11 +8,9 @@
                 :autofocus="true" 
                 @focus="focus" 
                 @blur="blur" 
-                @change-length="changeLength"
-                @change-left-length="changeLeftLength"
                 v-model="content1">
                 <span slot="append" class="fill-right-sm">
-                    {{leftLength1}} left
+                    {{10 - content1.length}} left
                 </span>
             </a-textarea>
         </a-cell>
@@ -30,22 +28,12 @@ export default {
     data() {
         return {
             exp: new RegExp('[a-zA-Z]', 'g'),
-            length1: 0,
-            leftLength1: 0,
             content1: 'vue atom',
             content2: '过滤字母',
         };
     },
 
     methods: {
-        changeLeftLength(leftLength) {
-            this.leftLength1 = leftLength;
-        },
-
-        changeLength(length) {
-            this.length1 = length;
-        },
-
         focus(e) {
             console.dir(e);
         },

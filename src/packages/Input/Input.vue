@@ -111,6 +111,12 @@ export default {
         isEmpty() {
             return undefined !== this.text && 0 === this.text.length;
         },
+
+        length() {
+            // 表情字符算一个字符
+            const regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+            return this.value.replace(regexAstralSymbols, '_').length;
+        },
     },
 
     data() {
@@ -222,7 +228,7 @@ export default {
             let isAllPass = true;
             return new Promise(async (resolve, reject) => {
                 // 如果不指定rules, 那么默认验证所有
-                for (let rule of (rules || this.rules)) {
+                for (let rule of rules || this.rules) {
                     try {
                         await this._validate(rule);
                     } catch (error) {
@@ -287,7 +293,7 @@ export default {
             this.$emit('blur', e);
         },
 
-        change(e){
+        change(e) {
             this.$emit('change', e);
         },
 
