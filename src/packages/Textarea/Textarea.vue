@@ -35,10 +35,6 @@ export default {
         },
     },
 
-    data() {
-        return { maxlength: Infinity };
-    },
-
     watch: {
         length(length) {
             this.$emit('change-length', length);
