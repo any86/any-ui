@@ -35,17 +35,6 @@ export default {
         },
     },
 
-    watch: {
-        length(length) {
-            this.$emit('change-length', length);
-            const maxlength = this.$refs.textarea.getAttribute('maxlength');
-            if (0 < maxlength) {
-                const leftLength = maxlength - this.length;
-                this.$emit('change-left-length', 0 < leftLength ? leftLength : 0);
-            }
-        },
-    },
-
     methods: {
         /**
          * 过滤指定字符

@@ -1,5 +1,5 @@
 <template>
-    <main >
+    <main>
         <a-cell>
             <template slot="prepend">学 校 *</template>
             <a-input 
@@ -9,7 +9,7 @@
                 :rules="rules" 
                 placeholder="请输入学校" 
                 v-model="text1">
-                <a-icon  slot="append" @click="$alert('我在append插槽中')" name="menu" size="16" />
+                <a-icon  class="gutter-left-sm" slot="append" @click="$alert('我在append插槽中')" name="star-o" size="16" />
             </a-input>
         </a-cell>
 
@@ -22,13 +22,12 @@
                 :rules="rules2" 
                 placeholder="请输入姓名" 
                 v-model="text11">
-                <a-icon  slot="append" @click="$alert('我在append插槽中')" name="menu" size="16" />
             </a-input>
         </a-cell>
 
         <a-cell>
             <template slot="prepend">银行卡流水</template>
-            <a-input class="padding-left" maxlength="19" v-model="text2" type="bankCode" />
+            <a-input class="padding-left" max="19" v-model="text2" type="bankCode" />
         </a-cell>
 
         <a-cell>
@@ -38,7 +37,9 @@
 
         <a-cell>
             <template slot="prepend">流 水 号</template>
-            <a-input class="padding-left" maxlength="13" v-model="text4" type="number" />
+            <a-input class="padding-left" maxlength="13" v-model="text4" type="number">
+                <template></template>
+            </a-input>
         </a-cell>
         
         <a-cell>

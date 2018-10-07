@@ -13,22 +13,6 @@ export default {
             content2: '过滤字母',
         };
     },
-
-    methods: {
-        /**
-         * 输入文字长度变化触发,返回还可输入字符长度
-         * */
-        changeLeftLength(leftLength) {
-            this.leftLength1 = leftLength;
-        },
-
-        /**
-         * 输入文字长度变化触发, 返回当前字符长度
-         * */
-        changeLength(length) {
-            this.length1 = length;
-        },
-    },
 };
 ```
 
@@ -39,8 +23,6 @@ export default {
         :autofocus="true" 
         @focus="focus" 
         @blur="blur" 
-        @change-length="changeLength"
-        @change-left-length="changeLeftLength"
         v-model="content1">
         <span slot="append" class="fill-right-sm">
             {{leftLength1}} left
@@ -66,5 +48,3 @@ export default {
 | input | 内容发生变化触发 | 当前输入内容|`String`|
 | focus | 得到焦点触发 | Event对象 |`Object`|
 | blur | 失去焦点触发 | Event对象|`Object`|
-| change-length | 输入文字的字数发生变化触发| 当前文字长度| `number`|
-| change-left-length | 输入文字的字数发生变化触发| 还可以输入多少文字| `number`|
