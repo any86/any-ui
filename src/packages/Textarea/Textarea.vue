@@ -22,7 +22,7 @@ export default {
             type: String,
         },
 
-        filterExp: {
+        filter: {
             type: RegExp,
         },
     },
@@ -42,7 +42,7 @@ export default {
          * @returns {String} 过滤后字符串
          */
         filter(string) {
-            return undefined !== this.filterExp ? string.replace(this.filterExp, '') : string;
+            return undefined !== this.filter ? string.replace(this.filter, '') : string;
         },
 
         input(e) {
