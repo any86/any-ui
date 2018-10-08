@@ -41,7 +41,7 @@ export default {
          * @argument {String} 输入
          * @returns {String} 过滤后字符串
          */
-        filter(string) {
+        filterInput(string) {
             return undefined !== this.filter ? string.replace(this.filter, '') : string;
         },
 
@@ -58,22 +58,17 @@ export default {
         },
 
         keyup(e) {
-            this.$emit('input', this.filter(e.target.value));
+            this.$emit('input', this.filterInput(e.target.value));
             this.$forceUpdate();
         },
     },
 
     created() {
-        this.$emit('input', this.filter(this.value));
+        this.$emit('input', this.filterInput(this.value));
     },
 
     mounted() {
         autosize(this.$refs.textarea);
-        const maxlength = this.$refs.textarea.getAttribute('maxlength');
-        if (0 < maxlength) {
-            const leftLength = maxlength - this.length;
-            this.$emit('change-left-length', 0 < leftLength ? leftLength : 0);
-        }
     },
 
     destroyed() {

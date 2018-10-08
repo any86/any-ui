@@ -356,6 +356,7 @@ export default {
     created() {
         // 同步默认值
         this.text = this.value;
+        this.$emit('input', this.filterInput(this.value));
     },
 
     mounted() {
