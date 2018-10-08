@@ -17,7 +17,7 @@
 
         <a-cell>
             <template slot="prepend">过滤字母</template>
-            <a-textarea :filter-exp="exp" v-model="content2"/>
+            <a-textarea :filter="exp" v-model="content2"/>
         </a-cell>
     </main>
 </template>
