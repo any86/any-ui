@@ -4,8 +4,7 @@
             <template slot="prepend">常规</template>
             <a-textarea 
                 :maxlength="10"
-                ref="test" 
-                :autofocus="true" 
+                
                 @focus="focus" 
                 @blur="blur" 
                 v-model="content1">
@@ -17,7 +16,7 @@
 
         <a-cell>
             <template slot="prepend">过滤字母</template>
-            <a-textarea :filter="exp" v-model="content2"/>
+            <a-textarea ref="test"  :filter="exp" v-model="content2"/>
         </a-cell>
     </main>
 </template>
@@ -42,6 +41,10 @@ export default {
             console.dir(e);
         },
     },
+
+    mounted(){
+        this.$refs.test.$refs.textarea.focus();
+    }
 };
 </script>
 <style scoped lang="scss">
