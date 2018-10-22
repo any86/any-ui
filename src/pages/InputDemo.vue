@@ -80,7 +80,7 @@ export default {
             text3: '133123456789',
             text4: '01234567',
             text5: 'abc',
-            text6: 'abc',
+            text6: '',
             isShowWarning: true,
             rules: [RULE_1, RULE_2, RULE_3, RULE_4, RULE_5, RULE_6, RULE_7],
             rules2: [{ required: true, message: '姓名不能为空!' }],
