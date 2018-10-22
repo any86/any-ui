@@ -58,6 +58,8 @@ button {
     display: inline-block;
     user-select: none;
     padding: $gutter*0.8 $gutter*2;
+    min-height: 1rem;
+    max-height: 50px;
     text-align: center;
     white-space: nowrap; // letter-spacing: 1px;
     text-decoration: none;
