@@ -79,6 +79,8 @@ button {
     }
     &[inline] {
         // line-height: 1 !important;
+        min-height: auto !important;
+        max-height: auto !important;
         padding: 6px 11px !important;
         font-size: 12px;
     }
