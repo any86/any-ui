@@ -2,8 +2,8 @@
     <a-dialog :is-show="isShow" :align="align" :has-close="false">
         <template v-if="!!title" slot="header">{{title}}</template>
         {{content}}
-        <a-button-group slot="footer" class="border-top">
-            <a-button @click="cancel" type="white">{{cancelText}}</a-button>
+        <a-button-group slot="footer">
+            <a-button @click="cancel" type="white" class="border-left-none">{{cancelText}}</a-button>
             <a-button @click="ok" type="primary">{{okText}}</a-button>
         </a-button-group>
     </a-dialog>
