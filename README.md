@@ -9,7 +9,7 @@
 [downloads-url]: https://npmjs.org/package/vue-atom-ui
 
 
-##演示
+## 演示
 [预览地址](https://383514580.github.io/atom/#/index)
 
 ## 文档
