@@ -67,7 +67,7 @@ export default {
             this.$emit('update:isShow', false);
             this.$nextTick(() => {
                 this.onOk();
-            });
+        });
         },
 
         cancel() {

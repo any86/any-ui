@@ -35,3 +35,7 @@
         border-right: $size solid $color;
     }
 }
+
+@mixin thinBorder($direction :'bottom'){
+    border-#{$direction}: 0.5px solid $lighter;
+}

@@ -21,6 +21,7 @@ import ButtonDemo from '@/pages/ButtonDemo';
 import ButtonGroupDemo from '@/pages/ButtonGroupDemo';
 import RangeDemo from '@/pages/RangeDemo';
 import RateDemo from '@/pages/RateDemo';
+import ActionSheetDemo from '@/pages/ActionSheetDemo';
 
 // 对话框
 const AlertDemo = () => ({
@@ -300,5 +301,12 @@ export default new Router({
             path: '/$picker',
             component: $pickerDemo
         },
+
+        {
+            name: 'ActionSheet',
+            path: '/ActionSheet',
+            component: ActionSheetDemo
+        },
+        
     ]
 });

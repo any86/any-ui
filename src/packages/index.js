@@ -7,9 +7,15 @@ import {
     Confirm,
     Prompt
 } from './Dialog/index.js';
+
+import ActionSheet from './ActionSheet/index.js'
+
+
 // 轻提示
 import Toast from './Toast/index.js';
-import { Loading } from './Loading/index.js';
+import {
+    Loading
+} from './Loading/index.js';
 
 // 水波纹特效
 import ripple from '../directives/ripple/index.js';
@@ -24,14 +30,16 @@ let Atom = {
     Alert,
     Confirm,
     Prompt,
-    Toast, Loading,
+    Toast,
+    Loading,
+    ActionSheet,
     locale
 };
 import {
     mergeConfigs
 } from './config/index.js';
 
-Atom.install = function (Vue, opts = {}) {
+Atom.install = function(Vue, opts = {}) {
     // 使用指定语言
     locale.use(opts.locale);
 

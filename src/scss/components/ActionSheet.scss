@@ -1,0 +1,36 @@
+.atom-action-sheet {
+    .action-sheet__panel {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        padding: $gutter/2;
+
+        .actions {
+            overflow: hidden;
+            background: $background;
+            border-radius: $borderRadius;
+
+            &__title {
+                font-weight: 400;
+                font-size: $small;
+                padding: $gutter;
+                color:$darker;
+                @include thinBorder();
+            }
+
+            &__buttons {
+                >.button {
+                    text-align: center;
+                    padding: $gutter;
+                    @include thinBorder();
+
+                    &:last-child{
+                        border-bottom:none;
+                    }
+                }
+            }
+        }
+
+    }
+}
