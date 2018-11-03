@@ -29,13 +29,8 @@ const ActionSheet = ({
     });
 
     vm.$on('select', (index) => {
-        vm.isShow = false;
+        vm.closePanel();
     });
-
-    // 关闭ActionSheet
-    ActionSheet.close = () => {
-        vm.isShow = false;
-    };
 
     // 销毁实例
     ActionSheet.destory = () => {
