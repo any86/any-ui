@@ -13,7 +13,7 @@ const ActionSheet = ({
     title = '',
     cancelText =  'cancel',
     dataSource = [],
-    onClickBtn=()=>{}
+    onClickAction=()=>{}
 } = {}) => {
     let vm = createApp(Vue, AActionSheet, {
         props: {
@@ -29,8 +29,8 @@ const ActionSheet = ({
         vm.isShow = isShow;
     });
 
-    vm.$on('click-btn', (index) => {
-        onClickBtn(index, dataSource[index]);
+    vm.$on('click-action', (index) => {
+        onClickAction(index, dataSource[index]);
         vm.closePanel();
     });
 

@@ -77,7 +77,7 @@ export default {
          * 点击选项
          */
         clickBtn(index) {
-            this.$emit('click-btn', index);
+            this.$emit('click-action', index);
         },
 
         /**
