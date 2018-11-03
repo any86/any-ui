@@ -1,11 +1,43 @@
 .atom-btn-group {
     display: flex;
-    width:100%;
-    >.atom-btn {
-        flex: 1;
-        border-radius: 0;
-        &:not(:last-child) {
-            border-right: none;
+    flex-direction: row;
+    width: 100%;
+
+    // 水平排列
+    &:not([column]) {
+        >.atom-btn {
+            flex: 1;
+            border-radius: 0 !important;
+
+            &:not(:last-child) {
+                border-right: none;
+            }
         }
     }
+
+
+    // 垂直排列
+    &[column] {
+        flex-direction: column !important;
+        border-radius: $borderRadius;
+
+        >.atom-btn {
+            flex: 1;
+            border-radius: 0;
+
+            &:first-child {
+                border-radius: $borderRadius $borderRadius 0 0;
+            }
+
+            &:last-child {
+                border-radius: 0 0 $borderRadius $borderRadius;
+            }
+
+            &:not(:last-child) {
+                border-bottom: none !important;
+            }
+        }
+    }
+
+
 }

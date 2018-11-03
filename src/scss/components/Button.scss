@@ -42,7 +42,7 @@ button {
     -webkit-appearance: none;
     outline: none;
     border: 0 none;
-    border-radius: 0;
+    border-radius: $borderRadius;
     font-weight: 900;
     &[type='button'],
     [type='reset'],
