@@ -3,9 +3,16 @@
 
 ### 基本使用
 ``` html
-<a-button-gorup>
-    <a-button :is-ghost="true" type="warning">warning</a-button>
-    <a-button :is-ghost="true" type="primary">primary</a-button>
-    <a-button :is-ghost="true" type="success">success</a-button>
-</a-button-gorup>
+    <a-button-group>
+        <a-button type="primary">primary</a-button>
+        <a-button type="white">white</a-button>
+        <a-button type="info">info</a-button>
+    </a-button-group>
+    
+    <!-- column 让按钮垂直排列 -->
+    <a-button-group class="gutter-top" column>
+        <a-button type="white">white</a-button>
+        <a-button type="white">white</a-button>
+        <a-button type="white">white</a-button>
+    </a-button-group>
 ```
