@@ -7,7 +7,7 @@
     <a-affix>
         我自动置顶
     </a-affix>
-</mian>
+</main>
 ```
 
 ### API

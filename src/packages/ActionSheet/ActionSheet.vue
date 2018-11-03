@@ -13,8 +13,10 @@
                         <li 
                             v-for="({content, type}, index) in dataSource" 
                             :key="content"
+                            v-html="content"
                             @click="select(index)"
-                            class="button">{{content}}</li>
+                            :class="[`text-${type}`]"
+                            class="button" ></li>
                     </ul>
                 </section>
                 <!-- 关闭按钮 -->
@@ -46,8 +48,8 @@ export default {
         },
 
         cancelText: {
-            type: String
-        }
+            type: String,
+        },
     },
 
     data() {

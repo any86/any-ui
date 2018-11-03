@@ -24,7 +24,7 @@
                     text-align: center;
                     padding: $gutter;
                     @include thinBorder();
-
+                    font-weight: 700;
                     &:last-child{
                         border-bottom:none;
                     }

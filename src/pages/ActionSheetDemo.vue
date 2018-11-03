@@ -28,13 +28,14 @@ export default {
     methods: {
         open() {
             this.$action({
-                title: '请选择一个',
+                title: '请选择一个水果',
                 dataSource: [
                     {
-                        content: '免费刻字',
+                        type: 'danger',
+                        content: '苹果',
                     },
                     {
-                        content: '收费刻字(+$100)',
+                        content: '鸭梨',
                     },
                 ],
             });
