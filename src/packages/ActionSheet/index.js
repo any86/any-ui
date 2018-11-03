@@ -12,14 +12,15 @@ import createApp from '@/utils/createApp'
 const ActionSheet = ({
     title = '',
     cancelText =  'cancel',
-    dataSource = []
+    dataSource = [],
+    onClickBtn=()=>{}
 } = {}) => {
     let vm = createApp(Vue, AActionSheet, {
         props: {
             title,
             dataSource,
             cancelText
-        }
+        },
     });
     // 让isShow发生变化
     vm.isShow = true;
@@ -28,7 +29,8 @@ const ActionSheet = ({
         vm.isShow = isShow;
     });
 
-    vm.$on('select', (index) => {
+    vm.$on('click-btn', (index) => {
+        onClickBtn(index, dataSource[index]);
         vm.closePanel();
     });
 

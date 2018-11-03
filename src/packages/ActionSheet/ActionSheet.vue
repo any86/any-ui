@@ -14,7 +14,7 @@
                             v-for="({content, type}, index) in dataSource" 
                             :key="content"
                             v-html="content"
-                            @click="select(index)"
+                            @click="clickBtn(index)"
                             :class="[`text-${type}`]"
                             class="button" ></li>
                     </ul>
@@ -58,10 +58,6 @@ export default {
         };
     },
 
-    mounted() {
-        // alert(321);
-    },
-
     methods: {
         /**
          * Mask进入动画执行完毕后, 显示面板
@@ -80,8 +76,8 @@ export default {
         /**
          * 点击选项
          */
-        select(index) {
-            this.$emit('select', index);
+        clickBtn(index) {
+            this.$emit('click-btn', index);
         },
 
         /**
