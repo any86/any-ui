@@ -3,8 +3,8 @@
         position: absolute;
         left: 0;
         bottom: 0;
-        bottom: constant(safe-area-inset-bottom);
-        bottom: env(safe-area-inset-bottom);
+        bottom: calc($gutter + constant(safe-area-inset-bottom));
+        bottom: cale($gutter + env(safe-area-inset-bottom));
         right: 0;
         padding: $gutter/2;
 
