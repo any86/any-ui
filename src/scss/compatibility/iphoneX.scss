@@ -1,0 +1,10 @@
+@supports (bottom: constant(safe-area-inset-bottom)) or (bottom: env(safe-area-inset-bottom)) {
+    .fixed-bottom--ipx {
+        bottom: constant(safe-area-inset-bottom) !important;
+        bottom: env(safe-area-inset-bottom) !important;
+    }
+
+    .border-rounded-ipx {
+        border-radius: $borderRadius !important;
+    }
+}

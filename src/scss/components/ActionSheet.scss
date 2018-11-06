@@ -3,6 +3,8 @@
         position: absolute;
         left: 0;
         bottom: 0;
+        bottom: constant(safe-area-inset-bottom);
+        bottom: env(safe-area-inset-bottom);
         right: 0;
         padding: $gutter/2;
 
@@ -15,7 +17,7 @@
                 font-weight: 400;
                 font-size: $small;
                 padding: $gutter;
-                color:$darker;
+                color: $darker;
                 @include thinBorder();
             }
 
@@ -25,8 +27,9 @@
                     padding: $gutter;
                     @include thinBorder();
                     font-weight: 700;
-                    &:last-child{
-                        border-bottom:none;
+
+                    &:last-child {
+                        border-bottom: none;
                     }
                 }
             }
