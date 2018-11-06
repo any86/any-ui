@@ -20,7 +20,7 @@
                     </ul>
                 </section>
                 <!-- 关闭按钮 -->
-                <a-button @click="closePanel" type="white" class="gutter-top gutter-bottom-sm text-dark">{{cancelText}}</a-button>
+                <a-button @click="closePanel" type="white" class="gutter-top gutter-bottom text-dark">{{cancelText}}</a-button>
             </section>
         </transition>
     </a-mask>
