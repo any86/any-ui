@@ -8,26 +8,15 @@ export default {
     name: 'ActionSheetDemo',
 
     mounted() {
-        this.$action({
-            title: '请选择一个',
-            dataSource: [
-                {
-                    content: '免费刻字',
-                },
-                {
-                    content: '收费刻字(+$100)',
-                },
-            ],
-        });
-
-        // setTimeout(() => {
-        //     this.$action.close();
-        // }, 1000);
+        this.open();
     },
 
     methods: {
         open() {
             this.$action({
+                onClickAction: index=>{
+                    console.log(index);
+                },
                 title: '请选择一个水果',
                 dataSource: [
                     {

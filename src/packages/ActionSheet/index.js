@@ -11,9 +11,9 @@ import createApp from '@/utils/createApp'
  */
 const ActionSheet = ({
     title = '',
-    cancelText =  'cancel',
+    cancelText = 'cancel',
     dataSource = [],
-    onClickAction=()=>{}
+    onClickAction = () => {}
 } = {}) => {
     let vm = createApp(Vue, AActionSheet, {
         props: {
@@ -21,18 +21,20 @@ const ActionSheet = ({
             dataSource,
             cancelText
         },
+
+        on: {
+            'click-action': (index) => {
+                onClickAction(index, dataSource[index]);
+                vm.closePanel();
+            },
+
+            'update:isShow': isShow => {
+                vm.isShow = isShow;
+            }
+        }
     });
     // 让isShow发生变化
     vm.isShow = true;
-
-    vm.$on('update:isShow', isShow => {
-        vm.isShow = isShow;
-    });
-
-    vm.$on('click-action', (index) => {
-        onClickAction(index, dataSource[index]);
-        vm.closePanel();
-    });
 
     // 销毁实例
     ActionSheet.destory = () => {

@@ -29,18 +29,23 @@ import {
 const Alert = (content, {
     title,
     align = getConfig('DIALOG_ALIGN'),
-    onOk = () => { },
+    onOk = () => {},
     okText = locale.t('alert.ok')
 } = {}) => {
-    let vm = createApp(Vue, AAlert);
-    vm.isShow = true;
-    vm.title = title;
-    vm.content = content;
-    vm.align = align;
-    vm.okText = okText;
-    vm.onOk = onOk;
-    vm.$on('update:isShow', isShow => {
-        vm.isShow = isShow;
+    let vm = createApp(Vue, AAlert, {
+        props: {
+            isShow: true,
+            title: title,
+            content: content,
+            align: align,
+            okText: okText,
+            onOk: onOk
+        },
+        on: {
+            'update:isShow': isShow => {
+                vm.isShow = isShow;
+            }
+        }
     });
     return vm;
 };
@@ -52,22 +57,28 @@ const Alert = (content, {
 const Confirm = (content, {
     title,
     align = getConfig('DIALOG_ALIGN'),
-    onOk = () => { },
-    onCancel = () => { },
+    onOk = () => {},
+    onCancel = () => {},
     okText = locale.t('confirm.ok'),
     cancelText = locale.t('confirm.cancel')
 } = {}) => {
-    let vm = createApp(Vue, AConfirm);
-    vm.isShow = true;
-    vm.title = title;
-    vm.content = content;
-    vm.align = align;
-    vm.okText = okText;
-    vm.cancelText = cancelText;
-    vm.onOk = onOk;
-    vm.onCancel = onCancel;
-    vm.$on('update:isShow', isShow => {
-        vm.isShow = isShow;
+    let vm = createApp(Vue, AConfirm, {
+        props: {
+            isShow: true,
+            title: title,
+            content: content,
+            align: align,
+            okText: okText,
+            cancelText: cancelText,
+            onOk: onOk,
+            onCancel: onCancel
+        },
+
+        on: {
+            'update:isShow': isShow => {
+                vm.isShow = isShow;
+            }
+        }
     });
     return vm;
 };
@@ -78,25 +89,30 @@ const Confirm = (content, {
  * @param {Object} 其他参数 
  */
 const Prompt = (title = '', {
-    onOk = () => { },
-    onCancel = () => { },
+    onOk = () => {},
+    onCancel = () => {},
     align = getConfig('DIALOG_ALIGN'),
     okText = locale.t('prompt.ok'),
     cancelText = locale.t('prompt.cancel'),
     placeHolder = locale.t('prompt.placeHolder')
 } = {}) => {
-    let vm = createApp(Vue, APrompt);
-    vm.isShow = true;
-    vm.title = title;
-    vm.align = align;
-    vm.onOk = onOk;
-    vm.onCancel = onCancel;
-    vm.okText = okText;
-    vm.cancelText = cancelText;
-    vm.placeHolder = placeHolder;
-    vm.$on('update:isShow', isShow => {
-        vm.isShow = isShow;
+    let vm = createApp(Vue, APrompt, {
+        props: {
+            isShow: true,
+            title: title,
+            align: align,
+            onOk: onOk,
+            onCancel: onCancel,
+            okText: okText,
+            cancelText: cancelText,
+            placeHolder: placeHolder
+        },
+        on: {
+            'update:isShow': isShow => {
+                vm.isShow = isShow;
 
+            }
+        }
     });
     return vm;
 };
