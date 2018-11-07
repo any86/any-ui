@@ -10,7 +10,7 @@
             border-radius: 0 !important;
 
             &:not(:last-child) {
-                border-right: none;
+                border-right: none !important;
             }
         }
     }
