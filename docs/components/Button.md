@@ -54,5 +54,5 @@
 | circle | 是否圆角为100% | `Boolean` | false |true false|否|
 | icon | 图标 | `String` | - |Icon组件支持的图标|否|
 | loading | 是否显示加载动画 | `Boolean` | false |true false|否|
-| nativeType | 原生<button>的type属性 | `Boolean` | false |true false|否|
+| nativeType | 原生`button`的type属性 | `Boolean` | false |true false|否|
 | rounded | 是否有圆角 | `Boolean` | true |true false|否|
