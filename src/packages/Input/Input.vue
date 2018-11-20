@@ -299,7 +299,8 @@ export default {
 
         keyup(e) {
             // 过滤
-            let value = this.filterInput(this.text);
+            // let value = this.filterInput(this.text);
+            let value = this.filterInput(e.target.value);
 
             if ('bankCode' == this.type) {
                 value = value.replace(/\D/g, '').replace(/(....)(?=.)/g, '$1 ');
