@@ -2,17 +2,18 @@
     <main>
         <a-cell>
             <template slot="prepend">学 校 *</template>
-            <a-input 
+            <input 
                 
                 class="padding-left" 
                 ref="inputSchool" 
                 required 
                 :rules="rules" 
                 placeholder="请输入学校" 
-                v-model="text1">
+                v-model="text1"/>
                 <a-icon  class="gutter-left-sm" slot="append" @click="$alert('我在append插槽中')" name="star-o" size="16" />
-            </a-input>
         </a-cell>
+
+        <a-button >确定</a-button>
 
         <a-cell >
             <template slot="prepend">姓名 *</template>
@@ -88,6 +89,9 @@ export default {
     },
 
     methods: {
+        showD(){
+            alert(this.text1);
+        },
         /**
          * 验证学校和姓名
          */

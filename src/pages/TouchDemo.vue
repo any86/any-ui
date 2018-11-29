@@ -43,7 +43,7 @@ export default {
 
     data() {
         return {
-            longImages: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521520323983&di=539e1b13cb00ef35fc5762aa4a86c1b1&imgtype=0&src=http%3A%2F%2Fnpic7.fangtoo.com%2Fcn%2Fzixun%2Fzh-chs%2F2017-07%2F20%2F281137-201707201125064885.jpg'],
+            longImages: ['https://avatars1.githubusercontent.com/u/8264787?s=460&v=4'],
             transitionDuration: 0,
             scale: 1,
             rotate: 0,
