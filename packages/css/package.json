@@ -1,0 +1,10 @@
+{
+  "version": "0.0.0",
+  "scripts": {
+    "build": "node-sass ./src/main.scss ./dist/main.css",
+    "dev": "npm run build -- --watch"
+  },
+  "dependencies": {
+    "node-sass": "^4.12.0"
+  }
+}

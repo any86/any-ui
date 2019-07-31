@@ -1,9 +1,23 @@
 {
+  "name": "any-ui",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
-    "build": "node-sass ./src/main.scss ./dist/main.css",
-    "dev": "npm run build -- --watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://any86@github.com/any86/any-ui.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/any86/any-ui/issues"
+  },
+  "homepage": "https://github.com/any86/any-ui#readme",
+  "description": "",
   "dependencies": {
-    "node-sass": "^4.12.0"
+    "lerna": "^3.16.4"
   }
 }
