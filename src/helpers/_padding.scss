@@ -1,0 +1,14 @@
+@for $i from 0 to 6 {
+    .p-#{$i} {
+        padding: $space * $i !important;
+    }
+}
+
+@each $direction,
+$short in $directions {
+    @for $i from 0 to 6 {
+        .p#{$short}-#{$i} {
+            padding-#{$direction}: $space * $i !important;
+        }
+    }
+}

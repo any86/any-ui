@@ -1,0 +1,19 @@
+.d-flex {
+    display: flex;
+
+    &.row {
+        flex-direction: row;
+    }
+
+    &.column {
+        flex-direction: column;
+    }
+}
+
+.d-none {
+    display: none;
+}
+
+.d-inline {
+    display: inline;
+}

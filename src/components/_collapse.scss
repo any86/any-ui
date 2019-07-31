@@ -1,0 +1,67 @@
+.a-collapse {
+    overflow: hidden;
+    border-radius: $radius*2;
+    border: 1px solid $gray-300;
+
+    &__item {
+        &:nth-of-type(n+2) {
+            border-top: 1px solid $gray-300;
+        }
+
+        >header {
+            background-color: $gray-100;
+            padding: 2*$space;
+            font-size: 14px;
+            cursor: pointer;
+
+            >i.icon-arrow {
+                width: 1em;
+                height: 1em;
+                display: inline-block;
+                vertical-align: middle;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M294.1 256L167 129c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.3 34 0L345 239c9.1 9.1 9.3 23.7.7 33.1L201.1 417c-4.7 4.7-10.9 7-17 7s-12.3-2.3-17-7c-9.4-9.4-9.4-24.6 0-33.9l127-127.1z"/></svg>')
+            }
+
+            >p {
+                display: inline-block;
+                vertical-align: middle;
+                font-weight: bold;
+            }
+        }
+
+        >article {
+            display: none;
+            padding: $space;
+            font-size: 14px;
+        }
+    }
+
+    // 展开情况下
+    &__item {
+        &--open {
+            >header {
+                border-bottom: 1px solid $gray-300;
+
+                >i.icon-arrow {
+                    transform: rotate(90deg);
+                }
+            }
+
+            >article {
+                display: block;
+            }
+        }
+    }
+
+    // 简化版本
+    &--simplify {
+        border: none;
+
+        .a-collapse__item {
+            >header {
+                border: none;
+                background-color: transparent;
+            }
+        }
+    }
+}

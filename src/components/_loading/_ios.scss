@@ -1,0 +1,101 @@
+.a-loading {
+    @mixin rotateSpan($duration,$count:18) {
+        @for $i from 0 to $count {
+            >span:nth-of-type(#{$i+1}) {
+                transform: rotate(#{30*$i}deg) translateX(15px);
+                animation: ios #{$duration}s linear infinite;
+                animation-delay: #{$duration*$i/$count}s;
+            }
+        }
+    }
+
+    &-ios {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        color: currentColor;
+
+        >span {
+            overflow: hidden;
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            display: block;
+            color: currentColor;
+            background-color: #ccc;
+            width: 10px;
+            height: 3px;
+        }
+
+        @include rotateSpan(0.6);
+
+        @keyframes ios {
+            from {
+                opacity: 0.1;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    }
+
+
+    &-android {
+        animation: rotate 2s linear infinite;
+        height: 100%;
+        transform-origin: center center;
+
+        >circle {
+            display: inline-block;
+            animation: color 6s ease-in-out infinite, dash 1.5s ease-in-out infinite;
+            // animation: dash 1500ms ease-in-out infinite;
+            stroke-linecap: round;
+            color: currentColor;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+            }
+
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -45px;
+            }
+
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+            }
+        }
+
+        @keyframes color {
+
+            0%,
+            100% {
+                stroke: #6b5c5b;
+            }
+
+            40% {
+                stroke: #0057e7;
+            }
+
+            66% {
+                stroke: #008744;
+            }
+
+            80%,
+            90% {
+                stroke: #ffa700;
+            }
+        }
+    }
+}

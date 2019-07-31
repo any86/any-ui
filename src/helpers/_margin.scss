@@ -1,0 +1,14 @@
+@for $i from 0 to 6 {
+    .m-#{$i} {
+        margin: $space * $i !important;
+    }
+}
+
+@each $direction,
+$short in $directions {
+    @for $i from 0 to 6 {
+        .m#{$short}-#{$i} {
+            margin-#{$direction}: $space * $i !important;
+        }
+    }
+}

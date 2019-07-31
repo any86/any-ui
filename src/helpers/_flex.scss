@@ -1,0 +1,14 @@
+@for $i from 1 to 10 {
+    .flex-#{$i}{
+        flex: $i;
+    }
+}
+
+.a-c-c{
+    align-content: center;
+}
+
+.a-i-c{align-items: center;}
+
+.a-i-b{align-items: baseline;}
+.a-i-f-e{align-items: flex-end;}

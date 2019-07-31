@@ -1,0 +1,106 @@
+@mixin iosLoading($size:1em, $duration:2000, $count:12) {
+    &-ios {
+        position: relative;
+        display: inline-block;
+        align-self: center;
+        width: $size;
+        height: $size;
+        color: currentColor;
+        vertical-align: -0.14em;
+        >span {
+            overflow: hidden;
+            position: absolute;
+            top: $size/2;
+            left: $size/2;
+            display: block;
+            color: currentColor;
+            background-color: #ccc;
+            width: 0.2*$size;
+            height: 0.06*$size;
+            border-radius: 0.06*$size;
+        }
+
+        @for $i from 0 to $count {
+            >span:nth-of-type(#{$i+1}) {
+                transform: rotate(#{360/$count*$i}deg) translateX(0.3*$size);
+                animation: ios #{$duration}ms linear infinite;
+                animation-delay: #{$duration*$i/($count)}ms;
+            }
+        }
+
+
+        @keyframes ios {
+            from {
+                opacity: 0.2;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+
+
+.a-loading {
+    @include iosLoading();
+
+    &-android {
+        display: inline-block;
+        animation: rotate 2s linear infinite;
+        transform-origin: center center;
+        vertical-align: -0.14em;
+        align-self: center;
+        >circle {
+            display: inline-block;
+            animation: color 6s ease-in-out infinite, dash 1.5s ease-in-out infinite;
+            // animation: dash 1500ms ease-in-out infinite;
+            stroke-linecap: round;
+            color: currentColor;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+            }
+
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -45px;
+            }
+
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+            }
+        }
+
+        @keyframes color {
+
+            0%,
+            100% {
+                stroke: #6b5c5b;
+            }
+
+            40% {
+                stroke: #0057e7;
+            }
+
+            66% {
+                stroke: #008744;
+            }
+
+            80%,
+            90% {
+                stroke: #ffa700;
+            }
+        }
+    }
+}
