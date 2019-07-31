@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "build": "node-sass ./src/main.scss ./dist/main.css",
     "dev": "npm run build -- --watch"
