@@ -1,7 +1,7 @@
 ### 安装
 推荐使用 npm 的方式安装，它能更好地和 webpack 打包工具配合使用。
 ```shell
-npm i vue-atom-ui -S
+npm i any-ui -S
 ```
 
 ### 引入组件
@@ -19,7 +19,7 @@ npm i babel-plugin-import -d
 {
   "plugins": [
     ["import", {
-      "libraryName": "vue-atom-ui",
+      "libraryName": "any-ui",
       "libraryDirectory": "es",
       "style": true
     }]
@@ -30,8 +30,8 @@ npm i babel-plugin-import -d
 #### 方式2: 全部引入
 ```javascript
 import Vue from 'vue';
-import Atom from 'vue-atom-ui';
-import 'vue-atom-ui/index.css';
+import Atom from 'any-ui';
+import 'any-ui/index.css';
 Vue.use(Atom);
 ```
 
@@ -43,9 +43,9 @@ Vue.use(Atom);
 ### CDN
 ```javascript
 <!-- 引入css -->
-<link rel="stylesheet" href="https://unpkg.com/vue-atom-ui/index.css">
+<link rel="stylesheet" href="https://unpkg.com/any-ui/index.css">
 <!-- 引入js -->
-<script src="https://unpkg.com/vue-atom-ui/index.js"></script>
+<script src="https://unpkg.com/any-ui/index.js"></script>
 ```
 
 ### Hello world

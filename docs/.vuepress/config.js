@@ -1,19 +1,19 @@
 module.exports = {
-    demoURL: 'https://atom-h.github.io/atom-ui/demo/',
-    base: '/atom-ui/',
+    demoURL: 'https://any86.github.io/any-ui/demo/',
+    base: '/any-ui/',
     dest: './docs/dist',
-    title: 'Atom UI',
+    title: 'Any UI',
     description: '更快更简单!',
     themeConfig: {
 
         // 假定是 GitHub. 同时也可以是一个完整的 GitLab URL
-        repo: 'Atom-H/atom-ui',
+        repo: 'any-ui',
         // 自定义仓库链接文字。默认从 `themeConfig.repo` 中自动推断为
         // "GitHub"/"GitLab"/"Bitbucket" 其中之一，或是 "Source"。
         repoLabel: 'GitHub',
 
         // 假如你的文档仓库和项目本身不在一个仓库：
-        docsRepo: 'Atom-H/atom-ui',
+        docsRepo: 'any-ui',
         // 假如文档不是放在仓库的根目录下：
         docsDir: 'docs',
         // 假如文档放在一个特定的分支下：
@@ -94,7 +94,7 @@ module.exports = {
         nav: [
             // {
             //     text: 'github',
-            //     link: 'https://github.com/Atom-H/atom-ui'
+            //     link: 'https://github.com/any-ui'
             // },
             // {
             //     text: 'Guide',

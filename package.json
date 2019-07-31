@@ -1,12 +1,12 @@
 {
-  "name": "vue-atom-ui",
+  "name": "any-ui",
   "version": "1.0.309",
-  "description": "vue-atom-ui",
+  "description": "any-ui",
   "author": "宁宁 <383514580@qq.com>",
-  "homepage": "https://atom-h.github.io/atom-ui/",
+  "homepage": "https://atom-h.github.io/any-ui/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Atom-H/atom-ui.git"
+    "url": "https://github.com/Atom-H/any-ui.git"
   },
   "main": "dist/atom.min.js",
   "scripts": {

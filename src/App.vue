@@ -1,6 +1,6 @@
 <template>
     <main class="app">
-        <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">Atom-UI</a></v-app-bar>
+        <v-app-bar @click-arrow="$router.back()" :has-arrow="'index' !== $route.name"><a @click="$router.push({'path': '/'})">any-ui</a></v-app-bar>
         <transition name="slide-left" mode="out-in">
             <!-- <keep-alive> -->
                 <router-view class="app-main"></router-view>

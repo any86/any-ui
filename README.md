@@ -1,12 +1,12 @@
-# vue-any-ui [![NPM Version][npm-image]][npm-url] [![NPM Downloads][downloads-image]][downloads-url] 
+# any-ui [![NPM Version][npm-image]][npm-url] [![NPM Downloads][downloads-image]][downloads-url] 
 :whale:    更快更简单
 
 
-[npm-image]: https://img.shields.io/npm/v/vue-atom-ui.svg
-[npm-url]: https://npmjs.org/package/vue-atom-ui
+[npm-image]: https://img.shields.io/npm/v/any-ui.svg
+[npm-url]: https://npmjs.org/package/any-ui
 
-[downloads-image]: https://img.shields.io/npm/dm/vue-atom-ui.svg
-[downloads-url]: https://npmjs.org/package/vue-atom-ui
+[downloads-image]: https://img.shields.io/npm/dm/any-ui.svg
+[downloads-url]: https://npmjs.org/package/any-ui
 
 
 ## 演示
@@ -14,7 +14,7 @@
 
 ## 文档
 
-[查看](https://atom-h.github.io/atom-ui/)
+[查看](https://atom-h.github.io/any-ui/)
 
 ## 在手机上看
 
@@ -25,7 +25,7 @@
 
 推荐使用 npm 的方式安装，它能更好地和 webpack 打包工具配合使用。
 ```shell
-npm i vue-atom-ui -S
+npm i any-ui -S
 ```
 
 ## 引入组件
@@ -43,7 +43,7 @@ npm i babel-plugin-import -d
 {
   "plugins": [
     ["import", {
-      "libraryName": "vue-atom-ui",
+      "libraryName": "any-ui",
       "libraryDirectory": "es",
       "style": true
     }]
@@ -54,8 +54,8 @@ npm i babel-plugin-import -d
 ### 方式2: 全部引入
 ```javascript
 import Vue from 'vue';
-import Atom from 'vue-atom-ui';
-import 'vue-atom-ui/index.css';
+import Atom from 'any-ui';
+import 'any-ui/index.css';
 Vue.use(Atom);
 ```
 
@@ -64,9 +64,9 @@ Vue.use(Atom);
 ### CDN
 ```javascript
 <!-- 引入css -->
-<link rel="stylesheet" href="https://unpkg.com/vue-atom-ui/index.css">
+<link rel="stylesheet" href="https://unpkg.com/any-ui/index.css">
 <!-- 引入js -->
-<script src="https://unpkg.com/vue-atom-ui/index.js"></script>
+<script src="https://unpkg.com/any-ui/index.js"></script>
 ```
 
 ### Hello world
