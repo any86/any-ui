@@ -1,16 +1,18 @@
 {
-  "name": "any-ui",
-  "version": "1.0.0",
+  "name": "a1-ui",
+  "version": "0.0.1",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://any86@github.com/any86/any-ui.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "vue",
+    "ui",
+    "scss"
+  ],
+  "author": "Russell",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/any86/any-ui/issues"
