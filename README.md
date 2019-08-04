@@ -2,7 +2,8 @@
 :whale:    更快更简单
 
 
-[npm-image]: https://img.shields.io/npm/v/any-ui.svg
+[npm-image]: https://img.shields.io/npm/v/vue
+any-ui.svg
 [npm-url]: https://npmjs.org/package/any-ui
 
 [downloads-image]: https://img.shields.io/npm/dm/any-ui.svg
@@ -10,11 +11,11 @@
 
 
 ## 演示
-[预览地址](https://383514580.github.io/atom/#/index)
+[预览地址](https://any86.github.io/any-ui/#/index)
 
 ## 文档
 
-[查看](https://atom-h.github.io/any-ui/)
+[查看](https://any86.github.io/any-ui/)
 
 ## 在手机上看
 
