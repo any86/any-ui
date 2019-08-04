@@ -13,14 +13,14 @@
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
     "reinstal": "rimraf node_modules",
-    "release": "rm -rf dist/ && gulp build  && node build/publish.js",
+    "release": "rimraf dist/ && gulp build  && node build/publish.js",
     "release:win": "gulp build  && node build/publish.js",
-    "build:demo": "rm -rf dist/ && node build/build.js",
+    "build:demo": "rimraf dist/ && node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "jest",
     "dev:docs": "vuepress dev docs",
     "build:docs": "vuepress build docs",
-    "release:docs": "rm -rf ./docs/dist/ && rm -rf ./dist/ && npm run build:demo && vuepress build docs && node ./build/docs.js && rm -rf ./docs/dist/ && rm -rf ./dist/"
+    "release:docs": "rimraf ./docs/dist/ && rimraf ./dist/ && npm run build:demo && vuepress build docs && node ./build/docs.js && rimraf ./docs/dist/ && rimraf ./dist/"
   },
   "dependencies": {
     "any-touch": "^0.0.3",
