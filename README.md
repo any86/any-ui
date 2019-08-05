@@ -2,12 +2,11 @@
 :whale:    更快更简单
 
 
-[npm-image]: https://img.shields.io/npm/v/vue
-any-ui.svg
-[npm-url]: https://npmjs.org/package/any-ui
+[npm-image]: https://img.shields.io/npm/v/vue-atom-ui.svg
+[npm-url]: https://npmjs.org/package/vue-atom-ui
 
-[downloads-image]: https://img.shields.io/npm/dm/any-ui.svg
-[downloads-url]: https://npmjs.org/package/any-ui
+[downloads-image]: https://img.shields.io/npm/dm/vue-atom-ui.svg
+[downloads-url]: https://npmjs.org/package/vue-atom-ui
 
 
 ## 演示
