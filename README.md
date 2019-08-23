@@ -7,8 +7,9 @@
 [npm-image]: https://img.shields.io/npm/v/vue-atom-ui.svg
 [npm-url]: https://npmjs.org/package/vue-atom-ui
 
-[downloads-image]: https://img.shields.io/npm/dd/vue-atom-ui.svg
+[downloads-image]: https://badgen.net/npm/dt/vue-atom-ui
 [downloads-url]: https://npmjs.org/package/vue-atom-ui
+
 
 
 ## 演示
