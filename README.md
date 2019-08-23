@@ -1,4 +1,4 @@
-# any-ui [![NPM Version][npm-image]][npm-url] [![NPM Downloads][downloads-image]][downloads-url] [![size-image][size-url]]
+# any-ui [![NPM Version][npm-image]][npm-url] [![downloads-image]][downloads-url] [![size-image]][size-url]
 :whale:    更快更简单
 
 [size-url]: https://bundlephobia.com/result?p=vue-atom-ui
