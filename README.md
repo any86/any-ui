@@ -1,11 +1,13 @@
-# any-ui [![NPM Version][npm-image]][npm-url] [![NPM Downloads][downloads-image]][downloads-url] 
+# any-ui [![NPM Version][npm-image]][npm-url] [![NPM Downloads][downloads-image]][downloads-url] [![size-image][size-url]]
 :whale:    更快更简单
 
+[size-url]: https://bundlephobia.com/result?p=vue-atom-ui
+[size-image]: https://badgen.net/bundlephobia/minzip/vue-atom-ui
 
 [npm-image]: https://img.shields.io/npm/v/vue-atom-ui.svg
 [npm-url]: https://npmjs.org/package/vue-atom-ui
 
-[downloads-image]: https://img.shields.io/npm/dm/vue-atom-ui.svg
+[downloads-image]: https://img.shields.io/npm/dd/vue-atom-ui.svg
 [downloads-url]: https://npmjs.org/package/vue-atom-ui
 
 
