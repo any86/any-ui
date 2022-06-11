@@ -1,4 +1,4 @@
-# any-ui [![NPM Version][npm-image]][npm-url] [![NPM Downloads][downloads-image]][downloads-url] [![size-image][size-url]]
+# any-ui [![NPM Version][npm-image]][npm-url] [![downloads-image]][downloads-url] [![size-image]][size-url]
 :whale:    更快更简单
 
 [size-url]: https://bundlephobia.com/result?p=vue-atom-ui
@@ -9,6 +9,7 @@
 
 [downloads-image]: https://badgen.net/npm/dt/vue-atom-ui
 [downloads-url]: https://npmjs.org/package/vue-atom-ui
+
 
 
 ## 演示
@@ -44,12 +45,12 @@ npm i babel-plugin-import -d
 // 注意：webpack 1 无需设置 libraryDirectory。
 {
   "plugins": [
-    ["import", {
-      "libraryName": "any-ui",
-      "libraryDirectory": "es",
-      "style": true
-    }]
-  ]
+  ["import", {
+    "libraryName": "any-ui",
+    "libraryDirectory": "es",
+    "style": true
+  }]
+]
 }
 ```
 
@@ -67,16 +68,14 @@ Vue.use(Atom);
 ```javascript
 <!-- 引入css -->
 <link rel="stylesheet" href="https://unpkg.com/any-ui/index.css">
-<!-- 引入js -->
-<script src="https://unpkg.com/any-ui/index.js"></script>
+  <!-- 引入js -->
+  <script src="https://unpkg.com/any-ui/index.js"></script>
 ```
 
 ### Hello world
 未完...
 
 
-
-### pr测试
 
 
 ### pr测试
